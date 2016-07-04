@@ -1,9 +1,19 @@
+html,
+body {
+  height: 100vh;
+
+  @media (min-width: $screen-tablet) {
+    height: 100%;
+  }
+}
+
 html {
   font-size: 14px;
 }
 
 body {
   font-size: inherit;
+  overflow: hidden;
 }
 
 @media (min-width: 992px) {
@@ -13,7 +23,7 @@ body {
 }
 
 #main-wrapper {
-  padding: 2rem 0;
+  padding-top: 2rem;
 }
 
 .page-header {
@@ -26,15 +36,51 @@ body {
 }
 
 .label {
+
   &.label-default {
     background: none;
     border: 1px dotted $color-text;
     color: $color-text;
     font-weight: normal;
     text-transform: uppercase;
+    border-radius: 4px;
+  }
+
+  &.label-access {
+    color: $color-white;
+    border: 1px solid $color-white;
+    font-weight: normal;
+    text-transform: uppercase;
+
+    &.public {
+      background-color: $color-green;
+      border-color: $color-green;
+    }
+
+    &.private {
+      background-color: $color-red;
+      border-color: $color-red;
+    }
+
+    &.restricted {
+      background-color: $color-accent;
+      border-color: $color-accent;
+    }
   }
 }
 
 div.contextual-links-wrapper {
   font-size: 0.9rem;
+}
+
+.page-container {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.page-content {
+  position: relative;
+  height: 100%;
+  overflow-y: scroll;
 }

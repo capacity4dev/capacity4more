@@ -1,0 +1,627 @@
+.user-group .field-name-c4m-ds-group-membership-type,
+.user-group .text-muted {
+  display: none;
+}
+
+.user-group .group-members-count {
+  margin-top: 20px;
+  color: $color-gray-dark;
+}
+
+.og-context #content-top-wrapper {
+  padding: 0;
+  background: none;
+  border-bottom: none;
+
+  @media (min-width: $screen-tablet) {
+    margin-bottom: 2rem;
+  }
+}
+
+.og-context #main-wrapper {
+  padding-top: 0;
+}
+
+.group-header {
+  margin: 0 -18px;
+
+  @media (min-width: $screen-tablet) {
+    margin: 0;
+  }
+
+  @include clearfix();
+}
+
+.group-title {
+  margin: 20px 18px 10px;
+
+  @media (min-width: $screen-tablet) {
+    display: inline-block;
+    margin: 20px 0 10px;
+  }
+}
+
+.group-navigation {
+
+  padding: 0;
+
+  nav {
+    .og-menu-link.calendar {
+      width: auto;
+    }
+
+    background: $color-text-alternative;
+    margin: 20px -18px 20px;
+    padding: 30px 18px;
+
+    @include box-shadow(inset 0 8px 8px -8px #696868, inset 0 -8px 8px -8px #696868);
+
+    ul {
+      margin: 0;
+
+      @media (min-width: $screen-tablet) {
+        display: flex;
+      }
+    }
+
+    li {
+      width: 100%;
+
+      &::before {
+        display: inline-block;
+        color: $color-white;
+
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+      }
+
+      &.front::before {
+        content: "\f015";
+      }
+
+      &.documents::before {
+        content: "\f0f6";
+      }
+
+      &.wiki::before {
+        content: "\f266";
+      }
+
+      &.media::before {
+        content: "\f03e";
+      }
+
+      &.media::before {
+        content: "\f03e";
+      }
+
+      &.discussions::before {
+        content: "\f040";
+      }
+
+      &.calendar::before {
+        content: "\f073";
+      }
+
+      &.members::before {
+        content: "\f0c0";
+      }
+
+      &:not(:last-of-type) {
+        border-bottom: 1px dotted $color-gray-light;
+      }
+
+      a {
+        display: inline-block;
+        color: $color-white;
+
+        &:hover {
+          background: $color-text-alternative;
+        }
+
+        &:focus {
+          background: none;
+        }
+      }
+    }
+
+    @media (min-width: $screen-tablet) {
+      margin: 0;
+      padding: 0;
+      background: none;
+      box-shadow: none;
+      border-top: 1px dotted $color-gray-light;
+      border-bottom: 1px dotted $color-gray-light;
+
+      li {
+        width: auto;
+        height: 50px;
+        line-height: 50px;
+
+        &::before {
+          color: $color-text-alternative;
+        }
+
+        &:not(:first-of-type) {
+          border-bottom: none;
+          margin-left: 15px;
+        }
+
+        &:not(:last-of-type) {
+          border-bottom: none;
+        }
+
+        &.active::before,
+        &.active a {
+          color: $color-black;
+        }
+
+        &.last a {
+          border-right: none;
+        }
+
+        a {
+          display: inline-block;
+          width: 85%;
+          padding: 0 30px 0 10px;
+          border-right: 1px solid $color-gray-light;
+
+          color: $color-text-alternative;
+
+          &:hover {
+            background: none;
+
+          }
+        }
+      }
+    }
+  }
+
+  @media (min-width: $screen-tablet) {
+    padding: 0;
+  }
+}
+
+.groupNavigation-divider {
+  margin: 0 -18px;
+  border-top: 1px dashed $color-gray-light;
+
+  @media (min-width: $screen-tablet) {
+    display: none;
+  }
+}
+
+.og-context .header-actions--navigation {
+  position: relative;
+  top: initial;
+  left: initial;
+  float: right;
+
+  margin-top: 0;
+  padding: 0;
+
+  transform: translate(0, 0);
+  -webkit-transform: translate(0, 0);
+
+  .icon-bar {
+    height: 4px;
+    background-color: $color-link;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  @media (min-width: $screen-tablet) {
+    display: none;
+  }
+}
+
+.og-context .trigger {
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.og-context .trigger.trigger--groupInfo,
+.og-context .trigger.trigger--membership {
+  display: block;
+  cursor: pointer;
+  background: $color-white;
+
+  @media (min-width: $screen-tablet) {
+    display: none;
+  }
+}
+
+.og-context .trigger.trigger--groupInfo .trigger-text {
+  color: $color-text-alternative;
+}
+
+.og-context .trigger.trigger--membership {
+  background: $color-text-alternative;
+}
+
+// off-canvas group menu
+
+.groupInfo-header {
+  height: 50px;
+  line-height: 50px;
+  padding-left: 15px;
+  background-color: $color-text-alternative;
+
+  color: $color-white;
+  cursor: pointer;
+
+  &::before {
+    display: inline-block;
+    content: "";
+    width: 10px;
+    height: 10px;
+    margin: 6px 0 0 0;
+    border-top: 2px solid $color-white;
+    border-left: 2px solid $color-white;
+
+    @include rotate(-45deg);
+
+  }
+}
+
+// group membership
+
+.groupInfo-membership {
+  margin-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px dotted $color-gray-light;
+}
+
+.membership-state {
+  color: $color-gray-dark;
+  font-size: 1.1rem;
+}
+
+.membership-actions {
+  margin-top: 15px;
+  color: $color-text-alternative;
+
+  span {
+    display: inline-block;
+  }
+}
+
+.membership-invite {
+  margin-top: 10px;
+
+  &:before {
+    display: inline-block;
+    content: "\f234";
+    margin-right: 15px;
+
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+  }
+}
+
+.membership-edit::before {
+  display: inline-block;
+  content: "\f044";
+  margin-right: 15px;
+
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+}
+
+.pane-c4m-search-og-c4m-search-group-form {
+  display: none;
+
+  @media (min-width: $screen-tablet) {
+    display: block;
+  }
+}
+
+.og-context .pane-c4m-content-group {
+  color: $color-gray-dark;
+
+  .pane-title {
+    margin: 15px 0;
+  }
+
+  .c4m-created-on-date {
+    text-align: center;
+    padding: 15px 0;
+    border-top: 1px dashed;
+    border-bottom: 1px dashed;
+  }
+
+  .field-group-fieldset {
+
+    a.fieldset-legend {
+      direction: rtl;
+    }
+  }
+
+  .c4m-access-info {
+    margin: 15px 18px;
+  }
+
+  .group-details {
+
+    height: 100% !important;
+
+    .panel-collapse {
+      display: block;
+      height: 100%;
+      opacity: 1;
+    }
+
+    .panel-heading {
+      display: none;
+    }
+
+    .field-name-c4m-user-picture,
+    .field-name-c4m-user-first-and-last-name {
+      display: none;
+    }
+
+    .field-name-c4m-user-first-and-last-name {
+      @include clearfix;
+    }
+
+    .field-name-c4m-vocab-topic,
+    .field-name-c4m-vocab-geo {
+      .field-label {
+        margin: 15px 0;
+        font-weight: 100;
+      }
+
+      @include clearfix;
+    }
+
+    .field-name-c4m-content-group-statistics {
+
+      margin-top: 25px;
+
+      ul.statistics-list {
+        flex-wrap: wrap;
+
+        li {
+          border: none;
+          margin-bottom: 15px;
+          padding: 0;
+
+          text-align: left;
+          font-size: 1rem;
+
+          a {
+            margin-top: 0;
+          }
+
+          &::before {
+            display: inline-block;
+            width: 20px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.field-name-c4m-ds-content-actions {
+  margin: 15px 0 30px;
+
+  .social-actions-share {
+    text-align: center;
+
+    h3 {
+      margin-bottom: 25px;
+      text-align: left;
+    }
+  }
+
+  .group-actions-recommend {
+    margin-top: 20px;
+  }
+
+  .field-item {
+    display: flex;
+    flex-flow: column-reverse;
+  }
+}
+
+.groupInfo-messages {
+  padding: 20px 0;
+  border-bottom: 1px dotted $color-gray-light;
+
+  .message {
+    span {
+      color: $color-text-alternative;
+    }
+
+    &::before {
+      display: inline-block;
+      width: 20px;
+
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      color: $color-gray-dark;
+    }
+  }
+
+  .message--howto::before {
+    content: "\f0eb";
+  }
+
+  .message--content::before {
+    content: "\f071";
+  }
+
+  .message--notifications::before {
+    content: "\f0a2";
+  }
+
+  .message:not(:first-of-type) {
+    margin-top: 10px;
+  }
+
+}
+
+.groupInfo-members {
+
+  h3 {
+    margin-top: 30px;
+  }
+
+  ul {
+
+    margin: 0;
+    padding: 0;
+
+    li {
+      float: left;
+      list-style: none;
+
+      &:nth-child(4n + 1) {
+        clear: left;
+      }
+
+      img {
+        border-radius: 50%;
+      }
+    }
+  }
+}
+
+.pane-quick-form {
+  display: none;
+
+  @media (min-width: $screen-tablet) {
+    display: block;
+  }
+}
+
+.group-indications {
+  float: left;
+  margin: 0 0 0 18px;
+
+  .group-icon {
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    margin: 0;
+    padding: 5px;
+    border-radius: 6px;
+  }
+
+  .group-icon.as-group-public {
+    border: 1px solid $color-green;
+  }
+
+  .group-icon.as-group-private {
+    border: 1px solid $color-red;
+  }
+
+  .group-icon.as-group-restricted {
+    border: 1px solid $color-accent;
+  }
+
+  .node-icon[class*="as-group-"] {
+    margin-top: 0;
+  }
+
+  span {
+    height: 25px;
+  }
+
+  @media (min-width: $screen-tablet) {
+    float: right;
+    margin-top: 20px;
+  }
+}
+
+.group-indications--access {
+  position: relative;
+  float: left;
+}
+
+.group-type,
+.group-status {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.group-access {
+  display: none;
+  margin-left: 5px;
+
+  @media (min-width: $screen-tablet) {
+    display: inline-block;
+  }
+}
+
+.group-status {
+  @media (min-width: $screen-tablet) {
+    float: right;
+
+    display: block;
+    clear: left;
+    margin-top: 5px;
+  }
+}
+
+.restricted-organisation-icons {
+  display: none;
+
+  @media (min-width: $screen-tablet) {
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    display: table;
+    width: 120px;
+    margin-top: 6px;
+    border-radius: 3px;
+    border: 1px solid $color-accent;
+
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+
+      width: 20px;
+      height: 20px;
+
+      transform: translate(-50%, -50%);
+      -webkit-transform: translate(-50%, -50%);
+    }
+
+    span {
+      position: relative;
+
+      display: table-cell;
+      height: 25px;
+      width: 25%;
+
+      &:not(:first-of-type) {
+        border-left: 1px solid $color-accent;
+      }
+    }
+
+    .group-organisation--more {
+      text-align: center;
+    }
+
+    .group-organisation--more span {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      background: red;
+
+      &:not(:first-of-type) {
+        margin-left: -3px;
+      }
+    }
+  }
+}
+
+.restricted-extra-wrapper {
+  display: none;
+}
