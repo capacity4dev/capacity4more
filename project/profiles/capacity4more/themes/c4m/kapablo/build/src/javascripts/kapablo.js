@@ -208,6 +208,10 @@
         $('input[name="mail"]').val('').focus();
         return false;
       });
+
+      $('#user-register-form').submit(function () {
+        $(':disabled', this).prop('disabled', false);
+      });
     }
   };
 

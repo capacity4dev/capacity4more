@@ -20,6 +20,8 @@ default:
           'drupal'
         alfrednobel:
           'drupal'
+        charlesbabbage:
+          'drupal'
 
   paths:
     features: 'features'

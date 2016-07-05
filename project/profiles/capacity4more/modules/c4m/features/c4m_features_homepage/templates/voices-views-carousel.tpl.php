@@ -14,8 +14,8 @@
           <div class="item">
             <?php print $carousel['image']; ?>
             <div class="item-header">
+              <span class="item-date"><?php print $carousel['date'] ?></span>
               <h2><?php print $carousel['title']; ?></h2>
-              <p class="pull-right"><?php print $carousel['date'] ?></p>
             </div>
             <p class="intro-text"><?php print $carousel['text'] . ' | ' . $carousel['link']; ?></p>
           </div>
@@ -24,5 +24,5 @@
     </div>
   </div>
 
-  <span class="block-title pull-right"><?php print l(t('Read more articles') . ' <i class="fa fa-chevron-right"></i>', 'articles', array('html' => TRUE)); ?></span>
+  <span class="block-title"><?php print l(t('Read more articles') . ' <i class="fa fa-chevron-right"></i>', 'articles', array('html' => TRUE)); ?></span>
 </div>
