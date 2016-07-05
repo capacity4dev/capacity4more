@@ -72,7 +72,7 @@ function c4m_domain_entity_info() {
     ),
     'entity class' => 'C4mDomainEntity',
     'controller class' => 'EntityAPIController',
-    'access callback' => 'c4m_domain_access_callback',
+    'access callback' => 'c4m_domain_access',
     'uri callback' => 'entity_class_uri',
     'admin ui' => array(
       'path' => 'admin/c4m/domains',
@@ -111,15 +111,10 @@ function c4m_domain_menu() {
 }
 
 /**
- * Access callback for domain entities.
+ * Access callback for domain entities; Allow for admins only.
  */
-function c4m_domain_access_callback($op, $domain = NULL, $account = NULL) {
-  if ($op == 'view' || $op == 'update' || $op == 'create' || $op == 'delete') {
-    return TRUE;
-  }
-  else {
-    return FALSE;
-  }
+function c4m_domain_access($op, $domain = NULL, $account = NULL) {
+  return user_access('administer site configuration');
 }
 
 /**
