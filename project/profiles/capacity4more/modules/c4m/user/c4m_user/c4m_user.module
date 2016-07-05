@@ -787,15 +787,16 @@ function c4m_user_contact_form_submit($form, $form_state) {
 
   // Generate and send mail.
   $addressee_account = $form_state['addressee_user'];
+  $addressee_language = user_preferred_language($addressee_account);
   $subject = $form_state['values']['c4m_contact_user_subject'];
   $body = $form_state['values']['c4m_contact_user_body']['value'];
 
-  _c4m_user_send_mail($addressee_account->mail, $user->mail, $subject, $body);
+  _c4m_user_send_mail($addressee_account->mail, $user->mail, $subject, $body, $addressee_language);
 
   if ($form_state['values']['c4m_contact_user_self_copy']) {
     // Sending a copy of the mail to the sender since the user checked
     // the "Send me a copy" checkbox on the form.
-    _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body);
+    _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body, $addressee_language);
   }
 }
 
@@ -810,9 +811,10 @@ function c4m_user_contact_form_submit($form, $form_state) {
  *   Email message subject.
  * @param string $body
  *   Email message body.
+ * @param object $language
+ *   Addressee preferred language.
  */
-function _c4m_user_send_mail($to, $from, $subject, $body) {
-  global $language;
+function _c4m_user_send_mail($to, $from, $subject, $body, $language) {
   $module = 'c4m_user';
   $key = 'user_contact_mail';
   $params = array();
