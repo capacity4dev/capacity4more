@@ -249,7 +249,7 @@ function c4m_content_news_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 5,
+      'weight' => 6,
     ),
   );
 
@@ -310,7 +310,7 @@ function c4m_content_news_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 7,
+      'weight' => 8,
     ),
   );
 
@@ -371,7 +371,7 @@ function c4m_content_news_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 6,
+      'weight' => 7,
     ),
   );
 
@@ -519,6 +519,79 @@ function c4m_content_news_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-news-og_vocabulary'.
+  $field_instances['node-news-og_vocabulary'] = array(
+    'bundle' => 'news',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 7,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'og_vocabulary',
+    'label' => 'Metadata',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+        'taxonomy-index' => array(
+          'status' => TRUE,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'c4m_og_vocab',
+      'settings' => array(),
+      'type' => 'og_vocab_complex',
+      'weight' => 5,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
@@ -526,6 +599,7 @@ function c4m_content_news_field_default_field_instances() {
   t('Documents');
   t('Groups audience');
   t('Language');
+  t('Metadata');
   t('Regions & Countries');
   t('Topics');
   t('You can select up to 3 Regions and unlimited Countries within these Regions.');
