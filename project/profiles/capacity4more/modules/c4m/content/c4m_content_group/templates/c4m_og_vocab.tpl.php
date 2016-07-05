@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Template for the Vocabulary topics and regions.
+ * Template for the Vocabulary topics.
  */
 ?>
 <div>
