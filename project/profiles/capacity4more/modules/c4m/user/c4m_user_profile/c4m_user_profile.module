@@ -1231,7 +1231,7 @@ function c4m_user_profile_get_subscribed(
 /**
  * Implements hook_field_access().
  *
- * Deny access to all 'optout' fields.
+ * Deny access to all 'optout' fields + the hash field.
  */
 function c4m_user_profile_field_access(
   $op,
@@ -1245,6 +1245,7 @@ function c4m_user_profile_field_access(
     'c4m_optout_group',
     'c4m_optout_node',
     'c4m_optout_taxonomy_term',
+    'c4m_unsubscribe_hash',
   );
 
   if (in_array($field['field_name'], $optout_fields)) {
