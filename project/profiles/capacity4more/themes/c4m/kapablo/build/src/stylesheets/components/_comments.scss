@@ -3,3 +3,18 @@
   margin-top: 2em;
   overflow: hidden;
 }
+
+.comment-wrapper .comment {
+  margin: 15px 0;
+
+  .icon-col {
+    @media (max-width: $screen-tablet) {
+      width: 60px;
+    }
+  }
+
+  .content-col {
+    float: left;
+    margin-left: 15px;
+  }
+}

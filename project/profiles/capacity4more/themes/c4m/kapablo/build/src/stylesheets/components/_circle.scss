@@ -1,0 +1,20 @@
+.circle {
+  position: relative;
+
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.circle--green {
+  background: $color-link;
+}
+
+.circle--white {
+  background: $color-white;
+}
+
+.circle--gray {
+  background: $color-gray-light;
+}
