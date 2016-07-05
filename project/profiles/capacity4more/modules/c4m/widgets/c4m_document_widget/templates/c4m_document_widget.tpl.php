@@ -13,6 +13,7 @@
       <div class="cfm-file-upload" ng-file-drop="onFileSelect($files, '<?php print $field_name; ?>');"
            ng-file-drag-over-class="file-upload-drag">
         <input type="file" name="document-file" id="<?php print $field_name; ?>" class="document_file" ng-file-select="onFileSelect($files, '<?php print $field_name; ?>')">
+        <i class="fa fa-hand-pointer-o cfm-file-upload__hand" aria-hidden="true"></i>
         <p class="cfm-file-upload__title"><?php print t('Drop file here to upload documents'); ?></p>
         <a href="javascript://" ng-click="browseFiles('<?php print $field_name; ?>')"> <?php print t('or browse'); ?> </a>
       </div>

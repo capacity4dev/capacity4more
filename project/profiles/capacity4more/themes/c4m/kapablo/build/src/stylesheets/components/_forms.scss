@@ -139,8 +139,11 @@
   }
 
   .cfm-file-upload__title {
-    margin: 0;
+    margin: 10px 0 0;
     text-transform: uppercase;
   }
 
+  .cfm-file-upload__hand {
+    font-size: 26px;
+  }
 }
