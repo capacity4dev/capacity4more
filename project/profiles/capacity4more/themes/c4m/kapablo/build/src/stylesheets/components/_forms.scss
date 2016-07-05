@@ -123,6 +123,11 @@
   color: white;
   border-radius: 90px;
   background-color: #8ABDCC;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: #7EC9CB;
+  }
 }
 
 .cfm-file-upload__title {
