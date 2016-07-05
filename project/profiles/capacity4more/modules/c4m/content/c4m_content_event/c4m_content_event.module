@@ -158,6 +158,12 @@ function c4m_content_event_c4m_helper_entity_metrics_info() {
       'arguments' => array(array('event')),
       'weight'    => 0,
     ),
+    'c4m_user_events' => array(
+      'type' => 'events',
+      'context'   => 'user',
+      'callback'  => 'c4m_user_get_node_metric',
+      'arguments' => array(array('event')),
+    ),
   );
 }
 
@@ -212,4 +218,16 @@ function c4m_content_event_c4m_helper_entity_label_info() {
       'icon' => 'fa-university',
     ),
   );
+}
+
+/**
+ * Implements hook_TYPE_alter().
+ *
+ * Using hook_c4m_offcanvas_trigger_label_left_alter().
+ */
+function c4m_content_event_c4m_offcanvas_trigger_label_left_alter(&$trigger_label) {
+  if (arg(0) == 'events' && empty(arg(1))) {
+    $trigger_label['label'] = t('Filter results');
+    $trigger_label['icon'] = 'filter';
+  }
 }

@@ -23,6 +23,33 @@ function c4m_content_photoalbum_c4m_og_vocab_info_content() {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Adds an `Add Photos` button to the `Create Photo album` form.
+ */
+function c4m_content_photoalbum_form_photoalbum_node_form_alter(&$form, &$form_instance, $form_id) {
+  $form['actions']['add_photos'] = array(
+    '#type' => 'submit',
+    '#value' => t('Add photos'),
+    '#weight' => 7,
+    '#submit' => array(
+      'node_form_submit',
+      'c4m_content_photoalbum_add_photos_submit',
+    ),
+  );
+}
+
+/**
+ * Form submission handler for `Create Photo album`.
+ *
+ * Redirects to the 'Upload New Items' tab when clicking the 'Add photos' button
+ * of the `Create Photo album` form.
+ */
+function c4m_content_photoalbum_add_photos_submit($form, &$form_state) {
+  $form_state['redirect'] = 'node/' . $form_state['nid'] . '/upload';
+}
+
+/**
  * Implements hook_c4m_helper_entity_metrics_info().
  */
 function c4m_content_photoalbum_c4m_helper_entity_metrics_info() {

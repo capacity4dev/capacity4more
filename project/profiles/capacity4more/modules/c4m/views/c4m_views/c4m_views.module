@@ -4,6 +4,9 @@
  * Views integration for capacity4more.
  */
 
+module_load_include('inc', 'c4m_views', 'c4m_views.blocks');
+module_load_include('inc', 'c4m_views', 'c4m_views.helper');
+
 /**
  * Implements hook_views_api().
  */
@@ -13,4 +16,32 @@ function c4m_views_views_api() {
     'path' => drupal_get_path('module', 'c4m_views'),
     'template path' => drupal_get_path('module', 'c4m_views') . DIRECTORY_SEPARATOR . 'templates',
   );
+}
+
+/**
+ * Implements hook_process_HOOK().
+ *
+ * Using hook_process_page().
+ */
+function c4m_views_process_page(&$vars) {
+  // Only proceed if the block "Views Page Title"
+  // is rendered on the current page.
+  if (!_c4m_views_block_views_page_title_is_rendered()) {
+    return;
+  }
+
+  // Get the current Views page view.
+  if ($view = views_get_page_view()) {
+    // Get the title of the view.
+    if ($title = $view->get_title()) {
+      // So in case the block "View Page Title" is shown and the current page
+      // is a Views page view, and the title of this view is set,
+      // it's safe to set the page title to NULL to hide it.
+      // The block "View Page Title" will already show this title though.
+      //
+      // The alternative with "drupal_set_title()" is not the best solution as
+      // it also sets the head title empty.
+      $vars['title'] = NULL;
+    }
+  }
 }

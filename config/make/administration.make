@@ -11,6 +11,9 @@ projects[admin_views][version] = "1.5"
 
 projects[adminimal_admin_menu][subdir] = "contrib"
 projects[adminimal_admin_menu][version] = "1.7"
+; https://www.drupal.org/node/2598278
+projects[adminimal_admin_menu][patch][] = https://www.drupal.org/files/issues/adminimal_admin_menu-js-error-2407007-3-no-whitespace-changes.patch
+projects[adminimal_admin_menu][patch][] = https://www.drupal.org/files/issues/adminimal_admin_menu-js-error-2407007-3.patch
 
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "2.0"

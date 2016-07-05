@@ -33,7 +33,7 @@ function c4m_features_homepage_default_page_manager_pages() {
   $handler->task = 'page';
   $handler->subtask = 'c4m_homepage';
   $handler->handler = 'panel_context';
-  $handler->weight = 0;
+  $handler->weight = -28;
   $handler->conf = array(
     'title' => 'Group Dashboard',
     'no_blocks' => 0,
@@ -65,7 +65,7 @@ function c4m_features_homepage_default_page_manager_pages() {
           'name' => 'og_context',
           'settings' => array(
             'og_context_access_groups' => array(
-              'group' => 0,
+              'group' => 'group',
               'project' => 0,
             ),
           ),
@@ -321,7 +321,7 @@ function c4m_features_homepage_default_page_manager_pages() {
   $handler->task = 'page';
   $handler->subtask = 'c4m_homepage';
   $handler->handler = 'panel_context';
-  $handler->weight = -3;
+  $handler->weight = -30;
   $handler->conf = array(
     'title' => 'Homepage Anonymous',
     'no_blocks' => 0,
@@ -521,7 +521,7 @@ function c4m_features_homepage_default_page_manager_pages() {
   $handler->task = 'page';
   $handler->subtask = 'c4m_homepage';
   $handler->handler = 'panel_context';
-  $handler->weight = -2;
+  $handler->weight = -29;
   $handler->conf = array(
     'title' => 'Homepage Authenticated',
     'no_blocks' => 0,
@@ -663,6 +663,28 @@ function c4m_features_homepage_default_page_manager_pages() {
     $display->content['new-6291300a-bfa2-4b41-b466-2acf76adce64'] = $pane;
     $display->panels['right'][0] = 'new-6291300a-bfa2-4b41-b466-2acf76adce64';
     $pane = new stdClass();
+    $pane->pid = 'new-c4bc1d1e-44b3-4475-a4ff-8d0061d9ff5c';
+    $pane->panel = 'right';
+    $pane->type = 'upcoming_events';
+    $pane->subtype = 'upcoming_events';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = 'c4bc1d1e-44b3-4475-a4ff-8d0061d9ff5c';
+    $display->content['new-c4bc1d1e-44b3-4475-a4ff-8d0061d9ff5c'] = $pane;
+    $display->panels['right'][1] = 'new-c4bc1d1e-44b3-4475-a4ff-8d0061d9ff5c';
+    $pane = new stdClass();
     $pane->pid = 'new-3e93b788-7d5d-472b-93b7-c120c0b9f8a8';
     $pane->panel = 'right';
     $pane->type = 'my_groups';
@@ -679,11 +701,11 @@ function c4m_features_homepage_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 2;
     $pane->locks = array();
     $pane->uuid = '3e93b788-7d5d-472b-93b7-c120c0b9f8a8';
     $display->content['new-3e93b788-7d5d-472b-93b7-c120c0b9f8a8'] = $pane;
-    $display->panels['right'][1] = 'new-3e93b788-7d5d-472b-93b7-c120c0b9f8a8';
+    $display->panels['right'][2] = 'new-3e93b788-7d5d-472b-93b7-c120c0b9f8a8';
     $pane = new stdClass();
     $pane->pid = 'new-5be4e32c-b632-48f9-81af-3ecb57a2eaf7';
     $pane->panel = 'right';
@@ -701,33 +723,11 @@ function c4m_features_homepage_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 3;
     $pane->locks = array();
     $pane->uuid = '5be4e32c-b632-48f9-81af-3ecb57a2eaf7';
     $display->content['new-5be4e32c-b632-48f9-81af-3ecb57a2eaf7'] = $pane;
-    $display->panels['right'][2] = 'new-5be4e32c-b632-48f9-81af-3ecb57a2eaf7';
-    $pane = new stdClass();
-    $pane->pid = 'new-c4bc1d1e-44b3-4475-a4ff-8d0061d9ff5c';
-    $pane->panel = 'right';
-    $pane->type = 'upcoming_events';
-    $pane->subtype = 'upcoming_events';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 3;
-    $pane->locks = array();
-    $pane->uuid = 'c4bc1d1e-44b3-4475-a4ff-8d0061d9ff5c';
-    $display->content['new-c4bc1d1e-44b3-4475-a4ff-8d0061d9ff5c'] = $pane;
-    $display->panels['right'][3] = 'new-c4bc1d1e-44b3-4475-a4ff-8d0061d9ff5c';
+    $display->panels['right'][3] = 'new-5be4e32c-b632-48f9-81af-3ecb57a2eaf7';
     $pane = new stdClass();
     $pane->pid = 'new-f61cbf35-3227-4724-bc91-c08f74fd7d45';
     $pane->panel = 'right';
@@ -806,7 +806,7 @@ function c4m_features_homepage_default_page_manager_pages() {
   $handler->task = 'page';
   $handler->subtask = 'c4m_homepage';
   $handler->handler = 'http_response';
-  $handler->weight = 4;
+  $handler->weight = -26;
   $handler->conf = array(
     'title' => 'access denied',
     'contexts' => array(),
@@ -814,6 +814,131 @@ function c4m_features_homepage_default_page_manager_pages() {
     'code' => '403',
     'destination' => '',
   );
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_c4m_homepage__project-dashboard';
+  $handler->task = 'page';
+  $handler->subtask = 'c4m_homepage';
+  $handler->handler = 'panel_context';
+  $handler->weight = -27;
+  $handler->conf = array(
+    'title' => 'Project Dashboard',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(
+      0 => array(
+        'identifier' => 'OG current group',
+        'keyword' => 'og_context',
+        'name' => 'og_context',
+        'og_context_group_types' => array(
+          'project' => 'project',
+        ),
+        'id' => 1,
+      ),
+    ),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        1 => array(
+          'name' => 'front',
+          'settings' => NULL,
+          'not' => FALSE,
+        ),
+        2 => array(
+          'name' => 'og_context',
+          'settings' => array(
+            'og_context_access_groups' => array(
+              'project' => 'project',
+              'group' => 0,
+            ),
+          ),
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+    'name' => 'project-dashboard',
+  );
+  $display = new panels_display();
+  $display->layout = 'bootstrap_twocol_stacked';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'left' => array(
+        'column_type' => 'col-sm',
+        'column_size' => '8',
+        'offset_type' => 'col-lg-offset',
+        'offset_size' => '0',
+      ),
+      'right' => array(
+        'column_type' => 'col-sm',
+        'column_size' => '4',
+        'offset_type' => 'col-lg-offset',
+        'offset_size' => '0',
+      ),
+      'top' => NULL,
+      'bottom' => NULL,
+    ),
+    'left' => array(
+      'style' => 'bootstrap_region',
+    ),
+    'right' => array(
+      'style' => 'bootstrap_region',
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = 'c01b37e8-aba0-4580-be34-5ed36319233e';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-d3a2032d-1b52-4a07-a53c-7d0b83fd0cca';
+    $pane->panel = 'left';
+    $pane->type = 'c4m_content_project_left';
+    $pane->subtype = 'c4m_content_project_left';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'd3a2032d-1b52-4a07-a53c-7d0b83fd0cca';
+    $display->content['new-d3a2032d-1b52-4a07-a53c-7d0b83fd0cca'] = $pane;
+    $display->panels['left'][0] = 'new-d3a2032d-1b52-4a07-a53c-7d0b83fd0cca';
+    $pane = new stdClass();
+    $pane->pid = 'new-d74f4471-e94f-4bec-bdbf-e9b2a23418c1';
+    $pane->panel = 'right';
+    $pane->type = 'c4m_content_project_right';
+    $pane->subtype = 'c4m_content_project_right';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'd74f4471-e94f-4bec-bdbf-e9b2a23418c1';
+    $display->content['new-d74f4471-e94f-4bec-bdbf-e9b2a23418c1'] = $pane;
+    $display->panels['right'][0] = 'new-d74f4471-e94f-4bec-bdbf-e9b2a23418c1';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['c4m_homepage'] = $page;
 
