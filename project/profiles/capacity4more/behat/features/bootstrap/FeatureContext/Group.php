@@ -289,6 +289,9 @@ trait Group {
     // This is the required banner
     $steps[] = new Step\When('I attach the file to the field banner');
 
+    // This is the required message to admin.
+    $steps[] = new Step\When('I fill in "edit-field-message-to-site-admin-und-0-value" with "This is default message to admin."');
+
     $steps[] = new Step\When('I press "Request"');
 
     // Giving time for saving.
