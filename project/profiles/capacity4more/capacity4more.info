@@ -104,6 +104,7 @@ dependencies[] = c4m_vocab_theme
 dependencies[] = c4m_user
 dependencies[] = c4m_user_admin
 dependencies[] = c4m_user_bar
+dependencies[] = c4m_user_og
 dependencies[] = c4m_user_profile
 
 dependencies[] = c4m_comment
