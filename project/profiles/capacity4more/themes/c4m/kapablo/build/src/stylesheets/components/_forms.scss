@@ -105,3 +105,20 @@
 .hidden-input {
   display: none;
 }
+
+.cfm-file-upload {
+  height: 100px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial;
+  color: white;
+  border-radius: 90px;
+  background-color: #8ABDCC;
+}
+
+.cfm-file-upload__title {
+  text-transform: uppercase;
+}
