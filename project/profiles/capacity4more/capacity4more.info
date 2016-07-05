@@ -116,6 +116,7 @@ dependencies[] = c4m_content
 dependencies[] = c4m_content_article
 dependencies[] = c4m_content_book
 dependencies[] = c4m_content_discussion
+dependencies[] = c4m_content_news
 dependencies[] = c4m_content_document
 dependencies[] = c4m_content_event
 dependencies[] = c4m_content_featured
