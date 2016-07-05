@@ -33,7 +33,7 @@ angular.module('c4mApp')
       // We nee the url in the action because of the "overlay" module.
       event.preventDefault();
       DrupalSettings.getFieldSchema('documents')
-        .success(function (data) {
+        .then(function (data) {
           $scope.fieldSchema = data.c4m.field_schema;
           $scope.data.entity = data.c4m.data.entity;
         });

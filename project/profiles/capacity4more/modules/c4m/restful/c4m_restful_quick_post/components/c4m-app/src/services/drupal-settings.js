@@ -80,13 +80,20 @@ angular.module('c4mApp')
      * Get the debug status of the Drupal installation.
      */
     this.getFieldSchema = function(resourceName) {
-      var url = this.getPurlPath() + '/quick-post/' + resourceName + '/field-schema';
+      if (resourceName == 'documents') {
+        var defer = $q.defer();
+        defer.resolve(this.settings);
 
-      return $http({
-        method: 'GET',
-        url: url,
-        withCredentials: true
-      });
+        return defer.promise;
+      } else {
+        var url = this.getPurlPath() + '/quick-post/' + resourceName + '/field-schema';
+
+        return $http({
+          method: 'GET',
+          url: url,
+          withCredentials: true
+        });
+      }
     };
 
     /**
