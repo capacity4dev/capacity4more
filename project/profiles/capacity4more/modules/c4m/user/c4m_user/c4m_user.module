@@ -801,15 +801,17 @@ function c4m_user_contact_form_submit($form, $form_state) {
 
   // Generate and send mail.
   $addressee_account = $form_state['addressee_user'];
+  $addressee_language = user_preferred_language($addressee_account);
   $subject = $form_state['values']['c4m_contact_user_subject'];
   $body = $form_state['values']['c4m_contact_user_body']['value'];
 
-  _c4m_user_send_mail($addressee_account->mail, $user->mail, $subject, $body);
+  _c4m_user_send_mail($addressee_account->mail, $user->mail, $subject, $body, $addressee_language);
 
   if ($form_state['values']['c4m_contact_user_self_copy']) {
     // Sending a copy of the mail to the sender since the user checked
     // the "Send me a copy" checkbox on the form.
-    _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body);
+    $user_language = user_preferred_language($user);
+    _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body, $user_language);
   }
 }
 
@@ -920,11 +922,12 @@ function c4m_user_contact_multiple_form_submit($form, $form_state) {
 
   foreach($form['#user_ids'] as $user_id){
     $addressee_account = user_load($user_id);
+    $addressee_language = user_preferred_language($addressee_account);
     if(!isset($addressee_account->uid)) {
       continue;
     }
 
-    _c4m_user_send_mail($addressee_account->mail, $user->mail, $subject, $body, $silent);
+    _c4m_user_send_mail($addressee_account->mail, $user->mail, $subject, $body, $addressee_language, $silent);
     $count_members += 1;
   }
   drupal_set_message('Message sent to ' . $count_members . ' members.');
@@ -932,7 +935,8 @@ function c4m_user_contact_multiple_form_submit($form, $form_state) {
   if ($form_state['values']['c4m_contact_multiple_self_copy']) {
     // Sending a copy of the mail to the sender since the user checked
     // the "Send me a copy" checkbox on the form.
-    _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body, $silent);
+    $user_language = user_preferred_language($user);
+    _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body, $user_language, $silent);
     drupal_set_message('Copy message sent.');
   }
 }
@@ -951,8 +955,7 @@ function c4m_user_contact_multiple_form_submit($form, $form_state) {
  * @param bool $silent
  *   Wither to present status message or not.
  */
-function _c4m_user_send_mail($to, $from, $subject, $body, $silent = FALSE) {
-  global $language;
+function _c4m_user_send_mail($to, $from, $subject, $body, $language, $silent = FALSE) {
   $module = 'c4m_user';
   $key = 'user_contact_mail';
   $params = array();
