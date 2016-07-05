@@ -1,13 +1,8 @@
 .form-control {
+  border: 1px solid $color-gray-light;
+  box-shadow: inset 0 0 2px 0 $color-gray-light;
   color: $color-gray-dark;
   font-style: italic;
-  background-color: #EBEAE4;
-  border: 0;
-  border-radius: 20px;
-
-  &:focus {
-    box-shadow: 0 0 8px rgba(0, 0, 0, .6);
-  }
 }
 
 .btn {
@@ -97,40 +92,55 @@
 // ========================================================================== //
 // Event Form
 // ========================================================================== //
+.node-form {
 
-.document_file {
-  display: none !important;
-}
+  .form-control {
+    color: $color-gray-dark;
+    font-style: italic;
+    background-color: #EBEAE4;
+    border: 0;
+    border-radius: 20px;
 
-.hidden-input {
-  display: none;
-}
-
-.cfm-file-upload-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.cfm-file-upload {
-  height: 100px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial;
-  color: white;
-  border-radius: 90px;
-  background-color: #8ABDCC;
-  cursor: pointer;
-  
-  &:hover {
-    background-color: #7EC9CB;
+    &:focus {
+      box-shadow: 0 0 8px rgba(0, 0, 0, .6);
+    }
   }
-}
 
-.cfm-file-upload__title {
-  margin: 0;
-  text-transform: uppercase;
+  .document_file {
+    display: none !important;
+  }
+
+  .hidden-input {
+    display: none;
+  }
+
+  .cfm-file-upload-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cfm-file-upload {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial;
+    color: white;
+    border-radius: 90px;
+    background-color: #8ABDCC;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #7EC9CB;
+    }
+  }
+
+  .cfm-file-upload__title {
+    margin: 0;
+    text-transform: uppercase;
+  }
+
 }
