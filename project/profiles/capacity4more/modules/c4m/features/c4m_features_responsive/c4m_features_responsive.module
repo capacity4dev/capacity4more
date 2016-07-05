@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Responsive feature.
+ */
+
+include_once 'c4m_features_responsive.features.inc';

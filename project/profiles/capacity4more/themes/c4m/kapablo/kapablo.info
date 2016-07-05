@@ -22,6 +22,7 @@ regions[sidebar_second]     = 'Secondary'
 regions[content_bottom]     = 'Page bottom'
 regions[footer_top]         = 'Footer top'
 regions[footer_bottom]      = 'Footer bottom'
+regions[off_canvas]         = 'Off-Canvas'
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Overlay regions

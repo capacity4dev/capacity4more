@@ -26,11 +26,17 @@ function c4m_search_nodes_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'c4m_views-views_page_title' => array(
+          'module' => 'c4m_views',
+          'delta' => 'views_page_title',
+          'region' => 'content_above',
+          'weight' => '-10',
+        ),
         'c4m_search_filter-search_filter' => array(
           'module' => 'c4m_search_filter',
           'delta' => 'search_filter',
-          'region' => 'content_top',
-          'weight' => '-10',
+          'region' => 'content_above',
+          'weight' => '-9',
         ),
         'c4m_search_nodes-search_overview' => array(
           'module' => 'c4m_search_nodes',

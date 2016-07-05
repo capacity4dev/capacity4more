@@ -5,6 +5,7 @@ package = capacity4more - Features
 dependencies[] = c4m_features_og_events
 dependencies[] = c4m_og
 dependencies[] = c4m_search_filter
+dependencies[] = c4m_views
 dependencies[] = context
 dependencies[] = entity
 dependencies[] = facetapi

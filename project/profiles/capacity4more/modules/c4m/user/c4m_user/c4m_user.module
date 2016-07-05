@@ -1074,6 +1074,18 @@ function c4m_user_get_node_metric($uid, $bundles) {
 }
 
 /**
+ * Implements hook_TYPE_alter().
+ *
+ * Using hook_c4m_offcanvas_trigger_label_left_alter().
+ */
+function c4m_user_c4m_offcanvas_trigger_label_left_alter(&$trigger_label) {
+  if (arg(0) == 'people' && empty(arg(1))) {
+    $trigger_label['label'] = t('Filter results');
+    $trigger_label['icon'] = 'filter';
+  }
+}
+
+/**
  * Implements hook_ckeditor_settings_alter().
  *
  * Remove media button for anonymous users.
