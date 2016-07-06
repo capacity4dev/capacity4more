@@ -863,7 +863,6 @@ function c4m_content_group_c4m_offcanvas_trigger_label_left_alter(&$trigger_labe
   }
 }
 
-
 /**
  * Implements hook_field_extra_fields().
  *
