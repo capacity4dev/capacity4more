@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Add the option to sort facet terms based on the taxonomy weight.

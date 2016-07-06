@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Views hooks for the c4m_search module.

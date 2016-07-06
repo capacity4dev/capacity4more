@@ -26,17 +26,23 @@ function c4m_features_overview_projects_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'c4m_views-views_page_title' => array(
+          'module' => 'c4m_views',
+          'delta' => 'views_page_title',
+          'region' => 'content_above',
+          'weight' => '-10',
+        ),
         'views-0832eb7e6f1d35503c5b3a8f77094884' => array(
           'module' => 'views',
           'delta' => '0832eb7e6f1d35503c5b3a8f77094884',
-          'region' => 'content_top',
-          'weight' => '-10',
+          'region' => 'content_above',
+          'weight' => '-9',
         ),
         'c4m_search_filter-search_filter' => array(
           'module' => 'c4m_search_filter',
           'delta' => 'search_filter',
-          'region' => 'content_top',
-          'weight' => '-9',
+          'region' => 'content_above',
+          'weight' => '-8',
         ),
         'c4m_content_project-c4m_block_create_project' => array(
           'module' => 'c4m_content_project',

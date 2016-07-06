@@ -32,6 +32,12 @@ function c4m_features_overview_groups_context_default_contexts() {
           'region' => 'content_top',
           'weight' => '-10',
         ),
+        'c4m_views-views_page_title' => array(
+          'module' => 'c4m_views',
+          'delta' => 'views_page_title',
+          'region' => 'content_above',
+          'weight' => '-10',
+        ),
         'c4m_search_filter-search_filter' => array(
           'module' => 'c4m_search_filter',
           'delta' => 'search_filter',

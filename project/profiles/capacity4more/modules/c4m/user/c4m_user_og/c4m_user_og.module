@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Functionality to provide missing info about a user.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Display a node featured in "Featured block" view mode.
