@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Group Members feature.
@@ -252,7 +253,8 @@ function c4m_features_og_members_get_administer_links() {
  *   The actions that can be performed on the user in the group.
  */
 function c4m_features_og_members_get_administer_links_for_user_in_group(
-  $user, $group
+  $user,
+  $group
 ) {
   $links = array();
 

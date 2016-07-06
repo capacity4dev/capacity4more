@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Plugin to provide access control based on user permission strings in a group.

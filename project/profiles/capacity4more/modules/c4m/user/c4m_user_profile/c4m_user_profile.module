@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the User Profile feature.
@@ -1152,7 +1153,8 @@ function c4m_user_profile_unsubscribe_user_access(
     if (!$wrapper->value()) {
       return FALSE;
     }
-  } catch (\EntityMetadataWrapperException $e) {
+  }
+  catch (\EntityMetadataWrapperException $e) {
     return FALSE;
   }
 

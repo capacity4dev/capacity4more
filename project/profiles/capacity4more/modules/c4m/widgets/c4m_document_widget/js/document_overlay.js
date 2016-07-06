@@ -5,7 +5,7 @@
 
 (function ($) {
 
-  $(document).on('click', function(event) {
+  $(document).on('click', function (event) {
 
     // Need to get current field name.
     var element = $('.active-library-link', parent.window.document);
@@ -36,7 +36,7 @@
     var parents = $target.parents();
     var nids = [];
     // Find the parent element with node id in the element's id.
-    $.each(parents, function(index, value) {
+    $.each(parents, function (index, value) {
       var id = value.id;
 
       if (id.indexOf('node-') != -1 && id.match(/[0-9]/g)) {
@@ -69,7 +69,7 @@
   });
 
   // Catch url changing. If close_overlay appeared - close the overlay.
-  $(parent.window).bind('hashchange', function() {
+  $(parent.window).bind('hashchange', function () {
     if (parent) {
       if (parent.window.location.hash.indexOf('close_overlay') != -1) {
         parent.Drupal.overlay.close();

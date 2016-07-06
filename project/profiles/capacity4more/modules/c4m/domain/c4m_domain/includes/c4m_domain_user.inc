@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code to handle Email Domain User integration.

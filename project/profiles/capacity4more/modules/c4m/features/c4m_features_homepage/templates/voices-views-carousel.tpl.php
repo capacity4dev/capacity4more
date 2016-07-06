@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Prints out the Voices & Views carousel.

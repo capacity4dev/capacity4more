@@ -15,7 +15,7 @@
  * @description Uploads file to drupal.
  */
 angular.module('c4mApp')
-  .service('FileUpload', function(DrupalSettings, $upload) {
+  .service('FileUpload', function (DrupalSettings, $upload) {
 
     /**
      * Upload file.
@@ -26,7 +26,7 @@ angular.module('c4mApp')
      * @returns {*}
      *   The uplaoded file JSON.
      */
-    this.upload = function(file) {
+    this.upload = function (file) {
       return $upload.upload({
         url: DrupalSettings.getBasePath() + 'api/file-upload',
         method: 'POST',

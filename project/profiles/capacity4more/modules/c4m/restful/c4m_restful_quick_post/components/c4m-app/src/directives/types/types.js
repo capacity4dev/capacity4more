@@ -30,7 +30,7 @@ angular.module('c4mApp')
         // Get allowed values.
         scope.allowedValues = scope.fieldSchema[scope.field];
         // On changing type => update the discussion type.
-        scope.updateType = function(type, field, e) {
+        scope.updateType = function (type, field, e) {
           return scope.onChange(type, field, e);
         }
       }
