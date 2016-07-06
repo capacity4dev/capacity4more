@@ -154,12 +154,21 @@
     attach: function (context, settings) {
       var $wrapper = $('#group-pages-navigation-left');
 
+      if ($wrapper == null) {
+        return;
+      }
+
       collapsibleNavigation($wrapper.find('ul[role="menu"]'));
 
       // .wrapInner() does not retain bound events.
       var wrapper = $wrapper.get(0);
+
+      if (wrapper == null) {
+        return;
+      }
+
       // Don't animate multiple times.
-      if (!wrapper.animating) {
+      if (!wrapper.animating || wrapper.animating == null) {
         wrapper.animating = true;
         var speed = $wrapper.hasClass('speed-fast') ? 300 : 1000;
         if ($wrapper.hasClass('effect-none') && $wrapper.hasClass('speed-none')) {
