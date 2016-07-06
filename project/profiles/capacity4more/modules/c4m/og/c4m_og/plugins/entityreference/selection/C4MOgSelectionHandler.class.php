@@ -93,6 +93,7 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     $node_type = $this->instance['bundle'];
     if (!og_user_access($group_type, $current_gid['gid'], "create $node_type content")) {
       $query->propertyCondition($entity_info['entity keys']['id'], -1, '=');
+      return $query;
     }
     if ($user_groups) {
       $query->propertyCondition(
