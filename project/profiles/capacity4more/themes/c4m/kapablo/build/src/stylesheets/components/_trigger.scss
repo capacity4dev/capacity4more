@@ -1,0 +1,81 @@
+.trigger {
+  margin: 20px 0;
+  padding: 10px;
+  background: $color-text-alternative;
+  border:1px solid $color-text-alternative;
+
+  @media (min-width: $screen-tablet) {
+    display: none;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  i {
+    color: $color-white;
+    line-height: inherit;
+  }
+
+  .trigger-label {
+    margin: 0 15px;
+
+    span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      color: $color-text-alternative;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      -webkit-transform: translate(-50%, -50%);
+    }
+  }
+}
+
+.trigger-text {
+  color: $color-white;
+
+  &.pull-right {
+    margin-right: 15px;
+  }
+}
+
+.trigger.trigger--groupInfo,
+.trigger.trigger--membership {
+  display: none;
+}
+
+.trigger--groupInfo {
+  color: $color-link;
+
+  i {
+    color: $color-text-alternative;
+    line-height: inherit;
+  }
+}
+
+.trigger--groupInfo .trigger-label span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  color: $color-white;
+
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+}
+
+.trigger--membership {
+  background: $color-text-alternative;
+  color: $color-white;
+}
+
+.trigger--membership .trigger-label {
+  font-size: 1.3rem;
+}
+
+.trigger--groupInfo .trigger-label,
+.trigger--membership .trigger-label{
+  float: left;
+  margin: 0 15px;
+}

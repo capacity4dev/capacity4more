@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Upcoming events panel template.

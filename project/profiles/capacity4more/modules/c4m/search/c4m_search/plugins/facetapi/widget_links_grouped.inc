@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * The facetapi_c4m_links_grouped widget plugin class.
