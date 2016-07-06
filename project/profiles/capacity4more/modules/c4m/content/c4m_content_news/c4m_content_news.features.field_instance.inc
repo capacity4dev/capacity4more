@@ -120,9 +120,12 @@ function c4m_content_news_field_default_field_instances() {
         'weight' => 1,
       ),
       'activity_group' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(
+          'trim_length' => 200,
+        ),
+        'type' => 'text_summary_or_trimmed',
         'weight' => 0,
       ),
       'default' => array(
@@ -252,7 +255,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 19,
       ),
       'default' => array(
         'label' => 'above',
@@ -325,7 +328,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 18,
       ),
       'default' => array(
         'label' => 'above',
@@ -389,7 +392,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 17,
       ),
       'default' => array(
         'label' => 'above',
@@ -453,7 +456,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 15,
       ),
       'default' => array(
         'label' => 'above',
@@ -517,7 +520,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 16,
       ),
       'default' => array(
         'label' => 'above',
@@ -582,7 +585,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 20,
       ),
       'default' => array(
         'label' => 'above',
@@ -665,7 +668,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 21,
       ),
       'default' => array(
         'label' => 'above',
