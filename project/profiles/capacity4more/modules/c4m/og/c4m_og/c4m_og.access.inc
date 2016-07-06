@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Functionality regarding OG access (public/restricted/private).

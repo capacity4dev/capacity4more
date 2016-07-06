@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * All forms related manipulations to the theme.

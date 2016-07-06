@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template to output the comment count in the entity stats.
