@@ -120,7 +120,7 @@ function theme_c4m_features_learning_space_admin_image($variables) {
  * @param string $type
  *   The block hook name (configure, save, view).
  *
- * @return FALSE|string
+ * @return false|string
  *   The callback name will only be returned if it exists.
  */
 function _c4m_features_learning_space_block_callback($delta, $type) {
