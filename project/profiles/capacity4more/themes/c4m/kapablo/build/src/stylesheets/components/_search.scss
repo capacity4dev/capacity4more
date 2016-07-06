@@ -50,27 +50,41 @@
 .block-facetapi {
   ul {
     list-style: none;
-    padding: 0;
+    padding: 0 0 0 1.2em;
 
+    &.facetapi-c4m-search-links-content-type {
+      padding-left: 0;
+
+      ul {
+        padding-left: 0;
+
+        li.expanded .item-list {
+          margin-left: 3em;
+        }
+      }
+    }
+  }
+
+  .facetapi-facet-c4m-vocab-geo, .facetapi-facet-c4m-vocab-topic {
     li {
-      padding: 0 0 0 1.5rem;
+
+      &:before {
+        color: $color-link;
+        display: inline-block;
+        font-family: FontAwesome;
+        margin-left: -1.2em;
+        text-align: center;
+        width: 1.2em;
+      }
 
       &.collapsed {
         &:before {
-          content: '+';
-          display: inline-block;
-          margin-left: -1.5rem;
-          text-align: center;
-          width: 1.5rem;
+          content: "\f0da";
         }
       }
       &.expanded {
         &:before {
-          content: '-';
-          display: inline-block;
-          margin-left: -1.5rem;
-          text-align: center;
-          width: 1.5rem;
+          content: "\f0d7";
         }
       }
     }
@@ -117,7 +131,7 @@
     }
 
     label, div {
-      display:  inline-block;
+      display: inline-block;
     }
   }
 }
@@ -210,18 +224,13 @@
   }
 }
 
-.block-facetapi ul li.expanded::before,
-.block-facetapi ul li.collapsed:before {
-  content: "";
-}
-
 .block-facetapi ul li {
   padding: 0;
   margin-top: 10px;
 }
 
 .block-facetapi ul li.expanded .item-list {
-  margin-left: 30px;
+  margin-left: 1em;
 }
 
 .form-item-search-within-results {
@@ -260,12 +269,13 @@
 }
 
 .facetapi-link {
+  color: $color-text-alternative;
   display: inline-block;
   margin-right: 10px;
 
-  font: normal normal normal 14px/1 FontAwesome;
-  font-size: inherit;
-  color: $color-text-alternative;
+  font-family: FontAwesome;
+  width: 1em;
+  text-align: center;
 }
 
 .facetapi-link--article::before {
@@ -357,18 +367,18 @@
         border-left: 1px solid $color-gray-light;
       }
 
-      &:nth-of-type(1)::before {
+      .search--refine--item--article::before {
         content: "\f1ea";
         @extend .facetapi-link;
       }
 
-      &:nth-of-type(2)::before {
-        content: "\f0c0";
+      .search--refine--item--project::before {
+        content: "\f11e";
         @extend .facetapi-link;
       }
 
-      &:nth-of-type(3)::before {
-        content: "\f11e";
+      .search--refine--item--group::before {
+        content: "\f0c0";
         @extend .facetapi-link;
       }
     }
@@ -379,7 +389,6 @@
   .view-content {
     margin: 25px 0;
   }
-
 
   .item-list {
     margin-top: 0;
@@ -395,15 +404,13 @@
 .view-c4m-overview-articles,
 .view-c4m-overview-projects,
 .view-c4m-overview-events-landing,
-.view-c4m-overview-events
-{
+.view-c4m-overview-events {
   .view-header {
     padding-bottom: 15px;
     border-bottom: 1px dashed $color-gray-light;
     min-height: 30px;
   }
 }
-
 
 .node-teaser .field-name-c4m-field-og-group {
   display: none;
@@ -415,5 +422,5 @@
 .view-mode-teaser .creation-date,
 .view-mode-teaser .row-entity-count,
 .view-mode-teaser .group-iconbar-comments-views {
-  color: $color-gray-dark!important;
+  color: $color-gray-dark !important;
 }
