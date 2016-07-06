@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Article content type feature.
@@ -71,4 +72,16 @@ function c4m_content_article_c4m_helper_entity_label_info() {
       'icon' => 'fa-bullhorn',
     ),
   );
+}
+
+/**
+ * Implements hook_TYPE_alter().
+ *
+ * Using hook_c4m_offcanvas_trigger_label_left_alter().
+ */
+function c4m_content_article_c4m_offcanvas_trigger_label_left_alter(&$trigger_label) {
+  if (arg(0) == 'articles' && empty(arg(1))) {
+    $trigger_label['label'] = t('Filter results');
+    $trigger_label['icon'] = 'filter';
+  }
 }

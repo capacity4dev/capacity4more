@@ -27,9 +27,11 @@ markup_h2 "Files"
 mkdir -p "$DIR_WEB/$FILE_PATH_PUBLIC"
 mkdir -p "$DIR_WEB/$FILE_PATH_PRIVATE"
 
-drupal_sites_default_unprotect
+if [ "$FILE_PATH_PRIVATE" != "" ]; then
+
+    drupal_sites_default_unprotect
 cat << EOF >> "$DIR_WEB/$FILE_PATH_PRIVATE/.htaccess"
-Deny from all                                                                                        [error]
+Deny from all
 
 # Turn off all options we don't need.
 Options None
@@ -46,6 +48,16 @@ SetHandler Drupal_Security_Do_Not_Remove_See_SA_2013_003
 
 php_flag engine off
 EOF
+
+else
+    echo
+    echo
+    echo
+    markup_h2 "Please add your FILE_PATH_PRIVATE to your config.sh!!"
+    echo
+    echo
+    echo
+fi
 
 if [ "$MIGRATION_MODULE" != "" ] || [ "$MIGRATION_SCRIPT" != "" ]; then
     markup_h2 "Migration module"

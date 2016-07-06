@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Theme functions for the c4m_content module.
@@ -39,11 +40,11 @@ function theme_c4m_website_statistics_summary(array $variables) {
     }
 
     // Format single/plural text.
-    $text = $stat['count'] . ' ' . format_plural(
-      $stat['count'],
-      $stat['title']['singular'],
-      $stat['title']['plural']
-    );
+    $text = '<i class="fa ' . $icons_table[$key] . '"></i> ' . $stat['count'] . ' ' . format_plural(
+        $stat['count'],
+        $stat['title']['singular'],
+        $stat['title']['plural']
+      );
 
     // Show as link?
     if (!empty($stat['link']['path'])) {
@@ -51,9 +52,18 @@ function theme_c4m_website_statistics_summary(array $variables) {
         ? $stat['link']['options']
         : array();
 
-      $options = array_merge($options, array('attributes' => array('class' => array('text-copy', 'text-small'))));
+      $options = array_merge(
+        $options,
+        array(
+          'html' => TRUE,
+        )
+      );
 
-      $text = l($text, $stat['link']['path'], $options);
+      $text = l(
+        $text,
+        $stat['link']['path'],
+        $options
+      );
     }
 
     // Add css classes defined in hook.
@@ -67,15 +77,16 @@ function theme_c4m_website_statistics_summary(array $variables) {
       'class' => array(
         'statistics-item',
         'stats-' . $key,
-        'fa ' . $icons_table[$key],
         implode(',', $stat_classes),
+        'text-copy',
+        'text-small',
       ),
     );
   }
 
   $summary = array(
-    '#theme'      => 'item_list',
-    '#items'      => $list,
+    '#theme' => 'item_list',
+    '#items' => $list,
     '#attributes' => array(
       'class' => array('statistics-list'),
     ),

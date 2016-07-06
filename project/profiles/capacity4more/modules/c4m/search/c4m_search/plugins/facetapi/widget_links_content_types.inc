@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * The c4m_search_content_type widget plugin classes.

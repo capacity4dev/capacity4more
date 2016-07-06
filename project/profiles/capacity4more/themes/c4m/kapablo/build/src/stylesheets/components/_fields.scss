@@ -3,10 +3,6 @@
   margin-right: .25em;
 }
 
-.group-header {
-  margin-bottom: 1em;
-}
-
 .group-teaser-author-information {
   margin-bottom: 1rem;
 
@@ -66,7 +62,7 @@
     height: 1em;
     line-height: 1em;
     margin-top: 0.3rem;
-    text-align: center;
+    margin-left: 4px;
     text-transform: uppercase;
   }
 
@@ -91,7 +87,7 @@
   @extend .text-copy;
   @extend .text-small;
 
-  margin-top: 1em;
+  margin-top: 2em;
 }
 
 .user-name, .posted-by {
@@ -249,7 +245,7 @@
   .c4m-social-media-item {
     margin-bottom: 0.25em;
     margin-right: 0.75em;
-    margin-top: 0.2em;
+    margin-top: 0.7em;
     padding: 0;
 
     i {
