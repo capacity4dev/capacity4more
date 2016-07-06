@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template to render a single sort list button.

@@ -15,7 +15,7 @@
  * @description Sends the request to RESTful.
  */
 angular.module('c4mApp')
-  .service('EntityResource', function(DrupalSettings, Request, $http) {
+  .service('EntityResource', function (DrupalSettings, Request, $http) {
 
     /**
      * Get the entity by id.
@@ -28,7 +28,7 @@ angular.module('c4mApp')
      * @returns {*}
      *  JSON of the entity.
      */
-    this.getEntityData = function(resource, entityId) {
+    this.getEntityData = function (resource, entityId) {
       var url = DrupalSettings.getBasePath() + 'api/' + resource;
 
       if (entityId) {
@@ -57,7 +57,7 @@ angular.module('c4mApp')
      * @returns {*}
      *   JSON of the newly created entity.
      */
-    this.createEntity = function(data, resource, resourceFields, entityId) {
+    this.createEntity = function (data, resource, resourceFields, entityId) {
 
       Request.resourceFields = resourceFields;
       Request.resource = resource;
@@ -94,7 +94,7 @@ angular.module('c4mApp')
      * @returns {*}
      *   JSON of the updated activity stream.
      */
-    this.updateStream = function(data, action) {
+    this.updateStream = function (data, action) {
       var config = {
         withCredentials: true,
         headers: {
@@ -111,7 +111,7 @@ angular.module('c4mApp')
 
       var topicsFilter = '';
       if (angular.isObject(topics)) {
-        angular.forEach(topics, function(topic, index) {
+        angular.forEach(topics, function (topic, index) {
           topicsFilter += '&topics[' + index + ']=' + topic;
         });
       }
@@ -120,7 +120,7 @@ angular.module('c4mApp')
       // operator and breakdown the group IDs to separate filters.
       if (angular.isObject(data.group)) {
         var group_filter = '';
-        angular.forEach(data.group, function(group, index) {
+        angular.forEach(data.group, function (group, index) {
           group_filter += 'group[' + index + ']=' + group + '&';
         });
 

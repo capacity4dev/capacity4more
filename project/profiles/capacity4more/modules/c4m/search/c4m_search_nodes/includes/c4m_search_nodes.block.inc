@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Block specific functionality like block definitions & overrides.
