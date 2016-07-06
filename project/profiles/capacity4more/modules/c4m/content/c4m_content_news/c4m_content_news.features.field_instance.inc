@@ -128,12 +128,20 @@ function c4m_content_news_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'hidden',
-        'module' => 'text',
+        'module' => 'smart_trim',
         'settings' => array(
+          'more_link' => FALSE,
+          'more_text' => 'Read more',
+          'summary_handler' => 'full',
           'trim_length' => 600,
+          'trim_link' => FALSE,
+          'trim_options' => array(),
+          'trim_preserve_tags' => '',
+          'trim_suffix' => '...',
+          'trim_type' => 'chars',
         ),
-        'type' => 'text_summary_or_trimmed',
-        'weight' => 1,
+        'type' => 'smart_trim_format',
+        'weight' => 6,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -242,7 +250,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 14,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -315,7 +323,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 20,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -379,7 +387,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 19,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -443,7 +451,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 18,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -507,7 +515,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 16,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -568,7 +576,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 17,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -654,7 +662,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 22,
       ),
       'teaser_group' => array(
         'label' => 'above',
