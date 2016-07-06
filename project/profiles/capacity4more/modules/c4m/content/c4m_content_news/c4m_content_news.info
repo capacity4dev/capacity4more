@@ -1,4 +1,5 @@
 name = News content type
+description = This module provides the News content type.
 core = 7.x
 package = capacity4more - Content
 dependencies[] = c4m_comment
