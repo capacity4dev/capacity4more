@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Variables provided by the capacity4more Organic Group Functionality module.

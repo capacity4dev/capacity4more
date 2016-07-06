@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Custom Display Suite function fields.
@@ -28,7 +29,7 @@ function theme_c4m_content_wiki_page_navigation(array $field) {
   $tree = menu_build_tree($book['menu_name']);
 
   if (empty($tree)) {
-    return;
+    return NULL;
   }
 
   // Remove level 0 first.

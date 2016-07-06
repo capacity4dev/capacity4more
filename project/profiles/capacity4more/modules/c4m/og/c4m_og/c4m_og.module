@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * General Organic Groups functionality.
@@ -21,7 +22,7 @@ define('C4M_OG_OPEN_GROUP', 1);
 /**
  * Helper to get the current active group (based on og_context()).
  *
- * @return object|FALSE
+ * @return object|false
  *   The group entity, or FALSE if no context was found.
  */
 function c4m_og_current_group() {
@@ -41,7 +42,7 @@ function c4m_og_current_group() {
 /**
  * Helper to get the current active group id (based on og_context()).
  *
- * @return NULL|int
+ * @return null|int
  *   The group id, or NULL if no context was found.
  */
 function c4m_og_current_group_id() {
@@ -687,7 +688,7 @@ function _c4m_og_group_type_getter_callback($item) {
  * @param object $entity
  *   The entity we want the group id of.
  *
- * @return NULL|int
+ * @return null|int
  *   The group ID if any.
  */
 function c4m_og_get_gid_from_entity($entity) {
