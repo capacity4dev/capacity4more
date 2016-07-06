@@ -85,7 +85,8 @@ angular.module('c4mApp')
         defer.resolve(this.settings);
 
         return defer.promise;
-      } else {
+      }
+      else {
         var url = this.getPurlPath() + '/quick-post/' + resourceName + '/field-schema';
 
         return $http({
