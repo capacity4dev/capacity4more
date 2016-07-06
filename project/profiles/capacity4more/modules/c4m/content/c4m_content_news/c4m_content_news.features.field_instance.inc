@@ -120,10 +120,11 @@ function c4m_content_news_field_default_field_instances() {
         'weight' => 0,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'type' => 'text_default',
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -229,9 +230,13 @@ function c4m_content_news_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'module' => 'entityreference',
+        'settings' => array(
+          'links' => 1,
+          'view_mode' => 'block_list',
+        ),
+        'type' => 'entityreference_entity_view',
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -298,9 +303,13 @@ function c4m_content_news_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'module' => 'term_reference_tree',
+        'settings' => array(
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
+        ),
+        'type' => 'term_reference_tree',
+        'weight' => 23,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -358,9 +367,13 @@ function c4m_content_news_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'module' => 'term_reference_tree',
+        'settings' => array(
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
+        ),
+        'type' => 'term_reference_tree',
+        'weight' => 25,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -418,9 +431,13 @@ function c4m_content_news_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'module' => 'term_reference_tree',
+        'settings' => array(
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
+        ),
+        'type' => 'term_reference_tree',
+        'weight' => 24,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -478,9 +495,13 @@ function c4m_content_news_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'module' => 'term_reference_tree',
+        'settings' => array(
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
+        ),
+        'type' => 'term_reference_tree',
+        'weight' => 22,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -541,7 +562,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 21,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -621,10 +642,13 @@ function c4m_content_news_field_default_field_instances() {
         'weight' => 3,
       ),
       'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'label' => 'hidden',
+        'module' => 'c4m_og_purl',
+        'settings' => array(
+          'link' => 'purl_auto',
+        ),
+        'type' => 'c4m_og_purl_entityreference_link',
+        'weight' => 26,
       ),
       'teaser' => array(
         'label' => 'above',
