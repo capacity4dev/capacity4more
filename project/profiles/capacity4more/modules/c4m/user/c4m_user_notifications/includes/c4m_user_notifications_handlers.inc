@@ -21,14 +21,8 @@ function c4m_user_notifications_moderated_group_new_membership_request($entity) 
  * Email notification to user about acceptance to moderated group.
  */
 function c4m_user_notifications_moderated_group_notify_user_membership_accepted($membership) {
-  // Send activation message to member.
-  $message = message_create('c4m_welcome_to_group', array('uid' => $membership->etid));
-  c4m_message_load__c4m_welcome_to_group($message);
-
-  $wrapper = entity_metadata_wrapper('message', $message);
-  $wrapper->field_group_node->set($membership->gid);
-  // Message will be saved in message_notify_send_message().
-  message_notify_send_message($wrapper->value());
+  // Use helper function - construct same email template as for open group.
+  _c4m_user_notifications_notify_user_membership_accepted($membership);
 }
 
 /**
@@ -41,6 +35,8 @@ function c4m_user_notifications_moderated_group_notify_admins_membership_accepte
  * Email notification to user about acceptance to open group.
  */
 function c4m_user_notifications_open_group_notify_user_membership_accepted($membership) {
+  // Use helper function - construct same email template as for moderated group.
+  _c4m_user_notifications_notify_user_membership_accepted($membership);
 }
 
 /**
@@ -240,4 +236,20 @@ function c4m_user_notifications_notify_inactive_users() {
  * Email notification to all commenters, about comment on group content.
  */
 function c4m_user_notifications_notify_comment_on_content($comment) {
+}
+
+/**
+ * Helper function.
+ *
+ * Email notification to user about acceptance to  group (moderated and open).
+ */
+function _c4m_user_notifications_notify_user_membership_accepted($membership) {
+  // Send activation message to member.
+  $message = message_create('c4m_welcome_to_group', array('uid' => $membership->etid));
+  c4m_message_load__c4m_welcome_to_group($message);
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group_node->set($membership->gid);
+  // Message will be saved in message_notify_send_message().
+  message_notify_send_message($wrapper->value());
 }
