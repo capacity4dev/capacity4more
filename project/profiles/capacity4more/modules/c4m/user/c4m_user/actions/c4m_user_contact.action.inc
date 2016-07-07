@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Callback & forms related to the user contact.

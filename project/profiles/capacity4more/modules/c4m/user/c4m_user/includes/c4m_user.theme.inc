@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Custom Display Suite function fields.
@@ -308,7 +309,7 @@ function theme_c4m_user_organisation_full(array $field) {
  * @param array $field
  *   The field info.
  *
- * @return NULL|string
+ * @return null|string
  *   The rendered output.
  *
  * @see _contact_personal_tab_access()

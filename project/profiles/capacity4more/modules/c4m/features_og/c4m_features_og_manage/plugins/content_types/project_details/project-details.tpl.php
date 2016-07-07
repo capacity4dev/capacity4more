@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template for the project management dashboard.
@@ -52,10 +53,6 @@
       <div class="row">
         <div class="col-md-3"><?php print t('Partners') ?></div>
         <div class="col-md-9"><?php print $details['partners'] ?></div>
-      </div>
-      <div class="row">
-        <div class="col-md-3"><?php print t('Implemented by') ?></div>
-        <div class="col-md-9"><?php print $details['implemented_by'] ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('CRIS Decision number') ?></div>

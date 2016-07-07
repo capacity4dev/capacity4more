@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains C4mRestfulActivityStreamResource.

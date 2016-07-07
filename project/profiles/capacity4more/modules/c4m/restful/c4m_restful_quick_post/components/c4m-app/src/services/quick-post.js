@@ -15,7 +15,7 @@
  * @description Imports the settings sent from drupal.
  */
 angular.module('c4mApp')
-  .service('QuickPostService', function($rootScope, $http, DrupalSettings) {
+  .service('QuickPostService', function ($rootScope, $http, DrupalSettings) {
     var self = this;
 
     /**
@@ -27,7 +27,7 @@ angular.module('c4mApp')
      * @returns {*}
      *  Returns the scope object with the default values.
      */
-    this.setDefaults = function(scope) {
+    this.setDefaults = function (scope) {
       scope.documentName = '';
 
       scope.referenceValues = {};
@@ -73,7 +73,7 @@ angular.module('c4mApp')
      * @returns {*}
      *  Returns the scope object with the prepared taxonomy-terms fields.
      */
-    this.formatTermFieldsAsTree = function(scope) {
+    this.formatTermFieldsAsTree = function (scope) {
       angular.forEach(scope.referenceValues, function (data, field) {
         // Parent id.
         var parent = 0;
@@ -106,7 +106,7 @@ angular.module('c4mApp')
             else {
               // This is child term of 3 level.
               if (midParent > 0) {
-                angular.forEach(scope[field][parent]['children'], function(value, key) {
+                angular.forEach(scope[field][parent]['children'], function (value, key) {
                   if (value.id == midParent) {
                     scope[field][parent]['children'][key]['children'].push({
                       id: fieldValue.id,
@@ -146,7 +146,7 @@ angular.module('c4mApp')
       }
 
       $http.get(url + '?autocomplete[string]=' + query.term + '&group=' + group.id)
-        .success(function(data) {
+        .success(function (data) {
           if (data.data.length == 0) {
             terms.results.push({
               text: query.term,
@@ -182,7 +182,7 @@ angular.module('c4mApp')
      *  @returns string
      *    Returns a selected resource name.
      */
-    this.updateResource = function(resource, event) {
+    this.updateResource = function (resource, event) {
       // Get element clicked in the event.
       var element = angular.element(event.srcElement);
       // Remove class "active" from all elements.
@@ -205,7 +205,7 @@ angular.module('c4mApp')
      *  @param event
      *  The click event.
      */
-    this.updateType = function(type, field, event) {
+    this.updateType = function (type, field, event) {
       // Get element clicked in the event.
       var element = angular.element(event.srcElement);
       // Remove class "active" from all elements.
@@ -227,21 +227,21 @@ angular.module('c4mApp')
      * @returns string
      *  Returns the name of the taxonomy term.
      */
-    this.findLabel = function(vocab, termID) {
+    this.findLabel = function (vocab, termID) {
       if (vocab[termID]) {
         return vocab[termID].label;
       }
       else {
         var termName = '';
-        angular.forEach(vocab, function(value, key) {
+        angular.forEach(vocab, function (value, key) {
           if (value.hasOwnProperty('children')) {
-            angular.forEach(value.children, function(child, key) {
+            angular.forEach(value.children, function (child, key) {
               var id = termID.toString();
               if (child.id == id) {
                 termName = child.label;
               }
               else if (child.hasOwnProperty('children')) {
-                angular.forEach(child.children, function(childChild, childKey) {
+                angular.forEach(child.children, function (childChild, childKey) {
                   if (childChild.id == id) {
                     termName = childChild.label;
                   }
@@ -264,7 +264,7 @@ angular.module('c4mApp')
      * @param popups
      *   The scope object.
      */
-    this.togglePopover = function(name, event, popups) {
+    this.togglePopover = function (name, event, popups) {
       // Hide all the other pop-overs, Except the one the user clicked on.
       angular.forEach(popups, function (value, key) {
         if (name != key) {

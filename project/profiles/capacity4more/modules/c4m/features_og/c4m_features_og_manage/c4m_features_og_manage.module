@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Group Management feature.
@@ -557,7 +558,6 @@ function c4m_features_og_manage_project_details() {
     'total_budget' => t('No total budget'),
     'source_funding' => t('No source of funding'),
     'partners' => t('No partners'),
-    'implemented_by' => t('No implementator'),
     'cris_decision_number' => t('No CRIS Decision number'),
     'cris_contact_number' => t('No CRIS Contact number'),
     'topics' => t('No Group Topics'),
@@ -608,12 +608,6 @@ function c4m_features_og_manage_project_details() {
   $partners = $wrapper->c4m_partner->value();
   if ($list = c4m_features_og_manage_list_simple($partners)) {
     $details['partners'] = $list;
-  }
-
-  // Implemented by.
-  $implementers = $wrapper->c4m_implemented_by->value();
-  if ($list = c4m_features_og_manage_list_simple($implementers)) {
-    $details['implemented_by'] = $list;
   }
 
   // CRIS Decision numbers.

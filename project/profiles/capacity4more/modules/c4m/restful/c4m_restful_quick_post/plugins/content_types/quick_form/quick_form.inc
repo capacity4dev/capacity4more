@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * QuickPost form plugin for RestFul.
