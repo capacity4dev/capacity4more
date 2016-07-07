@@ -164,7 +164,19 @@
 
     i.fa {
       color: $color-link;
-      font-size: 0.75rem;
+      display: inline;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &:before {
+        margin-left: -1rem;
+        margin-top: 3px;
+        padding: 0;
+        float: left;
+        width: 1rem;
+      }
     }
 
     a.active {
