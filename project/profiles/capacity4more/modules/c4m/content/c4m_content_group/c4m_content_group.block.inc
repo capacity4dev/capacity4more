@@ -154,7 +154,7 @@ function _c4m_content_group_block_header_name_banner() {
 
     $variables['emails'] = $emails;
   }
-  else if (isset($wrapper->group_access)) {
+  elseif (isset($wrapper->group_access)) {
     // Determine access per group_access parameter.
     $group_access = $wrapper->group_access->value() ? 'private' : 'public';
     $variables['group_access'] = $group_access;

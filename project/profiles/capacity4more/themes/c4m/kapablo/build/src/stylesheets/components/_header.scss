@@ -270,11 +270,16 @@
 
   .label {
     &.label-stage {
-      color: $color-white;
-      border: 1px solid $color-white;
-      border-radius: 6px;
-      font-weight: normal;
-      text-transform: uppercase;
+      display: none;
+
+      @media (min-width: $screen-tablet) {
+        display: inline-block;
+        color: $color-white;
+        border: 1px solid $color-white;
+        border-radius: 6px;
+        font-weight: normal;
+        text-transform: uppercase;
+      }
 
       &.notstarted {
         background-color: $color-gray;

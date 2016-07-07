@@ -53,7 +53,7 @@ function _c4m_content_project_block_header_name_banner() {
       break;
 
     case 'completed':
-      $flag_icon= 'fa-flag-checkered';
+      $flag_icon = 'fa-flag-checkered';
       $stage_label = 'completed';
       break;
 

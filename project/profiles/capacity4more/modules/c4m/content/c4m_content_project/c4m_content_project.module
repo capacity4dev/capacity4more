@@ -167,6 +167,7 @@ function c4m_content_project_c4m_helper_entity_metrics_info() {
     ),
   );
 }
+
 /**
  * Implements hook_theme().
  */
