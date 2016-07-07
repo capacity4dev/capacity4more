@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template to print the group membership level.

@@ -1,3 +1,12 @@
+html,
+body {
+  height: 100vh;
+
+  @media (min-width: $screen-tablet) {
+    height: 100%;
+  }
+}
+
 html {
   font-size: 14px;
 }
@@ -26,6 +35,7 @@ body {
 }
 
 .label {
+
   &.label-default {
     background: none;
     border: 1px dotted $color-text;
@@ -33,9 +43,44 @@ body {
     font-weight: normal;
     text-transform: uppercase;
     border-radius: 6px;
+    border-radius: 4px;
+  }
+
+  &.label-access {
+    color: $color-white;
+    border: 1px solid $color-white;
+    font-weight: normal;
+    text-transform: uppercase;
+
+    &.public {
+      background-color: $color-green;
+      border-color: $color-green;
+    }
+
+    &.private {
+      background-color: $color-red;
+      border-color: $color-red;
+    }
+
+    &.restricted {
+      background-color: $color-accent;
+      border-color: $color-accent;
+    }
   }
 }
 
 div.contextual-links-wrapper {
   font-size: 0.9rem;
+}
+
+.page-container {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.page-content {
+  position: relative;
+  height: 100%;
+  overflow-y: scroll;
 }

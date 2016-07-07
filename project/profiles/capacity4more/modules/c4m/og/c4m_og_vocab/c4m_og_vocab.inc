@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * All code needed to create all vocabularies when a new group is created.
@@ -94,7 +95,10 @@ function c4m_og_vocab_create_group_vocabularies($group, array $vocabularies) {
  *   The created vocabulary.
  */
 function c4m_og_vocab_create_group_vocabulary(
-  $group, $machine_name, $name, $description
+  $group,
+ $machine_name,
+ $name,
+ $description
 ) {
   // Make sure that the machine name is unique.
   // We do this by adding the nid to the machine name.
@@ -130,7 +134,9 @@ function c4m_og_vocab_create_group_vocabulary(
  *   Settings to use when creating the term reference widget.
  */
 function c4m_og_vocab_enable_group_vocabulary_on_group_content_types(
-  array $types, $vocab, array $settings
+  array $types,
+ $vocab,
+ array $settings
 ) {
   foreach ($types as $info) {
     // We do not support group taxonomies of non group content types.
