@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Hooks & plugins for the c4m_og_purl module.
@@ -11,6 +12,61 @@ define('C4M_OG_PURL_LINK_DASHBOARD', 'purl_og_dashboard');
 
 include_once 'c4m_og_purl.ds_render_field.inc';
 include_once 'c4m_og_purl.uri_info.inc';
+
+/**
+ * Implements hook_init().
+ *
+ * Redirect /node/GROUP_ID path to the group dashboard /GROUP-TITLE.
+ */
+function c4m_og_purl_init() {
+  $item = menu_get_item();
+
+  if ($item['path'] != 'node/%') {
+    // We are not in node view.
+    return;
+  }
+
+  $node = $item['map'][1];
+
+  if (!og_is_group_type('node', $node->type)) {
+    // This is not a group.
+    return;
+  }
+
+  drupal_goto($node->purl);
+}
+
+/**
+ * Implements hook_url_outbound_alter().
+ *
+ * Change the path of a group node to be the expected url.
+ * For example when visiting /node/1 we should be redirected to /foo instead.
+ * Without this hook we would be redirected to /foo/groups/foo.
+ */
+function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
+  if (drupal_is_cli()) {
+    // The script is running in a command-line environment.
+    return;
+  }
+
+  $item = menu_get_item();
+
+  if ($item['path'] != 'node/%') {
+    // We are not in node view.
+    return;
+  }
+
+  $node = $item['map'][1];
+
+  if (!og_is_group_type('node', $node->type)) {
+    // This is not a group.
+    return;
+  }
+
+  // Set the path alias.
+  $path = $node->purl;
+  $options['alias'] = $node->purl;
+}
 
 /**
  * Implements hook_field_formatter_info().

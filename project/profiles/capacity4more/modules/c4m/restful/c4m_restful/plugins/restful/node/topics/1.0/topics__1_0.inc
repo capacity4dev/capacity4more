@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Topics plugin for RestFul.

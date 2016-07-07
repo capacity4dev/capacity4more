@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Events plugin for RestFul.

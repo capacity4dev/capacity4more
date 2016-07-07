@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Theme functions for the c4m_content_document module.
