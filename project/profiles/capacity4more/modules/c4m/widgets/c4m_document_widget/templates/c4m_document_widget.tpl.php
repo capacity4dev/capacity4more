@@ -18,7 +18,7 @@
         <a href="javascript://" ng-click="browseFiles('<?php print $field_name; ?>')"> <?php print t('or browse'); ?> </a>
       </div>
       <a href="<?php print url('overlay/documents', array('absolute' => TRUE, 'purl' => array('disabled' => FALSE))); ?>" ng-click="setFieldName('<?php print $field_name; ?>')" id="link-<?php print $field_name; ?>" ng-class="{'active-library-link':fieldName === '<?php print $field_name; ?>'}">
-        <?php print t('Or select a document from the library') ?>
+        <?php print t('or select a document from the library') ?>
       </a>
     </div>
   <related-documents related-documents="data.relatedDocuments['<?php print $field_name; ?>']" form-id="formId" field-name="'<?php print $field_name; ?>'"></related-documents>
