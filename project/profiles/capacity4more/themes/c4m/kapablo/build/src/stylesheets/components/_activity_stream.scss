@@ -25,6 +25,9 @@
     }
   }
 
+  .message-summary {
+    padding: 0;
+  }
 }
 
 .view-mode-activity_global,
@@ -99,8 +102,4 @@
 
   @include transform-origin(center center);
   @include rotate(45deg);
-}
-
-.message-summary {
-  padding: 0;
 }
