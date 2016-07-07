@@ -79,9 +79,9 @@ function theme_c4m_ds_creation_date(array $field) {
     return;
   }
 
-  $tag['element'] = array(    
+  $tag['element'] = array(
     '#tag' => 'span',
-    '#attributes' => array(      
+    '#attributes' => array(
       'class' => array('creation-date'),
       'data-toggle' => 'tooltip',
       'data-placement' => 'bottom',
@@ -127,19 +127,29 @@ function theme_c4m_ds_content_type_icon(array $field) {
   return theme_html_tag($tag);
 }
 
+/**
+ * Returns HTML for content type label DS field.
+ *
+ * @param array $field
+ *   Field array.
+ *
+ * @return string
+ *   HTML output.
+ */
 function theme_c4m_ds_content_type_label(array $field) {
   if (empty($field['entity'])) {
-    return;
+    return '';
   }
 
   $icons = array(
+    'document' => 'fa-file-o',
     'photoalbum' => 'fa-picture-o',
     'photo' => 'fa-file-picture-o',
   );
 
   $entity = $field['entity'];
 
-  $type = $entity->type;
+  $type = ucwords($entity->type);
   $icon_html = '';
 
   if (!empty($icons[$entity->type])) {
@@ -165,7 +175,7 @@ function theme_c4m_ds_content_type_label(array $field) {
 /**
  * DS function field.
  *
- * Render <content type> posted by
+ * Render <content type> posted by.
  *
  * @param array $field
  *   The field that needs to be rendered.
@@ -356,7 +366,7 @@ function theme_c4m_ds_content_status(array $field) {
 /**
  * DS function field.
  *
- * Render group type info
+ * Render group type info.
  *
  * @param array $field
  *   The field that needs to be rendered.
@@ -382,7 +392,7 @@ function theme_c4m_ds_group_access_info(array $field) {
 /**
  * DS function field.
  *
- * Render group members count
+ * Render group members count.
  *
  * @param array $field
  *   The field that needs to be rendered.
@@ -603,9 +613,7 @@ function theme_c4m_ds_event_start_icon(array $field) {
   $tag['element'] = array(
     '#tag' => 'div',
     '#value' => '<i class="fa fa-calendar-o fa-stack-2x"></i>
-  <span class="fa-stack-1x calendar-text">' . $start_date->format(
-        'd'
-      ) . '</span>',
+  <span class="fa-stack-1x calendar-text">' . $start_date->format('d') . '</span>',
     '#attributes' => array(
       'class' => array(
         'fa-stack',
@@ -719,9 +727,6 @@ function theme_c4m_ds_group_administer_link(array $field) {
  *
  * @param array $field
  *   The field definition.
- *
- * @return string
- *   The rendered version.
  */
 function theme_c4m_ds_photo_download(array $field) {
   if (isset($field['entity'])) {
@@ -750,7 +755,7 @@ function theme_c4m_ds_photo_download(array $field) {
  */
 function theme_c4m_ds_content_shared_to(array $field) {
   if (empty($field['entity'])) {
-    return;
+    return '';
   }
 
   $entity = $field['entity'];

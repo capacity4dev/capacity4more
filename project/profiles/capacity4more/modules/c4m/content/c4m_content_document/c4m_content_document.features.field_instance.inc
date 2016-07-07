@@ -190,7 +190,7 @@ function c4m_content_document_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 5,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -366,7 +366,7 @@ function c4m_content_document_field_default_field_instances() {
           'text' => 'Download [file:name]',
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
-        'weight' => 5,
+        'weight' => 7,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
