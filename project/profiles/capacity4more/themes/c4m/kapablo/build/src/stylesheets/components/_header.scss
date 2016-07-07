@@ -7,6 +7,16 @@
       margin-left: 3rem;
     }
   }
+
+  #block-c4m-features-header-c4m-header-menu {
+    display: none;
+  }
+
+  @media (min-width: $screen-tablet) {
+    #block-c4m-features-header-c4m-header-menu {
+      display: block;
+    }
+  }
 }
 
 #block-c4m-user-bar-user-signup-login {
@@ -61,7 +71,7 @@
   width: 100%;
 }
 
-#c4m-search-form, #c4m-search-redirect-form {
+#c4m-search-form, #c4m-search-redirect-form, #c4m-search-redirect-form--2 {
   .form-group {
     margin: 0;
     position: relative;
@@ -266,7 +276,7 @@
 .header-actions--navigation {
   display: inline-block;
   width: 18px;
-  height: 15px;
+  height: 20px;
 
   background: none;
   border: transparent;
@@ -279,7 +289,7 @@
 
   width: 20px;
   height: 3px;
-  border-radius: 1px;
+  border-radius: 0;
 
   background-color: $color-white;
 }

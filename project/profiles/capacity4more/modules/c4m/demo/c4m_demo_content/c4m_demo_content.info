@@ -40,3 +40,4 @@ files[] = includes/CreateTopicTerms.inc
 files[] = includes/CreateUsers.inc
 files[] = includes/CreateVocabularyTerms.inc
 files[] = includes/CreateFeeds.inc
+files[] = includes/CreateShares.inc

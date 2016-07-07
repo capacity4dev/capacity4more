@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Article content type feature.
@@ -55,4 +56,93 @@ function c4m_content_article_c4m_content_statistics_info() {
       ),
     ),
   );
+}
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Subscribe notable contributors when updating nodes.
+ */
+function c4m_content_article_node_insert($node) {
+  c4m_content_article_subscribe_contributors($node);
+}
+
+/**
+ * Implements hook_node_update().
+ *
+ * Subscribe notable contributors when updating nodes.
+ */
+function c4m_content_article_node_update($node) {
+  c4m_content_article_subscribe_contributors($node);
+}
+
+/**
+ * Helper function to subscribe contributors to a given node.
+ *
+ * @param object $node
+ *   The node object to act upon.
+ */
+function c4m_content_article_subscribe_contributors($node) {
+  // Only for articles.
+  if ($node->type != 'article') {
+    return;
+  }
+
+  // Get the correct flag object.
+  $subscribe_c4m_follow_node_flag = flag_get_flag('subscribe_c4m_follow_node');
+
+  // Get all contributors of the current article.
+  $contributors_current = is_array(field_get_items('node', $node, 'c4m_related_user'))
+    ? field_get_items('node', $node, 'c4m_related_user') : array();
+
+  // Get all subscribed users in the database.
+  $flagged_users = flag_get_entity_flags('node', $node->nid, 'subscribe_c4m_follow_node');
+
+  foreach ($flagged_users as $flagged_user) {
+    if ($user = user_load($flagged_user->uid)) {
+      // If user is subscribed, but not present in contributors.
+      if (!array_search($flagged_user->uid, array_column($contributors_current, 'target_id'))) {
+        // Unsubscribe.
+        $subscribe_c4m_follow_node_flag->flag('unflag', $node->nid, $user);
+      }
+    }
+  }
+
+  foreach ($contributors_current as $contributor) {
+    if ($user = user_load($contributor['target_id'])) {
+      // If user is contributor, but not subscribed.
+      if (!$subscribe_c4m_follow_node_flag->is_flagged($node->nid, $user->uid)) {
+        // Subscribe.
+        $subscribe_c4m_follow_node_flag->flag('flag', $node->nid, $user);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_article_c4m_helper_entity_label_info() {
+  return array(
+    'article' => array(
+      'article' => t('an'),
+      'singular' => t('article'),
+      'plural' => t('articles'),
+      'insert action' => t('posted a new article'),
+      'update action' => t('updated the article'),
+      'icon' => 'fa-bullhorn',
+    ),
+  );
+}
+
+/**
+ * Implements hook_TYPE_alter().
+ *
+ * Using hook_c4m_offcanvas_trigger_label_left_alter().
+ */
+function c4m_content_article_c4m_offcanvas_trigger_label_left_alter(&$trigger_label) {
+  if (arg(0) == 'articles' && empty(arg(1))) {
+    $trigger_label['label'] = t('Filter results');
+    $trigger_label['icon'] = 'filter';
+  }
 }

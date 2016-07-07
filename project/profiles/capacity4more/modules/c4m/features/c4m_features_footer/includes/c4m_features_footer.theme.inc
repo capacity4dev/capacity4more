@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Theme functions for the c4m_features_footer module.
@@ -40,7 +41,7 @@ function theme_c4m_footer_bar(array $variables) {
     $navigation_html_2 .= '<div class="c4m-footer-nav-link">';
     $navigation_html_2 .= l(t('@title', array('@title' => $link['title'])),
       $link['url'],
-      array('attributes' => $link['attributes'], 'html' => true)
+      array('attributes' => $link['attributes'], 'html' => TRUE)
     );
     $navigation_html_2 .= '</div>';
   }

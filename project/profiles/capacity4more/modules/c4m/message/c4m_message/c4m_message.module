@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Message feature.
@@ -54,7 +55,10 @@ function c4m_message_mail_alter(&$message) {
 /**
  * Formats 'c4m_welcome_to_group' message From field, per template requirement.
  */
-function _c4m_message_format_welcome_to_group_from_field(&$message, $message_entity) {
+function _c4m_message_format_welcome_to_group_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_welcome_to_group') {
     // For message type other than c4m_welcome_to_group - return early.
     return;
@@ -64,11 +68,14 @@ function _c4m_message_format_welcome_to_group_from_field(&$message, $message_ent
   $wrapper = entity_metadata_wrapper('message', $message_entity);
   $author = $wrapper->field_group_node->author->value();
 
-  $message['from'] = format_string('"@name at @site"<@mail>', array(
-    '@name' => c4m_user_name($author),
-    '@site' => variable_get('site_name'),
-    '@mail' => $author->mail,
-  ));
+  $message['from'] = format_string(
+    '"@name at @site"<@mail>',
+    array(
+      '@name' => c4m_user_name($author),
+      '@site' => variable_get('site_name'),
+      '@mail' => $author->mail,
+    )
+  );
 }
 
 /**
@@ -235,7 +242,8 @@ function c4m_message_format_group_node_title(Message $message) {
  */
 function c4m_message_format_group_welcome_message(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $group_message = $wrapper->field_group_node->c4m_group_welcome_message->value();
+  $group_message = $wrapper->field_group_node->c4m_group_welcome_message->value(
+  );
 
   return $group_message ? $group_message : '';
 }
@@ -306,7 +314,9 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
   $valid_node_types = array(
     'discussion',
     'event',
+    'photo',
     'photoalbum',
+    'share',
     'document',
     'wiki_page',
   );
@@ -318,11 +328,11 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
 
   if (!in_array($entity_type, $valid_entity_types)) {
     // Not an entity related to message.
-    return;
+    return NULL;
   }
   if ($entity_type == 'node' && !in_array($entity->type, $valid_node_types)) {
     // Don't have to create message for this node type.
-    return;
+    return NULL;
   }
 
   $message = NULL;
@@ -434,13 +444,14 @@ function c4m_messages_group_info(Message $message) {
  */
 function c4m_message_load__c4m_insert__node__discussion(Message $message) {
   c4m_message_load_general_arguments($message);
-  $message->arguments['@type'] = array(
-    'callback' => 'c4m_message_format_node_discussion_type',
-    'pass message' => TRUE,
-  );
 
   $message->arguments['!content'] = array(
     'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@operation'] = array(
+    'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
   );
 
@@ -559,6 +570,42 @@ function c4m_message_load__c4m_insert__node__photo(Message $message) {
 }
 
 /**
+ * Delegated hook_entity_load() for node of "share" bundle.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__node__share(Message $message) {
+  c4m_message_load_general_arguments($message);
+
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+  $message->arguments['!icon'] = array(
+    'callback' => 'c4m_message_format_node_icon',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@operation'] = array(
+    'callback' => 'c4m_message_format_node_share',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group'] = array(
+    'callback' => 'c4m_message_format_group_share',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_original'] = array(
+    'callback' => 'c4m_message_format_original_group_share',
+    'pass message' => TRUE,
+  );
+}
+
+/**
  * Delegated hook_entity_load() for node of "photoalbum" bundle.
  *
  * Add Message arguments callbacks.
@@ -596,13 +643,13 @@ function c4m_message_load__c4m_insert__node__photoalbum(Message $message) {
 function c4m_message_load__c4m_insert__node__event(Message $message) {
   c4m_message_load_general_arguments($message);
 
-  $message->arguments['@type'] = array(
-    'callback' => 'c4m_message_format_node_event_type',
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
     'pass message' => TRUE,
   );
 
-  $message->arguments['!content'] = array(
-    'callback' => 'c4m_message_format_rendered_node',
+  $message->arguments['@operation'] = array(
+    'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
   );
 
@@ -640,77 +687,6 @@ function c4m_message_load__c4m_insert__comment(Message $message) {
 }
 
 /**
- * Return the formatted discussion type.
- *
- * @param Message $message
- *   The Message entity.
- *
- * @return string
- *   The discussion type.
- */
-function c4m_message_format_node_discussion_type(Message $message) {
-  $wrapper = entity_metadata_wrapper('message', $message);
-  $discussion_type = $wrapper->field_node->c4m_discussion_type->value();
-  $operation = $wrapper->field_operation->value();
-
-  switch ($discussion_type) {
-    case 'info':
-      return $operation == 'insert'
-        ? t('posted Information')
-        : t('updated the Information');
-
-    case 'idea':
-      return $operation == 'insert'
-        ? t('posted an Idea')
-        : t('updated the Idea');
-
-    case 'question':
-      return $operation == 'insert'
-        ? t('asked a Question') :
-        t('updated the Question');
-
-    case 'debate':
-      return $operation == 'insert'
-        ? t('started a Debate')
-        : t('updated the Debate');
-  }
-}
-
-/**
- * Return the formatted event type.
- *
- * @param Message $message
- *   The Message entity.
- *
- * @return string
- *   The event type.
- */
-function c4m_message_format_node_event_type(Message $message) {
-  $wrapper = entity_metadata_wrapper('message', $message);
-  $event_type = $wrapper->field_node->c4m_event_type->value();
-  $operation = $wrapper->field_operation->value();
-
-  switch ($event_type) {
-    case 'learning':
-      return $operation == 'insert'
-        ? t('created a Learning Event')
-        : t('updated the Learning Event');
-
-    case 'meeting':
-      return $operation == 'insert'
-        ? t('posted a Meeting') :
-        t('updated the Meeting');
-
-    case 'event':
-    default:
-      return $operation == 'insert'
-        ? t('created an Event')
-        : t('updated the Event');
-
-  }
-}
-
-/**
  * Return the formatted operation name (added or updated).
  *
  * @param Message $message
@@ -722,37 +698,22 @@ function c4m_message_format_node_event_type(Message $message) {
 function c4m_message_format_operation(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $operation = $wrapper->field_operation->value();
-  switch ($message->type) {
-    case 'c4m_insert__node__event':
-      return $operation == 'insert'
-        ? t('added a new')
-        : t('updated the');
+  $node = $wrapper->field_node->value();
 
-    case 'c4m_insert__node__document':
-      return $operation == 'insert'
-        ? t('uploaded a new')
-        : t('updated the');
+  $info = c4m_helper_entity_label_info($node);
 
-    case 'c4m_insert__node__photo':
-      return $operation == 'insert'
-        ? t('added a new')
-        : t('updated the');
+  switch ($operation) {
+    case 'insert':
+      $op = $info['insert action'];
+      break;
 
-    case 'c4m_insert__node__photoalbum':
-      return $operation == 'insert'
-        ? t('created a new')
-        : t('updated the');
-
-    case 'c4m_insert__node__wiki_page':
-      return $operation == 'insert'
-        ? t('created a new')
-        : t('updated the');
-
-    case 'c4m_insert__node__article':
-      return $operation == 'insert'
-        ? t('posted an')
-        : t('updated the');
+    case 'update':
+    default:
+      $op = $info['update action'];
+      break;
   }
+
+  return $op;
 }
 
 /**
@@ -766,45 +727,14 @@ function c4m_message_format_operation(Message $message) {
  */
 function c4m_message_format_comment(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $node_type = $wrapper->field_node->type->value();
+  $node = $wrapper->field_node->value();
 
-  if ($node_type == 'discussion') {
-    $discussion_type = $wrapper->field_node->c4m_discussion_type->value();
-    switch ($discussion_type) {
-      case 'info':
-        return t('Information');
+  $info = c4m_helper_entity_label_info($node);
 
-      case 'idea':
-        return t('Idea');
-
-      case 'question':
-        return t('Question');
-
-      case 'debate':
-        return t('Debate');
-    }
-  }
-  else {
-    switch ($node_type) {
-      case 'document':
-        return t('Document');
-
-      case 'event':
-        return t('Event');
-
-      case 'wiki_page':
-        return t('Wiki page');
-
-      case 'photoalbum':
-        return t('Photo album');
-
-      case 'photo':
-        return t('Photo');
-
-      case 'article':
-        return t('Article');
-    }
-  }
+  return format_string(
+    '@article @node_type',
+    array('@article' => $info['article'], '@node_type' => $info['singular'])
+  );
 }
 
 /**
@@ -848,93 +778,110 @@ function c4m_message_format_rendered_node(Message $message) {
  */
 function c4m_message_format_node_icon(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
+  $node = $wrapper->field_node->value();
 
-  $node_type = $wrapper->field_node->type->value();
-  $icon_class = '';
-
-  switch ($node_type) {
-    case 'article':
-      $icon_class = 'fa-bullhorn';
-      break;
-
-    case 'event':
-      $event_type = $wrapper->field_node->c4m_event_type->value();
-
-      switch ($event_type) {
-        case 'learning':
-          $icon_class = 'fa-university';
-          break;
-
-        case 'meeting':
-          $icon_class = 'fa-calendar-check-o';
-          break;
-
-        case 'event':
-        default:
-          $icon_class = 'fa-calendar';
-          break;
-      }
-      break;
-
-    case 'discussion':
-      $discussion_type = $wrapper->field_node->c4m_discussion_type->value();
-
-      switch ($discussion_type) {
-        case 'info':
-          $icon_class = 'fa-info-circle';
-          break;
-
-        case 'idea':
-          $icon_class = 'fa-lightbulb-o';
-          break;
-
-        case 'question':
-          $icon_class = 'fa-question-circle';
-          break;
-
-        case 'debate':
-        default:
-          $icon_class = 'fa-comments';
-          break;
-
-      }
-      break;
-
-    case 'document':
-      $icon_class = 'fa-file-o';
-      break;
-
-    case 'photoalbum':
-    case 'photo':
-      $icon_class = 'fa-file-picture-o';
-      break;
-
-    case 'wiki_page':
-      $icon_class = 'fa-wikipedia-w';
-      break;
-
-    default:
-      break;
-  }
-
-  try {
-    if ($wrapper->getPropertyInfo('field_comment')) {
-      // $icon_tag['#value_prefix'] = '<i class="fa fa-comments-o"></i>';.
-      $icon_class = "fa-comments-o";
-    }
-  }
-  catch (EntityMetadataWrapperException $e) {
-
-  }
+  $info = c4m_helper_entity_label_info($node);
 
   $icon_tag = array(
     '#type' => 'html_tag',
     '#tag' => 'i',
     '#value' => '',
-    '#attributes' => array('class' => array('fa', $icon_class)),
+    '#attributes' => array('class' => array('fa', $info['icon'])),
   );
 
   return drupal_render($icon_tag);
+}
+
+/**
+ * Return the formatted "shared to" group info.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The icon class.
+ */
+function c4m_message_format_group_share(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $group_wrapper = entity_metadata_wrapper(
+    'node',
+    $wrapper->field_node->og_group_ref->value()
+  );
+
+  $url_options = array(
+    'absolute' => TRUE,
+    'purl' => array(
+      'provider' => 'og_purl|node',
+      'id' => $group_wrapper->nid->value(),
+    ),
+  );
+
+  return t(
+    '@group_type !group_url',
+    array(
+      '@group_type' => $group_wrapper->getBundle(),
+      '!group_url' => l(
+        $group_wrapper->title->value(),
+        url('<front>', $url_options)
+      ),
+    )
+  );
+}
+
+/**
+ * Return the formatted "original group".
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The icon class.
+ */
+function c4m_message_format_original_group_share(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $original_entity = entity_metadata_wrapper(
+    'node',
+    $wrapper->field_node->c4m_source_entity->value()
+  );
+  $group_wrapper = entity_metadata_wrapper(
+    'node',
+    $original_entity->og_group_ref->value()
+  );
+
+  return l(
+    $group_wrapper->title->value(),
+    url(
+      'node/' . $group_wrapper->get('nid')->value(),
+      array('purl' => array('disabled' => FALSE))
+
+    )
+  );
+}
+
+/**
+ * Return the formatted share operation.
+ *
+ * Retrieve proper icon for a content type (and maybe subtype).
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The icon class.
+ */
+function c4m_message_format_node_share(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $original_node = $wrapper->field_node->c4m_source_entity->value();
+
+  $info = c4m_helper_entity_label_info($original_node);
+
+  return t(
+    'shared @article @node_type',
+    array('@article' => $info['article'], '@node_type' => $info['singular'])
+  );
 }
 
 /**
@@ -1437,6 +1384,49 @@ function c4m_message_query_activity_stream_entity_field_access_alter(
       // For an entity query, attach the subquery to entity conditions.
       $node_conditions->exists($subquery);
     }
+
+    // Needed for the sharing functionality,
+    // which adds node access on node level.
+    if (!($table instanceof SelectQueryInterface) && $table == 'node') {
+      if (!node_access_view_all_nodes()) {
+        // Prevent duplicates records.
+        $query->distinct();
+        // The recognized operations are 'view', 'update', 'delete'.
+        if (!$op = $query->getMetaData('op')) {
+          $op = 'view';
+        }
+        // Skip the extra joins and conditions for node admins.
+        if (!user_access('bypass node access')) {
+          // The node_access table has the access grants for any given node.
+          $access_alias = $query->join(
+            'node_access',
+            'na',
+            '%alias.nid = node.nid'
+          );
+          $or = db_or();
+          // If any grant exists for the specified user,
+          // then user has access to the node for the specified operation.
+          foreach (node_access_grants(
+                     $op,
+                     $query->getMetaData('account')
+                   ) as $realm => $gids) {
+            foreach ($gids as $gid) {
+              $or->condition(
+                db_and()
+                  ->condition($access_alias . '.gid', $gid)
+                  ->condition($access_alias . '.realm', $realm)
+              );
+            }
+          }
+
+          if (count($or->conditions())) {
+            $query->condition($or);
+          }
+
+          $query->condition($access_alias . '.grant_' . $op, 1, '>=');
+        }
+      }
+    }
   }
 
   if (count($subquery->conditions())) {
@@ -1451,5 +1441,45 @@ function c4m_message_query_activity_stream_entity_field_access_alter(
     $or->isNull('gn.field_group_node_target_id');
     // Add the compiled set of rules to the query.
     $query->condition($or);
+  }
+}
+
+/**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_message_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_user_last_activity' => array(
+      'type' => 'last_activity',
+      'context'  => 'user',
+      'callback' => 'c4m_message_get_user_last_activity',
+    ),
+  );
+}
+
+/**
+ * Returns the date & time of the last activity of an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return string
+ *   Date.
+ */
+function c4m_message_get_user_last_activity($uid) {
+  $query = db_select('message', 'm');
+  $query->fields('m', array('timestamp'));
+  $query->condition('uid', $uid);
+  $query->orderBy('timestamp', 'DESC');
+  $query->range(0, 1);
+
+  $query = $query->execute();
+  $amount = $query->fetchCol();
+
+  if ($amount) {
+    return date('d/m/Y H:i', $amount[0]);
+  }
+  else {
+    return '';
   }
 }

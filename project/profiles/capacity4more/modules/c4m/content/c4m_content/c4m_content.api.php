@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Hooks provided by the capacity4more Content module.
@@ -17,30 +18,19 @@
  *   The supported scopes are:
  *   - global : Overall statistics.
  *   - group : Statistics for a specific group.
+ *   - topic : Statistics for a specific topic.
  *
  *   Each list has the following data:
  *   - type:
  *       The identifier of the statistics list.
- *   - entity_type:
- *       The entity type of the statistics.
- *   - bundles:
- *       The bundles to use in the statistics when it's a node as entity type.
+ *   - callback:
+ *       The callback to retrieve the statistics.
+ *   - weight:
+ *       The weight used to sort the lists.
  *   - singular:
  *       The singular name of the statistic type.
  *   - plural:
  *       The plural name of the statistic type.
- *   - state:
- *       The status of the entity as integer (published, unpublished).
- *   - c4m_status:
- *       The C4M status of the entity (published, requested, ...).
- *   - aggregate:
- *       Array containing type.
- *   - aggregate type:
- *       The identifier to group lists, belonging to this type, together.
- *   - weight:
- *       The weight used to sort the lists.
- *   - feature_name:
- *       The name of the group feature.
  *   - attributes:
  *       Standard attributes array to use in theme function (class, id, ...).
  *   - link:
@@ -49,6 +39,31 @@
  *       link label.
  *       - path : path to use in the link.
  *       - options : array of supported link options. See l().
+ *   - og_id:
+ *       The Organic Group ID of the statistics.
+ *   - topic:
+ *       The topic of the statistics.
+ *   - entity_type:
+ *       The entity type of the statistics.
+ *       Required if no callback is defined.
+ *   - bundles:
+ *       The bundles to use in the statistics when it's a node as entity type.
+ *       Required if no callback is defined.
+ *   - state:
+ *       The status of the entity as integer (published, unpublished).
+ *       Required if no callback is defined.
+ *   - c4m_status:
+ *       The C4M status of the entity (published, requested, ...).
+ *       Required if no callback is defined.
+ *   - aggregate:
+ *       Array containing type.
+ *       Required if no callback is defined.
+ *   - aggregate type:
+ *       The identifier to group lists, belonging to this type, together.
+ *       Required if no callback is defined.
+ *   - feature_name:
+ *       The name of the group feature.
+ *       Required if no callback is defined.
  */
 function hook_c4m_content_statistics_info() {
   return array(

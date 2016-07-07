@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Default theme implementation to display a single Drupal page.
@@ -144,7 +145,8 @@
 
       <div class="row">
         <div class="col-sm-12 col-md-12 header-breadcrumb">
-          <?php if (!empty($breadcrumb)): print $breadcrumb; endif; ?>
+          <?php if (!empty($breadcrumb)): print $breadcrumb;
+          endif; ?>
         </div>
       </div>
     </div>
@@ -223,7 +225,10 @@
             <span class="fa fa-info" ></span>
           </span>
           <span class="trigger-text">Group info</span>
+          <i class="pull-right fa fa-chevron-right"></i>
         </div>
+
+        <!-- TODO: DYNAMICALLY -->
         <div class="trigger trigger--membership">
           <span class="fa fa-unlock-alt trigger-label"></span>
           <span class="trigger-text">Request membership</span>
@@ -238,7 +243,7 @@
       <!-- /#page-header -->
 
       <?php if (!empty($page['sidebar_first']) || !empty($page['sidebar_first_top'])): ?>
-        <aside class="col-sm-4 off offCanvasNavigation--left" role="complementary">
+        <aside class="col-sm-4 offCanvasNavigation--left" role="complementary">
           <?php print render($page['sidebar_first_top']); ?>
           <?php print render($page['sidebar_first']); ?>
         </aside>  <!-- /#sidebar-first -->
@@ -267,18 +272,29 @@
           <ul class="action-links"><?php print render($action_links); ?></ul>
         <?php endif; ?>
 
-        <?php if (!empty($page['sidebar_first'])): ?>
-          <div class="trigger js-navigationButton" data-effect="animation--slideOn">
-            <span class="trigger-text">Trigger off-canvas left</span>
+        <?php if (!empty($page['sidebar_first']) && !empty($offcanvas_trigger_label_left)): ?>
+          <div class="trigger js-navigationButton clearfix" data-effect="animation--slideOn">
+            <i class="pull-left fa fa-chevron-left"></i>
+            <span class="trigger-text pull-right"><?php print $offcanvas_trigger_label_left['label']; ?></span>
+            <?php if ($offcanvas_trigger_label_left['icon']): ?>
+              <span class="trigger-label circle circle--white pull-right">
+                <span class="fa fa-<?php print $offcanvas_trigger_label_left['icon']; ?>" ></span>
+              </span>
+            <?php endif; ?>
           </div>
         <?php endif; ?>
 
-        <?php if (!empty($page['sidebar_second'])): ?>
-          <div class="trigger js-navigationButton" data-effect="animation--slideOn">
-            <span class="trigger-text">Trigger off-canvas right</span>
+        <?php if (!empty($page['sidebar_second']) && !empty($offcanvas_trigger_label_right)): ?>
+          <div class="trigger js-navigationButton clearfix" data-effect="animation--slideOn">
+            <?php if ($offcanvas_trigger_label_left['icon']): ?>
+              <span class="trigger-label pull-left circle circle--white">
+                <span class="fa fa-<?php print $offcanvas_trigger_label_right['icon']; ?>" ></span>
+              </span>
+            <?php endif; ?>
+            <span class="trigger-text pull-left"><?php print $offcanvas_trigger_label_right['label']; ?></span>
+            <i class="pull-right fa fa-chevron-right"></i>
           </div>
         <?php endif; ?>
-
 
         <?php print render($page['content']); ?>
       </section>

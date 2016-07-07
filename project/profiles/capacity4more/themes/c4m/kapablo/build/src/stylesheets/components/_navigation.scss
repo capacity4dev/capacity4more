@@ -120,7 +120,6 @@
   margin-top: 45px;
 
   a {
-    color: $color-gray-darkTwo;
     font-size: 1rem;
     text-transform: capitalize;
 
@@ -128,6 +127,10 @@
       text-decoration: none;
     }
   }
+}
+
+.offCanvasNavigation .block-c4m-features-header a {
+  color: $color-gray-darkTwo;
 }
 
 // gray overlay on content when offCanvas is visible
@@ -179,11 +182,14 @@
     visibility: hidden;
     width: 300px;
     height: 100%;
+    padding: 25px 18px;
     overflow-y: auto;
     background: $color-white;
 
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
+    box-shadow: -8px 0 8px -8px #696868;
+
+    transition: transform 0.5s;
+    -webkit-transition: transform 0.5s;
     transform: translate3d(100%, 0, 0);
     -webkit-transform: translate3d(100%, 0, 0);
   }
@@ -191,6 +197,8 @@
 
 .offCanvasNavigation--left {
   @media (max-width: $screen-tablet) {
+    @include grain;
+
     position: fixed;
     top: 0;
     left: 0;
@@ -200,13 +208,18 @@
     width: 300px;
     height: 100%;
     overflow-y: auto;
-    background: $color-white;
 
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
+    box-shadow: 8px 0 8px -8px #696868;
+
+    transition: transform 0.5s;
+    -webkit-transition: transform 0.5s;
 
     transform: translate3d(-100%, 0, 0);
     -webkit-transform: translate3d(-100%, 0, 0);
+
+    .well {
+      background: transparent;
+    }
   }
 }
 

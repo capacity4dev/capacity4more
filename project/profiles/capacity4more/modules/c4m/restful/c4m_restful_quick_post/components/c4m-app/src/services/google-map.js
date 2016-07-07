@@ -15,7 +15,7 @@
  * @description Sends request for address to google maps API.
  */
 angular.module('c4mApp')
-  .service('GoogleMap', function($http) {
+  .service('GoogleMap', function ($http) {
 
     this.getAddress = function (data, resource) {
       var url = 'http://maps.google.com/maps/api/geocode/json?address=';

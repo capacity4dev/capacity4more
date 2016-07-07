@@ -40,6 +40,10 @@
   }
 }
 
+.form-item-subscribe-to-mailinglist {
+  margin-bottom: 2em;
+}
+
 #user-bar {
   background-color: $color-text-alternative;
   padding: 0.4rem 0;
@@ -115,21 +119,3 @@
 .field-name-c4m-job-title {
   margin-bottom: 0.5rem;
 }
-
-.userBar-login,
-.userBar-register {
-  font-weight: bold;
-}
-
-
-.userBar-login {
-  padding-left: .7rem;
-  line-height: 1rem;
-}
-
-.userBar-register {
-  border-right: 1px solid $color-gray-light;
-  padding-right: .7rem;
-  line-height: 1rem;
-}
-

@@ -55,17 +55,23 @@ function c4m_features_overview_articles_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'c4m_views-views_page_title' => array(
+          'module' => 'c4m_views',
+          'delta' => 'views_page_title',
+          'region' => 'content_above',
+          'weight' => '-10',
+        ),
         'views-2c363d334c50dc9097114985e613ef22' => array(
           'module' => 'views',
           'delta' => '2c363d334c50dc9097114985e613ef22',
           'region' => 'content_above',
-          'weight' => '-57',
+          'weight' => '-9',
         ),
         'c4m_search_filter-search_filter_interests' => array(
           'module' => 'c4m_search_filter',
           'delta' => 'search_filter_interests',
           'region' => 'content_above',
-          'weight' => '-56',
+          'weight' => '-8',
         ),
         'views--exp-c4m_overview_articles-page' => array(
           'module' => 'views',

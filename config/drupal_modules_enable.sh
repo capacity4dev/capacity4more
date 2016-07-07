@@ -18,6 +18,7 @@ MODULES_ENABLE=(
   "jquery_update"
   "libraries"
   "message_notify"
+  "message_subscribe"
   "pathauto"
   "redirect"
   "token"

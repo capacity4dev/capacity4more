@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Functionality to provide missing info about a user.
@@ -266,6 +267,101 @@ function c4m_user_og_get_groups($account = NULL, $bundle = 'group', $status = NO
 }
 
 /**
+ * Returns the amount of (group) contributors.
+ *
+ * @param int $og_id
+ *   The Organic Group ID to eventually limit the query for.
+ *
+ * @return int
+ *   The amount of contributors.
+ */
+function c4m_user_og_get_number_of_contributors($og_id = NULL) {
+  $query = db_select('users', 'u');
+  $query->join('node', 'n', 'n.uid = u.uid');
+  $query->fields('u', array('uid'));
+  $query->groupBy('u.uid');
+  $query->condition('u.status', 1);
+  $query->condition('n.status', 1);
+
+  if (is_numeric($og_id)) {
+    $query->join('og_membership', 'ogm', 'ogm.etid = n.nid');
+    $query->condition('ogm.gid', (int) $og_id);
+    $query->condition('ogm.entity_type', 'node');
+  }
+
+  return (int) $query->countQuery()->execute()->fetchField();
+}
+
+/**
+ * Returns the amount of pending members in a group.
+ *
+ * @param int $og_id
+ *   The Organic Group ID to limit the query for.
+ *
+ * @return int
+ *   The amount of pending members of a group.
+ */
+function c4m_user_og_get_number_of_pending_members($og_id = NULL) {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'og_membership');
+  $query->propertyCondition('type', 'og_membership_type_default');
+  $query->propertyCondition('entity_type', 'user');
+  $query->propertyCondition('group_type', 'node');
+  $query->propertyCondition('state', OG_STATE_PENDING);
+
+  if (is_numeric($og_id)) {
+    $query->propertyCondition('gid', $og_id);
+  }
+
+  return (int) $query->count()->execute();
+}
+
+/**
+ * Returns the amount of active members in a group.
+ *
+ * @param int $og_id
+ *   The Organic Group ID to limit the query for.
+ *
+ * @return int
+ *   The amount of active members of a group.
+ */
+function c4m_user_og_get_number_of_active_members($og_id = NULL) {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'og_membership');
+  $query->propertyCondition('type', 'og_membership_type_default');
+  $query->propertyCondition('entity_type', 'user');
+  $query->propertyCondition('group_type', 'node');
+  $query->propertyCondition('state', OG_STATE_ACTIVE);
+
+  if (is_numeric($og_id)) {
+    $query->propertyCondition('gid', $og_id);
+  }
+
+  return (int) $query->count()->execute();
+}
+
+/**
+ * Returns the amount of contributors vs active members in a group.
+ *
+ * @param int $og_id
+ *   The Organic Group ID to limit the query for.
+ *
+ * @return int
+ *   The amount of contributors vs active members of a group.
+ */
+function c4m_user_og_get_number_of_contributors_vs_members($og_id) {
+  $contributors = c4m_user_og_get_number_of_contributors($og_id);
+  $active_members = c4m_user_og_get_number_of_active_members($og_id);
+
+  if (is_numeric($contributors) && (is_numeric($active_members) && $active_members > 0)) {
+    $calculation = $contributors / $active_members;
+    return empty($calculation) ? 0 : $calculation;
+  }
+
+  return 0;
+}
+
+/**
  * Implements hook_c4m_content_statistics_info().
  */
 function c4m_user_og_c4m_content_statistics_info() {
@@ -290,6 +386,38 @@ function c4m_user_og_c4m_content_statistics_info() {
           'path' => 'members',
         ),
       ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_user_og_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_og_contributors' => array(
+      'type'     => 'contributors',
+      'context'  => 'group',
+      'callback' => 'c4m_user_og_get_number_of_contributors',
+      'weight'   => 9,
+    ),
+    'c4m_og_contributors_vs_pending_members' => array(
+      'type'     => 'contributors_vs_pending_members',
+      'context'  => 'group',
+      'callback' => 'c4m_user_og_get_number_of_contributors_vs_pending_members',
+      'weight'   => 13,
+    ),
+    'c4m_og_pending_members' => array(
+      'type'     => 'pending_members',
+      'context'  => 'group',
+      'callback' => 'c4m_user_og_get_number_of_pending_members',
+      'weight'   => 11,
+    ),
+    'c4m_og_users' => array(
+      'type'     => 'users',
+      'context'  => 'group',
+      'callback' => 'c4m_og_group_user_metric',
+      'weight'   => 7,
     ),
   );
 }

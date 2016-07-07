@@ -18,7 +18,7 @@
   }
 }
 
-.og-context #main-wrapper {
+.og-context.front #main-wrapper {
   padding-top: 0;
 }
 
@@ -26,7 +26,7 @@
   margin: 0 -18px;
 
   @media (min-width: $screen-tablet) {
-    margin: 0;
+    margin: 0 0 2.5em 0;
   }
 
   @include clearfix();
@@ -42,8 +42,17 @@
 }
 
 .group-navigation {
-
   padding: 0;
+
+  .search-form {
+    margin: 20px 0;
+  }
+
+  @media (min-width: $screen-tablet) {
+    .search-form {
+      display: none;
+    }
+  }
 
   nav {
     .og-menu-link.calendar {
@@ -52,16 +61,12 @@
 
     background: $color-text-alternative;
     margin: 20px -18px 20px;
-    padding: 30px 18px;
+    padding: 0 18px;
 
     @include box-shadow(inset 0 8px 8px -8px #696868, inset 0 -8px 8px -8px #696868);
 
     ul {
-      margin: 0;
-
-      @media (min-width: $screen-tablet) {
-        display: flex;
-      }
+      margin: 0 0 20px 0;
     }
 
     li {
@@ -115,7 +120,7 @@
         display: inline-block;
         color: $color-white;
 
-        &:hover {
+        &:hover, &:focus {
           background: $color-text-alternative;
         }
 
@@ -133,7 +138,14 @@
       border-top: 1px dotted $color-gray-light;
       border-bottom: 1px dotted $color-gray-light;
 
+      ul {
+        display: flex;
+        width: 100%;
+      }
+
+
       li {
+        flex: 1;
         width: auto;
         height: 50px;
         line-height: 50px;
@@ -162,7 +174,7 @@
 
         a {
           display: inline-block;
-          width: 85%;
+          width: 80%;
           padding: 0 30px 0 10px;
           border-right: 1px solid $color-gray-light;
 
@@ -170,9 +182,52 @@
 
           &:hover {
             background: none;
-
           }
         }
+      }
+    }
+  }
+
+  .nav .open > a {
+    background: none;
+  }
+
+  .dropdown-menu {
+
+    padding: 0;
+
+    ul {
+      padding-left: 40px;
+
+      li {
+        list-style: none;
+        padding: 10px 0;
+
+        &:first-of-type {
+          padding-top: 0;
+        }
+
+        @media (min-width: $screen-tablet) {
+          margin: 0;
+          padding: 10px;
+          line-height: 25px;
+
+          &:first-of-type {
+            padding-top: 10px;
+          }
+
+          a {
+            padding: 0;
+            width: auto;
+            border-right: none;
+          }
+
+        }
+      }
+
+      @media (min-width: $screen-tablet) {
+        display: inline-block;
+        padding-left: 0;
       }
     }
   }
@@ -191,20 +246,19 @@
   }
 }
 
-.og-context .header-actions--navigation {
+.og-context.front .header-actions--navigation {
   position: relative;
   top: initial;
   left: initial;
   float: right;
 
-  margin-top: 0;
+  margin: 0 18px 18px 0;
   padding: 0;
 
   transform: translate(0, 0);
   -webkit-transform: translate(0, 0);
 
   .icon-bar {
-    height: 4px;
     background-color: $color-link;
   }
 
@@ -217,13 +271,13 @@
   }
 }
 
-.og-context .trigger {
+.og-context.front .trigger {
   padding: 10px;
   margin-bottom: 20px;
 }
 
-.og-context .trigger.trigger--groupInfo,
-.og-context .trigger.trigger--membership {
+.og-context.front .trigger.trigger--groupInfo,
+.og-context.front .trigger.trigger--membership {
   display: block;
   cursor: pointer;
   background: $color-white;
@@ -233,11 +287,11 @@
   }
 }
 
-.og-context .trigger.trigger--groupInfo .trigger-text {
+.og-context.front .trigger.trigger--groupInfo .trigger-text {
   color: $color-text-alternative;
 }
 
-.og-context .trigger.trigger--membership {
+.og-context.front .trigger.trigger--membership {
   background: $color-text-alternative;
 }
 
@@ -389,10 +443,16 @@
           padding: 0;
 
           text-align: left;
-          font-size: 1rem;
 
           a {
             margin-top: 0;
+            padding: 0;
+          }
+
+          i {
+            clear: none;
+            display: inline-block;
+            width: 12px;
           }
 
           &::before {
@@ -508,7 +568,7 @@
     width: 25px;
     margin: 0;
     padding: 5px;
-    border-radius: 6px;
+    border-radius: 4px;
   }
 
   .group-icon.as-group-public {
@@ -527,9 +587,9 @@
     margin-top: 0;
   }
 
-  span {
+  /*span {
     height: 25px;
-  }
+  }*/
 
   @media (min-width: $screen-tablet) {
     float: right;
@@ -540,20 +600,24 @@
 .group-indications--access {
   position: relative;
   float: left;
+  height: 25px;
 }
 
 .group-type,
 .group-status {
   display: inline-block;
   margin-left: 10px;
+  height: 25px;
 }
 
 .group-access {
   display: none;
-  margin-left: 5px;
 
   @media (min-width: $screen-tablet) {
     display: inline-block;
+    margin-left: 5px;
+    height: 25px;
+    border-radius: 4px;
   }
 }
 
@@ -563,9 +627,10 @@
 
     display: block;
     clear: left;
-    margin-top: 5px;
+    margin-top: 6px;
   }
 }
+
 
 .restricted-organisation-icons {
   display: none;
@@ -578,27 +643,22 @@
     display: table;
     width: 120px;
     margin-top: 6px;
-    border-radius: 3px;
+    border-radius: 4px;
     border: 1px solid $color-accent;
 
     img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-
+      display: inline-block;
       width: 20px;
       height: 20px;
-
-      transform: translate(-50%, -50%);
-      -webkit-transform: translate(-50%, -50%);
     }
 
     span {
       position: relative;
 
       display: table-cell;
-      height: 25px;
       width: 25%;
+      padding: 2px;
+      text-align: center;
 
       &:not(:first-of-type) {
         border-left: 1px solid $color-accent;
@@ -607,21 +667,177 @@
 
     .group-organisation--more {
       text-align: center;
+      cursor: pointer;
+      vertical-align: middle;
+      font-size: 0;
     }
 
     .group-organisation--more span {
       display: inline-block;
       width: 4px;
       height: 4px;
-      background: red;
+      background: $color-link;
 
       &:not(:first-of-type) {
-        margin-left: -3px;
+        margin-left: 2px;
       }
+    }
+
+    &::before,
+    &::after {
+      position: absolute;
+      top: -7px;
+
+      display: inline-block;
+      content: "";
+      width: 1px;
+      background: $color-accent;
+    }
+
+    &::before {
+      left: 15px;
+      height: 7px;
+    }
+
+    &::after {
+      right: 15px;
+      height: 7px;
     }
   }
 }
 
 .restricted-extra-wrapper {
   display: none;
+
+  @media (min-width: $screen-tablet) {
+    position: absolute;
+
+    width: 300px;
+    z-index: 1;
+    background: $color-text-alternative;
+    border: 1px solid $color-link;
+    padding: 15px;
+    border-radius: 3px;
+    margin-top: 0;
+
+    color: $color-white;
+
+    transform: translateX(-105%);
+    -webkit-transform: translateX(-105%);
+  }
+}
+
+.restricted-extra-wrapper.collapse.in {
+  @media (max-width: $screen-tablet) {
+    display: none;
+  }
+}
+
+.extra-wrapper-close {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+
+  width: 30px;
+  height: 15px;
+  border-radius: 3px;
+
+  line-height: 18px;
+  font-size: 0;
+  text-align: center;
+}
+
+.extra-wrapper-close-background {
+  position: absolute;
+  right: 0;
+  z-index: -1;
+
+  width: 100%;
+  height: 100%;
+  background: $color-white;
+  opacity: 0.5;
+  border-radius: 3px;
+}
+
+.extra-wrapper-close-bullet {
+  background: $color-white;
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+
+  &:nth-of-type(n+3) {
+    margin-left: 2px;
+  }
+}
+
+.restricted-organisations,
+.restricted-emails,
+.restricted-organisations ul,
+.restricted-emails ul {
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  @include clearfix;
+}
+
+.restricted-organisations ul li,
+.restricted-emails ul li {
+  float: left;
+  width: 50%;
+  list-style: none;
+
+  &:nth-of-type(-n+2) {
+    margin-top: 0;
+  }
+}
+
+.restricted-organisations {
+  padding-bottom: 15px;
+
+  ul li {
+  margin-top: 15px;
+
+    img{
+      width: 25px;
+      height: 25px;
+      margin-right: 10px;
+      border: 1px solid $color-white;
+      border-radius: 4px;
+
+    }
+  }
+}
+
+.restricted-emails {
+  border-top: 1px dashed $color-gray-light;
+  padding-top: 15px;
+
+  ul li{
+    margin-top: 10px;
+  }
+}
+
+.pane-c4m-overview-og-highlights .pane-title {
+  margin-bottom: 10px;
+}
+
+.pane-c4m-overview-og-highlights .views-row:first-of-type {
+  margin-top: 0;
+}
+
+.pane-c4m-overview-og-highlights .views-row,
+.pane-c4m-overview-og-highlights .views-row  + .views-row {
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.group-node-documents {
+  margin-top: 25px;
+}
+
+.group-node-organiser > div {
+  margin-top: 10px;
 }

@@ -13,4 +13,5 @@ CLEANUP_FILES=(
 # Directories to be deleted before the script is run.
 CLEANUP_DIRECTORIES=(
   "$DIR_WEB/sites/default/files"
+  "$DIR_WEB/sites/default/files/private"
 )

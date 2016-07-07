@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template to print the user table overview header.

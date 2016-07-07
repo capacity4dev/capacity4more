@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * All preprocess functionality.
@@ -59,6 +60,35 @@ function kapablo_preprocess_block(&$variables) {
     case 'c4m_user_profile-user_notifications':
       $classes[] = 'col-sm-12 col-md-6';
       break;
+
+    case 'menu-c4m-og-menu':
+      // Add search form.
+      // Find current group ID.
+      $gid = c4m_og_current_group_id();
+
+      // Assemble search URL using current group.
+      $redirect_url = url(
+        'searchgroup',
+        array(
+          'purl' => array(
+            'provider' => 'og_purl|node',
+            'id' => $gid,
+          ),
+        )
+      );
+
+      $form = drupal_get_form(
+        'c4m_search_redirect_form',
+        $redirect_url,
+        NULL,
+        t(
+          'Search in @group_type...',
+          array('@group_type' => c4m_og_get_group_type(array('gid' => $gid)))
+        )
+      );
+
+      $variables['search_form'] = $form;
+      break;
   }
 }
 
@@ -86,6 +116,16 @@ function kapablo_preprocess_page(&$variables) {
 
   // Take care of the breadcrumb for OG content.
   _set_og_breadcrumbs();
+
+  // Off-canvas trigger labels.
+  $offcanvas_trigger_label_left = array('icon' => 'fa fa-info', 'label' => t('More info'));
+  $offcanvas_trigger_label_right = array('icon' => 'fa fa-info', 'label' => t('More info'));
+
+  drupal_alter('c4m_offcanvas_trigger_label_left', $offcanvas_trigger_label_left);
+  drupal_alter('c4m_offcanvas_trigger_label_right', $offcanvas_trigger_label_right);
+
+  $variables['offcanvas_trigger_label_left'] = $offcanvas_trigger_label_left;
+  $variables['offcanvas_trigger_label_right'] = $offcanvas_trigger_label_right;
 }
 
 /**

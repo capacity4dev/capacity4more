@@ -50,35 +50,47 @@
 .block-facetapi {
   ul {
     list-style: none;
-    padding: 0;
+    padding: 0 0 0 1.2em;
 
+    &.facetapi-c4m-search-links-content-type {
+      padding-left: 0;
+
+      ul {
+        padding-left: 0;
+
+        li.expanded .item-list {
+          margin-left: 3em;
+        }
+      }
+    }
+  }
+
+  .facetapi-facet-c4m-vocab-geo, .facetapi-facet-c4m-vocab-topic {
     li {
-      padding: 0 0 0 1.5rem;
-      
+
+      &:before {
+        color: $color-link;
+        display: inline-block;
+        font-family: FontAwesome;
+        margin-left: -1.2em;
+        text-align: center;
+        width: 1.2em;
+      }
+
       &.collapsed {
         &:before {
-          content: '+';
-          display: inline-block;
-          margin-left: -1.5rem;
-          text-align: center;
-          width: 1.5rem;
+          content: "\f0da";
         }
       }
       &.expanded {
         &:before {
-          content: '-';
-          display: inline-block;
-          margin-left: -1.5rem;
-          text-align: center;
-          width: 1.5rem;
+          content: "\f0d7";
         }
       }
     }
-
   }
 
   .facetapi-deactivate {
-    color: red;
     float: right;
   }
 }
@@ -119,9 +131,298 @@
     }
 
     label, div {
-      display:  inline-block;
+      display: inline-block;
     }
   }
+}
+
+/*
+* Search result page
+*/
+.offCanvasNavigation--left {
+  padding: 0;
+}
+
+.region-sidebar-first-top {
+  margin-bottom: 0;
+  @include grain;
+
+  @media (min-width: $screen-tablet) {
+    margin-bottom: 20px;
+    border-radius: 0;
+    border: 1px solid $color-gray-light;
+  }
+}
+
+.region-sidebar-first {
+  margin-bottom: 0;
+  border-radius: 0;
+  border: none;
+
+  box-shadow: none;
+
+  @media (min-width: $screen-tablet) {
+    padding: 19px 10px;
+    border-radius: 0;
+    border: 1px solid $color-gray-light;
+  }
+}
+
+.views-widget-search label {
+  margin-bottom: 10px;
+
+  color: $color-gray-dark;
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.views-submit-button {
+  float: none;
+
+  width: 100%;
+  margin-top: 10px;
+  padding: 0;
+
+  button {
+    width: 100%;
+    background: $color-text-alternative;
+
+    &:hover,
+    &:focus,
+    &:active,
+    &:active:hover {
+      background: $color-text-alternative;
+      border-color: $color-text-alternative;
+    }
+  }
+}
+
+.block-facetapi {
+  margin-top: 15px;
+  border-top: 1px dashed $color-gray-light;
+}
+
+.facetapi-deactivate {
+  width: 20px;
+  height: 20px;
+  border: 2px solid $color-gray-dark;
+  border-radius: 50%;
+
+  font-size: .7rem;
+  font-weight: bold;
+  color: $color-gray-dark;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 16px;
+
+  &::before {
+    display: inline-block;
+    content: "\f00d";
+
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+  }
+}
+
+.block-facetapi ul li {
+  padding: 0;
+  margin-top: 10px;
+}
+
+.block-facetapi ul li.expanded .item-list {
+  margin-left: 1em;
+}
+
+.form-item-search-within-results {
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  input[type="checkbox"]:checked ~ span::before {
+    content: "\f00c";
+
+    color: $color-white;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: .8rem;
+    line-height: 15px;
+    text-align: center;
+  }
+
+  label span {
+    padding: 0 0 0 5px;
+
+    &::before {
+      position: absolute;
+      top: 2px;
+      left: 0;
+
+      display: inline-block;
+      content: "";
+      width: 15px;
+      height: 15px;
+      border-radius: 3px;
+
+      background: $color-text-alternative;
+    }
+  }
+}
+
+.facetapi-link {
+  color: $color-text-alternative;
+  display: inline-block;
+  margin-right: 10px;
+
+  font-family: FontAwesome;
+  width: 1em;
+  text-align: center;
+}
+
+.facetapi-link--article::before {
+  content: "\f1ea";
+
+  @extend .facetapi-link;
+}
+
+.facetapi-link--group::before {
+  content: "\f0c0";
+  @extend .facetapi-link;
+}
+
+.facetapi-link--project::before {
+  content: "\f11e";
+  @extend .facetapi-link;
+}
+
+.facetapi-link--discussion::before {
+  content: "\f040";
+  @extend .facetapi-link;
+}
+
+.facetapi-link--document::before {
+  content: "\f02d";
+  @extend .facetapi-link;
+}
+
+.facetapi-link--event::before {
+  content: "\f073";
+  @extend .facetapi-link;
+}
+
+.facetapi-link--wiki-page::before {
+  content: "\f266";
+  @extend .facetapi-link;
+}
+
+.facetapi-link--learning::before {
+  content: "\f19c";
+  @extend .facetapi-link;
+}
+
+.facetapi-link--meeting::before {
+  content: "\f0c0";
+  @extend .facetapi-link;
+}
+
+.block-c4m-search-nodes {
+  margin-bottom: 20px;
+
+  .search--refine {
+    display: none;
+  }
+
+  .well {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+    padding: 0;
+
+    div:first-of-type {
+      margin-bottom: 15px;
+    }
+  }
+
+  .item-list {
+    margin: 0;
+    width: 100%;
+    border: 1px solid $color-gray-light;
+  }
+
+  ul {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    height: 40px;
+    margin: 0;
+
+    line-height: 40px;
+    text-align: center;
+
+    li {
+      display: table-cell;
+
+      &:not(:first-of-type) {
+        border-left: 1px solid $color-gray-light;
+      }
+
+      .search--refine--item--article::before {
+        content: "\f1ea";
+        @extend .facetapi-link;
+      }
+
+      .search--refine--item--project::before {
+        content: "\f11e";
+        @extend .facetapi-link;
+      }
+
+      .search--refine--item--group::before {
+        content: "\f0c0";
+        @extend .facetapi-link;
+      }
+    }
+  }
+}
+
+.view-c4m-search-nodes {
+  .view-content {
+    margin: 25px 0;
+  }
+
+  .item-list {
+    margin-top: 0;
+  }
+}
+
+.group-header {
+  margin: 0 0 15px 0;
+}
+
+.view-c4m-search-nodes,
+.view-c4m-overview-groups,
+.view-c4m-overview-articles,
+.view-c4m-overview-projects,
+.view-c4m-overview-events-landing,
+.view-c4m-overview-events {
+  .view-header {
+    padding-bottom: 15px;
+    border-bottom: 1px dashed $color-gray-light;
+    min-height: 30px;
+  }
+}
+
+.node-teaser .field-name-c4m-field-og-group {
+  display: none;
+}
+
+.view-mode-teaser .user-name a,
+.view-mode-teaser .fa,
+.view-mode-teaser .posted-by,
+.view-mode-teaser .creation-date,
+.view-mode-teaser .row-entity-count,
+.view-mode-teaser .group-iconbar-comments-views {
+  color: $color-gray-dark !important;
 }
 
 #c4m-search-redirect-form {
