@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Discussions plugin for RestFul.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * All blocks for the intro_video module.

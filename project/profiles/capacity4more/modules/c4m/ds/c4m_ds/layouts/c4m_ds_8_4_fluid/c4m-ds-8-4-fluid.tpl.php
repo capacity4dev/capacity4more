@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Bootstrap 8-4 template for Display Suite.
@@ -17,7 +18,7 @@ print $layout_attributes; ?> class="<?php print $classes; ?>">
   col-sm-12 <?php print $header_classes; ?>" role="main">
   <?php print $header; ?>
 </<?php print $header_wrapper; ?>>
-<?php endif; ?>
+  <?php endif; ?>
 
 <<?php print $left_wrapper; ?> class="group-left col-sm-8 <?php print $left_classes; ?>">
 

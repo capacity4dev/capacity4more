@@ -6,8 +6,8 @@
 (function ($) {
 
   Drupal.behaviors.c4mOgFeatureFilter = {
-    attach: function(context) {
-      $('.form-type-checkbox').each(function(i) {
+    attach: function (context) {
+      $('.form-type-checkbox').each(function (i) {
         var $cell = $(this);
         var $checkbox = $(':checkbox', $cell);
         $checkbox.hide();
@@ -17,10 +17,10 @@
         }
         $cell.prepend('<div class="toggle-enable ' + $state + '"><div>&nbsp;</div></div>', $cell);
         var $switch = $('.toggle-enable', $cell);
-        $switch.click(function() {
+        $switch.click(function () {
           $checkbox.click();
         });
-        $checkbox.click(function() {
+        $checkbox.click(function () {
           $switch.toggleClass('off');
         });
       });

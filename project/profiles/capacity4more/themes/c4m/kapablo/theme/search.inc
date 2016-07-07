@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Theme functions related to the search functionality.

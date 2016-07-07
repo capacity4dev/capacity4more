@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Hooks provided by the C4M Email Domain module.
