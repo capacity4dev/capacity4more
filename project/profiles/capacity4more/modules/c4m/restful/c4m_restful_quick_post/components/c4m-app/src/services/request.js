@@ -16,7 +16,7 @@
  * # Cleans and prepares the RESTful request object.
  */
 angular.module('c4mApp')
-  .service('Request', function($filter) {
+  .service('Request', function ($filter) {
     var Request = this;
 
     this.resourceFields = '';
@@ -31,7 +31,7 @@ angular.module('c4mApp')
      * @returns {*}
      *   The request object ready for RESTful.
      */
-    this.prepare = function(data) {
+    this.prepare = function (data) {
 
       // Copy data, We shouldn't change the variables in the scope.
       var submitData = angular.copy(data);

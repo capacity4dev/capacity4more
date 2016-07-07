@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Plugin to show the right side of the project page.
