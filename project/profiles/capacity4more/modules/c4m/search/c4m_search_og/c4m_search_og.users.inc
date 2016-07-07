@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Support between groups, their members and search.

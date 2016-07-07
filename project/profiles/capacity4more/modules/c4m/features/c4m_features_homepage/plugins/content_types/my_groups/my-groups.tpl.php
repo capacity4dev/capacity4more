@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Prints out a list of all the groups the user is member of.

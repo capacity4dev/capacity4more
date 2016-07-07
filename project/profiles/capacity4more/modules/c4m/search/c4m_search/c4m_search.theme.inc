@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Theme functions for c4m_search module.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Project content type feature.
@@ -197,7 +198,7 @@ function c4m_content_project_c4m_helper_entity_metrics_info() {
   return array(
     'c4m_user_projects_administered' => array(
       'type' => 'projects_administered',
-      'context'  => 'user',
+      'context' => 'user',
       'callback' => 'c4m_user_get_administered_projects_count',
     ),
   );
@@ -369,4 +370,16 @@ function c4m_content_project_render_block($module, $delta) {
   $block = block_load($module, $delta);
   $render_array = _block_get_renderable_array(_block_render_blocks(array($block)));
   return $render_array;
+}
+
+/**
+ * Implements hook_TYPE_alter().
+ *
+ * Using hook_c4m_offcanvas_trigger_label_left_alter().
+ */
+function c4m_content_project_c4m_offcanvas_trigger_label_left_alter(&$trigger_label) {
+  if (arg(0) == 'projects' && empty(arg(1))) {
+    $trigger_label['label'] = t('Filter results');
+    $trigger_label['icon'] = 'filter';
+  }
 }
