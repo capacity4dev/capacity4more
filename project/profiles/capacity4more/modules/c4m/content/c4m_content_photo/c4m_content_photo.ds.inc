@@ -353,24 +353,16 @@ function c4m_content_photo_ds_layout_settings_info() {
   $ds_layout->layout = 'c4m_ds_8_4_fluid';
   $ds_layout->settings = array(
     'regions' => array(
-      'header' => array(
-        0 => 'c4m_ds_content_type_icon',
-        4 => 'title',
-      ),
       'left' => array(
-        1 => 'c4m_media',
+        0 => 'c4m_media',
       ),
       'right' => array(
-        2 => 'c4m_body',
-        3 => 'node_gallery_navigation',
+        1 => 'c4m_body',
       ),
     ),
     'fields' => array(
-      'c4m_ds_content_type_icon' => 'header',
       'c4m_media' => 'left',
       'c4m_body' => 'right',
-      'node_gallery_navigation' => 'right',
-      'title' => 'header',
     ),
     'classes' => array(),
     'wrappers' => array(
