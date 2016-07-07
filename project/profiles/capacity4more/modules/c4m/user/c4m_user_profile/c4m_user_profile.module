@@ -916,9 +916,10 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
   if ($other_user->status->value()) {
     $data['validation_messages'][] = array(
       'message' => t(
-        'This account is already in use. If this is you, please !login</a>.',
+        'This account is already in use. If this is you, please !login or !request_password.',
         array(
           '!login' => l(t('log in'), 'user/login'),
+          '!request_password' => l(t('request a new password'), 'user/password'),
         )
       ),
       'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
@@ -931,7 +932,10 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
     ) {
       $data['validation_messages'][] = array(
         'message' => t(
-          'This email address is already in use. Please activate your account, or re-send activation mail.'
+          'This email address is already in use. Please activate your account, or !resend_activation.',
+          array(
+            '!resend_activation' => l(t('log in'), 'user/' . $other_user->uid . '/resend-activation-email'),
+          )
         ),
         'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
         '#weight' => -4,
