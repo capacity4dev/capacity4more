@@ -16,7 +16,7 @@
     <?php print $header; ?>
   </<?php print $header_wrapper; ?>>
   <<?php print $left_wrapper; ?> class="group-left col-xs-4 <?php print $left_classes; ?>">
-   <?php print $left; ?>
+    <?php print $left; ?>
   </<?php print $left_wrapper; ?>>
   <<?php print $right_wrapper; ?> class="group-right col-xs-8 message-summary<?php print $right_classes; ?>">
     <?php print $right; ?>
