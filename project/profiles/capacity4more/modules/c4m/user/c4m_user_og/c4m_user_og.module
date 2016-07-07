@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Functionality to provide missing info about a user.
@@ -316,20 +317,44 @@ function c4m_user_og_get_number_of_pending_members($og_id = NULL) {
 }
 
 /**
- * Returns the amount of contributors vs pending members in a group.
+ * Returns the amount of active members in a group.
  *
  * @param int $og_id
  *   The Organic Group ID to limit the query for.
  *
  * @return int
- *   The amount of contributors vs pending members of a group.
+ *   The amount of active members of a group.
  */
-function c4m_user_og_get_number_of_contributors_vs_pending_members($og_id) {
-  $contributors = c4m_user_og_get_number_of_contributors($og_id);
-  $pending_members = c4m_user_og_get_number_of_pending_members($og_id);
+function c4m_user_og_get_number_of_active_members($og_id = NULL) {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'og_membership');
+  $query->propertyCondition('type', 'og_membership_type_default');
+  $query->propertyCondition('entity_type', 'user');
+  $query->propertyCondition('group_type', 'node');
+  $query->propertyCondition('state', OG_STATE_ACTIVE);
 
-  if (is_numeric($contributors) && is_numeric($pending_members)) {
-    $calculation = $contributors / $pending_members;
+  if (is_numeric($og_id)) {
+    $query->propertyCondition('gid', $og_id);
+  }
+
+  return (int) $query->count()->execute();
+}
+
+/**
+ * Returns the amount of contributors vs active members in a group.
+ *
+ * @param int $og_id
+ *   The Organic Group ID to limit the query for.
+ *
+ * @return int
+ *   The amount of contributors vs active members of a group.
+ */
+function c4m_user_og_get_number_of_contributors_vs_members($og_id) {
+  $contributors = c4m_user_og_get_number_of_contributors($og_id);
+  $active_members = c4m_user_og_get_number_of_active_members($og_id);
+
+  if (is_numeric($contributors) && (is_numeric($active_members) && $active_members > 0)) {
+    $calculation = $contributors / $active_members;
     return empty($calculation) ? 0 : $calculation;
   }
 

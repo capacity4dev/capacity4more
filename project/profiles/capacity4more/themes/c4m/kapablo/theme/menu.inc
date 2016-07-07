@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * All theme menu functionality.

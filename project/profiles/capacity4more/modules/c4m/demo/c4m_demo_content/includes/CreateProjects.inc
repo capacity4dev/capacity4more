@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Class to create the Project nodes.
@@ -53,9 +54,6 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
       ->separator(';');
 
     $this->addFieldMapping('c4m_partner', 'partner')
-      ->separator(';');
-
-    $this->addFieldMapping('c4m_implemented_by', 'implementation')
       ->separator(';');
 
     $this->addFieldMapping('c4m_cris_decision_number', 'cris_decision')

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Class to create the Group nodes.

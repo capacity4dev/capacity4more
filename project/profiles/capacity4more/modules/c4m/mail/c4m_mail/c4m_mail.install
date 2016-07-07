@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install/update hooks for c4m_mail.

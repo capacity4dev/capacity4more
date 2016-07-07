@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Display suite field to display the group statistics.

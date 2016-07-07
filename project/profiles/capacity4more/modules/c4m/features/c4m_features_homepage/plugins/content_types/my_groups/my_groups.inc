@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * My groups panels block.
