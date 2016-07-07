@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Hooks provided by the C4M Helper Entity module.
@@ -40,11 +39,6 @@ function hook_c4m_helper_entity_metrics_info() {
 }
 
 /**
- * @file
- * Hooks provided by the capacity4more Entity helper module.
- */
-
-/**
  * Define the label info for a content type (and its subtypes).
  *
  * You need to implement the hook_c4m_helper_entity_label_info() hook to define
@@ -60,7 +54,7 @@ function hook_c4m_helper_entity_metrics_info() {
  *   - update action ("updated"...)
  *   - icon ("fa-info-circle", "fa-lightbulb"...)
  */
-function hook_c4m_content_share_fields_info() {
+function hook_c4m_helper_entity_label_info() {
   return array(
     'discussion' => array(
       'article' => t('a'),

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Helper functionality around $entity objects.
@@ -305,9 +304,7 @@ function c4m_helper_entity_label_info($entity) {
       $data = $cache->data;
     }
     else {
-      $hook = 'c4m_helper_entity_label_info';
-      $data = module_invoke_all($hook);
-
+      $data = module_invoke_all('c4m_helper_entity_label_info');
       cache_set($cache_key, $data);
     }
   }
