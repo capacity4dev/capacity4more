@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Prints out the banner.

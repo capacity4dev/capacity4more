@@ -4,7 +4,7 @@
  */
 
 angular.module('c4mApp')
-  .controller('DocumentCtrl', function($scope, DrupalSettings, EntityResource, Request) {
+  .controller('DocumentCtrl', function ($scope, DrupalSettings, EntityResource, Request) {
 
     $scope.data = DrupalSettings.getData('vocabularies');
 
@@ -28,7 +28,7 @@ angular.module('c4mApp')
      * @param addToLibrary
      *  Open or not full form of adding document.
      */
-    $scope.createDocument = function(event, fileId, data, addToLibrary) {
+    $scope.createDocument = function (event, fileId, data, addToLibrary) {
       // Preventing the form from redirecting to the "action" url.
       // We nee the url in the action because of the "overlay" module.
       event.preventDefault();
@@ -92,7 +92,7 @@ angular.module('c4mApp')
     /**
      * Close the overlay.
      */
-    $scope.closeOverlay = function() {
+    $scope.closeOverlay = function () {
       parent.Drupal.overlay.close();
     };
   });

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Block specific functionality like block definitions & overrides.
@@ -57,11 +58,13 @@ function _c4m_search_nodes_block_search_overview() {
         "1 {$facet_item['#markup']}",
         "@count {$facet_item['#markup']}s"
       );
+
       $facet_item = l(
         $text,
         $facet_item['#path'],
         array(
           'query' => $facet_item['#query'],
+          'attributes' => array('class' => array('search--refine--item--' . $facet_item['#indexed_value'])),
         )
       );
     }
