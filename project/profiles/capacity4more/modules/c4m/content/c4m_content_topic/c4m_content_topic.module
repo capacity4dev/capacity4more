@@ -84,7 +84,7 @@ function c4m_content_topic_field_formatter_info() {
       ),
     ),
     'term_reference_only_checked' => array(
-      'label' => t('Term reference tree - Only level 1 terms'),
+      'label' => t('Term reference tree - All checked terms inline'),
       'field types' => array('taxonomy_term_reference'),
       'settings' => array(
         'display' => 'all',
@@ -94,7 +94,7 @@ function c4m_content_topic_field_formatter_info() {
       ),
     ),
     'term_reference_only_parents' => array(
-      'label' => t('Term reference tree - All checked terms inline'),
+      'label' => t('Term reference tree - Only level 1 terms'),
       'field types' => array('taxonomy_term_reference'),
       'settings' => array(
         'display' => 'all',
