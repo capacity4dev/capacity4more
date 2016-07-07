@@ -16,11 +16,11 @@
  */
 angular.module('c4mApp')
   .filter('termsFilter',[ function () {
-    return function(items, searchText) {
+    return function (items, searchText) {
       if (searchText) {
         var filtered = {};
         searchText = searchText.toLowerCase();
-        angular.forEach(items, function(item, id) {
+        angular.forEach(items, function (item, id) {
           // Check first level terms.
           if (item.label.toLowerCase().indexOf(searchText) >= 0) {
             // Label match - add to list and go to the next one.
@@ -32,7 +32,7 @@ angular.module('c4mApp')
           }
           else {
             var parentTerm = false;
-            angular.forEach(item.children, function(child, childId) {
+            angular.forEach(item.children, function (child, childId) {
               // Label doesn't match - check second level terms.
               if (child.label.toLowerCase().indexOf(searchText) >= 0) {
                 // Label match - add to list and go to the next one.
@@ -52,7 +52,7 @@ angular.module('c4mApp')
               }
               else {
                 var childTerm = false;
-                angular.forEach(child.children, function(childChild) {
+                angular.forEach(child.children, function (childChild) {
                   if (childChild.label.toLowerCase().indexOf(searchText) >= 0) {
                     if (!parentTerm) {
                       filtered[id] = {
@@ -108,7 +108,7 @@ angular.module('c4mApp')
       'PB'
     ];
 
-    return function(bytes, precision) {
+    return function (bytes, precision) {
       if (isNaN(parseFloat(bytes)) || ! isFinite(bytes)) {
         return '?';
       }

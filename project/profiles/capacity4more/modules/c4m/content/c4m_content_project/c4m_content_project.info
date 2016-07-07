@@ -64,6 +64,7 @@ features[field_instance][] = node-project-c4m_implemented_by
 features[field_instance][] = node-project-c4m_left_column
 features[field_instance][] = node-project-c4m_media
 features[field_instance][] = node-project-c4m_money
+features[field_instance][] = node-project-c4m_og_status
 features[field_instance][] = node-project-c4m_partner
 features[field_instance][] = node-project-c4m_related_projects
 features[field_instance][] = node-project-c4m_right_column
