@@ -27,71 +27,13 @@ function _c4m_content_group_preprocess_header_name_banner(array &$variables) {
 /**
  * OG group title redesign.
  *
- * The function handles header title redesign for both group
- * and project pages.
+ * The function handles header title redesign for group page.
  */
 function _c4m_content_group_block_header_name_banner() {
   // First establish the current group.
   $group = c4m_og_current_group();
   $wrapper = entity_metadata_wrapper('node', $group);
-
-  $title = $wrapper->title->value();
-  $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value() : 'published';
-
-  if ($group->type == 'project') {
-    $project_stage = $wrapper->c4m_project_stage->value();
-
-    switch ($project_stage) {
-      case 'notstarted':
-        $flag_icon = 'fa-flag-o';
-        $stage_label = 'not started';
-        break;
-
-      case 'completed':
-        $flag_icon= 'fa-flag-checkered';
-        $stage_label = 'completed';
-        break;
-
-      default:
-        $flag_icon = 'fa-flag';
-        $stage_label = 'ongoing';
-    }
-
-    $variables = [
-      'title' => check_plain($title),
-      'stage_label' => $stage_label,
-      'project_stage' => $project_stage,
-      'type' => $wrapper->c4m_project_type->value(),
-      'status' => $status,
-      'flag_icon' => $flag_icon,
-    ];
-    $title = theme('c4m_content_project_header_title', $variables);
-  }
-
-  $tag['title']['element'] = array(
-    '#tag' => 'div',
-    '#attributes' => array(
-      'class' => array($group->type . '-title'),
-    ),
-    '#value' => $title,
-  );
-
-  $markup = theme_html_tag($tag['title']);
-
-  if ($status != 'published') {
-    $tag['status']['element'] = array(
-      '#tag' => 'span',
-      '#attributes' => array(
-        'class' => array('group-status'),
-      ),
-      '#value' => $status,
-    );
-    $markup .= theme_html_tag($tag['status']);
-  }
-
-  if ($group->type != 'project') {
-    $markup = '';
-  }
+  $markup = '';
 
   $menu_item = menu_get_item();
   if (drupal_is_front_page(
@@ -138,13 +80,6 @@ function _c4m_content_group_block_header_name_banner() {
         $markup .= theme_image_style($file);
       }
     }
-  }
-
-  if ($group->type == 'project') {
-    return array(
-      'subject' => '',
-      'content' => $markup,
-    );
   }
 
   $variables = array();
