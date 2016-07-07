@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * People overview table header.

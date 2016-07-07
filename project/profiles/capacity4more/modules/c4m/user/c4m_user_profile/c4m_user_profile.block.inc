@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Block definitions for the user profile.

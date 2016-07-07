@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Functionality to send mail messages.

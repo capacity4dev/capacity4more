@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Migrate class to create comments for Wiki pages.
