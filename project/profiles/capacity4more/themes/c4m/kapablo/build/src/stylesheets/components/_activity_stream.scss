@@ -1,7 +1,6 @@
 .activity-stream {
   .activities {
     border-bottom: 1px dashed $color-gray-light;
-    padding-bottom: .75rem;
 
     .row {
       margin: 0;
@@ -100,4 +99,8 @@
 
 .message-summary {
   padding: 0;
+}
+
+.message-footer {
+  padding: 12px 0;
 }
