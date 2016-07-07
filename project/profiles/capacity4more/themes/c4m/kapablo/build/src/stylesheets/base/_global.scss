@@ -9,11 +9,11 @@ body {
 
 html {
   font-size: 14px;
+  overflow: hidden;
 }
 
 body {
   font-size: inherit;
-  overflow: hidden;
 }
 
 @media (min-width: 992px) {
