@@ -20,7 +20,7 @@
   <<?php print $right_wrapper; ?> class="group-right col-xs-8 message-summary<?php print $right_classes; ?>">
   <?php print $right; ?>
   </<?php print $right_wrapper; ?>>
-  <<?php print $footer_wrapper; ?> class="group-footer col-sm-12 message-footer<?php print $footer_classes; ?>">
+  <<?php print $footer_wrapper; ?> class="group-footer col-sm-12 <?php print $footer_classes; ?>">
   <?php print $footer; ?>
   </<?php print $footer_wrapper; ?>>
 </div>
