@@ -81,6 +81,7 @@ function c4m_search_default_search_api_index() {
               "c4m_organised_by" : true,
               "c4m_cris_contract_number" : true,
               "c4m_cris_decision_number" : true,
+              "c4m_implemented_by" : true,
               "c4m_partner" : true,
               "c4m_source_of_funding" : true,
               "body:value" : true
@@ -96,6 +97,7 @@ function c4m_search_default_search_api_index() {
               "c4m_organised_by" : true,
               "c4m_cris_contract_number" : true,
               "c4m_cris_decision_number" : true,
+              "c4m_implemented_by" : true,
               "c4m_partner" : true,
               "c4m_source_of_funding" : true,
               "body:value" : true
@@ -113,6 +115,7 @@ function c4m_search_default_search_api_index() {
               "c4m_organised_by" : true,
               "c4m_cris_contract_number" : true,
               "c4m_cris_decision_number" : true,
+              "c4m_implemented_by" : true,
               "c4m_partner" : true,
               "c4m_source_of_funding" : true,
               "body:value" : true
@@ -128,6 +131,7 @@ function c4m_search_default_search_api_index() {
               "c4m_organised_by" : true,
               "c4m_cris_contract_number" : true,
               "c4m_cris_decision_number" : true,
+              "c4m_implemented_by" : true,
               "c4m_partner" : true,
               "c4m_source_of_funding" : true,
               "body:value" : true
@@ -145,6 +149,7 @@ function c4m_search_default_search_api_index() {
               "c4m_organised_by" : true,
               "c4m_cris_contract_number" : true,
               "c4m_cris_decision_number" : true,
+              "c4m_implemented_by" : true,
               "c4m_partner" : true,
               "c4m_source_of_funding" : true,
               "body:value" : true
@@ -180,6 +185,7 @@ function c4m_search_default_search_api_index() {
         "c4m_document_agenda" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "c4m_document_presentation" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "c4m_event_type" : { "type" : "string" },
+        "c4m_implemented_by" : { "type" : "list\\u003Ctext\\u003E" },
         "c4m_og_group_type" : { "type" : "string" },
         "c4m_organised_by" : { "type" : "text" },
         "c4m_partner" : { "type" : "list\\u003Ctext\\u003E" },
