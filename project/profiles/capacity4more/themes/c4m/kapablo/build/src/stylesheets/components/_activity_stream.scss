@@ -93,3 +93,7 @@
   @include transform-origin(center center);
   @include rotate(45deg);
 }
+
+.article-summary {
+  padding: 0;
+}
