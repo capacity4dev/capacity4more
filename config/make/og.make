@@ -29,3 +29,6 @@ projects[purl][patch][] = https://www.drupal.org/files/808956-14-purl-menu-behav
 
 projects[session_api][subdir] = "contrib"
 projects[session_api][version] = "1.0-rc1"
+
+projects[og_context_access_callback][subdir] = "contrib"
+projects[og_context_access_callback][version] = "1.x-dev"

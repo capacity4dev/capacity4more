@@ -117,6 +117,14 @@ function c4m_features_og_manage_menu() {
  * Access callback for manage group categories.
  */
 function c4m_features_og_manage_categories_access() {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return;
+  }
+
   // Check if in a group.
   $gid = c4m_og_current_group_id();
   if (empty($gid)) {
