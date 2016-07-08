@@ -1,0 +1,33 @@
+// Dev and test are using the adminimal menu.
+body.admin-menu.adminimal-menu {
+  &:before {
+    display: none;
+  }
+
+  .page-content {
+    padding-top: 47px;
+
+    @media (min-width: $screen-tablet) {
+      padding-top: 29px;
+    }
+  }
+}
+
+// Acc and prod are using default toolbar.
+body.toolbar {
+  .page-content {
+    padding-top: 30px;
+  }
+}
+
+// Responsive slicknav menu.
+.slicknav_menu {
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+
+  ul.slicknav_nav {
+    overflow-y: scroll !important;
+    max-height: 400px;
+  }
+}
