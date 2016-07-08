@@ -38,16 +38,31 @@
   }
 }
 
-.node-event .label-primary {
-  float: right;
-}
+.node-event {
+  .label-primary {
+    float: right;
+  }
 
-.node-event h1 {
-  margin-top: 0;
+  h1 {
+    margin-top: 0;
+  }
+  &.view-mode-full .node-document.node-teaser {
+    $icon-size: 40px;
+
+    .content-col {
+      margin-left: $icon-size + 15px;
+    }
+    .icon-col {
+      width: $icon-size + 15px;
+    }
+    .node-icon {
+      height: $icon-size;
+      width: $icon-size;
+    }
+  }
 }
 
 .event-location {
   margin-bottom: 10px;
 }
-
 
