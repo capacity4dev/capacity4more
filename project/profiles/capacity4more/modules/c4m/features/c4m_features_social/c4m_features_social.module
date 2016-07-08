@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the social feature.
@@ -37,8 +38,18 @@ function c4m_features_social_actions_share($node) {
 
   $items = '';
   foreach ($social as $media => $info) {
-    $items .= '<div id="ec-widget-share-' . $media . '" class="ec-widget-share-item">
+    if ($media == 'c4m_print') {
+      $items .= '
+        <div id="c4m-print">
+          <div class="share_list share_style_link share_style_icon_24">
+            <a href="#" title="Print" onclick="window.print();return false;"></a>
+          </div>
+        </div>';
+    }
+    else {
+      $items .= '<div id="ec-widget-share-' . $media . '" class="ec-widget-share-item">
             <!--{"to":"' . $media . '","text":"","size":24,"lang":"' . $lang . '"}//--></div>';
+    }
   }
 
   $output = '<div class="social-actions-share"><h3>' . t('Share this page') . '</h3>' . $items . '</div>';

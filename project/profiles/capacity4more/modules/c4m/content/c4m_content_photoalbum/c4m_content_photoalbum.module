@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Photo Album content type feature.
@@ -18,6 +19,75 @@ function c4m_content_photoalbum_c4m_og_vocab_info_content() {
         'c4m_vocab_category',
         'c4m_vocab_tag',
       ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Adds an `Add Photos` button to the `Create Photo album` form.
+ */
+function c4m_content_photoalbum_form_photoalbum_node_form_alter(&$form, &$form_instance, $form_id) {
+  $form['actions']['add_photos'] = array(
+    '#type' => 'submit',
+    '#value' => t('Add photos'),
+    '#weight' => 7,
+    '#submit' => array(
+      'node_form_submit',
+      'c4m_content_photoalbum_add_photos_submit',
+    ),
+  );
+}
+
+/**
+ * Form submission handler for `Create Photo album`.
+ *
+ * Redirects to the 'Upload New Items' tab when clicking the 'Add photos' button
+ * of the `Create Photo album` form.
+ */
+function c4m_content_photoalbum_add_photos_submit($form, &$form_state) {
+  $form_state['redirect'] = 'node/' . $form_state['nid'] . '/upload';
+}
+
+/**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_content_photoalbum_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_og_photoalbums' => array(
+      'type'      => 'photoalbum',
+      'context'   => 'group',
+      'callback'  => 'c4m_og_group_node_metric',
+      'arguments' => array(array('photoalbum')),
+      'weight'    => 2,
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_content_share_fields_info().
+ */
+function c4m_content_photoalbum_c4m_content_share_fields_info() {
+  return array(
+    'photoalbum' => array(
+      'type',
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_photoalbum_c4m_helper_entity_label_info() {
+  return array(
+    'photoalbum' => array(
+      'article' => t('a'),
+      'singular' => t('photo album'),
+      'plural' => t('photo albums'),
+      'insert action' => t('created a new photo album'),
+      'update action' => t('updated the photo album'),
+      'icon' => 'fa-picture-o',
     ),
   );
 }

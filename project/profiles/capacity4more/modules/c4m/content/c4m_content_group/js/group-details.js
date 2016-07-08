@@ -6,7 +6,7 @@
 (
   function ($) {
     Drupal.behaviors.groupDetails = {
-      attach: function(context, settings) {
+      attach: function (context, settings) {
         $('fieldset.collapsible', context).once('collapseGroupDetails', function () {
           var $fieldset = $(this);
 
@@ -18,10 +18,10 @@
 
           // Bind some behaviour on bootstrap events.
           $fieldset
-            .on('show.bs.collapse', function() {
+            .on('show.bs.collapse', function () {
               $fieldset.find('> legend a.fieldset-legend').html(Drupal.t('Less Details'));
             })
-            .on('hide.bs.collapse', function() {
+            .on('hide.bs.collapse', function () {
               $fieldset.find('> legend a.fieldset-legend').html(Drupal.t('More Details'));
             });
         });

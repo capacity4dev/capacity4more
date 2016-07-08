@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template for the Categories vocabulary widget.

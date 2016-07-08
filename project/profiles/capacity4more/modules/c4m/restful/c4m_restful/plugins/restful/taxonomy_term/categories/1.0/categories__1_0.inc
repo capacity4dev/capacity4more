@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Categories plugin for RestFul.

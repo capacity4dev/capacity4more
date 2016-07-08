@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Article content type feature.
@@ -160,12 +161,26 @@ function c4m_content_get_topic_statistics() {
  * @return array
  *   The collected statistics.
  */
-function c4m_content_get_group_statistics() {
-  $list = c4m_content_statistics_info('group');
-  $group = og_context();
-  if (!$group) {
+function c4m_content_get_current_group_statistics() {
+  $og_context = og_context();
+  return c4m_content_get_group_statistics($og_context);
+}
+
+/**
+ * Get the statistics specific for the given group.
+ *
+ * @param object $og_context
+ *   The group to gather the statistics for.
+ *
+ * @return array
+ *   The collected statistics.
+ */
+function c4m_content_get_group_statistics($og_context = NULL) {
+  if (!$og_context) {
     return array();
   }
+
+  $list = c4m_content_statistics_info('group');
 
   // Filter the list & limit to only content types that are enabled for the
   // given group.
@@ -179,7 +194,7 @@ function c4m_content_get_group_statistics() {
     }
 
     // Add the current og_id to the info.
-    $info['og_id'] = $group['gid'];
+    $info['og_id'] = $og_context['gid'];
   }
 
   $data = _c4m_content_statistics_collect_data($list);
@@ -206,9 +221,11 @@ function _c4m_content_statistics_collect_data(array $list) {
     $og_id = isset($info['og_id'])
       ? $info['og_id']
       : NULL;
+
     $topic = isset($info['topic'])
       ? $info['topic']
       : NULL;
+
     $status = isset($info['c4m_status'])
       ? $info['c4m_status']
       : NULL;

@@ -264,6 +264,11 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  /* Sort criterion: Date: Start date (indexed) */
+  $handler->display->display_options['sorts']['c4m_datetime_end_value']['id'] = 'c4m_datetime_end_value';
+  $handler->display->display_options['sorts']['c4m_datetime_end_value']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['sorts']['c4m_datetime_end_value']['field'] = 'c4m_datetime_end_value';
+  $handler->display->display_options['sorts']['c4m_datetime_end_value']['order'] = 'DESC';
   /* Filter criterion: Node is published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'search_api_index_c4m_search_nodes';
@@ -302,6 +307,7 @@ function c4m_features_overview_events_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Events';
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['defaults']['footer'] = FALSE;
   /* Footer: Global: Add view pages links */
@@ -335,6 +341,11 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['footer']['c4m_views_custom_link']['link_path'] = 'events/upcoming';
   $handler->display->display_options['footer']['c4m_views_custom_link']['link_text'] = 'Show all upcoming events';
   $handler->display->display_options['footer']['c4m_views_custom_link']['link_class'] = 'upcoming-events, link-to-view';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Date: Start date (indexed) */
+  $handler->display->display_options['sorts']['c4m_datetime_end_value']['id'] = 'c4m_datetime_end_value';
+  $handler->display->display_options['sorts']['c4m_datetime_end_value']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['sorts']['c4m_datetime_end_value']['field'] = 'c4m_datetime_end_value';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Node is published */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_features_og_group_dashboard.features.inc
@@ -134,10 +135,10 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
     ),
     'api_version' => 3,
   );
-  // Exported flag: "C4M Follow Commenting".
-  $flags['subscribe_c4m_follow_commenting'] = array(
+  // Exported flag: "C4M Follow Comment".
+  $flags['subscribe_c4m_follow_comment'] = array(
     'entity_type' => 'comment',
-    'title' => 'C4M Follow Commenting',
+    'title' => 'C4M Follow Comment',
     'global' => 0,
     'types' => array(
       0 => 'comment_node_article',
@@ -178,11 +179,11 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
     'show_on_form' => 0,
     'access_author' => '',
     'show_contextual_link' => 0,
-    'api_version' => 3,
     'module' => 'c4m_features_og_group_dashboard',
     'locked' => array(
       0 => 'name',
     ),
+    'api_version' => 3,
   );
   // Exported flag: "C4M Follow Group".
   $flags['subscribe_c4m_follow_group'] = array(
@@ -221,11 +222,11 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
     'access_author' => '',
     'show_contextual_link' => 0,
     'i18n' => 0,
-    'api_version' => 3,
     'module' => 'c4m_features_og_group_dashboard',
     'locked' => array(
       0 => 'name',
     ),
+    'api_version' => 3,
   );
   // Exported flag: "C4M Follow Node".
   $flags['subscribe_c4m_follow_node'] = array(
@@ -279,11 +280,11 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
     'access_author' => '',
     'show_contextual_link' => 0,
     'i18n' => 0,
-    'api_version' => 3,
     'module' => 'c4m_features_og_group_dashboard',
     'locked' => array(
       0 => 'name',
     ),
+    'api_version' => 3,
   );
   // Exported flag: "C4M Follow Term".
   $flags['subscribe_c4m_follow_term'] = array(
@@ -312,11 +313,11 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
     'show_on_form' => 0,
     'access_author' => '',
     'show_contextual_link' => 0,
-    'api_version' => 3,
     'module' => 'c4m_features_og_group_dashboard',
     'locked' => array(
       0 => 'name',
     ),
+    'api_version' => 3,
   );
   return $flags;
 

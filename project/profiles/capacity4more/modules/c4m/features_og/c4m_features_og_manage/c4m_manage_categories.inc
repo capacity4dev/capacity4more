@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Custom manage page callbacks for the taxonomy module.
@@ -612,6 +613,7 @@ function theme_c4m_features_og_manage_categories_types_overview_form($variables)
  */
 function theme_c4m_features_og_manage_categories_overview_form(array $variables) {
   $form = $variables['form'];
+  $type = $form['#group']->type;
 
   $vocabulary = $form['#vocabulary'];
 
@@ -650,16 +652,16 @@ function theme_c4m_features_og_manage_categories_overview_form(array $variables)
     '#attributes' => array(
       'class' => array('category-edit-title-text'),
     ),
-    '#value' => t('Edit Group @title', array('@title' => $vocabulary->name)),
+    '#value' => t('Edit @type @title', array('@type' => ucfirst($type), '@title' => $vocabulary->name)),
   );
   $output = '<div class="category-edit-title">' . theme_html_tag($title) . l(t('Return to overview'), url('manage' . $overview_path, array('absolute' => TRUE))) . '</div>';
   // Static page description.
   $output .= '<div class="category-edit-description">';
   $output .= t('
-      Here you can define the category terms that will be used to classify documents and other contents submitted to the group.
-      You can add, edit and delete the category terms. The category Group will not show up if there are no terms added to it.
-      Manual order terms by dragging them. You can move terms from one category Group to another:
-    ');
+      Here you can define the category terms that will be used to classify documents and other contents submitted to the @type.
+      You can add, edit and delete the category terms. The category @type_uc will not show up if there are no terms added to it.
+      Manual order terms by dragging them. You can move terms from one category @type_uc to another:
+    ', array('@type' => $type, '@type_uc' => ucfirst($type)));
   $output .= '<strong>' . t('Do not forget to save after reordering and/or moving terms.') . '</strong>';
   $output .= '</div>';
 

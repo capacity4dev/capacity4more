@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * General Organic Groups functionality.
@@ -21,7 +22,7 @@ define('C4M_OG_OPEN_GROUP', 1);
 /**
  * Helper to get the current active group (based on og_context()).
  *
- * @return object|FALSE
+ * @return object|false
  *   The group entity, or FALSE if no context was found.
  */
 function c4m_og_current_group() {
@@ -41,7 +42,7 @@ function c4m_og_current_group() {
 /**
  * Helper to get the current active group id (based on og_context()).
  *
- * @return NULL|int
+ * @return null|int
  *   The group id, or NULL if no context was found.
  */
 function c4m_og_current_group_id() {
@@ -124,6 +125,13 @@ function c4m_og_menu() {
     'access arguments' => array(1, 2),
     'title' => 'Replace Owner',
   );
+  $items['project/%/%/admin/owner'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_og_replace_owner_build_form', 1, 2),
+    'access callback' => 'c4m_og_user_is_owner',
+    'access arguments' => array(1, 2),
+    'title' => 'Replace Owner',
+  );
 
   return $items;
 }
@@ -140,7 +148,7 @@ function c4m_og_og_ui_get_group_admin_alter(&$data, $context) {
 
   $data['replace_owner'] = array(
     'title' => t('Replace Owner'),
-    'description' => t('Replacing the owner of the group.'),
+    'description' => t('Replacing the owner of the group or project.'),
     'href' => 'admin/owner',
   );
 }
@@ -257,6 +265,33 @@ function c4m_og_user_is_owner($group_type, $gid) {
 
   // Make sure the current user is the group manager.
   return user_access('administer groups', $user) || $user->uid == $group->uid;
+}
+
+/**
+ * Access callback checks if the current user is group member.
+ *
+ * @param string $group_type
+ *   The type of the group.
+ * @param int $gid
+ *   The ID of the group.
+ *
+ * @return bool
+ *   TRUE if the current user is group member, FALSE otherwise.
+ */
+function c4m_og_user_is_member($group_type = NULL, $gid = NULL) {
+  if (empty($gid)) {
+    $context = og_context('node');
+    $gid = $context['gid'];
+    $group_type = $context['group_type'];
+  }
+
+  $group = entity_load_single($group_type, $gid);
+  if (!$group || !og_is_group($group_type, $group)) {
+    return FALSE;
+  }
+
+  // Make sure the current user is the group manager.
+  return user_access('administer groups') || og_is_member('node', $gid);
 }
 
 /**
@@ -653,7 +688,7 @@ function _c4m_og_group_type_getter_callback($item) {
  * @param object $entity
  *   The entity we want the group id of.
  *
- * @return NULL|int
+ * @return null|int
  *   The group ID if any.
  */
 function c4m_og_get_gid_from_entity($entity) {
@@ -941,12 +976,12 @@ function c4m_og_open_group_access_activate_pending_members($node) {
   $wrapper = entity_metadata_wrapper('node', $node);
   $original_wrapper = entity_metadata_wrapper('node', $node->original);
 
-  if ($wrapper->field_membership_open_request->value() != C4M_OG_OPEN_GROUP) {
+  if (isset($wrapper->field_membership_open_request) && $wrapper->field_membership_open_request->value() != C4M_OG_OPEN_GROUP) {
     // Group is not "Open".
     return;
   }
 
-  if ($original_wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
+  if (isset($wrapper->field_membership_open_request) && $original_wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
     // Previous group setting was not "Moderated".
     return;
   }
@@ -956,15 +991,6 @@ function c4m_og_open_group_access_activate_pending_members($node) {
   foreach (og_membership_load_multiple($ids) as $membership) {
     $membership->state = OG_STATE_ACTIVE;
     $membership->save();
-
-    // Send activation message to member.
-    $message = message_create('c4m_welcome_to_group', array('uid' => $membership->etid));
-    c4m_message_load__c4m_welcome_to_group($message);
-
-    $wrapper = entity_metadata_wrapper('message', $message);
-    $wrapper->field_group_node->set($membership->gid);
-    // Message will be saved in message_notify_send_message().
-    message_notify_send_message($wrapper->value());
   }
 }
 
@@ -1000,4 +1026,203 @@ function c4m_og_get_all_group_memberships_by_state($gid, $state) {
   $cache[$identifier] = !empty($result['og_membership']) ? array_keys($result['og_membership']) : array();
 
   return $cache[$identifier];
+}
+
+/**
+ * Returns the amount of nodes in the group of the specified bundles.
+ *
+ * @param int $og_id
+ *   The Organic Group ID to gather the metrics for.
+ * @param array $bundles
+ *   The bundles to query for.
+ *
+ * @return int
+ *   The amount of nodes in the group.
+ */
+function c4m_og_group_node_metric($og_id, $bundles) {
+  $arguments = array(
+    'entity_type' => 'node',
+    'bundles' => $bundles,
+    'state' => 1,
+    'og_id' => $og_id,
+    'topic' => NULL,
+    'c4m_status' => NULL,
+  );
+
+  return c4m_helper_entity_get_number_of_entities($arguments);
+}
+
+/**
+ * Returns the amount of users in the group of the specified bundles.
+ *
+ * @param int $og_id
+ *   The Organic Group ID to gather the metrics for.
+ *
+ * @return int
+ *   The amount of users in the group.
+ */
+function c4m_og_group_user_metric($og_id) {
+  $arguments = array(
+    'entity_type' => 'user',
+    'bundles' => array(),
+    'state' => 1,
+    'og_id' => $og_id,
+    'topic' => NULL,
+    'c4m_status' => NULL,
+  );
+
+  return c4m_helper_entity_get_number_of_entities($arguments);
+}
+
+/**
+ * Returns the amount of comments in the group.
+ *
+ * @param int $og_id
+ *   The Organic Group ID to gather the metrics for.
+ *
+ * @return int
+ *   The amount of comments in the group.
+ */
+function c4m_og_group_comment_metric($og_id) {
+  $arguments = array(
+    'entity_type' => 'comment',
+    'bundles' => array(),
+    'state' => 1,
+    'og_id' => $og_id,
+    'topic' => NULL,
+    'c4m_status' => NULL,
+  );
+
+  return c4m_helper_entity_get_number_of_entities($arguments);
+}
+
+/**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_og_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_og_content_recommendations' => array(
+      'type'     => 'content_recommendations',
+      'context'  => 'group',
+      'callback' => 'c4m_og_get_content_recommendations',
+      'weight'   => 100,
+    ),
+    'c4m_user_group_memberships' => array(
+      'type' => 'group_memberships',
+      'context'  => 'user',
+      'callback' => 'c4m_og_get_user_group_memberships_count',
+    ),
+    'c4m_user_group_pending_memberships' => array(
+      'type' => 'group_pending_memberships',
+      'context'  => 'user',
+      'callback' => 'c4m_og_get_user_group_pending_memberships_count',
+    ),
+  );
+}
+
+/**
+ * Returns the total amount of recommendations on content of a group.
+ *
+ * @param int $og_id
+ *   The Organic group ID to limit the query for.
+ *
+ * @return int
+ *   The total amount of recommendations on the group content.
+ */
+function c4m_og_get_content_recommendations($og_id = NULL) {
+  if (!is_numeric($og_id)) {
+    return 0;
+  }
+
+  $query = db_select('node', 'n');
+  $query->join('og_membership', 'ogm', 'ogm.etid = n.nid');
+  $query->join('flag_counts', 'fc', 'fc.entity_id = n.nid');
+  $query->join('flag', 'f', 'f.fid = fc.fid');
+  $query->condition('n.status', 1);
+  $query->condition('ogm.gid', (int) $og_id);
+  $query->condition('ogm.entity_type', 'node');
+  $query->condition('fc.entity_type', 'node');
+  $query->condition('f.name', 'c4m_og_content_recommend');
+  $query->addExpression('SUM(fc.count)', 'recommendations');
+
+  $count = $query->execute()->fetchField();
+  return empty($count) ? 0 : $count;
+}
+
+/**
+ * Helper function to get group type (project|group).
+ *
+ * @param array $group
+ *   The group to get the type from.
+ *
+ * @return string
+ *   Group type (project|group).
+ */
+function c4m_og_get_group_type($group) {
+  if (!empty($group)) {
+    if ($group_node = node_load($group['gid'])) {
+      return $group_node->type;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Returns the group memberships count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ * @param int $state
+ *   Node type.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_og_get_user_group_memberships_count($uid, $state = OG_STATE_ACTIVE) {
+  $query = db_select('og_membership', 'm');
+  $query->fields('m', array('id'));
+  $query->condition('entity_type', 'user');
+  $query->condition('etid', $uid);
+  $query->condition('state', $state);
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
+}
+
+/**
+ * Returns the group memberships count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_og_get_user_group_pending_memberships_count($uid) {
+  return c4m_og_get_user_group_memberships_count($uid, OG_STATE_PENDING);
+}
+
+/**
+ * Returns the administered groups count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ * @param string $node_type
+ *   Node type.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_og_get_user_administered_groups_count($uid, $node_type) {
+  $query = db_select('og_users_roles', 'ur');
+  $query->fields('ur');
+  $query->join('og_role', 'r', "ur.rid = r.rid AND name = 'administrator member' AND ur.uid = $uid");
+  $query->join('node', 'n', "ur.gid = n.nid AND ur.group_type = 'node' AND n.type = '$node_type'");
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
 }

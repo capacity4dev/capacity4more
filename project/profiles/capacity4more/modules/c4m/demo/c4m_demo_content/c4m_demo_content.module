@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Module to create demo content using the Migrate module.
@@ -45,6 +46,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateWikiPageComments',
     'C4mDemoContentCreateFeeds',
     'C4mDemoContentCreateTopics',
+    'C4mDemoContentCreateShares',
   );
 
   $group_name = 'c4m_demo_content';

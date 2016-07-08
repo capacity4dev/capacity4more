@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Block definitions for the c4m_features_og_members module.

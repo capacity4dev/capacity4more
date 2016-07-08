@@ -113,7 +113,9 @@ module.exports = function (grunt) {
                       '<%= bootstrapDir %>/assets/javascripts/bootstrap/transition.js'
                   ],
                   '<%= project.dst %>/js/kapablo.concat.js': [
-                      '<%= project.src %>/javascripts/kapablo.js'
+                      '<%= project.src %>/javascripts/kapablo.js',
+                      '<%= project.src %>/javascripts/classie.js',
+                      '<%= project.src %>/javascripts/sidebarEffects.js'
                   ]
                 }
             },
@@ -138,7 +140,9 @@ module.exports = function (grunt) {
                       '<%= bootstrapDir %>/assets/javascripts/bootstrap/transition.js'
                   ],
                   '<%= project.dst %>/js/kapablo.concat.js': [
-                      '<%= project.src %>/javascripts/kapablo.js'
+                      '<%= project.src %>/javascripts/kapablo.js',
+                      '<%= project.src %>/javascripts/classie.js',
+                      '<%= project.src %>/javascripts/sidebarEffects.js'
                   ]
                 }
             }

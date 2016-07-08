@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * All theme menu functionality.
@@ -183,7 +184,7 @@ function kapablo_menu_link__book_toc(array $variables) {
           'data-toggle' => 'collapse',
           // Tell the control which is the target to be controlled.
           'data-target' => '#' . $submenu_id,
-          'class' => array('fa', 'fa-minus'),
+          'class' => array('fa', 'fa-caret-down'),
         ),
         '#value' => '',
       );
@@ -196,7 +197,7 @@ function kapablo_menu_link__book_toc(array $variables) {
           'data-toggle' => 'collapse',
           // Tell the control which is the target to be controlled.
           'data-target' => '#' . $submenu_id,
-          'class' => array('fa', 'fa-plus'),
+          'class' => array('fa', 'fa-caret-right'),
         ),
         '#value' => '',
       );
@@ -228,11 +229,11 @@ function kapablo_menu_link__book_toc(array $variables) {
   // of submenus in submenus.
   $sub_menu = preg_replace('/id=\"\"/', $replacement, $sub_menu);
 
-  $link = l($icon . ' ' . $element['#title'], $element['#href'], $link_options);
+  $link = l($element['#title'], $element['#href'], $link_options);
 
   return '<li' . drupal_attributes(
     $element['#attributes']
-  ) . '>' . $link . $sub_menu . "</li>\n";
+  ) . '>' . $icon . $link . $sub_menu . "</li>\n";
 }
 
 /**
@@ -242,6 +243,25 @@ function kapablo_menu_link__book_toc(array $variables) {
  */
 function kapablo_menu_link__book_c4m_og_menu(array $variables) {
   $element = $variables['element'];
+
+  // Add indicator for content that is a share.
+  $indicator = '';
+  $href_parts = explode('/', $element['#href']);
+  if ($href_parts[0] == 'node') {
+    $node = node_load($href_parts[1]);
+    if ($node->type == 'share') {
+      $tag['element'] = array(
+        '#tag' => 'i',
+        '#attributes' => array(
+          'class' => array('fa', 'fa-retweet'),
+          'title' => 'Shared from another group',
+        ),
+        '#value' => '',
+      );
+
+      $indicator = theme_html_tag($tag);
+    }
+  }
 
   // On primary navigation menu, class 'active' is not set on active menu item.
   // @see https://drupal.org/node/1896674
@@ -269,5 +289,5 @@ function kapablo_menu_link__book_c4m_og_menu(array $variables) {
 
   return '<li' . drupal_attributes(
     $element['#attributes']
-  ) . '>' . $link . "</li>\n";
+  ) . '>' . $link . " " . $indicator . "</li>\n";
 }

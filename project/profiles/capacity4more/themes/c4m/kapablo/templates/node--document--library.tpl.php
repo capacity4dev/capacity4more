@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Display a node in "Activity stream" view mode.
