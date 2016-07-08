@@ -119,7 +119,7 @@ function c4m_content_document_field_group_info() {
       0 => 'c4m_user_picture',
       1 => 'c4m_user_first_and_last_name',
       2 => 'c4m_ds_creation_date',
-      3 => 'c4m_ds_type_insert_action',
+      3 => 'c4m_ds_entity_type_label',
     ),
     'format_type' => 'html5',
     'format_settings' => array(

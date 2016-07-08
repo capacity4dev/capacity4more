@@ -173,6 +173,26 @@ function theme_c4m_ds_content_type_label(array $field) {
 }
 
 /**
+ * Returns HTML for entity type label DS field.
+ *
+ * @param array $field
+ *   Field array.
+ *
+ * @return string
+ *   HTML output.
+ */
+function theme_c4m_ds_entity_type_label(array $field) {
+  if (empty($field['entity'])) {
+    return '';
+  }
+
+  $entity = $field['entity'];
+  $label = c4m_helper_entity_get_entity_type_label($entity, $entity->type);
+
+  return $label;
+}
+
+/**
  * DS function field.
  *
  * Render <content type> posted by.
