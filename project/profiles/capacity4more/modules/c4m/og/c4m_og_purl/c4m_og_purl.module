@@ -49,6 +49,11 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
     return;
   }
 
+  if (strpos($_GET['q'], 'admin/') === 0) {
+    // Admin pages.
+    return;
+  }
+
   $item = menu_get_item();
 
   if ($item['path'] != 'node/%') {
