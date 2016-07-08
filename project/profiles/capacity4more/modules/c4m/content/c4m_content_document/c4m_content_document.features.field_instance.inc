@@ -701,12 +701,15 @@ function c4m_content_document_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'term_reference_tree',
+        'module' => 'c4m_content_topic',
         'settings' => array(
-          'token_display_selected' => '',
-          'token_display_unselected' => '',
+          'display' => 'all',
+          'glue' => ', ',
+          'link' => 0,
+          'separator' => ' > ',
+          'wrap' => 'none',
         ),
-        'type' => 'term_reference_tree',
+        'type' => 'term_reference_checked_inline_tree',
         'weight' => 1,
       ),
       'inthe_picture_block' => array(
@@ -807,12 +810,15 @@ function c4m_content_document_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'term_reference_tree',
+        'module' => 'c4m_content_topic',
         'settings' => array(
-          'token_display_selected' => '',
-          'token_display_unselected' => '',
+          'display' => 'all',
+          'glue' => ', ',
+          'link' => 0,
+          'separator' => ' > ',
+          'wrap' => 'none',
         ),
-        'type' => 'term_reference_tree',
+        'type' => 'term_reference_checked_inline_tree',
         'weight' => 2,
       ),
       'inthe_picture_block' => array(
@@ -1018,12 +1024,15 @@ function c4m_content_document_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'term_reference_tree',
+        'module' => 'c4m_content_topic',
         'settings' => array(
-          'token_display_selected' => '',
-          'token_display_unselected' => '',
+          'display' => 'all',
+          'glue' => ', ',
+          'link' => 0,
+          'separator' => ' > ',
+          'wrap' => 'none',
         ),
-        'type' => 'term_reference_tree',
+        'type' => 'term_reference_checked_inline_tree',
         'weight' => 0,
       ),
       'inthe_picture_block' => array(

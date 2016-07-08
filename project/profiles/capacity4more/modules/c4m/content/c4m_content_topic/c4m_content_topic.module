@@ -83,14 +83,15 @@ function c4m_content_topic_field_formatter_info() {
         'separator' => ' » ',
       ),
     ),
-    'term_reference_only_checked' => array(
+    'term_reference_checked_inline_tree' => array(
       'label' => t('Term reference tree - All checked terms inline'),
       'field types' => array('taxonomy_term_reference'),
       'settings' => array(
         'display' => 'all',
         'link' => '',
         'wrap' => 'none',
-        'separator' => ', ',
+        'separator' => ' > ',
+        'glue' => ', ',
       ),
     ),
     'term_reference_only_parents' => array(
@@ -139,6 +140,18 @@ function c4m_content_topic_field_formatter_settings_form(
     '#default_value' => $settings['separator'],
     '#required' => FALSE,
   );
+  if ($instance['display'][$view_mode]['type'] == 'term_reference_checked_inline_tree') {
+    $element['glue'] = array(
+      '#title' => t('Glue'),
+      '#description' => t(
+        'Enter some text or markup that will separate terms on the same level in the hierarchy. Example: <em>, </em>'
+      ),
+      '#type' => 'textfield',
+      '#size' => 20,
+      '#default_value' => $settings['glue'],
+      '#required' => TRUE,
+    );
+  }
 
   return $element;
 }
@@ -158,10 +171,16 @@ function c4m_content_topic_field_formatter_settings_summary(
 
   $summary = t('Display: As %format', array('%format' => $format));
 
-  if ($settings['separator']) {
+  if (!empty($settings['separator'])) {
     $summary .= '<br />' . t(
-        'Separator: "%separator"',
-        array('%separator' => filter_xss_admin($settings['separator']))
+        'Separator: "@separator"',
+        array('@separator' => $settings['separator'])
+      );
+  }
+  if (!empty($settings['glue'])) {
+    $summary .= '<br />' . t(
+        'Glue: "@glue"',
+        array('@glue' => $settings['glue'])
       );
   }
 
@@ -283,7 +302,7 @@ function c4m_content_topic_field_formatter_view(
 
       break;
 
-    case 'term_reference_only_checked':
+    case 'term_reference_checked_inline_tree':
       $terms = array();
       foreach ($items as $delta => $item) {
         if ($item['tid'] == 'autocreate') {
@@ -294,10 +313,10 @@ function c4m_content_topic_field_formatter_view(
         else {
           $term = $item['taxonomy_term'];
 
-          // Get the vocabulary to create a filter on vocab facet.
-          $vocab = taxonomy_vocabulary_load($item['taxonomy_term']->vid);
-
           if ($settings['link']) {
+            // Get the vocabulary to create a filter on vocab facet.
+            $vocab = taxonomy_vocabulary_load($item['taxonomy_term']->vid);
+
             $options = array(
               'query' => array(
                 'f' => array($vocab->machine_name . ':' . $term->tid),
@@ -310,31 +329,35 @@ function c4m_content_topic_field_formatter_view(
               '#href' => 'search',
               '#options' => $options,
             );
-            $terms[$term->tid] = array(
-              'tid' => $term->tid,
-              'content' => drupal_render($link),
-            );
+            $content = drupal_render($link);
           }
           else {
-            $terms[$term->tid] = array(
-              'tid' => $term->tid,
-              'content' => check_plain($term->name),
-            );
+            $content = check_plain($term->name);
           }
+          $terms[$term->tid] = array(
+            'tid' => $term->tid,
+            'content' => $content,
+            'children' => taxonomy_get_tree($term->vid, $term->tid, 1),
+          );
         }
       }
 
       // Make sure there are terms before adding to $element.
       if (count($terms)) {
+        foreach ($terms as &$term) {
+          c4more_content_topic_array_to_tree($terms, $term);
+        }
+
         // Prepare theme variables.
         $variables = array(
           'terms' => $terms,
           'separator' => $settings['separator'],
+          'glue' => $settings['glue'],
         );
 
         $element[$delta] = array(
           '#markup' => theme(
-            'c4m_content_topic_term_reference_tree_children_expanded',
+            'c4m_content_topic_inline_tree',
             $variables
           ),
         );
@@ -415,23 +438,109 @@ function c4m_content_topic_theme($existing, $type, $theme, $path) {
         'separator' => '',
       ),
     ),
+    'c4m_content_topic_inline_tree' => array(
+      'variables' => array(
+        'terms' => array(),
+        'separator' => '',
+        'glue' => '',
+      ),
+    ),
   );
 }
 
 /**
  * Theme the term hierarchy.
  */
-function theme_c4m_content_topic_term_reference_tree_children_expanded(
-  $variables
-) {
+function theme_c4m_content_topic_term_reference_tree_children_expanded($variables) {
   $items = array();
   $separator = filter_xss_admin($variables['separator']);
-  $count = 0;
 
   foreach ($variables['terms'] as $item) {
-    $count++;
     $items[] = $item['content'];
   }
 
   return implode($separator, $items);
+}
+
+/**
+ * Returns the HTML for an inlined term hierarchy.
+ *
+ * @return string
+ *   HTML output.
+ */
+function theme_c4m_content_topic_inline_tree($variables) {
+  $separator = filter_xss_admin($variables['separator']);
+  $glue = filter_xss_admin($variables['glue']);
+  $items = array();
+
+  foreach ($variables['terms'] as $item) {
+    $items = array_merge($items, c4m_content_topic_tree_to_string($item, $separator, $glue));
+  }
+
+  return theme('item_list', array('items' => $items));
+}
+
+/**
+ * Transforms a tree into a list of strings.
+ *
+ * @param array $item
+ *   Tree item.
+ * @param string $separator
+ *   Separator between items on different levels.
+ * @param string $glue
+ *   Glue string for items on the same level.
+ *
+ * @return array
+ *   Array of items to show.
+ */
+function c4m_content_topic_tree_to_string($item, $separator = ' > ', $glue = ', ') {
+  if (empty($item['children'])) {
+    return array($item['content']);
+  }
+
+  $more_depth = FALSE;
+  $children = array();
+  foreach ($item['children'] as $child) {
+    if ($child['children']) {
+      $more_depth = TRUE;
+      $children = array_merge($children, c4m_content_topic_tree_to_string($child, $separator, $glue));
+    }
+    else {
+      $children[] = $child['content'];
+    }
+  }
+
+  if ($more_depth) {
+    foreach ($children as &$child) {
+      $child = $item['content'] . $separator . $child;
+    }
+    return $children;
+  }
+  else {
+    return array($item['content'] . $separator . implode($glue, $children));
+  }
+}
+
+/**
+ * Transform a flat array into an hierarchical array.
+ *
+ * @param array $terms
+ *   Array of terms.
+ * @param array $term
+ *   Current term.
+ */
+function c4more_content_topic_array_to_tree(&$terms, &$term) {
+  if (!$term['children']) {
+    return;
+  }
+  foreach ($term['children'] as $key => $child) {
+    if (!isset($terms[$child->tid])) {
+      unset($term['children'][$key]);
+    }
+    else {
+      c4more_content_topic_array_to_tree($terms, $terms[$child->tid]);
+      $term['children'][$key] = $terms[$child->tid];
+      unset($terms[$child->tid]);
+    }
+  }
 }
