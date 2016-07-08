@@ -142,6 +142,7 @@ function theme_c4m_ds_content_type_label(array $field) {
   }
 
   $icons = array(
+    // Same icon as in c4m_content_document_c4m_helper_entity_label_info().
     'document' => 'fa-file-o',
     'photoalbum' => 'fa-picture-o',
     'photo' => 'fa-file-picture-o',
