@@ -77,7 +77,7 @@
 .group-c4m-header-meta {
   @include image-overlay-bottom();
 
-  h2, p {
+  h1, h2, p {
     margin: 0;
     padding: 0;
   }
@@ -164,7 +164,19 @@
 
     i.fa {
       color: $color-link;
-      font-size: 0.75rem;
+      display: inline;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &:before {
+        margin-left: -1rem;
+        margin-top: 3px;
+        padding: 0;
+        float: left;
+        width: 1rem;
+      }
     }
 
     a.active {

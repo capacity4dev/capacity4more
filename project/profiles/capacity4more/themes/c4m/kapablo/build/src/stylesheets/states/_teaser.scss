@@ -2,7 +2,20 @@
   @extend .text-small;
 
   &.node-topic {
+    @include grain-dark;
+    border-radius: 6px;
+    color: white !important;
     margin-bottom: 2rem;
+    padding: 0.5em;
+
+    img {
+      border: 0;
+      padding: 0;
+    }
+
+    a {
+      color: $color-white;
+    }
 
     .group-right {
       // 3px = align with image (1px border and 2px padding).
