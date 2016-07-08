@@ -141,22 +141,14 @@ function theme_c4m_ds_content_type_label(array $field) {
     return '';
   }
 
-  $icons = array(
-    // Same icon as in c4m_content_document_c4m_helper_entity_label_info().
-    'document' => 'fa-file-o',
-    'photoalbum' => 'fa-picture-o',
-    'photo' => 'fa-file-picture-o',
-  );
-
   $entity = $field['entity'];
+  $info = c4m_helper_entity_label_info($entity);
 
-  $type = ucwords($entity->type);
+  $type = ucwords($info['singular']);
   $icon_html = '';
 
-  if (!empty($icons[$entity->type])) {
-    // Add icon.
-    $icon = $icons[$entity->type];
-    $icon_html .= '<i class="fa ' . $icon . '"></i> ';
+  if (!empty($info['icon'])) {
+    $icon_html = '<i class="fa ' . $info['icon'] . '"></i> ';
   }
 
   $tag['element'] = array(
