@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Format the HTML mail.

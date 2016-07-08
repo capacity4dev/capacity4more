@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Share content type feature.
@@ -238,6 +239,19 @@ function c4m_content_share_c4m_helper_entity_label_info_alter(
 
     $label_info['singular'] = $original_label_info['singular'];
   }
+}
+
+/**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_content_share_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_groups_shared_content' => array(
+      'type'     => 'shared_content',
+      'context'  => 'group',
+      'callback' => 'c4m_content_share_get_number_of_shared_content_per_group',
+    ),
+  );
 }
 
 /**

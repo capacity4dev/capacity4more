@@ -1004,6 +1004,35 @@ function c4m_user_is_spammer($user) {
 }
 
 /**
+ * Get all inactive users that have never logged in.
+ *
+ * Excluding the anonymous and admin users.
+ *
+ * @return array
+ *   All inactive users objects.
+ */
+function c4m_user_get_inactive_users() {
+  $query = db_select('users', 'u');
+  $query->fields('u', array('uid', 'status', 'login', 'created'))
+    // Inactive user.
+    ->condition('u.status', 0)
+    // Never logged in.
+    ->condition('u.login', 0)
+    // Not anonymous user.
+    ->condition('u.uid', 0, '<>')
+    // Not admin user.
+    ->condition('u.uid', 1, '<>');
+
+  $results = $query->execute()->fetchAllKeyed(0, 0);
+
+  if (!$results) {
+    return array();
+  }
+
+  return user_load_multiple($results);
+}
+
+/**
  * Returns the organisations of an user.
  *
  * @param int $uid
@@ -1071,4 +1100,27 @@ function c4m_user_get_node_metric($uid, $bundles) {
   );
 
   return c4m_helper_entity_get_number_of_entities($arguments);
+}
+
+/**
+ * Implements hook_TYPE_alter().
+ *
+ * Using hook_c4m_offcanvas_trigger_label_left_alter().
+ */
+function c4m_user_c4m_offcanvas_trigger_label_left_alter(&$trigger_label) {
+  if (arg(0) == 'people' && empty(arg(1))) {
+    $trigger_label['label'] = t('Filter results');
+    $trigger_label['icon'] = 'filter';
+  }
+}
+
+/**
+ * Implements hook_ckeditor_settings_alter().
+ *
+ * Remove media button for anonymous users.
+ */
+function c4m_user_ckeditor_settings_alter(&$settings, $conf) {
+  if (user_is_anonymous() && isset($settings['loadPlugins']['media'])) {
+    unset($settings['loadPlugins']['media']);
+  }
 }

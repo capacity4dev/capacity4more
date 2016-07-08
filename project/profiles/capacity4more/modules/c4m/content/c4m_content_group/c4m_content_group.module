@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Group content type feature.
@@ -453,7 +454,7 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
 /**
  * Implements hook_node_access_records().
  *
- * Add grants based on group status field.
+ * Add grunts based on group status field.
  */
 function c4m_content_group_node_access_records($node) {
   // Only for group nodes.
@@ -826,4 +827,38 @@ function c4m_content_group_c4m_helper_entity_label_info() {
       'icon' => 'fa-users',
     ),
   );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_content_group_theme() {
+  $theme['c4m_content_group_header_title'] = array(
+    'variables' => array(
+      'title' => '',
+      'group_type' => '',
+      'group_access' => '',
+      'group_status' => '',
+      'organisations' => array(),
+      'organisation_icons' => array(),
+      'organisation_ellipsis' => FALSE,
+      'emails' => array(),
+    ),
+    'path' => drupal_get_path('module', 'c4m_content_group') . '/theme',
+    'template' => 'c4m-content-group-header-title',
+  );
+
+  return $theme;
+}
+
+/**
+ * Implements hook_TYPE_alter().
+ *
+ * Using hook_c4m_offcanvas_trigger_label_left_alter().
+ */
+function c4m_content_group_c4m_offcanvas_trigger_label_left_alter(&$trigger_label) {
+  if (arg(0) == 'groups' && empty(arg(1))) {
+    $trigger_label['label'] = t('Filter results');
+    $trigger_label['icon'] = 'filter';
+  }
 }
