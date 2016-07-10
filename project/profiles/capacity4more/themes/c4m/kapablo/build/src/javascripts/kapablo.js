@@ -152,62 +152,39 @@
 
   Drupal.behaviors.wikiPagesSubNavigation = {
     attach: function (context, settings) {
-      var url = location.href;
-      var expanded = _getParameter(url, 'expanded');
+      var $wrapper = $('#group-pages-navigation-left');
 
-      if (expanded === '1') {
-        var $wrapper = $('#group-pages-navigation-left');
-
-        // .wrapInner() does not retain bound events.
-        var wrapper = $wrapper.get(0);
-        // Don't animate multiple times.
-        if (!wrapper.animating) {
-          wrapper.animating = true;
-          var speed = $wrapper.hasClass('speed-fast') ? 300 : 1000;
-          if ($wrapper.hasClass('effect-none') && $wrapper.hasClass('speed-none')) {
-            $('> .field-group-format-wrapper', wrapper).toggle();
-          }
-          else if ($wrapper.hasClass('effect-blind')) {
-            $('> .field-group-format-wrapper', wrapper).toggle('blind', {}, speed);
-          }
-          else {
-            $('> .field-group-format-wrapper', wrapper).toggle(speed);
-          }
-          wrapper.animating = false;
-          $wrapper.toggleClass('collapsed');
-
-          var nav_links = $('.og-menu-link.wiki .c4m-book-og-menu-link, #group-pages-navigation-left .field-name-c4m-content-wiki-page-navigation a');
-
-          var href;
-          $(nav_links).each(function () {
-            href = _addParameter($(this).attr('href'), 'expanded', '1');
-            $(this).attr('href', href);
-          });
-
-          return false;
-        }
+      if ($wrapper == null) {
+        return;
       }
 
-      $('#group-pages-navigation-left .field-group-format-toggler a').on('click', function () {
-        var collapsedClass = $(this).parents('.group-pages').attr('class');
+      collapsibleNavigation($wrapper.find('ul[role="menu"]'));
 
-        if (collapsedClass.indexOf("collapsed") >= 0) {
-          var nav_links = $('.og-menu-link.wiki .c4m-book-og-menu-link, #group-pages-navigation-left .field-name-c4m-content-wiki-page-navigation a');
-          var href;
-          $(nav_links).each(function () {
-            href = _removeURLParameter($(this).attr('href'), 'expanded');
-            $(this).attr('href', href);
-          });
+      // .wrapInner() does not retain bound events.
+      var wrapper = $wrapper.get(0);
+
+      if (wrapper == null) {
+        return;
+      }
+
+      // Don't animate multiple times.
+      if (!wrapper.animating || wrapper.animating == null) {
+        wrapper.animating = true;
+        var speed = $wrapper.hasClass('speed-fast') ? 300 : 1000;
+        if ($wrapper.hasClass('effect-none') && $wrapper.hasClass('speed-none')) {
+          $('> .field-group-format-wrapper', wrapper).toggle();
+        }
+        else if ($wrapper.hasClass('effect-blind')) {
+          $('> .field-group-format-wrapper', wrapper).toggle('blind', {}, speed);
         }
         else {
-          var nav_links = $('.og-menu-link.wiki .c4m-book-og-menu-link', '#group-pages-navigation-left .field-name-c4m-content-wiki-page-navigation a');
-          var href;
-          $(nav_links).each(function () {
-            href = _addParameter($(this).attr('href'), 'expanded', '1');
-            $(this).attr('href', href);
-          });
+          $('> .field-group-format-wrapper', wrapper).toggle(speed);
         }
-      });
+        wrapper.animating = false;
+        $wrapper.toggleClass('collapsed');
+
+        return false;
+      }
     }
   };
 
@@ -255,6 +232,40 @@
     .ajaxComplete(function () {
       $('.drupal-ajax-disabled').removeAttr('disabled');
     });
+
+  function collapsibleNavigation(element) {
+    var element = $(element);
+
+    element.find('li.expanded').each(function (index, el) {
+      var el = $(el);
+      var subnav = el.find('> .collapse');
+      if (subnav.hasClass('in')) {
+        el.find('> a > i').removeClass('fa-caret-right').addClass('fa-caret-down');
+      }
+    });
+
+    element.find('[data-toggle="collapse"]').on('click', function (e) {
+      e.preventDefault();
+
+      var $this = $(this);
+
+      var target = $this.data('target');
+      var sub_navigation = $(target);
+
+      sub_navigation.toggleClass('in');
+
+      if ($this.hasClass('fa-caret-right')) {
+        $this.removeClass('fa-caret-right');
+        $this.addClass('fa-caret-down');
+      }
+      else if ($this.hasClass('fa-caret-down')) {
+        $this.removeClass('fa-caret-down');
+        $this.addClass('fa-caret-right');
+      }
+
+      return false;
+    });
+  }
 
   /**
    * Remove a parameter from an URL string.
