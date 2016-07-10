@@ -36,6 +36,16 @@
       margin-bottom: 0;
       line-height: 1.5rem;
     }
+
+    &.c4m-footer-bar-project {
+      text-align: left;
+      border: none;
+      vertical-align: middle;
+    }
+
+    div> a.text-orange {
+      color: $color-highlight;
+    }
   }
 }
 

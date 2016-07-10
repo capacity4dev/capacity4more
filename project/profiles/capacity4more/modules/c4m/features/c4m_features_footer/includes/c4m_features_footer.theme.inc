@@ -15,6 +15,13 @@
  *   Rendered output.
  */
 function theme_c4m_footer_bar(array $variables) {
+
+  if (c4m_og_is_of_group_type('project')) {
+    // The template of the project page is different from the other pages on
+    // the site (by design).
+    return theme_c4m_footer_bar_project();
+  }
+
   $output = '<ul class="c4m-footer-bar clearfix">';
 
   // Get c4m footer navigation links.
@@ -53,6 +60,22 @@ function theme_c4m_footer_bar(array $variables) {
   $output .= $navigation_html_2;
 
   $output .= '</ul>';
+
+  return $output;
+}
+
+/**
+ * Theme function OG Project pages footer - uses project footer template.
+ *
+ * @return html
+ *   Rendered html.
+ */
+function theme_c4m_footer_bar_project() {
+  $variables = array(
+    'front_page' => base_path(),
+    'logo' => theme_get_setting('logo'),
+  );
+  $output = theme('c4m_footer_bar_project', $variables);
 
   return $output;
 }

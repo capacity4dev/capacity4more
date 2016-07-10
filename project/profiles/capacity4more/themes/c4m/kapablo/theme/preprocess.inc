@@ -101,15 +101,15 @@ function kapablo_preprocess_page(&$variables) {
   // Add information about OG context type.
   $context = og_context();
   if (!$context) {
-    $variables['is_og_project'] = FALSE;
+    $variables['page']['is_og_project'] = FALSE;
   }
   else {
     $og_group_type = c4m_og_get_group_type($context);
     if (!$og_group_type || $og_group_type != 'project') {
-      $variables['is_og_project'] = FALSE;
+      $variables['page']['is_og_project'] = FALSE;
     }
     else {
-      $variables['is_og_project'] = TRUE;
+      $variables['page']['is_og_project'] = TRUE;
     }
   }
 
