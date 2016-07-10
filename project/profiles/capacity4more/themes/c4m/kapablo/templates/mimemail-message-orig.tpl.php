@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Full mail notification template.

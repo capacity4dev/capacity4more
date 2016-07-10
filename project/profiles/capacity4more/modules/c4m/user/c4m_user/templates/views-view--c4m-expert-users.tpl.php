@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Override the default views-view.tpl.php.

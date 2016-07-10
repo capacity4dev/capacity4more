@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Helper functionality around dates.
@@ -128,8 +129,10 @@ function c4m_helper_date_time_ago($timestamp, $format = 'j F Y', $switch = 86400
  *
  * @see format_interval
  */
-function c4m_helper_date_format_interval($interval, $granularity = 2,
-                                         $suffix = '', $langcode = NULL) {
+function c4m_helper_date_format_interval($interval,
+ $granularity = 2,
+                                         $suffix = '',
+ $langcode = NULL) {
   $units = array(
     '1 year|@count years' => 31536000,
     '1 month|@count months' => 2592000,

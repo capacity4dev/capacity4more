@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Voices & Views carousel panels plugin.
