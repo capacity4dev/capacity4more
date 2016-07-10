@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * c4m_content_group.context.inc
+ * c4m_content_project.context.inc
  */
 
 /**

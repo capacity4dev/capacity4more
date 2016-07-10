@@ -87,6 +87,10 @@ function c4m_content_project_c4m_content_statistics_info() {
 function c4m_content_project_block_info() {
   $blocks = array();
 
+  $blocks['header_name_banner'] = array(
+    'info' => t('Project header'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
   $blocks['c4m_block_create_project'] = array(
     'info' => t('Project: Create project'),
     'cache' => DRUPAL_NO_CACHE,
