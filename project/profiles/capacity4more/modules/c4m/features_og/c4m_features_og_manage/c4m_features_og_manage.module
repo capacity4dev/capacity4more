@@ -150,7 +150,7 @@ function c4m_features_og_manage_categories_terms_access($tid) {
     // The next time this access callback will be called, it will not enter
     // here.
     og_context_access_callback_register_path($_GET['q']);
-    return;
+    return FALSE;
   }
 
   // Check if in a group.
