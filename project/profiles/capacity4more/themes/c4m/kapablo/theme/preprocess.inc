@@ -98,6 +98,21 @@ function kapablo_preprocess_block(&$variables) {
  * @see page.tpl.php
  */
 function kapablo_preprocess_page(&$variables) {
+  // Add information about OG context type.
+  $context = og_context();
+  if (!$context) {
+    $variables['is_og_project'] = FALSE;
+  }
+  else {
+    $og_group_type = c4m_og_get_group_type($context);
+    if (!$og_group_type || $og_group_type != 'project') {
+      $variables['is_og_project'] = FALSE;
+    }
+    else {
+      $variables['is_og_project'] = TRUE;
+    }
+  }
+
   // Add information about the number of sidebars.
   if (!empty($variables['page']['sidebar_first']) && !empty($variables['page']['sidebar_second'])) {
     $variables['content_column_class_kapablo'] = ' class="col-sm-4"';
