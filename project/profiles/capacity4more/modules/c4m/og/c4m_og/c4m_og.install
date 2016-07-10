@@ -18,10 +18,10 @@ function c4m_og_install() {
  */
 function _c4m_og_install_context() {
   $config = array(
+    'og_context_access_callback' => array(),
     'og_purl' => array(),
     'url'     => array(),
     'node'    => array(),
-
   );
   variable_set('og_context_negotiation_group_context', $config);
 

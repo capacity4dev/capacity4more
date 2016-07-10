@@ -469,6 +469,14 @@ function c4m_og_views_api() {
  *    TRUE or FALSE whether access is granted or not.
  */
 function c4m_og_access($feature = NULL, $account = NULL) {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return;
+  }
+
   // Check if the user has access to the group context.
   $og_context = og_context();
   if (!$og_context) {
