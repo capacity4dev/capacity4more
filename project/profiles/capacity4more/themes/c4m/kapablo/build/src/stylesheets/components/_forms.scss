@@ -103,7 +103,7 @@
     display: block;
   }
 
-  .form-control {
+  .form-control:not(textarea) {
     color: $color-gray-dark;
     font-style: italic;
     background-color: #EBEAE4;
