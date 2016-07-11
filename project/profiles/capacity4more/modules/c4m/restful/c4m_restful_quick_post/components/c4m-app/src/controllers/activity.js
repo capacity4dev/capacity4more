@@ -167,7 +167,9 @@ angular.module('c4mApp')
         topics: $scope.topics
       };
 
-      EntityResource.updateStream(activityStreamInfo, 'load')
+        angular.element('.activity-stream').addClass('loading');
+
+        EntityResource.updateStream(activityStreamInfo, 'load')
         .success(function (data, status) {
           if (data.data) {
             angular.forEach(data.data, function (activity) {
@@ -188,6 +190,8 @@ angular.module('c4mApp')
             // The "Count" variable will go down as we are filtering with the lowest activity Timestamp.
             $scope.showMoreButton = data.data.length >= $scope.range;
           }
+
+            angular.element('.activity-stream').removeClass('loading');
         });
     };
 
