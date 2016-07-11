@@ -433,6 +433,7 @@ function c4m_user_og_theme() {
       'login_url' => NULL,
       'button_label' => NULL,
       'button_icon' => NULL,
+      'button_link' => NULL,
     ),
   );
 
@@ -474,8 +475,32 @@ function c4m_user_og_c4m_cta_block_alter(&$block) {
   $variables = array(
     'button_label' => $types[$membership_request_value]['button_label'],
     'button_icon' => $types[$membership_request_value]['button_icon'],
-    'login_url' => l(t('log in'), '/user'),
+    'login_url' => l(t('log in'), '/user', array('query' => drupal_get_destination())),
   );
 
   $block['content'] = theme('c4m_group_visitor_cta', $variables);
+}
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_user_og_menu() {
+  $items['group/join/%node/login'] = array(
+    'title' => 'Login and Join group',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'c4m_og_unified_workflow',
+    'page arguments' => array(2, 'login'),
+    'access callback' => '_ec_groups_access_login',
+    'access arguments' => array(2),
+    'file' => 'c4m_og.page.inc',
+  );
+  $items['group/join/%node'] = array(
+    'title' => 'Join group',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'c4m_og_unified_workflow',
+    'page arguments' => array(2),
+    'access callback' => 'node_access',
+    'access arguments' => array('view', 2),
+    'file' => 'c4m_og.page.inc',
+  );
 }
