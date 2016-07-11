@@ -18,6 +18,7 @@ dependencies[] = ds_extras
 dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = field_group
+dependencies[] = hierarchical_taxonomy
 dependencies[] = image
 dependencies[] = list
 dependencies[] = media
