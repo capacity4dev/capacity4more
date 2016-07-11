@@ -303,7 +303,6 @@ function c4m_content_current_context() {
   }
 }
 
-
 /**
  * Helper function to generate markup for OG group image.
  *
@@ -311,7 +310,7 @@ function c4m_content_current_context() {
  * group/project page for group administrator users.
  *
  * @param object $group
- *   OG group
+ *   OG group.
  *
  * @return string
  *   Generated markup for group/project banner image.

@@ -42,7 +42,6 @@ body {
     color: $color-text;
     font-weight: normal;
     text-transform: uppercase;
-    border-radius: 6px;
     border-radius: 4px;
   }
 
@@ -65,6 +64,28 @@ body {
     &.restricted {
       background-color: $color-accent;
       border-color: $color-accent;
+    }
+  }
+
+  &.label-stage {
+      color: $color-white;
+      border: 1px solid $color-white;
+      font-weight: normal;
+      text-transform: uppercase;
+
+    &.notstarted {
+      background-color: $color-gray;
+      border-color: $color-gray;
+    }
+
+    &.ongoing {
+      background-color: $color-blue-light;
+      border-color: $color-blue-light;
+    }
+
+    &.completed {
+      background-color: $color-blue;
+      border-color: $color-blue;
     }
   }
 }

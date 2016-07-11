@@ -29,9 +29,9 @@ function c4m_content_project_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'c4m_content_project-header_name_banner' => array(
+        'c4m_content_project-header_name_banner_project' => array(
           'module' => 'c4m_content_project',
-          'delta' => 'header_name_banner',
+          'delta' => 'header_name_banner_project',
           'region' => 'content_above',
           'weight' => '-10',
         ),

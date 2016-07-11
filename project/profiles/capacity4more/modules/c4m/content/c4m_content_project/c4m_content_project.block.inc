@@ -36,7 +36,7 @@ function _c4m_content_project_block_c4m_block_create_project() {
  *
  * The function handles header title redesign project page.
  */
-function _c4m_content_project_block_header_name_banner() {
+function _c4m_content_project_block_header_name_banner_project() {
   // First establish the current group.
   $group = c4m_og_current_group();
   $wrapper = entity_metadata_wrapper('node', $group);
@@ -70,17 +70,7 @@ function _c4m_content_project_block_header_name_banner() {
     'status' => $status,
     'flag_icon' => $flag_icon,
   ];
-  $title = theme('c4m_content_project_header_title', $variables);
-
-  $tag['title']['element'] = array(
-    '#tag' => 'div',
-    '#attributes' => array(
-      'class' => array('project-title'),
-    ),
-    '#value' => $title,
-  );
-
-  $markup .= theme_html_tag($tag['title']);
+  $markup .= theme('c4m_content_project_header_title', $variables);
 
   return array(
     'subject' => '',
