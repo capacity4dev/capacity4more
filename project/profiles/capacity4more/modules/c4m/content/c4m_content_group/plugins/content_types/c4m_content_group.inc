@@ -49,3 +49,16 @@ function c4m_content_group_details() {
 
   return drupal_render($node_view);
 }
+
+/**
+ * Implements hook_preprocess().
+ *
+ * Add a class to 'group_dashboard' wrapper.
+ */
+function c4m_content_group_preprocess_node(&$variables) {
+  if ($variables['view_mode'] != 'group_dashboard') {
+    return;
+  }
+
+  $variables['classes_array'][] = 'group-details';
+}
