@@ -684,6 +684,15 @@ function c4m_user_profile_module_implements_alter(&$implementations, $hook) {
     $c4m_user_profile = $implementations['c4m_user_profile'];
     unset($implementations['c4m_user_profile']);
     $implementations['c4m_user_profile'] = $c4m_user_profile;
+
+    // In order to alter the login/register form on the "c4m_user_og" module we
+    // have no other way but use this hook to set the order, because of the
+    // alphabetic order of the modules names.
+    if (isset($implementations['c4m_user_og'])) {
+      $c4m_user_profile = $implementations['c4m_user_og'];
+      unset($implementations['c4m_user_og']);
+      $implementations['c4m_user_og'] = $c4m_user_profile;
+    }
   }
 }
 

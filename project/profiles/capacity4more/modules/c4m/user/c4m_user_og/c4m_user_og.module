@@ -436,6 +436,23 @@ function c4m_user_og_theme() {
     ),
   );
 
+  $theme['c4m_unified_workflow_register'] = array(
+    'template' => 'c4m_unified_workflow_register',
+    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
+    'variables' => array(
+      'group_title' => NULL,
+      'login_link' => NULL,
+    ),
+  );
+
+  $theme['c4m_unified_workflow_login'] = array(
+    'template' => 'c4m_unified_workflow_login',
+    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
+    'variables' => array(
+      'group_title' => NULL,
+    ),
+  );
+
   return $theme;
 }
 
@@ -474,7 +491,7 @@ function c4m_user_og_c4m_cta_block_alter(&$block) {
   $variables = array(
     'button_label' => $types[$membership_request_value]['button_label'],
     'button_icon' => $types[$membership_request_value]['button_icon'],
-    'url' => url('/user'),
+    'url' => url('group/join/' . $group->nid),
   );
 
   $block['content'] = theme('c4m_group_visitor_cta', $variables);
@@ -487,19 +504,64 @@ function c4m_user_og_menu() {
   $items['group/join/%node/login'] = array(
     'title' => 'Login and Join group',
     'type' => MENU_CALLBACK,
-    'page callback' => 'c4m_og_unified_workflow',
+    'page callback' => 'c4m_user_og_unified_workflow',
     'page arguments' => array(2, 'login'),
     'access callback' => '_ec_groups_access_login',
     'access arguments' => array(2),
-    'file' => 'c4m_og.page.inc',
+    'file' => 'c4m_user_og.page.inc',
   );
+
   $items['group/join/%node'] = array(
     'title' => 'Join group',
     'type' => MENU_CALLBACK,
-    'page callback' => 'c4m_og_unified_workflow',
+    'page callback' => 'c4m_user_og_unified_workflow',
     'page arguments' => array(2),
     'access callback' => 'node_access',
     'access arguments' => array('view', 2),
-    'file' => 'c4m_og.page.inc',
+    'file' => 'c4m_user_og.page.inc',
   );
+
+  return $items;
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_user_og_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+  if (!isset($_SESSION['gid_join']) || !$gid = $_SESSION['gid_join']) {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $gid);
+  $variables = array(
+    'group_title' => $wrapper->label(),
+    'login_link' => l('log in', 'user/login'),
+  );
+  drupal_set_title(theme('c4m_unified_workflow_register', $variables), PASS_THROUGH);
+
+  $form['#submit'][] = 'c4m_user_og_unified_workflow_submit';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_user_og_form_user_login_alter(&$form, &$form_state, $form_id) {
+  if (!isset($_SESSION['gid_join']) || !$gid = $_SESSION['gid_join']) {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $gid);
+  drupal_set_title(theme('c4m_unified_workflow_login', array('group_title' => $wrapper->label())), PASS_THROUGH);
+
+  $form['#submit'][] = 'c4m_user_og_unified_workflow_submit';
+}
+
+/**
+ * A submit handler for the unified workflow.
+ */
+function c4m_user_og_unified_workflow_submit() {
+  if (!isset($_SESSION['gid_join']) || !$gid = $_SESSION['gid_join']) {
+    return;
+  }
+}
+
