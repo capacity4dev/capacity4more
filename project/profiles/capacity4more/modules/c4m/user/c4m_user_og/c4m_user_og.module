@@ -430,7 +430,7 @@ function c4m_user_og_theme() {
     'template' => 'c4m_group_visitor_cta',
     'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
     'variables' => array(
-      'login_url' => NULL,
+      'url' => NULL,
       'button_label' => NULL,
       'button_icon' => NULL,
     ),
@@ -474,7 +474,7 @@ function c4m_user_og_c4m_cta_block_alter(&$block) {
   $variables = array(
     'button_label' => $types[$membership_request_value]['button_label'],
     'button_icon' => $types[$membership_request_value]['button_icon'],
-    'login_url' => l(t('log in'), '/user'),
+    'url' => url('/user'),
   );
 
   $block['content'] = theme('c4m_group_visitor_cta', $variables);

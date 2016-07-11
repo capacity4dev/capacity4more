@@ -6,9 +6,8 @@
  */
 ?>
 <div class="c4m-group-visitor-cta">
-  <button class="btn">
+  <a class="btn" href="<?php print $url; ?>">
     <i class="fa <?php print $button_icon; ?>"></i>
     <?php print $button_label; ?>
-  </button>
-  Please <?php print $login_url; ?> first if you have a C4D account
+  </a>
 </div>
