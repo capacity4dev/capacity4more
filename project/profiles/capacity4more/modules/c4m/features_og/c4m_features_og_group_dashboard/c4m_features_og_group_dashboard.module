@@ -243,3 +243,33 @@ function c4m_features_og_group_dashboard_get_flagged_group_content($og_id = NULL
 
   return $flagged_content;
 }
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_features_og_group_dashboard_block_info() {
+  $blocks['c4m_cta_block'] = array(
+    'info' => t('C4M CTA Block'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * Altering the C4M CTA Block.
+ */
+function c4m_features_og_group_dashboard_block_view($delta = '') {
+  $block = array();
+
+  if ($delta != 'c4m_cta_block') {
+    return $block;
+  }
+
+  $block['content'] = 'CTA BLOCK';
+  drupal_alter('c4m_cta_block', $block);
+
+  return $block;
+}
