@@ -32,8 +32,8 @@ function c4m_content_group_context_default_contexts() {
         'c4m_content_group-header_name_banner' => array(
           'module' => 'c4m_content_group',
           'delta' => 'header_name_banner',
-          'region' => 'content_top',
-          'weight' => '-26',
+          'region' => 'content_above',
+          'weight' => '-10',
         ),
       ),
     ),
@@ -44,6 +44,7 @@ function c4m_content_group_context_default_contexts() {
   // Included for use with string extractors like potx.
   t('Context for setting the header inside OG Group CT');
   t('cap4more - OG Group');
+  $export['c4m_context_og_header_group'] = $context;
 
   return $export;
 }
