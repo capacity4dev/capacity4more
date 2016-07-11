@@ -741,7 +741,7 @@ function c4m_user_contact_form($form, &$form_state, $account) {
     '#title' => t('Body'),
     '#description' => t('Enter mail body.'),
     '#type' => 'text_format',
-    '#format' => 'full_html',
+    '#format' => 'filtered_html',
   );
 
   $form['c4m_contact_user_self_copy'] = array(
@@ -843,7 +843,7 @@ function _c4m_user_send_mail($to, $from, $subject, $body, $language) {
       'Attempt to send mail (from %from to %to) failed.',
       $variables, WATCHDOG_ERROR
     );
-    drupal_set_message('Can\'nt send the message.', 'error');
+    drupal_set_message('Can\'t send the message.', 'error');
   }
   else {
     drupal_set_message('Message sent successfully.');
