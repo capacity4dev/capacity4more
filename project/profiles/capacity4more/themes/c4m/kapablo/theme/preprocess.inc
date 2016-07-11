@@ -126,6 +126,16 @@ function kapablo_preprocess_page(&$variables) {
 
   $variables['offcanvas_trigger_label_left'] = $offcanvas_trigger_label_left;
   $variables['offcanvas_trigger_label_right'] = $offcanvas_trigger_label_right;
+
+  // When JS is enabled, remove the hidden class on the activity stream angular component
+  // and apply the hidden class on the no-js fallback (view)
+  if (drupal_is_front_page()) {
+    drupal_add_js("window.onload = function removeJsHidden() { 
+                    document.getElementsByClassName('nojs-hidden')[0].classList.remove('nojs-hidden');
+                    document.getElementsByClassName('pane-my-first-view')[0].classList.add('nojs-hidden'); // TODO: Change to view's production class name                   
+                   }", 'inline');
+  }
+
 }
 
 /**

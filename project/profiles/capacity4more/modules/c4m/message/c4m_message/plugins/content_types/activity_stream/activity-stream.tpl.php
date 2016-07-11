@@ -5,7 +5,7 @@
  * Activity stream wrapper.
  */
 ?>
-<div class="activity-stream" ng-controller="ActivityCtrl">
+<div class="activity-stream nojs-hidden" ng-controller="ActivityCtrl">
   <!-- Display an error if we can't update the activity stream-->
   <div ng-show="stream.status > 0 && stream.status != 200" class="messages">
     <div class="alert alert-danger">
