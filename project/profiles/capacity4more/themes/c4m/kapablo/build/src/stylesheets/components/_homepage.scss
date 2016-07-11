@@ -206,3 +206,11 @@
 .pane-c4m-features-homepage-c4m-features-homepage-newsletter {
   padding-bottom: 40px;
 }
+
+.spinner {
+  display: none;
+}
+
+.loading .spinner {
+  display: inline-block;
+}
