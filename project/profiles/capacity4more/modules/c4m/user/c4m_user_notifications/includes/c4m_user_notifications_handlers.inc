@@ -18,9 +18,9 @@ function c4m_user_notifications_moderated_group_new_membership_request($entity) 
 }
 
 /**
- * Email notification to user about acceptance to moderated group.
+ * Email notification to user about acceptance to group (moderated and open).
  */
-function c4m_user_notifications_moderated_group_notify_user_membership_accepted($membership) {
+function c4m_user_notifications_notify_user_membership_accepted($membership) {
   // Send activation message to member.
   $message = message_create('c4m_welcome_to_group', array('uid' => $membership->etid));
   c4m_message_load__c4m_welcome_to_group($message);
@@ -35,12 +35,6 @@ function c4m_user_notifications_moderated_group_notify_user_membership_accepted(
  * Email notification to group admins about new member at moderated group.
  */
 function c4m_user_notifications_moderated_group_notify_admins_membership_accepted($membership) {
-}
-
-/**
- * Email notification to user about acceptance to open group.
- */
-function c4m_user_notifications_open_group_notify_user_membership_accepted($membership) {
 }
 
 /**
