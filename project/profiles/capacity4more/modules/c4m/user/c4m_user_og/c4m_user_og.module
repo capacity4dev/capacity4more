@@ -421,3 +421,61 @@ function c4m_user_og_c4m_helper_entity_metrics_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_user_og_theme() {
+  $theme['c4m_group_visitor_cta'] = array(
+    'template' => 'c4m_group_visitor_cta',
+    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
+    'variables' => array(
+      'login_url' => NULL,
+      'button_label' => NULL,
+      'button_icon' => NULL,
+    ),
+  );
+
+  return $theme;
+}
+
+/**
+ * Implements hook_c4m_cta_block_alter().
+ *
+ * Set the CTA block for visitors.
+ */
+function c4m_user_og_c4m_cta_block_alter(&$block) {
+  if (!user_is_anonymous()) {
+    return;
+  }
+
+  if (!$group = c4m_og_current_group()) {
+    return;
+  }
+
+  $access_type = c4m_og_get_access_type($group);
+  if ($access_type['type'] != 'public') {
+    return;
+  }
+
+  $types = array(
+    'open' => array(
+      'button_label' => 'Join this group',
+      'button_icon' => 'fa-user-plus',
+    ),
+    'moderated' => array(
+      'button_label' => 'Request membership for this group',
+      'button_icon' => 'fa-unlock-alt',
+    ),
+  );
+
+  $membership_request_value = c4m_og_get_group_membership_request($group);
+
+  $variables = array(
+    'button_label' => $types[$membership_request_value]['button_label'],
+    'button_icon' => $types[$membership_request_value]['button_icon'],
+    'login_url' => l(t('log in'), '/user'),
+  );
+
+  $block['content'] = theme('c4m_group_visitor_cta', $variables);
+}
