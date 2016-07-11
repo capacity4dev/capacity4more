@@ -879,6 +879,19 @@ function c4m_content_group_field_extra_fields() {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function c4m_content_group_theme() {
+  $theme['c4m_og_vocab'] = array(
+    'template' => 'c4m_og_vocab',
+    'path' => drupal_get_path('module', 'c4m_content_group') . '/templates',
+    'variables' => array(),
+  );
+
+  return $theme;
+}
+
+/**
  * Implements hook_node_view_alter().
  *
  * Adding the 'Group administrators' view for the group_admins field.
@@ -901,4 +914,23 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
     '#title' => t('Group administrators'),
     '#markup' => implode(",", $links),
   );
+
+  // Style the Topics vocab.
+  foreach($node->content['c4m_vocab_topic']['#items'] as $index => $item) {
+    $topic = $item['taxonomy_term'];
+
+    // Create the topics tree.
+    $topic_names = array();
+    $tree = hierarchical_taxonomy_get_tree($topic->vid, $topic->tid);
+    foreach ($tree as $term) {
+      $topic_names[] =  l($term->name, "/taxonomy/term/" . $term->tid);
+    }
+
+    $variables = array(
+      'root' => $topic,
+      'tree' => implode(', ', $topic_names),
+    );
+
+    $node->content['c4m_vocab_topic'][$index]['#markup'] = theme('c4m_og_vocab', $variables);
+  }
 }

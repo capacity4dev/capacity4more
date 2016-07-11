@@ -53,12 +53,12 @@ function c4m_content_group_details() {
 /**
  * Implements hook_preprocess().
  *
- * Add a class to 'group_dashboard' wrapper.
+ * Use 'group_dashboard' custom template.
  */
 function c4m_content_group_preprocess_node(&$variables) {
   if ($variables['view_mode'] != 'group_dashboard') {
     return;
   }
 
-  $variables['classes_array'][] = 'group-details';
+  $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->type . '__group_dashboard';
 }
