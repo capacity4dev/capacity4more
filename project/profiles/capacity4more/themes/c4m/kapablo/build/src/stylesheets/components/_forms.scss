@@ -98,6 +98,11 @@
 // ========================================================================== //
 .node-form {
 
+  .control-label {
+    clear: both;
+    display: block;
+  }
+
   .form-control {
     color: $color-gray-dark;
     font-style: italic;
