@@ -83,6 +83,21 @@
     }
   }
 
+  &.node-photoalbum {
+    .field-name-c4m-ds-content-footer-stats {
+      text-align: left;
+
+      .row-entity-count {
+        margin-left: 0;
+        margin-right: 1rem;
+      }
+    }
+
+    .field-name-c4m-body {
+      margin: 2rem 0;
+    }
+  }
+
   &.node-event {
     .field-name-c4m-ds-event-start-icon {
       float: left;
