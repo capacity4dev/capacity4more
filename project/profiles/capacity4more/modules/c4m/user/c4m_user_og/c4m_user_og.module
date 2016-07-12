@@ -560,10 +560,25 @@ function c4m_user_og_form_user_login_alter(&$form, &$form_state, $form_id) {
 
 /**
  * A submit handler for the unified workflow.
+ *
+ * Setting a message to the user and redirect back to the group.
  */
-function c4m_user_og_unified_workflow_submit() {
+function c4m_user_og_unified_workflow_submit($form, &$form_state) {
   if (!isset($_SESSION['gid_join']) || !$gid = $_SESSION['gid_join']) {
     return;
   }
+
+  $group = node_load($gid);
+  $membership_request_value = c4m_og_get_group_membership_request($group);
+  $messages = array(
+    'open' => t('You are now a member of this group'),
+    'moderated' => t('This is a moderated group. Your request is waiting for approval. Continue to explore group @group_title content', array('@group_title' => $group->title)),
+  );
+
+  drupal_set_message($messages[$membership_request_value]);
+  $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
+
+  // drupal_goto has a fallback to the 'destination' so we must remove it.
+  unset($_GET['destination']);
 }
 
