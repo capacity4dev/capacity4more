@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Theme functionality for locations fields.
@@ -46,7 +47,7 @@ function theme_c4m_field_location_city_country(array $field) {
   ) ? $countries[$country] : $country;
 
   if (empty($name) && empty($city) && empty($country)) {
-    return;
+    return NULL;
   }
 
   $element_value = format_string(

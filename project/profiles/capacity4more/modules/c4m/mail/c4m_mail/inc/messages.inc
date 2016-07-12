@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code to set/update the mail content based on the test in messages folder.

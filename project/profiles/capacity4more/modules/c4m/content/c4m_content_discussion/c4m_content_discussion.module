@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Discussion content type feature.
@@ -44,7 +45,6 @@ function c4m_content_discussion_entity_type_label_alter(&$variables) {
  *   Simple label and icon class.
  */
 function c4m_content_discussion_simple_label($label) {
-  $replace = array();
   $text = $label;
   $class = '';
 
@@ -142,6 +142,87 @@ function c4m_content_discussion_c4m_content_statistics_info() {
           ),
         ),
       ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_content_discussion_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_og_discussions' => array(
+      'type'      => 'discussion',
+      'context'   => 'group',
+      'callback'  => 'c4m_og_group_node_metric',
+      'arguments' => array(array('discussion')),
+      'weight'    => 0,
+    ),
+    'c4m_user_discussions' => array(
+      'type' => 'discussions',
+      'context'   => 'user',
+      'callback'  => 'c4m_user_get_node_metric',
+      'arguments' => array(array('discussion')),
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_content_share_fields_info().
+ */
+function c4m_content_discussion_c4m_content_share_fields_info() {
+  return array(
+    'discussion' => array(
+      'type',
+      'c4m_discussion_type',
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_discussion_c4m_helper_entity_label_info() {
+  return array(
+    'discussion' => array(
+      'article' => t('a'),
+      'singular' => t('discussion'),
+      'plural' => t('discussions'),
+      'insert action' => t('started a new discussion'),
+      'update action' => t('updated the discussion'),
+      'icon' => 'fa-comments',
+    ),
+    'discussion-info' => array(
+      'article' => '',
+      'singular' => t('information'),
+      'plural' => t('informations'),
+      'insert action' => t('posted Information'),
+      'update action' => t('updated the Information'),
+      'icon' => 'fa-info-circle',
+    ),
+    'discussion-debate' => array(
+      'article' => t('a'),
+      'singular' => t('debate'),
+      'plural' => t('debates'),
+      'insert action' => t('started a Debate'),
+      'update action' => t('updated the Debate'),
+      'icon' => 'fa-comments',
+    ),
+    'discussion-question' => array(
+      'article' => t('a'),
+      'singular' => t('question'),
+      'plural' => t('question'),
+      'insert action' => t('asked a Question'),
+      'update action' => t('updated the Question'),
+      'icon' => 'fa-question-circle',
+    ),
+    'discussion-idea' => array(
+      'article' => t('a'),
+      'singular' => t('idea'),
+      'plural' => t('ideas'),
+      'insert action' => t('posted an Idea'),
+      'update action' => t('updated the Idea'),
+      'icon' => 'fa-lightbulb-o',
     ),
   );
 }

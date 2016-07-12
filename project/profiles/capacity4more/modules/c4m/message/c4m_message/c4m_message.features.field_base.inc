@@ -135,6 +135,7 @@ function c4m_message_field_default_field_bases() {
           'event' => 'event',
           'photo' => 'photo',
           'photoalbum' => 'photoalbum',
+          'share' => 'share',
           'wiki_page' => 'wiki_page',
         ),
       ),

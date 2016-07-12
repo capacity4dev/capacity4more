@@ -2,7 +2,20 @@
   @extend .text-small;
 
   &.node-topic {
+    @include grain-dark;
+    border-radius: 6px;
+    color: white !important;
     margin-bottom: 2rem;
+    padding: 0.5em;
+
+    img {
+      border: 0;
+      padding: 0;
+    }
+
+    a {
+      color: $color-white;
+    }
 
     .group-right {
       // 3px = align with image (1px border and 2px padding).
@@ -11,7 +24,7 @@
   }
 
   &:not(.node-group) {
-    .fa, .user-name, .creation-date, .posted-by, .field-name-c4m-field-og-group, .field-name-c4m-field-og-group a {
+    .fa, .user-name, .user-name a, .creation-date, .posted-by, .posted-by a, .field-name-c4m-field-og-group, .field-name-c4m-field-og-group a {
       color: $color-gray-light;
     }
   }
@@ -46,6 +59,17 @@
 
     .date-display-range {
       display: inline-block;
+    }
+  }
+
+  &.node-share {
+    .field-name-c4m-source-entity {
+      background: $color-background;
+      padding: 1em;
+
+      h2 {
+        margin-top: 0;
+      }
     }
   }
 }

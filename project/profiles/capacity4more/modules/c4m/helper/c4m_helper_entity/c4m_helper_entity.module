@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Helper functionality around $entity objects.
@@ -35,6 +36,8 @@ function c4m_helper_entity_get_entity_type_label(
     $object_wrapper = entity_metadata_wrapper('node', $entity);
     $variables['label'] = $object_wrapper->$field_name->value();
   }
+
+  $variables['label'] = ucwords($variables['label']);
 
   drupal_alter('entity_type_label', $variables);
 
@@ -76,10 +79,22 @@ function c4m_sort_object_by_title($a, $b) {
 function c4m_helper_entity_get_number_of_entities(array $variables) {
   $amount = 0;
 
+  $default_variables = array(
+    'bundles' => array(),
+    'state' => NULL,
+    'og_id' => NULL,
+    'uid' => NULL,
+    'topic' => NULL,
+    'c4m_status' => NULL,
+  );
+
+  $variables = array_merge($default_variables, $variables);
+
   $entity_type = $variables['entity_type'];
   $bundles = $variables['bundles'];
   $state = $variables['state'];
   $og_id = $variables['og_id'];
+  $uid = $variables['uid'];
   $topic = $variables['topic'];
   $c4m_status = $variables['c4m_status'];
 
@@ -140,6 +155,22 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
           return $amount;
       }
       $query->condition('og.gid', $og_id, '=');
+    }
+
+    // Add user condition if given.
+    if ($uid) {
+      switch ($entity_type) {
+        case 'comment':
+          $query->condition('c.uid', $uid);
+          break;
+
+        case 'node':
+          $query->condition('n.uid', $uid);
+          break;
+
+        default:
+          return $amount;
+      }
     }
 
     // Add topic condition if given.
@@ -255,4 +286,158 @@ function c4m_helper_entity_entity_get_properties($entity, array $options, $name,
   }
 
   return NULL;
+}
+
+/**
+ * Retrieve label information array for a given entity object.
+ *
+ * @param object $entity
+ *   Entity object to retrieve label info for.
+ *
+ * @return array
+ *   Mixed label information for the given entity.
+ */
+function c4m_helper_entity_label_info($entity) {
+  $cache_key = 'c4m_helper_entity:label_info';
+  $data = &drupal_static($cache_key);
+
+  // Retrieve from Cache if not loaded before.
+  if (!isset($data)) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
+      $data = $cache->data;
+    }
+    else {
+      $data = module_invoke_all('c4m_helper_entity_label_info');
+      cache_set($cache_key, $data);
+    }
+  }
+
+  $entity_type = $entity->type;
+
+  // Allow content types to define subtypes (e.g. c4m_event_type).
+  $field_name = 'c4m_' . $entity->type . '_type';
+
+  if (!empty($entity->$field_name)) {
+    $object_wrapper = entity_metadata_wrapper('node', $entity);
+    $entity_type .= '-' . $object_wrapper->$field_name->value();
+  }
+
+  // Only return data for a given feature.
+  if (isset($data[$entity_type])) {
+    return $data[$entity_type];
+  }
+
+  // Return all data.
+  return $data;
+}
+
+/**
+ * Metrics info from implementations of hook_c4m_helper_entity_metrics_info().
+ *
+ * @return array
+ *   Configuration as collected through the implementations of
+ *   hook_c4m_helper_entity_metrics_info() hooks.
+ */
+function c4m_helper_entity_metrics_info() {
+  $cache_key = 'c4m_helper_entity:metrics_info';
+  $data = &drupal_static($cache_key);
+
+  // Retrieve from cache if not loaded before.
+  if (!isset($data)) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
+      $data = $cache->data;
+    }
+    else {
+      $raw_data = module_invoke_all('c4m_helper_entity_metrics_info');
+
+      // Sort the contexts.
+      foreach ($raw_data as $info) {
+        // Exclude metrics info which don't have a type.
+        if (!isset($info['type']) || empty($info['type'])) {
+          continue;
+        }
+
+        // Exclude metrics info which don't have a callback.
+        if (!isset($info['callback']) || empty($info['callback'])) {
+          continue;
+        }
+
+        // Default context to "global".
+        if (!isset($info['context']) || empty($info['context'])) {
+          $info['context'] = 'global';
+        }
+
+        $metric_key = $info['context'] . '::' . $info['type'];
+
+        uasort($info, 'drupal_sort_weight');
+        $data[$metric_key] = $info;
+      }
+
+      // Save in cache.
+      cache_set($cache_key, $data);
+    }
+  }
+
+  return $data;
+}
+
+/**
+ * Load a specific metrics info.
+ *
+ * @return array | null
+ *   Configuration as collected through the implementations of
+ *   hook_c4m_helper_entity_metrics_info() hooks.
+ *
+ * @see c4m_helper_entity_metrics_info()
+ */
+function c4m_helper_entity_get_metric_info($metric_key) {
+  $metrics_info = c4m_helper_entity_metrics_info();
+
+  if (isset($metrics_info[$metric_key])) {
+    return $metrics_info[$metric_key];
+  }
+
+  return NULL;
+}
+
+/**
+ * Get the metrics.
+ *
+ * @param string $metric_key
+ *   The key of the metric value to call the function for.
+ * @param int $entity_id
+ *   The entity ID to filter the metrics for.
+ * @param string $entity_type
+ *   The entity type of the entity to filter the metrics for.
+ *
+ * @return array
+ *   The collected metrics.
+ */
+function c4m_helper_entity_get_metrics($metric_key, $entity_id, $entity_type) {
+  $data = &drupal_static(__FUNCTION__);
+
+  if (!is_numeric($entity_id)) {
+    return NULL;
+  }
+
+  $key = $metric_key . ':' . $entity_id . ':' . $entity_type;
+
+  if (isset($data[$key])) {
+    return $data[$key];
+  }
+
+  if ($info = c4m_helper_entity_get_metric_info($metric_key)) {
+    $callback = $info['callback'];
+    $arguments = array($entity_id);
+
+    if (isset($info['arguments'])) {
+      $arguments = array_merge($arguments, $info['arguments']);
+    }
+
+    if (function_exists($callback)) {
+      $data[$key] = call_user_func_array($callback, $arguments);
+    }
+  }
+
+  return $data[$key];
 }

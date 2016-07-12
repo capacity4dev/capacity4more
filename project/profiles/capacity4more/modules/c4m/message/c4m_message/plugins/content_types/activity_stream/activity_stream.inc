@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Panels plugin to add the pane for the Activity Stream.

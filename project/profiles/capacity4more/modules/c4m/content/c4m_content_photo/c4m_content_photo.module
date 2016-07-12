@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Photo content type feature.
@@ -11,4 +12,46 @@ include_once 'c4m_content_photo.features.inc';
  */
 function c4m_content_photo_theme_registry_alter(&$theme_registry) {
   $theme_registry['node_gallery_api_item_navigator']['path'] = drupal_get_path('module', 'c4m_content_photo') . "/theme";
+}
+
+/**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_content_photo_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_og_photos' => array(
+      'type'      => 'photo',
+      'context'   => 'group',
+      'callback'  => 'c4m_og_group_node_metric',
+      'arguments' => array(array('photo')),
+      'weight'    => 2,
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_content_share_fields_info().
+ */
+function c4m_content_photo_c4m_content_share_fields_info() {
+  return array(
+    'photo' => array(
+      'type',
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_photo_c4m_helper_entity_label_info() {
+  return array(
+    'photo' => array(
+      'article' => t('a'),
+      'singular' => t('photo'),
+      'plural' => t('photos'),
+      'insert action' => t('added new Photo'),
+      'update action' => t('updated the photo'),
+      'icon' => 'fa-file-picture-o',
+    ),
+  );
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the C4M Display Suite feature.
@@ -275,12 +276,12 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
-  $fields['node']['c4m_ds_type_posted_by'] = array(
-    'title' => t('Node type posted by - on (meta)'),
+  $fields['node']['c4m_ds_type_insert_action'] = array(
+    'title' => t('Content type specific insert string'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
     'ui_limit' => array('*|*'),
     'file' => $path . '/includes/c4m_ds.theme.node.inc',
-    'function' => 'theme_c4m_ds_type_posted_by',
+    'function' => 'theme_c4m_ds_type_insert_action',
     'properties' => array(
       'default' => 'Default',
     ),
@@ -305,6 +306,19 @@ function c4m_ds_ds_fields_info($entity_type) {
     'ui_limit' => array('*|*'),
     'file' => $path . '/includes/c4m_ds.theme.node.inc',
     'function' => 'theme_c4m_ds_content_type_label',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['node']['c4m_ds_entity_type_label'] = array(
+    'title' => t('Entity type label'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_ds.theme.node.inc',
+    'function' => 'theme_c4m_ds_entity_type_label',
     'properties' => array(
       'formatters' => array(
         'default' => t('Default'),
@@ -449,6 +463,19 @@ function c4m_ds_ds_fields_info($entity_type) {
     'ui_limit' => array('group|*'),
     'file' => $path . '/includes/c4m_ds.theme.node.inc',
     'function' => 'theme_c4m_ds_group_membership_type',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['node']['c4m_ds_content_shared_to'] = array(
+    'title' => t('Overview list of places the content is shared TO.'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|full'),
+    'file' => $path . '/includes/c4m_ds.theme.node.inc',
+    'function' => 'theme_c4m_ds_content_shared_to',
     'properties' => array(
       'formatters' => array(
         'default' => t('Default'),

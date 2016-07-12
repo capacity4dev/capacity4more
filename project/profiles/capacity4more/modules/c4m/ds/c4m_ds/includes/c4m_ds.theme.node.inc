@@ -45,6 +45,9 @@ function theme_c4m_ds_submitted_by_and_on(array $field) {
     '#tag' => 'span',
     '#attributes' => array(
       'class' => array('creation-date'),
+      'data-toggle' => 'tooltip',
+      'data-placement' => 'bottom',
+      'title' => format_date($entity->created, 'custom', 'd M Y H:i'),
     ),
     '#value' => c4m_helper_date_time_ago($entity->created, $field['formatter']),
   );
@@ -80,6 +83,9 @@ function theme_c4m_ds_creation_date(array $field) {
     '#tag' => 'span',
     '#attributes' => array(
       'class' => array('creation-date'),
+      'data-toggle' => 'tooltip',
+      'data-placement' => 'bottom',
+      'title' => format_date($field['entity']->created, 'custom', 'd F Y - H:i'),
     ),
     '#value' => c4m_helper_date_time_ago(
       $field['entity']->created,
@@ -106,74 +112,43 @@ function theme_c4m_ds_content_type_icon(array $field) {
     return;
   }
 
-  $icons = array(
-    'discussion-info' => 'fa-info-circle',
-    'discussion-debate' => 'fa-comments',
-    'discussion-question' => 'fa-question-circle',
-    'discussion-idea' => 'fa-lightbulb-o',
-    'event-event' => 'fa-calendar',
-    'event-meeting' => 'fa-users',
-    'event-learning' => 'fa-university',
-  );
-
   $object = $field['entity'];
 
-  $icon_name = $object->type;
+  $info = c4m_helper_entity_label_info($object);
 
-  $object_wrapper = entity_metadata_wrapper('node', $object);
-  $field_name = 'c4m_' . $icon_name . '_type';
-
-  // Check if there is a type field.
-  if (!empty($object_wrapper->$field_name)) {
-    $icon_name .= '-' . $object_wrapper->$field_name->value();
-  }
-
-  if (og_is_group('node', $object)) {
-    $al = c4m_og_get_access_type($object);
-    $icon_name .= '-' . $al['type'];
-  }
-
-  if (!isset($icons[$icon_name])) {
-    $tag['element'] = array(
-      '#tag' => 'span',
-      '#attributes' => array(
-        'class' => array('node-icon', 'as-' . $icon_name),
-      ),
-      '#value' => '',
-    );
-  }
-  else {
-    $tag['element'] = array(
-      '#tag' => 'i',
-      '#attributes' => array(
-        'class' => array('fa', $icons[$icon_name]),
-      ),
-      '#value' => '',
-    );
-  }
+  $tag['element'] = array(
+    '#tag' => 'i',
+    '#attributes' => array(
+      'class' => array('fa', $info['icon']),
+    ),
+    '#value' => '',
+  );
 
   return theme_html_tag($tag);
 }
 
+/**
+ * Returns HTML for content type label DS field.
+ *
+ * @param array $field
+ *   Field array.
+ *
+ * @return string
+ *   HTML output.
+ */
 function theme_c4m_ds_content_type_label(array $field) {
   if (empty($field['entity'])) {
-    return;
+    return '';
   }
 
-  $icons = array(
-    'photoalbum' => 'fa-picture-o',
-    'photo' => 'fa-file-picture-o',
-  );
-
   $entity = $field['entity'];
+  $info = c4m_helper_entity_label_info($entity);
 
-  $type = $entity->type;
+  $type = ucwords($info['singular']);
   $icon_html = '';
 
-  if (!empty($icons[$entity->type])) {
-    // Add icon.
-    $icon = $icons[$entity->type];
-    $icon_html .= '<i class="fa ' . $icon . '"></i> ';
+  if (!empty($info['icon'])) {
+    $icon_html = '<i class="fa ' . $info['icon'] . '"></i> ';
   }
 
   $tag['element'] = array(
@@ -191,9 +166,29 @@ function theme_c4m_ds_content_type_label(array $field) {
 }
 
 /**
+ * Returns HTML for entity type label DS field.
+ *
+ * @param array $field
+ *   Field array.
+ *
+ * @return string
+ *   HTML output.
+ */
+function theme_c4m_ds_entity_type_label(array $field) {
+  if (empty($field['entity'])) {
+    return '';
+  }
+
+  $entity = $field['entity'];
+  $label = c4m_helper_entity_get_entity_type_label($entity, $entity->type);
+
+  return $label;
+}
+
+/**
  * DS function field.
  *
- * Render <content type> posted by
+ * Render <content type> posted by.
  *
  * @param array $field
  *   The field that needs to be rendered.
@@ -201,7 +196,7 @@ function theme_c4m_ds_content_type_label(array $field) {
  * @return mixed
  *   The rendered field.
  */
-function theme_c4m_ds_type_posted_by(array $field) {
+function theme_c4m_ds_type_insert_action(array $field) {
   $output = '';
 
   if (empty($field['entity'])) {
@@ -209,20 +204,61 @@ function theme_c4m_ds_type_posted_by(array $field) {
   }
   $entity = $field['entity'];
 
-  $tag['element'] = array(
-    '#tag' => 'span',
-    '#attributes' => array(
-      'class' => array('posted-by'),
-    ),
-    '#value' => t(
-      '@entity_label',
-      array(
-        '@entity_label' => ucfirst(
-          c4m_helper_entity_get_entity_type_label($entity)
-        ),
-      )
-    ),
-  );
+  $label_info = c4m_helper_entity_label_info($entity);
+
+  drupal_alter('c4m_helper_entity_label_info', $label_info, $entity);
+
+  if ($entity->type == 'share') {
+    $node = entity_metadata_wrapper(
+      'node',
+      $entity
+    );
+    $group_wrapper = entity_metadata_wrapper(
+      'node',
+      $node->og_group_ref->value()
+    );
+
+    $group_type = $group_wrapper->getBundle();
+
+    $url_options = array(
+      'absolute' => TRUE,
+      'purl' => array(
+        'provider' => 'og_purl|node',
+        'id' => $group_wrapper->nid->value(),
+      ),
+    );
+    ;
+
+    $group_url = l(
+      $group_wrapper->title->value(),
+      url('<front>', $url_options)
+    );
+
+    $tag['element'] = array(
+      '#tag' => 'span',
+      '#attributes' => array(
+        'class' => array('posted-by'),
+        '#html' => TRUE,
+      ),
+      '#value' => t(
+        'shared @original_type to the @group_type !group_link',
+        array(
+          '@original_type' => $label_info['singular'],
+          '@group_type' => $group_type,
+          '!group_link' => $group_url,
+        )
+      ),
+    );
+  }
+  else {
+    $tag['element'] = array(
+      '#tag' => 'span',
+      '#attributes' => array(
+        'class' => array('posted-by'),
+      ),
+      '#value' => $label_info['insert action'],
+    );
+  }
 
   return theme_html_tag($tag);
 }
@@ -239,7 +275,13 @@ function theme_c4m_ds_type_posted_by(array $field) {
 function theme_c4m_ds_content_footer_stats(array $field) {
   $entity = $field['entity'];
 
-  $recommends = c4m_helper_entity_entity_get_properties($entity, array(), '', 'node', array('flag_name' => 'c4m_og_content_recommend'));
+  $recommends = c4m_helper_entity_entity_get_properties(
+    $entity,
+    array(),
+    '',
+    'node',
+    array('flag_name' => 'c4m_og_content_recommend')
+  );
 
   $items['recommends'] = theme(
     'c4m_ds_entity_recommends_count',
@@ -337,7 +379,7 @@ function theme_c4m_ds_content_status(array $field) {
 /**
  * DS function field.
  *
- * Render group type info
+ * Render group type info.
  *
  * @param array $field
  *   The field that needs to be rendered.
@@ -363,7 +405,7 @@ function theme_c4m_ds_group_access_info(array $field) {
 /**
  * DS function field.
  *
- * Render group members count
+ * Render group members count.
  *
  * @param array $field
  *   The field that needs to be rendered.
@@ -584,9 +626,7 @@ function theme_c4m_ds_event_start_icon(array $field) {
   $tag['element'] = array(
     '#tag' => 'div',
     '#value' => '<i class="fa fa-calendar-o fa-stack-2x"></i>
-  <span class="fa-stack-1x calendar-text">' . $start_date->format(
-        'd'
-      ) . '</span>',
+  <span class="fa-stack-1x calendar-text">' . $start_date->format('d') . '</span>',
     '#attributes' => array(
       'class' => array(
         'fa-stack',
@@ -700,19 +740,42 @@ function theme_c4m_ds_group_administer_link(array $field) {
  *
  * @param array $field
  *   The field definition.
- *
- * @return string
- *   The rendered version.
  */
 function theme_c4m_ds_photo_download(array $field) {
   if (isset($field['entity'])) {
     $entity = entity_metadata_wrapper('node', $field['entity']);
     $file = $entity->c4m_media->file->value();
     $link = l(t('View original photo'), file_create_url($file->uri));
-
-    $tag['element'] = array(
-      '#tag' => 'p',
-      '#value' => $link . ' (' . format_size($file->filesize) . ')',
-    );
+    return $link . ' (' . format_size($file->filesize) . ')';
   }
+}
+
+
+/**
+ * DS function field.
+ *
+ * Render download link of a photo.
+ *
+ * @param array $field
+ *   The field definition.
+ *
+ * @return string
+ *   The rendered version.
+ */
+function theme_c4m_ds_content_shared_to(array $field) {
+  if (empty($field['entity'])) {
+    return '';
+  }
+
+  $entity = $field['entity'];
+
+  return theme(
+    'c4m_ds_embed_view',
+    array(
+      'view' => 'c4m_content_share_overview',
+      'display' => 'block',
+      'header' => 'h3',
+      'args' => array($entity->nid),
+    )
+  );
 }

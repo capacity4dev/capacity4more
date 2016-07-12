@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Content filter plugin.

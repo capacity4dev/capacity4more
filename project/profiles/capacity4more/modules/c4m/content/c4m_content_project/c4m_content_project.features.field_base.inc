@@ -73,6 +73,21 @@ function c4m_content_project_field_default_field_bases() {
     'type' => 'text',
   );
 
+  // Exported field_base: 'c4m_left_column'.
+  $field_bases['c4m_left_column'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_left_column',
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'paragraphs',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'paragraphs',
+  );
+
   // Exported field_base: 'c4m_partner'.
   $field_bases['c4m_partner'] = array(
     'active' => 1,
@@ -168,6 +183,21 @@ function c4m_content_project_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'entityreference',
+  );
+
+  // Exported field_base: 'c4m_right_column'.
+  $field_bases['c4m_right_column'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_right_column',
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'paragraphs',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'paragraphs',
   );
 
   // Exported field_base: 'c4m_source_of_funding'.

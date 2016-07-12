@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Migrate class to create dummy comments.

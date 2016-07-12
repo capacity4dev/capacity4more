@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Functionality to change uri_info based on the entity type and PURL settings.
