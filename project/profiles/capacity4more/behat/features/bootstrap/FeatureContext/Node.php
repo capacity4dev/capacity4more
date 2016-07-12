@@ -62,12 +62,13 @@ trait Node {
   }
 
   /**
-   * @Then /^I should be allowed to create a "([^"]*)"$/
+   * @Then /^I should be allowed to create a "([^"]*)" in group "([^"]*)"$/
    */
-  public function iShouldBeAllowedToCreateA($type) {
+  public function iShouldBeAllowedToCreateA($type, $group) {
+    $machine_readable_group = strtolower(preg_replace('@[^a-zA-Z0-9_]+@', '-', trim($group)));
 
     return array(
-      new Step\When('I go to "node/add/'.$type.'"'),
+      new Step\When('I go to "' . $machine_readable_group . '/node/add/'.$type.'"'),
       new Step\Then('I should not see "Access denied"'),
     );
   }
