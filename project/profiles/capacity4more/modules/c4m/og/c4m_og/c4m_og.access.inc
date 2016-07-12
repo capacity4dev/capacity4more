@@ -132,24 +132,26 @@ function c4m_og_get_restricted_info($group) {
 
   if (!array_key_exists($group->nid, $infos)) {
     $wrapper = entity_metadata_wrapper('node', $group);
-    $pluggable_node_accesses = $wrapper->pluggable_node_access->value();
-    if (!$pluggable_node_accesses) {
-      return $info;
-    }
-    $pluggable_node_accesses = is_array($pluggable_node_accesses) ? $pluggable_node_accesses : array($pluggable_node_accesses);
-    foreach ($pluggable_node_accesses as $pluggable_node_access) {
-      $data = $pluggable_node_access->data;
-      if (!is_array($data) || empty($data)) {
-        continue;
+    if (isset($wrapper->pluggable_node_access)) {
+      $pluggable_node_accesses = $wrapper->pluggable_node_access->value();
+      if (!$pluggable_node_accesses) {
+        return $info;
       }
-      switch ($pluggable_node_access->type) {
-        case 'email_domain':
-          $info['domains'] = $data;
-          break;
+      $pluggable_node_accesses = is_array($pluggable_node_accesses) ? $pluggable_node_accesses : array($pluggable_node_accesses);
+      foreach ($pluggable_node_accesses as $pluggable_node_access) {
+        $data = $pluggable_node_access->data;
+        if (!is_array($data) || empty($data)) {
+          continue;
+        }
+        switch ($pluggable_node_access->type) {
+          case 'email_domain':
+            $info['domains'] = $data;
+            break;
 
-        case 'organisation':
-          $info['organisations'] = $data;
-          break;
+          case 'organisation':
+            $info['organisations'] = $data;
+            break;
+        }
       }
     }
 

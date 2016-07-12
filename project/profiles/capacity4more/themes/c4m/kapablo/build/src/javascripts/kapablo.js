@@ -240,7 +240,7 @@
       var el = $(el);
       var subnav = el.find('> .collapse');
       if (subnav.hasClass('in')) {
-        el.find('> a > i').removeClass('fa-plus').addClass('fa-minus');
+        el.find('> a > i').removeClass('fa-caret-right').addClass('fa-caret-down');
       }
     });
 
@@ -254,13 +254,13 @@
 
       sub_navigation.toggleClass('in');
 
-      if ($this.hasClass('fa-plus')) {
-        $this.removeClass('fa-plus');
-        $this.addClass('fa-minus');
+      if ($this.hasClass('fa-caret-right')) {
+        $this.removeClass('fa-caret-right');
+        $this.addClass('fa-caret-down');
       }
-      else if ($this.hasClass('fa-minus')) {
-        $this.removeClass('fa-minus');
-        $this.addClass('fa-plus');
+      else if ($this.hasClass('fa-caret-down')) {
+        $this.removeClass('fa-caret-down');
+        $this.addClass('fa-caret-right');
       }
 
       return false;
