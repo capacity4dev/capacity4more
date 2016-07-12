@@ -167,6 +167,7 @@ angular.module('c4mApp')
         topics: $scope.topics
       };
 
+      // Enables to design elements on loading state - such as displaying the spinner.
       angular.element('.activity-stream').addClass('loading');
 
       EntityResource.updateStream(activityStreamInfo, 'load')
