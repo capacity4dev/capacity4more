@@ -76,6 +76,10 @@ class c4m_views_handler_area_node_add extends views_handler_area {
       ),
     );
 
+    if ($node_type == 'discussion') {
+      return '<i class="fa fa-pencil" aria-hidden="true"></i> ' . l($link_text, 'node/add/' . $node_type, $options);
+    }
+
     return l($link_text, 'node/add/' . $node_type, $options);
   }
 
