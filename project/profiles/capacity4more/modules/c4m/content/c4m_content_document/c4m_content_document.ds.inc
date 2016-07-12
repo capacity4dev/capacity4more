@@ -113,6 +113,12 @@ function c4m_content_document_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => '',
+          'ow-def-cl' => TRUE,
+          'ow-at' => '',
+          'ow-def-at' => TRUE,
           'fis' => TRUE,
           'fis-el' => 'div',
           'fis-cl' => 'pull-right',
