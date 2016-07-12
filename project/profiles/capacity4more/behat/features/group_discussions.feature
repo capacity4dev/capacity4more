@@ -53,7 +53,7 @@ Feature: Group Discussions
     Then  I should see "Edit discussion"
     And   I should see "Some new discussion3"
 
-  @javascript @belah
+  @javascript
   Scenario: Check unpublish button on node edit forms as an authenticated user
     Given I am logged in as user "alfrednobel"
     And   a discussion "Edit this discussion" in group "NobelPrize" is created
