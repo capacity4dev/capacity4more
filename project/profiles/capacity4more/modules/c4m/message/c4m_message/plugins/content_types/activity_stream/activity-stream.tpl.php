@@ -23,7 +23,7 @@
   <div class="show-more-wrapper" ng-if="showMoreButton">
     <p class="show-more text-center">
       <span class="spinner">
-        <i class="fa fa-spin fa-spinner fa-2"></i>
+        <i class="fa fa-spin fa-spinner"></i>
       </span>
       <a href="javascript://" id="load-more-button" ng-click="showMoreActivities()" ><?php print t('show more') ?></a>
       <span class="arrow--right"></span>
