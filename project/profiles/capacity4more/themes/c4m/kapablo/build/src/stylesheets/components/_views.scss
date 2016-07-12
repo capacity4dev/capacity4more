@@ -8,10 +8,15 @@
 
 .view-id-c4m_photoalbum_item_views {
   clear: both;
+  margin-top: 2rem;
   overflow: hidden;
 
   .views-row {
     margin-bottom: 2em;
+
+    &:hover a {
+      text-decoration: underline;
+    }
 
     a {
       display: block;
