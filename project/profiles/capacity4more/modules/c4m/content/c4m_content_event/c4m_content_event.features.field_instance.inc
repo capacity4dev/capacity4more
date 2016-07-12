@@ -1572,7 +1572,7 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(
           'display' => 'all',
           'glue' => ', ',
-          'link' => '',
+          'link' => 1,
           'separator' => ' > ',
           'wrap' => 'none',
         ),
@@ -1774,7 +1774,7 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(
           'display' => 'all',
           'glue' => ', ',
-          'link' => '',
+          'link' => 1,
           'separator' => ' > ',
           'wrap' => 'none',
         ),
