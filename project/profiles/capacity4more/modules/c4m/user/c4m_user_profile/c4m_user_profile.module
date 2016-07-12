@@ -473,16 +473,13 @@ function c4m_user_profile_form_user_profile_form_alter(
 
   $form['mail']['#description'] = 'Please note you will have to provide your password and confirm your new address to change your e-mail address.';
 
-  // Hide the spammer / deleted checkbox for non-admins.
-  if (!in_array('administrator', $user->roles)) {
-    $form['c4m_is_deleted']['#access'] = FALSE;
-    $form['c4m_is_spammer']['#access'] = FALSE;
-  }
-  else {
-    $form['c4m_is_deleted']['#disabled'] = TRUE;
-    $form['c4m_is_spammer']['#disabled'] = TRUE;
-    $form['account']['status']['#disabled'] = TRUE;
-  }
+  // Hide the spammer / deleted checkboxes.
+  $form['c4m_is_deleted']['#access'] = FALSE;
+  $form['c4m_is_spammer']['#access'] = FALSE;
+  // Hide status field.
+  $form['account']['status']['#access'] = FALSE;
+  // Hide OG related fields.
+  $form['og_user_node']['#access'] = FALSE;
 
   // Introduce simple Cancel button (goes to user profile)
   $form['actions']['cancel']['#access'] = FALSE;
