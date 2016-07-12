@@ -222,7 +222,7 @@ trait Node {
   }
 
   /**
-   * Convert a human readable title to a machine readble name.
+   * Convert a human readable title to a machine readable name.
    *
    * @return string
    */
