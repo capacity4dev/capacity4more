@@ -57,5 +57,5 @@ Feature: Group Discussions
   Scenario: Check unpublish button on node edit forms as an authenticated user
     Given I am logged in as user "alfrednobel"
     And   a discussion "Edit this discussion" in group "Nobel Prize" is created
-    When  I start editing "discussion" "Edit this discussion" in group "Nobel Prize"
+    When  I start editing "discussion" "Edit this discussion" in group "NobelPrize"
     Then  I should see "Unpublish" in the "#edit-draft" element

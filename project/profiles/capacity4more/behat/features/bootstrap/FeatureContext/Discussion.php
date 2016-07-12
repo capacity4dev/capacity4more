@@ -62,10 +62,9 @@ trait Discussion {
    * @Given /^a discussion "([^"]*)" in group "([^"]*)" is created$/
    */
   public function aDiscussionInGroupIsCreated($title, $group_title) {
-    $machine_readable_group = strtolower(preg_replace('@[^a-zA-Z0-9_]+@', '-', trim($group_title)));
     $steps = array();
 
-    $steps[] = new Step\When('I visit "' . $machine_readable_group . '/node/add/discussion"');
+    $steps[] = new Step\When('I visit "' . $this->humanToMachineReadable($group_title, '-') . '/node/add/discussion"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in ckeditor field "edit-c4m-body-und-0-value" with "This is default discussion."');
     $steps[] = new Step\When('I check the related topic checkbox');

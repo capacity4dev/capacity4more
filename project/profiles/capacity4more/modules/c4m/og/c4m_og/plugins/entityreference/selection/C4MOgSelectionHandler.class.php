@@ -90,9 +90,9 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     $user_groups = og_get_groups_by_user(NULL, $group_type);
     $user_groups = $user_groups ? $user_groups : array();
 
-    $current_gid = og_context();
+    $group_obj = og_context();
     $node_type = $this->instance['bundle'];
-    if (!og_user_access($group_type, $current_gid['gid'], "create $node_type content")) {
+    if (!og_user_access($group_type, $group_obj['gid'], "create $node_type content")) {
       // User does not have permission, falsify the query.
       $query->propertyCondition($entity_info['entity keys']['id'], -1, '=');
       return $query;
