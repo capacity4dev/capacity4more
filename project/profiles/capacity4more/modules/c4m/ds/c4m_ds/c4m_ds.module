@@ -231,6 +231,16 @@ function c4m_ds_ds_view_modes_info() {
 }
 
 /**
+ * Implements hook_entity_info_alter().
+ */
+function c4m_ds_entity_info_alter(&$entity_info) {
+  $entity_info['user']['view modes']['teaser'] = array(
+    'custom settings' => TRUE,
+    'label' => 'Teaser',
+  );
+}
+
+/**
  * Define fields.
  *
  * These fields are not overridden through the interface.

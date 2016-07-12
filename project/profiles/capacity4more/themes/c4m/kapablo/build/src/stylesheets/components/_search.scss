@@ -419,7 +419,7 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
   display: none;
 }
 
-.view-mode-teaser .user-name a,
+.view-mode-teaser:not(.user-profile) .user-name a,
 .view-mode-teaser .fa,
 .view-mode-teaser .posted-by,
 .view-mode-teaser .creation-date,
