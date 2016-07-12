@@ -899,12 +899,13 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
   $links = array();
   foreach ($accounts as $account) {
     $uri = entity_uri('user', $account);
-    $links[] = l($account->name, $uri['path']);
+    $links[] = l(c4m_user_name($account), $uri['path']);
   }
 
   $node->content['group_admins'] = array(
     '#type' => 'item',
     '#title' => t('Group administrators'),
+    '#title_display' => 'above',
     '#markup' => implode(",", $links),
   );
 
