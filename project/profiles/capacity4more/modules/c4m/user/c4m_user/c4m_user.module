@@ -306,7 +306,12 @@ function _c4m_user_initials_colors() {
  */
 function c4m_user_action_info() {
   module_load_include('inc', 'c4m_user', 'actions/c4m_user_contact.action');
-  return c4m_user_contact_action_info();
+  module_load_include('inc', 'c4m_user', 'actions/c4m_user_contact_multiple.action');
+
+  $actions = c4m_user_contact_action_info();
+  $actions += c4m_user_contact_multiple_action_info();
+
+  return $actions;
 }
 
 /**
@@ -686,9 +691,6 @@ function c4m_user_access_denied() {
  * Make the user/%user/contact page.
  */
 function c4m_user_menu_alter(&$items) {
-  $user_ids = [2, 3, 5, 6, 7];
-  $group_id = 16;
-
   $items['user/login'] = array(
     'title' => 'Please log in to continue',
   );
@@ -703,7 +705,7 @@ function c4m_user_menu_alter(&$items) {
     'access arguments' => array(1),
   );
 
-  $items['user/multiple/contact'] = array(
+  /*$items['user/multiple/contact'] = array(
     'type' => MENU_CALLBACK,
     'title' => 'User contact form',
     'description' => 'User contact form.',
@@ -711,7 +713,7 @@ function c4m_user_menu_alter(&$items) {
     'page arguments' => array('c4m_user_contact_multiple_form', $user_ids, $group_id),
     'access callback' => 'c4m_user_contact_multiple_form_access',
     'access arguments' => array($group_id),
-  );
+  );*/
 }
 
 /**
@@ -816,132 +818,6 @@ function c4m_user_contact_form_submit($form, $form_state) {
 }
 
 /**
- * User contact form access function.
- *
- * Validates that user is logged in, and that account id entered at url exists.
- */
-function c4m_user_contact_multiple_form_access($group_id) {
-  return TRUE;
-}
-
-/**
- * Create 'Contact Multiple' form.
- */
-function c4m_user_contact_multiple_form($user_ids, $group_id) {
-
-  dpm($user_ids, $group_id);
-  global $user;
-  $to_list = '';
-
-  $form['#user_ids'] = $user_ids;
-  $form['#group_id'] = $group_id;
-
-  foreach ($user_ids as $user_id) {
-    $account = user_load($user_id);
-    $to_list .= c4m_user_name($account) . ', ';
-  }
-
-  $form['c4m_contact_multiple_from'] = array(
-    '#type' => 'textfield',
-    '#title' => t('From'),
-    '#description' => t('From address.'),
-    '#size' => 30,
-    '#default_value' => $user->mail,
-    '#disabled' => TRUE,
-  );
-
-  $form['c4m_contact_multiple_to'] = array(
-    '#type' => 'textarea',
-    '#title' => t('To'),
-    '#default_value' => $to_list,
-    '#description' => t('Group members that will receive the email.'),
-    '#rows' => 3,
-    '#disabled' => TRUE,
-  );
-
-  $form['c4m_contact_multiple_subject'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Subject'),
-    '#description' => t('Enter mail subject.'),
-    '#size' => 10,
-  );
-
-  $form['c4m_contact_multiple_body'] = array(
-    '#title' => t('Body'),
-    '#description' => t('Enter mail body.'),
-    '#type' => 'text_format',
-    '#format' => 'full_html',
-  );
-
-  $form['c4m_contact_multiple_self_copy'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Send me a copy'),
-    '#default_value' => FALSE,
-  );
-
-  $form['c4m_contact_multiple_submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Send'),
-  );
-
-  return $form;
-}
-
-/**
- * Validate function for contact_multiple_form.
- *
- * Verifies that email subject and body are not empty.
- */
-function c4m_user_contact_multiple_form_validate($form, $form_state) {
-  $subject = $form_state['values']['c4m_contact_multiple_subject'];
-  $body = $form_state['values']['c4m_contact_multiple_body']['value'];
-
-  if (empty($subject)) {
-    form_error($form['c4m_contact_multiple_subject'], 'The subject of the mail can\'t be empty.');
-  }
-
-  if (empty($body)) {
-    form_error($form['c4m_contact_multiple_body'], 'The body of the mail can\'t be empty.');
-  }
-}
-
-/**
- * Submit function for contact_multiple_form.
- *
- * Generates required parameters and sends an email to predefined list of
- * members.
- * If 'Send copy' checkbox is checked, sends copy mail to running user.
- */
-function c4m_user_contact_multiple_form_submit($form, $form_state) {
-  global $user;
-  $silent = TRUE;
-  $count_members = 0;
-
-  $subject = $form_state['values']['c4m_contact_multiple_subject'];
-  $body = $form_state['values']['c4m_contact_multiple_body']['value'];
-
-  foreach($form['#user_ids'] as $user_id){
-    $addressee_account = user_load($user_id);
-    $addressee_language = user_preferred_language($addressee_account);
-    if(!isset($addressee_account->uid)) {
-      continue;
-    }
-
-    _c4m_user_send_mail($addressee_account->mail, $user->mail, $subject, $body, $addressee_language, $silent);
-    $count_members += 1;
-  }
-  drupal_set_message('Message sent to ' . $count_members . ' members.');
-
-  if ($form_state['values']['c4m_contact_multiple_self_copy']) {
-    // Sending a copy of the mail to the sender since the user checked
-    // the "Send me a copy" checkbox on the form.
-    $user_language = user_preferred_language($user);
-    _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body, $user_language, $silent);
-    drupal_set_message('Copy message sent.');
-  }
-}
-
-/**
  * Generates and sends an email.
  *
  * @param string $to
@@ -987,7 +863,7 @@ function _c4m_user_send_mail($to, $from, $subject, $body, $language, $silent = F
     );
 
     if (!$silent) {
-      drupal_set_message('Can\'nt send the message.', 'error');
+      drupal_set_message('Can\'t send the message.', 'error');
     }
   }
   else {
@@ -1433,3 +1309,26 @@ function c4m_user_ckeditor_settings_alter(&$settings, $conf) {
     unset($settings['loadPlugins']['media']);
   }
 }
+
+
+
+function c4m_user_action_info_alter(&$actions) {
+  global $user;
+
+ if ($user->uid == 1) {
+   // Administrator user.
+    return;
+  }
+
+ $og_group = c4m_og_current_group();
+ if ($og_group && $og_group->uid == $user->uid) {
+    // Group owner.
+    return;
+  }
+
+ unset($actions['c4m_user_contact_multiple_action']);
+
+  $actions = [];
+}
+
+
