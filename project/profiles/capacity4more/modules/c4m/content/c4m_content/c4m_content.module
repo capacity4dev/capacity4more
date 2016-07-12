@@ -321,12 +321,7 @@ function c4m_content_get_og_image_markup($group) {
   $wrapper = entity_metadata_wrapper('node', $group);
 
   $menu_item = menu_get_item();
-  if (drupal_is_front_page(
-    ) || ($menu_item['path'] == 'manage' && og_user_access(
-        'node',
-        $group->nid,
-        'administer group'
-      ))
+  if (drupal_is_front_page() || ($menu_item['path'] == 'manage' && og_user_access('node', $group->nid, 'administer group'))
   ) {
     // Add group image.
     $file = $wrapper->c4m_banner->value();
@@ -352,14 +347,7 @@ function c4m_content_get_og_image_markup($group) {
             ),
           ),
         );
-        $markup .= l(
-          theme_html_tag($edit_link) . theme_image_style($file),
-          url(
-            'node/' . $group->nid . '/edit',
-            array('absolute' => TRUE, 'fragment' => 'edit-image-banner')
-          ),
-          $options
-        );
+        $markup .= l(theme_html_tag($edit_link) . theme_image_style($file), url('node/' . $group->nid . '/edit', array('absolute' => TRUE, 'fragment' => 'edit-image-banner')), $options);
       }
       else {
         $markup .= theme_image_style($file);
