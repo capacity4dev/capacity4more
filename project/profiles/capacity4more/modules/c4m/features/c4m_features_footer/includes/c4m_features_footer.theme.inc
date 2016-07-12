@@ -73,7 +73,8 @@ function theme_c4m_footer_bar(array $variables) {
 function theme_c4m_footer_bar_project() {
   $variables = array(
     'front_page' => base_path(),
-    'logo' => theme_get_setting('logo'),
+    'project_page' => base_path() . 'projects',
+    'logo' => file_create_url(drupal_get_path('theme', 'kapablo') . '/project_logo.png'),
   );
   $output = theme('c4m_footer_bar_project', $variables);
 

@@ -17,9 +17,9 @@
     <li class="c4m-footer-bar-project">
       <div class="text-uppercase">
         Explore more projects on
-        <a href="<?php print $front_page; ?>" class="text-orange">Capacity4dev ></a>
+        <a href="<?php print $project_page; ?>" class="text-orange">Capacity4dev ></a>
         <br/>
-        <a href="/" class="">International cooperation and development ></a>
+        <a href=" https://ec.europa.eu/europeaid/home_en" class="">International cooperation and development ></a>
       </div>
     </li>
   </ul>
