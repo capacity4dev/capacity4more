@@ -540,6 +540,7 @@ function c4m_user_og_form_user_register_form_alter(&$form, &$form_state, $form_i
   drupal_set_title(theme('c4m_unified_workflow_register', $variables), PASS_THROUGH);
 
   $form['#submit'][] = 'c4m_user_og_unified_workflow_submit';
+  $form['actions']['submit']['#value'] = t('Register to join');
 }
 
 /**
@@ -554,6 +555,7 @@ function c4m_user_og_form_user_login_alter(&$form, &$form_state, $form_id) {
   drupal_set_title(theme('c4m_unified_workflow_login', array('group_title' => $wrapper->label())), PASS_THROUGH);
 
   $form['#submit'][] = 'c4m_user_og_unified_workflow_submit';
+  $form['actions']['submit']['#value'] = t('Login to join');
 }
 
 /**
