@@ -167,9 +167,9 @@ angular.module('c4mApp')
         topics: $scope.topics
       };
 
-        angular.element('.activity-stream').addClass('loading');
+      angular.element('.activity-stream').addClass('loading');
 
-        EntityResource.updateStream(activityStreamInfo, 'load')
+      EntityResource.updateStream(activityStreamInfo, 'load')
         .success(function (data, status) {
           if (data.data) {
             angular.forEach(data.data, function (activity) {
