@@ -546,7 +546,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'settings' => array(
           'display' => 'all',
           'glue' => ', ',
-          'link' => 0,
+          'link' => 1,
           'separator' => ' > ',
           'wrap' => 'none',
         ),
@@ -749,7 +749,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'settings' => array(
           'display' => 'all',
           'glue' => ', ',
-          'link' => 0,
+          'link' => 1,
           'separator' => ' > ',
           'wrap' => 'none',
         ),
