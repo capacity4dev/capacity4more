@@ -704,16 +704,6 @@ function c4m_user_menu_alter(&$items) {
     'access callback' => 'c4m_user_contact_form_access',
     'access arguments' => array(1),
   );
-
-  /*$items['user/multiple/contact'] = array(
-    'type' => MENU_CALLBACK,
-    'title' => 'User contact form',
-    'description' => 'User contact form.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_user_contact_multiple_form', $user_ids, $group_id),
-    'access callback' => 'c4m_user_contact_multiple_form_access',
-    'access arguments' => array($group_id),
-  );*/
 }
 
 /**
@@ -1310,25 +1300,50 @@ function c4m_user_ckeditor_settings_alter(&$settings, $conf) {
   }
 }
 
-
-
+/**
+ * Implements hook_action_info_alter().
+ *
+ * Removes 'contact multiple' action, if user is not admin / group owner.
+ */
 function c4m_user_action_info_alter(&$actions) {
   global $user;
 
- if ($user->uid == 1) {
-   // Administrator user.
+  if ($user->uid == 1) {
+    // Administrator user.
     return;
   }
 
- $og_group = c4m_og_current_group();
- if ($og_group && $og_group->uid == $user->uid) {
+  $og_group = c4m_og_current_group();
+  if ($og_group && $og_group->uid == $user->uid) {
     // Group owner.
     return;
   }
 
- unset($actions['c4m_user_contact_multiple_action']);
-
-  $actions = [];
+  unset($actions['c4m_user_contact_multiple_action']);
 }
 
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * Ensures c4m_user form_alter runs after VBO.
+ */
+function c4m_user_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter') {
+    if (isset($implementations['c4m_user'])) {
+      $group = $implementations['c4m_user'];
+      unset($implementations['c4m_user']);
+      $implementations['c4m_user'] = $group;
+    }
+  }
+}
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Updates value of submit button.
+ */
+function c4m_user_form_views_form_c4m_overview_og_members_page_alter(&$form, &$form_state, $form_id) {
+  if (isset($form['actions'])) {
+    $form['actions']['submit']['#value'] = 'Send';
+  }
+}

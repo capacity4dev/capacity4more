@@ -6,7 +6,7 @@
  */
 
 /**
- * A custom action to contact a multiple users with a mail.
+ * A custom action to contact a multiple users with a mail action.
  *
  * @return array
  *   Information about the action.
@@ -29,6 +29,7 @@ function c4m_user_contact_multiple_action_form(array $context, $form_state) {
   global $user;
   $to_list = '';
 
+  // Create a names list of notified subscribers.
   foreach ($form_state['selection'] as $user_id) {
     if ($user_id != 0) {
       $account = user_load($user_id);
@@ -100,29 +101,14 @@ function c4m_user_contact_multiple_action_validate($form, $form_state) {
  * Submit function for contact_multiple_form.
  *
  * Returns required parameters for action, to send the mail.
- * If 'Send copy' checkbox is checked, sends copy mail to running user.
+ * If 'Send copy' checkbox is checked, sends copy mail to invoking user.
  */
 function c4m_user_contact_multiple_action_submit($form, $form_state) {
   global $user;
   $silent = TRUE;
- // $count_members = 0;
 
   $subject = $form_state['values']['c4m_contact_multiple_subject'];
   $body = $form_state['values']['c4m_contact_multiple_body']['value'];
-
-/*  $ids = explode('|', $form_state['values']['hidden_ids']);
-
-  foreach ($ids as $user_id){
-    $addressee_account = user_load($user_id);
-    $addressee_language = user_preferred_language($addressee_account);
-    if (!isset($addressee_account->uid)) {
-      continue;
-    }
-
-    _c4m_user_send_mail($addressee_account->mail, $user->mail, $subject, $body, $addressee_language, $silent);
-    $count_members += 1;
-  }
-  drupal_set_message('Message sent to ' . $count_members . ' members.');*/
 
   if ($form_state['values']['c4m_contact_multiple_self_copy']) {
     // Sending a copy of the mail to the sender since the user checked
@@ -158,4 +144,3 @@ function c4m_user_contact_multiple_action(&$user, array $context) {
 
   _c4m_user_send_mail($user->mail, $from, $subject, $body, $addressee_language, $silent);
 }
-
