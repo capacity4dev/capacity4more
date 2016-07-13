@@ -73,14 +73,6 @@ function c4m_user_views_default_views() {
   $handler->display->display_options['arguments']['author']['validate_options']['type'] = 'either';
   $handler->display->display_options['arguments']['author']['break_phrase'] = 0;
   $handler->display->display_options['arguments']['author']['not'] = 0;
-  /* Filter criterion: Node is published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'search_api_index_c4m_search_nodes';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['ui_name'] = 'Node is published';
-  $handler->display->display_options['filters']['status']['value'] = array(
-    1 => '1',
-  );
   /* Filter criterion: Only Event nodes */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'search_api_index_c4m_search_nodes';
