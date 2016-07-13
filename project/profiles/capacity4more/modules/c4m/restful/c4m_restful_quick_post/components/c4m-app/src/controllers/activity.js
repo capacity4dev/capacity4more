@@ -191,7 +191,7 @@ angular.module('c4mApp')
             // The "Count" variable will go down as we are filtering with the lowest activity Timestamp.
             $scope.showMoreButton = data.data.length >= $scope.range;
           }
-
+            // Removes loading state class
             angular.element('.activity-stream').removeClass('loading');
         });
     };
