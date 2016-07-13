@@ -9,7 +9,8 @@
 .view {
   .view-header {
     a {
-      &.node-create-event {
+      &.node-create-event,
+      &.node-create-discussion {
         background-color: #8ABCC7;
         padding: 10px;
         color: #fff;
