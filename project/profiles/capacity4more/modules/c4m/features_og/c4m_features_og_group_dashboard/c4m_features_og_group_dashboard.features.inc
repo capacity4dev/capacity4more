@@ -104,7 +104,7 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
     'flag_short' => '<i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Recommend',
     'flag_long' => '',
     'flag_message' => '',
-    'unflag_short' => '<i class="fa fa-thumbs-o-down" aria-hidden="true"></i> Unrecommend',
+    'unflag_short' => '<i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Recommended',
     'unflag_long' => '',
     'unflag_message' => '',
     'unflag_denied_text' => '',

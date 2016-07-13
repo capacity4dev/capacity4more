@@ -95,11 +95,15 @@ function c4m_user_notifications_og_membership_update($og_membership) {
   switch ($og_membership->state) {
     case OG_STATE_ACTIVE:
       if ($moderated == C4M_OG_MODERATED_GROUP) {
-        c4m_user_notifications_moderated_group_notify_user_membership_accepted($og_membership);
+        // Membership acceptance notification to user, for open and moderated
+        // group is the same (template MT13).
+        c4m_user_notifications_notify_user_membership_accepted($og_membership);
         c4m_user_notifications_moderated_group_notify_admins_membership_accepted($og_membership);
       }
       elseif ($moderated == C4M_OG_OPEN_GROUP) {
-        c4m_user_notifications_open_group_notify_user_membership_accepted($og_membership);
+        // Membership acceptance notification to user, for open and moderated
+        // group is the same (template MT13).
+        c4m_user_notifications_notify_user_membership_accepted($og_membership);
         c4m_user_notifications_open_group_notify_admins_membership_accepted($og_membership);
       }
       break;
