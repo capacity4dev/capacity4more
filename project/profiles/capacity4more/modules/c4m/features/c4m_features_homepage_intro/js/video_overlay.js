@@ -28,6 +28,13 @@ function onYouTubeIframeAPIReady() {
 function onPlayerReady() {
   jQuery('#c4m-play-video').on('click', function (e) {
     jQuery('#c4m-intro-video').show();
+    jQuery('#c4m-stop-video').show();
     player.playVideo();
+  });
+
+  jQuery('#c4m-stop-video').on('click', function (e) {
+    jQuery('#c4m-intro-video').hide();
+    jQuery('#c4m-stop-video').hide();
+    player.stopVideo();
   });
 }
