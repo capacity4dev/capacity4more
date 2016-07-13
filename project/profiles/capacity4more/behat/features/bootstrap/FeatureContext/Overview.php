@@ -39,7 +39,6 @@ trait Overview {
 
     $found = false;
     foreach ($links as $link) {
-      print_r($link->getText());
       if ($link->getText() !== $label) {
         continue;
       }
