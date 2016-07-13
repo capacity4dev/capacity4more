@@ -23,3 +23,15 @@ function c4m_features_og_discussions_c4m_og_feature_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_preprocess().
+ *
+ * Add an icon to the "Add a new Discussion" button
+ * that appears in the discussion related views.
+ */
+function c4m_features_og_discussions_preprocess_views_view(&$variables) {
+  $icon = '<i class="fa fa-pencil" aria-hidden="true"></i>';
+  $text = t('Add a new Discussion');
+  $variables['header'] = str_replace($text, $icon . ' ' . $text, $variables['header']);
+}
