@@ -35,10 +35,12 @@
   }
 }
 
-.search-api-sort, .search-api-sort.open {
+.search-api-sort,
+.search-api-sort.open {
   float: right;
 
   button.dropdown-toggle {
+    color: $link-color;
     @extend %reset-button;
 
     &:hover {

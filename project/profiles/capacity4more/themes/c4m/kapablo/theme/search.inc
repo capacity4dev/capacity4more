@@ -67,11 +67,14 @@ function kapablo_search_api_sorts_list(array $variables) {
 
   $output = '';
   if ($items) {
+    // Current order is the reverse of the active item link order.
+    $order = $active_item['#order_options']['query']['order'] == 'asc' ? 'desc' : 'asc';
     $output = theme(
       'c4m_search_dropdown_sort_filters',
       array(
         'list' => theme('item_list', array('items' => $items) + $options),
         'active' => $active_item,
+        'order' => $order,
       )
     );
   }
