@@ -392,17 +392,18 @@ function theme_c4m_user_block_contact(array $field) {
   }
 
   $group = c4m_og_current_group();
-  if ($group) {
-    if (_c4m_features_og_members_is_power_user($group)) {
-      // Site admin, group admin/owner have 'contact multiple' instead of link.
-      return NULL;
-    }
-
-    if (c4m_og_user_is_member()) {
-      // User is group member.
-      return '<i class="fa fa-envelope-o"></i> ' . l(t('Contact'), "user/{$account->uid}/contact", array('query' => drupal_get_destination()));
-    }
+  // If not within OG context, return early.
+  if (!$group) {
+    return NULL;
   }
 
-  return NULL;
+  if (_c4m_features_og_members_is_power_user($group)) {
+    // Site admin, group admin/owner have 'contact multiple' instead of link.
+    return NULL;
+  }
+
+  if (c4m_og_user_is_member()) {
+    // User is group member.
+    return '<i class="fa fa-envelope-o"></i> ' . l(t('Contact'), "user/{$account->uid}/contact", array('query' => drupal_get_destination()));
+  }
 }
