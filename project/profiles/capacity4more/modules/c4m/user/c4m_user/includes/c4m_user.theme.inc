@@ -393,8 +393,8 @@ function theme_c4m_user_block_contact(array $field) {
 
   $group = c4m_og_current_group();
   if ($group) {
-    if ($user->uid == 1 || $group->uid == $user->uid) {
-      // Admin user and group owner have 'contact multiple' instead of link.
+    if (_c4m_features_og_members_is_power_user($group)) {
+      // Site admin, group admin/owner have 'contact multiple' instead of link.
       return NULL;
     }
 
