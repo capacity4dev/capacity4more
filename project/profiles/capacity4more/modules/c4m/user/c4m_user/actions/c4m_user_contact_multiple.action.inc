@@ -143,7 +143,7 @@ function c4m_user_contact_multiple_action_submit($form, $form_state) {
  * Activated for each selected account.
  * Sends email to account.
  */
-function c4m_user_contact_multiple_action(&$account, array $context) {
+function c4m_user_contact_multiple_action($account, array $context) {
   if (!isset($account)) {
     return;
   }
