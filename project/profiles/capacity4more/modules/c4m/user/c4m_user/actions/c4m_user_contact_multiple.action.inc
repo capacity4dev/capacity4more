@@ -29,10 +29,22 @@ function c4m_user_contact_multiple_action_form(array $context, $form_state) {
   global $user;
   $to_list = '';
 
+  // If 'Select all items on all pages' is selected.
+  if ($form_state['select_all_pages']) {
+    $group = c4m_og_current_group();
+    // Get ids of all subscribers of current group.
+    $ids = og_get_group_members_properties($group, array(), 'members', 'node');
+  }
+  else {
+    // Get selected items on current page.
+    $ids = $form_state['selection'];
+  }
+
   // Create a names list of notified subscribers.
-  foreach ($form_state['selection'] as $user_id) {
-    if ($user_id != 0) {
-      $account = user_load($user_id);
+  foreach ($ids as $account_id) {
+    // Make sure that id is valid, and GO/GA didn't select himself.
+    if ($account_id != 0 && $user->uid != $account_id) {
+      $account = user_load($account_id);
       $to_list .= c4m_user_name($account) . ', ';
     }
   }
@@ -128,19 +140,25 @@ function c4m_user_contact_multiple_action_submit($form, $form_state) {
 /**
  * Action function for contact_multiple_form.
  *
- * Activated for each selected user.
- * Sends email to user.
+ * Activated for each selected account.
+ * Sends email to account.
  */
-function c4m_user_contact_multiple_action(&$user, array $context) {
-  if (!isset($user)) {
+function c4m_user_contact_multiple_action(&$account, array $context) {
+  if (!isset($account)) {
+    return;
+  }
+
+  global $user;
+  // User should not execute action on himself - has 'Send me a copy' option.
+  if ($account->uid == $user->uid) {
     return;
   }
 
   $subject = $context['subject'];
   $body = $context['body'];
   $from = $context['from'];
-  $addressee_language = user_preferred_language($user);
+  $addressee_language = user_preferred_language($account);
   $silent = TRUE;
 
-  _c4m_user_send_mail($user->mail, $from, $subject, $body, $addressee_language, $silent);
+  _c4m_user_send_mail($account->mail, $from, $subject, $body, $addressee_language, $silent);
 }
