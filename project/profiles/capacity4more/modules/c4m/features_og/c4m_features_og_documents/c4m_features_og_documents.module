@@ -27,10 +27,28 @@ function c4m_features_og_documents_c4m_og_feature_info() {
 /**
  * Implements hook_preprocess().
  *
- * Add an icon to the "Add an event" button
+ * Add an icon to the "Upload a document" button
  * that appears in the event related views.
  */
 function c4m_features_og_documents_preprocess_views_view(&$variables) {
+  if (!in_array($variables['name'], array('c4m_overview_og_documents_landing', 'c4m_overview_og_documents'))) {
+    // Not a documents view.
+    return;
+  }
+
+  if (!in_array($variables['display_id'], array('page', 'page_1'))) {
+    // Not a "page" display.
+    return;
+  }
+
+  $og_context = og_context();
+
+  if (!og_user_access($og_context['group_type'], $og_context['gid'], 'create document content')) {
+    // User doesn't have permission to create a new event.
+    $variables['header'] = '';
+    return;
+  }
+
   $icon = '<i class="fa fa-file-text-o" aria-hidden="true"></i>';
   $text = t('Upload a document');
   $variables['header'] = str_replace($text, $icon . ' ' . $text, $variables['header']);
