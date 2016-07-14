@@ -466,7 +466,17 @@
   .social-actions-share {
     margin-top: 20px;
     h3 {
+      text-transform: uppercase;
       margin-bottom: 5px;
+    }
+  }
+}
+
+.group-node-meta {
+  .field-name-c4m-vocab-topic,
+  .field-name-c4m-vocab-geo {
+    h3 {
+      text-transform: uppercase;
     }
   }
 }
