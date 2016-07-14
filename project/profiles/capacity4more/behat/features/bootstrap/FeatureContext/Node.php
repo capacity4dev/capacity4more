@@ -224,6 +224,9 @@ trait Node {
   /**
    * Convert a human readable title to a machine readable name.
    *
+   * The function replaces anything other than letters, numbers and underscores
+   * in the $title string with the $delimiter and converts capital to lowercase.
+   *
    * @return string
    */
   public function humanToMachineReadable($title, $delimiter) {
