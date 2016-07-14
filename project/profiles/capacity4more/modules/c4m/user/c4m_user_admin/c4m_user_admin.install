@@ -14,10 +14,3 @@ function c4m_user_admin_install() {
   $views_status['admin_views_user'] = TRUE;
   variable_set('views_defaults', $views_status);
 }
-
-/**
- * Enables JQuery Migration plugin.
- */
-function c4m_user_admin_update_7000() {
-  variable_set('jquery_update_jquery_migrate_enable', TRUE);
-}

@@ -89,8 +89,10 @@ function capacity4more_setup_set_variables(&$install_state) {
     'jquery_update_jquery_admin_version' => '2.1',
     'page_manager_node_view_disabled' => FALSE,
     'page_manager_term_view_disabled' => FALSE,
+    'jquery_update_jquery_migrate_enable' => TRUE,
 
-    // RESTful.
+
+  // RESTful.
     'restful_file_upload' => TRUE,
 
     // Enable counting views of the entity.

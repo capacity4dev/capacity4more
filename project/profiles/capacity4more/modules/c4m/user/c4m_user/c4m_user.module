@@ -1344,6 +1344,6 @@ function c4m_user_module_implements_alter(&$implementations, $hook) {
  */
 function c4m_user_form_views_form_c4m_overview_og_members_page_alter(&$form, &$form_state, $form_id) {
   if (isset($form['actions'])) {
-    $form['actions']['submit']['#value'] = 'Send';
+    $form['actions']['submit']['#value'] = t('Send');
   }
 }
