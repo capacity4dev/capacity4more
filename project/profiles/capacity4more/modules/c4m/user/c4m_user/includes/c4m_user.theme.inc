@@ -95,7 +95,7 @@ function theme_c4m_user_activity_comments(array $field) {
 
   $user = $field['entity'];
 
-  // Count published posts of user.
+  // Count published comments of user.
   $count = c4m_user_count_comments($user->uid);
   return format_plural($count, '1 Comment', '@count Comments');
 }
