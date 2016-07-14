@@ -1306,12 +1306,14 @@ function c4m_user_ckeditor_settings_alter(&$settings, $conf) {
  * Removes 'contact multiple' action, if user is not admin / group owner.
  */
 function c4m_user_action_info_alter(&$actions) {
-  // If within OG context.
-  if (og_context()) {
-    // If Site Admin, Group Admin or Group Owner.
-    if (_c4m_features_og_members_is_power_user()) {
-      return;
-    }
+  $group = c4m_og_current_group();
+  // If not within OG context, return early.
+  if (!$group) {
+    return;
+  }
+  // If Site Admin, Group Admin or Group Owner.
+  if (_c4m_features_og_members_is_power_user($group)) {
+    return;
   }
 
   unset($actions['c4m_user_contact_multiple_action']);
