@@ -268,7 +268,7 @@ function c4m_features_og_group_dashboard_block_view($delta = '') {
     return $block;
   }
 
-  $block['content'] = 'CTA BLOCK';
+  $block['content'] = '';
   drupal_alter('c4m_cta_block', $block);
 
   return $block;
