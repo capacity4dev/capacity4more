@@ -53,4 +53,3 @@ function c4m_features_og_documents_preprocess_views_view(&$variables) {
   $text = t('Upload a document');
   $variables['header'] = str_replace($text, $icon . ' ' . $text, $variables['header']);
 }
-
