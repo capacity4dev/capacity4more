@@ -199,6 +199,16 @@ function c4m_user_admin_admin_paths() {
 }
 
 /**
+ * Implements hook_admin_paths_alter().
+ *
+ * Use front-end theme for edit user pages.
+ */
+function c4m_user_admin_admin_paths_alter(&$paths) {
+  unset($paths['user/*/edit']);
+  unset($paths['user/*/edit/*']);
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_user_admin_form_user_cancel_confirm_form_alter(&$form, &$form_state, $form_id) {
