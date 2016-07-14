@@ -394,11 +394,11 @@ function theme_c4m_user_block_contact(array $field) {
   $group = c4m_og_current_group();
   if ($group) {
     if ($user->uid == 1 || $group->uid == $user->uid) {
-      // For admin user and group owner.
+      // Admin user and group owner have 'contact multiple' instead of link.
       return NULL;
     }
 
-    if(c4m_og_user_is_member()) {
+    if (c4m_og_user_is_member()) {
       // User is group member.
       return '<i class="fa fa-envelope-o"></i> ' . l(t('Contact'), "user/{$account->uid}/contact", array('query' => drupal_get_destination()));
     }
