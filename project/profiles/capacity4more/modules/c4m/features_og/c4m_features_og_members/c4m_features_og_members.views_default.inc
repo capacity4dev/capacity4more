@@ -24,6 +24,7 @@ function c4m_features_og_members_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Members';
+  $handler->display->display_options['css_class'] = 'view-items-with-dashed-separator';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'c4m_og_access_og_context';
   $handler->display->display_options['access']['feature'] = 'c4m_features_og_members';
@@ -37,7 +38,7 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'block_list';
+  $handler->display->display_options['row_options']['view_mode'] = 'teaser';
   /* Header: Search: Spellcheck */
   $handler->display->display_options['header']['search_api_spellcheck']['id'] = 'search_api_spellcheck';
   $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_users';
@@ -52,7 +53,7 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
   $handler->display->display_options['header']['result']['field'] = 'result';
-  $handler->display->display_options['header']['result']['content'] = '@total items';
+  $handler->display->display_options['header']['result']['content'] = '@total members';
   /* Field: User: Rendered User */
   $handler->display->display_options['fields']['rendered_entity']['id'] = 'rendered_entity';
   $handler->display->display_options['fields']['rendered_entity']['table'] = 'views_entity_user';
