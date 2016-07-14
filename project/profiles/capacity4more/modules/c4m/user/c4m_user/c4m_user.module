@@ -143,6 +143,14 @@ function c4m_user_ds_fields_info($entity_type) {
     'function' => 'theme_c4m_user_contact_link',
   );
 
+  $fields['user']['c4m_user_block_contact'] = array(
+    'title' => t('C4M User block contact link'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_user.theme.inc',
+    'function' => 'theme_c4m_user_block_contact',
+  );
+
   // User related fields for entity type node.
   $fields['node']['c4m_user_picture'] = $fields['user']['c4m_user_picture'];
   $fields['node']['c4m_user_first_and_last_name']

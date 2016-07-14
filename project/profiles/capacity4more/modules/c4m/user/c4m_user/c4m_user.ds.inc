@@ -35,6 +35,11 @@ function c4m_user_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_user_block_contact' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
   );
   $export['user|user|block_list'] = $ds_fieldsetting;
 
@@ -79,11 +84,13 @@ function c4m_user_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'c4m_user_first_and_last_name',
+        2 => 'c4m_user_block_contact',
       ),
     ),
     'fields' => array(
       'c4m_user_picture' => 'left',
       'c4m_user_first_and_last_name' => 'right',
+      'c4m_user_block_contact' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
