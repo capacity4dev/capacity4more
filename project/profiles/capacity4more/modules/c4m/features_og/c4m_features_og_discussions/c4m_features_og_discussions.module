@@ -31,6 +31,24 @@ function c4m_features_og_discussions_c4m_og_feature_info() {
  * that appears in the discussion related views.
  */
 function c4m_features_og_discussions_preprocess_views_view(&$variables) {
+  if (!in_array($variables['name'], array('c4m_overview_og_discussions_landing', 'c4m_overview_og_discussions'))) {
+    // Not an discussion related view.
+    return;
+  }
+
+  if (!in_array($variables['display_id'], array('page', 'page_1'))) {
+    // Not a "page" display.
+    return;
+  }
+
+  $og_context = og_context();
+
+  if (!og_user_access($og_context['group_type'], $og_context['gid'], 'create discussion content')) {
+    // User doesn't have permission to create a new discussion.
+    $variables['header'] = '';
+    return;
+  }
+
   $icon = '<i class="fa fa-pencil" aria-hidden="true"></i>';
   $text = t('Add a new Discussion');
   $variables['header'] = str_replace($text, $icon . ' ' . $text, $variables['header']);
