@@ -23,3 +23,16 @@ function c4m_features_og_documents_c4m_og_feature_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_preprocess().
+ *
+ * Add an icon to the "Add an event" button
+ * that appears in the event related views.
+ */
+function c4m_features_og_documents_preprocess_views_view(&$variables) {
+  $icon = '<i class="fa fa-file-text-o" aria-hidden="true"></i>';
+  $text = t('Upload a document');
+  $variables['header'] = str_replace($text, $icon . ' ' . $text, $variables['header']);
+}
+
