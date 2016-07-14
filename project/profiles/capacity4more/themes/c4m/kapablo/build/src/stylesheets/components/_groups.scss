@@ -461,10 +461,13 @@
 }
 
 .field-name-c4m-ds-content-actions {
-  margin: 15px 0 30px;
+  margin: 15px 0 15px;
 
   .social-actions-share {
+    border: 1px solid $color-gray-light;
     margin-top: 20px;
+    padding: 10px;
+
     h3 {
       text-transform: uppercase;
       margin-bottom: 5px;
@@ -475,6 +478,10 @@
 .group-node-meta {
   .field-name-c4m-vocab-topic,
   .field-name-c4m-vocab-geo {
+    border: 1px solid $color-gray-light;
+    padding: 10px;
+    margin-bottom: 2em;
+
     h3 {
       text-transform: uppercase;
     }
