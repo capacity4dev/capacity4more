@@ -79,6 +79,7 @@ function c4m_admin_organisations_views_default_views() {
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = 'Name';
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: Content: Icon */
   $handler->display->display_options['fields']['c4m_icon']['id'] = 'c4m_icon';
   $handler->display->display_options['fields']['c4m_icon']['table'] = 'field_data_c4m_icon';

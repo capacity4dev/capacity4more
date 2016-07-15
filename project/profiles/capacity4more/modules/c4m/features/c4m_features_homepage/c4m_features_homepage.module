@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Homepage feature.
@@ -37,10 +38,6 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   $filter = !empty($get_query['filter'])
     ? $get_query['filter']
     : NULL;
-
-  if ($filter == 'groups') {
-    return;
-  }
 
   $user_groups = og_get_groups_by_user($account, NULL, TRUE);
   $groups = '';

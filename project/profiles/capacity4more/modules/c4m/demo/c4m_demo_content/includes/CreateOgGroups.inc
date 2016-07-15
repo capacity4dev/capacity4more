@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Base to create Og Classes.

@@ -27,18 +27,18 @@ angular.module('c4mApp')
         updatePopoverPosition: '='
       },
       link: function postLink(scope) {
-        angular.forEach(scope.items, function(item, id) {
+        angular.forEach(scope.items, function (item, id) {
           item.selected = false;
         });
         // Set the filtered items to include all items at load.
-        scope.$watch('items', function(items) {
+        scope.$watch('items', function (items) {
           scope.filteredTerms = items;
           // Check if there's categories in the current group,
           // to display an empty categories message.
           scope.itemsLength = angular.isDefined(items) && Object.keys(items).length ? true : false;
         });
         // Filtering the items according to the value of the searchTerm input.
-        scope.updateSearch = function() {
+        scope.updateSearch = function () {
           scope.filteredTerms = $filter('termsFilter')(scope.items, scope.searchTerm);
         };
 
@@ -49,27 +49,27 @@ angular.module('c4mApp')
          * @param item
          *  Current category item.
          */
-        scope.updateSelected = function(item) {
+        scope.updateSelected = function (item) {
           item.selected = !item.selected;
         };
 
         // Updating the popover position && No more than 3 regions can be
         // selected.
         // TODO: Stop user from selecting more values.
-        scope.updateSelectedTerms = function() {
+        scope.updateSelectedTerms = function () {
           // Update the position of the popover.
           if (scope.updatePopoverPosition) {
             scope.updatePopoverPosition(scope.type);
           }
 
           var selectedCount = 0;
-          angular.forEach(scope.items, function(item, id) {
+          angular.forEach(scope.items, function (item, id) {
             if (id in scope.model && scope.model[id] === true) {
               selectedCount++;
             }
             else if (id in scope.model && scope.model[id] === false) {
               // Find all children and turn them to false.
-              angular.forEach(scope.items[id].children, function(child, key) {
+              angular.forEach(scope.items[id].children, function (child, key) {
                 var childID = child.id;
                 if (childID in scope.model && scope.model[childID] === true) {
                   scope.model[childID] = false;

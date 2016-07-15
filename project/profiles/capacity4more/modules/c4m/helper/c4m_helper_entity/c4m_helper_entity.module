@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Helper functionality around $entity objects.
@@ -35,6 +36,8 @@ function c4m_helper_entity_get_entity_type_label(
     $object_wrapper = entity_metadata_wrapper('node', $entity);
     $variables['label'] = $object_wrapper->$field_name->value();
   }
+
+  $variables['label'] = ucwords($variables['label']);
 
   drupal_alter('entity_type_label', $variables);
 
@@ -304,9 +307,7 @@ function c4m_helper_entity_label_info($entity) {
       $data = $cache->data;
     }
     else {
-      $hook = 'c4m_helper_entity_label_info';
-      $data = module_invoke_all($hook);
-
+      $data = module_invoke_all('c4m_helper_entity_label_info');
       cache_set($cache_key, $data);
     }
   }

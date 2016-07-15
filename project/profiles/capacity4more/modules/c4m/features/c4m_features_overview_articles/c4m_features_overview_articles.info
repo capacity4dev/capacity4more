@@ -4,6 +4,7 @@ core = 7.x
 package = capacity4more - Features
 dependencies[] = c4m_content_article
 dependencies[] = c4m_search_filter
+dependencies[] = c4m_views
 dependencies[] = context
 dependencies[] = entity
 dependencies[] = facetapi

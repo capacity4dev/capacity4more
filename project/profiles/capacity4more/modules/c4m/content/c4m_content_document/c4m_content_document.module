@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Document content type feature.
@@ -254,8 +255,8 @@ function c4m_content_document_c4m_helper_entity_label_info() {
       'article' => t('a'),
       'singular' => t('document'),
       'plural' => t('documents'),
-      'insert action' => t('uploaded a new document'),
-      'update action' => t('updated the document'),
+      'insert action' => t('uploaded a new Document'),
+      'update action' => t('updated the Document'),
       'icon' => 'fa-file-o',
     ),
   );

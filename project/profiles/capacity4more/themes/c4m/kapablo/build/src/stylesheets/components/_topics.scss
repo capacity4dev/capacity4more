@@ -1,0 +1,23 @@
+.node-topic .group-c4m-header-bottom {
+  margin-top: 15px;
+}
+.node-topic ul.statistics-list {
+  li {
+    border-right: 1px dashed $color-gray-light;
+    border-left: 1px dashed $color-gray-light;
+    border-bottom: 1px dashed $color-gray-light;
+
+    &:nth-child(-n+2) {
+      border-top: 1px dashed $color-gray-light;
+
+      @media (min-width: $screen-tablet) {
+        border-top: none ;
+      }
+    }
+
+    @media (min-width: $screen-tablet) {
+      border: none ;
+    }
+
+  }
+}
