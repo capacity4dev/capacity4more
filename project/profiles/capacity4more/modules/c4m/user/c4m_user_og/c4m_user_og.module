@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Functionality to provide missing info about a user.
@@ -316,20 +317,44 @@ function c4m_user_og_get_number_of_pending_members($og_id = NULL) {
 }
 
 /**
- * Returns the amount of contributors vs pending members in a group.
+ * Returns the amount of active members in a group.
  *
  * @param int $og_id
  *   The Organic Group ID to limit the query for.
  *
  * @return int
- *   The amount of contributors vs pending members of a group.
+ *   The amount of active members of a group.
  */
-function c4m_user_og_get_number_of_contributors_vs_pending_members($og_id) {
-  $contributors = c4m_user_og_get_number_of_contributors($og_id);
-  $pending_members = c4m_user_og_get_number_of_pending_members($og_id);
+function c4m_user_og_get_number_of_active_members($og_id = NULL) {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'og_membership');
+  $query->propertyCondition('type', 'og_membership_type_default');
+  $query->propertyCondition('entity_type', 'user');
+  $query->propertyCondition('group_type', 'node');
+  $query->propertyCondition('state', OG_STATE_ACTIVE);
 
-  if (is_numeric($contributors) && is_numeric($pending_members)) {
-    $calculation = $contributors / $pending_members;
+  if (is_numeric($og_id)) {
+    $query->propertyCondition('gid', $og_id);
+  }
+
+  return (int) $query->count()->execute();
+}
+
+/**
+ * Returns the amount of contributors vs active members in a group.
+ *
+ * @param int $og_id
+ *   The Organic Group ID to limit the query for.
+ *
+ * @return int
+ *   The amount of contributors vs active members of a group.
+ */
+function c4m_user_og_get_number_of_contributors_vs_members($og_id) {
+  $contributors = c4m_user_og_get_number_of_contributors($og_id);
+  $active_members = c4m_user_og_get_number_of_active_members($og_id);
+
+  if (is_numeric($contributors) && (is_numeric($active_members) && $active_members > 0)) {
+    $calculation = $contributors / $active_members;
     return empty($calculation) ? 0 : $calculation;
   }
 
@@ -395,4 +420,62 @@ function c4m_user_og_c4m_helper_entity_metrics_info() {
       'weight'   => 7,
     ),
   );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_user_og_theme() {
+  $theme['c4m_group_visitor_cta'] = array(
+    'template' => 'c4m_group_visitor_cta',
+    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
+    'variables' => array(
+      'url' => NULL,
+      'button_label' => NULL,
+      'button_icon' => NULL,
+    ),
+  );
+
+  return $theme;
+}
+
+/**
+ * Implements hook_c4m_cta_block_alter().
+ *
+ * Set the CTA block for visitors.
+ */
+function c4m_user_og_c4m_cta_block_alter(&$block) {
+  if (!user_is_anonymous()) {
+    return;
+  }
+
+  if (!$group = c4m_og_current_group()) {
+    return;
+  }
+
+  $access_type = c4m_og_get_access_type($group);
+  if ($access_type['type'] != 'public') {
+    return;
+  }
+
+  $types = array(
+    'open' => array(
+      'button_label' => 'Join this group',
+      'button_icon' => 'fa-user-plus',
+    ),
+    'moderated' => array(
+      'button_label' => 'Request membership for this group',
+      'button_icon' => 'fa-unlock-alt',
+    ),
+  );
+
+  $membership_request_value = c4m_og_get_group_membership_request($group);
+
+  $variables = array(
+    'button_label' => $types[$membership_request_value]['button_label'],
+    'button_icon' => $types[$membership_request_value]['button_icon'],
+    'url' => url('/user'),
+  );
+
+  $block['content'] = theme('c4m_group_visitor_cta', $variables);
 }

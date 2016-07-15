@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Extra functionality for comments.
@@ -71,7 +72,30 @@ function c4m_comment_c4m_helper_entity_metrics_info() {
       'callback'  => 'c4m_og_group_comment_metric',
       'weight'    => 0,
     ),
+    'c4m_user_comments' => array(
+      'type' => 'comments',
+      'context'   => 'user',
+      'callback'  => 'c4m_comment_get_comments_by_user',
+    ),
   );
+}
+
+/**
+ * Returns the number of comments for a particular user.
+ *
+ * @param int $uid
+ *   User ID.
+ *
+ * @return int
+ *   Number of comments.
+ */
+function c4m_comment_get_comments_by_user($uid) {
+  $arguments = array(
+    'entity_type' => 'comment',
+    'uid' => $uid,
+  );
+
+  return c4m_helper_entity_get_number_of_entities($arguments);
 }
 
 /**

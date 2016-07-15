@@ -1,9 +1,13 @@
 <?php
+
 /**
  * @file
  * Admin forms.
  */
 
+/**
+ *
+ */
 function c4m_features_learning_space_admin_settings($form) {
   $form['learning_image'] = array(
     '#type' => 'managed_file',

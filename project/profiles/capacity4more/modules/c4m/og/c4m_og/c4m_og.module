@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * General Organic Groups functionality.
@@ -21,7 +22,7 @@ define('C4M_OG_OPEN_GROUP', 1);
 /**
  * Helper to get the current active group (based on og_context()).
  *
- * @return object|FALSE
+ * @return object|false
  *   The group entity, or FALSE if no context was found.
  */
 function c4m_og_current_group() {
@@ -41,7 +42,7 @@ function c4m_og_current_group() {
 /**
  * Helper to get the current active group id (based on og_context()).
  *
- * @return NULL|int
+ * @return null|int
  *   The group id, or NULL if no context was found.
  */
 function c4m_og_current_group_id() {
@@ -51,6 +52,33 @@ function c4m_og_current_group_id() {
   }
 
   return $context['gid'];
+}
+
+/**
+ * Helper to get the current value of the group membership request.
+ *
+ * @param object $group
+ *   The group object.
+ *
+ * @return mixed|null
+ *   Either 'open' or 'moderated' if it is a group type, otherwise NULL.
+ */
+function c4m_og_get_group_membership_request($group) {
+  if (!og_context('node', $group)) {
+    return NULL;
+  }
+
+  if ($group->type != 'group') {
+    return NULL;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $group);
+  $options = array(
+    C4M_OG_MODERATED_GROUP => 'moderated',
+    C4M_OG_OPEN_GROUP => 'open',
+  );
+
+  return $options[$wrapper->field_membership_open_request->value()];
 }
 
 /**
@@ -687,7 +715,7 @@ function _c4m_og_group_type_getter_callback($item) {
  * @param object $entity
  *   The entity we want the group id of.
  *
- * @return NULL|int
+ * @return null|int
  *   The group ID if any.
  */
 function c4m_og_get_gid_from_entity($entity) {
@@ -975,12 +1003,12 @@ function c4m_og_open_group_access_activate_pending_members($node) {
   $wrapper = entity_metadata_wrapper('node', $node);
   $original_wrapper = entity_metadata_wrapper('node', $node->original);
 
-  if ($wrapper->field_membership_open_request->value() != C4M_OG_OPEN_GROUP) {
+  if (isset($wrapper->field_membership_open_request) && $wrapper->field_membership_open_request->value() != C4M_OG_OPEN_GROUP) {
     // Group is not "Open".
     return;
   }
 
-  if ($original_wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
+  if (isset($wrapper->field_membership_open_request) && $original_wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
     // Previous group setting was not "Moderated".
     return;
   }
@@ -990,15 +1018,6 @@ function c4m_og_open_group_access_activate_pending_members($node) {
   foreach (og_membership_load_multiple($ids) as $membership) {
     $membership->state = OG_STATE_ACTIVE;
     $membership->save();
-
-    // Send activation message to member.
-    $message = message_create('c4m_welcome_to_group', array('uid' => $membership->etid));
-    c4m_message_load__c4m_welcome_to_group($message);
-
-    $wrapper = entity_metadata_wrapper('message', $message);
-    $wrapper->field_group_node->set($membership->gid);
-    // Message will be saved in message_notify_send_message().
-    message_notify_send_message($wrapper->value());
   }
 }
 
@@ -1115,6 +1134,16 @@ function c4m_og_c4m_helper_entity_metrics_info() {
       'callback' => 'c4m_og_get_content_recommendations',
       'weight'   => 100,
     ),
+    'c4m_user_group_memberships' => array(
+      'type' => 'group_memberships',
+      'context'  => 'user',
+      'callback' => 'c4m_og_get_user_group_memberships_count',
+    ),
+    'c4m_user_group_pending_memberships' => array(
+      'type' => 'group_pending_memberships',
+      'context'  => 'user',
+      'callback' => 'c4m_og_get_user_group_pending_memberships_count',
+    ),
   );
 }
 
@@ -1163,4 +1192,64 @@ function c4m_og_get_group_type($group) {
     }
   }
   return FALSE;
+}
+
+/**
+ * Returns the group memberships count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ * @param int $state
+ *   Node type.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_og_get_user_group_memberships_count($uid, $state = OG_STATE_ACTIVE) {
+  $query = db_select('og_membership', 'm');
+  $query->fields('m', array('id'));
+  $query->condition('entity_type', 'user');
+  $query->condition('etid', $uid);
+  $query->condition('state', $state);
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
+}
+
+/**
+ * Returns the group memberships count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_og_get_user_group_pending_memberships_count($uid) {
+  return c4m_og_get_user_group_memberships_count($uid, OG_STATE_PENDING);
+}
+
+/**
+ * Returns the administered groups count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ * @param string $node_type
+ *   Node type.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_og_get_user_administered_groups_count($uid, $node_type) {
+  $query = db_select('og_users_roles', 'ur');
+  $query->fields('ur');
+  $query->join('og_role', 'r', "ur.rid = r.rid AND name = 'administrator member' AND ur.uid = $uid");
+  $query->join('node', 'n', "ur.gid = n.nid AND ur.group_type = 'node' AND n.type = '$node_type'");
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
 }

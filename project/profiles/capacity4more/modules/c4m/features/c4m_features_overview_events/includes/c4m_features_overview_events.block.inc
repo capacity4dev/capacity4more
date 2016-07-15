@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * All blocks for the c4m_features_overview_events module.

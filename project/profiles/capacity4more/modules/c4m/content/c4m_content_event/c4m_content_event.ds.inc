@@ -110,6 +110,22 @@ function c4m_content_event_ds_field_settings_info() {
       'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => '',
+          'ow-def-cl' => TRUE,
+          'ow-at' => '',
+          'ow-def-at' => TRUE,
+          'fis' => TRUE,
+          'fis-el' => 'div',
+          'fis-cl' => 'pull-right',
+          'fis-at' => '',
+          'fis-def-at' => FALSE,
+        ),
+      ),
     ),
     'c4m_ds_event_start_icon' => array(
       'weight' => '0',
@@ -876,6 +892,8 @@ function c4m_content_event_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'title',
+      ),
+      'footer' => array(
         2 => 'c4m_field_og_group',
         3 => 'c4m_event_type',
       ),
@@ -883,8 +901,8 @@ function c4m_content_event_ds_layout_settings_info() {
     'fields' => array(
       'c4m_ds_event_start_icon' => 'left',
       'title' => 'right',
-      'c4m_field_og_group' => 'right',
-      'c4m_event_type' => 'right',
+      'c4m_field_og_group' => 'footer',
+      'c4m_event_type' => 'footer',
     ),
     'classes' => array(),
     'wrappers' => array(

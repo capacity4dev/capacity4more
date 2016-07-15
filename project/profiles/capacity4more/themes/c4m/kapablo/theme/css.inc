@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * All CSS related manipulations to the theme.

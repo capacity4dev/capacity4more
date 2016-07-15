@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the user admin module.
@@ -34,6 +35,15 @@ function c4m_user_admin_views_data() {
     ),
   );
 
+  $data['users']['user_metrics'] = array(
+    'title' => t('User metrics'),
+    'help' => t('Metrics about a user.'),
+    'field' => array(
+      'handler' => 'views_handler_field_user_metrics',
+      'group' => 'Content',
+    ),
+  );
+
   return $data;
 }
 
@@ -57,6 +67,13 @@ function c4m_user_admin_menu() {
     'file' => 'c4m_user_admin.pages.inc',
   );
 
+  $items['admin/people/export'] = array(
+    'title' => 'User report',
+    'page callback' => '_c4m_user_admin_page_user_report',
+    'access arguments' => array('administer users'),
+    'file' => 'c4m_user_admin.pages.inc',
+  );
+
   return $items;
 }
 
@@ -69,7 +86,8 @@ function c4m_user_admin_user_cancel_methods_alter(&$methods) {
 
   // Add the option to disable account assign existing
   // content to anonymous user.
-  $methods['c4m_user_admin_block_anonymous'] = array(
+  $new_methods = array();
+  $new_methods['c4m_user_admin_block_anonymous'] = array(
     'title' => t(
       'Disable the account and make its content belong to the Anonymous user.'
     ),
@@ -79,6 +97,8 @@ function c4m_user_admin_user_cancel_methods_alter(&$methods) {
     ),
     'access' => user_access('administer users'),
   );
+
+  $methods = $new_methods + $methods;
 }
 
 /**
@@ -137,6 +157,20 @@ function c4m_user_admin_user_cancel($edit, $account, $method) {
       // Anonymize messages.
       anonymize_messages_for_user($account);
       break;
+
+    case 'user_cancel_block':
+      // Set the flag "Is deleted" for this user.
+      $changes = array(
+        'c4m_is_deleted' => array(
+          'und' => array(
+            0 => array(
+              'value' => 1,
+            ),
+          ),
+        ),
+      );
+      user_save($account, $changes);
+      break;
   }
 }
 
@@ -165,6 +199,16 @@ function c4m_user_admin_admin_paths() {
 }
 
 /**
+ * Implements hook_admin_paths_alter().
+ *
+ * Use front-end theme for edit user pages.
+ */
+function c4m_user_admin_admin_paths_alter(&$paths) {
+  unset($paths['user/*/edit']);
+  unset($paths['user/*/edit/*']);
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_user_admin_form_user_cancel_confirm_form_alter(&$form, &$form_state, $form_id) {
@@ -179,6 +223,18 @@ function c4m_user_admin_form_user_cancel_confirm_form_alter(&$form, &$form_state
 
   // Hide user confirmation control.
   $form['user_cancel_confirm']['#access'] = FALSE;
+
+  // Only show the notify checkbox when deleting an account (not for disabling).
+  $form['user_cancel_notify']['#states'] = array(
+    'visible' => array(
+      array(
+        ':input[name=user_cancel_method]' => array('value' => 'user_cancel_reassign'),
+      ),
+      array(
+        ':input[name=user_cancel_method]' => array('value' => 'user_cancel_delete'),
+      ),
+    ),
+  );
 
   // Add checkbox to indicate spammer.
   $form['c4m_is_spammer'] = array(

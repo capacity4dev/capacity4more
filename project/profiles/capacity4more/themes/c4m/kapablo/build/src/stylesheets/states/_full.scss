@@ -65,8 +65,36 @@
   }
 
   &.node-photo {
+    .field-name-c4m-ds-content-footer-stats {
+      text-align: left;
+
+      .row-entity-count {
+        margin-left: 0;
+        margin-right: 1rem;
+      }
+    }
+
     .field-name-c4m-body {
       //@include image-overlay-bottom();
+    }
+
+    .field-name-c4m-ds-photo-download {
+      margin-top: 2em;
+    }
+  }
+
+  &.node-photoalbum {
+    .field-name-c4m-ds-content-footer-stats {
+      text-align: left;
+
+      .row-entity-count {
+        margin-left: 0;
+        margin-right: 1rem;
+      }
+    }
+
+    .field-name-c4m-body {
+      margin: 2rem 0;
     }
   }
 
@@ -101,10 +129,10 @@
     ul {
       list-style: none;
       padding: 0;
+    }
 
-      ul {
-        margin-left: 1em;
-      }
+    .book-toc ul {
+      margin-left: 1em;
     }
 
     .field-name-c4m-content-wiki-page-collapse {
