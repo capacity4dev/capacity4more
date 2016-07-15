@@ -250,6 +250,10 @@ function c4m_user_profile_email_confirm($type, $uid) {
     return;
   }
   $account = user_load($uid);
+  // Reset the invalid email flag.
+  $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
+  user_save($account, $edit);
+
   c4m_user_update_information($account);
 }
 
