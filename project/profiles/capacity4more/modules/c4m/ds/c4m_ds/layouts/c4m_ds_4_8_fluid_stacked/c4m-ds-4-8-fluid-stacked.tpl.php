@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Bootstrap 8-4 template for Display Suite.
@@ -17,7 +18,7 @@
   <<?php print $left_wrapper; ?> class="group-left col-xs-4 <?php print $left_classes; ?>">
     <?php print $left; ?>
   </<?php print $left_wrapper; ?>>
-  <<?php print $right_wrapper; ?> class="group-right col-xs-8 <?php print $right_classes; ?>">
+  <<?php print $right_wrapper; ?> class="group-right col-xs-8 message-summary<?php print $right_classes; ?>">
     <?php print $right; ?>
   </<?php print $right_wrapper; ?>>
   <<?php print $footer_wrapper; ?> class="group-footer col-sm-12 <?php print $footer_classes; ?>">

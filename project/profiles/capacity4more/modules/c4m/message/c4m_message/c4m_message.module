@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Message feature.
@@ -241,8 +242,7 @@ function c4m_message_format_group_node_title(Message $message) {
  */
 function c4m_message_format_group_welcome_message(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $group_message = $wrapper->field_group_node->c4m_group_welcome_message->value(
-  );
+  $group_message = $wrapper->field_group_node->c4m_group_welcome_message->value();
 
   return $group_message ? $group_message : '';
 }
@@ -327,11 +327,11 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
 
   if (!in_array($entity_type, $valid_entity_types)) {
     // Not an entity related to message.
-    return;
+    return NULL;
   }
   if ($entity_type == 'node' && !in_array($entity->type, $valid_node_types)) {
     // Don't have to create message for this node type.
-    return;
+    return NULL;
   }
 
   $message = NULL;
@@ -430,6 +430,7 @@ function c4m_messages_group_info(Message $message) {
       $group_info = t('Group: !link', array('!link' => $link));
     }
   }
+
   return $group_info;
 }
 
@@ -559,6 +560,11 @@ function c4m_message_load__c4m_insert__node__photo(Message $message) {
 
   $message->arguments['@operation'] = array(
     'callback' => 'c4m_message_format_operation',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@photoalbum'] = array(
+    'callback' => 'c4m_message_format_photo_photoalbum',
     'pass message' => TRUE,
   );
 
@@ -713,6 +719,22 @@ function c4m_message_format_operation(Message $message) {
   }
 
   return $op;
+}
+
+/**
+ * Return the photoalbum title of the inserted photo.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The photoalbum if exists or an empty string.
+ */
+function c4m_message_format_photo_photoalbum(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $album_label = $wrapper->field_node->node_gallery_ref_1->label();
+
+  return $album_label ? 'to Photo album ' . $album_label : '';
 }
 
 /**
@@ -899,6 +921,7 @@ function c4m_message_format_rendered_comment(Message $message) {
     $wrapper->field_node->value(),
     'activity_global'
   );
+
   return drupal_render($view);
 }
 
@@ -919,6 +942,7 @@ function c4m_message__insert__comment($comment) {
   c4m_message_prepare_insert_entity($message, 'node', $node);
   $message_wrapper = entity_metadata_wrapper('message', $message);
   $message_wrapper->field_comment->set($comment);
+
   return $message;
 }
 
@@ -961,6 +985,7 @@ function c4m_message__update__comment($comment) {
   c4m_message_prepare_insert_entity($message, 'node', $node);
   $message_wrapper = entity_metadata_wrapper('message', $message);
   $message_wrapper->field_comment->set($comment);
+
   return $message;
 }
 
@@ -978,6 +1003,7 @@ function c4m_message__insert__node($node) {
   $message = message_create('c4m_insert__node__' . $node->type, $values);
 
   c4m_message_prepare_insert_entity($message, 'node', $node);
+
   return $message;
 }
 
@@ -1061,6 +1087,7 @@ function c4m_message__update__node($node, $account = NULL) {
   if ($message) {
     c4m_message_prepare_insert_entity($message, 'node', $node);
   }
+
   return $message;
 }
 
@@ -1450,7 +1477,7 @@ function c4m_message_c4m_helper_entity_metrics_info() {
   return array(
     'c4m_user_last_activity' => array(
       'type' => 'last_activity',
-      'context'  => 'user',
+      'context' => 'user',
       'callback' => 'c4m_message_get_user_last_activity',
     ),
   );

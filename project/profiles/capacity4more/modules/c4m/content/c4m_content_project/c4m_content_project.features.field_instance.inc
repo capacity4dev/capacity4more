@@ -1362,6 +1362,60 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-project-c4m_og_status'.
+  $field_instances['node-project-c4m_og_status'] = array(
+    'bundle' => 'project',
+    'default_value' => array(
+      0 => array(
+        'value' => 'requested',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 19,
+      ),
+      'group_dashboard' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_og_status',
+    'label' => 'Status',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 11,
+    ),
+  );
+
   // Exported field_instance: 'node-project-c4m_partners'.
   $field_instances['node-project-c4m_partners'] = array(
     'bundle' => 'project',
@@ -2491,6 +2545,7 @@ function c4m_content_project_field_default_field_instances() {
   t('Right column content');
   t('Source of funding');
   t('Start + End date of the Project.');
+  t('Status');
   t('Title');
   t('Topics');
   t('Total budget');

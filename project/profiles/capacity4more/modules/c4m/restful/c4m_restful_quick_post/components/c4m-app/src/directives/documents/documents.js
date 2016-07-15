@@ -35,9 +35,9 @@ angular.module('c4mApp')
          * @returns {{}}
          *  Returns array of related document information objects
          */
-        scope.updateDocumentsData = function(relatedDocuments) {
+        scope.updateDocumentsData = function (relatedDocuments) {
           var documents = {};
-          angular.forEach(relatedDocuments, function(value, key) {
+          angular.forEach(relatedDocuments, function (value, key) {
 
             // Get all field values of the document.
             EntityResource.getEntityData('documents', value).success(function (data, status) {
@@ -52,7 +52,7 @@ angular.module('c4mApp')
         // Get the click event form the overlay and update related documents.
         element.parents('#' + scope.formId).find('#input-' + scope.fieldName).on('click', function (event) {
           var val = jQuery(this).val();
-          scope.$apply(function(scope) {
+          scope.$apply(function (scope) {
             var ids = val.split(',');
             scope.relatedDocuments = ids;
             scope.data = scope.updateDocumentsData(scope.relatedDocuments);
@@ -62,14 +62,14 @@ angular.module('c4mApp')
         scope.data = scope.updateDocumentsData(scope.relatedDocuments);
 
         // Updating data when added or removed item from the related documents.
-        scope.$watch('relatedDocuments', function(newValue, oldValue) {
+        scope.$watch('relatedDocuments', function (newValue, oldValue) {
           if (newValue !== oldValue) {
             scope.data = scope.updateDocumentsData(newValue);
           }
         }, true);
 
         // Removing document from related documents.
-        scope.removeDocument = function(id) {
+        scope.removeDocument = function (id) {
           var index = scope.relatedDocuments.indexOf(id.toString());
           if (index != -1) {
             scope.relatedDocuments.splice(index, 1);

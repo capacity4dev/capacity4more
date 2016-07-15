@@ -312,19 +312,30 @@ trait Group {
   /**
    * @When /^I change access of group "([^"]*)" to "([^"]*)"$/
    */
-  public function iChangeAccessOfGroupTo($title, $access) {
+  public function iChangeAccessOfGroupTo($title, $access, $domains = NULL) {
     $group = $this->loadGroupByTitleAndType($title, 'group');
     $steps = array();
     $steps[] = new Step\When('I visit "node/' . $group->nid . '/edit"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
 
-    $steps[] = new Step\When('I fill in "edit-field-message-to-site-admin-und-0-value" with "This is default message to admin."');
+    if ($access == 'Restricted') {
+      if ($domains) {
+        $steps[] = new Step\When('I fill in "edit-restricted-by-domain" with "' . $domains . '"');
+      }
+    }
 
     $steps[] = new Step\When('I press "Save"');
     $steps[] = new Step\When('I wait');
     $steps[] = new Step\When('I should not see "Group access"');
     $steps[] = new Step\When('I should not see "There was an error"');
     return $steps;
+  }
+
+  /**
+   * @When /^I change access of group "([^"]*)" to "([^"]*)" with the domain "([^"]*)"$/
+   */
+  public function iChangeAccessOfGroupToDomain($title, $access, $domains) {
+    return $this->iChangeAccessOfGroupTo($title, $access, $domains);
   }
 
   /**
