@@ -44,6 +44,10 @@ function angular_build_grunt {
 
   grunt $1
 
+  # Symlink to the application file `c4m-app.js`.
+  rm "$DIR_PROJECT/profiles/capacity4more/libraries/bower_components/c4m-app/dist/c4m-app.js"
+  ln -s "$DIR_PROJECT/profiles/capacity4more/modules/c4m/restful/c4m_restful_quick_post/components/c4m-app/dist/c4m-app.js" "$DIR_PROJECT/profiles/capacity4more/libraries/bower_components/c4m-app/dist/c4m-app.js"
+
   cd "$DIR_ROOT"
 }
 
