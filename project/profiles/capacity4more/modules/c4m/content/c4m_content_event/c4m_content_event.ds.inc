@@ -132,6 +132,11 @@ function c4m_content_event_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_datetime_end' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
   );
   $export['node|event|activity_group'] = $ds_fieldsetting;
 
@@ -857,12 +862,14 @@ function c4m_content_event_ds_layout_settings_info() {
       'right' => array(
         1 => 'c4m_body',
         2 => 'c4m_ds_content_footer_stats',
+        3 => 'c4m_datetime_end',
       ),
     ),
     'fields' => array(
       'c4m_ds_event_start_icon' => 'left',
       'c4m_body' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
+      'c4m_datetime_end' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
