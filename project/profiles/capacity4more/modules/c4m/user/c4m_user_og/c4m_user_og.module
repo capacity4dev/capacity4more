@@ -605,7 +605,7 @@ function c4m_user_og_mail_alter(&$message) {
     return;
   }
 
-  if (!isset($_SESSION['gid_join_uid']) || !$gid = $_SESSION['gid_join_uid']) {
+  if (empty($_SESSION['gid_join_uid'])) {
     return;
   }
 
@@ -624,9 +624,21 @@ function c4m_user_og_mail_alter(&$message) {
     $variables,
     array(
       'language' => user_preferred_language($user),
-      'callback' => 'c4m_content_group_mail_tokens',
+      'callback' => 'c4m_user_og_mail_tokens',
       'sanitize' => FALSE,
       'clear' => TRUE,
     )
   );
+}
+
+
+/**
+ * Token callback to add unsafe tokens for user mails.
+ *
+ * @see c4m_content_group_mail_tokens().
+ * @see user_registrationpassword_mail_tokens().
+ */
+function c4m_user_og_mail_tokens(array &$replacements, array $data, $options) {
+  c4m_content_group_mail_tokens($replacements, $data, $options);
+  user_registrationpassword_mail_tokens($replacements, $data, $options);
 }
