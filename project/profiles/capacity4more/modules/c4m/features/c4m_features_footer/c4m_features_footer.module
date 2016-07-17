@@ -65,8 +65,8 @@ function c4m_features_footer_theme() {
   );
   $theme['c4m_footer_bar_project'] = array(
     'variables' => array(
-      '$front_page' => '',
-      '$project_page' => '',
+      'front_page' => '',
+      'project_page' => '',
       'logo' => '',
     ),
     'path' => drupal_get_path('module', 'c4m_features_footer') . '/theme',
