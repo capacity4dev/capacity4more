@@ -53,18 +53,19 @@
       width: $icon-size;
     }
   }
+
+  &.view-mode-teaser {
+    .field-label {
+      font-weight: normal;
+    }
+
+    .event-location {
+      display: inline;
+    }
+  }
+
 }
 
 .event-location {
   margin-bottom: 10px;
-}
-
-.node-event.view-mode-teaser {
-  .field-label {
-    font-weight: normal;
-  }
-
-  .event-location {
-    display: inline;
-  }
 }
