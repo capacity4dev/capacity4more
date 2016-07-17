@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Plugin for entityreference.

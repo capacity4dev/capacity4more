@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Migrate class to create group photos and attach them to an album.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Panels plugin to add a video in an overlay.

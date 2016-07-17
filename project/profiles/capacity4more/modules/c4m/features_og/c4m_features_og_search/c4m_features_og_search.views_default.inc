@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_features_og_search.views_default.inc

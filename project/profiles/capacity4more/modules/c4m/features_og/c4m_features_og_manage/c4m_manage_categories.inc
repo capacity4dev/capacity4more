@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Custom manage page callbacks for the taxonomy module.
@@ -660,7 +661,7 @@ function theme_c4m_features_og_manage_categories_overview_form(array $variables)
       Here you can define the category terms that will be used to classify documents and other contents submitted to the @type.
       You can add, edit and delete the category terms. The category @type_uc will not show up if there are no terms added to it.
       Manual order terms by dragging them. You can move terms from one category @type_uc to another:
-    ', array('@type' => $type, '@type_uc'=> ucfirst($type)));
+    ', array('@type' => $type, '@type_uc' => ucfirst($type)));
   $output .= '<strong>' . t('Do not forget to save after reordering and/or moving terms.') . '</strong>';
   $output .= '</div>';
 

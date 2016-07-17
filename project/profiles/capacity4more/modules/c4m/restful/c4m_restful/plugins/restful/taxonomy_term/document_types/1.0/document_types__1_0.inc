@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Document types plugin for RestFul.
