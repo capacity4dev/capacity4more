@@ -590,7 +590,43 @@ function c4m_user_og_unified_workflow_submit($form, &$form_state) {
   drupal_set_message($message);
   $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
 
+  // Adding the uid to the session so we can use it later.
+  $_SESSION['gid_join_uid'] = $form_state['user']->uid;
+
   // drupal_goto has a fallback to the 'destination' so we must remove it.
   unset($_GET['destination']);
 }
 
+/**
+ * Implements hook_mail_alter().
+ */
+function c4m_user_og_mail_alter(&$message) {
+  if (!isset($_SESSION['gid_join']) || !$gid = $_SESSION['gid_join']) {
+    return;
+  }
+
+  if (!isset($_SESSION['gid_join_uid']) || !$gid = $_SESSION['gid_join_uid']) {
+    return;
+  }
+
+  $user = user_load($_SESSION['gid_join_uid']);
+  $group = node_load($gid);
+  $path = drupal_get_path('module', 'c4m_user_og');
+
+  $text = file_get_contents($path . '/messages/user_registrationpassword_register_to_group_body.html');
+  $variables = array(
+    'group' => $group,
+    'user' => $user,
+  );
+
+  $message['body'] = token_replace(
+    $text,
+    $variables,
+    array(
+      'language' => user_preferred_language($user),
+      'callback' => 'c4m_content_group_mail_tokens',
+      'sanitize' => FALSE,
+      'clear' => TRUE,
+    )
+  );
+}
