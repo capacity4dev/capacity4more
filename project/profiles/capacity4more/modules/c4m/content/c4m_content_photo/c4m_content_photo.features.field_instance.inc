@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_photo.features.field_instance.inc
@@ -616,6 +617,7 @@ function c4m_content_photo_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'node_gallery_ref_1',
     'label' => 'Galleries',
+    'required' => FALSE,
     'settings' => array(
       'behaviors' => array(
         'prepopulate' => array(

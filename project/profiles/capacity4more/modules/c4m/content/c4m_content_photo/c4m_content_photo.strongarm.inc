@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_photo.strongarm.inc
@@ -147,7 +148,7 @@ function c4m_content_photo_strongarm() {
           ),
           'default' => array(
             'weight' => '5',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
           'full' => array(
             'weight' => '3',

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_photo.ds.inc
@@ -42,12 +43,7 @@ function c4m_content_photo_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'photo';
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
-    'title' => array(
-      'weight' => '18',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
-    'c4m_ds_content_type_icon' => array(
+    'c4m_ds_content_footer_stats' => array(
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
@@ -353,14 +349,16 @@ function c4m_content_photo_ds_layout_settings_info() {
   $ds_layout->layout = 'c4m_ds_8_4_fluid';
   $ds_layout->settings = array(
     'regions' => array(
-      'left' => array(
-        0 => 'c4m_media',
-      ),
       'right' => array(
-        1 => 'c4m_body',
+        0 => 'c4m_ds_content_footer_stats',
+        2 => 'c4m_body',
+      ),
+      'left' => array(
+        1 => 'c4m_media',
       ),
     ),
     'fields' => array(
+      'c4m_ds_content_footer_stats' => 'right',
       'c4m_media' => 'left',
       'c4m_body' => 'right',
     ),

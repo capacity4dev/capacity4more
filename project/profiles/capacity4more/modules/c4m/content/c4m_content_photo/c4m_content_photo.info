@@ -68,3 +68,4 @@ features[variable][] = node_preview_photo
 features[variable][] = node_submitted_photo
 features[variable][] = pathauto_node_photo_pattern
 features_exclude[field_base][comment_body] = comment_body
+project path = /var/www/html/capacity4more/project/profiles/capacity4more/modules/c4m/content
