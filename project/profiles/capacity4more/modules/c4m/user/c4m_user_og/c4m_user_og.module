@@ -535,7 +535,7 @@ function c4m_user_og_form_user_register_form_alter(&$form, &$form_state, $form_i
   $wrapper = entity_metadata_wrapper('node', $gid);
   $variables = array(
     'group_title' => $wrapper->label(),
-    'login_link' => l('log in', 'user/login'),
+    'login_link' => l('Log in.', 'user/login'),
   );
   drupal_set_title(theme('c4m_unified_workflow_register', $variables), PASS_THROUGH);
 
