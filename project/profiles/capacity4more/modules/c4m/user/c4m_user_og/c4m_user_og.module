@@ -610,6 +610,9 @@ function c4m_user_og_unified_workflow_login_submit($form, &$form_state) {
 
   // drupal_goto has a fallback to the 'destination' so we must remove it.
   unset($_GET['destination']);
+
+  // User is logged in, the session variable should be destroyed.
+  unset($_SESSION['gid_join']);
 }
 
 /**
@@ -644,8 +647,38 @@ function c4m_user_og_mail_alter(&$message) {
       'clear' => TRUE,
     )
   );
+
+  // Store the group ID + user ID in the database after registration completes.
+  c4m_user_og_store_unified_workflow($user->uid, $gid);
+
+  // User is registered, and the variables are now stored in the database, the
+  // session variables should be destroyed.
+  unset($_SESSION['gid_join']);
+  unset($_SESSION['gid_join_uid']);
 }
 
+/**
+ * Store a group ID + user ID in the database.
+ *
+ * @param $uid
+ *   The user ID.
+ * @param $gid
+ *   The group ID.
+ */
+function c4m_user_og_store_unified_workflow($uid, $gid) {
+  try {
+    db_insert('c4m_unified_workflow')
+      ->fields(array(
+        'uid' => $uid,
+        'gid' => $gid,
+      ))
+      ->execute();
+  }
+  catch (PDOException $e) {
+    // Duplicated entry.
+    watchdog('c4m_unified_workflow', $e->errorInfo[2], array(), WATCHDOG_ERROR);
+  }
+}
 
 /**
  * Token callback to add unsafe tokens for user mails.
