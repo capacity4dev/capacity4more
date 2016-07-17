@@ -6,7 +6,7 @@
  */
 ?>
 <div class="c4m-unified-workflow-title">
-  <h1 class="title">
+  <h3 class="title">
     Join the <strong><?php print $group_title; ?></strong> group
-  </h1>
+  </h3>
 </div>
