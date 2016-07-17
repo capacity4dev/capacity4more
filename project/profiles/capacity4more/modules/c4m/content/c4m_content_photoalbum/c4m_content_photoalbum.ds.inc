@@ -112,9 +112,24 @@ function c4m_content_photoalbum_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'activity_group';
   $ds_fieldsetting->settings = array(
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '3',
+      'weight' => '2',
       'label' => 'hidden',
-      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => '',
+          'ow-def-cl' => TRUE,
+          'ow-at' => '',
+          'ow-def-at' => TRUE,
+          'fis' => TRUE,
+          'fis-el' => 'div',
+          'fis-cl' => 'pull-right',
+          'fis-at' => '',
+          'fis-def-at' => TRUE,
+        ),
+      ),
     ),
     'c4m_ds_photoalbum_cover_image' => array(
       'weight' => '0',
