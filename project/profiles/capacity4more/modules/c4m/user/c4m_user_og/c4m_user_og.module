@@ -569,13 +569,25 @@ function c4m_user_og_unified_workflow_submit($form, &$form_state) {
   }
 
   $group = node_load($gid);
-  $membership_request_value = c4m_og_get_group_membership_request($group);
-  $messages = array(
-    'open' => t('You are now a member of this group'),
-    'moderated' => t('This is a moderated group. Your request is waiting for approval. Continue to explore group @group_title content', array('@group_title' => $group->title)),
-  );
+  if ($form_state['build_info']['form_id'] == 'user_register_form') {
+    // Removing the original message of the user_register_form.
+    drupal_get_messages('status');
+    $message = t(
+      'Hey @name, thank you for submitting your details. Please activate your account by clicking the link sent to your e-mail to join the @group_title group.', array(
+      '@name' => c4m_user_name($form_state['user']),
+      '@group_title' => $group->title,
+    ));
+  }
+  else {
+    $membership_request_value = c4m_og_get_group_membership_request($group);
+    $messages = array(
+      'open' => t('You are now a member of this group'),
+      'moderated' => t('This is a moderated group. Your request is waiting for approval. Continue to explore group @group_title content', array('@group_title' => $group->title)),
+    );
+    $message = $messages[$membership_request_value];
+  }
 
-  drupal_set_message($messages[$membership_request_value]);
+  drupal_set_message($message);
   $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
 
   // drupal_goto has a fallback to the 'destination' so we must remove it.
