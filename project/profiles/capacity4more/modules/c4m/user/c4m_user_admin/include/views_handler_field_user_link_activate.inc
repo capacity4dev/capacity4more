@@ -22,7 +22,7 @@ class views_handler_field_user_link_activate extends views_handler_field_user_li
     $account = user_load($uid);
     $account = entity_metadata_wrapper('user', $account);
 
-    if (!$account->status->value() && !$account->c4m_is_spammer->value() && !$account->c4m_is_deleted->value() && user_access('administer users')) {
+    if (!$account->last_login->value() &&!$account->status->value() && !$account->c4m_is_spammer->value() && !$account->c4m_is_deleted->value() && user_access('administer users')) {
       $this->options['alter']['make_link'] = TRUE;
 
       $text = t('Activate user');

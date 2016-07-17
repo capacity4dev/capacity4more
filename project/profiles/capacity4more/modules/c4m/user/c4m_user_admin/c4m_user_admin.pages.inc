@@ -28,6 +28,34 @@ function c4m_user_admin_user_activate_form($form, &$form_state, $account) {
 }
 
 /**
+ * Form constructor for the reactivate user form.
+ *
+ * @see c4m_user_admin_user_reactivate_form_submit()
+ *
+ * @ingroup forms
+ */
+function c4m_user_admin_user_reactivate_form($form, &$form_state, $account) {
+  $form_state['user'] = $account;
+
+  $account = entity_metadata_wrapper('user', $account);
+  $question = t('Are you sure you want to reactivate the account of @first_name @last_name?', array(
+    '@first_name' => $account->c4m_first_name->value(),
+    '@last_name' => $account->c4m_last_name->value(),
+  ));
+  $confirm_form =  confirm_form($form,
+    $question,
+    '',
+    '',
+    t('Submit'), t('Cancel'));
+  $confirm_form['c4m_notify_user'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Send reactivate notification.'),
+        '#default_value' => FALSE,
+  );
+  return $confirm_form;
+}
+
+/**
  * Form submission handler for c4m_user_admin_user_activate_form().
  *
  * @see c4m_user_admin_user_activate_form()
@@ -36,6 +64,19 @@ function c4m_user_admin_user_activate_form_submit($form, &$form_state) {
   $account = $form_state['user'];
   module_load_include('inc', 'c4m_user_admin', 'actions/c4m_user_admin.action');
   c4m_user_admin_activate_action($account);
+}
+
+/**
+ * Form submission handler for c4m_user_admin_user_activate_form().
+ *
+ * @see c4m_user_admin_user_activate_form()
+ */
+function c4m_user_admin_user_reactivate_form_submit($form, &$form_state) {
+  c4m_user_admin_user_activate_form_submit($form, $form_state);
+
+  if ($form_state['values']['c4m_notify_user']){
+    // Send reactivate notification
+  }
 }
 
 /**
