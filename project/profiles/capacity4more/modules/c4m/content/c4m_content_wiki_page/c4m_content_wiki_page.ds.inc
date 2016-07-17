@@ -104,6 +104,7 @@ function c4m_content_wiki_page_ds_field_settings_info() {
     'c4m_ds_content_footer_stats' => array(
       'weight' => '2',
       'label' => 'hidden',
+      'format' => 'default',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
