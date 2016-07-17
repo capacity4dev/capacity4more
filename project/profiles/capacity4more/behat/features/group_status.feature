@@ -2,16 +2,16 @@ Feature: Group Status
   Test group status field
 
   @api
-  Scenario: Check requested group as admin
+  Scenario: Check pending group as admin
     Given I am logged in as user "mariecurie"
-    When  I start editing group "Requested group"
+    When  I start editing group "Pending group"
     Then  the "#edit-c4m-og-status-und" element should not contain "archived"
     And   the "#edit-c4m-og-status-und" element should not contain "published"
 
   @api
-  Scenario: Check requested group as group owner
+  Scenario: Check pending group as group owner
     Given I am logged in as user "alfrednobel"
-    When  I start editing group "Requested group"
+    When  I start editing group "Pending group"
     Then  the "#edit-c4m-og-status-und" element should not contain "rejected"
     And   the "#edit-c4m-og-status-und" element should not contain "draft"
     And   the "#edit-c4m-og-status-und" element should not contain "published"
@@ -70,9 +70,9 @@ Feature: Group Status
     And   the "#edit-c4m-og-status-und" element should not contain "pending"
 
   @api
-  Scenario: Check Requested group access by group owner
+  Scenario: Check Pending group access by group owner
     Given I am logged in as user "alfrednobel"
-    When  I visit the dashboard of group "Requested group"
+    When  I visit the dashboard of group "Pending group"
     Then  I should see "Access denied"
 
   @api
@@ -109,9 +109,9 @@ Feature: Group Status
     Then  I should see "Access denied"
 
   @api
-  Scenario: Check Requested group access by group admin
+  Scenario: Check Pending group access by group admin
     Given I am logged in as user "turing"
-    When  I visit "Requested group" node of type "group"
+    When  I visit "Pending group" node of type "group"
     Then  I should see "Access denied"
 
   @api
@@ -142,9 +142,9 @@ Feature: Group Status
     Then  I should see "Access denied"
 
   @api
-  Scenario: Check Requested group access by group member
+  Scenario: Check Pending group access by group member
     Given I am logged in as user "isaacnewton"
-    When  I visit "Requested group" node of type "group"
+    When  I visit "Pending group" node of type "group"
     Then  I should see "Access denied"
 
   @api
@@ -175,9 +175,9 @@ Feature: Group Status
     Then  I should see "Access denied"
 
   @api
-  Scenario: Check Requested group access by not member
+  Scenario: Check Pending group access by not member
     Given I am logged in as user "president"
-    When  I visit "Requested group" node of type "group"
+    When  I visit "Pending group" node of type "group"
     Then  I should see "Access denied"
 
   @api
@@ -207,9 +207,9 @@ Feature: Group Status
     Then  I should see "Access denied"
 
   @api
-  Scenario: Check Requested group access by anonymous user
+  Scenario: Check Pending group access by anonymous user
     Given I am an anonymous user
-    When  I visit "Requested group" node of type "group"
+    When  I visit "Pending group" node of type "group"
     Then  I should see "Please log in to continue"
 
   @api
