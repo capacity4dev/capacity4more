@@ -700,3 +700,19 @@ function c4m_search_c4m_offcanvas_trigger_label_left_alter(&$trigger_label) {
     $trigger_label['icon'] = 'filter';
   }
 }
+
+/**
+ * Implements hook_views_post_build().
+ *
+ * Add setting for jumping to title for search pages.
+ */
+function c4m_search_views_post_build(&$view) {
+  $base_tables = array(
+    'search_api_index_c4m_search_users',
+    'search_api_index_c4m_search_nodes',
+  );
+
+  if (isset($view->base_table) && in_array($view->base_table, $base_tables)) {
+    drupal_add_js(array('c4m' => array('jumpToTitle' => TRUE)), 'setting');
+  }
+}
