@@ -75,7 +75,10 @@ function c4m_user_admin_user_reactivate_form_submit($form, &$form_state) {
   c4m_user_admin_user_activate_form_submit($form, $form_state);
 
   if ($form_state['values']['c4m_notify_user']){
-    // Send reactivate notification
+    // Send reactivate notification.
+    $account = $form_state['user'];
+    $params['account'] = $account;
+    drupal_mail('user_registrationpassword', 'register', $account->mail, user_preferred_language($account), $params);
   }
 }
 
