@@ -6,12 +6,21 @@
  */
 
 /**
- * A custom action to contact a multiple users with a mail action.
+ * Implements hook_action_info().
  *
- * @return array
- *   Information about the action.
+ * A custom action to contact a multiple users with a mail action.
  */
 function c4m_user_contact_multiple_action_info() {
+  $group = c4m_og_current_group();
+  // If not within OG context, don't declare action.
+  if (!$group) {
+    return array();
+  }
+  // If not Site Admin, Group Admin or Group Owner, don't declare action.
+  if (!_c4m_features_og_members_is_power_user($group)) {
+    return array();
+  }
+  // Site Admin, Group Admin or Group Owner => declare action.
   return array(
     'c4m_user_contact_multiple_action' => array(
       'type' => 'user',
@@ -27,28 +36,28 @@ function c4m_user_contact_multiple_action_info() {
  */
 function c4m_user_contact_multiple_action_form(array $context, $form_state) {
   global $user;
-  $to_list = '';
 
   // If 'Select all items on all pages' is selected.
   if ($form_state['select_all_pages']) {
     $group = c4m_og_current_group();
-    // Get ids of all subscribers of current group.
-    $ids = og_get_group_members_properties($group, array(), 'members', 'node');
+    // Get ids of all active subscribers of current group.
+    $uids = og_get_group_members_properties($group, array(), 'members__' . OG_STATE_ACTIVE, 'node');
   }
   else {
     // Get selected items on current page.
-    $ids = $form_state['selection'];
+    $uids = $form_state['selection'];
   }
 
-  // Create a names list of notified subscribers.
-  foreach ($ids as $account_id) {
+  $accounts = user_load_multiple($uids);
+  $users_name = array();
+
+  // Create an array of users names for notified subscribers.
+  foreach ($accounts as $account) {
     // Make sure that id is valid, and GO/GA didn't select himself.
-    if ($account_id != 0 && $user->uid != $account_id) {
-      $account = user_load($account_id);
-      $to_list .= c4m_user_name($account) . ', ';
+    if ($account->uid != 0 && $user->uid != $account->uid) {
+      $users_name[] = c4m_user_name($account);
     }
   }
-  $to_list = rtrim($to_list, ", ");
 
   $form['c4m_contact_multiple_from'] = array(
     '#type' => 'textfield',
@@ -62,7 +71,7 @@ function c4m_user_contact_multiple_action_form(array $context, $form_state) {
   $form['c4m_contact_multiple_to'] = array(
     '#type' => 'textarea',
     '#title' => t('To'),
-    '#default_value' => $to_list,
+    '#default_value' => implode(', ', $users_name),
     '#description' => t('Group members that will receive the email.'),
     '#rows' => 3,
     '#disabled' => TRUE,
