@@ -722,7 +722,14 @@ function c4m_user_og_user_update(&$edit, $account, $category) {
     return;
   }
 
+  // Associate the user to the group.
   foreach (c4m_user_og_fetch_unified_workflow_entries($account->uid) as $entry) {
-    // ...
+    $group = node_load($entry['gid']);
+    $membership_request_value = c4m_og_get_group_membership_request($group);
+    $values = array(
+      'user' => $entry['uid'],
+      'state' => $membership_request_value == 'open' ? OG_STATE_ACTIVE : OG_STATE_PENDING ,
+    );
+    og_group('node', $entry['gid'], $values);
   }
 }
