@@ -55,6 +55,33 @@ function c4m_og_current_group_id() {
 }
 
 /**
+ * Helper to get the current value of the group membership request.
+ *
+ * @param object $group
+ *   The group object.
+ *
+ * @return mixed|null
+ *   Either 'open' or 'moderated' if it is a group type, otherwise NULL.
+ */
+function c4m_og_get_group_membership_request($group) {
+  if (!og_context('node', $group)) {
+    return NULL;
+  }
+
+  if ($group->type != 'group') {
+    return NULL;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $group);
+  $options = array(
+    C4M_OG_MODERATED_GROUP => 'moderated',
+    C4M_OG_OPEN_GROUP => 'open',
+  );
+
+  return $options[$wrapper->field_membership_open_request->value()];
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function c4m_og_ctools_plugin_directory($module, $plugin) {
