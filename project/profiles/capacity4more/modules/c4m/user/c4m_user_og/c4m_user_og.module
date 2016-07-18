@@ -583,6 +583,9 @@ function c4m_user_og_unified_workflow_register_submit($form, &$form_state) {
   // Adding the uid to the session so we can use it later.
   $_SESSION['gid_join_uid'] = $form_state['user']->uid;
 
+  // Store the group ID + user ID in the database after registration completes.
+  c4m_user_og_store_unified_workflow($form_state['user']->uid->uid, $gid);
+
   // drupal_goto has a fallback to the 'destination' so we must remove it.
   unset($_GET['destination']);
 }
@@ -647,9 +650,6 @@ function c4m_user_og_mail_alter(&$message) {
       'clear' => TRUE,
     )
   );
-
-  // Store the group ID + user ID in the database after registration completes.
-  c4m_user_og_store_unified_workflow($user->uid, $gid);
 
   // User is registered, and the variables are now stored in the database, the
   // session variables should be destroyed.
