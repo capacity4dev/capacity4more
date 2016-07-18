@@ -102,7 +102,7 @@ function kapablo_preprocess_page(&$variables) {
   // Determine if the current context is a project.
   if (($group_type = c4m_og_get_group_type(og_context())) && $group_type == 'project') {
     // Instruct to use a page template designated for project OG type.
-    $variables['theme_hook_suggestion'] = 'page__og__project';
+    $variables['theme_hook_suggestions'][] = 'page__og__project';
   }
 
   // Add information about the number of sidebars.

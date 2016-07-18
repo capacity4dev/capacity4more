@@ -122,19 +122,20 @@
 
           <div class="header-actions">
 
-              <span class="header-actions--wrapper">
-                <span class="header-actions--search fa fa-search" data-toggle="collapse" data-target="#search"></span>
-              </span>
-              <span class="header-actions--wrapper">
-                <div class="header-actions--navigation js-navigationButton" data-effect="animation--push">
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                </div>
-              </span>
+            <span class="header-actions--wrapper">
+              <span class="header-actions--search fa fa-search" data-toggle="collapse" data-target="#search"></span>
+            </span>
+            <span class="header-actions--wrapper">
+              <div class="header-actions--navigation js-navigationButton" data-effect="animation--push">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </div>
+            </span>
           </div>
 
         </div>
+
 
         <div id="search" class="col-xs-4 col-sm-4 col-md-3 header-search collapse">
           <!-- SEARCH-->
@@ -189,7 +190,6 @@
       </nav>
     </div>
   <?php endif; ?>
-
 </header>
 
 <?php if (!empty($page['content_top'])): ?>
