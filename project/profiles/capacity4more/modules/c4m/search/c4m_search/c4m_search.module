@@ -119,7 +119,7 @@ function c4m_search_block_view_alter(&$data, $block) {
   // Only for blocks provided by the facetapi module.
   if ($block->module === 'facetapi') {
     module_load_include('inc', 'c4m_search', 'includes/c4m_search.block');
-    return _c4m_search_block_facetapi_view_alter($data, $block);
+    _c4m_search_block_facetapi_view_alter($data, $block);
   }
 }
 
