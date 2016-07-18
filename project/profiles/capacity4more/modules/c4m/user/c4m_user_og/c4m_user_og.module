@@ -687,6 +687,23 @@ function c4m_user_og_store_unified_workflow($uid, $gid) {
 }
 
 /**
+ * Fetch the entries for a specific user.
+ *
+ * @param $uid
+ *   The user ID.
+ *
+ * @return array
+ *   Array with the entries.
+ */
+function c4m_user_og_fetch_unified_workflow_entries($uid) {
+  return db_select('c4m_unified_workflow', 'uw')
+    ->fields('uw')
+    ->condition('uid', $uid)
+    ->execute()
+    ->fetchAll();
+}
+
+/**
  * Token callback to add unsafe tokens for user mails.
  *
  * @see c4m_content_group_mail_tokens().
@@ -695,4 +712,17 @@ function c4m_user_og_store_unified_workflow($uid, $gid) {
 function c4m_user_og_mail_tokens(array &$replacements, array $data, $options) {
   c4m_content_group_mail_tokens($replacements, $data, $options);
   user_registrationpassword_mail_tokens($replacements, $data, $options);
+}
+
+/**
+ * Implements hook_user_update().
+ */
+function c4m_user_og_user_update(&$edit, $account, $category) {
+  if ($account->original->status || !$account->status) {
+    return;
+  }
+
+  foreach (c4m_user_og_fetch_unified_workflow_entries($account->uid) as $entry) {
+    // ...
+  }
 }
