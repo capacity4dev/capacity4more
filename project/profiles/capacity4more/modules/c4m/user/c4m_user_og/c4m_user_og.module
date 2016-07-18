@@ -611,6 +611,12 @@ function c4m_user_og_unified_workflow_login_submit($form, &$form_state) {
   // drupal_goto has a fallback to the 'destination' so we must remove it.
   unset($_GET['destination']);
 
+  // Associate the user to the group after login.
+  $values = array(
+    'state' => $membership_request_value == 'open' ? OG_STATE_ACTIVE : OG_STATE_PENDING ,
+  );
+  og_group('node', $gid, $values);
+
   // User is logged in, the session variable should be destroyed.
   unset($_SESSION['gid_join']);
 }
