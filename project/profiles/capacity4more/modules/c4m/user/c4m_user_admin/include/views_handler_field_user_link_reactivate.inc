@@ -22,7 +22,8 @@ class views_handler_field_user_link_reactivate extends views_handler_field_user_
     $account = user_load($uid);
     $account = entity_metadata_wrapper('user', $account);
 
-    if ($account->last_login->value() > 0 && !$account->status->value() && !$account->c4m_is_spammer->value() && !$account->c4m_is_deleted->value() && user_access('administer users')) {
+    // No need to check c4m_is_deleted, because it's tightly coupled with status.
+    if ($account->last_login->value() > 0 && !$account->status->value() && user_access('administer users')) {
       $this->options['alter']['make_link'] = TRUE;
 
       $text = t('Reactivate user');
