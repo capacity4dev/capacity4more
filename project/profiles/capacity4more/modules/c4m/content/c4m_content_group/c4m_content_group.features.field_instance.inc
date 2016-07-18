@@ -105,7 +105,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 34,
+        'weight' => 41,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -389,7 +389,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 22,
+        'weight' => 35,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -532,7 +532,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 37,
+        'weight' => 43,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -648,7 +648,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 28,
+        'weight' => 36,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -714,7 +714,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 34,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -814,10 +814,15 @@ function c4m_content_group_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 40,
+        'module' => 'c4m_content_topic',
+        'settings' => array(
+          'display' => 'all',
+          'link' => 1,
+          'separator' => ', ',
+          'wrap' => 'none',
+        ),
+        'type' => 'term_reference_tree_children_expanded',
+        'weight' => 7,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -941,10 +946,15 @@ function c4m_content_group_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 39,
+        'module' => 'c4m_content_topic',
+        'settings' => array(
+          'display' => 'all',
+          'link' => 1,
+          'separator' => ', ',
+          'wrap' => 'none',
+        ),
+        'type' => 'term_reference_tree_children_expanded',
+        'weight' => 6,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1065,7 +1075,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 32,
+        'weight' => 39,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1181,7 +1191,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 33,
+        'weight' => 40,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1305,7 +1315,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 31,
+        'weight' => 38,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1437,7 +1447,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 36,
+        'weight' => 42,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1573,7 +1583,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 30,
+        'weight' => 37,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
