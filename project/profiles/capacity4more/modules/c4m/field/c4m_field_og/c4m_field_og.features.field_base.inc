@@ -95,7 +95,9 @@ function c4m_field_og_field_default_field_bases() {
           'property' => 'title',
           'type' => 'property',
         ),
-        'target_bundles' => array(),
+        'target_bundles' => array(
+          'project' => 'project',
+        ),
       ),
       'handler_submit' => 'Change handler',
       'target_type' => 'node',
