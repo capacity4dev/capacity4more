@@ -584,7 +584,7 @@ function c4m_user_og_unified_workflow_register_submit($form, &$form_state) {
   $_SESSION['gid_join_uid'] = $form_state['user']->uid;
 
   // Store the group ID + user ID in the database after registration completes.
-  c4m_user_og_store_unified_workflow($form_state['user']->uid->uid, $gid);
+  c4m_user_og_store_unified_workflow($form_state['user']->uid, $gid);
 
   // drupal_goto has a fallback to the 'destination' so we must remove it.
   unset($_GET['destination']);
