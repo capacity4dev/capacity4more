@@ -637,20 +637,18 @@ function c4m_search_submit_handler_search_within_results($form, &$form_state) {
     }
   }
   // If the pager was not clicked then the form was submitted.
-  elseif ($form_state['values']['search_within_results'] === 1) {
+  else {
     $new_value = $form_state['values']['search'];
-    if ($params['text'] === '') {
-      $params['text'] = $new_value;
-    }
-    else {
+    // If the user clicks "Search within search results" without having a
+    // previous searched string, the text $params['text'] is not set.
+    if ($form_state['values']['search_within_results'] === 1 && isset($params['text']) && $params['text'] !== '') {
       $params['text'] .= ' ' . $new_value;
     }
-  }
-  // Simple form submission. No pager and no search within results.
-  else {
-    $params = array(
-      'text' => $form_state['values']['search'],
-    );
+    // Simple form submission or a search within results but with no initial
+    // value.
+    else {
+      $params['text'] = $new_value;
+    }
   }
   drupal_goto(current_path(), array('query' => $params));
 }
