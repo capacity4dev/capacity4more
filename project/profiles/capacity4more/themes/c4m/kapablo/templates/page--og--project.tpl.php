@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Default theme implementation to display a single Drupal page.
+ * Theme suggestion implementation to display a page for OG type = 'project'.
  *
  * The doctype, html, head and body tags are not in this template. Instead they
  * can be found in the html.tpl.php template in this directory.
@@ -91,103 +91,6 @@
         </div>
       </div>
     </section>
-  <?php endif; ?>
-
-  <!--  TOP MENU -->
-  <?php if (!empty($page['top_menu'])): ?>
-    <section id="top-menu">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12 col-md-12 text-right">
-            <?php print render($page['top_menu']); ?>
-          </div>
-        </div>
-      </div>
-    </section>
-  <?php endif; ?>
-
-  <div id="header-ec-wrapper">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-9 col-sm-8 col-md-9 header-logo">
-          <?php if ($logo): ?>
-            <a class="logo pull-left" href="<?php print $front_page; ?>"
-               title="<?php print t('Home'); ?>">
-              <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>"/>
-            </a>
-          <?php endif; ?>
-        </div>
-
-        <div class="col-xs-3 col-sm-4 col-md-3">
-
-          <div class="header-actions">
-
-              <span class="header-actions--wrapper">
-                <span class="header-actions--search fa fa-search" data-toggle="collapse" data-target="#search"></span>
-              </span>
-              <span class="header-actions--wrapper">
-                <div class="header-actions--navigation js-navigationButton" data-effect="animation--push">
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                </div>
-              </span>
-          </div>
-
-        </div>
-
-        <div id="search" class="col-xs-4 col-sm-4 col-md-3 header-search collapse">
-          <!-- SEARCH-->
-          <?php print render($search_form); ?>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-12 col-md-12 header-breadcrumb">
-          <?php if (!empty($breadcrumb)): print $breadcrumb;
-          endif; ?>
-        </div>
-      </div>
-    </div>
-  </div><!-- /banner-ec -->
-
-  <?php if ($page['header']): ?>
-    <div id="header-content-wrapper">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12 col-md-12 header-content">
-            <?php print render($page['header']); ?>
-          </div>
-        </div>
-      </div>
-    </div><!-- /header-content-wrapper -->
-  <?php endif; ?>
-
-  <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
-    <div class="navigation--primary">
-      <nav class="container navbar" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-          <button type="button" class="navbar-toggle" data-toggle="collapse"
-                  data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-
-        <div class="navbar-collapse collapse">
-          <?php if (!empty($primary_nav)): ?>
-            <?php print render($primary_nav); ?>
-          <?php endif; ?>
-          <?php if (!empty($page['navigation'])): ?>
-            <?php print render($page['navigation']); ?>
-          <?php endif; ?>
-        </div>
-      </nav>
-    </div>
   <?php endif; ?>
 
 </header>
