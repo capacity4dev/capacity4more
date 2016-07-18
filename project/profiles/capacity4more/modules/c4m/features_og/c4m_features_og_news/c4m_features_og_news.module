@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Code for the Group News feature.
+ */
+
+/**
+ * Implements hook_c4m_og_feature_info().
+ */
+function c4m_features_og_news_c4m_og_feature_info() {
+  return array(
+    'c4m_features_og_news' => array(
+      'name' => t('News'),
+      'description' => t('News overview.'),
+      'machine_name' => 'c4m_features_og_news',
+      'weight' => 2,
+      'default' => TRUE,
+      'group_types' => array('project'),
+      'content_types' => array('news'),
+    ),
+  );
+}
