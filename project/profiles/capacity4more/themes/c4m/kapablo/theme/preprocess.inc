@@ -95,7 +95,8 @@ function kapablo_preprocess_block(&$variables) {
 /**
  * Implements theme_preprocess_page().
  *
- * @see page.tpl.php, page--og--project.tpl.php
+ * @see page.tpl.php
+ * @see page--og--project.tpl.php
  */
 function kapablo_preprocess_page(&$variables) {
   // Determine if the current context is a project.
