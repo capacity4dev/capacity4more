@@ -99,18 +99,10 @@ function kapablo_preprocess_block(&$variables) {
  */
 function kapablo_preprocess_page(&$variables) {
   // Add information about OG context type.
-  $context = og_context();
-  if (!$context) {
-    $variables['page']['is_og_project'] = FALSE;
-  }
-  else {
-    $og_group_type = c4m_og_get_group_type($context);
-    if (!$og_group_type || $og_group_type != 'project') {
-      $variables['page']['is_og_project'] = FALSE;
-    }
-    else {
-      $variables['page']['is_og_project'] = TRUE;
-    }
+  $variables['page']['is_og_project'] = FALSE;
+  if (($group_type = c4m_og_get_group_type(og_context())) && $group_type == 'project') {
+    // Determine if the current context is a project.
+    $variables['page']['is_og_project'] = TRUE;
   }
 
   // Add information about the number of sidebars.
