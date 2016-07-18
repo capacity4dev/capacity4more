@@ -74,6 +74,7 @@ function c4m_ds_ds_layout_info() {
       'header' => t('Header'),
       'left' => t('Left'),
       'right' => t('Right'),
+      'footer' => t('Footer'),
     ),
     'form' => TRUE,
     'image' => TRUE,
