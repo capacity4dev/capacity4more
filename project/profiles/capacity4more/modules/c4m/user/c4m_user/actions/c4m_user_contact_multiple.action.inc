@@ -9,6 +9,7 @@
  * Implements hook_action_info().
  *
  * A custom action to contact a multiple users with a mail action.
+ * Declares action for Site Admin, Group Admins and Group Owner.
  */
 function c4m_user_contact_multiple_action_info() {
   $group = c4m_og_current_group();
@@ -20,7 +21,7 @@ function c4m_user_contact_multiple_action_info() {
   if (!_c4m_features_og_members_is_power_user($group)) {
     return array();
   }
-  // Site Admin, Group Admin or Group Owner => declare action.
+
   return array(
     'c4m_user_contact_multiple_action' => array(
       'type' => 'user',
@@ -32,6 +33,8 @@ function c4m_user_contact_multiple_action_info() {
 }
 
 /**
+ * Action form function.
+ *
  * Create 'Contact Multiple' form.
  */
 function c4m_user_contact_multiple_action_form(array $context, $form_state) {
@@ -101,7 +104,7 @@ function c4m_user_contact_multiple_action_form(array $context, $form_state) {
 }
 
 /**
- * Validate function for contact_multiple_form.
+ * Action form validate function, for contact_multiple form.
  *
  * Verifies that email subject and body are not empty.
  */
@@ -119,7 +122,7 @@ function c4m_user_contact_multiple_action_validate($form, $form_state) {
 }
 
 /**
- * Submit function for contact_multiple_form.
+ * Action form submit function, for contact_multiple form.
  *
  * Returns required parameters for action, to send the mail.
  * If 'Send copy' checkbox is checked, sends copy mail to invoking user.
@@ -147,7 +150,7 @@ function c4m_user_contact_multiple_action_submit($form, $form_state) {
 }
 
 /**
- * Action function for contact_multiple_form.
+ * Action function for contact_multiple form.
  *
  * Activated for each selected account.
  * Sends email to account.
