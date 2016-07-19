@@ -136,9 +136,9 @@
   }
 }
 
-/*
-* Search result page
-*/
+/**
+ * Search result page
+ */
 .offCanvasNavigation--left {
   padding: 0;
 }
@@ -426,4 +426,10 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
 .view-mode-teaser .row-entity-count,
 .view-mode-teaser .group-iconbar-comments-views {
   color: $color-gray-dark !important;
+}
+
+.search-keyword {
+  color: $color-highlight;
+  font-weight: bold;
+  text-transform: uppercase;
 }
