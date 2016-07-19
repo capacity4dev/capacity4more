@@ -528,7 +528,7 @@ function c4m_user_og_menu() {
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_user_og_form_user_register_form_alter(&$form, &$form_state, $form_id) {
-  if (!isset($_SESSION['gid_join']) || !$gid = $_SESSION['gid_join']) {
+  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
     return;
   }
 
@@ -547,7 +547,7 @@ function c4m_user_og_form_user_register_form_alter(&$form, &$form_state, $form_i
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_user_og_form_user_login_alter(&$form, &$form_state, $form_id) {
-  if (!isset($_SESSION['gid_join']) || !$gid = $_SESSION['gid_join']) {
+  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
     return;
   }
 
@@ -564,7 +564,7 @@ function c4m_user_og_form_user_login_alter(&$form, &$form_state, $form_id) {
  * Setting a message to the user and redirect back to the group.
  */
 function c4m_user_og_unified_workflow_register_submit($form, &$form_state) {
-  if (!isset($_SESSION['gid_join']) || !$gid = $_SESSION['gid_join']) {
+  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
     return;
   }
 
@@ -580,9 +580,6 @@ function c4m_user_og_unified_workflow_register_submit($form, &$form_state) {
   drupal_set_message($message);
   $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
 
-  // Adding the uid to the session so we can use it later.
-  $_SESSION['gid_join_uid'] = $form_state['user']->uid;
-
   // Store the group ID + user ID in the database after registration completes.
   c4m_user_og_store_unified_workflow($form_state['user']->uid, $gid);
 
@@ -596,7 +593,7 @@ function c4m_user_og_unified_workflow_register_submit($form, &$form_state) {
  * Setting a message to the user and redirect back to the group.
  */
 function c4m_user_og_unified_workflow_login_submit($form, &$form_state) {
-  if (!isset($_SESSION['gid_join']) || !$gid = $_SESSION['gid_join']) {
+  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
     return;
   }
 
@@ -621,22 +618,18 @@ function c4m_user_og_unified_workflow_login_submit($form, &$form_state) {
   og_group('node', $gid, $values);
 
   // User is logged in, the session variable should be destroyed.
-  unset($_SESSION['gid_join']);
+  unset($_SESSION['c4m_unified_workflow_gid_join']);
 }
 
 /**
  * Implements hook_mail_alter().
  */
 function c4m_user_og_mail_alter(&$message) {
-  if (!isset($_SESSION['gid_join']) || !$gid = $_SESSION['gid_join']) {
+  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
     return;
   }
 
-  if (empty($_SESSION['gid_join_uid'])) {
-    return;
-  }
-
-  $user = user_load($_SESSION['gid_join_uid']);
+  $user = user_load_by_mail($message['to']);
   $group = node_load($gid);
   $path = drupal_get_path('module', 'c4m_user_og');
 
@@ -657,10 +650,9 @@ function c4m_user_og_mail_alter(&$message) {
     )
   );
 
-  // User is registered, and the variables are now stored in the database, the
-  // session variables should be destroyed.
-  unset($_SESSION['gid_join']);
-  unset($_SESSION['gid_join_uid']);
+  // User is registered, and the variable is now stored in the database, the
+  // session variable should be destroyed.
+  unset($_SESSION['c4m_unified_workflow_gid_join']);
 }
 
 /**
@@ -727,6 +719,10 @@ function c4m_user_og_delete_unified_workflow_entries($uid) {
 function c4m_user_og_mail_tokens(array &$replacements, array $data, $options) {
   c4m_content_group_mail_tokens($replacements, $data, $options);
   user_registrationpassword_mail_tokens($replacements, $data, $options);
+
+  // Adding destination to the link in order to redirect to the group page
+  // after the activation.
+  $replacements['[user:registrationpassword-url]'] .= '?destination=' . drupal_get_path_alias('node/' . $data['group']->nid);
 }
 
 /**

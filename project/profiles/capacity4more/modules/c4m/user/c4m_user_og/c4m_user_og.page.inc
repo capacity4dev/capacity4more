@@ -19,7 +19,7 @@ function c4m_user_og_unified_workflow($group, $action = NULL) {
   }
 
   // Set group to join in session variable and redirect to /user/register.
-  $_SESSION['gid_join'] = $group->nid;
+  $_SESSION['c4m_unified_workflow_gid_join'] = $group->nid;
   // Unset the destination, otherwise the drupal goto will use it as the
   // preferred url.
   unset($_GET['destination']);
