@@ -81,7 +81,7 @@ function _c4m_message_format_welcome_to_group_from_field(&$message, $message_ent
  */
 function _c4m_message_format_new_membership_request_from_field(&$message, $message_entity) {
   if ($message_entity->type != 'c4m_new_membership_request') {
-    // For message type other than c4m_welcome_to_group - return early.
+    // For message type other than c4m_new_membership_request - return early.
     return;
   }
 
