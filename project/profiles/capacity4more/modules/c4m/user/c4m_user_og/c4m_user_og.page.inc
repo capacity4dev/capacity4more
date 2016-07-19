@@ -6,8 +6,9 @@
  */
 
 /**
- * Menu callback with business logic on registering/logging in and immediately
- * joining groups.
+ * Menu callback.
+ *
+ * Business logic on registering/logging in and immediately joining groups.
  *
  * @param object $group
  *   The group object.
