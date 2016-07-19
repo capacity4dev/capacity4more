@@ -909,19 +909,17 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
     '#markup' => implode(",", $links),
   );
 
-
   taxonomy_tree_build($node, 'c4m_vocab_topic');
   taxonomy_tree_build($node, 'c4m_vocab_geo');
 }
 
 /**
- * Build a tree of a hierarchical_taxonomy,
- * for custom theming.
+ * Build a tree of a hierarchical_taxonomy, for custom theming.
  *
  * @param $node
- *  The node tree.
+ *   The node tree.
  * @param $content
- *  The content type name.
+ *   The content type name.
  */
 function taxonomy_tree_build($node, $content) {
   $options = array(
