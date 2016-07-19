@@ -223,6 +223,28 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');
+  $items['c4m_published_group'] = entity_import('message_type', '{
+    "name" : "c4m_published_group",
+    "description" : "c4m Published Group",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003E\\r\\nDear [GA_first_name] [GA_last_name],\\r\\n\\u003C\\/p\\u003E\\r\\n \\r\\n\\u003Cp\\u003E\\u003Cbr\\u003E\\r\\n\\u003Ca href=\\u0022[group_dashboard_url]\\u0022\\u003E[group_node_title]\\u003C\\/a\\u003E was just published.\\r\\n\\u003C\\/p\\u003E\\r\\n \\r\\n\\u003Cp\\u003E\\r\\n[event-user-first_name] [event-user-last_name] updated the status of this [group_node_type] from [former_status] to Published.\\r\\n\\u003C\\/p\\u003E\\r\\n \\r\\n\\u003Cp\\u003E\\r\\nYou can consult \\u003Ca href=\\u0022[help_section]\\u0022\\u003Ethis help section\\u003C\\/a\\u003E to find out more about Group statuses and what they imply.\\r\\n\\u003C\\/p\\u003E\\r\\n \\r\\n\\u003Cp\\u003E\\u003Cbr\\u003E\\r\\nThe capacity4dev team\\r\\n\\u003C\\/p\\u003E",
+          "format" : "mail",
+          "safe_value" : "\\u003Cp\\u003E\\nDear [GA_first_name] [GA_last_name],\\n\\u003C\\/p\\u003E\\n \\n\\u003Cp\\u003E\\u003Cbr\\u003E\\n\\u003Ca href=\\u0022[group_dashboard_url]\\u0022\\u003E[group_node_title]\\u003C\\/a\\u003E was just published.\\n\\u003C\\/p\\u003E\\n \\n\\u003Cp\\u003E\\n[event-user-first_name] [event-user-last_name] updated the status of this [group_node_type] from [former_status] to Published.\\n\\u003C\\/p\\u003E\\n \\n\\u003Cp\\u003E\\nYou can consult \\u003Ca href=\\u0022[help_section]\\u0022\\u003Ethis help section\\u003C\\/a\\u003E to find out more about Group statuses and what they imply.\\n\\u003C\\/p\\u003E\\n \\n\\u003Cp\\u003E\\u003Cbr\\u003E\\nThe capacity4dev team\\n\\u003C\\/p\\u003E"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['c4m_unpublish_group'] = entity_import('message_type', '{
     "name" : "c4m_unpublish_group",
     "description" : "c4m unpublish group",
