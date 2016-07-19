@@ -15,7 +15,11 @@ function c4m_user_notifications_notify_admins_user_deleted($account) {
  * Email notification on membership request to moderated group.
  */
 function c4m_user_notifications_moderated_group_new_membership_request($membership) {
+  // Create an array of group owner and admins.
   $group_admins = c4m_og_get_group_admins($membership->gid);
+  $group = entity_load_single('node', $membership->gid);
+  $group_owner = user_load($group->uid);
+  $group_admins[] = $group_owner;
 
   foreach($group_admins as $admin) {
     $message = message_create('c4m_new_membership_request', array('uid' => $admin->uid));

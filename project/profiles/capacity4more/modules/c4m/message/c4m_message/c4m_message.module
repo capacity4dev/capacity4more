@@ -231,6 +231,11 @@ function c4m_message_load__c4m_new_membership_request(Message $message) {
     'callback' => 'c4m_message_format_new_member_public_profile_url',
     'pass message' => TRUE,
   );
+
+  $message->arguments['@new_member_request_message'] = array(
+    'callback' => 'c4m_message_format_new_member_request_message',
+    'pass message' => TRUE,
+  );
 }
 
 /**
@@ -343,14 +348,14 @@ function c4m_message_format_new_member_self_description(Message $message) {
  *   The Message entity.
  *
  * @return string
- *   Returns m a link to new member membership management.
+ *   Returns a link to new member membership management.
  */
 function c4m_message_format_group_pending_member_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $gid = $wrapper->field_group_node->value(array('identifier' => TRUE));
   $mid = $wrapper->field_group_membership->value(array('identifier' => TRUE));
 
-  return '/group/node/' . $gid .'/admin/people/edit-membership/' . $mid;
+  return url('/group/node/' . $gid .'/admin/people/edit-membership/' . $mid);
 }
 
 /**
@@ -368,6 +373,21 @@ function c4m_message_format_new_member_public_profile_url(Message $message) {
 
   return url('user/' . $uid);
 }
+
+/**
+ * Resolves a link to new member public profile.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns a link to new member public profile.
+ */
+function c4m_message_format_new_member_request_message(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  return $wrapper->field_group_membership->og_membership_request->value();
+}
+
 
 /**
  * Resolves group owner full name token.
