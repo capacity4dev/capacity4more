@@ -6,7 +6,7 @@
  */
 ?>
 <div>
-  <p class="taxonomy-title"><?php print l($root->name, "/taxonomy/term/" . $root->tid); ?></p>
+  <p class="taxonomy-title"><?php print $root ?></p>
 
   <?php if ($tree): ?>
     <div class="taxonomy-item">

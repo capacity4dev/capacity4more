@@ -924,8 +924,25 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
  *  The content type name.
  */
 function taxonomy_tree_build($node, $content) {
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
   foreach ($node->content[$content]['#items'] as $index => $item) {
     $taxonomy = $item['taxonomy_term'];
+
+    $options['query'] = array(
+      'f[0]' => 'c4m_vocab_topic:' . $taxonomy->tid,
+    );
+
+    // Create different link for 'Topic' tags and 'Regions' tags.
+    if ($taxonomy->vocabulary_machine_name == 'c4m_vocab_topic') {
+      $taxonomy_link = l($taxonomy->name, 'groups', $options);
+    }
+    else {
+      $taxonomy_link = l($taxonomy->name, "/taxonomy/term/" . $taxonomy->tid);
+    }
 
     // Create the tree.
     $tree_name = array();
@@ -935,7 +952,7 @@ function taxonomy_tree_build($node, $content) {
     }
 
     $variables = array(
-      'root' => $taxonomy,
+      'root' => $taxonomy_link,
       'tree' => implode(', ', $tree_name),
     );
 
