@@ -31,6 +31,7 @@ features[elysia_cron][] = c4m_user_cron
 features[features_api][] = api:2
 features[field_base][] = og_user_node
 features[field_instance][] = user-user-og_user_node
+features[search_api_sort][] = c4m_search_nodes__changed
 features[user_permission][] = access user profiles
 features[user_permission][] = administer permissions
 features[user_permission][] = administer users

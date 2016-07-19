@@ -27,12 +27,6 @@ function c4m_user_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'search_api_sorts-search-sorts' => array(
-          'module' => 'search_api_sorts',
-          'delta' => 'search-sorts',
-          'region' => 'sidebar_first',
-          'weight' => '-59',
-        ),
         'views--exp-my_content-page' => array(
           'module' => 'views',
           'delta' => '-exp-my_content-page',
