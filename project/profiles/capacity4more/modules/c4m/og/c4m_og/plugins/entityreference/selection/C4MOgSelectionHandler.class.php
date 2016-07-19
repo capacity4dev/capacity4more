@@ -10,6 +10,9 @@
  */
 class C4MOgSelectionHandler extends OgSelectionHandler {
 
+  // Defines a false, invalid ID, to deny access to unauthorized users.
+  const FALSEID = -1;
+
   /**
    * {@inheritdoc}
    */
@@ -68,7 +71,7 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
 
     if (!field_info_field(OG_GROUP_FIELD)) {
       // There are no groups, so falsify query.
-      $query->propertyCondition($entity_info['entity keys']['id'], -1, '=');
+      $query->propertyCondition($entity_info['entity keys']['id'], self::FALSEID, '=');
       return $query;
     }
 
@@ -94,7 +97,7 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     $node_type = $this->instance['bundle'];
     if (!og_user_access($group_type, $group_obj['gid'], "create $node_type content")) {
       // User does not have permission, falsify the query.
-      $query->propertyCondition($entity_info['entity keys']['id'], -1, '=');
+      $query->propertyCondition($entity_info['entity keys']['id'], self::FALSEID, '=');
       return $query;
     }
     if ($user_groups) {
@@ -107,7 +110,7 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     else {
       // User doesn't have permission to select any group so falsify this
       // query.
-      $query->propertyCondition($entity_info['entity keys']['id'], -1, '=');
+      $query->propertyCondition($entity_info['entity keys']['id'], self::FALSEID, '=');
     }
 
     $unallowed_values = array(
