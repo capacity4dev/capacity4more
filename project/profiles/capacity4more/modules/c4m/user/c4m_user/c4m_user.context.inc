@@ -54,7 +54,6 @@ function c4m_user_context_default_contexts() {
   // Included for use with string extractors like potx.
   t('"my content" page');
   t('cap4more - User');
-  $export['c4m_user_content'] = $context;
 
   return $export;
 }
