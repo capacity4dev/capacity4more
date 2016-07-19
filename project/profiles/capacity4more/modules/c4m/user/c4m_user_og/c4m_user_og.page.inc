@@ -24,9 +24,5 @@ function c4m_user_og_unified_workflow($group, $action = NULL) {
   // preferred url.
   unset($_GET['destination']);
 
-  if ($action === 'login') {
-    drupal_goto('user/login');
-  }
-
   drupal_goto('/user/register');
 }

@@ -585,6 +585,10 @@ function c4m_user_og_unified_workflow_register_submit($form, &$form_state) {
 
   // drupal_goto has a fallback to the 'destination' so we must remove it.
   unset($_GET['destination']);
+
+  // User is registered, and the variable is now stored in the database, the
+  // session variable should be destroyed.
+  unset($_SESSION['c4m_unified_workflow_gid_join']);
 }
 
 /**
@@ -649,10 +653,6 @@ function c4m_user_og_mail_alter(&$message) {
       'clear' => TRUE,
     )
   );
-
-  // User is registered, and the variable is now stored in the database, the
-  // session variable should be destroyed.
-  unset($_SESSION['c4m_unified_workflow_gid_join']);
 }
 
 /**
