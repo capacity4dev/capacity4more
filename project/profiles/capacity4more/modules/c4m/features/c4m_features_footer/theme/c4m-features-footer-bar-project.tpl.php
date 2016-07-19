@@ -6,8 +6,8 @@
  */
 ?>
 
-<div class="row">
-  <ul class="c4m-footer-bar clearfix">
+<div>
+  <ul class="c4m-footer-bar">
     <li class="first">
       <a class="logo" href="<?php print $front_page; ?>"
          title="<?php print t('Home'); ?>">
@@ -16,10 +16,14 @@
     </li>
     <li class="c4m-footer-bar-project">
       <div class="text-uppercase">
-        Explore more projects on
-        <a href="<?php print $project_page; ?>" class="text-orange">Capacity4dev ></a>
+        <?php print t('Explore more projects on') ?>
+        <a href="<?php print $project_page; ?>" class="text-orange">
+          <?php print t('Capacity4dev &gt') ?>
+        </a>
         <br/>
-        <a href=" https://ec.europa.eu/europeaid/home_en" class="">International cooperation and development ></a>
+        <a href="https://ec.europa.eu/europeaid/home_en">
+          <?php print t('International cooperation and development &gt') ?>
+        </a>
       </div>
     </li>
   </ul>
