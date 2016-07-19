@@ -727,7 +727,7 @@ function c4m_user_og_user_update(&$edit, $account, $category) {
     $group = node_load($entry->gid);
     $membership_request_value = c4m_og_get_group_membership_request($group);
     $values = array(
-      'user' => user_load($entry->uid),
+      'entity' => user_load($entry->uid),
       'state' => $membership_request_value == 'open' ? OG_STATE_ACTIVE : OG_STATE_PENDING ,
     );
     og_group('node', $entry->gid, $values);
