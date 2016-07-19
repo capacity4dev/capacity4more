@@ -170,7 +170,7 @@ function c4m_message_load__c4m_welcome_to_group(Message $message) {
 }
 
 /**
- * Resolves member full name toke.
+ * Resolves member full name token.
  *
  * @param Message $message
  *   The Message entity.
@@ -198,6 +198,28 @@ function c4m_message_format_group_owner_full_name(Message $message) {
   $author = $wrapper->field_group_node->author->value();
 
   return c4m_user_name($author);
+}
+
+/**
+ * Resolves author of the edit full name token.
+ *
+ * @return string
+ *   Return group editor full name.
+ */
+function c4m_message_format_event_full_name() {
+  global $user;
+
+  return c4m_user_name($user);
+}
+
+/**
+ * Resolves the group help link token.
+ *
+ * @return string
+ *   Return group help section link.
+ */
+function c4m_message_format_group_help_section() {
+  return url('help-guidance', array('absolute' => TRUE));
 }
 
 /**

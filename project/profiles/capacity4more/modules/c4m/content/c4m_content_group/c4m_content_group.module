@@ -943,7 +943,7 @@ function c4m_content_group_send_notifications($op, $group) {
   }
 
   $uids = array();
-  $uids[] = $group->uid;
+  $uids[$group->uid] = $group->uid;
   $uids += c4m_content_group_get_admins($group);
 
   foreach ($uids as $uid) {
@@ -957,7 +957,39 @@ function c4m_content_group_send_notifications($op, $group) {
 function c4m_content_group_create_message($uid, $message_id, $group) {
   $message = message_create($message_id, array('uid' => $uid));
 
+  $message->arguments['@member_full_name'] = array(
+    'callback' => 'c4m_message_format_member_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_full_name'] = array(
+    'callback' => 'c4m_message_format_event_full_name',
+    'pass message' => FALSE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_help_section'] = array(
+    'callback' => 'c4m_message_format_group_help_section',
+    'pass message' => FALSE,
+  );
+
   $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group_node->set($group->nid);
+
   message_notify_send_message($wrapper->value());
 }
 
@@ -976,7 +1008,7 @@ function c4m_content_group_get_admins($group) {
 
   $results = $query->execute();
   foreach ($results as $item) {
-    $uids[] = $item->uid;
+    $uids[$item->uid] = $item->uid;
   }
 
   return $uids;

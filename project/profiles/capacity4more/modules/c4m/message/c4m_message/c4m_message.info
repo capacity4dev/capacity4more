@@ -53,6 +53,7 @@ features[field_instance][] = message-c4m_insert__node__wiki_page-field_entity_pu
 features[field_instance][] = message-c4m_insert__node__wiki_page-field_group_node
 features[field_instance][] = message-c4m_insert__node__wiki_page-field_node
 features[field_instance][] = message-c4m_insert__node__wiki_page-field_operation
+features[field_instance][] = message-c4m_unpublish_group-field_group_node
 features[field_instance][] = message-c4m_welcome_to_group-field_group_node
 features[field_instance][] = message_type-message_type-message_text
 features[message_type][] = c4m_insert__comment
