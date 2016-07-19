@@ -506,16 +506,6 @@ function c4m_user_og_c4m_cta_block_alter(&$block) {
  * Implements hook_menu().
  */
 function c4m_user_og_menu() {
-  $items['group/join/%node/login'] = array(
-    'title' => 'Login and Join group',
-    'type' => MENU_CALLBACK,
-    'page callback' => 'c4m_user_og_unified_workflow',
-    'page arguments' => array(2, 'login'),
-    'access callback' => '_ec_groups_access_login',
-    'access arguments' => array(2),
-    'file' => 'c4m_user_og.page.inc',
-  );
-
   $items['group/join/%node'] = array(
     'title' => 'Join group',
     'type' => MENU_CALLBACK,
@@ -607,7 +597,43 @@ function c4m_user_og_unified_workflow_login_submit($form, &$form_state) {
   }
 
   $group = node_load($gid);
+
+  // Associate the user to the group after login.
+  c4m_user_og_group_unified_workflow($group);
+
+  $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
+
+  // drupal_goto has a fallback to the 'destination' so we must remove it.
+  unset($_GET['destination']);
+
+  // User is logged in, the session variable should be destroyed.
+  unset($_SESSION['c4m_unified_workflow_gid_join']);
+}
+
+/**
+ * Associate a user to a group for unified workflow.
+ *
+ * Also sets a message depending on the group context.
+ *
+ * @param $group
+ *   The object of the group.
+ * @param bool $account
+ *   The object of the user.
+ *
+ * @see og_group().
+ */
+function c4m_user_og_group_unified_workflow($group, $account = FALSE) {
   $membership_request_value = c4m_og_get_group_membership_request($group);
+  $values = array(
+    'state' => $membership_request_value == 'open' ? OG_STATE_ACTIVE : OG_STATE_PENDING ,
+    'entity' => $account,
+  );
+
+  if (!og_group('node', $group, $values)) {
+    drupal_set_message(t('A problem occurred trying to join the group.'), 'error');
+    return;
+  }
+
   $messages = array(
     'open' => t('You are now a member of this group'),
     'moderated' => t('This is a moderated group. Your request is waiting for approval. Continue to explore group @group_title content', array('@group_title' => $group->title)),
@@ -615,19 +641,6 @@ function c4m_user_og_unified_workflow_login_submit($form, &$form_state) {
   $message = $messages[$membership_request_value];
 
   drupal_set_message($message);
-  $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
-
-  // drupal_goto has a fallback to the 'destination' so we must remove it.
-  unset($_GET['destination']);
-
-  // Associate the user to the group after login.
-  $values = array(
-    'state' => $membership_request_value == 'open' ? OG_STATE_ACTIVE : OG_STATE_PENDING ,
-  );
-  og_group('node', $gid, $values);
-
-  // User is logged in, the session variable should be destroyed.
-  unset($_SESSION['c4m_unified_workflow_gid_join']);
 }
 
 /**
@@ -741,12 +754,7 @@ function c4m_user_og_user_update(&$edit, $account, $category) {
   // Associate the user to the group.
   foreach (c4m_user_og_fetch_unified_workflow_entries($account->uid) as $entry) {
     $group = node_load($entry->gid);
-    $membership_request_value = c4m_og_get_group_membership_request($group);
-    $values = array(
-      'entity' => $account,
-      'state' => $membership_request_value == 'open' ? OG_STATE_ACTIVE : OG_STATE_PENDING ,
-    );
-    og_group('node', $entry->gid, $values);
+    c4m_user_og_group_unified_workflow($group, $account);
   }
 
   // Destroy the entry of this account.
