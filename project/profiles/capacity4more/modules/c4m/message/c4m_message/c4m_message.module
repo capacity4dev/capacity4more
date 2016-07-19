@@ -50,15 +50,13 @@ function c4m_message_mail_alter(&$message) {
   $message_entity = $message['params']['message_entity'];
 
   _c4m_message_format_welcome_to_group_from_field($message, $message_entity);
+  _c4m_message_format_new_membership_request_from_field($message, $message_entity);
 }
 
 /**
  * Formats 'c4m_welcome_to_group' message From field, per template requirement.
  */
-function _c4m_message_format_welcome_to_group_from_field(
-  &$message,
-  $message_entity
-) {
+function _c4m_message_format_welcome_to_group_from_field(&$message, $message_entity) {
   if ($message_entity->type != 'c4m_welcome_to_group') {
     // For message type other than c4m_welcome_to_group - return early.
     return;
@@ -74,6 +72,24 @@ function _c4m_message_format_welcome_to_group_from_field(
       '@name' => c4m_user_name($author),
       '@site' => variable_get('site_name'),
       '@mail' => $author->mail,
+    )
+  );
+}
+
+/**
+ * Formats 'c4m_new_membership_request' message From field, per template requirement.
+ */
+function _c4m_message_format_new_membership_request_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_new_membership_request') {
+    // For message type other than c4m_welcome_to_group - return early.
+    return;
+  }
+
+  $message['from'] = format_string(
+    '"The @site team"<@mail>',
+    array(
+      '@site' => variable_get('site_name'),
+      '@mail' => 'capacity4dev@ec.europa.eu',
     )
   );
 }
