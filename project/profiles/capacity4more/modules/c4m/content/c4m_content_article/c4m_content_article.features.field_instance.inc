@@ -520,9 +520,9 @@ function c4m_content_article_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
-        'module' => 'link',
+        'module' => 'c4m_content_article',
         'settings' => array(),
-        'type' => 'link_default',
+        'type' => 'c4m_formatter_title_link_abbreviation',
         'weight' => 10,
       ),
       'teaser' => array(

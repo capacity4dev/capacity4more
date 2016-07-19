@@ -183,26 +183,25 @@ function c4m_user_image($user, $style = NULL) {
 }
 
 /**
- * Return the themed initials (max 2) of a user's full name.
+ * Return the themed initials of a user's full name.
  *
- * @param object $account
- *    The user object.
- * @param mixed $linked
- *    Whether or not to wrap the output in a link.
+ * @param string $initials
+ *    The initials.
+ * @param string $link
+ *    (optional) Link to use for the output. Defaults to empty string.
  *
  * @return string
  *    Rendered html.
  */
-function c4m_user_initials_themed($account, $linked = TRUE) {
-  $initials = c4m_user_initials($account);
+function c4m_user_get_themed_initials($initials, $link = '') {
   static $colors;
 
   if (empty($colors)) {
     $colors = _c4m_user_initials_colors();
   }
 
-  if ($linked) {
-    $output = l($initials, 'user/' . $account->uid);
+  if ($link) {
+    $output = l($initials, $link);
   }
   else {
     $output = '<span class="inner-initials">' . $initials . '</span>';
@@ -231,16 +230,29 @@ function c4m_user_initials_themed($account, $linked = TRUE) {
 }
 
 /**
- * Return the initials (max 2) of a user's full name.
+ * Return the initials of a user's full name.
  *
  * @param object $account
  *    The user object.
  *
  * @return string
- *    The initials (max 2) of user's full name.
+ *    The initials (max 2).
  */
-function c4m_user_initials($account) {
+function c4m_user_get_user_initials($account) {
   $name = c4m_user_name($account);
+  return c4m_user_get_initials($name);
+}
+
+/**
+ * Return the initials (max 2) of a full name.
+ *
+ * @param string $name
+ *    The name.
+ *
+ * @return string
+ *    The initials (max 2).
+ */
+function c4m_user_get_initials($name) {
   $words = preg_split("/[\s,_-]+/", $name);
   $initials = '';
 
