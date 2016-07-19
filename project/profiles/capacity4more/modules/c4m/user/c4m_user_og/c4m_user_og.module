@@ -491,7 +491,7 @@ function c4m_user_og_c4m_cta_block_alter(&$block) {
   $variables = array(
     'button_label' => $types[$membership_request_value]['button_label'],
     'button_icon' => $types[$membership_request_value]['button_icon'],
-    'url' => url('group/join/' . $group->nid),
+    'url' => url('group/join/' . $group->nid, array('purl' => array('disabled' => TRUE))),
   );
 
   $block['content'] = theme('c4m_group_visitor_cta', $variables);
