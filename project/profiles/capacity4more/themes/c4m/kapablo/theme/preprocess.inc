@@ -606,3 +606,24 @@ function kapablo_preprocess_html(&$variables) {
   // Render off_canvas into top level variables.
   $variables['off_canvas'] = drupal_render($variables['page']['off_canvas']);
 }
+
+/**
+ * Implements hook_preprocess_views_exposed_form().
+ *
+ * Add tooltip for the label (Search) of the full text search input.
+ */
+function kapablo_preprocess_views_exposed_form(&$vars) {
+  if (!isset($vars['form']['#info']['filter-search_api_views_fulltext'])) {
+    return;
+  }
+
+  $vars['widgets']['search']->label .= ' <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" data-html="true" title="<div style=\'text-align: left;\'>You can use special operators.
+<ul>
+  <li>Lusail City equals to Lusail AND City (terms separated by spaces is treated as an AND operator)</li>
+  <li>Literal strings: &quot;Lusail Zoo&quot;</li>
+  <li>AND operator: Lusail AND City equals to +Lusail +City equals to Lusail City</li>
+  <li>OR operator: Lusail OR Water</li>
+  <li>NOT operator: Lusail -City equals to Lusail !City</li>
+</ul>
+</div>"></i>';
+}
