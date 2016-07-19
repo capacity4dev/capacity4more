@@ -704,6 +704,21 @@ function c4m_user_og_fetch_unified_workflow_entries($uid) {
 }
 
 /**
+ * Fetch the entries for a specific user.
+ *
+ * @param $uid
+ *   The user ID.
+ *
+ * @return bool
+ *   TRUE if deleted the entries, FALSE otherwise.
+ */
+function c4m_user_og_delete_unified_workflow_entries($uid) {
+  return db_delete('c4m_unified_workflow')
+    ->condition('uid', $uid)
+    ->execute();
+}
+
+/**
  * Token callback to add unsafe tokens for user mails.
  *
  * @see c4m_content_group_mail_tokens().
@@ -727,9 +742,12 @@ function c4m_user_og_user_update(&$edit, $account, $category) {
     $group = node_load($entry->gid);
     $membership_request_value = c4m_og_get_group_membership_request($group);
     $values = array(
-      'entity' => user_load($entry->uid),
+      'entity' => $account,
       'state' => $membership_request_value == 'open' ? OG_STATE_ACTIVE : OG_STATE_PENDING ,
     );
     og_group('node', $entry->gid, $values);
   }
+
+  // Destroy the entry of this account.
+  c4m_user_og_delete_unified_workflow_entries($account->uid);
 }
