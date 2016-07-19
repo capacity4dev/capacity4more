@@ -213,9 +213,9 @@
       }
 
       // We have to use setTimeout because:
-      //   - for some reason when attaching the behaviour h1 has the scroll top
-      //     value of 0. Only on $(document).ready() it has the right value.
-      //   - we have to let admin menu to do its thing.
+      // - for some reason when attaching the behaviour h1 has the scroll top
+      //   value of 0. Only on $(document).ready() it has the right value.
+      // - we have to let admin menu to do its thing.
       var timeout = 0;
       var $body = $('body');
       if ($body.hasClass('admin-menu')) {
