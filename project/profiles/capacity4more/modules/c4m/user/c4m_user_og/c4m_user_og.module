@@ -462,10 +462,6 @@ function c4m_user_og_theme() {
  * Set the CTA block for visitors.
  */
 function c4m_user_og_c4m_cta_block_alter(&$block) {
-  if (!user_is_anonymous()) {
-    return;
-  }
-
   if (!$group = c4m_og_current_group()) {
     return;
   }
@@ -473,6 +469,15 @@ function c4m_user_og_c4m_cta_block_alter(&$block) {
   $access_type = c4m_og_get_access_type($group);
   if ($access_type['type'] != 'public') {
     return;
+  }
+
+  if (!user_is_anonymous()) {
+    global $user;
+
+    if (og_get_membership('node', $group->nid, 'user', $user->uid)) {
+      // Current user is already a member of this group.
+      return;
+    }
   }
 
   $types = array(
