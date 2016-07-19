@@ -355,7 +355,7 @@ function c4m_message_format_group_pending_member_url(Message $message) {
   $gid = $wrapper->field_group_node->value(array('identifier' => TRUE));
   $mid = $wrapper->field_group_membership->value(array('identifier' => TRUE));
 
-  return url('/group/node/' . $gid .'/admin/people/edit-membership/' . $mid);
+  return url('/group/node/' . $gid . '/admin/people/edit-membership/' . $mid);
 }
 
 /**
@@ -387,7 +387,6 @@ function c4m_message_format_new_member_request_message(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   return $wrapper->field_group_membership->og_membership_request->value();
 }
-
 
 /**
  * Resolves group owner full name token.
