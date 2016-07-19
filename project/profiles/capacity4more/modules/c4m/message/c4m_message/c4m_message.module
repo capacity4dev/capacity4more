@@ -129,7 +129,7 @@ function c4m_message_entity_load($entities, $entity_type) {
  */
 function c4m_message_load__c4m_welcome_to_group(Message $message) {
   $message->arguments['@member_full_name'] = array(
-    'callback' => 'c4m_message_format_member_full_name',
+    'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
   );
 
@@ -170,18 +170,203 @@ function c4m_message_load__c4m_welcome_to_group(Message $message) {
 }
 
 /**
- * Resolves member full name toke.
+ * Add callbacks to c4m_new_membership_request message arguments.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_new_membership_request(Message $message) {
+
+  $message->arguments['@ga_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_full_name'] = array(
+    'callback' => 'c4m_message_format_new_member_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_organisation'] = array(
+    'callback' => 'c4m_message_format_new_member_organisation',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_organisation_type'] = array(
+    'callback' => 'c4m_message_format_new_member_organisation_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_country'] = array(
+    'callback' => 'c4m_message_format_new_member_country',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_expertise'] = array(
+    'callback' => 'c4m_message_format_new_member_expertise',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_about_me'] = array(
+    'callback' => 'c4m_message_format_new_member_self_description',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_pending_member_url'] = array(
+    'callback' => 'c4m_message_format_group_pending_member_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!new_member_public_profile_url'] = array(
+    'callback' => 'c4m_message_format_new_member_public_profile_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Resolves addressee full name token.
  *
  * @param Message $message
  *   The Message entity.
  *
  * @return string
- *   Returns a member's full name.
+ *   Returns addressee's full name.
  */
-function c4m_message_format_member_full_name(Message $message) {
+function c4m_message_format_addressee_full_name(Message $message) {
   $user = user_load($message->uid);
 
   return c4m_user_name($user);
+}
+
+/**
+ * Resolves new member full name token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns member's full name.
+ */
+function c4m_message_format_new_member_full_name(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $new_member = $wrapper->field_new_member->value();
+
+  return c4m_user_name($new_member);
+}
+
+/**
+ * Resolves new member organisation.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns member's organisation.
+ */
+function c4m_message_format_new_member_organisation(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  return $wrapper->field_new_member->c4m_organisation->value();
+}
+
+/**
+ * Resolves new member organisation type.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns member's organisation type.
+ */
+function c4m_message_format_new_member_organisation_type(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  return $wrapper->field_new_member->c4m_organisation_type->value();
+}
+
+/**
+ * Resolves new member country.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns member's country.
+ */
+function c4m_message_format_new_member_country(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $field = field_info_field('c4m_country');
+  $allowed_values = list_allowed_values($field);
+  return $allowed_values[$wrapper->field_new_member->c4m_country->value()];
+}
+
+/**
+ * Resolves new member expertise.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns member's experise.
+ */
+function c4m_message_format_new_member_expertise(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  return $wrapper->field_new_member->c4m_vocab_topic_expertise->value();
+}
+
+/**
+ * Resolves new member self description.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns member's self description.
+ */
+function c4m_message_format_new_member_self_description(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  return $wrapper->field_new_member->c4m_body->value();
+}
+
+/**
+ * Resolves a link to new member membership management.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns m a link to new member membership management.
+ */
+function c4m_message_format_group_pending_member_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $gid = $wrapper->field_group_node->value(array('identifier' => TRUE));
+  $mid = $wrapper->field_group_membership->value(array('identifier' => TRUE));
+
+  return '/group/node/' . $gid .'/admin/people/edit-membership/' . $mid;
+}
+
+/**
+ * Resolves a link to new member public profile.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns a link to new member public profile.
+ */
+function c4m_message_format_new_member_public_profile_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $uid = $wrapper->field_new_member->value(array('identifier' => TRUE));
+
+  return url('user/' . $uid);
 }
 
 /**

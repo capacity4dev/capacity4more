@@ -14,7 +14,18 @@ function c4m_user_notifications_notify_admins_user_deleted($account) {
 /**
  * Email notification on membership request to moderated group.
  */
-function c4m_user_notifications_moderated_group_new_membership_request($entity) {
+function c4m_user_notifications_moderated_group_new_membership_request($membership) {
+  $group_admins = c4m_og_get_group_admins($membership->gid);
+
+  foreach($group_admins as $admin) {
+    $message = message_create('c4m_new_membership_request', array('uid' => $admin->uid));
+    c4m_message_load__c4m_new_membership_request($message);
+    $wrapper = entity_metadata_wrapper('message', $message);
+    $wrapper->field_group_node->set($membership->gid);
+    $wrapper->field_new_member->set($membership->etid);
+    $wrapper->field_group_membership->set($membership->id);
+    message_notify_send_message($wrapper->value());
+  }
 }
 
 /**
