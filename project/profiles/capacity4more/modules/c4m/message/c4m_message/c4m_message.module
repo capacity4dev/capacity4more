@@ -336,11 +336,18 @@ function c4m_message_format_new_member_country(Message $message) {
  *   The Message entity.
  *
  * @return string
- *   Returns member's experise.
+ *   Returns a list of member's expertise.
  */
 function c4m_message_format_new_member_expertise(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  return $wrapper->field_new_member->c4m_vocab_topic_expertise->value();
+  $expertises = $wrapper->field_new_member->c4m_vocab_topic_expertise->value();
+  $expertise_names = array();
+
+  foreach ($expertises as $expertise) {
+    $expertise_names[] = $expertise->name;
+  }
+
+  return implode(', ', $expertise_names);
 }
 
 /**
@@ -354,7 +361,7 @@ function c4m_message_format_new_member_expertise(Message $message) {
  */
 function c4m_message_format_new_member_self_description(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  return $wrapper->field_new_member->c4m_body->value();
+  return $wrapper->field_new_member->c4m_body->value()['value'];
 }
 
 /**
