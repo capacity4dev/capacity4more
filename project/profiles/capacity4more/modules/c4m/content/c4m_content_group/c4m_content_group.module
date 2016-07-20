@@ -916,9 +916,9 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
 /**
  * Build a tree of a hierarchical_taxonomy, for custom theming.
  *
- * @param $node
+ * @param object $node
  *   The node tree.
- * @param $content
+ * @param String $content
  *   The content type name.
  */
 function taxonomy_tree_build($node, $content) {
