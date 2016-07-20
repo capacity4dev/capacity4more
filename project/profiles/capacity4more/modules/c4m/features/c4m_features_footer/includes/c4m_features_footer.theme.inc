@@ -81,9 +81,14 @@ function theme_c4m_footer_bar_project() {
   $options['attributes']['class'] = array('text-orange');
   $project_link = l(t('Capacity4dev') . ' >',  base_path() . 'projects', $options);
 
-  $options['attributes']['title'] = 'Home';
+  $options['attributes']['title'] = t('Home');
   $options['attributes']['class'] = array('logo');
-  $logo_img = '<img src="' . file_create_url(drupal_get_path('theme', 'kapablo') . '/project_logo.png') . '" alt="' . t('Home') . '"/>';
+  $variables = array (
+    'path' => (drupal_get_path('theme', 'kapablo') . '/project_logo.png'),
+    'alt' => t('Home'),
+    'attributes' => array(),
+  );
+  $logo_img = theme_image($variables);
   $logo_link =  l($logo_img,  base_path(), $options);
 
   $variables = array(
