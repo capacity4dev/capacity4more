@@ -32,7 +32,7 @@ angular.module('c4mApp')
       var url = DrupalSettings.getBasePath() + 'api/' + resource;
 
       if (entityId) {
-        url += '/' + entityId + '?group=' + DrupalSettings.getData('group');
+        url += '/' + entityId + '?group=' + Drupal.settings.ogContext.gid;
       }
 
       return $http({
