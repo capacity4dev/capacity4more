@@ -45,7 +45,6 @@ function c4m_features_og_discussions_preprocess_views_view(&$variables) {
 
   if (!og_user_access($og_context['group_type'], $og_context['gid'], 'create discussion content')) {
     // User doesn't have permission to create a new discussion.
-    $variables['header'] = '';
     return;
   }
 
