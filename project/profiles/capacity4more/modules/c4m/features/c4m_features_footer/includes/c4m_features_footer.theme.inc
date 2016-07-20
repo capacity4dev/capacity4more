@@ -71,10 +71,25 @@ function theme_c4m_footer_bar(array $variables) {
  *   Rendered html.
  */
 function theme_c4m_footer_bar_project() {
+  $options = array(
+    'alias' => TRUE,
+    'html' => TRUE,
+    'attributes' => array()
+  );
+  $europaid_link = l(t('International cooperation and development') . ' >', 'https://ec.europa.eu/europeaid/home_en');
+
+  $options['attributes']['class'] = array('text-orange');
+  $project_link = l(t('Capacity4dev') . ' >',  base_path() . 'projects', $options);
+
+  $options['attributes']['title'] = 'Home';
+  $options['attributes']['class'] = array('logo');
+  $logo_img = '<img src="' . file_create_url(drupal_get_path('theme', 'kapablo') . '/project_logo.png') . '" alt="' . t('Home') . '"/>';
+  $logo_link =  l($logo_img,  base_path(), $options);
+
   $variables = array(
-    'front_page' => base_path(),
-    'project_page' => base_path() . 'projects',
-    'logo' => file_create_url(drupal_get_path('theme', 'kapablo') . '/project_logo.png'),
+    'project_link' => $project_link,
+    'logo_link' => $logo_link,
+    'europaid_link' => $europaid_link,
   );
   $output = theme('c4m_footer_bar_project', $variables);
 
