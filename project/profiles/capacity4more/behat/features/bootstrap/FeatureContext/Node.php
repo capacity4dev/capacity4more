@@ -230,7 +230,6 @@ trait Node {
    * @return string
    */
   public function humanToMachineReadable($title, $delimiter) {
-
     return preg_replace('@[^a-z0-9_]+@', $delimiter, strtolower(trim($title)));
   }
 
