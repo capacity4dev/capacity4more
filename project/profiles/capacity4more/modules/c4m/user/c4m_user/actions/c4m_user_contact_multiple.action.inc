@@ -57,7 +57,7 @@ function c4m_user_contact_multiple_action_form(array $context, $form_state) {
   // Create an array of users names for notified subscribers.
   foreach ($accounts as $account) {
     // Make sure that id is valid, and GO/GA didn't select himself.
-    if ($account->uid != 0 && $user->uid != $account->uid) {
+    if ($user->uid != $account->uid) {
       $users_name[] = c4m_user_name($account);
     }
   }
