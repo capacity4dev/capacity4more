@@ -40,14 +40,14 @@ function c4m_user_contact_multiple_action_info() {
 function c4m_user_contact_multiple_action_form(array $context, $form_state) {
   global $user;
 
-  // If 'Select all items on all pages' is selected.
+  // If 'Select all members on all pages' is selected.
   if ($form_state['select_all_pages']) {
     $group = c4m_og_current_group();
     // Get ids of all active subscribers of current group.
     $uids = og_get_group_members_properties($group, array(), 'members__' . OG_STATE_ACTIVE, 'node');
   }
   else {
-    // Get selected items on current page.
+    // Get selected members on current page.
     $uids = $form_state['selection'];
   }
 
