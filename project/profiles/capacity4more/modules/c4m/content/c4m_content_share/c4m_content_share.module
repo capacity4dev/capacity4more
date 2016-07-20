@@ -242,6 +242,19 @@ function c4m_content_share_c4m_helper_entity_label_info_alter(
 }
 
 /**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_content_share_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_groups_shared_content' => array(
+      'type'     => 'shared_content',
+      'context'  => 'group',
+      'callback' => 'c4m_content_share_get_number_of_shared_content_per_group',
+    ),
+  );
+}
+
+/**
  * Get all the groups (nids) the node is shared to.
  *
  * @param object $node
