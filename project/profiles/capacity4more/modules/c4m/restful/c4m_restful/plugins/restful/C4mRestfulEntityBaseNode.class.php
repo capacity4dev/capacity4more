@@ -23,7 +23,8 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
     $wrapper = entity_metadata_wrapper('node', $group_id);
 
     if (empty($wrapper->c4m_og_status)) {
-      return FALSE;
+      // Group ID is not being passed to RESTful API, cannot determine status.
+      return TRUE;
     }
 
     $group_status = $wrapper->c4m_og_status->value();
