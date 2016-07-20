@@ -7,7 +7,7 @@
 // @codingStandardsIgnoreFile
 
 /**
- * Field handler to present a link to activate user.
+ * Field handler to present a link to resend activation mail.
  *
  * @ingroup views_field_handlers
  */
