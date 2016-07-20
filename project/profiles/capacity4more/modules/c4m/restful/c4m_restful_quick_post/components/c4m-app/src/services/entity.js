@@ -58,10 +58,6 @@ angular.module('c4mApp')
      *   JSON of the newly created entity.
      */
     this.createEntity = function (data, resource, resourceFields, entityId) {
-      console.log(data);
-      console.log(resource);
-      console.log(resourceFields);
-      console.log(entityId);
 
       Request.resourceFields = resourceFields;
       Request.resource = resource;
