@@ -23,11 +23,12 @@ function c4m_user_notifications_moderated_group_new_membership_request($membersh
   foreach ($group_admins_ids as $admin_id) {
     $message = message_create('c4m_new_membership_request', array('uid' => $admin_id));
     c4m_message_load__c4m_new_membership_request($message);
-    /*    $wrapper->field_group_node->set($membership->gid);
-        $wrapper->field_new_member->set($membership->etid);
-        $wrapper->field_group_membership->set($membership->id);
-        message_notify_send_message($wrapper->value());
-      */
+
+    $wrapper = entity_metadata_wrapper('message', $message);
+    $wrapper->field_group_node->set($membership->gid);
+    $wrapper->field_new_member->set($membership->etid);
+    $wrapper->field_group_membership->set($membership->id);
+    // message_notify_send_message($wrapper->value());
   }
 }
 
