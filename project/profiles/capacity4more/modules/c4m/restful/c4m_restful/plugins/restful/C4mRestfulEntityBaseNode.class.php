@@ -21,22 +21,16 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
     $resource_name = $this->getResourceName();
     $group_id = $this->request['group'];
     $wrapper = entity_metadata_wrapper('node', $group_id);
-
-    if ($wrapper->__isset(c4m_og_status)) {
-      // RESTful API can determine the group status for checking authorization.
-      $group_status = $wrapper->c4m_og_status->value();
-      // Only platform admins can create group content if group status
-      // is NOT within the allowed groups array.
-      $allowed_groups = array(
-        'draft',
-        'published',
-      );
-      if (!in_array($group_status, $allowed_groups) && !user_access('administer site configuration', $account)) {
-        return FALSE;
-      }
-
+    $group_status = $wrapper->c4m_og_status->value();
+    // Only platform admins can create group content if group status
+    // is NOT within the allowed groups array.
+    $allowed_groups = array(
+      'draft',
+      'published',
+    );
+    if (!in_array($group_status, $allowed_groups) && !user_access('administer site configuration', $account)) {
+      return FALSE;
     }
-
     return og_user_access('node', $group_id, "create $resource_name content", $account);
   }
 

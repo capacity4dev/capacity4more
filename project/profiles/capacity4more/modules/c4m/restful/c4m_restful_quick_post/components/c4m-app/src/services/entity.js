@@ -32,7 +32,7 @@ angular.module('c4mApp')
       var url = DrupalSettings.getBasePath() + 'api/' + resource;
 
       if (entityId) {
-        url += '/' + entityId;
+        url += '/' + entityId + '?group=' + DrupalSettings.getData('group');
       }
 
       return $http({
@@ -58,6 +58,10 @@ angular.module('c4mApp')
      *   JSON of the newly created entity.
      */
     this.createEntity = function (data, resource, resourceFields, entityId) {
+      console.log(data);
+      console.log(resource);
+      console.log(resourceFields);
+      console.log(entityId);
 
       Request.resourceFields = resourceFields;
       Request.resource = resource;
