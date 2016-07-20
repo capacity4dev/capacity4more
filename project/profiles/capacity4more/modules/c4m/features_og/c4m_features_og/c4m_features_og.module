@@ -1,0 +1,62 @@
+<?php
+
+/**
+ * @file
+ * Code for the features og modules.
+ */
+
+/**
+ * @param $type
+ * @return array
+ *
+ * Gets the type of view, make a plural form of it, and returns an array of related views.
+ */
+function c4m_features_og_get_related_views($type) {
+  $plural = '';
+
+  switch ($type) {
+    case 'discussion':
+      $plural = 'discussions';
+      break;
+
+    case 'event':
+      $plural = 'events';
+      break;
+
+    case 'document':
+      $plural = 'documents';
+      break;
+  }
+
+  return array('c4m_overview_og_' . $plural . '_landing', 'c4m_overview_og_' . $plural);
+}
+
+/**
+ * Checks if the user has a permission to create a new 
+ * Add an icon to the button
+ * that appears in the discussion related views.
+ */
+function c4m_features_og_preprocess_button(&$variables, $type, $icon, $text) {
+  
+  if (!in_array($variables['name'], c4m_features_og_get_related_views($type))) {
+    // Not a $type related view.
+    return;
+  }
+
+  if (!in_array($variables['display_id'], array('page', 'page_1'))) {
+    // Not a "page" display.
+    return;
+  }
+
+  $og_context = og_context();
+
+  if (!og_user_access($og_context['group_type'], $og_context['gid'], 'create ' . $type . ' content')) {
+    // User doesn't have permission to create a new $type.
+    return;
+  }
+
+  $icon = '<i class="fa fa-pencil" aria-hidden="true"></i>';
+  $variables['header'] = str_replace($text, $icon . ' ' . $text, $variables['header']);
+}
+
+
