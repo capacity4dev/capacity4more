@@ -10,7 +10,8 @@ projects[facetapi_bonus][subdir] = "contrib"
 projects[facetapi_bonus][version] = "1.2"
 
 projects[search_api][subdir] = "contrib"
-projects[search_api][version] = "1.18"
+projects[search_api][version] = "1.19"
+projects[search_api][patch][] = "https://www.drupal.org/files/issues/search-api-indexed-node-author-2769877-2.patch"
 
 projects[search_api_attachments][subdir] = "contrib"
 projects[search_api_attachments][version] = "1.9"
