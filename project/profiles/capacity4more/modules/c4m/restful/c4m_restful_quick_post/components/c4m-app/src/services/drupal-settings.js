@@ -15,7 +15,7 @@
  * @description Imports the settings sent from drupal.
  */
 angular.module('c4mApp')
-  .service('DrupalSettings', function ($window, $http, $sce) {
+  .service('DrupalSettings', function ($window, $http, $sce, $q) {
     var self = this;
 
     // Wraps inside AngularJs Drupal settings global object.
