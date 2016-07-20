@@ -30,6 +30,7 @@ function c4m_user_views_default_views() {
   $handler->display->display_options['query']['options']['search_api_bypass_access'] = 0;
   $handler->display->display_options['query']['options']['entity_access'] = 0;
   $handler->display->display_options['query']['options']['parse_mode'] = 'direct';
+  $handler->display->display_options['query']['options']['contextual_filters_or'] = TRUE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
@@ -66,13 +67,24 @@ function c4m_user_views_default_views() {
   $handler->display->display_options['arguments']['author']['default_action'] = 'not found';
   $handler->display->display_options['arguments']['author']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['author']['title'] = '%1\'s content';
-  $handler->display->display_options['arguments']['author']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['author']['default_argument_type'] = 'user';
+  $handler->display->display_options['arguments']['author']['default_argument_options']['user'] = FALSE;
   $handler->display->display_options['arguments']['author']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['author']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['author']['validate']['type'] = 'user';
-  $handler->display->display_options['arguments']['author']['validate_options']['type'] = 'either';
   $handler->display->display_options['arguments']['author']['break_phrase'] = 0;
   $handler->display->display_options['arguments']['author']['not'] = 0;
+  /* Contextual filter: Indexed Node: Contributors */
+  $handler->display->display_options['arguments']['c4m_related_user']['id'] = 'c4m_related_user';
+  $handler->display->display_options['arguments']['c4m_related_user']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['arguments']['c4m_related_user']['field'] = 'c4m_related_user';
+  $handler->display->display_options['arguments']['c4m_related_user']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['c4m_related_user']['default_argument_type'] = 'user';
+  $handler->display->display_options['arguments']['c4m_related_user']['default_argument_options']['user'] = FALSE;
+  $handler->display->display_options['arguments']['c4m_related_user']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['c4m_related_user']['validate']['type'] = 'user';
+  $handler->display->display_options['arguments']['c4m_related_user']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['c4m_related_user']['not'] = 0;
   /* Filter criterion: Only Event nodes */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'search_api_index_c4m_search_nodes';

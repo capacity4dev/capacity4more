@@ -77,6 +77,8 @@ dependencies[] = views_content
 dependencies[] = views_bulk_operations
 dependencies[] = views_data_export
 dependencies[] = wysiwyg_filter
+dependencies[] = views_contextual_filters_or
+
 
 dependencies[] = services
 dependencies[] = user_revision
