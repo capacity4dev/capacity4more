@@ -266,6 +266,8 @@ function theme_c4m_ds_type_insert_action(array $field) {
 /**
  * Get all entity stats in one field.
  *
+ * This is just a simple function, not a theme hook implementation.
+ *
  * @param array $field
  *   The field info.
  *
@@ -289,7 +291,7 @@ function theme_c4m_ds_content_footer_stats(array $field) {
   );
 
   // Only show comments if comments are enabled.
-  if ($entity->comment == COMMENT_NODE_OPEN) {
+  if ($entity->comment != COMMENT_NODE_HIDDEN) {
     $items['comments'] = theme(
       'c4m_ds_entity_comments_count',
       array('count' => $entity->comment_count)
