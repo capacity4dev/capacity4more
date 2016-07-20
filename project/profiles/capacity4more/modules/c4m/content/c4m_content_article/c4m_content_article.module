@@ -146,3 +146,27 @@ function c4m_content_article_c4m_offcanvas_trigger_label_left_alter(&$trigger_la
     $trigger_label['icon'] = 'filter';
   }
 }
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function c4m_content_article_preprocess(&$variables) {
+  if ($variables['theme_hook_original'] != 'page') {
+    return;
+  }
+
+  if ($variables['node']->type != 'article') {
+    return;
+  }
+
+  // Get the tree array, and slice it to start from the second child.
+  $vocab_geo = $variables['node']->c4m_vocab_geo['und'];
+  $vocab_geo = array_slice($vocab_geo, 1);
+
+  foreach ($vocab_geo as $geo) {
+    $geo_taxonomy = taxonomy_term_load($geo['tid']);
+
+    // Add an <i> tag to the 'Regions & Countries' tree children.
+    $geo_taxonomy->name = ' <i class="fa fa-caret-right" aria-hidden="true"></i> ' . $geo_taxonomy->name;
+  }
+}
