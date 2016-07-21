@@ -21,5 +21,7 @@ function dummy_content_modules {
 # Execute dummy migration.
 ##
 function dummy_content_migrate {
+  drupal_drush vset --exact dummy_content_migration 1
   drupal_drush --uri="$SITE_URL" mi --force --update --group=c4m_demo_content
+  drupal_drush vset --exact dummy_content_migration 0
 }
