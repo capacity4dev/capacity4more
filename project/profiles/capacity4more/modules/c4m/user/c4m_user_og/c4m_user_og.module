@@ -440,7 +440,7 @@ function c4m_user_og_theme() {
 }
 
 /**
- * Implements hook_c4m_cta_block.
+ * Implements hook_c4m_cta_block().
  *
  * Set the CTA block for visitors.
  */
