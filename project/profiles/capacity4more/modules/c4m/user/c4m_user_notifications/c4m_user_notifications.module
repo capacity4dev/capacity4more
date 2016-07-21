@@ -52,7 +52,9 @@ function c4m_user_notifications_og_membership_trigger_access($og_membership) {
 /**
  * Implements hook_og_membership_insert().
  *
- * Triggers email notification on new membership request for moderated groups.
+ * Triggers email notification on new membership request for moderated groups,
+ * and 'new member joined' notification to user and group owner and admins for
+ * open group.
  */
 function c4m_user_notifications_og_membership_insert($og_membership) {
   if (!c4m_user_notifications_og_membership_trigger_access($og_membership)) {
@@ -65,12 +67,17 @@ function c4m_user_notifications_og_membership_insert($og_membership) {
     return;
   }
 
-  if ($wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
-    // If not moderated group, return early.
-    return;
-  }
+  $moderated = $wrapper->field_membership_open_request->value();
 
-  c4m_user_notifications_moderated_group_new_membership_request($og_membership);
+  if ($moderated == C4M_OG_MODERATED_GROUP) {
+    c4m_user_notifications_moderated_group_new_membership_request($og_membership);
+  }
+  elseif ($moderated == C4M_OG_OPEN_GROUP) {
+    // Membership acceptance notification to user, for open and moderated
+    // group is the same (template MT13).
+    c4m_user_notifications_open_group_notify_admins_membership_accepted($og_membership);
+    c4m_user_notifications_notify_user_membership_accepted($og_membership);
+  }
 }
 
 /**
