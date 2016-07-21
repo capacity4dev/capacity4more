@@ -445,17 +445,22 @@ function c4m_user_og_theme() {
  * Set the CTA block for visitors.
  */
 function c4m_user_og_c4m_cta_block() {
-  if (!user_is_anonymous()) {
-    return;
-  }
-
   if (!$group = c4m_og_current_group()) {
     return;
+  }
+  $items = array();
+
+  if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
+    $items['leave'] = $item;
+  }
+
+  if (!user_is_anonymous()) {
+    return $items;
   }
 
   $access_type = c4m_og_get_access_type($group);
   if ($access_type['type'] != 'public') {
-    return;
+    return $items;
   }
 
   $types = array(
@@ -471,7 +476,6 @@ function c4m_user_og_c4m_cta_block() {
 
   $membership_request_value = c4m_og_get_group_membership_request($group);
 
-  $items = array();
   $items['visitors'] = array(
     '#theme' => 'c4m_group_visitor_cta',
     '#button_label' => $types[$membership_request_value]['button_label'],
@@ -480,4 +484,25 @@ function c4m_user_og_c4m_cta_block() {
   );
 
   return $items;
+}
+
+/**
+ * Sets the CTA to leave a group.
+ */
+function c4m_user_og_c4m_leave_group_cta($group) {
+  if (!og_is_member('node', $group->nid)) {
+    return;
+  }
+
+  global $user;
+  if ($user->uid == $group->uid) {
+    return;
+  }
+
+  return array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => t('Leave group'),
+    '#button_icon' => 'fa-arrow-right',
+    '#url' =>  url('group/node/' . $group->nid . '/unsubscribe', array('absolute' => TRUE)),
+  );
 }
