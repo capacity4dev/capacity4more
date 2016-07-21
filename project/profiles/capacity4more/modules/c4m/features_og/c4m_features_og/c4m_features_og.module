@@ -28,7 +28,7 @@ function c4m_features_og_get_related_views($type) {
       break;
   }
 
-  return array('c4m_overview_og_' . $plural . '_landing', 'c4m_overview_og_' . $plural);
+  return array("c4m_overview_og_{$plural}_landing", "c4m_overview_og_{$plural}");
 }
 
 /**
@@ -37,7 +37,7 @@ function c4m_features_og_get_related_views($type) {
  * that appears in the discussion related views.
  */
 function c4m_features_og_preprocess_button(&$variables, $type, $icon, $text) {
-  
+
   if (!in_array($variables['name'], c4m_features_og_get_related_views($type))) {
     // Not a $type related view.
     return;
