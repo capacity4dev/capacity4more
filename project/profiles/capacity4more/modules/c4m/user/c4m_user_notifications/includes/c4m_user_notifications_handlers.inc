@@ -26,7 +26,7 @@ function c4m_user_notifications_moderated_group_new_membership_request($membersh
 
     $wrapper = entity_metadata_wrapper('message', $message);
     $wrapper->field_group_node->set($membership->gid);
-    //$wrapper->field_new_member->set($membership->etid);
+    $wrapper->field_new_member->set($membership->etid);
    // $wrapper->field_group_membership->set($membership->id);
    // message_notify_send_message($wrapper->value());
   }
