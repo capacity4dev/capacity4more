@@ -32,7 +32,7 @@ angular.module('c4mApp')
       var url = DrupalSettings.getBasePath() + 'api/' + resource;
 
       try {
-        // Verify we have an entity and group IDs to proceed.
+        // Verify we have entity and group IDs to proceed.
         if (entityId && Drupal.settings.c4m.data.group) {
           url += '/' + entityId + '?group=' + Drupal.settings.c4m.data.group;
         }
