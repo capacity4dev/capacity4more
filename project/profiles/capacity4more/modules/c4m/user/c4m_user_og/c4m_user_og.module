@@ -507,9 +507,10 @@ function c4m_user_og_c4m_join_cta($group) {
     return;
   }
 
+  $button_attributes = array('attributes' => array('class' => array('btn-primary', 'btn-block', 'btn', 'text-center', 'region-content-above')));
   return array(
     '#type' => 'markup',
-    '#markup' => l('Join group', '/group/node/' . $group->nid . '/subscribe', array('attributes' => array('class' => array('btn-primary', 'btn-block', 'btn-lg', 'text-center', 'region-content-above')))),
+    '#markup' => l('Join group', '/group/node/' . $group->nid . '/subscribe', $button_attributes),
 
   );
 }
