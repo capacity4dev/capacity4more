@@ -148,7 +148,7 @@ function c4m_content_article_c4m_offcanvas_trigger_label_left_alter(&$trigger_la
 }
 
 /**
- * Implements hook_preprocess_HOOK().
+ * Implements hook_preprocess().
  */
 function c4m_content_article_preprocess(&$variables) {
   if ($variables['theme_hook_original'] != 'page') {
@@ -160,9 +160,11 @@ function c4m_content_article_preprocess(&$variables) {
   }
 
   // Get the tree array, and slice it to start from the second child.
-  $vocab_geo = $variables['node']->c4m_vocab_geo['und'];
+  // Because the first child don't need an <i> tag.
+  $vocab_geo = $variables['node']->c4m_vocab_geo[LANGUAGE_NONE];
   $vocab_geo = array_slice($vocab_geo, 1);
 
+  // Go through the array and add an <i> tag, before the text, to each of them.
   foreach ($vocab_geo as $geo) {
     $geo_taxonomy = taxonomy_term_load($geo['tid']);
 
