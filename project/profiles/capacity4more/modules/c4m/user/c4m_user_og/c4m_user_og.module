@@ -539,7 +539,7 @@ function c4m_user_og_form_user_register_form_alter(&$form, &$form_state, $form_i
   );
   drupal_set_title(theme('c4m_unified_workflow_register', $variables), PASS_THROUGH);
 
-  $form['#submit'][] = 'c4m_user_og_unified_workflow_submit';
+  $form['#submit'][] = 'c4m_user_og_unified_workflow_register_submit';
   $form['actions']['submit']['#value'] = t('Register to join');
 }
 
@@ -554,43 +554,142 @@ function c4m_user_og_form_user_login_alter(&$form, &$form_state, $form_id) {
   $wrapper = entity_metadata_wrapper('node', $gid);
   drupal_set_title(theme('c4m_unified_workflow_login', array('group_title' => $wrapper->label())), PASS_THROUGH);
 
-  $form['#submit'][] = 'c4m_user_og_unified_workflow_submit';
+  $form['#submit'][] = 'c4m_user_og_unified_workflow_login_submit';
   $form['actions']['submit']['#value'] = t('Login to join');
 }
 
 /**
- * A submit handler for the unified workflow.
+ * A submit handler for the unified workflow (registration).
  *
  * Setting a message to the user and redirect back to the group.
  */
-function c4m_user_og_unified_workflow_submit($form, &$form_state) {
+function c4m_user_og_unified_workflow_register_submit($form, &$form_state) {
   if (!isset($_SESSION['gid_join']) || !$gid = $_SESSION['gid_join']) {
     return;
   }
 
   $group = node_load($gid);
-  if ($form_state['build_info']['form_id'] == 'user_register_form') {
-    // Removing the original message of the user_register_form.
-    drupal_get_messages('status');
-    $message = t(
-      'Hey @name, thank you for submitting your details. Please activate your account by clicking the link sent to your e-mail to join the @group_title group.', array(
-      '@name' => c4m_user_name($form_state['user']),
-      '@group_title' => $group->title,
-    ));
+  // Removing the original message of the user_register_form.
+  drupal_get_messages('status');
+  $message = t(
+    'Hey @name, thank you for submitting your details. Please activate your account by clicking the link sent to your e-mail to join the @group_title group.', array(
+    '@name' => c4m_user_name($form_state['user']),
+    '@group_title' => $group->title,
+  ));
+
+  drupal_set_message($message);
+  $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
+
+  // Adding the uid to the session so we can use it later.
+  $_SESSION['gid_join_uid'] = $form_state['user']->uid;
+
+  // Store the group ID + user ID in the database after registration completes.
+  c4m_user_og_store_unified_workflow($form_state['user']->uid, $gid);
+
+  // drupal_goto has a fallback to the 'destination' so we must remove it.
+  unset($_GET['destination']);
+}
+
+/**
+ * A submit handler for the unified workflow (login).
+ *
+ * Setting a message to the user and redirect back to the group.
+ */
+function c4m_user_og_unified_workflow_login_submit($form, &$form_state) {
+  if (!isset($_SESSION['gid_join']) || !$gid = $_SESSION['gid_join']) {
+    return;
   }
-  else {
-    $membership_request_value = c4m_og_get_group_membership_request($group);
-    $messages = array(
-      'open' => t('You are now a member of this group'),
-      'moderated' => t('This is a moderated group. Your request is waiting for approval. Continue to explore group @group_title content', array('@group_title' => $group->title)),
-    );
-    $message = $messages[$membership_request_value];
-  }
+
+  $group = node_load($gid);
+  $membership_request_value = c4m_og_get_group_membership_request($group);
+  $messages = array(
+    'open' => t('You are now a member of this group'),
+    'moderated' => t('This is a moderated group. Your request is waiting for approval. Continue to explore group @group_title content', array('@group_title' => $group->title)),
+  );
+  $message = $messages[$membership_request_value];
 
   drupal_set_message($message);
   $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
 
   // drupal_goto has a fallback to the 'destination' so we must remove it.
   unset($_GET['destination']);
+
+  // User is logged in, the session variable should be destroyed.
+  unset($_SESSION['gid_join']);
 }
 
+/**
+ * Implements hook_mail_alter().
+ */
+function c4m_user_og_mail_alter(&$message) {
+   if ($message['id'] != 'user_registrationpassword_register') {
+    return;
+  }
+
+  $user = user_load_by_mail($message['to']);
+  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
+    if (!$results = c4m_user_og_fetch_unified_workflow_entries($user->uid)) {
+      return;
+    }
+    $gid = reset($results)->gid;
+  }
+
+  $group = node_load($gid);
+  $path = drupal_get_path('module', 'c4m_user_og');
+
+  $text = file_get_contents($path . '/messages/user_registrationpassword_register_to_group_body.html');
+  $variables = array(
+    'group' => $group,
+    'user' => $user,
+  );
+
+  $message['body'] = token_replace(
+    $text,
+    $variables,
+    array(
+      'language' => user_preferred_language($user),
+      'callback' => 'c4m_user_og_mail_tokens',
+      'sanitize' => FALSE,
+      'clear' => TRUE,
+    )
+  );
+
+  // User is registered, and the variables are now stored in the database, the
+  // session variables should be destroyed.
+  unset($_SESSION['gid_join']);
+  unset($_SESSION['gid_join_uid']);
+}
+
+/**
+ * Store a group ID + user ID in the database.
+ *
+ * @param $uid
+ *   The user ID.
+ * @param $gid
+ *   The group ID.
+ */
+function c4m_user_og_store_unified_workflow($uid, $gid) {
+  try {
+    db_insert('c4m_unified_workflow')
+      ->fields(array(
+        'uid' => $uid,
+        'gid' => $gid,
+      ))
+      ->execute();
+  }
+  catch (PDOException $e) {
+    // Duplicated entry.
+    watchdog('c4m_unified_workflow', $e->errorInfo[2], array(), WATCHDOG_ERROR);
+  }
+}
+
+/**
+ * Token callback to add unsafe tokens for user mails.
+ *
+ * @see c4m_content_group_mail_tokens().
+ * @see user_registrationpassword_mail_tokens().
+ */
+function c4m_user_og_mail_tokens(array &$replacements, array $data, $options) {
+  c4m_content_group_mail_tokens($replacements, $data, $options);
+  user_registrationpassword_mail_tokens($replacements, $data, $options);
+}
