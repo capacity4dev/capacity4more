@@ -648,7 +648,7 @@ function c4m_user_og_group_unified_workflow($group, $account = FALSE) {
  * Implements hook_mail_alter().
  */
 function c4m_user_og_mail_alter(&$message) {
-   if ($message['id'] != 'user_registrationpassword_register') {
+  if ($message['id'] != 'user_registrationpassword_register') {
     return;
   }
 
