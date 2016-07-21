@@ -9,6 +9,8 @@ use Behat\Behat\Context\Step;
 require 'vendor/autoload.php';
 
 
+// Rebuild develop
+
 // Split FeatureContext in smaller chunks.
 require __DIR__ . '/FeatureContext/Activity.php';
 require __DIR__ . '/FeatureContext/Article.php';

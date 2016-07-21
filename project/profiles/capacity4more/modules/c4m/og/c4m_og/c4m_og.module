@@ -348,6 +348,25 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
 }
 
 /**
+ * Fetch all group admins id2.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ *
+ * @return array
+ *   An array of all group admins ids.
+ */
+function c4m_og_get_group_admins_ids($gid) {
+  $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
+  $admins = c4m_og_get_users_by_roles($gid, array($group_admin_role->rid));
+  foreach ($admins as &$admin) {
+    $admin = $admin->uid;
+  }
+
+  return $admins;
+}
+
+/**
  * Fetch all group admins.
  *
  * @param int $gid
@@ -357,13 +376,7 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
  *   An array of all group admins.
  */
 function c4m_og_get_group_admins($gid) {
-  $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
-  $admins = c4m_og_get_users_by_roles($gid, array($group_admin_role->rid));
-  foreach ($admins as &$admin) {
-    $admin = $admin->uid;
-  }
-
-  return user_load_multiple($admins);
+  return user_load_multiple(c4m_og_get_group_admins_ids($gid));
 }
 
 /**
