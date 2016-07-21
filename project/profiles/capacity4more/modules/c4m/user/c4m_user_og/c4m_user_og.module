@@ -628,15 +628,18 @@ function c4m_user_og_unified_workflow_login_submit($form, &$form_state) {
  * Implements hook_mail_alter().
  */
 function c4m_user_og_mail_alter(&$message) {
-  if (!isset($_SESSION['gid_join']) || !$gid = $_SESSION['gid_join']) {
+   if ($message['id'] != 'user_registrationpassword_register') {
     return;
   }
 
-  if (empty($_SESSION['gid_join_uid'])) {
-    return;
+  $user = user_load_by_mail($message['to']);
+  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
+    if (!$results = c4m_user_og_fetch_unified_workflow_entries($user->uid)) {
+      return;
+    }
+    $gid = reset($results)->gid;
   }
 
-  $user = user_load($_SESSION['gid_join_uid']);
   $group = node_load($gid);
   $path = drupal_get_path('module', 'c4m_user_og');
 
