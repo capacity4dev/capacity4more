@@ -41,6 +41,24 @@ function c4m_user_notifications_moderated_group_notify_admins_membership_accepte
  * Email notification to group admins about new member at open group.
  */
 function c4m_user_notifications_open_group_notify_admins_membership_accepted($membership) {
+  // Create an array of ids for group owner and admins.
+  $group_admins_ids = c4m_og_get_group_admins_ids($membership->gid);
+  $group = entity_load_single('node', $membership->gid);
+  // If group owner is not defined as group admin, add it to admins list.
+  if (!in_array($group->uid, $group_admins_ids)) {
+    $group_admins_ids[] = $group->uid;
+  }
+
+  foreach ($group_admins_ids as $admin_id) {
+    $message = message_create('c4m_new_member_joined', array('uid' => $admin_id));
+    c4m_message_load__c4m_new_member_joined($message);
+
+    $wrapper = entity_metadata_wrapper('message', $message);
+    $wrapper->field_group_node->set($membership->gid);
+    $wrapper->field_new_member->set($membership->etid);
+    $wrapper->field_group_membership->set($membership->id);
+    message_notify_send_message($wrapper->value());
+  }
 }
 
 /**

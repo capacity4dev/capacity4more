@@ -50,6 +50,7 @@ function c4m_message_mail_alter(&$message) {
   $message_entity = $message['params']['message_entity'];
 
   _c4m_message_format_welcome_to_group_from_field($message, $message_entity);
+  _c4m_message_format_new_member_joined_from_field($message, $message_entity);
 }
 
 /**
@@ -71,6 +72,24 @@ function _c4m_message_format_welcome_to_group_from_field(&$message, $message_ent
       '@name' => c4m_user_name($author),
       '@site' => variable_get('site_name'),
       '@mail' => $author->mail,
+    )
+  );
+}
+
+/**
+ * Formats 'c4m_new_member_joined' message From field, per requirement.
+ */
+function _c4m_message_format_new_member_joined_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_new_member_joined') {
+    // For message type other than c4m_new_member_joined - return early.
+    return;
+  }
+
+  $message['from'] = format_string(
+    '"The @site team"<@mail>',
+    array(
+      '@site' => variable_get('site_name'),
+      '@mail' => 'capacity4dev@ec.europa.eu',
     )
   );
 }
@@ -167,6 +186,64 @@ function c4m_message_load__c4m_welcome_to_group(Message $message) {
 }
 
 /**
+ * Add callbacks to c4m_new_member_joined message arguments.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_new_member_joined(Message $message) {
+
+  $message->arguments['@ga_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_full_name'] = array(
+    'callback' => 'c4m_message_format_new_member_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_organisation'] = array(
+    'callback' => 'c4m_message_format_new_member_organisation',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_organisation_type'] = array(
+    'callback' => 'c4m_message_format_new_member_organisation_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_country'] = array(
+    'callback' => 'c4m_message_format_new_member_country',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_expertise'] = array(
+    'callback' => 'c4m_message_format_new_member_expertise',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_about_me'] = array(
+    'callback' => 'c4m_message_format_new_member_self_description',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!new_member_public_profile_url'] = array(
+    'callback' => 'c4m_message_format_new_member_public_profile_url',
+    'pass message' => TRUE,
+  );
+}
+
 /**
  * Resolves addressee full name token.
  *
