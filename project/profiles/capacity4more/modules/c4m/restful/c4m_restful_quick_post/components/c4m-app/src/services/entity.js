@@ -31,8 +31,13 @@ angular.module('c4mApp')
     this.getEntityData = function (resource, entityId) {
       var url = DrupalSettings.getBasePath() + 'api/' + resource;
 
-      if (entityId && typeof Drupal != 'undefined' && Drupal.settings.c4m.data.group != 'undefined') {
-        url += '/' + entityId + '?group=' + Drupal.settings.c4m.data.group;
+      try {
+        // Verify we have an entity and group IDs to proceed.
+        if (entityId && Drupal.settings.c4m.data.group) {
+          url += '/' + entityId + '?group=' + Drupal.settings.c4m.data.group;
+        }
+      }
+      catch (e) {
       }
 
       return $http({
