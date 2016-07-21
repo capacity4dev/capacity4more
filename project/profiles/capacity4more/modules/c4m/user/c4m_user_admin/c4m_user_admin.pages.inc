@@ -37,10 +37,8 @@ function c4m_user_admin_user_activate_form($form, &$form_state, $account) {
 function c4m_user_admin_user_reactivate_form($form, &$form_state, $account) {
   $form_state['user'] = $account;
 
-  $account = entity_metadata_wrapper('user', $account);
-  $question = t('Are you sure you want to reactivate the account of @first_name @last_name?', array(
-    '@first_name' => $account->c4m_first_name->value(),
-    '@last_name' => $account->c4m_last_name->value(),
+  $question = t('Are you sure you want to reactivate the account of @full_name?', array(
+    '@full_name' =>  c4m_user_name($account),
   ));
   $confirm_form =  confirm_form($form,
     $question,
