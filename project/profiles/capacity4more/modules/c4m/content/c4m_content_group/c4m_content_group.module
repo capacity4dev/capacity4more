@@ -921,7 +921,7 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
  * @param string $content
  *   The content type name.
  */
-function  c4m_content_group_taxonomy_tree_build($node, $content) {
+function c4m_content_group_taxonomy_tree_build($node, $content) {
   $options = array(
     'absolute' => TRUE,
     'purl' => array('disabled' => TRUE),
