@@ -909,8 +909,8 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
     '#markup' => implode(",", $links),
   );
 
-  taxonomy_tree_build($node, 'c4m_vocab_topic');
-  taxonomy_tree_build($node, 'c4m_vocab_geo');
+  c4m_content_group_taxonomy_tree_build($node, 'c4m_vocab_topic');
+  c4m_content_group_taxonomy_tree_build($node, 'c4m_vocab_geo');
 }
 
 /**
@@ -921,7 +921,7 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
  * @param string $content
  *   The content type name.
  */
-function taxonomy_tree_build($node, $content) {
+function  c4m_content_group_taxonomy_tree_build($node, $content) {
   $options = array(
     'absolute' => TRUE,
     'purl' => array('disabled' => TRUE),
