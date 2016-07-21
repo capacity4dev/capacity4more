@@ -50,8 +50,11 @@ function c4m_features_og_preprocess_button(&$variables, $type, $icon, $text) {
 
   $og_context = og_context();
 
-  if (!og_user_access($og_context['group_type'], $og_context['gid'], 'create ' . $type . ' content')) {
-    // User doesn't have permission to create a new $type.
+  // Checks if user has permission to create a new $type.
+  if (!og_user_access($og_context['group_type'], $og_context['gid'], "create {$type} content")) {
+
+    // Removes button from HTML output.
+    $variables['header'] = preg_replace("/<a(.*?)a>/s", "", $variables['header']);
     return;
   }
 
