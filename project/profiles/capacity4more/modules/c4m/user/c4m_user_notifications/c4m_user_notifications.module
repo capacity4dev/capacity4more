@@ -10,7 +10,15 @@
  */
 module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications_handlers');
 
-
+/**
+ * Check wither dummy migration process is currently running.
+ *
+ * 'dummy_content_migration' parameter is set to 1 when process starts, and set
+ * to 0, once process ends.
+ *
+ * @return bool
+ *   Wither dummy migration process is currently running, or not.
+ */
 function c4m_user_notifications_dummy_content_migration() {
   return variable_get('dummy_content_migration');
 }
