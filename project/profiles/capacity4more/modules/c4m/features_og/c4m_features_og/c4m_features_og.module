@@ -48,16 +48,6 @@ function c4m_features_og_preprocess_button(&$variables, $type, $icon, $text) {
     return;
   }
 
-  $og_context = og_context();
-
-  // Checks if user has permission to create a new $type.
-  if (!og_user_access($og_context['group_type'], $og_context['gid'], "create {$type} content")) {
-
-    // Removes button from HTML output.
-    $variables['header'] = preg_replace("/<a(.*?)a>/s", "", $variables['header']);
-    return;
-  }
-
   $icon = '<i class="fa fa-pencil" aria-hidden="true"></i>';
   $variables['header'] = str_replace($text, $icon . ' ' . $text, $variables['header']);
 }
