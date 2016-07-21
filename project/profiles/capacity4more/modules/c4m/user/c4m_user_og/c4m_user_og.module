@@ -453,8 +453,16 @@ function c4m_user_og_c4m_cta_block() {
     $items['visitor'] = $item;
   }
 
-  if ($item = c4m_user_og_c4m_join_cta($group)) {
-    $items['join'] = $item;
+  $access_type = c4m_og_get_access_type($group);
+  if ($access_type['type'] == 'public') {
+    if ($item = c4m_user_og_c4m_join_cta($group)) {
+      $items['join'] = $item;
+    }
+  }
+  else {
+    if ($item = c4m_user_og_c4m_membership_cta($group)) {
+      $items['membership'] = $item;
+    }
   }
 
   return $items;
@@ -468,8 +476,8 @@ function c4m_user_og_c4m_vistor_cta($group) {
     return;
   }
 
-  $access_type = c4m_og_get_access_type($group);
-  if ($access_type['type'] != 'public') {
+  $access = c4m_og_get_access_type($group);
+  if ($access['type'] != 'public') {
     return;
   }
 
@@ -499,18 +507,40 @@ function c4m_user_og_c4m_vistor_cta($group) {
  */
 function c4m_user_og_c4m_join_cta($group) {
   $access = c4m_og_get_access_type($group);
-  if ($access['type'] != 'public') {
+
+  if (og_is_member('node', $group->nid)) {
     return;
+  }
+
+  return array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => t('Join this group'),
+    '#button_icon' => 'fa-user-plus',
+    '#url' => url('group/node/' . $group->nid . '/subscribe', array('absolute' => TRUE)),
+  );
+}
+
+/**
+ * Sets the CTA request membership link.
+ */
+function c4m_user_og_c4m_membership_cta($group) {
+  $access = c4m_og_get_access_type($group);
+
+  if (og_is_member('node', $group->nid, 'user', NULL, array(OG_STATE_PENDING))) {
+    return array(
+      '#type' => 'markup',
+      '#markup' => '<div class="c4m-group-visitor-cta">' . t('Awaiting approval') . '</div>',
+    );
   }
 
   if (og_is_member('node', $group->nid)) {
     return;
   }
 
-  $button_attributes = array('attributes' => array('class' => array('btn-primary', 'btn-block', 'btn', 'text-center', 'region-content-above')));
   return array(
-    '#type' => 'markup',
-    '#markup' => l('Join group', '/group/node/' . $group->nid . '/subscribe', $button_attributes),
-
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => t('Request membership for this group'),
+    '#button_icon' => 'fa-unlock-alt',
+    '#url' => url('group/node/' . $group->nid . '/subscribe', array('absolute' => TRUE)),
   );
 }
