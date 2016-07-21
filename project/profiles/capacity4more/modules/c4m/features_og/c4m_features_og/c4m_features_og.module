@@ -7,9 +7,7 @@
 
 
 /**
- * Checks if the user has a permission to create a new 
- * Add an icon to the button
- * that appears in the discussion related views.
+ * Add an icon to the button that appears in $type related views.
  */
 function c4m_features_og_preprocess_button(&$variables, $related_views, $type, $icon, $text) {
 
