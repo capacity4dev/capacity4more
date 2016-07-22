@@ -494,8 +494,7 @@ function c4m_user_og_c4m_leave_group_cta($group) {
     return;
   }
 
-  global $user;
-  if ($user->uid == $group->uid) {
+  if (c4m_og_user_is_owner('node', $group->nid)) {
     return;
   }
 
@@ -505,4 +504,30 @@ function c4m_user_og_c4m_leave_group_cta($group) {
     '#button_icon' => 'fa-arrow-right',
     '#url' =>  url('group/node/' . $group->nid . '/unsubscribe', array('absolute' => TRUE)),
   );
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function c4m_user_og_menu_alter(&$menu) {
+  $menu['group/%/%/unsubscribe']['page callback'] = 'c4m_user_og_unsubscription_custom_callback';
+}
+
+/**
+ * Custom page callback to prevent group owners to leave a group.
+ */
+function c4m_user_og_unsubscription_custom_callback($group_type, $gid) {
+  $group = entity_load_single($group_type, $gid);
+
+  if (c4m_og_user_is_owner('node', $group->nid)) {
+    $message = t('You can\'t leave the group if you are the owner. ');
+    $link = l(t('Transfer the ownership first.'), 'group/node/' . $group->nid . '/admin/owner');
+    drupal_set_message($message . $link);
+
+    $url = entity_uri($group_type, $group);
+    drupal_goto($url['path'], $url['options']);
+  }
+  else {
+    return og_ui_unsubscribe($group_type, $gid);
+  }
 }
