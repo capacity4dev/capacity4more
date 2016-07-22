@@ -527,6 +527,10 @@ function c4m_user_og_c4m_membership_cta($group) {
   $access = c4m_og_get_access_type($group);
 
   if (og_is_member('node', $group->nid, 'user', NULL, array(OG_STATE_PENDING))) {
+    $message = 'This is a moderated group. Your request is waiting for approval. Continue to explore group %group content';
+    $replacements = array('%group' => $group->title);
+    drupal_set_message(t($message, $replacements));
+
     return array(
       '#type' => 'markup',
       '#markup' => '<div class="c4m-group-visitor-cta">' . t('Awaiting approval') . '</div>',
