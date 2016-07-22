@@ -506,3 +506,24 @@ function c4m_user_og_c4m_leave_group_cta($group) {
     '#url' =>  url('group/node/' . $group->nid . '/unsubscribe', array('absolute' => TRUE)),
   );
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_user_og_form_og_ui_confirm_unsubscribe_alter(&$form, &$form_state) {
+  $form['#submit'][] = 'c4m_user_og_custom_unsubscribe_submit';
+}
+
+/**
+ * Custom submit callback for og_ui_confirm_unsubscribe.
+ *
+ * Unflags the user as following the group.
+ */
+function c4m_user_og_custom_unsubscribe_submit($form, &$form_state) {
+  global $user;
+
+  $group = $form_state['values']['group'];
+  $flag = flag_get_Flag('subscribe_c4m_follow_group');
+
+  $flag->flag('unflag', $group->nid, $user, TRUE);
+}
