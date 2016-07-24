@@ -242,11 +242,11 @@ function c4m_user_notifications_notify_comment_on_content($comment) {
  *
  * Returns an array of ids for all group admins and group owner.
  */
-function _c4m_user_notifications_get_admins_and_owner_ids($membership) {
+function _c4m_user_notifications_get_admins_and_owner_ids($gid) {
   // Get an array of ids for group admins.
-  $group_admins_ids = c4m_og_get_group_admins_ids($membership->gid);
+  $group_admins_ids = c4m_og_get_group_admins_ids($gid);
   // Load group.
-  $group = node_load($membership->gid);
+  $group = node_load($gid);
   // If group owner is not defined as group admin, add it to admins list.
   if (!in_array($group->uid, $group_admins_ids)) {
     $group_admins_ids[] = $group->uid;
