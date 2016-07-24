@@ -182,7 +182,6 @@ function c4m_user_notifications_node_insert($node) {
     return;
   }
 
-  _c4m_user_notifications_process_general_triggers_insert($node);
   _c4m_user_notifications_process_og_alter($node, 'insert');
   _c4m_user_notifications_process_og_content_alter($node, 'insert');
 }
@@ -340,38 +339,6 @@ function c4m_user_notifications_cron() {
 /**
  * Helper function.
  *
- * Triggers email notification when organic group is published.
- */
-function _c4m_user_notifications_process_general_triggers_insert($node) {
-  if (c4m_user_notifications_dummy_content_migration()) {
-    // Return early, if node is not published.
-    return;
-  }
-
-  // If node is not published, no notifications.
-  if ($node->status != NODE_PUBLISHED) {
-    return;
-  }
-
-  if (!og_is_group('node', $node)) {
-    return;
-  }
-
-  $wrapper = entity_metadata_wrapper('node', $node);
-  if (!isset($wrapper->c4m_og_status)) {
-    return;
-  }
-
-  $status = $wrapper->c4m_og_status->value();
-
-  if ($status == 'published') {
-    c4m_user_notifications_group_status_set_published($node);
-  }
-}
-
-/**
- * Helper function.
- *
  * Triggers different email notifications when organic group is updated:
  *   Status - group status changes (published/draft/etc...).
  *   Access - group access changes.
@@ -379,7 +346,7 @@ function _c4m_user_notifications_process_general_triggers_insert($node) {
  */
 function _c4m_user_notifications_process_general_triggers_update($node) {
   if ($node->status != NODE_PUBLISHED) {
-    // Return early, if node is not published.
+    // Return early, if node is not published (Status = Pending).
     return;
   }
 
@@ -410,13 +377,23 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
     if ($status != $prev_status) {
       // If group status has changed.
       switch ($status) {
+        // 'draft' -> 'published' => Published.
         case 'published':
-          c4m_user_notifications_group_status_set_republished($node, $prev_status);
+          if ($prev_status == 'draft' && $status == 'published') {
+            c4m_user_notifications_group_status_set_published($node, $prev_status);
+          }
           break;
 
-        // Published -> Draft => Unpublished.
+        // 'archived' -> 'published' => Published.
+        case 'published':
+          if ($prev_status == 'archived' && $status == 'published') {
+            c4m_user_notifications_group_status_set_published($node, $prev_status);
+          }
+          break;
+
+        // 'published' -> 'draft' => Unpublished.
         case 'draft':
-          if ($prev_status == 'published') {
+          if ($prev_status == 'published' && $status == 'draft') {
             c4m_user_notifications_group_status_set_unpublished($node, $prev_status);
           }
           break;
