@@ -396,34 +396,40 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
   $wrapper = entity_metadata_wrapper('node', $node);
   $wrapper_original = entity_metadata_wrapper('node', $node->original);
 
-  if (!isset($wrapper->c4m_og_status) || !isset($wrapper_original->c4m_og_status)) {
-    return;
+  if ($node->original->status != NODE_PUBLISHED) {
+    // Node status changes from unpublished to published.
+    c4m_user_notifications_group_status_set_published($node);
   }
+  else {
+    if (!isset($wrapper->c4m_og_status) || !isset($wrapper_original->c4m_og_status)) {
+      return;
+    }
 
-  $status = $wrapper->c4m_og_status->value();
-  $prev_status = $wrapper_original->c4m_og_status->value();
-  if ($status != $prev_status) {
-    // If group status has changed.
-    switch ($status) {
-      case 'published':
-        c4m_user_notifications_group_status_set_republished($node);
-        break;
+    $status = $wrapper->c4m_og_status->value();
+    $prev_status = $wrapper_original->c4m_og_status->value();
+    if ($status != $prev_status) {
+      // If group status has changed.
+      switch ($status) {
+        case 'published':
+          c4m_user_notifications_group_status_set_republished($node, $prev_status);
+          break;
 
-      // Published -> Draft => Unpublished.
-      case 'draft':
-        if ($prev_status == 'published') {
-          c4m_user_notifications_group_status_set_unpublished($node);
-        }
-        break;
+        // Published -> Draft => Unpublished.
+        case 'draft':
+          if ($prev_status == 'published') {
+            c4m_user_notifications_group_status_set_unpublished($node, $prev_status);
+          }
+          break;
 
-      case 'archived':
-        c4m_user_notifications_group_status_set_archived($node, $prev_status);
-        break;
+        case 'archived':
+          c4m_user_notifications_group_status_set_archived($node, $prev_status);
+          break;
 
-      // Soft delete.
-      case 'deleted':
-        c4m_user_notifications_group_status_set_softdeleted($node);
-        break;
+        // Soft delete.
+        case 'deleted':
+          c4m_user_notifications_group_status_set_softdeleted($node, $prev_status);
+          break;
+      }
     }
   }
 

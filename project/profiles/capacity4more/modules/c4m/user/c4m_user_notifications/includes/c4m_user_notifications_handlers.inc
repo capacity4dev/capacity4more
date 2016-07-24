@@ -70,13 +70,13 @@ function c4m_user_notifications_group_status_set_published($node) {
 /**
  * Email notification about organic group status change to 'republished'.
  */
-function c4m_user_notifications_group_status_set_republished($node) {
+function c4m_user_notifications_group_status_set_republished($node, $prev_status) {
 }
 
 /**
  * Email notification about organic group status change to 'unpublished'.
  */
-function c4m_user_notifications_group_status_set_unpublished($node) {
+function c4m_user_notifications_group_status_set_unpublished($node, $prev_status) {
 }
 
 /**
@@ -88,7 +88,7 @@ function c4m_user_notifications_group_status_set_archived($node, $prev_status) {
 /**
  * Email notification about organic group status change to 'softdelete'.
  */
-function c4m_user_notifications_group_status_set_softdeleted($node) {
+function c4m_user_notifications_group_status_set_softdeleted($node, $prev_status) {
 }
 
 /**
