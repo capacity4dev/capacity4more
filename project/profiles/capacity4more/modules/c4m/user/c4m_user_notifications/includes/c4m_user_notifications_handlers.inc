@@ -74,9 +74,33 @@ function c4m_user_notifications_group_status_set_republished($node, $prev_status
 }
 
 /**
- * Email notification about organic group status change to 'unpublished'.
+ * Email notification about organic group that was 'unpublished'.
+ *
+ * Status changed from 'published' to 'draft'.
  */
 function c4m_user_notifications_group_status_set_unpublished($node, $prev_status) {
+  $group_admins_ids = _c4m_user_notifications_get_admins_and_owner_ids($node->nid);
+
+  foreach ($group_admins_ids as $admin_id) {
+    _c4m_user_notifications_to_admin_group_status_set_unpublished($node, $admin_id, $prev_status);
+  }
+}
+
+/**
+ * Helper function.
+ *
+ * Email notification to organic group admin / owner, about status change
+ * from 'published' to 'draft'.
+ */
+function _c4m_user_notifications_to_admin_group_status_set_unpublished($node, $admin_id, $prev_status) {
+  $message = message_create('c4m_group_unpublished', array('uid' => $admin_id));
+  c4m_message_load_tokens__c4m_group_unpublished($message);
+  $message->arguments['@group_former_status'] = $prev_status;
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group_node->set($node->nid);
+  // Message will be saved in message_notify_send_message().
+  message_notify_send_message($wrapper->value());
 }
 
 /**
