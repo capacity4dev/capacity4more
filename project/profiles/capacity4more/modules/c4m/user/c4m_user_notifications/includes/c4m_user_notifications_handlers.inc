@@ -12,27 +12,40 @@ function c4m_user_notifications_notify_admins_user_deleted($account) {
 }
 
 /**
- * Email notification on membership request to moderated group.
+ * Email notification on membership request to moderated group, to group admins.
  */
 function c4m_user_notifications_moderated_group_new_membership_request($membership) {
   // Create an array of ids for group owner and admins.
   $group_admins_ids = c4m_og_get_group_admins_ids($membership->gid);
-  $group = entity_load_single('node', $membership->gid);
+  $group = node_load($membership->gid);
   // If group owner is not defined as group admin, add it to admins list.
   if (!in_array($group->uid, $group_admins_ids)) {
     $group_admins_ids[] = $group->uid;
   }
 
   foreach ($group_admins_ids as $admin_id) {
-    $message = message_create('c4m_new_membership_request', array('uid' => $admin_id));
-    c4m_message_load__c4m_new_membership_request($message);
-
-    $wrapper = entity_metadata_wrapper('message', $message);
-    $wrapper->field_group_node->set($membership->gid);
-    $wrapper->field_new_member->set($membership->etid);
-    $wrapper->field_group_membership->set($membership->id);
-    message_notify_send_message($wrapper->value());
+    _c4m_user_notifications_moderated_group_admin_new_membership_request($membership, $admin_id);
   }
+}
+
+/**
+ * Helper function.
+ *
+ * Email notification on membership request to moderated group, to group admin
+ * / owner.
+ */
+function _c4m_user_notifications_moderated_group_admin_new_membership_request($membership, $admin_id) {
+  if (!($message = message_create('c4m_new_membership_request', array('uid' => $admin_id)))) {
+    // If message was not created properly, return early.
+    return;
+  }
+  c4m_message_load_tokens__c4m_new_membership_request($message);
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group_node->set($membership->gid);
+  $wrapper->field_new_member->set($membership->etid);
+  $wrapper->field_group_membership->set($membership->id);
+  message_notify_send_message($wrapper->value());
 }
 
 /**
