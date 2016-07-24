@@ -374,15 +374,13 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
     switch ($status) {
       // 'draft' -> 'published' => Published.
       case 'published':
-        if ($prev_status == 'draft' && $status == 'published') {
-          c4m_user_notifications_group_status_set_published($node);
-        }
-        break;
-
-      // 'archived' -> 'published' => Republished.
-      case 'published':
-        if ($prev_status == 'archived' && $status == 'published') {
-          c4m_user_notifications_group_status_set_republished($node, $prev_status);
+        if ($status == 'published') {
+          if ($prev_status == 'draft') {
+            c4m_user_notifications_group_status_set_published($node);
+          }
+          else if ($prev_status == 'archived') {
+            c4m_user_notifications_group_status_set_republished($node, $prev_status);
+          }
         }
         break;
 
