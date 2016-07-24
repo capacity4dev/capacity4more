@@ -23,7 +23,7 @@ function c4m_user_notifications_moderated_group_new_membership_request($entity) 
 function c4m_user_notifications_notify_user_membership_accepted($membership) {
   // Send activation message to member.
   $message = message_create('c4m_welcome_to_group', array('uid' => $membership->etid));
-  c4m_message_load__c4m_welcome_to_group($message);
+  c4m_message_load_tokens__c4m_welcome_to_group($message);
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($membership->gid);
@@ -97,25 +97,25 @@ function c4m_user_notifications_group_status_set_published($node) {
 /**
  * Email notification about organic group status change to 'republished'.
  */
-function c4m_user_notifications_group_status_set_republished($node) {
+function c4m_user_notifications_group_status_set_republished($node, $prev_status) {
 }
 
 /**
  * Email notification about organic group status change to 'unpublished'.
  */
-function c4m_user_notifications_group_status_set_unpublished($node) {
+function c4m_user_notifications_group_status_set_unpublished($node, $prev_status) {
 }
 
 /**
  * Email notification about organic group status change to 'archived'.
  */
-function c4m_user_notifications_group_status_set_archived($node) {
+function c4m_user_notifications_group_status_set_archived($node, $prev_status) {
 }
 
 /**
  * Email notification about organic group status change to 'softdelete'.
  */
-function c4m_user_notifications_group_status_set_softdeleted($node) {
+function c4m_user_notifications_group_status_set_softdeleted($node, $prev_status) {
 }
 
 /**
@@ -261,4 +261,22 @@ function c4m_user_notifications_notify_inactive_users() {
  * Email notification to all commenters, about comment on group content.
  */
 function c4m_user_notifications_notify_comment_on_content($comment) {
+}
+
+/**
+ * Helper function.
+ *
+ * Returns an array of ids for all group admins and group owner.
+ */
+function _c4m_user_notifications_get_admins_and_owner_ids($gid) {
+  // Get an array of ids for group admins.
+  $group_admins_ids = c4m_og_get_group_admins_ids($gid);
+  // Load group.
+  $group = node_load($gid);
+  // If group owner is not defined as group admin, add it to admins list.
+  if (!in_array($group->uid, $group_admins_ids)) {
+    $group_admins_ids[] = $group->uid;
+  }
+
+  return $group_admins_ids;
 }
