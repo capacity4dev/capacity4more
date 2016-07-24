@@ -68,9 +68,33 @@ function c4m_user_notifications_group_status_set_published($node) {
 }
 
 /**
- * Email notification about organic group status change to 'republished'.
+ * Email notification about organic group that was 'republished'.
+ *
+ * Status changed from 'archived' to 'published'.
  */
 function c4m_user_notifications_group_status_set_republished($node, $prev_status) {
+  $group_admins_ids = _c4m_user_notifications_get_admins_and_owner_ids($node->nid);
+
+  foreach ($group_admins_ids as $admin_id) {
+    _c4m_user_notifications_to_admin_group_status_set_republished($node, $admin_id, $prev_status);
+  }
+}
+
+/**
+ * Helper function.
+ *
+ * Email notification to organic group admin / owner, about status change
+ * from 'archived' to 'published'.
+ */
+function _c4m_user_notifications_to_admin_group_status_set_republished($node, $admin_id, $prev_status) {
+  $message = message_create('c4m_group_republished', array('uid' => $admin_id));
+  c4m_message_load_tokens__c4m_group_republished($message);
+  $message->arguments['@group_former_status'] = $prev_status;
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group_node->set($node->nid);
+  // Message will be saved in message_notify_send_message().
+  message_notify_send_message($wrapper->value());
 }
 
 /**
