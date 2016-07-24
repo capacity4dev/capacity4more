@@ -56,7 +56,6 @@ function c4m_content_photo_c4m_helper_entity_label_info() {
   );
 }
 
-
 /**
  * Implements hook_preprocess().
  *
