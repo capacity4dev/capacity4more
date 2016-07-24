@@ -198,7 +198,6 @@ function c4m_message_load_tokens__c4m_welcome_to_group(Message $message) {
 }
 
 /**
-<<<<<<< HEAD
  * Add callbacks to c4m_new_member_joined message arguments.
  *
  * @param Message $message
@@ -258,8 +257,6 @@ function c4m_message_load_tokens__c4m_new_member_joined(Message $message) {
 }
 
 /**
-=======
->>>>>>> feature/Global-notification-infrastructure
  * Resolves addressee full name token.
  *
  * @param Message $message
