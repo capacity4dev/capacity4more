@@ -99,7 +99,6 @@ function _c4m_content_group_block_header_name_banner() {
   $variables['emails'] = array();
   $variables['group_access'] = c4m_og_get_access_type($group)['type'];
 
-
   if ($variables['group_access'] == 'restricted') {
 
     $emails = array();
