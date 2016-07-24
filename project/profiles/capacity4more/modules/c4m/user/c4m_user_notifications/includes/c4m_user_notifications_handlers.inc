@@ -83,9 +83,9 @@ function c4m_user_notifications_group_status_set_unpublished($node, $prev_status
  * Email notification to admins about organic group status change to 'archived'.
  */
 function c4m_user_notifications_group_status_set_archived($node, $prev_status) {
-  $group_admin_ids = _c4m_user_notifications_get_admins_and_owner_ids($node->nid);
+  $group_admins_ids = _c4m_user_notifications_get_admins_and_owner_ids($node->nid);
 
-  foreach ($group_admin_ids as $admin_id) {
+  foreach ($group_admins_ids as $admin_id) {
     _c4m_user_notifications_to_admin_group_status_set_archived($node, $admin_id, $prev_status);
   }
 }
@@ -93,7 +93,7 @@ function c4m_user_notifications_group_status_set_archived($node, $prev_status) {
 /**
  * Helper function.
  *
- * Email notification to admin / owner, about organic group status change
+ * Email notification to organic group admin / owner, about status change
  * to 'archived'.
  */
 function _c4m_user_notifications_to_admin_group_status_set_archived($node, $admin_id, $prev_status) {
@@ -264,11 +264,11 @@ function c4m_user_notifications_notify_comment_on_content($comment) {
  *
  * Returns an array of ids for all group admins and group owner.
  */
-function _c4m_user_notifications_get_admins_and_owner_ids($membership) {
+function _c4m_user_notifications_get_admins_and_owner_ids($gid) {
   // Get an array of ids for group admins.
-  $group_admins_ids = c4m_og_get_group_admins_ids($membership->gid);
+  $group_admins_ids = c4m_og_get_group_admins_ids($gid);
   // Load group.
-  $group = node_load($membership->gid);
+  $group = node_load($gid);
   // If group owner is not defined as group admin, add it to admins list.
   if (!in_array($group->uid, $group_admins_ids)) {
     $group_admins_ids[] = $group->uid;
