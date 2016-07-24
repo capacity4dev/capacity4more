@@ -821,7 +821,7 @@ function c4m_user_contact_form_submit($form, $form_state) {
  * @param object $language
  *   Preferred language for addressee user.
  * @param bool $silent
- *   Wither to present status message or not.
+ *   Whether to display a status message or not.
  */
 function _c4m_user_send_mail($to, $from, $subject, $body, $language, $silent = FALSE) {
   $module = 'c4m_user';
