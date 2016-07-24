@@ -55,3 +55,26 @@ function c4m_content_photo_c4m_helper_entity_label_info() {
     ),
   );
 }
+
+
+/**
+ * Implements hook_preprocess().
+ *
+ * Create the back to photo album link.
+ */
+function c4m_content_photo_preprocess(&$variables, $hook) {
+  if ($hook != 'node_gallery_api_item_navigator') {
+    return;
+  }
+
+  global $base_path;
+  $options = array(
+    'absolute' => TRUE,
+  );
+
+  // Remove the bash path from the gallery link.
+  $variables['gallery_link'] = str_replace($base_path, '', $variables['gallery_link']);
+
+  // Create the link with absolute path.
+  $variables['back_to_galley_link'] = l(t('Back to photo album'), $variables['gallery_link'], $options);
+}
