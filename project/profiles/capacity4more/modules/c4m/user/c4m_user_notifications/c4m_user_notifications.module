@@ -378,7 +378,7 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
           if ($prev_status == 'draft') {
             c4m_user_notifications_group_status_set_published($node);
           }
-          else if ($prev_status == 'archived') {
+          elseif ($prev_status == 'archived') {
             c4m_user_notifications_group_status_set_republished($node, $prev_status);
           }
         }
