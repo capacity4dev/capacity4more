@@ -82,7 +82,7 @@ function c4m_user_notifications_group_status_set_unpublished($node) {
 /**
  * Email notification about organic group status change to 'archived'.
  */
-function c4m_user_notifications_group_status_set_archived($node) {
+function c4m_user_notifications_group_status_set_archived($node, $prev_status) {
 }
 
 /**

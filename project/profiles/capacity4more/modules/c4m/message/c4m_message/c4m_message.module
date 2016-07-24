@@ -150,11 +150,6 @@ function c4m_message_load__c4m_welcome_to_group(Message $message) {
     'pass message' => TRUE,
   );
 
-  $message->arguments['!group_dashboard_url'] = array(
-    'callback' => 'c4m_message_format_group_url',
-    'pass message' => TRUE,
-  );
-
   $message->arguments['!go_public_profile_url'] = array(
     'callback' => 'c4m_message_format_group_owner_public_profile_url',
     'pass message' => TRUE,
