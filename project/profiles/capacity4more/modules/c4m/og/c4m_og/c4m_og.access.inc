@@ -132,24 +132,26 @@ function c4m_og_get_restricted_info($group) {
 
   if (!array_key_exists($group->nid, $infos)) {
     $wrapper = entity_metadata_wrapper('node', $group);
-    $pluggable_node_accesses = $wrapper->pluggable_node_access->value();
-    if (!$pluggable_node_accesses) {
-      return $info;
-    }
-    $pluggable_node_accesses = is_array($pluggable_node_accesses) ? $pluggable_node_accesses : array($pluggable_node_accesses);
-    foreach ($pluggable_node_accesses as $pluggable_node_access) {
-      $data = $pluggable_node_access->data;
-      if (!is_array($data) || empty($data)) {
-        continue;
+    if (isset($wrapper->pluggable_node_access)) {
+      $pluggable_node_accesses = $wrapper->pluggable_node_access->value();
+      if (!$pluggable_node_accesses) {
+        return $info;
       }
-      switch ($pluggable_node_access->type) {
-        case 'email_domain':
-          $info['domains'] = $data;
-          break;
+      $pluggable_node_accesses = is_array($pluggable_node_accesses) ? $pluggable_node_accesses : array($pluggable_node_accesses);
+      foreach ($pluggable_node_accesses as $pluggable_node_access) {
+        $data = $pluggable_node_access->data;
+        if (!is_array($data) || empty($data)) {
+          continue;
+        }
+        switch ($pluggable_node_access->type) {
+          case 'email_domain':
+            $info['domains'] = $data;
+            break;
 
-        case 'organisation':
-          $info['organisations'] = $data;
-          break;
+          case 'organisation':
+            $info['organisations'] = $data;
+            break;
+        }
       }
     }
 
@@ -559,4 +561,19 @@ function c4m_og_og_user_access_alter(&$perm, $context) {
   $wrapper = entity_metadata_wrapper('node', $group);
 
   $perm['subscribe without approval'] = $wrapper->field_membership_open_request->value();
+}
+
+/**
+ * Implements hook_field_access().
+ *
+ * Removing the "message to the site admin" field when editing a group.
+ */
+function c4m_og_field_access($op, $field, $entity_type, $entity, $account) {
+  if ($op == 'edit' && $field['field_name'] == 'field_message_to_site_admin') {
+    // Deny the access only if it is not the creation of the group.
+    if (!empty($entity->nid)) {
+      return FALSE;
+    }
+  }
+  return TRUE;
 }
