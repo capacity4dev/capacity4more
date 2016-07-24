@@ -76,6 +76,24 @@ function _c4m_message_format_welcome_to_group_from_field(&$message, $message_ent
 }
 
 /**
+ * Helper function.
+ *
+ * Formats 'group change state' messages From field, per template requirement.
+ */
+function _c4m_message_format_group_status_update_set_from_field(&$message) {
+  global $user;
+
+  $message['from'] = format_string(
+    '"@name at @site"<@mail>',
+    array(
+      '@name' => c4m_user_name($user),
+      '@site' => variable_get('site_name'),
+      '@mail' => variable_get('site_mail'),
+    )
+  );
+}
+
+/**
  * Implements hook_entity_delete().
  *
  * @todo: Push item to queue.

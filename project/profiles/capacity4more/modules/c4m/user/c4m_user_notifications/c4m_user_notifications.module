@@ -344,7 +344,7 @@ function c4m_user_notifications_cron() {
  */
 function _c4m_user_notifications_process_general_triggers_insert($node) {
   if (c4m_user_notifications_dummy_content_migration()) {
-    //  Return early, if node is not published.
+    // Return early, if node is not published.
     return;
   }
 
@@ -379,7 +379,7 @@ function _c4m_user_notifications_process_general_triggers_insert($node) {
  */
 function _c4m_user_notifications_process_general_triggers_update($node) {
   if ($node->status != NODE_PUBLISHED) {
-    //  Return early, if node is not published.
+    // Return early, if node is not published.
     return;
   }
 

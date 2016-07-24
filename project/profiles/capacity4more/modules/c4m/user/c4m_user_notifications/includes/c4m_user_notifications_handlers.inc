@@ -236,7 +236,6 @@ function c4m_user_notifications_notify_inactive_users() {
 function c4m_user_notifications_notify_comment_on_content($comment) {
 }
 
-
 /**
  * Helper function.
  *
