@@ -363,50 +363,44 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
   $wrapper = entity_metadata_wrapper('node', $node);
   $wrapper_original = entity_metadata_wrapper('node', $node->original);
 
-  if ($node->original->status != NODE_PUBLISHED) {
-    // Node status changes from unpublished to published.
-    c4m_user_notifications_group_status_set_published($node);
+  if (!isset($wrapper->c4m_og_status) || !isset($wrapper_original->c4m_og_status)) {
+    return;
   }
-  else {
-    if (!isset($wrapper->c4m_og_status) || !isset($wrapper_original->c4m_og_status)) {
-      return;
-    }
 
-    $status = $wrapper->c4m_og_status->value();
-    $prev_status = $wrapper_original->c4m_og_status->value();
-    if ($status != $prev_status) {
-      // If group status has changed.
-      switch ($status) {
-        // 'draft' -> 'published' => Published.
-        case 'published':
-          if ($prev_status == 'draft' && $status == 'published') {
-            c4m_user_notifications_group_status_set_published($node, $prev_status);
-          }
-          break;
+  $status = $wrapper->c4m_og_status->value();
+  $prev_status = $wrapper_original->c4m_og_status->value();
+  if ($status != $prev_status) {
+    // If group status has changed.
+    switch ($status) {
+      // 'draft' -> 'published' => Published.
+      case 'published':
+        if ($prev_status == 'draft' && $status == 'published') {
+          c4m_user_notifications_group_status_set_published($node);
+        }
+        break;
 
-        // 'archived' -> 'published' => Published.
-        case 'published':
-          if ($prev_status == 'archived' && $status == 'published') {
-            c4m_user_notifications_group_status_set_published($node, $prev_status);
-          }
-          break;
+      // 'archived' -> 'published' => Republished.
+      case 'published':
+        if ($prev_status == 'archived' && $status == 'published') {
+          c4m_user_notifications_group_status_set_republished($node, $prev_status);
+        }
+        break;
 
-        // 'published' -> 'draft' => Unpublished.
-        case 'draft':
-          if ($prev_status == 'published' && $status == 'draft') {
-            c4m_user_notifications_group_status_set_unpublished($node, $prev_status);
-          }
-          break;
+      // 'published' -> 'draft' => Unpublished.
+      case 'draft':
+        if ($prev_status == 'published' && $status == 'draft') {
+          c4m_user_notifications_group_status_set_unpublished($node, $prev_status);
+        }
+        break;
 
-        case 'archived':
-          c4m_user_notifications_group_status_set_archived($node, $prev_status);
-          break;
+      case 'archived':
+        c4m_user_notifications_group_status_set_archived($node, $prev_status);
+        break;
 
-        // Soft delete.
-        case 'deleted':
-          c4m_user_notifications_group_status_set_softdeleted($node, $prev_status);
-          break;
-      }
+      // Soft delete.
+      case 'deleted':
+        c4m_user_notifications_group_status_set_softdeleted($node, $prev_status);
+        break;
     }
   }
 
