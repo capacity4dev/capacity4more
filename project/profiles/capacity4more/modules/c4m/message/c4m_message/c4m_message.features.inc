@@ -39,9 +39,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Cp\\u003EYour @group_node_type\\u0026nbsp;@group_node_title\\u0026nbsp;is published once again\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n",
+          "value" : "\\u003Cp\\u003EYour @group_node_type\\u0026nbsp;@group_node_title\\u0026nbsp;is published\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n",
           "format" : "default_html",
-          "safe_value" : "\\u003Cp\\u003EYour @group_node_type\\u00a0@group_node_title\\u00a0is published once again\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003EYour @group_node_type\\u00a0@group_node_title\\u00a0is published\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n"
         },
         {
           "value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\nCongratulations!\\u0026nbsp;\\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E is now published.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E[current-user:c4m_first_name] [current-user:c4m_last_name] updated the status of this @group_node_type from Draft to Published.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYou can consult \\u003Ca href=\\u0022url]help-guidance\\u0022 rel=\\u0022nofollow\\u0022\\u003Ethis help section\\u003C\\/a\\u003E to find out more about Group statuses and what they imply.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\nThe capacity4dev team\\u003C\\/p\\u003E\\r\\n",
