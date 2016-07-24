@@ -97,9 +97,11 @@ function _c4m_content_group_block_header_name_banner() {
   $variables['organisation_icons'] = array();
   $variables['organisation_ellipsis'] = FALSE;
   $variables['emails'] = array();
-  $variables['group_access'] = c4m_og_get_access_type($group)['type'];
 
-  if ($variables['group_access'] == 'restricted') {
+  $group_access = c4m_og_get_access_type($group);
+  $variables['group_access'] = $group_access['type'];
+
+  if ($group_access['type'] == 'restricted') {
 
     $emails = array();
 
