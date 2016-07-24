@@ -343,8 +343,13 @@ function c4m_user_notifications_cron() {
  * Triggers email notification when organic group is published.
  */
 function _c4m_user_notifications_process_general_triggers_insert($node) {
-  // Don't send notifications during dummy content migration.
   if (c4m_user_notifications_dummy_content_migration()) {
+    //  Return early, if node is not published.
+    return;
+  }
+
+  // If node is not published, no notifications.
+  if ($node->status != NODE_PUBLISHED) {
     return;
   }
 
@@ -373,6 +378,11 @@ function _c4m_user_notifications_process_general_triggers_insert($node) {
  *   Owner - group owner changes.
  */
 function _c4m_user_notifications_process_general_triggers_update($node) {
+  if ($node->status != NODE_PUBLISHED) {
+    //  Return early, if node is not published.
+    return;
+  }
+
   if (!og_is_group('node', $node)) {
     // Return early, if node type is not group/project.
     return;
@@ -396,9 +406,7 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
     // If group status has changed.
     switch ($status) {
       case 'published':
-        if ($prev_status == 'archived' || $prev_status == 'unpublished' || $prev_status == 'deleted') {
-          c4m_user_notifications_group_status_set_republished($node);
-        }
+        c4m_user_notifications_group_status_set_republished($node);
         break;
 
       // Published -> Draft => Unpublished.
@@ -409,7 +417,7 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
         break;
 
       case 'archived':
-        c4m_user_notifications_group_status_set_archived($node);
+        c4m_user_notifications_group_status_set_archived($node, $prev_status);
         break;
 
       // Soft delete.
