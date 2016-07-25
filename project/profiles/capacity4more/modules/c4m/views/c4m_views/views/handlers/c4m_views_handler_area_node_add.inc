@@ -85,6 +85,12 @@ class c4m_views_handler_area_node_add extends views_handler_area {
     if (!node_access('create', $node_type)) {
       return;
     }
+    
+    if ($context = og_context()) {
+      if (!og_user_access($context['group_type'], $context['gid'], "create {$node_type} content")) {
+        return;
+      }
+    }
 
     $options = array(
       'attributes' => array(
