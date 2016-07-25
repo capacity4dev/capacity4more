@@ -163,11 +163,13 @@ function c4m_user_notifications_notify_user_admin_revoked($gid, $uid) {
  *   User id.
  */
 function _c4m_user_notifications_log_admin_revoked($gid, $uid) {
+  global $user;
   $message = message_create('c4m_log_group_admin_demoted', array('uid' => $uid));
   c4m_message_load_tokens__c4m_log_group_admin_demoted($message);
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($gid);
+  $wrapper->field_new_member->set($user->uid);
   $wrapper->save();
 }
 
