@@ -237,9 +237,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Cpre\\u003E\\r\\n@group_node_type @group_node_title (id: @group_node_id): Administrator @user_full_name (id: @user_id) was demoted to regular member status by @event_user_full_name] (id: event_user_id).\\u003C\\/pre\\u003E\\r\\n",
+          "value" : "\\u003Cpre\\u003E\\r\\n@group_node_type @group_node_title (id: @group_node_id): Administrator @user_full_name (id: @user_id) was demoted to regular member status by @event_user_full_name (id: @event_user_id).\\u003C\\/pre\\u003E\\r\\n",
           "format" : "full_html",
-          "safe_value" : "\\u003Cpre\\u003E\\n@group_node_type @group_node_title (id: @group_node_id): Administrator @user_full_name (id: @user_id) was demoted to regular member status by @event_user_full_name] (id: event_user_id).\\u003C\\/pre\\u003E"
+          "safe_value" : "\\u003Cpre\\u003E\\n@group_node_type @group_node_title (id: @group_node_id): Administrator @user_full_name (id: @user_id) was demoted to regular member status by @event_user_full_name (id: @event_user_id).\\u003C\\/pre\\u003E"
         }
       ]
     },
