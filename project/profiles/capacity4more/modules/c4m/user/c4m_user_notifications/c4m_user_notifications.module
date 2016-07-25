@@ -285,7 +285,7 @@ function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
   $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
 
   // Administrator role is not revoked.
-  if ($group_admin_role->rid == $rid) {
+  if ($group_admin_role->rid != $rid) {
     return;
   }
 
