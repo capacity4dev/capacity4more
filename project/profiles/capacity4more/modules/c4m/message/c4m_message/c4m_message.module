@@ -205,7 +205,6 @@ function c4m_message_load_tokens__c4m_welcome_to_group(Message $message) {
  *   The Message entity.
  */
 function c4m_message_load_tokens__c4m_new_membership_request(Message $message) {
-
   $message->arguments['@group_admin_full_name'] = array(
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
@@ -265,6 +264,34 @@ function c4m_message_load_tokens__c4m_new_membership_request(Message $message) {
     'callback' => 'c4m_message_format_new_member_request_message',
     'pass message' => TRUE,
   );
+}
+
+/**
+ * Resolves addressee user id.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return int
+ *   Returns addressee's user id.
+ */
+function c4m_message_format_addressee_uid(Message $message) {
+  return $message->uid;
+}
+
+/**
+ * Resolves the of group message refers to.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return int
+ *   Returns group id.
+ */
+function c4m_message_format_group_gid(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  return $wrapper->field_group_node->value(array('identifier' => TRUE));
 }
 
 /**
@@ -517,6 +544,34 @@ function c4m_message_format_group_owner_public_profile_url(Message $message) {
   $author_id = $wrapper->field_group_node->author->getIdentifier();
 
   return url('user/' . $author_id);
+}
+
+/**
+ * Resolves the id of user that executed the event.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return int
+ *   User id.
+ */
+function c4m_message_format_event_user_id(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  return $wrapper->field_new_member->value(array('identifier' => TRUE));
+}
+
+/**
+ * Resolves full name of user that executed the event.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return int
+ *   User full name.
+ */
+function c4m_message_format_event_user_full_name(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  return c4m_user_name($wrapper->field_new_member->value());
 }
 
 /**

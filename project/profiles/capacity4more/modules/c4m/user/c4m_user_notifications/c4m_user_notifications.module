@@ -285,7 +285,7 @@ function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
   $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
 
   // Administrator role is not revoked.
-  if ($group_admin_role->rid == $rid) {
+  if ($group_admin_role->rid != $rid) {
     return;
   }
 
@@ -368,34 +368,34 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
   }
 
   $status = $wrapper->c4m_og_status->value();
-  $prev_status = $wrapper_original->c4m_og_status->value();
-  if ($status != $prev_status) {
+  $group_former_status = $wrapper_original->c4m_og_status->value();
+  if ($status != $group_former_status) {
     // If group status has changed.
     switch ($status) {
       // 'draft' -> 'published' => Published.
       case 'published':
-        if ($prev_status == 'draft') {
+        if ($group_former_status == 'draft') {
           c4m_user_notifications_group_status_set_published($node);
         }
-        elseif ($prev_status == 'archived') {
-          c4m_user_notifications_group_status_set_republished($node, $prev_status);
+        elseif ($group_former_status == 'archived') {
+          c4m_user_notifications_group_status_set_republished($node, $group_former_status);
         }
         break;
 
       // 'published' -> 'draft' => Unpublished.
       case 'draft':
-        if ($prev_status == 'published') {
-          c4m_user_notifications_group_status_set_unpublished($node, $prev_status);
+        if ($group_former_status == 'published') {
+          c4m_user_notifications_group_status_set_unpublished($node, $group_former_status);
         }
         break;
 
       case 'archived':
-        c4m_user_notifications_group_status_set_archived($node, $prev_status);
+        c4m_user_notifications_group_status_set_archived($node, $group_former_status);
         break;
 
       // Soft delete.
       case 'deleted':
-        c4m_user_notifications_group_status_set_softdeleted($node, $prev_status);
+        c4m_user_notifications_group_status_set_softdeleted($node, $group_former_status);
         break;
     }
   }
