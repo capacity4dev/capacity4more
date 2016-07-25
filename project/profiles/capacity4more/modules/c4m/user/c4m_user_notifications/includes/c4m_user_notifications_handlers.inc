@@ -92,10 +92,10 @@ function c4m_user_notifications_group_status_set_unpublished($node, $prev_status
  * Email notification to organic group admin / owner, about status change
  * from 'published' to 'draft'.
  */
-function _c4m_user_notifications_to_admin_group_status_set_unpublished($node, $admin_id, $prev_status) {
+function _c4m_user_notifications_to_admin_group_status_set_unpublished($node, $admin_id, $group_former_status) {
   $message = message_create('c4m_group_unpublished', array('uid' => $admin_id));
   c4m_message_load_tokens__c4m_group_unpublished($message);
-  $message->arguments['@group_former_status'] = $prev_status;
+  $message->arguments['@group_former_status'] = $group_former_status;
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);
