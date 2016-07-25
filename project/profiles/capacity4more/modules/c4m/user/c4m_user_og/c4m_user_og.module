@@ -462,10 +462,6 @@ function c4m_user_og_theme() {
  * Set the CTA block for visitors.
  */
 function c4m_user_og_c4m_cta_block() {
-  if (!user_is_anonymous()) {
-    return;
-  }
-
   if (!$group = c4m_og_current_group()) {
     return;
   }
@@ -475,35 +471,61 @@ function c4m_user_og_c4m_cta_block() {
     return;
   }
 
-  if (!user_is_anonymous()) {
+  $items = array();
+  if (user_is_anonymous()) {
+    $types = array(
+      'open' => array(
+        'button_label' => 'Join this group',
+        'button_icon' => 'fa-user-plus',
+      ),
+      'moderated' => array(
+        'button_label' => 'Request membership for this group',
+        'button_icon' => 'fa-unlock-alt',
+      ),
+    );
+
+    $membership_request_value = c4m_og_get_group_membership_request($group);
+
+    $items['visitors'] = array(
+      '#theme' => 'c4m_group_visitor_cta',
+      '#button_label' => $types[$membership_request_value]['button_label'],
+      '#button_icon' => $types[$membership_request_value]['button_icon'],
+      '#url' => url('group/join/' . $group->nid, array('purl' => array('disabled' => TRUE))),
+    );
+  }
+  else {
     global $user;
 
     if (og_get_membership('node', $group->nid, 'user', $user->uid)) {
-      // Current user is already a member of this group.
-      return;
+      if (c4m_og_user_is_owner('node', $group->nid)) {
+        $items['manage'] = array(
+          '#type' => 'markup',
+          '#markup' => l('Manage this group', '/manage'),
+        );
+        if ($pending_requests = c4m_og_get_all_group_memberships_by_state($group->nid, OG_STATE_PENDING)) {
+          $items['memberships'] = array(
+            '#type' => 'markup',
+            '#markup' => t('There are %requests new membership requests.', array('%requests' => $pending_requests)),
+          );
+        }
+      }
+      else {
+        $variables = array(
+          'bundles' => array('wiki_page', 'photoalbum', 'discussion', 'event', 'document', ''),
+          'state' => 0,
+          'entity_type' => 'node',
+          'og_id' => $group->nid,
+        );
+
+        if ($unpublished_content = c4m_helper_entity_get_number_of_entities($variables)) {
+          $items['new-content'] = array(
+            '#type' => 'markup',
+            '#markup' => t('%count unpublished content', array('%count' => $unpublished_content)),
+          );
+        }
+      }
     }
   }
-
-  $types = array(
-    'open' => array(
-      'button_label' => 'Join this group',
-      'button_icon' => 'fa-user-plus',
-    ),
-    'moderated' => array(
-      'button_label' => 'Request membership for this group',
-      'button_icon' => 'fa-unlock-alt',
-    ),
-  );
-
-  $membership_request_value = c4m_og_get_group_membership_request($group);
-
-  $items = array();
-  $items['visitors'] = array(
-    '#theme' => 'c4m_group_visitor_cta',
-    '#button_label' => $types[$membership_request_value]['button_label'],
-    '#button_icon' => $types[$membership_request_value]['button_icon'],
-    '#url' => url('/user'),
-  );
 
   return $items;
 }
