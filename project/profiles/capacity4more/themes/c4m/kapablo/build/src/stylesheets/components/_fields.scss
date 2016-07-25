@@ -152,10 +152,6 @@
       @extend .text-medium;
     }
   }
-
-  .node & {
-    text-align: right;
-  }
 }
 
 .field-name-c4m-content-wiki-page-navigation {
@@ -199,7 +195,7 @@
   }
 
   .photoalbum-navigator {
-    margin: 1em 0 2px 0;
+    margin: 2em 0 2px 0;
   }
 
   > .content {
@@ -229,7 +225,7 @@
     }
 
     .navigator--center {
-      margin-bottom: 2em;
+      margin: 0 1.5em 2em 1.5em;
     }
 
     .back-link {

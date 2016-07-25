@@ -15,16 +15,74 @@ function c4m_content_photo_theme_registry_alter(&$theme_registry) {
 }
 
 /**
+ * Implements hook_node_presave().
+ *
+ * If a photo was uploaded and if is part of a photo album rename Album name
+ * along with a numerical suffix.
+ */
+function c4m_content_photo_node_presave($node) {
+  if ($node->type != 'photo') {
+    // Node is not a photo.
+    return;
+  }
+
+  if (!empty($node->nid)) {
+    // Node is already saved.
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  if (!$wrapper->node_gallery_ref_1->getIdentifier()) {
+    // Photo is not part of an album.
+    return;
+  }
+
+  $source = file_load($wrapper->c4m_media->value()['fid']);
+  $gallery_title = $wrapper->node_gallery_ref_1->label();
+  $destination = drupal_dirname($source->uri) . '/' . transliteration_clean_filename($gallery_title) . '.' . pathinfo($source->uri, PATHINFO_EXTENSION);
+  $new_file = file_move($source, $destination, FILE_EXISTS_RENAME);
+
+  if (!empty($node->_create_form)) {
+    // This node was created in a regular Drupal form, as opposed to the node
+    // gallery multiple files upload.
+    // In that case the user has already added the title for the node, so we
+    // don't want to change it.
+    return;
+  }
+
+  // Set the title to be like the new given file name.
+  $wrapper->title->set(drupal_basename($new_file->uri));
+}
+
+/**
+ * Implements form_FORM_ID_alter().
+ *
+ * Indicate a node is being created via the regular node form.
+ *
+ * @see c4m_content_photo_node_presave()
+ */
+function c4m_content_photo_form_photo_node_form_alter(&$form, $form_state) {
+  $node = &$form['#node'];
+  if (!empty($node->nid)) {
+    return;
+  }
+
+  // Indicate this node is created from a Drupal form.
+  $node->_create_form = TRUE;
+}
+
+/**
  * Implements hook_c4m_helper_entity_metrics_info().
  */
 function c4m_content_photo_c4m_helper_entity_metrics_info() {
   return array(
     'c4m_og_photos' => array(
-      'type'      => 'photo',
-      'context'   => 'group',
-      'callback'  => 'c4m_og_group_node_metric',
+      'type' => 'photo',
+      'context' => 'group',
+      'callback' => 'c4m_og_group_node_metric',
       'arguments' => array(array('photo')),
-      'weight'    => 2,
+      'weight' => 2,
     ),
   );
 }
@@ -49,7 +107,7 @@ function c4m_content_photo_c4m_helper_entity_label_info() {
       'article' => t('a'),
       'singular' => t('photo'),
       'plural' => t('photos'),
-      'insert action' => t('uploaded a new photo'),
+      'insert action' => t('added new Photo'),
       'update action' => t('updated the photo'),
       'icon' => 'fa-file-picture-o',
     ),

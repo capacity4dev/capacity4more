@@ -190,8 +190,8 @@ function c4m_content_event_c4m_helper_entity_label_info() {
       'article' => t('an'),
       'singular' => t('event'),
       'plural' => t('events'),
-      'insert action' => t('created a new event'),
-      'update action' => t('updated the event'),
+      'insert action' => t('added a new Event'),
+      'update action' => t('updated the Event'),
       'icon' => 'fa-calendar',
     ),
     'event-event' => array(
