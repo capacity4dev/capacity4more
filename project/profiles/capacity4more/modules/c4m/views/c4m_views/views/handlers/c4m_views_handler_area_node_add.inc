@@ -71,8 +71,14 @@ class c4m_views_handler_area_node_add extends views_handler_area {
   public function render($empty = FALSE) {
     $node_type = filter_xss_admin($this->options['node_type']);
     $link_text = filter_xss_admin($this->options['link_text']);
+    $icon = filter_xss_admin($this->options['icon']);
+
     if (!$node_type || !$link_text) {
       return;
+    }
+
+    if ($icon) {
+      $link_text = '<i class="fa ' . $icon . '" aria-hidden="true"></i>' . $link_text;
     }
 
     // Check if user has access to the node creation form.
