@@ -516,8 +516,8 @@ function c4m_user_og_c4m_leave_group_cta($group) {
     return;
   }
 
-  global $user;
-  if ($user->uid == $group->uid) {
+  // Group owner can't leave the group, needs to transfer ownership first.
+  if (c4m_og_user_is_owner('node', $group->nid)) {
     return;
   }
 
@@ -527,6 +527,7 @@ function c4m_user_og_c4m_leave_group_cta($group) {
     '#button_icon' => 'fa-arrow-right',
     '#url' =>  url('group/node/' . $group->nid . '/unsubscribe', array('absolute' => TRUE)),
   );
+}
 
 /**
  * Implements hook_menu().
