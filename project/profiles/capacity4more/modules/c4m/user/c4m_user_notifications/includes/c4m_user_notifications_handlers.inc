@@ -63,9 +63,9 @@ function _c4m_user_notifications_open_group_notify_admin_membership_accepted($me
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($membership->gid);
-  $wrapper->field_new_member->set($membership->etid);
+  $wrapper->field_related_user->set($membership->etid);
   $wrapper->field_group_membership->set($membership->id);
-  message_notify_send_message($wrapper->value());
+  message_subscribe_send_message('og_membership', $membership, $wrapper->value());
 }
 
 /**
