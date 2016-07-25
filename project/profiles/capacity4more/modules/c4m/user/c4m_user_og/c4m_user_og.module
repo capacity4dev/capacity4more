@@ -495,8 +495,7 @@ function c4m_user_og_c4m_vistor_cta($group) {
 }
 
 /**
- * Sets the join group link CTA for logged in users that are not members of the
- * group yet.
+ * Sets the join group link CTA for logged in users that are not members of the group yet.
  */
 function c4m_user_og_c4m_join_cta($group) {
   $access = c4m_og_get_access_type($group);
