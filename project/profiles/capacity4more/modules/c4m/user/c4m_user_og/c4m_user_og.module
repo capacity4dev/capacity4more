@@ -508,6 +508,9 @@ function c4m_user_og_c4m_leave_group_cta($group) {
 
 /**
  * Implements hook_menu_alter().
+ *
+ * Alters the default unsubscription callback from OG to avoid group owners to
+ * leave the group before transfering the control of it.
  */
 function c4m_user_og_menu_alter(&$menu) {
   $menu['group/%/%/unsubscribe']['page callback'] = 'c4m_user_og_unsubscription_custom_callback';
@@ -517,17 +520,18 @@ function c4m_user_og_menu_alter(&$menu) {
  * Custom page callback to prevent group owners to leave a group.
  */
 function c4m_user_og_unsubscription_custom_callback($group_type, $gid) {
-  $group = entity_load_single($group_type, $gid);
+  $is_node = $group_type != 'node';
+  $user_is_owner = c4m_og_user_is_owner('node', $gid);
 
-  if (c4m_og_user_is_owner('node', $group->nid)) {
-    $message = t('You can\'t leave the group if you are the owner. ');
-    $link = l(t('Transfer the ownership first.'), 'group/node/' . $group->nid . '/admin/owner');
-    drupal_set_message($message . $link);
-
-    $url = entity_uri($group_type, $group);
-    drupal_goto($url['path'], $url['options']);
-  }
-  else {
+  if (!$is_node || !$user_is_owner) {
     return og_ui_unsubscribe($group_type, $gid);
   }
+
+  $link = l(t('Transfer the ownership first.'), 'group/node/' . $gid . '/admin/owner');
+  $message = t('You can\'t leave the group if you are the owner. @link', array('@link' => $link));
+  drupal_set_message($message);
+
+  $group = node_load($gid);
+  $url = entity_uri($group_type, $group);
+  drupal_goto($url['path'], $url['options']);
 }
