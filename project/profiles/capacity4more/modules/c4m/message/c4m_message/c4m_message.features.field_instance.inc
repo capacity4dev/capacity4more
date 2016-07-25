@@ -2128,8 +2128,8 @@ function c4m_message_field_default_field_instances() {
   );
 
   // Exported field_instance:
-  // 'message-c4m_log_group_admin_demoted-field_new_member'.
-  $field_instances['message-c4m_log_group_admin_demoted-field_new_member'] = array(
+  // 'message-c4m_log_group_admin_demoted-field_related_user'.
+  $field_instances['message-c4m_log_group_admin_demoted-field_related_user'] = array(
     'bundle' => 'c4m_log_group_admin_demoted',
     'default_value' => NULL,
     'default_value_function' => '',
@@ -2160,7 +2160,7 @@ function c4m_message_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'message',
-    'field_name' => 'field_new_member',
+    'field_name' => 'field_related_user',
     'label' => 'Event User',
     'required' => 0,
     'settings' => array(

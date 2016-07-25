@@ -169,7 +169,7 @@ function _c4m_user_notifications_log_admin_revoked($gid, $uid) {
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($gid);
-  $wrapper->field_new_member->set($user->uid);
+  $wrapper->field_related_user->set($user->uid);
   $wrapper->save();
 }
 
