@@ -671,15 +671,17 @@ function c4m_user_og_mail_alter(&$message) {
     'user' => $user,
   );
 
-  $message['body'] = token_replace(
-    $text,
-    $variables,
-    array(
-      'language' => user_preferred_language($user),
-      'callback' => 'c4m_user_og_mail_tokens',
-      'sanitize' => FALSE,
-      'clear' => TRUE,
-    )
+  $message['body'] = array(
+    token_replace(
+      $text,
+      $variables,
+      array(
+        'language' => user_preferred_language($user),
+        'callback' => 'c4m_user_og_mail_tokens',
+        'sanitize' => FALSE,
+        'clear' => TRUE,
+      )
+    ),
   );
 }
 
