@@ -70,23 +70,23 @@ function c4m_user_notifications_group_status_set_published($node) {
 /**
  * Email notification about organic group status change to 'republished'.
  */
-function c4m_user_notifications_group_status_set_republished($node, $prev_status) {
+function c4m_user_notifications_group_status_set_republished($node, $group_former_status) {
 }
 
 /**
  * Email notification about organic group status change to 'unpublished'.
  */
-function c4m_user_notifications_group_status_set_unpublished($node, $prev_status) {
+function c4m_user_notifications_group_status_set_unpublished($node, $group_former_status) {
 }
 
 /**
  * Email notification to admins about organic group status change to 'archived'.
  */
-function c4m_user_notifications_group_status_set_archived($node, $prev_status) {
+function c4m_user_notifications_group_status_set_archived($node, $group_former_status) {
   $group_admins_ids = _c4m_user_notifications_get_admins_and_owner_ids($node->nid);
 
   foreach ($group_admins_ids as $admin_id) {
-    _c4m_user_notifications_to_admin_group_status_set_archived($node, $admin_id, $prev_status);
+    _c4m_user_notifications_to_admin_group_status_set_archived($node, $admin_id, $group_former_status);
   }
 }
 
@@ -96,10 +96,10 @@ function c4m_user_notifications_group_status_set_archived($node, $prev_status) {
  * Email notification to organic group admin / owner, about status change
  * to 'archived'.
  */
-function _c4m_user_notifications_to_admin_group_status_set_archived($node, $admin_id, $prev_status) {
+function _c4m_user_notifications_to_admin_group_status_set_archived($node, $admin_id, $group_former_status) {
   $message = message_create('c4m_group_archived', array('uid' => $admin_id));
   c4m_message_load_tokens__c4m_group_archived($message);
-  $message->arguments['@group_former_status'] = $prev_status;
+  $message->arguments['@group_former_status'] = $group_former_status;
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);
@@ -110,7 +110,7 @@ function _c4m_user_notifications_to_admin_group_status_set_archived($node, $admi
 /**
  * Email notification about organic group status change to 'softdelete'.
  */
-function c4m_user_notifications_group_status_set_softdeleted($node, $prev_status) {
+function c4m_user_notifications_group_status_set_softdeleted($node, $group_former_status) {
 }
 
 /**
