@@ -28,6 +28,9 @@ class c4m_views_handler_area_node_add extends views_handler_area {
       'default' => 'Add content',
       'translatable' => TRUE,
     );
+    $options['icon'] = array(
+      'default' => NULL,
+    );
 
     return $options;
   }
@@ -52,6 +55,13 @@ class c4m_views_handler_area_node_add extends views_handler_area {
       '#title' => t('Link text'),
       '#description' => t('Set the label for the link.'),
       '#default_value' => $this->options['link_text'],
+    );
+    $form['icon'] = array(
+      '#type' => 'textfield',
+      '#required' => FALSE,
+      '#title' => t('Icon'),
+      '#description' => t('Set the Font Awesome icon class for the link.'),
+      '#default_value' => $this->options['icon'],
     );
   }
 
