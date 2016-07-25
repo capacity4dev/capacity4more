@@ -276,7 +276,7 @@ function c4m_message_format_addressee_full_name(Message $message) {
  */
 function c4m_message_format_new_member_full_name(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $new_member = $wrapper->field_new_member->value();
+  $new_member = $wrapper->field_user_entity->value();
 
   return c4m_user_name($new_member);
 }
@@ -292,7 +292,7 @@ function c4m_message_format_new_member_full_name(Message $message) {
  */
 function c4m_message_format_new_member_organisation(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  return $wrapper->field_new_member->c4m_organisation->value();
+  return $wrapper->field_user_entity->c4m_organisation->value();
 }
 
 /**
@@ -306,7 +306,7 @@ function c4m_message_format_new_member_organisation(Message $message) {
  */
 function c4m_message_format_new_member_organisation_type(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  return $wrapper->field_new_member->c4m_organisation_type->value();
+  return $wrapper->field_user_entity->c4m_organisation_type->value();
 }
 
 /**
@@ -322,7 +322,7 @@ function c4m_message_format_new_member_country(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $field = field_info_field('c4m_country');
   $allowed_values = list_allowed_values($field);
-  return $allowed_values[$wrapper->field_new_member->c4m_country->value()];
+  return $allowed_values[$wrapper->field_user_entity->c4m_country->value()];
 }
 
 /**
@@ -336,7 +336,7 @@ function c4m_message_format_new_member_country(Message $message) {
  */
 function c4m_message_format_new_member_expertise(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $expertises = $wrapper->field_new_member->c4m_vocab_topic_expertise->value();
+  $expertises = $wrapper->field_user_entity->c4m_vocab_topic_expertise->value();
   $expertise_names = array();
 
   foreach ($expertises as $expertise) {
@@ -357,7 +357,7 @@ function c4m_message_format_new_member_expertise(Message $message) {
  */
 function c4m_message_format_new_member_self_description(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  return $wrapper->field_new_member->c4m_body->value()['value'];
+  return $wrapper->field_user_entity->c4m_body->value()['value'];
 }
 
 /**
@@ -388,7 +388,7 @@ function c4m_message_format_group_pending_member_url(Message $message) {
  */
 function c4m_message_format_new_member_public_profile_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $uid = $wrapper->field_new_member->value(array('identifier' => TRUE));
+  $uid = $wrapper->field_user_entity->value(array('identifier' => TRUE));
 
   return url('user/' . $uid);
 }
@@ -513,7 +513,7 @@ function c4m_message_format_group_owner_public_profile_url(Message $message) {
  */
 function c4m_message_format_event_user_id(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  return $wrapper->field_new_member->value(array('identifier' => TRUE));
+  return $wrapper->field_user_entity->value(array('identifier' => TRUE));
 }
 
 /**
@@ -527,7 +527,7 @@ function c4m_message_format_event_user_id(Message $message) {
  */
 function c4m_message_format_event_user_full_name(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  return c4m_user_name($wrapper->field_new_member->value());
+  return c4m_user_name($wrapper->field_user_entity->value());
 }
 
 /**
