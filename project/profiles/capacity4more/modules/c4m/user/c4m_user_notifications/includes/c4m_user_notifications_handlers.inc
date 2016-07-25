@@ -27,8 +27,8 @@ function c4m_user_notifications_notify_user_membership_accepted($membership) {
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($membership->gid);
-  // Message will be saved in message_notify_send_message().
-  message_notify_send_message($wrapper->value());
+  // Message will be saved in message_subscribe_send_message().
+  message_subscribe_send_message($wrapper->value());
 }
 
 /**
