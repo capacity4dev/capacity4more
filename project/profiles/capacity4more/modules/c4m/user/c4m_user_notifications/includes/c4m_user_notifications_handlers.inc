@@ -43,7 +43,7 @@ function _c4m_user_notifications_moderated_group_admin_new_membership_request($m
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($membership->gid);
-  $wrapper->field_new_member->set($membership->etid);
+  $wrapper->field_related_user->set($membership->etid);
   $wrapper->field_group_membership->set($membership->id);
   message_notify_send_message($wrapper->value());
 }
