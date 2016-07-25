@@ -210,6 +210,16 @@ function c4m_message_load_tokens__c4m_log_group_admin_demoted(Message $message) 
     'callback' => 'c4m_message_format_group_gid',
     'pass message' => TRUE,
   );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_id'] = array(
+    'callback' => 'c4m_message_format_event_user_id',
+    'pass message' => TRUE,
+  );
 }
 
 /**
