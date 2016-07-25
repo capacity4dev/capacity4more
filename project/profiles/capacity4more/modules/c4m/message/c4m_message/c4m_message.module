@@ -226,6 +226,21 @@ function c4m_message_format_addressee_uid(Message $message) {
 }
 
 /**
+ * Resolves the of group message refers to.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return int
+ *   Returns group id.
+ */
+function c4m_message_format_group_gid(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  return $wrapper->field_group_node->value(array('identifier' => TRUE));
+}
+
+/**
  * Resolves addressee full name token.
  *
  * @param Message $message
