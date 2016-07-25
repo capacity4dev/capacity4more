@@ -516,8 +516,9 @@ function c4m_user_og_c4m_leave_group_cta($group) {
     return;
   }
 
+  global $user;
   // Group owner can't leave the group, needs to transfer ownership first.
-  if (c4m_og_user_is_owner('node', $group->nid)) {
+  if ($user->uid == $group->uid) {
     return;
   }
 
