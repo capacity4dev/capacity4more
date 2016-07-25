@@ -157,9 +157,9 @@ function c4m_user_notifications_notify_user_admin_revoked($gid, $uid) {
  *
  * Logs action, when group admin is demoted to regular member.
  *
- * @param $gid
+ * @param int $gid
  *   Group id.
- * @param $uid
+ * @param int $uid
  *   User id.
  */
 function _c4m_user_notifications_log_admin_revoked($gid, $uid) {
