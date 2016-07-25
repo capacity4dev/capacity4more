@@ -520,7 +520,7 @@ function c4m_user_og_menu_alter(&$menu) {
  * Custom page callback to prevent group owners to leave a group.
  */
 function c4m_user_og_unsubscription_custom_callback($group_type, $gid) {
-  $is_node = $group_type != 'node';
+  $is_node = $group_type == 'node';
   $user_is_owner = c4m_og_user_is_owner('node', $gid);
 
   if (!$is_node || !$user_is_owner) {
