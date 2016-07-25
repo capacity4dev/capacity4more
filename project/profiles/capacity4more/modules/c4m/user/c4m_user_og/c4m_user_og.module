@@ -475,11 +475,11 @@ function c4m_user_og_c4m_vistor_cta($group) {
 
   $types = array(
     'open' => array(
-      'button_label' => 'Join this group',
+      'button_label' => t('Join this group'),
       'button_icon' => 'fa-user-plus',
     ),
     'moderated' => array(
-      'button_label' => 'Request membership for this group',
+      'button_label' => t('Request membership for this group'),
       'button_icon' => 'fa-unlock-alt',
     ),
   );
@@ -520,6 +520,6 @@ function c4m_user_og_c4m_join_cta($group) {
   );
   return array(
     '#type' => 'markup',
-    '#markup' => l('Join group', '/group/node/' . $group->nid . '/subscribe', $button_attributes),
+    '#markup' => l(t('Join group'), '/group/node/' . $group->nid . '/subscribe', $button_attributes),
   );
 }
