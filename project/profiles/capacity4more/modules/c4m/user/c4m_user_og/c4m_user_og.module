@@ -440,7 +440,7 @@ function c4m_user_og_theme() {
 }
 
 /**
- * Implements hook_c4m_cta_block.
+ * Implements hook_c4m_cta_block().
  */
 function c4m_user_og_c4m_cta_block() {
   if (!$group = c4m_og_current_group()) {
@@ -483,11 +483,11 @@ function c4m_user_og_c4m_vistor_cta($group) {
 
   $types = array(
     'open' => array(
-      'button_label' => 'Join this group',
+      'button_label' => t('Join this group'),
       'button_icon' => 'fa-user-plus',
     ),
     'moderated' => array(
-      'button_label' => 'Request membership for this group',
+      'button_label' => t('Request membership for this group'),
       'button_icon' => 'fa-unlock-alt',
     ),
   );
@@ -503,7 +503,7 @@ function c4m_user_og_c4m_vistor_cta($group) {
 }
 
 /**
- * Sets the CTA join link.
+ * Sets the join group link CTA for logged in users that are not members of the group yet.
  */
 function c4m_user_og_c4m_join_cta($group) {
   $access = c4m_og_get_access_type($group);
