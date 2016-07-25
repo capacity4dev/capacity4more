@@ -462,10 +462,6 @@ function c4m_user_og_theme() {
  * Set the CTA block for visitors.
  */
 function c4m_user_og_c4m_cta_block() {
-  if (!user_is_anonymous()) {
-    return;
-  }
-
   if (!$group = c4m_og_current_group()) {
     return;
   }
