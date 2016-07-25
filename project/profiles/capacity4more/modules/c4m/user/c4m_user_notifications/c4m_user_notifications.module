@@ -182,7 +182,6 @@ function c4m_user_notifications_node_insert($node) {
     return;
   }
 
-  _c4m_user_notifications_process_general_triggers_insert($node);
   _c4m_user_notifications_process_og_alter($node, 'insert');
   _c4m_user_notifications_process_og_content_alter($node, 'insert');
 }
@@ -340,38 +339,6 @@ function c4m_user_notifications_cron() {
 /**
  * Helper function.
  *
- * Triggers email notification when organic group is published.
- */
-function _c4m_user_notifications_process_general_triggers_insert($node) {
-  if (c4m_user_notifications_dummy_content_migration()) {
-    // Return early, if node is not published.
-    return;
-  }
-
-  // If node is not published, no notifications.
-  if ($node->status != NODE_PUBLISHED) {
-    return;
-  }
-
-  if (!og_is_group('node', $node)) {
-    return;
-  }
-
-  $wrapper = entity_metadata_wrapper('node', $node);
-  if (!isset($wrapper->c4m_og_status)) {
-    return;
-  }
-
-  $status = $wrapper->c4m_og_status->value();
-
-  if ($status == 'published') {
-    c4m_user_notifications_group_status_set_published($node);
-  }
-}
-
-/**
- * Helper function.
- *
  * Triggers different email notifications when organic group is updated:
  *   Status - group status changes (published/draft/etc...).
  *   Access - group access changes.
@@ -379,7 +346,7 @@ function _c4m_user_notifications_process_general_triggers_insert($node) {
  */
 function _c4m_user_notifications_process_general_triggers_update($node) {
   if ($node->status != NODE_PUBLISHED) {
-    // Return early, if node is not published.
+    // Return early, if node is not published (Status = Pending).
     return;
   }
 
@@ -396,40 +363,40 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
   $wrapper = entity_metadata_wrapper('node', $node);
   $wrapper_original = entity_metadata_wrapper('node', $node->original);
 
-  if ($node->original->status != NODE_PUBLISHED) {
-    // Node status changes from unpublished to published.
-    c4m_user_notifications_group_status_set_published($node);
+  if (!isset($wrapper->c4m_og_status) || !isset($wrapper_original->c4m_og_status)) {
+    return;
   }
-  else {
-    if (!isset($wrapper->c4m_og_status) || !isset($wrapper_original->c4m_og_status)) {
-      return;
-    }
 
-    $status = $wrapper->c4m_og_status->value();
-    $prev_status = $wrapper_original->c4m_og_status->value();
-    if ($status != $prev_status) {
-      // If group status has changed.
-      switch ($status) {
-        case 'published':
+  $status = $wrapper->c4m_og_status->value();
+  $prev_status = $wrapper_original->c4m_og_status->value();
+  if ($status != $prev_status) {
+    // If group status has changed.
+    switch ($status) {
+      // 'draft' -> 'published' => Published.
+      case 'published':
+        if ($prev_status == 'draft') {
+          c4m_user_notifications_group_status_set_published($node);
+        }
+        elseif ($prev_status == 'archived') {
           c4m_user_notifications_group_status_set_republished($node, $prev_status);
-          break;
+        }
+        break;
 
-        // Published -> Draft => Unpublished.
-        case 'draft':
-          if ($prev_status == 'published') {
-            c4m_user_notifications_group_status_set_unpublished($node, $prev_status);
-          }
-          break;
+      // 'published' -> 'draft' => Unpublished.
+      case 'draft':
+        if ($prev_status == 'published') {
+          c4m_user_notifications_group_status_set_unpublished($node, $prev_status);
+        }
+        break;
 
-        case 'archived':
-          c4m_user_notifications_group_status_set_archived($node, $prev_status);
-          break;
+      case 'archived':
+        c4m_user_notifications_group_status_set_archived($node, $prev_status);
+        break;
 
-        // Soft delete.
-        case 'deleted':
-          c4m_user_notifications_group_status_set_softdeleted($node, $prev_status);
-          break;
-      }
+      // Soft delete.
+      case 'deleted':
+        c4m_user_notifications_group_status_set_softdeleted($node, $prev_status);
+        break;
     }
   }
 
