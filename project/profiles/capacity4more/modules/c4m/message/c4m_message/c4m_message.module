@@ -110,10 +110,19 @@ function _c4m_message_format_group_status_update_set_from_field(&$message) {
 /**
  * Helper function.
  *
- * Formats messages From field, per format "@name at @site"<@mail>.
+ * Modifies messages 'From' field, to match pattern:
+ * "[user_name] at [site_name]"<[email]>.
+ * Example:  "Alan Turing"<alan@turing.com>.
+ *
+ * @param object $message
+ *   Message entity.
+ * @param object $account
+ *   Account to resolve [user_name] and [email] from.
  */
-function _c4m_message_format_from_field_name_at_site(&$message, $account = NULL) {
+function _c4m_message_format_from_field_to_default_pattern(&$message, $account = NULL) {
   if (!isset($account)) {
+    // If $account is not provided, global user is used for [user_name] and
+    // site email address is used for [email].
     global $user;
     $account = $user;
     $mail = variable_get('site_mail');
