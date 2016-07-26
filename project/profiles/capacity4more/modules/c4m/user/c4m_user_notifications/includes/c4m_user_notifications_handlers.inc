@@ -35,6 +35,36 @@ function c4m_user_notifications_notify_user_membership_accepted($membership) {
  * Email notification to group admins about new member at moderated group.
  */
 function c4m_user_notifications_moderated_group_notify_admins_membership_accepted($membership) {
+  $group_admins_ids =  _c4m_user_notifications_get_admins_and_owner_ids($membership->gid);
+
+  foreach ($group_admins_ids as $admin_id) {
+    _c4m_user_notifications_moderated_group_notify_admins_membership_accepted($membership, $admin_id);
+  }
+}
+
+/**
+ * Helper function.
+ *
+ * Sends mail notification to group admins,admin about new member
+ * that was approved.
+ *
+ * @param og_membership $membership
+ *   Membership entity.
+ * @param int $admin_id
+ *   Addressee admin uid.
+ */
+function _c4m_user_notifications_moderated_group_notify_admins_membership_accepted($membership, $admin_id) {
+  if (!($message = message_create('c4m_notify_admins_membership_accepted', array('uid' => $admin_id)))) {
+    // If message was not created properly, return early.
+    return;
+  }
+  c4m_message_load_tokens__c4m_notify_admins_membership_accepted($message);
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group_node->set($membership->gid);
+  $wrapper->field_related_user->set($membership->etid);
+  // Message will be saved in message_notify_send_message().
+  message_notify_send_message($wrapper->value());
 }
 
 /**
