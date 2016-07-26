@@ -240,6 +240,11 @@ function c4m_message_load_tokens__c4m_group_admin_demoted(Message $message) {
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
   );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
 }
 
 /**
