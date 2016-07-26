@@ -223,6 +223,33 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');
+  $items['c4m_notify_admins_membership_approved'] = entity_import('message_type', '{
+    "name" : "c4m_notify_admins_membership_approved",
+    "description" : "c4m Notify Admins Membership Approved",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003E@group_node_title:\\u0026nbsp;a new member was accepted\\u003C\\/p\\u003E\\r\\n",
+          "format" : "default_html",
+          "safe_value" : "\\u003Cp\\u003E@group_node_title:\\u00a0a new member was accepted\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\r\\n  \\u003Ca href=\\u0022[current-user:url]\\u0022\\u003E[current-user:c4m_first_name] [current-user:c4m_last_name]\\u003C\\/a\\u003E just approved the following user\\u0027s membership request to join our @group_node_type \\u003Cstrong\\u003E\\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E at [site:name]:\\r\\n\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cstrong\\u003E@related_user_full_name\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E@related_user, (@related_user_organisation_type)\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EBased in @related_user_country\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\r\\n \\u003Cspan style=\\u0022text-decoration: underline;\\u0022\\u003EExpertise\\u003C\\/span\\u003E: @related_user_expertise\\r\\n\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EView this member\\u0027s \\u003Ca href=\\u0022!related_user_public_profile_url\\u0022 rel=\\u0022nofollow\\u0022\\u003Eprofile\\u003C\\/a\\u003E at [site:name].\\u003C\\/p\\u003E\\r\\n",
+          "format" : "default_html",
+          "safe_value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\n  \\u003Ca href=\\u0022url]\\u0022 rel=\\u0022nofollow\\u0022\\u003E[current-user:c4m_first_name] [current-user:c4m_last_name]\\u003C\\/a\\u003E just approved the following user\\u0027s membership request to join our @group_node_type \\u003Cstrong\\u003E\\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E at [site:name]:\\n\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Cstrong\\u003E@related_user_full_name\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E@related_user, (@related_user_organisation_type)\\u003C\\/p\\u003E\\n\\u003Cp\\u003EBased in @related_user_country\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\n \\u003Cspan style=\\u0022text-decoration:underline\\u0022\\u003EExpertise\\u003C\\/span\\u003E: @related_user_expertise\\n\\u003C\\/p\\u003E\\n\\u003Cp\\u003EView this member\\u0027s \\u003Ca href=\\u0022!related_user_public_profile_url\\u0022 rel=\\u0022nofollow\\u0022\\u003Eprofile\\u003C\\/a\\u003E at [site:name].\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['c4m_welcome_to_group'] = entity_import('message_type', '{
     "name" : "c4m_welcome_to_group",
     "description" : "c4m Welcome to Group",
