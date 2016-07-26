@@ -318,7 +318,7 @@ function c4m_user_profile_form_user_register_form_alter(
   // Hide status fields - SA-created user is always active.
   $form['account']['status']['#access'] = FALSE;
   // Alter 'notify user' checkbox title.
-  $form['account']['notify']['#title'] = 'Send password reset link';
+  $form['account']['notify']['#title'] = t('Send password reset link');
 }
 
 /**
