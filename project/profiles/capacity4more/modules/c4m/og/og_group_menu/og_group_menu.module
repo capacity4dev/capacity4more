@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OG group menu feature.
+ */
+
+include_once 'og_group_menu.features.inc';
