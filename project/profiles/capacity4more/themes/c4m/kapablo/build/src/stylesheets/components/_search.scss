@@ -278,50 +278,53 @@
   text-align: center;
 }
 
-.facetapi-link--article::before {
-  content: "\f1ea";
 
-  @extend .facetapi-link;
-}
+ul:not(.facetapi-facet-c4m-vocab-topic) {
+  .facetapi-link--article::before {
+    content: "\f1ea";
 
-.facetapi-link--group::before {
-  content: "\f0c0";
-  @extend .facetapi-link;
-}
+    @extend .facetapi-link;
+  }
 
-.facetapi-link--project::before {
-  content: "\f11e";
-  @extend .facetapi-link;
-}
+  .facetapi-link--group::before {
+    content: "\f0c0";
+    @extend .facetapi-link;
+  }
 
-.facetapi-link--discussion::before {
-  content: "\f040";
-  @extend .facetapi-link;
-}
+  .facetapi-link--project::before {
+    content: "\f11e";
+    @extend .facetapi-link;
+  }
 
-.facetapi-link--document::before {
-  content: "\f02d";
-  @extend .facetapi-link;
-}
+  .facetapi-link--discussion::before {
+    content: "\f040";
+    @extend .facetapi-link;
+  }
 
-.facetapi-link--event::before {
-  content: "\f073";
-  @extend .facetapi-link;
-}
+  .facetapi-link--document::before {
+    content: "\f02d";
+    @extend .facetapi-link;
+  }
 
-.facetapi-link--wiki-page::before {
-  content: "\f266";
-  @extend .facetapi-link;
-}
+  .facetapi-link--event::before {
+    content: "\f073";
+    @extend .facetapi-link;
+  }
 
-.facetapi-link--learning::before {
-  content: "\f19c";
-  @extend .facetapi-link;
-}
+  .facetapi-link--wiki-page::before {
+    content: "\f266";
+    @extend .facetapi-link;
+  }
 
-.facetapi-link--meeting::before {
-  content: "\f0c0";
-  @extend .facetapi-link;
+  .facetapi-link--learning::before {
+    content: "\f19c";
+    @extend .facetapi-link;
+  }
+
+  .facetapi-link--meeting::before {
+    content: "\f0c0";
+    @extend .facetapi-link;
+  }
 }
 
 .block-c4m-search-nodes {
