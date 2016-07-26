@@ -315,10 +315,13 @@ function c4m_user_profile_form_user_register_form_alter(
   );
   $form['#submit'][] = 'c4m_user_profile_form_user_register_form_submit';
 
-  // Hide status fields - SA-created user is always active.
-  $form['account']['status']['#access'] = FALSE;
-  // Alter 'notify user' checkbox title.
-  $form['account']['notify']['#title'] = t('Send password reset link');
+  // If user is administrator.
+  if (form['administer_users']['#value']) {
+    // Hide status fields - SA-created user is always active.
+    $form['account']['status']['#access'] = FALSE;
+    // Alter 'notify user' checkbox title.
+    $form['account']['notify']['#title'] = t('Send password reset link');
+  }
 }
 
 /**
