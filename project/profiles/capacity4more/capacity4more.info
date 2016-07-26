@@ -53,6 +53,7 @@ dependencies[] = module_filter
 dependencies[] = og
 dependencies[] = og_access
 dependencies[] = og_context
+dependencies[] = og_context_access_callback
 dependencies[] = og_ui
 dependencies[] = og_purl
 dependencies[] = og_vocab
