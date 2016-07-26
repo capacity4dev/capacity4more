@@ -52,6 +52,8 @@ function c4m_message_mail_alter(&$message) {
   _c4m_message_format_welcome_to_group_from_field($message, $message_entity);
 }
 
+
+
 /**
  * Formats 'c4m_welcome_to_group' message From field, per template requirement.
  */
@@ -75,6 +77,19 @@ function _c4m_message_format_welcome_to_group_from_field(&$message, $message_ent
   );
 }
 
+
+/**
+ * Formats 'c4m_group_admin_demoted' message From field, as defined at template.
+ */
+function _c4m_message_format_admin_demoted_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_group_admin_demoted') {
+    // For message type other than c4m_welcome_to_group - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_name_at_site($message);
+}
+
 /**
  * Helper function.
  *
@@ -89,6 +104,31 @@ function _c4m_message_format_group_status_update_set_from_field(&$message) {
       '@name' => c4m_user_name($user),
       '@site' => variable_get('site_name'),
       '@mail' => variable_get('site_mail'),
+    )
+  );
+}
+
+/**
+ * Helper function.
+ *
+ * Formats messages From field, per format "@name at @site"<@mail>.
+ */
+function _c4m_message_format_from_field_name_at_site(&$message, $account=NULL) {
+  if (!isset($account)) {
+    global $user;
+    $account = $user;
+    $mail = variable_get('site_mail');
+  }
+  else {
+    $mail = $account->mail;
+  }
+
+  $message['from'] = format_string(
+    '"@name at @site"<@mail>',
+    array(
+      '@name' => c4m_user_name($account),
+      '@site' => variable_get('site_name'),
+      '@mail' => $mail,
     )
   );
 }
@@ -175,6 +215,29 @@ function c4m_message_load_tokens__c4m_welcome_to_group(Message $message) {
 
   $message->arguments['@go_full_name'] = array(
     'callback' => 'c4m_message_format_group_owner_full_name',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_log_group_admin_demoted message arguments.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_group_admin_demoted(Message $message) {
+  $message->arguments['@member_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
   );
 }
