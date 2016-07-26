@@ -355,7 +355,7 @@ function theme_c4m_user_contact_link(array $field) {
 }
 
 /**
- * Callback for c4m_user_block_contact DS field.
+ * Callback for c4m_user_group_member_contact DS field.
  *
  * @param array $field
  *   The field info.
@@ -365,7 +365,7 @@ function theme_c4m_user_contact_link(array $field) {
  *
  * @see _contact_personal_tab_access()
  */
-function theme_c4m_user_block_contact(array $field) {
+function theme_c4m_user_group_member_contact(array $field) {
   global $user;
 
   $account = $field['entity'];
