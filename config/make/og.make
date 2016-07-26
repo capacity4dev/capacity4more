@@ -32,3 +32,6 @@ projects[session_api][version] = "1.0-rc1"
 
 projects[og_context_access_callback][subdir] = "contrib"
 projects[og_context_access_callback][version] = "1.x-dev"
+
+projects[og_menu][subdir] = "contrib"
+projects[og_menu][version] = "3.1"
