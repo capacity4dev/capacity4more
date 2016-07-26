@@ -149,7 +149,7 @@ function c4m_user_notifications_notify_admins_admin_granted($gid, $uid) {
  * Email notification to user about user him being revoked admin status.
  */
 function c4m_user_notifications_notify_user_admin_revoked($gid, $uid) {
-  _c4m_user_notifications_log_admin_revoked($gid, $uid);
+  _c4m_user_notify_user_admin_revoked($gid, $uid);
 }
 
 /**
