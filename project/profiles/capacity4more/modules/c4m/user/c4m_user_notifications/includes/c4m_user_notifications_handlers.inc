@@ -155,7 +155,7 @@ function c4m_user_notifications_notify_user_admin_revoked($gid, $uid) {
 /**
  * Helper function.
  *
- * Logs action, when group admin is demoted to regular member.
+ * Sends mail notification, when group admin is demoted to regular member.
  *
  * @param int $gid
  *   Group id.
@@ -168,7 +168,6 @@ function _c4m_user_notify_user_admin_revoked($gid, $uid) {
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($gid);
-  $wrapper->save();
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
