@@ -23,7 +23,14 @@
   <div class="navigator--center">
     <?php if ($gallery_link): ?>
       <div class="back-link">
-        <?php print $back_to_galley_link; ?>
+        <?php
+          global $base_path;
+          $options = array(
+            'absolute' => TRUE,
+          );
+          print l("Back to photo album", str_replace($base_path, '', $gallery_link), $options);
+        ?>
+<!--        --><?php //print $back_to_galley_link; ?>
       </div>
     <?php endif; ?>
     <?php if ($navigator['total'] > 0): ?>
