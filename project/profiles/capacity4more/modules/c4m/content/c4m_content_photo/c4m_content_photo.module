@@ -129,8 +129,8 @@ function c4m_content_photo_preprocess(&$variables, $hook) {
     'absolute' => TRUE,
   );
 
-  // 'gallery_link' contain the full path to the gallery (back button).
-  // This create duplication of the base path in the link when creating
+  // The 'gallery_link' contain the full path to the gallery (back button),
+  // which creates a duplication of the base path in the link when creating
   // it in the next line, so we strip the base path from the 'gallery_link'.
   $variables['gallery_link'] = str_replace($base_path, '', $variables['gallery_link']);
 
