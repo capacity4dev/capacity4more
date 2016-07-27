@@ -535,7 +535,7 @@ function c4m_user_og_form_user_register_form_alter(&$form, &$form_state, $form_i
   $wrapper = entity_metadata_wrapper('node', $gid);
   $variables = array(
     'group_title' => $wrapper->label(),
-    'login_link' => l('Log in.', 'user/login'),
+    'login_link' => l(t('Log in'), 'user/login'),
   );
   drupal_set_title(theme('c4m_unified_workflow_register', $variables), PASS_THROUGH);
 
@@ -573,9 +573,9 @@ function c4m_user_og_unified_workflow_register_submit($form, &$form_state) {
   drupal_get_messages('status');
   $message = t(
     'Hey @name, thank you for submitting your details. Please activate your account by clicking the link sent to your e-mail to join the @group_title group.', array(
-    '@name' => c4m_user_name($form_state['user']),
-    '@group_title' => $group->title,
-  ));
+      '@name' => c4m_user_name($form_state['user']),
+      '@group_title' => $group->title,
+    ));
 
   drupal_set_message($message);
   $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
@@ -622,7 +622,7 @@ function c4m_user_og_unified_workflow_login_submit($form, &$form_state) {
  * Implements hook_mail_alter().
  */
 function c4m_user_og_mail_alter(&$message) {
-   if ($message['id'] != 'user_registrationpassword_register') {
+  if ($message['id'] != 'user_registrationpassword_register') {
     return;
   }
 
@@ -663,9 +663,9 @@ function c4m_user_og_mail_alter(&$message) {
 /**
  * Store a group ID + user ID in the database.
  *
- * @param $uid
+ * @param int $uid
  *   The user ID.
- * @param $gid
+ * @param int $gid
  *   The group ID.
  */
 function c4m_user_og_store_unified_workflow($uid, $gid) {
@@ -686,8 +686,8 @@ function c4m_user_og_store_unified_workflow($uid, $gid) {
 /**
  * Token callback to add unsafe tokens for user mails.
  *
- * @see c4m_content_group_mail_tokens().
- * @see user_registrationpassword_mail_tokens().
+ * @see c4m_content_group_mail_tokens()
+ * @see user_registrationpassword_mail_tokens()
  */
 function c4m_user_og_mail_tokens(array &$replacements, array $data, $options) {
   c4m_content_group_mail_tokens($replacements, $data, $options);
