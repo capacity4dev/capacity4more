@@ -77,11 +77,12 @@ function _c4m_message_format_welcome_to_group_from_field(&$message, $message_ent
 }
 
 /**
- * Formats 'c4m_notify_content_recommendation' message From field, as defined at template.
+ * Formats 'c4m_notify_content_recommendation' message From field, per template.
  */
 function _c4m_message_format_notify_content_recommendation_from_field(&$message, $message_entity) {
   if ($message_entity->type != 'c4m_notify_content_recommendation') {
-    // For message type other than c4m_notify_content_recommendation - return early.
+    // For message type other than c4m_notify_content_recommendation,
+    // return early.
     return;
   }
 
@@ -797,9 +798,6 @@ function c4m_message_format_date_for_message(Message $message) {
 
   return '<span data-toggle="tooltip" data-placement="bottom" title="' . $abs_date . '">' . $rel_date . '</span>';
 }
-
-
-
 
 /**
  * Get group info for activity stream.

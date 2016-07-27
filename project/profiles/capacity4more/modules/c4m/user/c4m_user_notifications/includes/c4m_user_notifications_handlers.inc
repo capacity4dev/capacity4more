@@ -193,7 +193,7 @@ function _c4m_user_notifications_content_recommended($nid) {
 
   $node = node_load($nid);
   $flagging_uids = _c4m_user_notifications_get_flagging_uids($node, 'subscribe_c4m_follow_node');
-  $subscribe_options = array (
+  $subscribe_options = array(
     'uids' => $flagging_uids,
   );
   // Message will be saved in message_subscribe_send_message().
