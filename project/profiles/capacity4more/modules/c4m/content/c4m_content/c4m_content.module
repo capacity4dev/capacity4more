@@ -38,8 +38,10 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     );
   }
 
-  // Removes 'draft' form action (e.g. Unpublish button)
-  unset($form['actions']['draft']);
+  // Removes Unpublish button from forms
+  if ($form['actions']['draft']['#value'] == 'Unpublish') {
+    unset($form['actions']['draft']);
+  }
 }
 
 /**
