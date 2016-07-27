@@ -43,6 +43,19 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * Implements hook_module_implements_alter().
+ *
+ * Since form_alter hook is being called after this (c4m_content) module, we need to change the call order.
+ */
+function c4m_content_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter' && isset($implementations['c4m_content'])) {
+    $c4m_content = $implementations['c4m_content'];
+    unset($implementations['c4m_content']);
+    $implementations['c4m_content'] = $c4m_content;
+  }
+}
+
+/**
  * Cancel button callback when a destination parameter was set.
  */
 function c4m_content_cancel_button_callback($form, &$form_state) {
