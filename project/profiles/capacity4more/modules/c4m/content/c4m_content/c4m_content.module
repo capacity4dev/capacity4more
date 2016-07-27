@@ -37,6 +37,9 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
       '#weight' => 14,
     );
   }
+
+  // Removes 'draft' form action (e.g. Unpublish button)
+  unset($form['actions']['draft']);
 }
 
 /**
