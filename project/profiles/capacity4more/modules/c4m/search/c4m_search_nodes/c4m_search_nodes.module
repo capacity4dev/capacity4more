@@ -70,3 +70,53 @@ function c4m_search_nodes_block_view($delta = '') {
   }
   return $callback();
 }
+
+/**
+ * Implements hook_exit().
+ *
+ * Reindex the viewed node if statistics are enabled. The same hook is used by
+ * statistics module.
+ *
+ * @see statistics_exit()
+ * @see search_api_entity_update()
+ */
+function c4m_search_nodes_exit($destination = NULL) {
+  // Return if statistics is not enabled or AJAX is used for counting.
+  if (!variable_get('statistics_count_content_views', 0) || variable_get('statistics_count_content_views_ajax', 0)) {
+    return;
+  }
+
+  // Return if we are not on the view node page - node/nn.
+  if (arg(0) != 'node' || !is_numeric(arg(1)) || !empty(arg(2))) {
+    return;
+  }
+
+  // Same logic as in search_api_entity_update().
+  $node = node_load(arg(1));
+  search_api_entity_update($node, 'node');
+}
+
+/**
+ * Implements hook_flag_flag().
+ *
+ * Reindex the node flagged.
+ *
+ * @see search_api_entity_update()
+ */
+function c4m_search_nodes_flag_flag($flag, $entity_id, $account, $flagging) {
+  if ($flag->entity_type != 'node') {
+    return;
+  }
+  // Same logic as in search_api_entity_update().
+  $node = node_load($entity_id);
+  search_api_entity_update($node, 'node');
+}
+
+/**
+ * Implements hook_flag_unflag().
+ */
+function c4m_search_nodes_flag_unflag($flag, $entity_id, $account, $flagging) {
+  // We can call the hook_flag_flag implementation as they have the same
+  // signature and both should just reindex the node.
+  c4m_search_nodes_flag_flag($flag, $entity_id, $account, $flagging);
+}

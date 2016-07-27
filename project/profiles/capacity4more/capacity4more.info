@@ -77,6 +77,8 @@ dependencies[] = views_content
 dependencies[] = views_bulk_operations
 dependencies[] = views_data_export
 dependencies[] = wysiwyg_filter
+dependencies[] = views_contextual_filters_or
+
 
 dependencies[] = services
 dependencies[] = user_revision
@@ -87,6 +89,7 @@ dependencies[] = user_revision
 dependencies[] = c4m_admin
 dependencies[] = c4m_admin_groups
 dependencies[] = c4m_admin_organisations
+dependencies[] = c4m_admin_projects
 
 ; Helpers
 dependencies[] = c4m_helper_comment

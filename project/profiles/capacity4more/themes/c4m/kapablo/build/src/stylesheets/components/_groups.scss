@@ -825,3 +825,18 @@
 .group-node-organiser > div {
   margin-top: 10px;
 }
+
+.c4m-group-visitor-cta {
+  text-align: center;
+  margin: 10px 0;
+  padding: 10px 0;
+  border-bottom: 1px dashed $color-gray-darkThree;
+
+  a.btn {
+    width: 100%;
+    color: $color-white;
+    background-color: $color-text-alternative;
+    margin: 10px 0;
+    white-space: normal;
+  }
+}
