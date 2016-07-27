@@ -70,3 +70,16 @@ function c4m_contact_category_edit_form_submit($form, &$form_state) {
   $contact_settings['intro'] = $intro;
   variable_set('c4m_site_contact', $contact_settings);
 }
+
+/**
+ * Implements hook_field_extra_fields().
+ */
+function c4m_contact_field_extra_fields() {
+  $extra_fields['node']['group']['display']['highlighted'] = array(
+    'label' => t('Highlighted'),
+    'description' => t('Highlighted'),
+    'weight' => 0,
+    );
+
+  return $extra_fields;
+}
