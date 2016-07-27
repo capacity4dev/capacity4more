@@ -323,9 +323,8 @@ function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging
     return;
   }
 
-  $context = og_context();
-  if (!$context && $context->type != 'group') {
-    // If not at OG group context, return early.
+  if (!og_context()) {
+    // If not at OG context, return early.
     return;
   }
 
@@ -334,7 +333,7 @@ function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging
     return;
   }
 
-  c4m_user_notifications_group_content_recommended($flag, $entity_id, $account, $flagging);
+  c4m_user_notifications_content_recommended($flag, $entity_id, $account, $flagging);
 }
 
 /**

@@ -170,9 +170,9 @@ function c4m_user_notifications_existing_node_updated($node) {
 }
 
 /**
- * Email notification to users 'subscribed' to content of new recommendation.
+ * Email notification to users 'subscribed' to content about new recommendation.
  */
-function c4m_user_notifications_group_content_recommended($flag, $entity_id, $account, $flagging) {
+function c4m_user_notifications_content_recommended($flag, $entity_id, $account, $flagging) {
 }
 
 /**
