@@ -89,6 +89,7 @@ dependencies[] = user_revision
 dependencies[] = c4m_admin
 dependencies[] = c4m_admin_groups
 dependencies[] = c4m_admin_organisations
+dependencies[] = c4m_admin_projects
 
 ; Helpers
 dependencies[] = c4m_helper_comment
@@ -106,7 +107,9 @@ dependencies[] = c4m_vocab_theme
 dependencies[] = c4m_user
 dependencies[] = c4m_user_admin
 dependencies[] = c4m_user_bar
+dependencies[] = c4m_user_og
 dependencies[] = c4m_user_profile
+dependencies[] = c4m_user_notifications
 
 dependencies[] = c4m_comment
 dependencies[] = c4m_comment_delete
@@ -204,6 +207,7 @@ dependencies[] = c4m_features_footer
 
 ; Theming
 dependencies[] = c4m_features_theme
+dependencies[] = c4m_features_responsive
 
 ; Content Authoring
 ;dependencies[] = c4m_wysiwyg_ckeditor

@@ -1,14 +1,42 @@
 <?php
+
 /**
  * @file
  * Extra functionality for comments.
  */
 
 /**
+ * Implements hook_module_implements_alter().
+ *
+ * In order to be able to alter the node form after the "Comment" module,
+ * we have to make sure that the hook "form_alter" of the "c4m_comment" module
+ * called last.
+ * Note that we use "form_alter" hook here even though we actually implement
+ * "form_BASE_FORM_ID_alter", but this is correct :-)
+ *
+ * @see hook_module_implements_alter()
+ */
+function c4m_comment_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter' && isset($implementations['c4m_comment'])) {
+    $group = $implementations['c4m_comment'];
+    unset($implementations['c4m_comment']);
+    $implementations['c4m_comment'] = $group;
+  }
+}
+
+/**
  * Implements hook_form_BASE_FORM_ID_alter().
  */
 function c4m_comment_form_node_form_alter(&$form, $form_state) {
   $node = $form['#node'];
+
+  // Remove the comment settings if the default is set to be closed.
+  // --> Project specific approach!
+  $comment_default_mode = variable_get('comment_' . check_plain($node->type), NULL);
+  if ($comment_default_mode == COMMENT_NODE_CLOSED) {
+    $form['comment_settings']['#access'] = FALSE;
+    return;
+  }
 
   // We only allow general access to the comment settings for OG content.
   if (!og_is_group_content_type('node', $node->type)) {
@@ -71,7 +99,30 @@ function c4m_comment_c4m_helper_entity_metrics_info() {
       'callback'  => 'c4m_og_group_comment_metric',
       'weight'    => 0,
     ),
+    'c4m_user_comments' => array(
+      'type' => 'comments',
+      'context'   => 'user',
+      'callback'  => 'c4m_comment_get_comments_by_user',
+    ),
   );
+}
+
+/**
+ * Returns the number of comments for a particular user.
+ *
+ * @param int $uid
+ *   User ID.
+ *
+ * @return int
+ *   Number of comments.
+ */
+function c4m_comment_get_comments_by_user($uid) {
+  $arguments = array(
+    'entity_type' => 'comment',
+    'uid' => $uid,
+  );
+
+  return c4m_helper_entity_get_number_of_entities($arguments);
 }
 
 /**

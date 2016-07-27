@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Group content type feature.
@@ -765,6 +766,17 @@ function c4m_content_group_c4m_helper_entity_metrics_info() {
       'callback' => 'c4m_content_group_get_latest_activity',
       'weight'   => 0,
     ),
+    'c4m_user_groups' => array(
+      'type' => 'groups',
+      'context'  => 'user',
+      'callback'  => 'c4m_user_get_node_metric',
+      'arguments' => array(array('group')),
+    ),
+    'c4m_user_groups_administered' => array(
+      'type' => 'groups_administered',
+      'context'  => 'user',
+      'callback' => 'c4m_user_get_administered_groups_count',
+    ),
   );
 }
 
@@ -789,6 +801,19 @@ function c4m_content_group_ds_fields_info($entity_type) {
 }
 
 /**
+ * Returns the administered groups count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_user_get_administered_groups_count($uid) {
+  return c4m_og_get_user_administered_groups_count($uid, 'group');
+}
+
+/**
  * Implements hook_c4m_helper_entity_label_info().
  */
 function c4m_content_group_c4m_helper_entity_label_info() {
@@ -802,4 +827,104 @@ function c4m_content_group_c4m_helper_entity_label_info() {
       'icon' => 'fa-users',
     ),
   );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_content_group_theme() {
+  $theme['c4m_content_group_header_title'] = array(
+    'variables' => array(
+      'title' => '',
+      'group_type' => '',
+      'group_access' => '',
+      'group_status' => '',
+      'organisations' => array(),
+      'organisation_icons' => array(),
+      'organisation_ellipsis' => FALSE,
+      'emails' => array(),
+    ),
+    'path' => drupal_get_path('module', 'c4m_content_group') . '/theme',
+    'template' => 'c4m-content-group-header-title',
+  );
+
+  $theme['c4m_og_vocab'] = array(
+    'template' => 'c4m_og_vocab',
+    'path' => drupal_get_path('module', 'c4m_content_group') . '/templates',
+    'variables' => array(),
+  );
+
+  return $theme;
+}
+
+/**
+ * Implements hook_TYPE_alter().
+ *
+ * Using hook_c4m_offcanvas_trigger_label_left_alter().
+ */
+function c4m_content_group_c4m_offcanvas_trigger_label_left_alter(&$trigger_label) {
+  if (arg(0) == 'groups' && empty(arg(1))) {
+    $trigger_label['label'] = t('Filter results');
+    $trigger_label['icon'] = 'filter';
+  }
+}
+
+/**
+ * Implements hook_field_extra_fields().
+ *
+ * Add the 'Group Admins' field in the group dashboard management.
+ */
+function c4m_content_group_field_extra_fields() {
+  $extra_fields['node']['group']['display']['group_admins'] = array(
+    'label' => t('Group Admins'),
+    'description' => t('Group Admins'),
+    'weight' => 0,
+  );
+
+  return $extra_fields;
+}
+
+/**
+ * Implements hook_node_view_alter().
+ *
+ * Adding the 'Group administrators' view for the group_admins field.
+ */
+function c4m_content_group_node_view($node, $view_mode, $langcode) {
+  if ($view_mode != "group_dashboard") {
+    return;
+  }
+
+  $accounts = c4m_og_get_group_admins($node->nid);
+
+  $links = array();
+  foreach ($accounts as $account) {
+    $uri = entity_uri('user', $account);
+    $links[] = l(c4m_user_name($account), $uri['path']);
+  }
+
+  $node->content['group_admins'] = array(
+    '#type' => 'item',
+    '#title' => t('Group administrators'),
+    '#title_display' => 'above',
+    '#markup' => implode(",", $links),
+  );
+
+  // Style the Topics vocab.
+  foreach ($node->content['c4m_vocab_topic']['#items'] as $index => $item) {
+    $topic = $item['taxonomy_term'];
+
+    // Create the topics tree.
+    $topic_names = array();
+    $tree = hierarchical_taxonomy_get_tree($topic->vid, $topic->tid);
+    foreach ($tree as $term) {
+      $topic_names[] = l($term->name, "/taxonomy/term/" . $term->tid);
+    }
+
+    $variables = array(
+      'root' => $topic,
+      'tree' => implode(', ', $topic_names),
+    );
+
+    $node->content['c4m_vocab_topic'][$index]['#markup'] = theme('c4m_og_vocab', $variables);
+  }
 }

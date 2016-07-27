@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Base class to create OG Vocabularies.

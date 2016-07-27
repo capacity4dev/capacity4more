@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Quick Post feature.
@@ -238,6 +239,11 @@ function c4m_restful_quick_post_form($group_id) {
       'quick_post' => 0,
     ),
   );
+
+  // Do not diaplay 'Add Wiki page' if the user isn't permitted.
+  if (!og_user_access('node', $group_id, 'create wiki_page content')) {
+    unset($resources['wiki-page']);
+  }
 
   // Don't load the quick post form or it's components for anonymous user
   // or user without permissions to post in current group.

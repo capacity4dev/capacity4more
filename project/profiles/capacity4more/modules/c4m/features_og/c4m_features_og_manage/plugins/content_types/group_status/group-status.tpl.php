@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Group status template for the group status.

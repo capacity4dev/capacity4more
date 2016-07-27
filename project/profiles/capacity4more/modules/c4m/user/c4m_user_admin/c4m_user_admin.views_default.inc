@@ -542,6 +542,191 @@ Last access : [access]';
   $handler->display->display_options['hide_admin_links'] = TRUE;
   $handler->display->display_options['defaults']['access'] = FALSE;
   $handler->display->display_options['path'] = 'admin/people';
+
+  /* Display: Data export */
+  $handler = $view->new_display('views_data_export', 'Data export', 'views_data_export');
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
+  $handler->display->display_options['style_options']['provide_file'] = 1;
+  $handler->display->display_options['style_options']['filename'] = 'users.csv';
+  $handler->display->display_options['style_options']['permanent_file'] = 1;
+  $handler->display->display_options['style_options']['file_path'] = 'private://export/users.csv';
+  $handler->display->display_options['style_options']['parent_sort'] = 0;
+  $handler->display->display_options['style_options']['quote'] = 1;
+  $handler->display->display_options['style_options']['trim'] = 0;
+  $handler->display->display_options['style_options']['replace_newlines'] = 0;
+  $handler->display->display_options['style_options']['newline_token'] = '1';
+  $handler->display->display_options['style_options']['header'] = 1;
+  $handler->display->display_options['style_options']['keep_html'] = 0;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: User: Uid */
+  $handler->display->display_options['fields']['uid']['id'] = 'uid';
+  $handler->display->display_options['fields']['uid']['table'] = 'users';
+  $handler->display->display_options['fields']['uid']['field'] = 'uid';
+  $handler->display->display_options['fields']['uid']['label'] = 'User ID';
+  $handler->display->display_options['fields']['uid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['uid']['link_to_user'] = FALSE;
+  /* Field: User: E-mail */
+  $handler->display->display_options['fields']['mail']['id'] = 'mail';
+  $handler->display->display_options['fields']['mail']['table'] = 'users';
+  $handler->display->display_options['fields']['mail']['field'] = 'mail';
+  $handler->display->display_options['fields']['mail']['alter']['text'] = '<a href="user/[uid]">[c4m_first_name] [c4m_last_name]</a>
+[mail]';
+  $handler->display->display_options['fields']['mail']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['mail']['link_to_user'] = '0';
+  /* Field: User: First Name */
+  $handler->display->display_options['fields']['c4m_first_name']['id'] = 'c4m_first_name';
+  $handler->display->display_options['fields']['c4m_first_name']['table'] = 'field_data_c4m_first_name';
+  $handler->display->display_options['fields']['c4m_first_name']['field'] = 'c4m_first_name';
+  $handler->display->display_options['fields']['c4m_first_name']['label'] = 'First name';
+  $handler->display->display_options['fields']['c4m_first_name']['element_label_colon'] = FALSE;
+  /* Field: User: Last Name */
+  $handler->display->display_options['fields']['c4m_last_name']['id'] = 'c4m_last_name';
+  $handler->display->display_options['fields']['c4m_last_name']['table'] = 'field_data_c4m_last_name';
+  $handler->display->display_options['fields']['c4m_last_name']['field'] = 'c4m_last_name';
+  $handler->display->display_options['fields']['c4m_last_name']['label'] = 'Last name';
+  $handler->display->display_options['fields']['c4m_last_name']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_last_name']['alter']['text'] = '[c4m_first_name] [c4m_last_name]';
+  $handler->display->display_options['fields']['c4m_last_name']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['c4m_last_name']['alter']['path'] = 'user/[uid]';
+  $handler->display->display_options['fields']['c4m_last_name']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_last_name']['empty'] = '<a href="user/[uid]">[name]</a>';
+  /* Field: User: Name */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'users';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['label'] = 'Username';
+  $handler->display->display_options['fields']['name']['alter']['text'] = '[c4m_first_name] [c4m_last_name]';
+  $handler->display->display_options['fields']['name']['alter']['path'] = 'user/[uid]';
+  $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['name']['link_to_user'] = FALSE;
+  /* Field: User: Is LDAP User */
+  $handler->display->display_options['fields']['c4m_is_ldap_user']['id'] = 'c4m_is_ldap_user';
+  $handler->display->display_options['fields']['c4m_is_ldap_user']['table'] = 'field_data_c4m_is_ldap_user';
+  $handler->display->display_options['fields']['c4m_is_ldap_user']['field'] = 'c4m_is_ldap_user';
+  $handler->display->display_options['fields']['c4m_is_ldap_user']['label'] = 'LDAP Validated';
+  $handler->display->display_options['fields']['c4m_is_ldap_user']['settings'] = array(
+    'thousand_separator' => '',
+    'prefix_suffix' => 1,
+  );
+  /* Field: User: Active */
+  $handler->display->display_options['fields']['status']['id'] = 'status';
+  $handler->display->display_options['fields']['status']['table'] = 'users';
+  $handler->display->display_options['fields']['status']['field'] = 'status';
+  $handler->display->display_options['fields']['status']['label'] = 'Status';
+  $handler->display->display_options['fields']['status']['alter']['text'] = 'Active : [status]<br>
+Is Spammer : [c4m_is_spammer]<br>
+Is Deleted : [c4m_is_deleted]<br>';
+  $handler->display->display_options['fields']['status']['not'] = 0;
+  /* Field: User: Created date */
+  $handler->display->display_options['fields']['created']['id'] = 'created';
+  $handler->display->display_options['fields']['created']['table'] = 'users';
+  $handler->display->display_options['fields']['created']['field'] = 'created';
+  $handler->display->display_options['fields']['created']['label'] = 'Registration date';
+  $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['created']['date_format'] = 'short';
+  $handler->display->display_options['fields']['created']['second_date_format'] = 'c4m_long_without_time';
+  $handler->display->display_options['fields']['created']['reldate'] = '0';
+  /* Field: User: Last login */
+  $handler->display->display_options['fields']['login']['id'] = 'login';
+  $handler->display->display_options['fields']['login']['table'] = 'users';
+  $handler->display->display_options['fields']['login']['field'] = 'login';
+  $handler->display->display_options['fields']['login']['alter']['text'] = 'Registration : [created]<br>
+Last login : [login]<br>
+Last access : [access]';
+  $handler->display->display_options['fields']['login']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['login']['date_format'] = 'short';
+  $handler->display->display_options['fields']['login']['second_date_format'] = 'c4m_long_without_time';
+  $handler->display->display_options['fields']['login']['reldate'] = '0';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_11']['id'] = 'user_metrics_11';
+  $handler->display->display_options['fields']['user_metrics_11']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_11']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_11']['label'] = 'Last activity';
+  $handler->display->display_options['fields']['user_metrics_11']['c4m_user_admin_user_metric'] = 'user::last_activity';
+  /* Field: User: Organisation */
+  $handler->display->display_options['fields']['c4m_organisation']['id'] = 'c4m_organisation';
+  $handler->display->display_options['fields']['c4m_organisation']['table'] = 'field_data_c4m_organisation';
+  $handler->display->display_options['fields']['c4m_organisation']['field'] = 'c4m_organisation';
+  $handler->display->display_options['fields']['c4m_organisation']['label'] = 'Organisation name';
+  /* Field: Field: Organisation type */
+  $handler->display->display_options['fields']['c4m_organisation_type']['id'] = 'c4m_organisation_type';
+  $handler->display->display_options['fields']['c4m_organisation_type']['table'] = 'field_data_c4m_organisation_type';
+  $handler->display->display_options['fields']['c4m_organisation_type']['field'] = 'c4m_organisation_type';
+  /* Field: User: Country */
+  $handler->display->display_options['fields']['c4m_country']['id'] = 'c4m_country';
+  $handler->display->display_options['fields']['c4m_country']['table'] = 'field_data_c4m_country';
+  $handler->display->display_options['fields']['c4m_country']['field'] = 'c4m_country';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics']['id'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics']['label'] = 'Organisations';
+  $handler->display->display_options['fields']['user_metrics']['c4m_user_admin_user_metric'] = 'user::organisations';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_1']['id'] = 'user_metrics_1';
+  $handler->display->display_options['fields']['user_metrics_1']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_1']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_1']['label'] = 'Expertise topics';
+  $handler->display->display_options['fields']['user_metrics_1']['c4m_user_admin_user_metric'] = 'user::expertise_topics';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_2']['id'] = 'user_metrics_2';
+  $handler->display->display_options['fields']['user_metrics_2']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_2']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_2']['label'] = 'Comments';
+  $handler->display->display_options['fields']['user_metrics_2']['c4m_user_admin_user_metric'] = 'user::comments';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_3']['id'] = 'user_metrics_3';
+  $handler->display->display_options['fields']['user_metrics_3']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_3']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_3']['label'] = 'Discussions';
+  $handler->display->display_options['fields']['user_metrics_3']['c4m_user_admin_user_metric'] = 'user::discussions';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_4']['id'] = 'user_metrics_4';
+  $handler->display->display_options['fields']['user_metrics_4']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_4']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_4']['label'] = 'Documents';
+  $handler->display->display_options['fields']['user_metrics_4']['c4m_user_admin_user_metric'] = 'user::documents';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_5']['id'] = 'user_metrics_5';
+  $handler->display->display_options['fields']['user_metrics_5']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_5']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_5']['label'] = 'Events';
+  $handler->display->display_options['fields']['user_metrics_5']['c4m_user_admin_user_metric'] = 'user::events';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_6']['id'] = 'user_metrics_6';
+  $handler->display->display_options['fields']['user_metrics_6']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_6']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_6']['label'] = 'Group memberships';
+  $handler->display->display_options['fields']['user_metrics_6']['c4m_user_admin_user_metric'] = 'user::group_memberships';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_7']['id'] = 'user_metrics_7';
+  $handler->display->display_options['fields']['user_metrics_7']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_7']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_7']['label'] = 'Group pending memberships';
+  $handler->display->display_options['fields']['user_metrics_7']['c4m_user_admin_user_metric'] = 'user::group_pending_memberships';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_8']['id'] = 'user_metrics_8';
+  $handler->display->display_options['fields']['user_metrics_8']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_8']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_8']['label'] = 'Groups owned';
+  $handler->display->display_options['fields']['user_metrics_8']['c4m_user_admin_user_metric'] = 'user::groups';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_9']['id'] = 'user_metrics_9';
+  $handler->display->display_options['fields']['user_metrics_9']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_9']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_9']['label'] = 'Administered groups';
+  $handler->display->display_options['fields']['user_metrics_9']['c4m_user_admin_user_metric'] = 'user::groups_administered';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_10']['id'] = 'user_metrics_10';
+  $handler->display->display_options['fields']['user_metrics_10']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_10']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_10']['label'] = 'Administered projects';
+  $handler->display->display_options['fields']['user_metrics_10']['c4m_user_admin_user_metric'] = 'user::projects_administered';
+  $handler->display->display_options['path'] = 'admin/people/export/file';
+  $handler->display->display_options['use_batch'] = 'batch';
+  $handler->display->display_options['return_path'] = 'admin/people/export';
+  $handler->display->display_options['segment_size'] = '50';
   $export['c4m_admin_users'] = $view;
 
   return $export;

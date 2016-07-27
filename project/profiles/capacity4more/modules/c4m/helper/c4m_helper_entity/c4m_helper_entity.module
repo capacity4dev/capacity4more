@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Helper functionality around $entity objects.
@@ -35,6 +36,8 @@ function c4m_helper_entity_get_entity_type_label(
     $object_wrapper = entity_metadata_wrapper('node', $entity);
     $variables['label'] = $object_wrapper->$field_name->value();
   }
+
+  $variables['label'] = ucwords($variables['label']);
 
   drupal_alter('entity_type_label', $variables);
 
@@ -76,10 +79,22 @@ function c4m_sort_object_by_title($a, $b) {
 function c4m_helper_entity_get_number_of_entities(array $variables) {
   $amount = 0;
 
+  $default_variables = array(
+    'bundles' => array(),
+    'state' => NULL,
+    'og_id' => NULL,
+    'uid' => NULL,
+    'topic' => NULL,
+    'c4m_status' => NULL,
+  );
+
+  $variables = array_merge($default_variables, $variables);
+
   $entity_type = $variables['entity_type'];
   $bundles = $variables['bundles'];
   $state = $variables['state'];
   $og_id = $variables['og_id'];
+  $uid = $variables['uid'];
   $topic = $variables['topic'];
   $c4m_status = $variables['c4m_status'];
 
@@ -140,6 +155,22 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
           return $amount;
       }
       $query->condition('og.gid', $og_id, '=');
+    }
+
+    // Add user condition if given.
+    if ($uid) {
+      switch ($entity_type) {
+        case 'comment':
+          $query->condition('c.uid', $uid);
+          break;
+
+        case 'node':
+          $query->condition('n.uid', $uid);
+          break;
+
+        default:
+          return $amount;
+      }
     }
 
     // Add topic condition if given.
@@ -276,9 +307,7 @@ function c4m_helper_entity_label_info($entity) {
       $data = $cache->data;
     }
     else {
-      $hook = 'c4m_helper_entity_label_info';
-      $data = module_invoke_all($hook);
-
+      $data = module_invoke_all('c4m_helper_entity_label_info');
       cache_set($cache_key, $data);
     }
   }
@@ -319,10 +348,10 @@ function c4m_helper_entity_metrics_info() {
       $data = $cache->data;
     }
     else {
-      $data = module_invoke_all('c4m_helper_entity_metrics_info');
+      $raw_data = module_invoke_all('c4m_helper_entity_metrics_info');
 
       // Sort the contexts.
-      foreach ($data as $key => $info) {
+      foreach ($raw_data as $info) {
         // Exclude metrics info which don't have a type.
         if (!isset($info['type']) || empty($info['type'])) {
           continue;
@@ -376,85 +405,39 @@ function c4m_helper_entity_get_metric_info($metric_key) {
  *
  * @param string $metric_key
  *   The key of the metric value to call the function for.
- * @param int $og_id
- *   The Organic Group ID to filter the metrics for.
+ * @param int $entity_id
+ *   The entity ID to filter the metrics for.
+ * @param string $entity_type
+ *   The entity type of the entity to filter the metrics for.
  *
  * @return array
  *   The collected metrics.
  */
-function c4m_helper_entity_get_metrics($metric_key, $og_id = NULL) {
+function c4m_helper_entity_get_metrics($metric_key, $entity_id, $entity_type) {
   $data = &drupal_static(__FUNCTION__);
 
-  if (!isset($data[$metric_key]) || (!empty($og_id) && !isset($data[$metric_key][$og_id]))) {
-    if ($info = c4m_helper_entity_get_metric_info($metric_key)) {
-      $context = $info['context'];
-      $callback = $info['callback'];
-      $arguments = ($context == 'group') ? array($og_id) : array();
-
-      if (isset($info['arguments'])) {
-        $arguments = array_merge($arguments, $info['arguments']);
-      }
-
-      if (function_exists($callback)) {
-        if ($context == 'group') {
-          $data[$metric_key][$og_id] = call_user_func_array($callback, $arguments);
-        }
-        else {
-          $data[$metric_key] = call_user_func_array($callback, $arguments);
-        }
-      }
-    }
-  }
-
-  return $data;
-}
-
-/**
- * Get a specific metric.
- *
- * @param string $metric_key
- *   The metric key.
- * @param int $og_id
- *   The Organic Group ID to filter the metrics for.
- *
- * @return string | int
- *   The value of the metric.
- */
-function c4m_helper_entity_get_metric_value($metric_key, $og_id = NULL) {
-  if (empty($metric_key)) {
+  if (!is_numeric($entity_id)) {
     return NULL;
   }
 
-  $metrics = c4m_helper_entity_get_metrics($metric_key, $og_id);
+  $key = $metric_key . ':' . $entity_id . ':' . $entity_type;
 
-  if (isset($metrics[$metric_key])) {
-    return $metrics[$metric_key];
+  if (isset($data[$key])) {
+    return $data[$key];
   }
 
-  return NULL;
-}
+  if ($info = c4m_helper_entity_get_metric_info($metric_key)) {
+    $callback = $info['callback'];
+    $arguments = array($entity_id);
 
-/**
- * Get a specific metric in the context of a group.
- *
- * @param string $metric_key
- *   The metric key.
- * @param int $og_id
- *   The Organic Group ID to gather the metrics for.
- *
- * @return string | int
- *   The value of the metric.
- */
-function c4m_helper_entity_get_group_metric_value($metric_key, $og_id) {
-  if (!is_numeric($og_id)) {
-    return c4m_helper_entity_get_metric_value($metric_key);
+    if (isset($info['arguments'])) {
+      $arguments = array_merge($arguments, $info['arguments']);
+    }
+
+    if (function_exists($callback)) {
+      $data[$key] = call_user_func_array($callback, $arguments);
+    }
   }
 
-  $metrics = c4m_helper_entity_get_metric_value($metric_key, $og_id);
-
-  if (isset($metrics[$og_id])) {
-    return $metrics[$og_id];
-  }
-
-  return NULL;
+  return $data[$key];
 }
