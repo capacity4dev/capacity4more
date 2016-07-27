@@ -318,13 +318,23 @@ function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging
     return;
   }
 
-  if ($flag->name != 'subscribe_c4m_follow_node') {
+  if ($flag->name != 'c4m_og_content_recommend') {
     // If not recommendation flag, return early.
     return;
   }
 
-  c4m_user_notifications_notify_author_content_recommended($flag, $entity_id, $account, $flagging);
-  c4m_user_notifications_notify_subscribed_editor_content_recommended($flag, $entity_id, $account, $flagging);
+  $context = og_context();
+  if (!$context && $context->type != 'group') {
+    // If not at OG group context, return early.
+    return;
+  }
+
+  if (!in_array($flag->type, array('wiki_page', 'discussion', 'document', 'event'))) {
+    // If recommended content does not required notification, return early.
+    return;
+  }
+
+  c4m_user_notifications_group_content_recommended($flag, $entity_id, $account, $flagging);
 }
 
 /**
