@@ -223,6 +223,33 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');
+  $items['c4m_notify_content_recommendation'] = entity_import('message_type', '{
+    "name" : "c4m_notify_content_recommendation",
+    "description" : "c4m Notify Content Recommendation",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003EYour @content_type_name\\u0026nbsp;was recommended\\u003C\\/p\\u003E\\r\\n",
+          "format" : "default_html",
+          "safe_value" : "\\u003Cp\\u003EYour @content_type_name\\u00a0was recommended\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022[current-user:url]\\u0022 rel=\\u0022nofollow\\u0022\\u003E[current-user:c4m_first_name] [current-user:c4m_last_name]\\u003C\\/a\\u003E recommended your @content_type_name: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E\\r\\n\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\r\\n\\u003Cem\\u003E\\r\\n@node-teaser-body\\r\\n\\u003C\\/em\\u003E\\r\\n\\u003Cbr\\u003E\\r\\n\\u003Ca href=\\u0022!content_node_url\\u0022\\u003ERead more...\\u003C\\/a\\u003E\\r\\n\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp style=\\u0022text-align: right;\\u0022\\u003E\\r\\nTotal recommendations: @Content_node_recommend_count\\r\\n\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\r\\nYou\\u0027re receiving this e-mail because another member recommended your post - if you no longer wish to receive notifications when your content is recommended, please \\u003Ca href=\\u0022!user_unsubscribe-recommend-url\\u0022unsubscribe\\u003C\\/a\\u003E.\\r\\n\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Ca href=\\u0022[current-user:url]\\u0022 rel=\\u0022nofollow\\u0022\\u003E[current-user:c4m_first_name] [current-user:c4m_last_name]\\u003C\\/a\\u003E recommended your @content_type_name: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E\\n\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\n\\u003Cem\\u003E\\u003Cbr \\/\\u003E\\n@node-teaser-body\\u003Cbr \\/\\u003E\\n\\u003C\\/em\\u003E\\u003Cbr \\/\\u003E\\n\\u003Cbr\\u003E\\u003Cbr \\/\\u003E\\n\\u003Ca href=\\u0022!content_node_url\\u0022\\u003ERead more...\\u003C\\/a\\u003E\\n\\u003C\\/p\\u003E\\n\\u003Cp style=\\u0022text-align: right;\\u0022\\u003E\\nTotal recommendations: @Content_node_recommend_count\\n\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\nYou\\u0027re receiving this e-mail because another member recommended your post - if you no longer wish to receive notifications when your content is recommended, please \\u003Ca href=\\u0022!user_unsubscribe-recommend-url\\u0022unsubscribe\\u003C\\/a\\u003E.\\n\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['c4m_welcome_to_group'] = entity_import('message_type', '{
     "name" : "c4m_welcome_to_group",
     "description" : "c4m Welcome to Group",
