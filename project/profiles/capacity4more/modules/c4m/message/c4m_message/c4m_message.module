@@ -639,6 +639,23 @@ function c4m_message_format_node_recommend_count(Message $message) {
 }
 
 /**
+ * Resolves a teaser of nodes body.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *  Node body teaser.
+ */
+function c4m_message_format_node_body_teaser(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $node =  $wrapper->field_node->value();
+  $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
+
+  return strip_tags($body_teaser[0]['#markup']);
+}
+
+/**
  * Delegate message CRUD to message type specific functions.
  *
  * @param string $entity_type
