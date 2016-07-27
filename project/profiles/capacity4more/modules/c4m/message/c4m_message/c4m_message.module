@@ -522,6 +522,89 @@ function c4m_message_format_event_user_full_name(Message $message) {
 }
 
 /**
+ * Resolves the title of attached node.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Node title.
+ */
+function c4m_message_format_node_title(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  return $wrapper->field_node->label();
+}
+
+/**
+ * Resolves the type of attached node.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Node type.
+ */
+function c4m_message_format_node_type(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  return $wrapper->field_node->value()->type;
+}
+
+/**
+ * Resolves the path to attached node.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Node path.
+ */
+function c4m_message_format_node_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  return 'node/' . $wrapper->field_node->value(array('identifier' => TRUE));
+}
+
+/**
+ * Resolves number of times attached node was recommended.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return int
+ *   Number of recommendations.
+ */
+function c4m_message_format_node_recommend_count(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $node =  $wrapper->field_node->value();
+
+  $property_info = array(
+    'flag_name' => 'c4m_og_content_recommend',
+  );
+  $count = c4m_helper_entity_entity_get_properties($node, array(), '', 'node', $property_info);
+
+  return empty($count) ? 0 : $count;
+}
+
+/**
+ * Resolves number of times attached node was recommended.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return int
+ *   Number of recommendations.
+ */
+function c4m_message_format_node_body_teaser(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $node =  $wrapper->field_node->value();
+  $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
+
+  return render($body_teaser);
+}
+
+/**
  * Delegate message CRUD to message type specific functions.
  *
  * @param string $entity_type

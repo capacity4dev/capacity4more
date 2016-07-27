@@ -247,3 +247,29 @@ function _c4m_user_notifications_get_admins_and_owner_ids($gid) {
 
   return $group_admins_ids;
 }
+
+/**
+ * Helper function.
+ *
+ * Returns ids of all users that have flagged $node, with $flag_name.
+ *
+ * @param object $node
+ *   Node object.
+ * @param string $flag_name
+ *   Name of the flag with which user flagged the node.
+ *
+ * @return array $uids
+ *   Array of user ids that flagged the node.
+ */
+function _c4m_user_notifications_get_flagging_uids($node, $flag_name) {
+  // Set flag name as a search criteria.
+  $property_info = array('flag_name' => $flag_name);
+  $flagging_users_ids = flag_properties_get_flagging_users($node, array(), '', 'node', $property_info);
+  $uids = array();
+
+  foreach ($flagging_users_ids as $flagging_user_id) {
+    $uids[$flagging_user_id] = array('notifiers' => array('email'));
+  }
+
+  return $uids;
+}
