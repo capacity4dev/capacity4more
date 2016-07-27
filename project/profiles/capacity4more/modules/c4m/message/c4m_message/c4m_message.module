@@ -262,6 +262,11 @@ function c4m_message_load_tokens__c4m_notify_content_recommendation(Message $mes
     'callback' => 'c4m_message_format_node_body_teaser',
     'pass message' => TRUE,
   );
+
+  $message->arguments['!user_unsubscribe_recommend_url'] = array(
+    'callback' => 'c4m_message_format_node_unsubscribe_url',
+    'pass message' => TRUE,
+  );
 }
 
 /**
