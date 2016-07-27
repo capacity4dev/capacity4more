@@ -213,6 +213,16 @@ function c4m_user_profile_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['user/%user/leave'] = array(
+    'title' => 'Leave platform',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_profile_remove_account_form'),
+    'access callback' => 'user_is_logged_in',
+    'access arguments' => array(),
+    'file' => 'c4m_user_profile.pages.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+
   return $items;
 }
 
