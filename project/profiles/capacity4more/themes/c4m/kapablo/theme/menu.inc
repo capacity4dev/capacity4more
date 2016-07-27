@@ -15,6 +15,14 @@ function kapablo_menu_tree__c4m_og_menu(array $variables) {
   return '<ul class="menu nav navbar-nav og-menu" role="tablist">' . $variables['tree'] . '</ul>';
 }
 
+
+/**
+ * hook_block_view_alter is used to change the menu wrapper with this function.
+ */
+function kapablo_menu_tree__menu_block__1__level1(&$variables) {
+  return '<ul class="menu nav navbar-nav og-menu" role="tablist">' . $variables['tree'] . '</ul>';
+}
+
 /**
  * Theme a menu link.
  *

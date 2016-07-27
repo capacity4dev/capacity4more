@@ -5,3 +5,30 @@
  */
 
 include_once 'og_group_menu.features.inc';
+
+/**
+ * Implements hook_block_view_alter().
+ */
+function og_group_menu_block_view_alter(&$data, $block) {
+  if (!property_exists($block, 'context') || $block->context != 'c4m_context_og_menu') {
+    // Not the desired context.
+    return;
+  }
+
+  // Alter the menu <ul> wrapper to add the styling classes.
+  $data['content']['#theme_wrappers'][0] = 'menu_tree__menu_block__1__level1';
+
+  foreach ($data['content'] as &$value) {
+    if (!isset($value['#attributes']['class'])) {
+      // Not a menu item.
+      continue;
+    }
+    // Add the styling classes to the nav <li> items.
+    array_push($value['#attributes']['class'], 'og-menu-link', str_replace('/', '', $value['#href'], $count));
+    if ($count) {
+      // Group home link
+      $value['#attributes']['class'][] = 'front';
+    }
+  }
+
+}

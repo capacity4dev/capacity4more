@@ -39,8 +39,7 @@ function kapablo_preprocess_message(&$variables) {
     if ($icon_name == 'discussion') {
       $message_wrapper = entity_metadata_wrapper('message', $message);
       // Icon image file name is the discussion type of the discussion node.
-      $icon_name = 'discussion-' . $message_wrapper->field_node->c4m_discussion_type->value(
-        );
+      $icon_name = 'discussion-' . $message_wrapper->field_node->c4m_discussion_type->value();
     }
   }
 
@@ -51,6 +50,10 @@ function kapablo_preprocess_message(&$variables) {
  * Implements theme_preprocess_block().
  */
 function kapablo_preprocess_block(&$variables) {
+  if (isset($variables['elements']['#block']->info) && $variables['elements']['#block']->info == 'OG Menu : single') {
+    array_unshift($variables['theme_hook_suggestions'], 'block__menu__c4m_og_menu');
+  }
+
   $block_id = $variables['block']->module . '-' . $variables['block']->delta;
   $classes = &$variables['classes_array'];
 
@@ -118,8 +121,14 @@ function kapablo_preprocess_page(&$variables) {
   _set_og_breadcrumbs();
 
   // Off-canvas trigger labels.
-  $offcanvas_trigger_label_left = array('icon' => 'fa fa-info', 'label' => t('More info'));
-  $offcanvas_trigger_label_right = array('icon' => 'fa fa-info', 'label' => t('More info'));
+  $offcanvas_trigger_label_left = array(
+    'icon' => 'fa fa-info',
+    'label' => t('More info')
+  );
+  $offcanvas_trigger_label_right = array(
+    'icon' => 'fa fa-info',
+    'label' => t('More info')
+  );
 
   drupal_alter('c4m_offcanvas_trigger_label_left', $offcanvas_trigger_label_left);
   drupal_alter('c4m_offcanvas_trigger_label_right', $offcanvas_trigger_label_right);
@@ -138,9 +147,10 @@ function _set_og_breadcrumbs() {
   // If the current path contains 2 or less parts and
   // the first part is a Persistent URL.
   if (count($path_elements) <= 2 && $purl = purl_load(array(
-    'provider' => 'og_purl|node',
-    'value' => $path_elements[0],
-  ))) {
+      'provider' => 'og_purl|node',
+      'value' => $path_elements[0],
+    ))
+  ) {
     $breadcrumb = array();
 
     // We need to load the group to get the
