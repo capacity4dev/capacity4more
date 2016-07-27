@@ -569,6 +569,11 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
     )
   );
 
+  // Always send "welcome" mail for user created by admin.
+  if (user_access('administer users')) {
+    _user_mail_notify('status_activated', $form['#user']);
+  }
+
   // Process subscription to mailing list.
   if (empty($form_state['values']['subscribe_to_mailinglist'])) {
     return;
