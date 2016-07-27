@@ -190,6 +190,7 @@ function c4m_search_default_search_api_index() {
         "c4m_organised_by" : { "type" : "text" },
         "c4m_partner" : { "type" : "list\\u003Ctext\\u003E" },
         "c4m_related_topic" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
+        "c4m_related_user" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "user" },
         "c4m_source_of_funding" : { "type" : "list\\u003Ctext\\u003E" },
         "c4m_vocab_date" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "c4m_vocab_document_type" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
