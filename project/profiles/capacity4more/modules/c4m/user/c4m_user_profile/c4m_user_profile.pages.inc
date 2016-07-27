@@ -108,5 +108,6 @@ function c4m_user_profile_remove_account_form_submit($form, &$form_state) {
 
   user_cancel($values, $values['uid'], $values['user_cancel_method']);
 
+  drupal_set_message(t('Your account has been successfully removed from the platform.'));
   $form_state['redirect'] = '/';
 }
