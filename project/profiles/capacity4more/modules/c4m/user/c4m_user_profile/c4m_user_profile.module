@@ -577,6 +577,11 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
     )
   );
 
+  // Always send "welcome" mail for user created by admin.
+  if (user_access('administer users')) {
+    _user_mail_notify('status_activated', $form['#user']);
+  }
+
   // Process subscription to mailing list.
   if (empty($form_state['values']['subscribe_to_mailinglist'])) {
     return;
@@ -693,6 +698,15 @@ function c4m_user_profile_module_implements_alter(&$implementations, $hook) {
     $c4m_user_profile = $implementations['c4m_user_profile'];
     unset($implementations['c4m_user_profile']);
     $implementations['c4m_user_profile'] = $c4m_user_profile;
+
+    // In order to alter the login/register form on the "c4m_user_og" module we
+    // have no other way but use this hook to set the order, because of the
+    // alphabetic order of the modules names.
+    if (isset($implementations['c4m_user_og'])) {
+      $c4m_user_profile = $implementations['c4m_user_og'];
+      unset($implementations['c4m_user_og']);
+      $implementations['c4m_user_og'] = $c4m_user_profile;
+    }
   }
 }
 

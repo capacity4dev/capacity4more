@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * Install & Update hooks.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function c4m_user_og_schema() {
+  $schema['c4m_unified_workflow'] = array(
+    'description' => 'The base table for the unified workflow.',
+    'fields' => array(
+      'uid' => array(
+        'description' => 'The {users}.uid that owns this entry.',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'gid' => array(
+        'description' => "The group's unique ID.",
+        'type' => 'int',
+        'size' => 'normal',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('uid', 'gid'),
+  );
+
+  return $schema;
+}
