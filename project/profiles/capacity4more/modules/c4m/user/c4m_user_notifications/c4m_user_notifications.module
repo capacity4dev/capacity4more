@@ -328,7 +328,8 @@ function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging
     return;
   }
 
-  if (!in_array($flag->type, array('wiki_page', 'discussion', 'document', 'event'))) {
+  $node = node_load($entity_id);
+  if (!in_array($node->type, array('wiki_page', 'discussion', 'document', 'event'))) {
     // If recommended content does not required notification, return early.
     return;
   }
