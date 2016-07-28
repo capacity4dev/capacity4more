@@ -289,8 +289,8 @@ function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
     return;
   }
 
-  c4m_user_notifications_notify_user_admin_revoked($gid, $uid);
-  c4m_user_notifications_notify_admins_admin_revoked($gid, $uid);
+  c4m_user_notifications_notify_user_admin_demoted($gid, $uid);
+  c4m_user_notifications_notify_admins_admin_demoted($gid, $uid);
 }
 
 /**
