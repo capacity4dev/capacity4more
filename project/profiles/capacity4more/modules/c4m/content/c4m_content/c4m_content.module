@@ -38,7 +38,7 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     );
   }
 
-  // Removes Unpublish button from forms
+  // Removes Unpublish button from forms.
   if ($form['actions']['draft']['#value'] == t('Unpublish')) {
     unset($form['actions']['draft']);
   }
