@@ -15,13 +15,19 @@ function kapablo_menu_tree__c4m_og_menu(array $variables) {
   return '<ul class="menu nav navbar-nav og-menu" role="tablist">' . $variables['tree'] . '</ul>';
 }
 
-
-/**
- * hook_block_view_alter is used to change the menu wrapper with this function.
- */
-function kapablo_menu_tree__menu_block__1__level1(&$variables) {
+function kapablo_menu_tree__menu_block__1__level1(array $variables) {
   return '<ul class="menu nav navbar-nav og-menu" role="tablist">' . $variables['tree'] . '</ul>';
 }
+
+///**
+// * Implements theme_menu_tree().
+// *
+// * Add bootstrap classes to the menu to style it as a horizontal menu
+// * (default bootstrap).
+// */
+//function kapablo_menu_tree($variables) {
+//  return '<ul class="menu nav navbar-nav og-menu" role="tablist">' . $variables['tree'] . '</ul>';
+//}
 
 /**
  * Theme a menu link.
@@ -83,9 +89,7 @@ function kapablo_menu_link__c4m_og_menu(array $variables) {
 
   // On primary navigation menu, class 'active' is not set on active menu item.
   // @see https://drupal.org/node/1896674
-  if (($element['#href'] == current_path(
-      ) || ($element['#href'] == '<front>' && drupal_is_front_page(
-        ))) && (empty($element['#localized_options']['language']))
+  if (($element['#href'] == current_path() || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))
   ) {
     $element['#attributes']['class'][] = 'active';
   }
@@ -273,10 +277,7 @@ function kapablo_menu_link__book_c4m_og_menu(array $variables) {
 
   // On primary navigation menu, class 'active' is not set on active menu item.
   // @see https://drupal.org/node/1896674
-  if (($element['#href'] == current_path(
-      ) || ($element['#href'] == '<front>' && drupal_is_front_page(
-        ))) && (empty($element['#localized_options']['language']))
-  ) {
+  if (($element['#href'] == current_path() || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
     $element['#attributes']['class'][] = 'active';
   }
   $tag['element'] = array(

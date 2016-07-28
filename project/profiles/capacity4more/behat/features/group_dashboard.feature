@@ -7,7 +7,8 @@ Feature: Group dashboard
   Scenario: Check dashboard content as group owner
     Given I am logged in as user "mariecurie"
     When  I visit the dashboard of group "Movie Popcorn Corner"
-    Then  I should see the group dashboard with quick post form
+    Then  Group menu item "Home" should be active
+#    Then  I should see the group dashboard with quick post form
 
   @api
   Scenario: Check dashboard is not accessable for not member of the private group.
