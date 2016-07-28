@@ -28,8 +28,10 @@ function og_group_menu_block_view_alter(&$data, $block) {
     $gid = ltrim(strrchr($value['#theme'], '_'), '_');
 
     // Add the styling classes to the nav <li> items.
-    array_push($value['#attributes']['class'], 'og-menu-link', str_replace('/' . $gid, $gid, $value['#href'], $count));
-    if ($count) {
+    // Try to replace / from the path to create the classname. If a replacement
+    // was made, then we are on the group home node/[#id].
+    array_push($value['#attributes']['class'], 'og-menu-link', str_replace('/' . $gid, $gid, $value['#href'], $replacement_made));
+    if ($replacement_made) {
       // Group home link
       $value['#attributes']['class'][] = 'front';
       $item = menu_get_item();
