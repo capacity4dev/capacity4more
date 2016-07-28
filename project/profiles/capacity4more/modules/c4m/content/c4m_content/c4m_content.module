@@ -302,3 +302,66 @@ function c4m_content_current_context() {
     return 'global';
   }
 }
+
+/**
+ * Implements hook_field_extra_fields().
+ */
+function c4m_content_field_extra_fields() {
+  $extra_fields['node']['group']['display']['highlighted'] = array(
+    'label' => t('Highlighted Button'),
+    'description' => t('Highlight a node will activate/deactivate his promoted field.'),
+    'weight' => 0,
+  );
+
+  return $extra_fields;
+}
+
+/**
+ * Implements hook_node_view().
+ *
+ * Adding the 'Highlighted' view for the promoted field.
+ */
+function c4m_content_node_view($node, $view_mode, $langcode) {
+  $button = '<i class="fa fa-star fa-2x" aria-hidden="true"></i>';
+
+  drupal_add_library('system', 'drupal.ajax');
+
+//  $query = array(
+//      'tok' => drupal_get_token('delete_log_item' . $node),
+//    ) + drupal_get_destination();
+//  $output[] = l($button, 'foo/nojs/' . $node, array('attributes' => array('class' => 'use-ajax'), 'query' => $query));
+//  $output[] = l($button, 'foo/nojs/' . $node, array('attributes' => array('class' => 'use-ajax')));
+
+//  dpm($output);
+
+  $node->content['highlighted'] = array(
+    '#type' => 'item',
+    '#title' => $button,
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_content_menu() {
+  $items = [];
+
+  $items['foo/nojs/%node'] = [
+    'title' => 'Change flag',
+    'page callback' => 'c4m_content_flag_change',
+    'page arguments' => [2],
+    'access arguments' => array('access content'),
+  ];
+
+  return $items;
+}
+
+function c4m_content_flag_change($node) {
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  // Toggle the promote value.
+  $wrapper->promote->set(!$wrapper->value()->promote);
+  $wrapper->save();
+
+  return $node->title;
+}

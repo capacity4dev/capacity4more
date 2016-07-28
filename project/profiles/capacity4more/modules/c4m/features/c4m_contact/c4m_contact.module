@@ -70,34 +70,3 @@ function c4m_contact_category_edit_form_submit($form, &$form_state) {
   $contact_settings['intro'] = $intro;
   variable_set('c4m_site_contact', $contact_settings);
 }
-
-/**
- * Implements hook_field_extra_fields().
- */
-function c4m_contact_field_extra_fields() {
-  $extra_fields['node']['group']['display']['highlighted'] = array(
-    'label' => t('Highlighted Button'),
-    'description' => t('Highlight a node will activate/deactivate his promoted field.'),
-    'weight' => 0,
-    );
-
-  return $extra_fields;
-}
-
-/**
- * Implements hook_node_view().
- *
- * Adding the 'Highlighted' view for the promoted field.
- */
-function c4m_contact_node_view($node, $view_mode, $langcode) {
-  if ($view_mode != "group_dashboard") {
-    return;
-  }
-
-  $button = '<i class="fa fa-star fa-2x" aria-hidden="true"></i>';
-
-  $node->content['highlighted'] = array(
-    '#type' => 'item',
-    '#title' => $button,
-  );
-}
