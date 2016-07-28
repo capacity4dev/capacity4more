@@ -24,7 +24,7 @@ function og_group_menu_block_view_alter(&$data, $block) {
       continue;
     }
     // Add the styling classes to the nav <li> items.
-    array_push($value['#attributes']['class'], 'og-menu-link', str_replace('/', '', $value['#href'], $count));
+    array_push($value['#attributes']['class'], 'og-menu-link', str_replace('node/', 'node', $value['#href'], $count));
     if ($count) {
       // Group home link
       $value['#attributes']['class'][] = 'front';
