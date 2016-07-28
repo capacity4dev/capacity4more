@@ -132,7 +132,6 @@ function capacity4more_setup_set_og_permissions() {
     'event',
     'photo',
     'photoalbum',
-    'wiki_page',
   );
 
   $permissions = array();
@@ -149,7 +148,18 @@ function capacity4more_setup_set_og_permissions() {
   og_role_grant_permissions($auth_rid, $permissions);
 
   // Set OG_ADMINISTRATOR_ROLE permissions.
+  $content_types = array(
+    'wiki_page',
+  );
+
   $permissions = array();
+  foreach ($content_types as $content_type) {
+    $permissions = array_merge($permissions, array(
+      "create $content_type content",
+      "update own $content_type content",
+      "update any $content_type content",
+    ));
+  }
 
   // OG Flag permissions.
   $og_flag_perms = array(
