@@ -1,0 +1,9 @@
+.logged-in #top-menu {
+  display: none;
+}
+
+@media (min-width: $screen-tablet) {
+  .logged-in #top-menu {
+    display: block;
+  }
+}

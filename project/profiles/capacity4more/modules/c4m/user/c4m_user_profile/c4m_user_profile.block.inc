@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Block definitions for the user profile.
@@ -42,6 +43,15 @@ function _c4m_user_profile_block_user_menu() {
     'edit_profile' => array(
       'title'   => t('Edit Profile'),
       'url'     => 'user/' . $user->uid . '/edit/',
+      'options' => array(
+        'purl'  => array(
+          'disabled' => TRUE,
+        ),
+      ),
+    ),
+    'user_content' => array(
+      'title'   => t('My content'),
+      'url'     => 'user/' . $user->uid . '/content/',
       'options' => array(
         'purl'  => array(
           'disabled' => TRUE,

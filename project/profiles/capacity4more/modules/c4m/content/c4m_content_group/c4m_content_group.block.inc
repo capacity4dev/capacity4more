@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for group blocks.
@@ -30,32 +31,16 @@ function _c4m_content_group_block_header_name_banner() {
   // First establish the current group.
   $group = c4m_og_current_group();
   $wrapper = entity_metadata_wrapper('node', $group);
-
-  $title = $wrapper->title->value();
-  $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value() : 'published';
-  $tag['title']['element'] = array(
-    '#tag' => 'h1',
-    '#attributes' => array(
-      'class' => array('group-title'),
-    ),
-    '#value' => $title,
-  );
-
-  $markup = theme_html_tag($tag['title']);
-
-  if ($status != 'published') {
-    $tag['status']['element'] = array(
-      '#tag' => 'span',
-      '#attributes' => array(
-        'class' => array('group-status'),
-      ),
-      '#value' => $status,
-    );
-    $markup .= theme_html_tag($tag['status']);
-  }
+  $markup = '';
 
   $menu_item = menu_get_item();
-  if (drupal_is_front_page() || ($menu_item['path'] == 'manage' && og_user_access('node', $group->nid, 'administer group'))) {
+  if (drupal_is_front_page(
+    ) || ($menu_item['path'] == 'manage' && og_user_access(
+        'node',
+        $group->nid,
+        'administer group'
+      ))
+  ) {
     // Add group image.
     $file = $wrapper->c4m_banner->value();
     if (!empty($file)) {
@@ -80,7 +65,14 @@ function _c4m_content_group_block_header_name_banner() {
             ),
           ),
         );
-        $markup .= l(theme_html_tag($edit_link) . theme_image_style($file), url('node/' . $group->nid . '/edit', array('absolute' => TRUE, 'fragment' => 'edit-image-banner')), $options);
+        $markup .= l(
+          theme_html_tag($edit_link) . theme_image_style($file),
+          url(
+            'node/' . $group->nid . '/edit',
+            array('absolute' => TRUE, 'fragment' => 'edit-image-banner')
+          ),
+          $options
+        );
       }
       else {
         $markup .= theme_image_style($file);
@@ -88,9 +80,89 @@ function _c4m_content_group_block_header_name_banner() {
     }
   }
 
+  $variables = array();
+
+  $title = $wrapper->title->value();
+
+  $variables['title'] = $title;
+
+  $variables['group_type'] = c4m_og_get_group_type_name($group);
+
+  $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value(
+  ) : 'published';
+
+  $variables['group_status'] = ($status !== 'published') ? $status : '';
+
+  $variables['organisations'] = array();
+  $variables['organisation_icons'] = array();
+  $variables['organisation_ellipsis'] = FALSE;
+  $variables['emails'] = array();
+
+  if (isset($wrapper->pluggable_node_access)
+    && !empty($wrapper->pluggable_node_access->value())) {
+    // If pluggable_node_access is set, then access is restricted.
+    $group_access = 'restricted';
+
+    $emails = array();
+
+    if ($organisation_info = c4m_og_get_organisations($group)) {
+      $organisations = node_load_multiple(
+        array_values($organisation_info)
+      );
+
+      // Load icon + title for all organisations.
+      $organisation_list = array();
+
+      // Load icon for the first three.
+      $organisation_icons = array();
+      $count = 0;
+
+      foreach ($organisations as $nid => $org) {
+        $icon = c4m_content_organisation_get_icon($org);
+        $icon['#item']["attributes"]["class"] = array('group-title-organisation-icon');
+        $icon['#item']["attributes"]["title"] = $org->title;
+
+        $icon_render = drupal_render($icon);
+
+        $organisation_list[] = $icon_render . $org->title;
+
+        if ($count++ < 3) {
+          $organisation_icons[] = $icon_render;
+        }
+      }
+
+      $variables['organisations'] = $organisation_list;
+      $variables['organisation_icons'] = $organisation_icons;
+
+      if (count($organisations) > 3) {
+        $variables['organisation_ellipsis'] = TRUE;
+      }
+    }
+
+    if ($domain_info = c4m_og_get_email_domains($group)) {
+      $emails = array_values($domain_info);
+      array_walk(
+        $emails,
+        function (&$value, $key) {
+          $value = trim($value, ', ');
+          $value = '@' . $value;
+        }
+      );
+    }
+
+    $variables['emails'] = $emails;
+  }
+  elseif (isset($wrapper->group_access)) {
+    // Determine access per group_access parameter.
+    $group_access = $wrapper->group_access->value() ? 'private' : 'public';
+    $variables['group_access'] = $group_access;
+  }
+
+  $title = theme('c4m_content_group_header_title', $variables);
+
   return array(
     'subject' => '',
-    'content' => $markup,
+    'content' => $markup . $title,
   );
 }
 
@@ -102,16 +174,27 @@ function _c4m_content_group_block_c4m_block_create_group() {
 
   if ($user->uid) {
     if (user_access('create group content')) {
-      $markup = l(t('Create a group'), 'node/add/group', array('attributes' => array('class' => array('btn', 'btn-default'))));
+      $markup = l(
+        t('Create a group'),
+        'node/add/group',
+        array('attributes' => array('class' => array('btn', 'btn-default')))
+      );
     }
   }
   else {
-    $markup = t('!register or !login to create or join groups', array(
-      '!register' => l(t('Register'), 'user/register'),
-      '!login' => l(t('log in'), 'user/login', array(
-        'query' => drupal_get_destination(),
-      )),
-    ));
+    $markup = t(
+      '!register or !login to create or join groups',
+      array(
+        '!register' => l(t('Register'), 'user/register'),
+        '!login' => l(
+          t('log in'),
+          'user/login',
+          array(
+            'query' => drupal_get_destination(),
+          )
+        ),
+      )
+    );
   }
 
   return array(

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Project status template for the group status.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Index of all the messages.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Hooks provided by the capacity4more Search module.
