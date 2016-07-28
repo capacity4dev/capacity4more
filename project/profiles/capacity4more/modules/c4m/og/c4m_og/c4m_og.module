@@ -934,25 +934,26 @@ function c4m_og_feature_uninstall($feature) {
  * @return array $groups
  *    Returns array of group nodes IDs of specific node type.
  */
-function c4m_og_get_user_group_nodes_by_bundle(
-  $bundle = NULL,
-  $account = NULL
-) {
+function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) {
   $groups = og_get_groups_by_user($account, 'node');
-
   if (!$groups || !$bundle) {
     return $groups;
   }
 
-  foreach ($groups as $key => $gid) {
-    $wrapper = entity_metadata_wrapper('node', $gid);
-    $node_type = $wrapper->getBundle();
-    if ($node_type != $bundle) {
-      unset($groups[$key]);
-    }
+  $conditions = array(
+    'status' => NODE_PUBLISHED,
+    'type' => $bundle,
+  );
+
+  $groups = node_load_multiple($groups, $conditions);
+
+  $groups_ids = array();
+  foreach ($groups as $group) {
+    $groups_ids[] = $group->nid;
   }
-  return $groups;
-}
+
+  return $groups_ids;
+  }
 
 /**
  * Implements hook_node_update().
