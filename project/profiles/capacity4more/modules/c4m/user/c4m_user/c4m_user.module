@@ -1140,13 +1140,6 @@ function c4m_user_entity_insert($entity, $type) {
   if ($type == 'node') {
     // Add 'follow node' flag.
     _c4m_user_flag_content($entity->nid, $entity->type, 'subscribe_c4m_follow_node');
-    // Add 'follow comment' flag.
-    _c4m_user_flag_content($entity->nid, $entity->type, 'subscribe_c4m_follow_comment');
-  }
-  elseif ($type == 'comment') {
-    $node = node_load($entity->nid);
-    // Add 'follow comment' flag.
-    _c4m_user_flag_content($entity->nid, $node->type, 'subscribe_c4m_follow_comment');
   }
 }
 
@@ -1164,8 +1157,6 @@ function c4m_user_entity_update($entity, $type) {
   if ($type == 'node') {
     // Add 'follow node' flag.
     _c4m_user_flag_content($entity->nid, $entity->type, 'subscribe_c4m_follow_node');
-    // Add 'follow comment' flag.
-    _c4m_user_flag_content($entity->nid, $entity->type, 'subscribe_c4m_follow_comment');
   }
 }
 
