@@ -341,3 +341,16 @@
 .og-context .header-actions--wrapper:nth-of-type(2) {
   display: none;
 }
+
+.og-menu-link {
+  &.media {
+    margin-top: 0;
+  }
+}
+
+.view-header {
+  .node-create:after {
+    content: '\A';
+    white-space: pre;
+  }
+}
