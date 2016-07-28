@@ -148,13 +148,13 @@ function c4m_user_notifications_notify_admins_admin_granted($gid, $uid) {
 /**
  * Email notification to user about user him being revoked admin status.
  */
-function c4m_user_notifications_notify_user_admin_revoked($gid, $uid) {
+function c4m_user_notifications_notify_user_admin_demoted($gid, $uid) {
 }
 
 /**
  * Email notification to group admins about user being revoked admin status.
  */
-function c4m_user_notifications_notify_admins_admin_revoked($gid, $uid) {
+function c4m_user_notifications_notify_admins_admin_demoted($gid, $uid) {
 }
 
 /**
