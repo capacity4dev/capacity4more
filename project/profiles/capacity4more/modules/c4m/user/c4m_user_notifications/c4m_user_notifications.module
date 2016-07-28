@@ -318,6 +318,11 @@ function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging
     return;
   }
 
+  if (user_is_anonymous()) {
+    // If anonymous user, return early - no notifications.
+    return;
+  }
+
   if ($flag->name != 'c4m_og_content_recommend') {
     // If not recommendation flag, return early.
     return;
