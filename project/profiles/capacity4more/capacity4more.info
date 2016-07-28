@@ -58,6 +58,7 @@ dependencies[] = og_ui
 dependencies[] = og_purl
 dependencies[] = og_vocab
 dependencies[] = og_menu
+dependencies[] = og_group_menu
 dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = paragraphs
