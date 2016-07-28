@@ -1334,11 +1334,18 @@ function c4m_user_profile_get_expertise_topics($uid) {
  */
 function c4m_user_profile_user_cancel($edit, $account, $method) {
   // Remove all the cookies.
+  // @see http://www.php.net/manual/en/function.setcookie.php#73484
   if (isset($_SERVER['HTTP_COOKIE'])) {
     $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+
     foreach ($cookies as $cookie) {
       $parts = explode('=', $cookie);
       $name = trim($parts[0]);
+      // Cookies can't be really deleted as they are in the user browser.
+      // Instead of deleted, we set a expiration date in the past so the brower
+      // sees the cookie has expired and removes it.
+      // The two set cookies is to ensure that the cookie is removed
+      // independently if is set on the current path or the full site.
       setcookie($name, '', time() - 1000);
       setcookie($name, '', time() - 1000, '/');
     }
