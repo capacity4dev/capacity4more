@@ -1138,16 +1138,15 @@ function c4m_user_entity_insert($entity, $type) {
   }
 
   if ($type == 'node') {
-    // Add 'follow node' flag. Don't check if it already exists (new content).
-    _c4m_user_flag_node_with_flag($entity->nid, $entity->type, 'subscribe_c4m_follow_node', FALSE);
-    // Add 'follow comment' flag. Don't check if it already
-    // exists (new content).
-    _c4m_user_flag_node_with_flag($entity->nid, $entity->type, 'subscribe_c4m_follow_comment', FALSE);
+    // Add 'follow node' flag.
+    _c4m_user_flag_content($entity->nid, $entity->type, 'subscribe_c4m_follow_node');
+    // Add 'follow comment' flag.
+    _c4m_user_flag_content($entity->nid, $entity->type, 'subscribe_c4m_follow_comment');
   }
   elseif ($type == 'comment') {
     $node = node_load($entity->nid);
     // Add 'follow comment' flag.
-    _c4m_user_flag_node_with_flag($entity->nid, $node->type, 'subscribe_c4m_follow_comment');
+    _c4m_user_flag_content($entity->nid, $node->type, 'subscribe_c4m_follow_comment');
   }
 }
 
@@ -1164,9 +1163,9 @@ function c4m_user_entity_update($entity, $type) {
 
   if ($type == 'node') {
     // Add 'follow node' flag.
-    _c4m_user_flag_node_with_flag($entity->nid, $entity->type, 'subscribe_c4m_follow_node');
+    _c4m_user_flag_content($entity->nid, $entity->type, 'subscribe_c4m_follow_node');
     // Add 'follow comment' flag.
-    _c4m_user_flag_node_with_flag($entity->nid, $entity->type, 'subscribe_c4m_follow_comment');
+    _c4m_user_flag_content($entity->nid, $entity->type, 'subscribe_c4m_follow_comment');
   }
 }
 
@@ -1177,28 +1176,18 @@ function c4m_user_entity_update($entity, $type) {
  *
  * @param int $nid
  *   Node id.
- * @param string $node_type
+ * @param string $content_type
  *   Node type.
  * @param string $flag_name
  *   Flag name for flagging.
- * @param bool $check_entity_flagged
- *   Whether to check if node is already flagged for user, with provided flag.
- * @param int $uid
- *   User for which entity is flagged. If not provided, current user is used.
  */
-function _c4m_user_flag_node_with_flag($nid, $node_type, $flag_name, $check_entity_flagged = TRUE, $uid = NULL) {
-  if (!_c4m_user_content_node_requires_notification($node_type)) {
+function _c4m_user_flag_content($nid, $content_type, $flag_name) {
+  if (!_c4m_user_content_node_requires_notification($content_type)) {
     // No need to flag content that does not required notification.
     return;
   }
 
-  if ($check_entity_flagged && _c4m_user_get_user_flag_by_flag_name('node', $nid, $flag_name, $uid)) {
-    // Entity is already flagged for the user.
-    return;
-  }
-
-  $account = $GLOBALS['user'];
-  flag('flag', $flag_name, $nid, $account, TRUE);
+  flag('flag', $flag_name, $nid);
 }
 
 /**
@@ -1206,53 +1195,18 @@ function _c4m_user_flag_node_with_flag($nid, $node_type, $flag_name, $check_enti
  *
  * Flags node with provided flag, for user.
  *
- * @param string $node_type
+ * @param string $content_type
  *   Node type.
  *
  * @return bool
  *   Whether provided node type required notification.
  */
-function _c4m_user_content_node_requires_notification($node_type) {
+function _c4m_user_content_node_requires_notification($content_type) {
   $types_to_notify = array('wiki_page', 'discussion', 'document', 'event');
-  if (!in_array($node_type, $types_to_notify)) {
+  if (!in_array($content_type, $types_to_notify)) {
     // Content does not required notification.
     return FALSE;
   }
 
   return TRUE;
-}
-
-/**
- * Helper function.
- *
- * Retrieves all flag objects, entity is flagged with, for user.
- * If entity is flagged with provided flag_name, returns it, FALSE otherwise.
- *
- * @param int $entity_id
- *   Entity id.
- * @param string $entity_type
- *   Entity type. Usually 'node'.
- * @param string $flag_name
- *   Flag name for flagging.
- * @param int $uid
- *   User for which entity is flagged. If not provided, current user is used.
- *
- * @return object|FALSE
- *   Flag object, entity is flagged with for user, FALSE if it does not exist.
- */
-function _c4m_user_get_user_flag_by_flag_name($entity_id, $entity_type, $flag_name, $uid = NULL) {
-  // Use global user when $uid is not set.
-  if (!isset($uid)) {
-    global $user;
-    $uid = $user->uid;
-  }
-
-  // Get an array of flag objects user is flagged with.
-  $flags = flag_get_user_flags($entity_type, $entity_id, $uid);
-  if (array_key_exists($flag_name, $flags)) {
-    // If provided flag_name exists at array, as key.
-    return ($flags[$flag_name]);
-  }
-
-  return FALSE;
 }
