@@ -16,16 +16,19 @@ function og_group_menu_block_view_alter(&$data, $block) {
   }
 
   // Alter the menu <ul> wrapper to add the styling classes.
-  $data['content']['#theme_wrappers'][0] = 'menu_tree__menu_block__1__level1';
+  $data['content']['#theme_wrappers'][0] = 'menu_tree__og_group_menu';
 
   foreach ($data['content'] as &$value) {
     if (!isset($value['#attributes']['class'])) {
       // Not a menu item.
       continue;
     }
-    // Add the styling classes to the nav <li> items.
+
+    // Extract the number at the end of the #theme string = the group ID.
     $gid = ltrim(strrchr($value['#theme'], '_'), '_');
-    array_push($value['#attributes']['class'], 'og-menu-link', str_replace("/$gid", "$gid", $value['#href'], $count));
+
+    // Add the styling classes to the nav <li> items.
+    array_push($value['#attributes']['class'], 'og-menu-link', str_replace('/' . $gid, $gid, $value['#href'], $count));
     if ($count) {
       // Group home link
       $value['#attributes']['class'][] = 'front';

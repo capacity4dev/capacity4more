@@ -28,4 +28,3 @@ features[variable][] = og_menu_hide_help
 features[variable][] = og_menu_max_menus_per_group
 features[variable][] = og_menu_show_blocks
 features[variable][] = og_menu_show_nodetype
-project path = /var/www/html/capacity4more/project/profiles/capacity4more/modules/c4m/og
