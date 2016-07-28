@@ -6,7 +6,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($rootScope, $scope, DrupalSettings, GoogleMap, EntityResource, Request, $window, $document, QuickPostService, FileUpload) {
+  .controller('MainCtrl', function ($rootScope, $scope, DrupalSettings, GoogleMap, EntityResource, Request, $window, $document, QuickPostService, FileUpload) {
     $scope.editorOptions = {
       resize_minHeight : 300,
       height: 200
@@ -98,7 +98,7 @@ angular.module('c4mApp')
      *  @param event
      *    The event where the function was called.
      */
-    $scope.updateResource = function(resource, event) {
+    $scope.updateResource = function (resource, event) {
       // When clicking on the "label" input
       // and the resource is already selected, Do nothing.
       if (angular.isDefined(event) && $scope.selectedResource) {
@@ -135,12 +135,12 @@ angular.module('c4mApp')
      * @param field
      *  name of the taxonomy terms field.
      */
-    $scope.removeTaxonomyValue = function(key, field) {
+    $scope.removeTaxonomyValue = function (key, field) {
       $scope.data[field][key] = false;
 
-      angular.forEach($scope[field], function(term, id) {
+      angular.forEach($scope[field], function (term, id) {
         // Go through all 1 level terms.
-        angular.forEach($scope[field][id].children, function(child, childKey) {
+        angular.forEach($scope[field][id].children, function (child, childKey) {
           var childID = child.id;
           // If removed current 1 level term - all 2 and 3 level terms will be removed.
           // If removed current 2 level term - all 3 level terms will be removed.
@@ -148,7 +148,7 @@ angular.module('c4mApp')
             if (childID in $scope.data[field] && $scope.data[field][childID] === true) {
               $scope.data[field][childID] = false;
             }
-            angular.forEach($scope[field][id].children[childKey].children, function(childChild, childChildKey) {
+            angular.forEach($scope[field][id].children[childKey].children, function (childChild, childChildKey) {
               var childChildID = childChild.id;
               if (childChildID in $scope.data[field] && $scope.data[field][childChildID] === true) {
                 $scope.data[field][childChildID] = false;
@@ -160,7 +160,7 @@ angular.module('c4mApp')
     };
 
     // Find taxonomy term name.
-    $scope.findLabel = function(vocab, termID) {
+    $scope.findLabel = function (vocab, termID) {
       return QuickPostService.findLabel(vocab, termID);
     };
 
@@ -174,13 +174,13 @@ angular.module('c4mApp')
      * @param field
      *  The name of the field.
      */
-    $scope.updateType = function(type, field) {
+    $scope.updateType = function (type, field) {
       // Update type field.
       $scope.data[field] = $scope.data[field] == type ? '' : type;
     };
 
     // Toggle the visibility of the popovers.
-    $scope.togglePopover = function(name, event) {
+    $scope.togglePopover = function (name, event) {
       QuickPostService.togglePopover(name, event, $scope.popups);
     };
 
@@ -196,7 +196,7 @@ angular.module('c4mApp')
      *
      * @returns {boolean}
      */
-    $scope.termHasChildrenSelected = function(vocab, key, childKey) {
+    $scope.termHasChildrenSelected = function (vocab, key, childKey) {
       if (childKey != 'null') {
         // This is 2-level term.
         if (!$scope[vocab][key].children[childKey]) {
@@ -235,7 +235,7 @@ angular.module('c4mApp')
     };
 
     // Close all popovers on "ESC" key press.
-    $document.on('keyup', function(event) {
+    $document.on('keyup', function (event) {
       // 27 is the "ESC" button.
       if (event.which == 27) {
         $scope.closePopups();
@@ -243,11 +243,11 @@ angular.module('c4mApp')
     });
 
     // Close all popovers on click outside popup box.
-    $document.on('mousedown', function(event) {
+    $document.on('mousedown', function (event) {
       // Check if we are not clicking on the popup.
       var parents = angular.element(event.target).parents();
       var close = true;
-      angular.forEach(parents, function(parent, id) {
+      angular.forEach(parents, function (parent, id) {
         if (parent.className.indexOf('popover') != -1) {
           close = false;
         }
@@ -261,8 +261,8 @@ angular.module('c4mApp')
     /**
      * Make all popups closed.
      */
-    $scope.closePopups = function() {
-      $scope.$apply(function(scope) {
+    $scope.closePopups = function () {
+      $scope.$apply(function (scope) {
         angular.forEach($scope.popups, function (value, key) {
           this[key] = 0;
         }, $scope.popups);
@@ -285,7 +285,7 @@ angular.module('c4mApp')
      *  @param type
      *    The type of the submission.
      */
-    $scope.submitForm = function(data, resource, type) {
+    $scope.submitForm = function (data, resource, type) {
 
       // Stop the "Activity-stream" auto refresh When submitting a new activity,
       // because we don't want the auto refresh to display the activity as an old one.
@@ -308,7 +308,7 @@ angular.module('c4mApp')
             var location = result.data.results[0].geometry.location;
             submitData.location.lat = location.lat;
             submitData.location.lng = location.lng;
-            angular.forEach(result.data.results[0].address_components, function(value, key) {
+            angular.forEach(result.data.results[0].address_components, function (value, key) {
               // Find country short name.
               if (value.types[0] == 'country') {
                 submitData.location.country = value.short_name;
@@ -340,7 +340,7 @@ angular.module('c4mApp')
      * @param type
      *  The type of the submission.
      */
-    var checkForm  = function(submitData, resource, resourceFields, type) {
+    var checkForm  = function (submitData, resource, resourceFields, type) {
       // Check for required fields.
       var errors = Request.checkRequired(submitData, resource, resourceFields);
 
@@ -350,7 +350,7 @@ angular.module('c4mApp')
 
       // Cancel submit and display errors if we have errors.
       if (Object.keys(errors).length) {
-        angular.forEach(errors, function(value, field) {
+        angular.forEach(errors, function (value, field) {
           this[field] = value;
         }, $scope.errors);
         // Scroll up upon discovering an error.
@@ -405,11 +405,11 @@ angular.module('c4mApp')
      * @param $files
      *  The file.
      */
-    $scope.onFileSelect = function($files) {
+    $scope.onFileSelect = function ($files) {
       // $files: an array of files selected, each file has name, size, and type.
       for (var i = 0; i < $files.length; i++) {
         var file = $files[i];
-        FileUpload.upload(file).then(function(data) {
+        FileUpload.upload(file).then(function (data) {
           $scope.data.document = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
@@ -420,7 +420,7 @@ angular.module('c4mApp')
     /**
      * Remove uploaded file.
      */
-    $scope.removeUploadedFile = function() {
+    $scope.removeUploadedFile = function () {
       angular.element('#document_file').val('');
       $scope.data.document = null;
       delete $scope.data.fileName;
@@ -430,7 +430,7 @@ angular.module('c4mApp')
     /**
      * Opens the system's file browser.
      */
-    $scope.browseFiles = function() {
+    $scope.browseFiles = function () {
       angular.element('#document_file').click();
     };
 
@@ -439,7 +439,7 @@ angular.module('c4mApp')
      *
      * Clears all the fields for a new entry.
      */
-    $scope.resetEntityForm = function() {
+    $scope.resetEntityForm = function () {
       // Clear any form validation errors.
       $scope.entityForm.$setPristine();
       // Reset all the fields.

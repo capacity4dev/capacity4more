@@ -1,5 +1,11 @@
 .pane-c4m-content-group {
 
+  .form-item.form-type-item.form-group {
+    label {
+      display: block;
+    }
+  }
+
   .c4m-created-on-date {
     text-align: center;
     padding: 8px 0;
@@ -12,5 +18,13 @@
     a.fieldset-legend {
       direction: rtl;
     }
+  }
+
+  .taxonomy-title {
+    margin: 5px 0;
+  }
+
+  .taxonomy-item {
+    margin-left: 10px;
   }
 }

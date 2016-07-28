@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Plugin to provide access control/visibility based on PURL in URL or not.

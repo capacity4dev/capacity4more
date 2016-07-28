@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Views argument plugin.
@@ -8,6 +9,7 @@
  * The group members argument default handler.
  */
 class c4m_features_og_members_plugin_argument_default extends views_plugin_argument_default {
+
   /**
    * Return the members of current group.
    *

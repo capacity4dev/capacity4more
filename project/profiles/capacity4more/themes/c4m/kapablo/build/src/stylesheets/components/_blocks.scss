@@ -5,3 +5,27 @@
     }
   }
 }
+
+#block-system-main-menu h2 {
+  display: none;
+}
+
+.page-taxonomy .block-system > div {
+  border-bottom: 1px dashed $color-gray-light;
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+
+  &:first-of-type,
+  &:last-of-type {
+    border-bottom: none;
+  }
+}
+
+// todo: move following selectors to taxonomy.scss (?)
+.page-taxonomy .page-header {
+  margin: 0;
+}
+
+.page-taxonomy .taxonomy-term {
+  padding-bottom: 0!important;
+}
