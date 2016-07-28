@@ -637,7 +637,7 @@ function c4m_user_og_group_unified_workflow($group, $account = FALSE) {
 
   $messages = array(
     'open' => t('You are now a member of this group'),
-    'moderated' => t('This is a moderated group. Your request is waiting for approval. Continue to explore group @group_title content', array('@group_title' => $group->title)),
+    'moderated' => t("This is a moderated group. Your request is waiting for approval. Continue to explore group's content."),
   );
   $message = $messages[$membership_request_value];
 
