@@ -346,21 +346,30 @@ function c4m_content_node_view($node, $view_mode, $langcode) {
 function c4m_content_menu() {
   $items = [];
 
-  $items['foo/nojs/%node'] = [
+  $items['foo/nojs/%node/%status'] = [
     'title' => 'Change flag',
-    'page callback' => 'c4m_content_flag_change',
-    'page arguments' => [2],
+    'page callback' => 'c4m_content_promote_change',
+    'page arguments' => [2, 3],
     'access arguments' => array('access content'),
+    'access callback' => '',
   ];
 
   return $items;
 }
 
-function c4m_content_flag_change($node) {
+/**
+ * Change the 'promote' filed in a node.
+ *
+ * @param $node
+ *  The node to be changed.
+ * @param $status
+ *  The value to change to.
+ */
+function c4m_content_promote_change($node, $status) {
   $wrapper = entity_metadata_wrapper('node', $node);
 
   // Toggle the promote value.
-  $wrapper->promote->set(!$wrapper->value()->promote);
+  $wrapper->promote->set($status);
   $wrapper->save();
 
   return $node->title;
