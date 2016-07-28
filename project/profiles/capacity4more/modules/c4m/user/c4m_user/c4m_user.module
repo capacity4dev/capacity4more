@@ -1145,8 +1145,9 @@ function c4m_user_entity_insert($entity, $type) {
     _c4m_user_flag_node_with_flag($entity->nid, $entity->type, 'subscribe_c4m_follow_comment', FALSE);
   }
   elseif ($type == 'comment') {
+    $node = node_load($entity->nid);
     // Add 'follow comment' flag.
-    _c4m_user_flag_node_with_flag($entity->nid, $entity->type, 'subscribe_c4m_follow_comment');
+    _c4m_user_flag_node_with_flag($entity->nid, $node->type, 'subscribe_c4m_follow_comment');
   }
 }
 
@@ -1181,12 +1182,12 @@ function c4m_user_entity_update($entity, $type) {
  * @param string $flag_name
  *   Flag name for flagging.
  * @param bool $check_entity_flagged
- *   Whether to check if node is already flagged for user,  with provided flag.
+ *   Whether to check if node is already flagged for user, with provided flag.
  * @param int $uid
  *   User for which entity is flagged. If not provided, current user is used.
  */
 function _c4m_user_flag_node_with_flag($nid, $node_type, $flag_name, $check_entity_flagged = TRUE, $uid = NULL) {
-  if (_c4m_user_content_node_requires_notification($node_type)) {
+  if (!_c4m_user_content_node_requires_notification($node_type)) {
     // No need to flag content that does not required notification.
     return;
   }
@@ -1196,7 +1197,8 @@ function _c4m_user_flag_node_with_flag($nid, $node_type, $flag_name, $check_enti
     return;
   }
 
-  flag('flag', $flag_name, $nid);
+  $account = $GLOBALS['user'];
+  flag('flag', $flag_name, $nid, $account, TRUE);
 }
 
 /**
