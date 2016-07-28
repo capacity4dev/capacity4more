@@ -51,7 +51,7 @@ function kapablo_preprocess_message(&$variables) {
  * Implements theme_preprocess_block().
  */
 function kapablo_preprocess_block(&$variables) {
-  if (isset($variables['elements']['#block']->info) && $variables['elements']['#block']->info == 'OG Menu : single') {
+  if (isset($variables['elements']['#block']->bid) && $variables['elements']['#block']->bid == 'og_menu-og_single_menu_block') {
     // This block is the OG Menu. Add the tpl to the suggested filename list:
     $variables['theme_hook_suggestions'][] = 'block__menu__c4m_og_menu';
   }
