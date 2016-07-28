@@ -148,8 +148,8 @@ function c4m_user_notifications_notify_admins_admin_granted($gid, $uid) {
 /**
  * Email notification to user about user him being revoked admin status.
  */
-function c4m_user_notifications_notify_user_admin_revoked($gid, $uid) {
-  _c4m_user_notify_user_admin_revoked($gid, $uid);
+function c4m_user_notifications_notify_user_admin_demoted($gid, $uid) {
+  _c4m_user_notify_user_admin_demoted($gid, $uid);
 }
 
 /**
@@ -162,7 +162,7 @@ function c4m_user_notifications_notify_user_admin_revoked($gid, $uid) {
  * @param int $uid
  *   User id.
  */
-function _c4m_user_notify_user_admin_revoked($gid, $uid) {
+function _c4m_user_notify_user_admin_demoted($gid, $uid) {
   $message = message_create('c4m_group_admin_demoted', array('uid' => $uid));
   c4m_message_load_tokens__c4m_group_admin_demoted($message);
 
@@ -175,7 +175,7 @@ function _c4m_user_notify_user_admin_revoked($gid, $uid) {
 /**
  * Email notification to group admins about user being revoked admin status.
  */
-function c4m_user_notifications_notify_admins_admin_revoked($gid, $uid) {
+function c4m_user_notifications_notify_admins_admin_demoted($gid, $uid) {
 }
 
 /**
@@ -191,15 +191,9 @@ function c4m_user_notifications_existing_node_updated($node) {
 }
 
 /**
- * Email notification to content author about recommendation on his content.
+ * Email notification to users 'subscribed' to content about new recommendation.
  */
-function c4m_user_notifications_notify_author_content_recommended($flag, $entity_id, $account, $flagging) {
-}
-
-/**
- * Email notification to subscribed editor about recommendation on content.
- */
-function c4m_user_notifications_notify_subscribed_editor_content_recommended($flag, $entity_id, $account, $flagging) {
+function c4m_user_notifications_content_recommended($flag, $entity_id, $account, $flagging) {
 }
 
 /**
@@ -273,4 +267,30 @@ function _c4m_user_notifications_get_admins_and_owner_ids($gid) {
   }
 
   return $group_admins_ids;
+}
+
+/**
+ * Helper function.
+ *
+ * Returns ids of all users that have flagged $node, with $flag_name.
+ *
+ * @param object $node
+ *   Node object.
+ * @param string $flag_name
+ *   Name of the flag with which user flagged the node.
+ *
+ * @return array $uids
+ *   Array of user ids that flagged the node.
+ */
+function _c4m_user_notifications_get_flagging_uids($node, $flag_name) {
+  // Set flag name as a search criteria.
+  $property_info = array('flag_name' => $flag_name);
+  $flagging_users_ids = flag_properties_get_flagging_users($node, array(), '', 'node', $property_info);
+  $uids = array();
+
+  foreach ($flagging_users_ids as $flagging_user_id) {
+    $uids[$flagging_user_id] = array('notifiers' => array('email'));
+  }
+
+  return $uids;
 }

@@ -289,8 +289,8 @@ function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
     return;
   }
 
-  c4m_user_notifications_notify_user_admin_revoked($gid, $uid);
-  c4m_user_notifications_notify_admins_admin_revoked($gid, $uid);
+  c4m_user_notifications_notify_user_admin_demoted($gid, $uid);
+  c4m_user_notifications_notify_admins_admin_demoted($gid, $uid);
 }
 
 /**
@@ -318,13 +318,24 @@ function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging
     return;
   }
 
-  if ($flag->name != 'subscribe_c4m_follow_node') {
+  if ($flag->name != 'c4m_og_content_recommend') {
     // If not recommendation flag, return early.
     return;
   }
 
-  c4m_user_notifications_notify_author_content_recommended($flag, $entity_id, $account, $flagging);
-  c4m_user_notifications_notify_subscribed_editor_content_recommended($flag, $entity_id, $account, $flagging);
+  if (!og_context()) {
+    // If not at OG context, return early.
+    return;
+  }
+
+  $node = node_load($entity_id);
+  $notification_types = array('wiki_page', 'discussion', 'document', 'event');
+  if (!in_array($node->type, $notification_types)) {
+    // If recommended content does not required notification, return early.
+    return;
+  }
+
+  c4m_user_notifications_content_recommended($flag, $entity_id, $account, $flagging);
 }
 
 /**
