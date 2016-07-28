@@ -53,9 +53,7 @@ function c4m_user_profile_resend_email_change_confirmation_email_form_submit($fo
  *
  * @ingroup forms
  */
-function c4m_user_profile_remove_account_form($form, $form_state) {
-  $account = menu_get_object('user', 1);
-
+function c4m_user_profile_remove_account_form($form, $form_state, $account) {
   // We emulate the default user deletion form values to use the default process.
   $form['_account'] = array(
     '#type' => 'value',
