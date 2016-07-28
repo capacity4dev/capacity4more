@@ -54,6 +54,13 @@ function kapablo_form_element_label(&$variables) {
     return '';
   }
 
+  $help_text = '';
+  // Adding the "What's this" in case of a help text.
+  if (!empty($element['#description'])) {
+    $help_text = $element['#description'];
+    $help_text = '<span class="what-is-this" data-toggle="tooltip" title="' . $help_text . '">What\'s this</span>';
+  }
+
   // Retrieve the label attributes array.
   $attributes = &_bootstrap_get_attributes($element, 'label_attributes');
 
@@ -91,5 +98,5 @@ function kapablo_form_element_label(&$variables) {
   }
 
   // The leading whitespace helps visually separate fields from inline labels.
-  return ' <label' . drupal_attributes($attributes) . '>' . $output . "</label>\n";
+  return ' <label' . drupal_attributes($attributes) . '>' . $output . "</label>{$help_text}\n";
 }
