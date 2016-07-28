@@ -1325,3 +1325,27 @@ function c4m_user_profile_get_expertise_topics($uid) {
 
   return $amount;
 }
+
+/**
+ * Implements hook_user_cancel().
+ *
+ * Removes all user cookies and session information when an user leaves the
+ * platform.
+ */
+function c4m_user_profile_user_cancel($edit, $account, $method) {
+  // Remove all the cookies.
+  if (isset($_SERVER['HTTP_COOKIE'])) {
+    $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+    foreach ($cookies as $cookie) {
+      $parts = explode('=', $cookie);
+      $name = trim($parts[0]);
+      setcookie($name, '', time() - 1000);
+      setcookie($name, '', time() - 1000, '/');
+    }
+  }
+
+  // Remove all the session information.
+  $query = db_delete('sessions');
+  $query->condition('uid', $account->uid);
+  $query->execute();
+}
