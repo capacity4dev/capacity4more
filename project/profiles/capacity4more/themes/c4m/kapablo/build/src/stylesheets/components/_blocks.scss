@@ -6,26 +6,19 @@
   }
 }
 
-#block-system-main-menu h2 {
-  display: none;
-}
+.view {
+  .view-header {
+    margin: 10px 0;
 
-.page-taxonomy .block-system > div {
-  border-bottom: 1px dashed $color-gray-light;
-  padding-bottom: 25px;
-  margin-bottom: 25px;
-
-  &:first-of-type,
-  &:last-of-type {
-    border-bottom: none;
+    a {
+      &.node-create-event {
+        background-color: #8ABCC7;
+        padding: 10px;
+        color: #fff;
+        border-radius: 50px;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+    }
   }
-}
-
-// todo: move following selectors to taxonomy.scss (?)
-.page-taxonomy .page-header {
-  margin: 0;
-}
-
-.page-taxonomy .taxonomy-term {
-  padding-bottom: 0!important;
 }
