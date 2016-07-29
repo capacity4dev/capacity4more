@@ -953,7 +953,7 @@ function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) 
   }
 
   return $groups_ids;
-  }
+}
 
 /**
  * Implements hook_node_update().
