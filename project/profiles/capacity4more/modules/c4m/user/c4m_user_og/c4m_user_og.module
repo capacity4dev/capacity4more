@@ -457,11 +457,11 @@ function c4m_user_og_theme() {
 }
 
 /**
- * Implements hook_c4m_cta_block_alter().
+ * Implements hook_c4m_cta_block().
  *
  * Set the CTA block for visitors.
  */
-function c4m_user_og_c4m_cta_block_alter(&$block) {
+function c4m_user_og_c4m_cta_block() {
   if (!$group = c4m_og_current_group()) {
     return;
   }
@@ -493,13 +493,15 @@ function c4m_user_og_c4m_cta_block_alter(&$block) {
 
   $membership_request_value = c4m_og_get_group_membership_request($group);
 
-  $variables = array(
-    'button_label' => $types[$membership_request_value]['button_label'],
-    'button_icon' => $types[$membership_request_value]['button_icon'],
-    'url' => url('group/join/' . $group->nid, array('purl' => array('disabled' => TRUE))),
+  $items = array();
+  $items['visitors'] = array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => $types[$membership_request_value]['button_label'],
+    '#button_icon' => $types[$membership_request_value]['button_icon'],
+    '#url' => url('/user'),
   );
 
-  $block['content'] = theme('c4m_group_visitor_cta', $variables);
+  return $items;
 }
 
 /**
