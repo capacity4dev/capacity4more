@@ -11,10 +11,6 @@
  * Add bootstrap classes to the menu to style it as a horizontal menu
  * (default bootstrap).
  */
-function kapablo_menu_tree__c4m_og_menu(array $variables) {
-  return '<ul class="menu nav navbar-nav og-menu" role="tablist">' . $variables['tree'] . '</ul>';
-}
-
 function kapablo_menu_tree__og_group_menu(array $variables) {
   return '<ul class="menu nav navbar-nav og-menu" role="tablist">' . $variables['tree'] . '</ul>';
 }
@@ -68,8 +64,8 @@ function kapablo_menu_link__c4m_og_menu(array $variables) {
       $element['#attributes']['class'][] = 'dropdown';
       $element['#localized_options']['html'] = TRUE;
 
-      // Set dropdown trigger element to # to prevent inadvertant page loading
-      // when a submenu link is clicked.
+      // Set dropdown trigger element to # to prevent inadvertent page loading
+      // when a sub-menu link is clicked.
       $element['#localized_options']['attributes']['data-target'] = '#';
       $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
       $element['#localized_options']['attributes']['data-toggle'] = 'dropdown';

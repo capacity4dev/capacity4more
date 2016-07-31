@@ -43,7 +43,6 @@ function og_group_menu_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'og_menu_default_links_node_group';
   $strongarm->value = 'Home|node/[node:nid]
-Wiki|wiki
 Library|documents
 Discussions|discussions
 Media|media
@@ -56,7 +55,6 @@ Members|members';
   $strongarm->api_version = 1;
   $strongarm->name = 'og_menu_default_links_node_project';
   $strongarm->value = 'Home|node/[node:nid]
-Wiki|wiki
 Library|documents
 Discussions|discussions
 Media|media
