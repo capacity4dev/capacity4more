@@ -945,7 +945,13 @@ function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) 
     return $groups;
   }
 
-  $groups = node_load_multiple($groups, ['type' => $bundle]);
+  // Apply bundle filter only for specific bundle type
+  $conditions = array();
+  if ($bundle != 'showAll') {
+    $conditions['type'] = $bundle;
+  }
+
+  $groups = node_load_multiple($groups, $conditions);
 
   $groups_ids = array();
   foreach ($groups as $group) {
