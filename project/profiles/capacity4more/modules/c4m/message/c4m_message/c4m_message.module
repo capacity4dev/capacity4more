@@ -624,7 +624,7 @@ function c4m_message_format_node_body_teaser(Message $message) {
 }
 
 /**
- * Resolves a url that is used to un subscribe from following current node.
+ * Resolves a url that is used to un subscribe from following flagged node.
  *
  * @param Message $message
  *   The Message entity.
@@ -633,13 +633,33 @@ function c4m_message_format_node_body_teaser(Message $message) {
  *   Un subscribe url.
  */
 function c4m_message_format_node_unsubscribe_url(Message $message) {
+  return _c4m_message_format_unsubscribe_url($message, 'node');
+}
+
+/**
+ * Helper function.
+ *
+ * Resolves a url that is used to un subscribe from following an entity that is
+ * embedded inside message.
+ *
+ * @param Message $message
+ *   The Message entity.
+ * @param string $flag_suffix
+ *   The suffix of flag that is used to track message entity.
+ *
+ * @return string
+ *   Un subscribe url.
+ */
+function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $nid = $wrapper->field_node->value(array('identifier' => TRUE));
+  $entity_type = $flag_suffix == 'taxonomy_term' ? 'taxonomy_term' : 'node';
+  $field = "field_{$entity_type}";
+  $nid = $wrapper->$field->value(array('identifier' => TRUE));
   $uid = $message->uid;
   $account = user_load($uid);
   $hash = entity_metadata_wrapper('user', $account)->c4m_unsubscribe_hash->value();
 
-  return 'user/' . $uid . '/unsubscribe/node/' . $nid . '/' . $hash;
+  return 'user/' . $uid . '/unsubscribe/' . $flag_suffix . '/' . $nid . '/' . $hash;
 }
 
 /**
