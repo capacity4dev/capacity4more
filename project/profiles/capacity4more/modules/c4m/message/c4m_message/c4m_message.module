@@ -79,7 +79,7 @@ function _c4m_message_format_welcome_to_group_from_field(&$message, $message_ent
 /**
  * Helper function.
  *
- * Formats 'c4m_group_published' message From field, per template requirement.
+ * Formats 'c4m_group_published' message From field, per MT28 template.
  */
 function _c4m_message_format_group_published_from_field(&$message, $message_entity) {
   if ($message_entity->type != 'c4m_group_published') {
