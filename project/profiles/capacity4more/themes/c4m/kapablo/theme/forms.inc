@@ -55,10 +55,18 @@ function kapablo_form_element_label(&$variables) {
   }
 
   $help_text = '';
-  // Adding the "What's this" in case of a help text.
+  // Adding the "What's this?" in case of a help text.
   if (!empty($element['#description'])) {
-    $help_text = $element['#description'];
-    $help_text = '<span class="what-is-this" data-toggle="tooltip" title="' . $help_text . '">What\'s this</span>';
+    $tag['element'] = array(
+      '#tag' => 'span',
+      '#attributes' => array(
+        'class' => array('what-is-this'),
+        'data-toggle' => 'tooltip',
+        'title' => $element['#description'],
+      ),
+      '#value' => t('What\'s this?'),
+    );
+    $help_text = theme_html_tag($tag);
   }
 
   // Retrieve the label attributes array.
