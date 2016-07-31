@@ -234,10 +234,6 @@ function c4m_user_notifications_notify_comment_on_content($comment) {
  * Email notification to group requester, that group is waiting for review.
  */
 function c4m_user_notifications_notify_new_group_pending($node) {
-  _c4m_user_notifications_notify_owner_group_requested($node);
-}
-
-function _c4m_user_notifications_notify_owner_group_requested($node) {
   $message = message_create('c4m_group_requested', array('uid' => $node->uid));
   c4m_message_load_tokens__c4m_group_requested($message);
 
@@ -246,6 +242,7 @@ function _c4m_user_notifications_notify_owner_group_requested($node) {
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
+
 /**
  * Helper function.
  *
