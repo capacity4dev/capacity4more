@@ -250,8 +250,8 @@ function _c4m_user_notifications_comment_on_content($cid, $nid) {
   $wrapper->field_comment->set($cid);
 
   $node = node_load($nid);
- // $flagging_uids = _c4m_user_notifications_get_flagging_uids($node, 'subscribe_c4m_follow_comment');
-  $flagging_uids = array (2 => array('notifiers' => array('email')));
+  $flagging_uids = _c4m_user_notifications_get_flagging_uids($node, 'subscribe_c4m_follow_comment');
+  // $flagging_uids = array (2 => array('notifiers' => array('email')));.
   $subscribe_options = array(
     'uids' => $flagging_uids,
   );
