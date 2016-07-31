@@ -244,6 +244,12 @@ function c4m_user_notifications_notify_comment_on_content($comment) {
 }
 
 /**
+ * Email notification to group requester, that group is waiting for review.
+ */
+function c4m_user_notifications_notify_new_group_pending($node) {
+
+}
+/**
  * Helper function.
  *
  * Returns an array of ids for all group admins and group owner.
