@@ -39,9 +39,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Cp\\u003EYour @group_node_type@\\u0026nbsp;request on [site:name]\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n",
+          "value" : "\\u003Cp\\u003EYour @group_node_type\\u0026nbsp;request on [site:name]\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n",
           "format" : "default_html",
-          "safe_value" : "\\u003Cp\\u003EYour @group_node_type@\\u00a0request on [site:name]\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003EYour @group_node_type\\u00a0request on [site:name]\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n"
         },
         {
           "value" : "\\u003Cp\\u003EDear @group_owner_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\nThank you for requesting the creation of the following @group_node_type: @group_node_title at [site:name].\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYour request is currently pending review by one of the site\\u0027s administrators and should be treated shortly.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EIf you have any questions, please feel free to \\u003Ca href=\\u0022mailto:capacity4dev@ec.europa.eu\\u0022\\u003Econtact us\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EThe [site:name] team\\u003C\\/p\\u003E\\r\\n",
