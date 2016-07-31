@@ -236,6 +236,7 @@ function c4m_user_notifications_notify_comment_on_content($comment) {
 function c4m_user_notifications_notify_new_group_pending($node) {
 
 }
+
 /**
  * Helper function.
  *
