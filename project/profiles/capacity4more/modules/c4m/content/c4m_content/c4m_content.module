@@ -497,7 +497,6 @@ function c4m_content_promote_change_access($group, $node, $status) {
     }
   }
 
-
   return $group->uid == $user->uid;
 }
 
