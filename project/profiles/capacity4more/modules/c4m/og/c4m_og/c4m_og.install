@@ -18,6 +18,7 @@ function c4m_og_install() {
  */
 function _c4m_og_install_context() {
   $config = array(
+    'og_context_access_callback' => array(),
     'og_purl' => array(),
     'url'     => array(),
     'node'    => array(),
@@ -26,12 +27,13 @@ function _c4m_og_install_context() {
   variable_set('og_context_negotiation_group_context', $config);
 
   $weights = array(
-    'og_purl' => '-10',
-    'url' => '-9',
-    'node' => '-8',
-    'comment' => '-7',
-    'user-view' => '-6',
-    'user-edit' => '-5',
+    'og_context_access_callback' => '-10',
+    'og_purl' => '-9',
+    'url' => '-8',
+    'node' => '-7',
+    'comment' => '-6',
+    'user-view' => '-5',
+    'user-edit' => '-4',
   );
   variable_set('og_context_providers_weight_group_context', $weights);
 }
