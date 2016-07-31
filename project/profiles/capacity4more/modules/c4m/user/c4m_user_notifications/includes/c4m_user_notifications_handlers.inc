@@ -42,7 +42,7 @@ function c4m_user_notifications_moderated_group_notify_admins_membership_accepte
  */
 function c4m_user_notifications_open_group_notify_admins_membership_accepted($membership) {
   // Create an ids array of group owner and admins.
-  $group_admins_ids = _c4m_user_notifications_get_admins_and_owner_ids($membership->gid);
+  $group_admins_ids = c4m_og_get_group_admins($membership->gid, TRUE);
 
   foreach ($group_admins_ids as $admin_id) {
     _c4m_user_notifications_open_group_notify_admin_membership_accepted($membership, $admin_id);
