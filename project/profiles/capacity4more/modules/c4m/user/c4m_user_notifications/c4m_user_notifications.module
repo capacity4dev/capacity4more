@@ -182,6 +182,7 @@ function c4m_user_notifications_node_insert($node) {
     return;
   }
 
+  _c4m_user_notifications_process_general_triggers_insert($node);
   _c4m_user_notifications_process_og_alter($node, 'insert');
   _c4m_user_notifications_process_og_content_alter($node, 'insert');
 }
@@ -350,6 +351,26 @@ function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging
  */
 function c4m_user_notifications_cron() {
   c4m_user_notifications_notify_inactive_users();
+}
+
+/**
+ * Helper function.
+ *
+ * Triggers email notifications when organic group is inserted:
+ *   Notifies group requester that the group is waiting for review by admin.
+ */
+function _c4m_user_notifications_process_general_triggers_insert($node) {
+  if ($node->status != NODE_PUBLISHED) {
+    // Return early, if node is not published.
+    return;
+  }
+
+  if (!og_is_group('node', $node)) {
+    // Return early, if node type is not group/project.
+    return;
+  }
+
+  c4m_user_notifications_notify_new_group_pending($node);
 }
 
 /**
