@@ -935,6 +935,11 @@ function c4m_og_feature_uninstall($feature) {
  *    Returns array of group nodes IDs of specific node type.
  */
 function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) {
+  if (empty($account)) {
+    global $user;
+    $account = $user;
+  }
+
   $groups = og_get_groups_by_user($account, 'node');
   if (!$groups || !$bundle) {
     return $groups;
