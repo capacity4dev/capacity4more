@@ -228,6 +228,34 @@ function c4m_user_notifications_notify_inactive_users() {
  * Email notification to all commenters, about comment on group content.
  */
 function c4m_user_notifications_notify_comment_on_content($comment) {
+  _c4m_user_notifications_comment_on_content($comment->cid, $comment->nid);
+}
+
+/**
+ * Helper function.
+ *
+ * Sends mail notification to content comments subscribers, on new comment.
+ *
+ * @param int $cid
+ *   Comment id.
+ * @param int $nid
+ *   Node id.
+ */
+function _c4m_user_notifications_comment_on_content($cid, $nid) {
+  $message = message_create('c4m_notify_subscribers_new_comment');
+  c4m_message_load_tokens__c4m_notify_subscribers_new_comment($message);
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_comment->set($cid);
+
+  $node = node_load($nid);
+ // $flagging_uids = _c4m_user_notifications_get_flagging_uids($node, 'subscribe_c4m_follow_comment');
+  $flagging_uids = array (2 => array('notifiers' => array('email')));
+  $subscribe_options = array(
+    'uids' => $flagging_uids,
+  );
+  // Message will be saved in message_subscribe_send_message().
+  message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options);
 }
 
 /**
