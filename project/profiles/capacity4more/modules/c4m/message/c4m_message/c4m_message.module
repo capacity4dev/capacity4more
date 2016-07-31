@@ -77,11 +77,11 @@ function _c4m_message_format_welcome_to_group_from_field(&$message, $message_ent
 }
 
 /**
- * Formats 'c4m_group_requested' message From field, per MT49 at template.
+ * Formats 'c4m_group_requested' message From field, per MT49 template.
  */
 function _c4m_message_format_group_requested_from_field(&$message, $message_entity) {
   if ($message_entity->type != 'c4m_group_requested') {
-    // For message type other than c4m_group_requested_recommendation - return early.
+    // For message type other than c4m_group_requested - return early.
     return;
   }
 
