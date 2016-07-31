@@ -77,7 +77,7 @@ function _c4m_message_format_welcome_to_group_from_field(&$message, $message_ent
 }
 
 /**
- * Formats 'c4m_notify_content_recommendation' message From field, per template.
+ * Formats 'c4m_notify_content_recommendation' message From field, per MT23.
  */
 function _c4m_message_format_notify_content_recommendation_from_field(&$message, $message_entity) {
   if ($message_entity->type != 'c4m_notify_content_recommendation') {
