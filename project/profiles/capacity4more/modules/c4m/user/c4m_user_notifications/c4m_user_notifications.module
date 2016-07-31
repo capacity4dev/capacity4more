@@ -360,8 +360,8 @@ function c4m_user_notifications_cron() {
  *   Notifies group requester that the group is waiting for review by admin.
  */
 function _c4m_user_notifications_process_general_triggers_insert($node) {
-  if ($node->status == NODE_PUBLISHED) {
-    // Return early, if node is already published.
+  if ($node->status != NODE_PUBLISHED) {
+    // Return early, if node is not published.
     return;
   }
 
