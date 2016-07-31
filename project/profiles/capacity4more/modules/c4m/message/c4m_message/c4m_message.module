@@ -50,6 +50,7 @@ function c4m_message_mail_alter(&$message) {
   $message_entity = $message['params']['message_entity'];
 
   _c4m_message_format_welcome_to_group_from_field($message, $message_entity);
+  _c4m_message_format_from_field_to_simple_pattern($message, $message_entity);
 }
 
 /**
@@ -73,6 +74,18 @@ function _c4m_message_format_welcome_to_group_from_field(&$message, $message_ent
       '@mail' => $author->mail,
     )
   );
+}
+
+/**
+ * Formats 'c4m_group_requested' message From field, per MT49 at template.
+ */
+function _c4m_message_format_group_requested_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_group_requested') {
+    // For message type other than c4m_group_requested_recommendation - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_simple_pattern($message);
 }
 
 /**
@@ -209,6 +222,29 @@ function c4m_message_load_tokens__c4m_welcome_to_group(Message $message) {
 
   $message->arguments['@go_full_name'] = array(
     'callback' => 'c4m_message_format_group_owner_full_name',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_group_requested message arguments.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_group_requested(Message $message) {
+  $message->arguments['@group_owner_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
   );
 }
