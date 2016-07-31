@@ -37,6 +37,25 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
       '#weight' => 14,
     );
   }
+
+  // Removes Unpublish button from forms.
+  if ($form['actions']['draft']['#value'] == t('Unpublish')) {
+    unset($form['actions']['draft']);
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * Since form_alter hook is being called after this (c4m_content) module,
+ * we need to change the call order.
+ */
+function c4m_content_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter' && isset($implementations['c4m_content'])) {
+    $c4m_content = $implementations['c4m_content'];
+    unset($implementations['c4m_content']);
+    $implementations['c4m_content'] = $c4m_content;
+  }
 }
 
 /**
@@ -301,6 +320,80 @@ function c4m_content_current_context() {
   else {
     return 'global';
   }
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function c4m_content_field_formatter_info() {
+  return array(
+    'c4m_formatter_ec_money' => array(
+      'label' => t('EC money'),
+      'field types' => array('money'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function c4m_content_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = $used = array();
+
+  switch ($display['type']) {
+    case 'c4m_formatter_ec_money':
+      foreach ($items as $delta => $item) {
+        // Code inspired from money_field_formatter_view().
+        $currency = $item['currency'];
+        $currency_object = currency_load($currency);
+
+        $symbol = $currency_object->sign;
+        $decimal_separator = '.';
+        $grouping_separator = '&nbsp;';
+
+        // Amount with currency-based decimal and grouping separators.
+        $amount = number_format($item['amount'], $field['settings']['scale'], $decimal_separator, $grouping_separator);
+
+        // Amount with currency-based decimal and grouping separators and a
+        // currency symbol.
+        $amount_with_symbol = $currency_object->format($item['amount']);
+
+        $output = '';
+        foreach (explode('|', $instance['widget']['settings']['currency_display_mode']) as $option) {
+          switch ($option) {
+            case 'a':
+              // The amount.
+              $output .= $amount;
+              break;
+
+            case 'as':
+              // Amount with currency symbol.
+              $output .= $amount_with_symbol;
+              break;
+
+            case 'c':
+              // Currency code.
+              $output .= $currency;
+              break;
+
+            case 's':
+              // Currency symbol.
+              $output .= $symbol;
+              break;
+
+            case '+':
+              // Separator.
+              $output .= '&nbsp;';
+              break;
+          }
+        }
+
+        $element[$delta] = array('#markup' => $output);
+      }
+
+      break;
+  }
+  return $element;
 }
 
 /**

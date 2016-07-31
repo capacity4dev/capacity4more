@@ -314,6 +314,14 @@ function c4m_user_profile_form_user_register_form_alter(
     ),
   );
   $form['#submit'][] = 'c4m_user_profile_form_user_register_form_submit';
+
+  // If user is administrator.
+  if (user_access('administer users')) {
+    // Hide status fields - SA-created user is always active.
+    $form['account']['status']['#access'] = FALSE;
+    // Alter 'notify user' checkbox title.
+    $form['account']['notify']['#title'] = t('Send password reset link');
+  }
 }
 
 /**
@@ -568,6 +576,11 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
       array('@name' => $name)
     )
   );
+
+  // Always send "welcome" mail for user created by admin.
+  if (user_access('administer users')) {
+    _user_mail_notify('status_activated', $form['#user']);
+  }
 
   // Process subscription to mailing list.
   if (empty($form_state['values']['subscribe_to_mailinglist'])) {
