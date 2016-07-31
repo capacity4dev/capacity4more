@@ -46,7 +46,8 @@ function kapablo_menu_link(&$variables) {
         // The list to put in the dropdown.
         $tag['element'] = array(
           '#tag' => 'ul',
-          // Book links will be rendered by kapablo_menu_link__book_c4m_og_menu().
+          // Book links will be rendered by
+          // kapablo_menu_link__book_c4m_og_menu().
           '#value' => drupal_render($element['#below']),
         );
         $sub_menu = theme_html_tag($tag);
@@ -72,7 +73,8 @@ function kapablo_menu_link(&$variables) {
         $element['#localized_options']['attributes']['data-disabled'] = 'true';
       }
     }
-    // On primary navigation menu, class 'active' is not set on active menu item.
+    // On primary navigation menu, class 'active' is not set on active menu
+    // item.
     // @see https://drupal.org/node/1896674
     if (($element['#href'] == current_path() || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))
     ) {

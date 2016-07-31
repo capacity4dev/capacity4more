@@ -31,7 +31,7 @@ function og_group_menu_block_view_alter(&$data, $block) {
     $value['#attributes']['class'][] = 'og-menu-link';
     $value['#attributes']['class'][] = str_replace('/', '', $value['#href']);
     if ($value['#title'] == 'Home') {
-      // Group home link
+      // Group home link.
       $value['#attributes']['class'][] = 'front';
       if ($item['path'] == 'node') {
         $value['#attributes']['class'][] = 'active';
