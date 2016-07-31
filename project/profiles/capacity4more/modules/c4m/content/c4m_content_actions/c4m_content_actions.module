@@ -99,11 +99,10 @@ function c4m_content_actions_ds_fields_info($entity_type) {
   return $fields;
 }
 
-
 /**
  * Helper functions.
  *
- * Returns an array of group content type
+ * Returns an array of group content types that require notification.
  */
 function _c4m_user_notifications_get_group_content_notification_types() {
   return array('document', 'discussion', 'event', 'wiki_page');
