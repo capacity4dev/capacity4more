@@ -50,7 +50,7 @@ function c4m_message_mail_alter(&$message) {
   $message_entity = $message['params']['message_entity'];
 
   _c4m_message_format_welcome_to_group_from_field($message, $message_entity);
-  _c4m_message_format_from_field_to_simple_pattern($message, $message_entity);
+  _c4m_message_format_group_requested_from_field($message, $message_entity);
 }
 
 /**
