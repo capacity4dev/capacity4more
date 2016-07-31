@@ -676,6 +676,23 @@ function c4m_message_format_node_body_teaser(Message $message) {
 }
 
 /**
+ * Resolves a teaser of nodes body.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Node body teaser.
+ */
+function c4m_message_format_comment_body_teaser(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $comment = $wrapper->field_comment->value();
+  $body_teaser = field_view_field('comment', $comment, 'c4m_body', 'teaser');
+
+  return strip_tags($body_teaser[0]['#markup']);
+}
+
+/**
  * Resolves a url that is used to un subscribe from following flagged node.
  *
  * @param Message $message
@@ -686,6 +703,19 @@ function c4m_message_format_node_body_teaser(Message $message) {
  */
 function c4m_message_format_node_unsubscribe_url(Message $message) {
   return _c4m_message_format_unsubscribe_url($message, 'node');
+}
+
+/**
+ * Resolves a url that is used to un subscribe from following content comments.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Un subscribe url.
+ */
+function c4m_message_format_unsubscribe_content_comments_url(Message $message) {
+  return _c4m_message_format_unsubscribe_url($message, 'comment');
 }
 
 /**
