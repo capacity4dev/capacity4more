@@ -557,7 +557,6 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
   }
 }
 
-
 /**
  * Helper functions.
  *
