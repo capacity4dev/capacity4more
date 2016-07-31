@@ -79,7 +79,7 @@ function c4m_user_notifications_group_status_set_republished($node, $group_forme
  * Status changed from 'published' to 'draft'.
  */
 function c4m_user_notifications_group_status_set_unpublished($node, $group_former_status) {
-  $group_admins_ids = _c4m_user_notifications_get_admins_and_owner_ids($node->nid);
+  $group_admins_ids = c4m_og_get_group_admins($node->nid, TRUE);
 
   foreach ($group_admins_ids as $admin_id) {
     _c4m_user_notifications_to_admin_group_status_set_unpublished($node, $admin_id, $group_former_status);
