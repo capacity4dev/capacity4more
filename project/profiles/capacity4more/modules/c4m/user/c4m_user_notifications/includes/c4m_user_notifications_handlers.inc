@@ -172,13 +172,13 @@ function c4m_user_notifications_notify_admins_admin_granted($gid, $uid) {
 /**
  * Email notification to user about user him being revoked admin status.
  */
-function c4m_user_notifications_notify_user_admin_revoked($gid, $uid) {
+function c4m_user_notifications_notify_user_admin_demoted($gid, $uid) {
 }
 
 /**
  * Email notification to group admins about user being revoked admin status.
  */
-function c4m_user_notifications_notify_admins_admin_revoked($gid, $uid) {
+function c4m_user_notifications_notify_admins_admin_demoted($gid, $uid) {
 }
 
 /**
@@ -194,15 +194,9 @@ function c4m_user_notifications_existing_node_updated($node) {
 }
 
 /**
- * Email notification to content author about recommendation on his content.
+ * Email notification to users 'subscribed' to content about new recommendation.
  */
-function c4m_user_notifications_notify_author_content_recommended($flag, $entity_id, $account, $flagging) {
-}
-
-/**
- * Email notification to subscribed editor about recommendation on content.
- */
-function c4m_user_notifications_notify_subscribed_editor_content_recommended($flag, $entity_id, $account, $flagging) {
+function c4m_user_notifications_content_recommended($flag, $entity_id, $account, $flagging) {
 }
 
 /**
@@ -261,19 +255,34 @@ function c4m_user_notifications_notify_comment_on_content($comment) {
 }
 
 /**
+ * Email notification to group requester, that group is waiting for review.
+ */
+function c4m_user_notifications_notify_new_group_pending($node) {
+
+}
+
+/**
  * Helper function.
  *
- * Returns an array of ids for all group admins and group owner.
+ * Returns ids of all users that have flagged $node, with $flag_name.
+ *
+ * @param object $node
+ *   Node object.
+ * @param string $flag_name
+ *   Name of the flag with which user flagged the node.
+ *
+ * @return array $uids
+ *   Array of user ids that flagged the node.
  */
-function _c4m_user_notifications_get_admins_and_owner_ids($gid) {
-  // Get an array of ids for group admins.
-  $group_admins_ids = c4m_og_get_group_admins_ids($gid);
-  // Load group.
-  $group = node_load($gid);
-  // If group owner is not defined as group admin, add it to admins list.
-  if (!in_array($group->uid, $group_admins_ids)) {
-    $group_admins_ids[] = $group->uid;
+function _c4m_user_notifications_get_flagging_uids($node, $flag_name) {
+  // Set flag name as a search criteria.
+  $property_info = array('flag_name' => $flag_name);
+  $flagging_users_ids = flag_properties_get_flagging_users($node, array(), '', 'node', $property_info);
+  $uids = array();
+
+  foreach ($flagging_users_ids as $flagging_user_id) {
+    $uids[$flagging_user_id] = array('notifiers' => array('email'));
   }
 
-  return $group_admins_ids;
+  return $uids;
 }
