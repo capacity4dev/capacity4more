@@ -232,6 +232,13 @@ function c4m_user_notifications_comment_insert($comment) {
     return;
   }
 
+  $node = node_load($comment->nid);
+  $group_notification_types = _c4m_user_notifications_get_group_content_notification_types();
+  if (!$node->type || !in_array($node->type, $group_notification_types)) {
+    // Node comment is associated with does not require notification.
+    return;
+  }
+
   c4m_user_notifications_notify_user_commented($comment);
   c4m_user_notifications_notify_comment_on_content($comment);
 }
@@ -548,4 +555,14 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
         break;
     }
   }
+}
+
+
+/**
+ * Helper functions.
+ *
+ * Returns an array of group content types that require notification.
+ */
+function _c4m_user_notifications_get_group_content_notification_types() {
+  return array('document', 'discussion', 'event', 'wiki_page');
 }
