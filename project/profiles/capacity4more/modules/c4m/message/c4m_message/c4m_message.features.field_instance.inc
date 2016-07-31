@@ -2127,6 +2127,55 @@ function c4m_message_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance:
+  // 'message-c4m_notify_subscribers_new_comment-field_node'.
+  $field_instances['message-c4m_notify_subscribers_new_comment-field_node'] = array(
+    'bundle' => 'c4m_notify_subscribers_new_comment',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 2,
+      ),
+      'message_notify_email_body' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'message_notify_email_subject' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'message',
+    'field_name' => 'field_node',
+    'label' => 'Content Node',
+    'required' => FALSE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 6,
+    ),
+  );
+
   // Exported field_instance: 'message-c4m_welcome_to_group-field_group_node'.
   $field_instances['message-c4m_welcome_to_group-field_group_node'] = array(
     'bundle' => 'c4m_welcome_to_group',
@@ -2219,6 +2268,7 @@ function c4m_message_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Comment');
+  t('Content Node');
   t('Entity Published');
   t('Group node');
   t('Message text');

@@ -246,6 +246,7 @@ function _c4m_user_notifications_comment_on_content($cid, $nid) {
   c4m_message_load_tokens__c4m_notify_subscribers_new_comment($message);
 
   $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_node->set($nid);
   $wrapper->field_comment->set($cid);
 
   $node = node_load($nid);
