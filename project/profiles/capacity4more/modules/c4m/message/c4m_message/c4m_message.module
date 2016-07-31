@@ -268,7 +268,7 @@ function c4m_message_load_tokens__c4m_notify_subscribers_new_comment(Message $me
     'pass message' => TRUE,
   );
 
-  $message->arguments['!comment_content_urll'] = array(
+  $message->arguments['!comment_content_url'] = array(
     'callback' => 'c4m_message_format_node_url',
     'pass message' => TRUE,
   );
