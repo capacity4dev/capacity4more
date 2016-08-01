@@ -59,18 +59,22 @@ function c4m_user_profile_remove_account_form($form, $form_state, $account) {
     '#type' => 'value',
     '#value' => $account
   );
+
   $form['uid'] = array(
     '#type' => 'value',
     '#value' => $account->uid,
   );
+
   $form['user_cancel_confirm'] = array(
     '#type' => 'value',
     '#value' => FALSE,
   );
+
   $form['user_cancel_notify'] = array(
     '#type' => 'value',
     '#value' => FALSE,
   );
+
   $form['user_cancel_method'] = array(
     '#type' => 'value',
     '#value' => 'user_cancel_block',
