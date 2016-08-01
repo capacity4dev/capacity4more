@@ -17,3 +17,6 @@ projects[views_load_more][patch][] = "https://www.drupal.org/files/1330574_diffe
 projects[draggableviews][subdir] = "contrib"
 projects[draggableviews][version] = "2.1"
 projects[draggableviews][patch][] = "https://www.drupal.org/files/issues/draggableviews-2343793-16.patch"
+
+projects[views_contextual_filters_or][subdir] = "contrib"
+projects[views_contextual_filters_or][version] = "1.x-dev"

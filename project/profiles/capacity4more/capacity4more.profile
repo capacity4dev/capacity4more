@@ -133,7 +133,6 @@ function capacity4more_setup_set_og_permissions() {
     'event',
     'photo',
     'photoalbum',
-    'wiki_page',
   );
 
   $permissions = array();
@@ -150,7 +149,18 @@ function capacity4more_setup_set_og_permissions() {
   og_role_grant_permissions($auth_rid, $permissions);
 
   // Set OG_ADMINISTRATOR_ROLE permissions.
+  $content_types = array(
+    'wiki_page',
+  );
+
   $permissions = array();
+  foreach ($content_types as $content_type) {
+    $permissions = array_merge($permissions, array(
+      "create $content_type content",
+      "update own $content_type content",
+      "update any $content_type content",
+    ));
+  }
 
   // OG Flag permissions.
   $og_flag_perms = array(
@@ -165,6 +175,27 @@ function capacity4more_setup_set_og_permissions() {
   $roles = og_roles('node', 'group');
   $admin_member_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
   og_role_grant_permissions($admin_member_rid, $permissions);
+
+  // Set OG_ADMINISTRATOR_ROLE permissions by project.
+  $content_types = array(
+    'document',
+    'event',
+  );
+
+  $permissions = array();
+  foreach ($content_types as $content_type) {
+    $permissions = array_merge($permissions, array(
+      "create $content_type content",
+      "update own $content_type content",
+      "update any $content_type content",
+      "delete own $content_type content",
+      "delete any $content_type content",
+    ));
+  }
+
+  $roles = og_roles('node', 'project');
+  $auth_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
+  og_role_grant_permissions($auth_rid, $permissions);
 }
 
 /**
