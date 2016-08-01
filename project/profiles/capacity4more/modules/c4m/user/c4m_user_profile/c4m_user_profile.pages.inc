@@ -77,6 +77,7 @@ function c4m_user_profile_remove_account_form($form, $form_state, $account) {
 
   $form['user_cancel_method'] = array(
     '#type' => 'value',
+    // This method will block the user but leave the content assigned to the user.
     '#value' => 'user_cancel_block',
   );
 
@@ -102,13 +103,16 @@ function c4m_user_profile_remove_account_form($form, $form_state, $account) {
  */
 function c4m_user_profile_remove_account_form_submit($form, &$form_state) {
   $values = $form_state['values'];
-  $account = $form['#account'];
 
   if ($values['anonymize']) {
+    // This cancel method will reassign all the content of the user to the anonymous user.
     $values['user_cancel_method'] = 'user_cancel_reassign';
   }
 
+  // This calls the default Drupal workflow for cancelling an account.
   user_cancel($values, $values['uid'], $values['user_cancel_method']);
 
+  // As the user no longer exists, it doesn't have access to the current page (user profile).
+  // So we redirect it to the homepage.
   $form_state['redirect'] = '/';
 }
