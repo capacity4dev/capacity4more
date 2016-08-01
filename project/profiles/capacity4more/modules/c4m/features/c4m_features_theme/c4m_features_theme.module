@@ -16,3 +16,30 @@ function c4m_features_theme_bootstrap_colorize_text_alter(&$texts) {
   $texts['matches'][t('Login to join')] = 'primary';
   $texts['matches'][t('Register to join')] = 'success';
 }
+
+/**
+ * Implements hook_form_alter().
+ */
+function c4m_features_theme_form_alter(&$form, &$form_state, $form_id) {
+  _c4m_features_theme_set_what_is_this($form);
+}
+
+/**
+ * @param $elements
+ */
+function _c4m_features_theme_set_what_is_this(&$elements) {
+
+  foreach ($elements as &$element) {
+    if (is_array($element)) {
+      _c4m_features_theme_set_what_is_this($element);
+    }
+    else if (is_object($element)) {
+      continue;
+    }
+
+    if (isset($element['#description'])) {
+      $element['#what_is_this'] = $element['#description'];
+      unset($element['#description']);
+    }
+  }
+}

@@ -56,13 +56,13 @@ function kapablo_form_element_label(&$variables) {
 
   $help_text = '';
   // Adding the "What's this?" in case of a help text.
-  if (!empty($element['what_is_this'])) {
+  if (!empty($element['#what_is_this'])) {
     $tag['element'] = array(
       '#tag' => 'span',
       '#attributes' => array(
         'class' => array('what-is-this'),
         'data-toggle' => 'tooltip',
-        'title' => $element['what_is_this'],
+        'title' => $element['#what_is_this'],
       ),
       '#value' => t("What's this?"),
     );
@@ -107,25 +107,4 @@ function kapablo_form_element_label(&$variables) {
 
   // The leading whitespace helps visually separate fields from inline labels.
   return ' <label' . drupal_attributes($attributes) . '>' . $output . "</label>{$help_text}\n";
-}
-
-/**
- * Moving the '#description' variable (for the help-text).
- *
- * In order to display the help-text within a tooltip only, we should remove
- * the '#description' variable. The tooltip is being rendered on the
- * kapablo_form_element_label() by checking the 'what_is_this' variable on the
- * element.
- *
- * @see bootstrap_form_element()
- */
-function kapablo_form_element(&$variables) {
-  // Moving the description to a different variable so the
-  // 'bootstrap_form_element' won't render the help-text element.
-  if (isset($variables['element']['#description'])) {
-    $variables['element']['what_is_this'] = $variables['element']['#description'];
-    unset($variables['element']['#description']);
-  }
-
-  return bootstrap_form_element($variables);
 }
