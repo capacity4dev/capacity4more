@@ -448,33 +448,23 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
     return;
   }
 
-  $group_access = $wrapper->group_access->value();
-  $prev_group_access = $wrapper_original->group_access->value();
-  if ($group_access != $prev_group_access) {
-    // If group access has changed (switch between Public
-    // and Private/Restricted).
-    c4m_user_notifications_group_access_changed($node);
+  $group_access = c4m_og_get_access_type($wrapper->value());
+  $group_former_access = c4m_og_get_access_type($wrapper_original->value());
+  if ($group_access['type'] != $group_former_access['type']) {
+    // If group access has changed.
+    c4m_user_notifications_group_permissions_changed($node);
   }
-  elseif ($group_access == TRUE) {
-    // Possible switch between Private and Restricted.
-    $plug_node_access = empty($wrapper->pluggable_node_access->value());
-    $prev_plug_node_access = empty($wrapper_original->pluggable_node_access->value());
+  else {
+    // Check if 'membership open' state was changed - part of group access
+    // as well.
+    $membership_open = $wrapper->field_membership_open_request->value();
+    $prev_membership_open = $wrapper_original->field_membership_open_request->value();
 
-    if ($plug_node_access != $prev_plug_node_access) {
-      c4m_user_notifications_group_access_changed($node);
-    }
-    else {
-      // Check if 'membership open' state was changed - part of group access
-      // as well.
-      $membership_open = $wrapper->field_membership_open_request->value();
-      $prev_membership_open = $wrapper_original->field_membership_open_request->value();
-
-      if ($membership_open != $prev_membership_open) {
-        c4m_user_notifications_group_access_changed($node);
-      }
+    if ($membership_open != $prev_membership_open) {
+      c4m_user_notifications_group_permissions_changed($node);
     }
   }
-
+  
   $group_owner = $node->uid;
   $prev_group_owner = $node->original->uid;
   if ($group_owner != $prev_group_owner) {

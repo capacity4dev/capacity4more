@@ -100,7 +100,7 @@ function c4m_user_notifications_group_hard_deleted($node) {
 /**
  * Email notification about organic group access change.
  */
-function c4m_user_notifications_group_access_changed($node) {
+function c4m_user_notifications_group_permissions_changed($node) {
 }
 
 /**
