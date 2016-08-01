@@ -532,9 +532,7 @@ function c4m_content_promote_change($node, $status, $ajax = 'nojs') {
   }
   else {
     // Change the button after clicked.
-    $message = t('this is a message');
-
-    // Create the button
+    // Create the button.
     $star_type = !$status ? 'fa-star-o' : 'fa-star';
     $button = '<i class="fa ' . $star_type . ' fa-2x" aria-hidden="true"></i>';
 
