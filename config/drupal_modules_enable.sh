@@ -25,4 +25,6 @@ MODULES_ENABLE=(
   "transliteration"
   "views"
   "views_bulk_operations"
+  "og_invite"
+  "og_invite_people"
 )
