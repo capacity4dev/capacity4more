@@ -843,10 +843,10 @@ function _c4m_user_send_mail($to, $from, $subject, $body, $language) {
       'Attempt to send mail (from %from to %to) failed.',
       $variables, WATCHDOG_ERROR
     );
-    drupal_set_message('Can\'t send the message.', 'error');
+    drupal_set_message(t("Can't send the message to %to.", array('%to' => $to)), 'error');
   }
   else {
-    drupal_set_message('Message sent successfully.');
+    drupal_set_message(t('Message to %to sent successfully.', array('%to' => $to)));
   }
 }
 
