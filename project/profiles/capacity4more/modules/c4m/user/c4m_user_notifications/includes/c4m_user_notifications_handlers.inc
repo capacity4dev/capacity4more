@@ -259,7 +259,7 @@ function c4m_user_notifications_notify_new_group_pending($node) {
 function _c4m_user_notifications_format_flagging_users_for_message_subscribe($entity_type, $entity_id, $flag_name) {
   $users = flag_get_entity_flags($entity_type, $entity_id, $flag_name);
 
-  foreach($users as $key => &$value) {
+  foreach ($users as $key => &$value) {
     $value = array('notifiers' => array('email'));
   }
 
