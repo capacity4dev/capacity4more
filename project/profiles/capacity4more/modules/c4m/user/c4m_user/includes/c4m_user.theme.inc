@@ -342,7 +342,7 @@ function theme_c4m_user_contact_link(array $field) {
 
   // User administrators should always have access to personal contact forms.
   if (user_access('administer users') || user_access('access user contact forms')) {
-    return '<i class="fa fa-envelope-o"></i> ' . l(t('Contact this person'), "user/{$account->uid}/contact");
+    return '<i class="fa fa-envelope-o"></i> ' . l(t('Contact this person'), "user/{$account->uid}/contact", array('query' => drupal_get_destination()));
   }
   else {
     return t('!register or !login to contact a member', array(
