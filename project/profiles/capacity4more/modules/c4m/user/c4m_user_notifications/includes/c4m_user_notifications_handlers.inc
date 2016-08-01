@@ -122,7 +122,7 @@ function c4m_user_notifications_group_permissions_changed($node) {
  */
 function _c4m_user_notifications_to_admin_group_permissions_changed($node, $admin_id) {
   $message = message_create('c4m_group_access_change', array('uid' => $admin_id));
-  c4m_message_load_tokens__c4m_permissions_changed($message);
+  c4m_message_load_tokens__c4m_group_access_change($message);
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);
