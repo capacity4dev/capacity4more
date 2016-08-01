@@ -192,7 +192,7 @@ function _c4m_user_notifications_content_recommended($nid) {
   $wrapper->field_node->set($nid);
 
   $node = node_load($nid);
-  $flagging_uids = _c4m_user_notifications_get_flagging_uids($node, 'subscribe_c4m_follow_node');
+  $flagging_uids = _c4m_user_notifications_get_flagging_uids('node', $nid, 'subscribe_c4m_follow_node');
   $subscribe_options = array(
     'uids' => $flagging_uids,
   );
