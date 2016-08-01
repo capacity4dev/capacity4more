@@ -233,27 +233,27 @@ function c4m_message_load_tokens__c4m_welcome_to_group(Message $message) {
 }
 
 /**
- * Resolves message addressee user id.
+ * Returns message addressee user ID.
  *
  * @param Message $message
  *   The Message entity - used to retrieve required info.
 
  *
  * @return int
- *   Returns addressee's user id.
+ *   Returns addressee's user ID.
  */
 function c4m_message_format_addressee_uid(Message $message) {
   return $message->uid;
 }
 
 /**
- * Resolves the of group message refers to.
+ * Returns the of group message refers to.
  *
  * @param Message $message
  *   The Message entity.
  *
  * @return int
- *   Returns group id.
+ *   Returns group ID.
  */
 function c4m_message_format_group_gid(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
@@ -262,7 +262,7 @@ function c4m_message_format_group_gid(Message $message) {
 }
 
 /**
- * Resolves addressee full name token.
+ * Returns addressee full name token.
  *
  * @param Message $message
  *   The Message entity.
@@ -277,7 +277,7 @@ function c4m_message_format_addressee_full_name(Message $message) {
 }
 
 /**
- * Resolves new member full name token.
+ * Returns new member full name token.
  *
  * @param Message $message
  *   The Message entity.
@@ -293,7 +293,7 @@ function c4m_message_format_new_member_full_name(Message $message) {
 }
 
 /**
- * Resolves new member organisation.
+ * Returns new member organisation.
  *
  * @param Message $message
  *   The Message entity.
@@ -308,7 +308,7 @@ function c4m_message_format_new_member_organisation(Message $message) {
 }
 
 /**
- * Resolves new member organisation type.
+ * Returns new member organisation type.
  *
  * @param Message $message
  *   The Message entity.
@@ -323,7 +323,7 @@ function c4m_message_format_new_member_organisation_type(Message $message) {
 }
 
 /**
- * Resolves new member country.
+ * Returns new member country.
  *
  * @param Message $message
  *   The Message entity.
@@ -340,7 +340,7 @@ function c4m_message_format_new_member_country(Message $message) {
 }
 
 /**
- * Resolves new member expertise.
+ * Returns new member expertise.
  *
  * @param Message $message
  *   The Message entity.
@@ -361,7 +361,7 @@ function c4m_message_format_new_member_expertise(Message $message) {
 }
 
 /**
- * Resolves new member self description.
+ * Returns new member self description.
  *
  * @param Message $message
  *   The Message entity.
@@ -376,7 +376,7 @@ function c4m_message_format_new_member_self_description(Message $message) {
 }
 
 /**
- * Resolves a link to new member membership management.
+ * Returns a link to new member membership management.
  *
  * @param Message $message
  *   The Message entity.
@@ -393,7 +393,7 @@ function c4m_message_format_group_pending_member_url(Message $message) {
 }
 
 /**
- * Resolves a link to new member public profile.
+ * Returns a link to new member public profile.
  *
  * @param Message $message
  *   The Message entity.
@@ -409,7 +409,7 @@ function c4m_message_format_new_member_public_profile_url(Message $message) {
 }
 
 /**
- * Resolves a link to new member public profile.
+ * Returns a link to new member public profile.
  *
  * @param Message $message
  *   The Message entity.
@@ -424,7 +424,7 @@ function c4m_message_format_new_member_request_message(Message $message) {
 }
 
 /**
- * Resolves group owner full name token.
+ * Returns group owner full name token.
  *
  * @param Message $message
  *   The Message entity.
@@ -440,7 +440,7 @@ function c4m_message_format_group_owner_full_name(Message $message) {
 }
 
 /**
- * Resolves group url token.
+ * Returns group url token.
  *
  * @param Message $message
  *   The Message entity.
@@ -456,7 +456,7 @@ function c4m_message_format_group_url(Message $message) {
 }
 
 /**
- * Resolves group title token.
+ * Returns group title token.
  *
  * @param Message $message
  *   The Message entity.
@@ -471,7 +471,7 @@ function c4m_message_format_group_node_title(Message $message) {
 }
 
 /**
- * Resolves group welcome message token.
+ * Returns group welcome message token.
  *
  * @param Message $message
  *   The Message entity.
@@ -487,7 +487,7 @@ function c4m_message_format_group_welcome_message(Message $message) {
 }
 
 /**
- * Resolves group node type token.
+ * Returns group node type token.
  *
  * @param Message $message
  *   The Message entity.
@@ -503,7 +503,7 @@ function c4m_message_format_group_node_type(Message $message) {
 }
 
 /**
- * Resolves group owner url token.
+ * Returns group owner url token.
  *
  * @param Message $message
  *   The Message entity.
@@ -519,13 +519,13 @@ function c4m_message_format_group_owner_public_profile_url(Message $message) {
 }
 
 /**
- * Resolves the id of user that executed the event.
+ * Returns the ID of user that executed the event.
  *
  * @param Message $message
  *   The Message entity.
  *
  * @return int
- *   User id.
+ *   User ID.
  */
 function c4m_message_format_event_user_id(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
@@ -534,7 +534,7 @@ function c4m_message_format_event_user_id(Message $message) {
 }
 
 /**
- * Resolves full name of user that executed the event.
+ * Returns full name of user that executed the event.
  *
  * @param Message $message
  *   The Message entity.
@@ -549,7 +549,7 @@ function c4m_message_format_event_user_full_name(Message $message) {
 }
 
 /**
- * Resolves the title of attached node.
+ * Returns the title of attached node.
  *
  * @param Message $message
  *   The Message entity.
@@ -564,7 +564,7 @@ function c4m_message_format_node_title(Message $message) {
 }
 
 /**
- * Resolves the type of attached node.
+ * Returns the type of attached node.
  *
  * @param Message $message
  *   The Message entity.
@@ -579,7 +579,7 @@ function c4m_message_format_node_type(Message $message) {
 }
 
 /**
- * Resolves the path to attached node.
+ * Returns the path to attached node.
  *
  * @param Message $message
  *   The Message entity.
@@ -594,7 +594,7 @@ function c4m_message_format_node_url(Message $message) {
 }
 
 /**
- * Resolves number of times attached node was recommended.
+ * Returns number of times attached node was recommended.
  *
  * @param Message $message
  *   The Message entity.
@@ -615,7 +615,7 @@ function c4m_message_format_node_recommend_count(Message $message) {
 }
 
 /**
- * Resolves a teaser of nodes body.
+ * Returns a teaser of nodes body.
  *
  * @param Message $message
  *   The Message entity.
@@ -632,7 +632,7 @@ function c4m_message_format_node_body_teaser(Message $message) {
 }
 
 /**
- * Resolves a teaser of nodes body.
+ * Returns a teaser of nodes body.
  *
  * @param Message $message
  *   The Message entity.
@@ -649,7 +649,7 @@ function c4m_message_format_comment_body_teaser(Message $message) {
 }
 
 /**
- * Resolves a url that is used to unsubscribe from following flagged node.
+ * Returns a url that is used to unsubscribe from following flagged node.
  *
  * @param Message $message
  *   The Message entity.
@@ -662,7 +662,7 @@ function c4m_message_format_node_unsubscribe_url(Message $message) {
 }
 
 /**
- * Resolves a url that is used to unsubscribe from following content comments.
+ * Returns a url that is used to unsubscribe from following content comments.
  *
  * @param Message $message
  *   The Message entity.
@@ -677,7 +677,7 @@ function c4m_message_format_unsubscribe_content_comments_url(Message $message) {
 /**
  * Helper function.
  *
- * Resolves a url that is used to unsubscribe from following an entity that is
+ * Returns a url that is used to unsubscribe from following an entity that is
  * embedded inside message.
  *
  * @param Message $message
@@ -1909,7 +1909,7 @@ function c4m_message_c4m_helper_entity_metrics_info() {
  * Returns the date & time of the last activity of an user.
  *
  * @param int $uid
- *   User id.
+ *   User ID.
  *
  * @return string
  *   Date.
