@@ -956,7 +956,7 @@ function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) 
   $groups_ids = array();
   foreach ($groups as $group) {
     // Check whether the group has been published, or whether the user
-    // is the group opener (applies only to 'My groups').
+    // is the group owner (applies only to 'My groups').
     if ($group->status == NODE_PUBLISHED  || ($group->name == $account->name && $bundle == 'group')) {
       $groups_ids[] = $group->nid;
     }
