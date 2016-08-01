@@ -477,11 +477,10 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
 }
 
 /**
- * Resolves the permissions of group message refers to.
+ * Resolves the permissions of group.
  *
  * @param array $access
  *   Group access.
- *
  * @param bool $membership_open
  *   Is membership open (if not -> moderated).
  *
