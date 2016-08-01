@@ -779,3 +779,32 @@ function theme_c4m_ds_content_shared_to(array $field) {
     )
   );
 }
+
+function theme_c4m_ds_group_notification_toggle(array $field) {
+  global $user;
+
+  if (!($group = c4m_og_current_group())) {
+    return;
+  }
+
+  if (!c4m_og_user_is_member()) {
+    return;
+  }
+
+  $user_flags = flag_get_user_flags('node', $group->nid);
+  $flag_set = array_key_exists('subscribe_c4m_follow_group', $user_flags);
+  $user_unsubscribed = FALSE;
+
+  $wrapper = entity_metadata_wrapper('user', $user);
+  foreach ($wrapper->c4m_optout_node->value(
+    array('identifier' => TRUE)
+  ) as $existing_id) {
+    if ($existing_id == $group->nid) {
+      // User already unsubscribed from entity.
+      $user_unsubscribed = TRUE;
+      break;
+    }
+  }
+
+  return l('Notification toogle', '/');
+}
