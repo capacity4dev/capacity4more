@@ -265,23 +265,26 @@ function c4m_user_notifications_notify_new_group_pending($node) {
 /**
  * Helper function.
  *
- * Returns ids of all users that have flagged $node, with $flag_name.
+ * Returns an array of structure [uid => notifier] as expected by
+ * message_subscribe_send_message().
+ *  uid - user that have flagged $entity_id, with $flag_name.
+ *  notifier - [email].
  *
  * @param string $entity_type
  *   Entity type.
  * @param int $entity_id
  *   Entity ID.
  * @param string $flag_name
- *   Name of the flag with which user flagged the node.
+ *   Name of the flag with which user flagged the entity with.
  *
  * @return array $uids
  *   Array of users that flagged the entity:
  *   $key - uid, $value - notifier type.
  */
-function _c4m_user_notifications_get_flagging_uids($entity_type, $entity_id, $flag_name) {
+function _c4m_user_notifications_format_flagging_users_for_message_subscribe($entity_type, $entity_id, $flag_name) {
   $users = flag_get_entity_flags($entity_type, $entity_id, $flag_name);
 
-  foreach($users as $key => &$value) {
+  foreach ($users as $key => &$value) {
     $value = array('notifiers' => array('email'));
   }
 
