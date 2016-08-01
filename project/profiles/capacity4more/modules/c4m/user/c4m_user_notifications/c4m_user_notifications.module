@@ -464,7 +464,7 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
       c4m_user_notifications_group_permissions_changed($node);
     }
   }
-  
+
   $group_owner = $node->uid;
   $prev_group_owner = $node->original->uid;
   if ($group_owner != $prev_group_owner) {
