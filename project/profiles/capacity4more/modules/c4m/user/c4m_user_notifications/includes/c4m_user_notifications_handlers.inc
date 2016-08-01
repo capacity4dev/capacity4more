@@ -106,7 +106,7 @@ function c4m_user_notifications_group_permissions_changed($node, $permissions) {
 
   $group_admins_ids = c4m_og_get_group_admins_ids($node->nid, TRUE);
   // Make sure admin that made the change does not get a notification.
-  if ($key = array_search($user->uid, $group_admins_ids)) {
+  if (($key = array_search($user->uid, $group_admins_ids)) !== FALSE) {
     unset ($group_admins_ids[$key]);
   }
 
