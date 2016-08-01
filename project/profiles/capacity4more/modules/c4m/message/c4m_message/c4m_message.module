@@ -748,7 +748,7 @@ function c4m_message_format_group_permissions(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
   $access = c4m_og_get_access_type($wrapper->field_group_node->value());
-  $membership_open = $wrapper->field_membership_open_request->value();
+  $membership_open = $wrapper->field_group_node->field_membership_open_request->value();
 
   if ($access['type'] == 'private') {
     return 'PRIVATE';

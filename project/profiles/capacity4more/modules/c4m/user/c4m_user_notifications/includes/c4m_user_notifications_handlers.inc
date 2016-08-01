@@ -103,7 +103,7 @@ function c4m_user_notifications_group_hard_deleted($node) {
 function c4m_user_notifications_group_permissions_changed($node) {
   global $user;
 
-  $group_admins_ids = c4m_og_get_group_admins($node->nid, TRUE);
+  $group_admins_ids = c4m_og_get_group_admins_ids($node->nid, TRUE);
   // Make sure admin that made the change does not get a notification.
   if ($key = array_search($user->uid, $group_admins_ids)) {
     unset ($group_admins_ids[$key]);
