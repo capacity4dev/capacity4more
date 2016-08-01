@@ -100,7 +100,7 @@ function c4m_user_notifications_group_hard_deleted($node) {
 /**
  * Email notification about organic group access change.
  */
-function c4m_user_notifications_group_access_changed($node) {
+function c4m_user_notifications_group_permissions_changed($node, $permissions) {
 }
 
 /**
@@ -267,23 +267,23 @@ function c4m_user_notifications_notify_new_group_pending($node) {
  *
  * Returns ids of all users that have flagged $node, with $flag_name.
  *
- * @param object $node
- *   Node object.
+ * @param string $entity_type
+ *   Entity type.
+ * @param int $entity_id
+ *   Entity ID.
  * @param string $flag_name
  *   Name of the flag with which user flagged the node.
  *
  * @return array $uids
- *   Array of user ids that flagged the node.
+ *   Array of users that flagged the entity:
+ *   $key - uid, $value - notifier type.
  */
-function _c4m_user_notifications_get_flagging_uids($node, $flag_name) {
-  // Set flag name as a search criteria.
-  $property_info = array('flag_name' => $flag_name);
-  $flagging_users_ids = flag_properties_get_flagging_users($node, array(), '', 'node', $property_info);
-  $uids = array();
+function _c4m_user_notifications_get_flagging_uids($entity_type, $entity_id, $flag_name) {
+  $users = flag_get_entity_flags($entity_type, $entity_id, $flag_name);
 
-  foreach ($flagging_users_ids as $flagging_user_id) {
-    $uids[$flagging_user_id] = array('notifiers' => array('email'));
+  foreach($users as $key => &$value) {
+    $value = array('notifiers' => array('email'));
   }
 
-  return $uids;
+  return $users;
 }
