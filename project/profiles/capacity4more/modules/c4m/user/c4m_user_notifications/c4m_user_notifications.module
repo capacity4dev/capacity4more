@@ -450,18 +450,20 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
 
   $group_access = c4m_og_get_access_type($wrapper->value());
   $group_former_access = c4m_og_get_access_type($wrapper_original->value());
+  $membership_open = $wrapper->field_membership_open_request->value();
   if ($group_access['type'] != $group_former_access['type']) {
     // If group access has changed.
-    c4m_user_notifications_group_permissions_changed($node);
+    $permissions = _c4m_user_notifications_build_group_permissions($group_access, $membership_open);
+    c4m_user_notifications_group_permissions_changed($node, $permissions);
   }
   else {
     // Check if 'membership open' state was changed - part of group access
     // as well.
-    $membership_open = $wrapper->field_membership_open_request->value();
     $prev_membership_open = $wrapper_original->field_membership_open_request->value();
 
     if ($membership_open != $prev_membership_open) {
-      c4m_user_notifications_group_permissions_changed($node);
+      $permissions = _c4m_user_notifications_build_group_permissions($group_access, $membership_open);
+      c4m_user_notifications_group_permissions_changed($node, $permissions);
     }
   }
 
@@ -471,6 +473,28 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
     c4m_user_notifications_notify_prev_owner_owner_update($node);
     c4m_user_notifications_notify_new_owner_owner_update($node);
     c4m_user_notifications_notify_admins_owner_update($node);
+  }
+}
+
+/**
+ * Resolves the permissions of group message refers to.
+ *
+ * @param array $access
+ *   Group access.
+ *
+ * @param bool $membership_open
+ *   Is membership open (if not -> moderated).
+ *
+ * @return string
+ *   Returns permissions.
+ */
+function _c4m_user_notifications_build_group_permissions($access, $membership_open) {
+  if ($access['type'] == 'private') {
+    return 'PRIVATE';
+  }
+  else {
+    $membership_type = $membership_open ? 'OPEN' : 'MODERATED';
+    return strtoupper($access['type']) . ', ' . $membership_type;
   }
 }
 

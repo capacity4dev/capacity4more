@@ -25,6 +25,7 @@ function c4m_user_notifications_notify_user_membership_accepted($membership) {
   $message = message_create('c4m_welcome_to_group', array('uid' => $membership->etid));
   c4m_message_load_tokens__c4m_welcome_to_group($message);
 
+
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($membership->gid);
   // Message will be saved in message_notify_send_message().
@@ -100,7 +101,7 @@ function c4m_user_notifications_group_hard_deleted($node) {
 /**
  * Email notification about organic group permissions change.
  */
-function c4m_user_notifications_group_permissions_changed($node) {
+function c4m_user_notifications_group_permissions_changed($node, $permissions) {
   global $user;
 
   $group_admins_ids = c4m_og_get_group_admins_ids($node->nid, TRUE);
@@ -110,7 +111,7 @@ function c4m_user_notifications_group_permissions_changed($node) {
   }
 
   foreach ($group_admins_ids as $admin_id) {
-    _c4m_user_notifications_to_admin_group_permissions_changed($node, $admin_id);
+    _c4m_user_notifications_to_admin_group_permissions_changed($node, $admin_id, $permissions);
   }
 }
 
@@ -120,9 +121,10 @@ function c4m_user_notifications_group_permissions_changed($node) {
  * Email notification to organic group admin / owner, about group permissions
  * change.
  */
-function _c4m_user_notifications_to_admin_group_permissions_changed($node, $admin_id) {
+function _c4m_user_notifications_to_admin_group_permissions_changed($node, $admin_id, $permissions) {
   $message = message_create('c4m_group_access_change', array('uid' => $admin_id));
   c4m_message_load_tokens__c4m_group_access_change($message);
+  $message->arguments['@group_permissions'] = $permissions;
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);
