@@ -19,25 +19,42 @@ function c4m_features_theme_bootstrap_colorize_text_alter(&$texts) {
 
 /**
  * Implements hook_form_alter().
+ *
+ * Moving the '#description' variable (for the help-text).
  */
 function c4m_features_theme_form_alter(&$form, &$form_state, $form_id) {
   _c4m_features_theme_set_what_is_this($form);
 }
 
 /**
- * @param $elements
+ * Moving the '#description' variable (for the help-text).
+ *
+ * In order to display the help-text within a tooltip only, we should remove
+ * the '#description' variable. The tooltip is being rendered on the
+ * kapablo_form_element_label() by checking the '#what_is_this' variable on the
+ * element.
+ *
+ * @param array $elements
+ *   Originally this object is the form from the hook_form_alter(). Since it is
+ *   a recursive function then it may change during the calls.
  */
 function _c4m_features_theme_set_what_is_this(&$elements) {
 
   foreach ($elements as &$element) {
     if (is_array($element)) {
+      // The current $element is an array, hence we're keep checking its
+      // children.
       _c4m_features_theme_set_what_is_this($element);
     }
-    else if (is_object($element)) {
+    elseif (is_object($element)) {
+      // Since we know that the #description is an array element and at the
+      // point the current $element is not an array but an object we should
+      // skip it.
       continue;
     }
 
     if (isset($element['#description'])) {
+      // Replace between the variables.
       $element['#what_is_this'] = $element['#description'];
       unset($element['#description']);
     }
