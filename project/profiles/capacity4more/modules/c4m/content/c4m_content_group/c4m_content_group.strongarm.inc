@@ -150,7 +150,7 @@ function c4m_content_group_strongarm() {
       'display' => array(
         'group_admins' => array(
           'group_dashboard' => array(
-            'weight' => '4',
+            'weight' => '5',
             'visible' => TRUE,
           ),
           'default' => array(
