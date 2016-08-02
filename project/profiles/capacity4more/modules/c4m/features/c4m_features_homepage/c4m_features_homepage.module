@@ -96,8 +96,8 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
  * Callback function to be used within uasort to order alphabetically nodes.
  */
 function c4m_features_homepage_node_sort_by_title($first_node, $second_node) {
-  // strcasecmp can't be used directly on uasort, as we need to get the node
-  // title.
+  // Function strcasecmp can't be used directly on uasort, as we need to get
+  // the node title.
   return strcasecmp($first_node->title, $second_node->title);
 }
 
