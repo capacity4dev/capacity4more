@@ -54,10 +54,11 @@ function c4m_user_profile_resend_email_change_confirmation_email_form_submit($fo
  * @ingroup forms
  */
 function c4m_user_profile_remove_account_form($form, $form_state, $account) {
-  // We emulate the default user deletion form values to use the default process.
+  // We emulate the default user deletion form values to use
+  // the default process.
   $form['_account'] = array(
     '#type' => 'value',
-    '#value' => $account
+    '#value' => $account,
   );
 
   $form['uid'] = array(
@@ -77,7 +78,8 @@ function c4m_user_profile_remove_account_form($form, $form_state, $account) {
 
   $form['user_cancel_method'] = array(
     '#type' => 'value',
-    // This method will block the user but leave the content assigned to the user.
+    // This method will block the user but leave the content
+    // assigned to the user.
     '#value' => 'user_cancel_block',
   );
 
@@ -105,14 +107,15 @@ function c4m_user_profile_remove_account_form_submit($form, &$form_state) {
   $values = $form_state['values'];
 
   if ($values['anonymize']) {
-    // This cancel method will reassign all the content of the user to the anonymous user.
+    // This cancel method will reassign all the content of the user
+    // to the anonymous user.
     $values['user_cancel_method'] = 'user_cancel_reassign';
   }
 
   // This calls the default Drupal workflow for cancelling an account.
   user_cancel($values, $values['uid'], $values['user_cancel_method']);
 
-  // As the user no longer exists, it doesn't have access to the current page (user profile).
-  // So we redirect it to the homepage.
-  $form_state['redirect'] = '/';
+  // As the user no longer exists, it doesn't have access to the
+  // current page (user profile). So we redirect it to the homepage.
+  $form_state['redirect'] = '<front>';
 }
