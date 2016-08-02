@@ -25,6 +25,7 @@ MODULES_ENABLE=(
   "transliteration"
   "views"
   "views_bulk_operations"
+  "views_contextual_filters_or"
   "og_invite"
   "og_invite_people"
 )
