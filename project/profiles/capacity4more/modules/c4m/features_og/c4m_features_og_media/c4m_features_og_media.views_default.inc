@@ -1,30 +1,28 @@
 <?php
-
 /**
  * @file
- * c4m_features_og_documents.views_default.inc
+ * c4m_features_og_media.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function c4m_features_og_documents_views_default_views() {
+function c4m_features_og_media_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'c4m_overview_og_documents';
-  $view->description = 'Search API powered overview of all documents and photo albums in the current group context.';
+  $view->name = 'overview_og_media';
+  $view->description = 'Search API powered overview of all photos and photo albums in the current group context.';
   $view->tag = 'default';
   $view->base_table = 'search_api_index_c4m_search_nodes';
-  $view->human_name = 'Overview - OG - Documents';
+  $view->human_name = 'Overview - OG - Media';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Library';
-  $handler->display->display_options['use_ajax'] = TRUE;
+  $handler->display->display_options['title'] = 'Media';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'c4m_og_access_og_context';
   $handler->display->display_options['access']['feature'] = 'c4m_features_og_documents';
@@ -52,13 +50,20 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['header']['search_api_spellcheck']['field'] = 'search_api_spellcheck';
   $handler->display->display_options['header']['search_api_spellcheck']['empty'] = TRUE;
-  /* Header: Add document link */
+  /* Header: Add photo album link */
   $handler->display->display_options['header']['c4m_views_node_add_1']['id'] = 'c4m_views_node_add_1';
   $handler->display->display_options['header']['c4m_views_node_add_1']['table'] = 'views';
   $handler->display->display_options['header']['c4m_views_node_add_1']['field'] = 'c4m_views_node_add';
-  $handler->display->display_options['header']['c4m_views_node_add_1']['ui_name'] = 'Add document link';
-  $handler->display->display_options['header']['c4m_views_node_add_1']['node_type'] = 'document';
-  $handler->display->display_options['header']['c4m_views_node_add_1']['link_text'] = 'Upload a document';
+  $handler->display->display_options['header']['c4m_views_node_add_1']['ui_name'] = 'Add photo album link';
+  $handler->display->display_options['header']['c4m_views_node_add_1']['node_type'] = 'photoalbum';
+  $handler->display->display_options['header']['c4m_views_node_add_1']['link_text'] = 'Create photo album';
+  /* Header: Add photo link */
+  $handler->display->display_options['header']['c4m_views_node_add']['id'] = 'c4m_views_node_add';
+  $handler->display->display_options['header']['c4m_views_node_add']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_node_add']['field'] = 'c4m_views_node_add';
+  $handler->display->display_options['header']['c4m_views_node_add']['ui_name'] = 'Add photo link';
+  $handler->display->display_options['header']['c4m_views_node_add']['node_type'] = 'photo';
+  $handler->display->display_options['header']['c4m_views_node_add']['link_text'] = 'Add a new photo';
   /* Header: Number of items */
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
@@ -97,13 +102,14 @@ function c4m_features_og_documents_views_default_views() {
     1 => '1',
   );
   $handler->display->display_options['filters']['status']['group'] = 1;
-  /* Filter criterion: Only Document and Photo album nodes */
+  /* Filter criterion: Only photo and photo album node */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['ui_name'] = 'Only Document nodes';
+  $handler->display->display_options['filters']['type']['ui_name'] = 'Only photo and photo album node';
   $handler->display->display_options['filters']['type']['value'] = array(
-    'document' => 'document',
+    'photo' => 'photo',
+    'photoalbum' => 'photoalbum',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
   /* Filter criterion: Search form */
@@ -111,7 +117,6 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['filters']['search_api_views_fulltext']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['filters']['search_api_views_fulltext']['field'] = 'search_api_views_fulltext';
   $handler->display->display_options['filters']['search_api_views_fulltext']['ui_name'] = 'Search form';
-  $handler->display->display_options['filters']['search_api_views_fulltext']['group'] = 1;
   $handler->display->display_options['filters']['search_api_views_fulltext']['exposed'] = TRUE;
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator_id'] = 'search_api_views_fulltext_op';
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['label'] = 'Search';
@@ -120,19 +125,9 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['remember_roles'] = array(
     2 => '2',
     1 => 0,
+    4 => 0,
     3 => 0,
   );
-  /* Filter criterion: Indexed Node: Add to library */
-  $handler->display->display_options['filters']['c4m_document_add_to_library']['id'] = 'c4m_document_add_to_library';
-  $handler->display->display_options['filters']['c4m_document_add_to_library']['table'] = 'search_api_index_c4m_search_nodes';
-  $handler->display->display_options['filters']['c4m_document_add_to_library']['field'] = 'c4m_document_add_to_library';
-  $handler->display->display_options['filters']['c4m_document_add_to_library']['value'] = array(
-    1 => '1',
-  );
-  $handler->display->display_options['filters']['c4m_document_add_to_library']['expose']['operator_id'] = 'c4m_document_add_to_library_op';
-  $handler->display->display_options['filters']['c4m_document_add_to_library']['expose']['label'] = 'Add to library';
-  $handler->display->display_options['filters']['c4m_document_add_to_library']['expose']['operator'] = 'c4m_document_add_to_library_op';
-  $handler->display->display_options['filters']['c4m_document_add_to_library']['expose']['identifier'] = 'c4m_document_add_to_library';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
@@ -147,9 +142,9 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['pager']['options']['tags']['next'] = '›';
   $handler->display->display_options['pager']['options']['tags']['last'] = '»';
   $handler->display->display_options['exposed_block'] = TRUE;
-  $handler->display->display_options['path'] = 'documents';
+  $handler->display->display_options['path'] = 'media';
   $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'Library';
+  $handler->display->display_options['menu']['title'] = 'Media';
   $handler->display->display_options['menu']['weight'] = '2';
   $handler->display->display_options['menu']['name'] = 'c4m-og-menu';
   $handler->display->display_options['menu']['context'] = 0;
@@ -196,13 +191,14 @@ function c4m_features_og_documents_views_default_views() {
     1 => '1',
   );
   $handler->display->display_options['filters']['status']['group'] = 1;
-  /* Filter criterion: Only Document and Photo album nodes */
+  /* Filter criterion: Only photo and photoalbum nodes */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['ui_name'] = 'Only Document nodes';
+  $handler->display->display_options['filters']['type']['ui_name'] = 'Only photo and photoalbum nodes';
   $handler->display->display_options['filters']['type']['value'] = array(
-    'document' => 'document',
+    'photo' => 'photo',
+    'photoalbum' => 'photoalbum',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
   /* Filter criterion: Search form */
@@ -221,15 +217,8 @@ function c4m_features_og_documents_views_default_views() {
     1 => 0,
     3 => 0,
   );
-  /* Filter criterion: Indexed Node: Add to library */
-  $handler->display->display_options['filters']['c4m_document_add_to_library']['id'] = 'c4m_document_add_to_library';
-  $handler->display->display_options['filters']['c4m_document_add_to_library']['table'] = 'search_api_index_c4m_search_nodes';
-  $handler->display->display_options['filters']['c4m_document_add_to_library']['field'] = 'c4m_document_add_to_library';
-  $handler->display->display_options['filters']['c4m_document_add_to_library']['value'] = array(
-    1 => '1',
-  );
-  $handler->display->display_options['path'] = 'overlay/documents';
-  $export['c4m_overview_og_documents'] = $view;
+  $handler->display->display_options['path'] = 'overlay/media';
+  $export['overview_og_media'] = $view;
 
   return $export;
 }
