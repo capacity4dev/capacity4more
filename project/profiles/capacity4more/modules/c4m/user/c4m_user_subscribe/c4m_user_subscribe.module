@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Code for the C4M notifications triggers.
+ */
+
+/**
+ * Include handlers.
+ */
+//module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications_handlers');
+
+/**
+ * Implements hook_node_presave().
+ */
+function c4m_user_subscribe_node_presave($node) {
+  if (!in_array($node->type, _c4m_user_subscribe_get_notification_types())) {
+    return;
+  }
+
+  if(!_c4m_user_subscribe_entity_notifications_disabled($node->nid, 'node')) {
+    flag('flag', 'subscribe_c4m_follow_node', $node->nid);
+  }
+}
+
+function _c4m_user_subscribe_get_notification_types() {
+  return array('discussion', 'document', 'event', 'wiki_page');
+}
+
+function _c4m_user_subscribe_entity_notifications_disabled($entity_id, $flag_suffix) {
+  global $user;
+
+  $wrapper = entity_metadata_wrapper('user', $user);
+  $field = "c4m_optout_{$flag_suffix}";
+  foreach ($wrapper->$field->value(
+    array('identifier' => TRUE)
+  ) as $existing_id) {
+    if ($existing_id == $entity_id) {
+      // User unsubscribed from entity.
+      return TRUE;
+    }
+
+    return FALSE;
+  }
+}
