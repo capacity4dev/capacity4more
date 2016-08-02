@@ -513,8 +513,8 @@ function c4m_content_toggle_highlight($group, $node, $status, $ajax = 'nojs') {
     drupal_goto();
   }
   else {
-    // After success we should replace the current button with a new button link.
-    // The new button link will be the toggled one.
+    // After success we should replace the current button with a
+    // new button link - the toggled one.
     $button = c4m_content_create_highlight_link($group->nid, $node->nid, !$status);
 
     $commands[] = ajax_command_replace('#highlight-content', $button);
@@ -548,8 +548,9 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
     'html' => TRUE,
   );
 
-  // Determine if the the star type should be full or not by the highlight property.
+  // Determine if the the star type should be full or not,
+  // by the highlight property.
   $star_type = $highlight ? 'fa-star-o' : 'fa-star';
-  $start_tag = '<i class="fa ' . $star_type . ' fa-2x" aria-hidden="true"></i>';
-  return l($start_tag, $url, $options);
+  $star = '<i class="fa ' . $star_type . ' fa-2x" aria-hidden="true"></i>';
+  return l($star, $url, $options);
 }
