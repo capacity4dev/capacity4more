@@ -673,6 +673,13 @@ function c4m_ds_theme() {
       ),
       'file' => 'includes/c4m_ds.theme.inc',
     ),
+    'c4m_ds_group_notification_toggle' => array(
+      'template' => 'c4m_ds_group_notification_toggle',
+      'path' => drupal_get_path('module', 'c4m_ds') . '/templates',
+      'variables' => array(
+        'message_link' => NULL,
+      )
+    ),
   );
 }
 

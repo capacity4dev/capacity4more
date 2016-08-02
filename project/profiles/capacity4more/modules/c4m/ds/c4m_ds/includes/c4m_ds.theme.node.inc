@@ -792,19 +792,27 @@ function theme_c4m_ds_group_notification_toggle(array $field) {
   }
 
   $user_flags = flag_get_user_flags('node', $group->nid);
-  $flag_set = array_key_exists('subscribe_c4m_follow_group', $user_flags);
-  $user_unsubscribed = FALSE;
+  $user_subscribed = array_key_exists('subscribe_c4m_follow_group', $user_flags);
 
-  $wrapper = entity_metadata_wrapper('user', $user);
-  foreach ($wrapper->c4m_optout_node->value(
-    array('identifier' => TRUE)
-  ) as $existing_id) {
-    if ($existing_id == $group->nid) {
-      // User already unsubscribed from entity.
-      $user_unsubscribed = TRUE;
-      break;
+  if ($user_subscribed) {
+    $wrapper = entity_metadata_wrapper('user', $user);
+    foreach ($wrapper->c4m_optout_node->value(
+      array('identifier' => TRUE)
+    ) as $existing_id) {
+      if ($existing_id == $group->nid) {
+        // User unsubscribed from entity.
+        $user_subscribed = FALSE;
+        break;
+      }
     }
   }
 
-  return l('Notification toogle', '/');
+  $message_text = $user_subscribed ? t('Notifications are enabled ') : t('Notifications are disabled ');
+  $link_text = $user_subscribed ? t('disable') : t('enable');
+
+  $variables = array(
+    'message_link' => $message_text . '  (' . l($link_text, '/') . ')',
+  );
+
+  return theme('c4m_ds_group_notification_toggle', $variables);
 }
