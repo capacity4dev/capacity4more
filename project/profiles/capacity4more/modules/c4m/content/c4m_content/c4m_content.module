@@ -507,7 +507,7 @@ function c4m_content_toggle_highlight($group, $node, $status, $ajax = 'nojs') {
   $wrapper->promote->set($status);
   $wrapper->save();
 
-  if ($ajax !== 'ajax') {
+  if ($ajax != 'ajax') {
     // Return a Drupal message if js in disabled or not found.
     drupal_set_message(t('Change the promote value.'));
     drupal_goto();
