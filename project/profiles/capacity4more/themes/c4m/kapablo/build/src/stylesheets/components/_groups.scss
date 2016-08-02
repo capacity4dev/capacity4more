@@ -840,3 +840,14 @@
     white-space: normal;
   }
 }
+
+.c4m-group-invite-cta {
+  text-align: center;
+  margin: 10px 0;
+  padding: 10px 0;
+  border-bottom: 1px dashed $color-gray-darkThree;
+
+  a.btn {
+    box-shadow: none;
+  }
+}
