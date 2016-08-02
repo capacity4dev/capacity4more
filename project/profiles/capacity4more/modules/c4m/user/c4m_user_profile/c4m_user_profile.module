@@ -1244,7 +1244,7 @@ function c4m_user_profile_get_subscribed(
   $query = db_select("field_data_c4m_optout_{$entity_type}", 'o');
   $query
     ->fields('o', array('entity_id'))
-    ->condition('entity_id', $uids, 'IN')
+    ->condition('entity_id', array_keys($uids), 'IN')
     ->condition("c4m_optout_{$entity_type}_target_id", $entity_id);
 
   $unsubscribers = $query->execute()->fetchAllKeyed(0, 0);

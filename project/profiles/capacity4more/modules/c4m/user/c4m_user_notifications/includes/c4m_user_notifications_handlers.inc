@@ -193,6 +193,7 @@ function c4m_user_notifications_new_group_content_published($node) {
  *   Node id.
  */
 function _c4m_user_notifications_new_content_published($node) {
+  global $user;
   $message = message_create('c4m_new_content_published');
   c4m_message_load_tokens__c4m_new_content_published($message);
 
@@ -207,7 +208,13 @@ function _c4m_user_notifications_new_content_published($node) {
     'uids' => $flagging_uids,
   );
   // Message will be saved in message_subscribe_send_message().
-  message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options);
+  // message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options);
+  $context = array('node' => array($gid => $gid), 'user' => array($user->uid => $user->uid));
+  message_subscribe_send_message('node', $node, $wrapper->value(), array(), array(), $context);
+}
+
+function c4m_user_notifications_message_subscribe_get_subscribers($message, $subscribe_options, $context) {
+ return _c4m_user_notifications_format_flagging_users_for_message_subscribe('node', 16, 'subscribe_c4m_follow_group');
 }
 
 /**
