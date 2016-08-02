@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Template to render the CTA block for a visitor.
+ * Template to render a link in the CTA block.
  */
 ?>
 <div class="c4m-group-invite-cta">
