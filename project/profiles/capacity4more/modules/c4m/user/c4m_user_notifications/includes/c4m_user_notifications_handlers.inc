@@ -179,6 +179,36 @@ function c4m_user_notifications_content_recommended($flag, $entity_id, $account,
  * Email notification about new content at organic group.
  */
 function c4m_user_notifications_new_group_content_published($node) {
+  _c4m_user_notifications_new_content_published($node);
+}
+
+/**
+ * Helper function.
+ *
+ * Sends mail notification to group subscribers, when new content is added.
+ *
+ * @param int $cid
+ *   Comment id.
+ * @param int $nid
+ *   Node id.
+ */
+function _c4m_user_notifications_new_content_published($node) {
+  $message = message_create('c4m_new_content_published');
+  c4m_message_load_tokens__c4m_new_content_published($message);
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_node->set($node->nid);
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+  $gid = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
+  $wrapper->field_group_node->set($gid);
+
+  // $flagging_uids = _c4m_user_notifications_format_flagging_users_for_message_subscribe('node', $node->nid, 'subscribe_c4m_follow_group');
+  $flagging_uids = array (2 => array('notifiers' => array('email')));.
+  $subscribe_options = array(
+    'uids' => $flagging_uids,
+  );
+  // Message will be saved in message_subscribe_send_message().
+  message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options);
 }
 
 /**
