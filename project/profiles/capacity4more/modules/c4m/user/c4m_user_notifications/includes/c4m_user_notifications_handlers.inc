@@ -202,8 +202,7 @@ function _c4m_user_notifications_new_content_published($node) {
   $gid = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
   $wrapper->field_group_node->set($gid);
 
-  // $flagging_uids = _c4m_user_notifications_format_flagging_users_for_message_subscribe('node', $node->nid, 'subscribe_c4m_follow_group');
-  $flagging_uids = array (2 => array('notifiers' => array('email')));.
+  $flagging_uids = _c4m_user_notifications_format_flagging_users_for_message_subscribe('node', $gid, 'subscribe_c4m_follow_group');
   $subscribe_options = array(
     'uids' => $flagging_uids,
   );

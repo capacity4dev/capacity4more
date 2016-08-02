@@ -1163,6 +1163,7 @@ function c4m_user_profile_unsubscribe_user_access(
 
   // Validate entity ID.
   try {
+    $entity_type = $entity_type == 'group' ? 'node' : $entity_type;
     $wrapper = entity_metadata_wrapper($entity_type, $entity_id);
     if (!$wrapper->value()) {
       return FALSE;

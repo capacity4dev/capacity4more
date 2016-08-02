@@ -552,7 +552,7 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
     return;
   }
 
-  // If group is published.
+  // If node is published.
   if ($wrapper->{OG_AUDIENCE_FIELD}->c4m_og_status->value() == 'published') {
     switch ($mode) {
       case 'insert':
@@ -560,7 +560,13 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
         break;
 
       case 'update':
-        c4m_user_notifications_existing_group_content_updated($node);
+        if ($node->original->status != NODE_PUBLISHED) {
+          // Node is being published for first time.
+          c4m_user_notifications_new_group_content_published($node);
+        }
+        else {
+          c4m_user_notifications_existing_group_content_updated($node);
+        }
         break;
     }
   }
