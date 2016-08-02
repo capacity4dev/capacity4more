@@ -13,7 +13,7 @@ function c4m_admin_groups_views_default_views() {
   $view = new view();
   $view->name = 'c4m_admin_groups';
   $view->description = 'Administration interface to manage groups & their status.';
-  $view->tag = 'default';
+  $view->tag = 'C4M Admin';
   $view->base_table = 'node';
   $view->human_name = 'Admin : Groups';
   $view->core = 7;
@@ -176,7 +176,7 @@ function c4m_admin_groups_views_default_views() {
   $view = new view();
   $view->name = 'c4m_admin_groups_export';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'C4M Admin';
   $view->base_table = 'node';
   $view->human_name = 'Admin : Groups - Export';
   $view->core = 7;
@@ -349,6 +349,13 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['group_metrics_8']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['group_metrics_8']['c4m_admin_groups_group_metric'] = 'group::document_download';
   /* Field: Content: Group metrics */
+  $handler->display->display_options['fields']['group_metrics_14']['id'] = 'group_metrics_14';
+  $handler->display->display_options['fields']['group_metrics_14']['table'] = 'node';
+  $handler->display->display_options['fields']['group_metrics_14']['field'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics_14']['label'] = 'Shared content';
+  $handler->display->display_options['fields']['group_metrics_14']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_metrics_14']['c4m_admin_groups_group_metric'] = 'group::shared_content';
+  /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics_5']['id'] = 'group_metrics_5';
   $handler->display->display_options['fields']['group_metrics_5']['table'] = 'node';
   $handler->display->display_options['fields']['group_metrics_5']['field'] = 'group_metrics';
@@ -366,7 +373,7 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['group_metrics_11']['id'] = 'group_metrics_11';
   $handler->display->display_options['fields']['group_metrics_11']['table'] = 'node';
   $handler->display->display_options['fields']['group_metrics_11']['field'] = 'group_metrics';
-  $handler->display->display_options['fields']['group_metrics_11']['label'] = 'Contributors/Pending members';
+  $handler->display->display_options['fields']['group_metrics_11']['label'] = 'Contributors/Active members';
   $handler->display->display_options['fields']['group_metrics_11']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['group_metrics_11']['c4m_admin_groups_group_metric'] = 'group::contributors_vs_pending_members';
   /* Field: Flags: Flag counter */

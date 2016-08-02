@@ -25,14 +25,19 @@ function c4m_content_photo_field_group_info() {
     'children' => array(
       0 => 'c4m_ds_content_actions',
     ),
-    'format_type' => 'html5',
+    'format_type' => 'div',
     'format_settings' => array(
       'label' => 'Do more through capacity4dev',
       'instance_settings' => array(
         'id' => '',
         'classes' => 'group-node-actions field-group-html5',
-        'wrapper' => 'section',
+        'description' => '',
+        'show_label' => '1',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
       ),
+      'formatter' => 'open',
     ),
   );
   $field_groups['group_node_actions|node|photo|full'] = $field_group;

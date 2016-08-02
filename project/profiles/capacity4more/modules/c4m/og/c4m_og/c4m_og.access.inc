@@ -562,3 +562,18 @@ function c4m_og_og_user_access_alter(&$perm, $context) {
 
   $perm['subscribe without approval'] = $wrapper->field_membership_open_request->value();
 }
+
+/**
+ * Implements hook_field_access().
+ *
+ * Removing the "message to the site admin" field when editing a group.
+ */
+function c4m_og_field_access($op, $field, $entity_type, $entity, $account) {
+  if ($op == 'edit' && $field['field_name'] == 'field_message_to_site_admin') {
+    // Deny the access only if it is not the creation of the group.
+    if (!empty($entity->nid)) {
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
