@@ -524,15 +524,17 @@ function c4m_user_og_group_actions_cta($group) {
 
   $items = array();
   // CTAs for the group owner: Manage group and number or new membership requests.
-  if (c4m_og_user_is_owner('node', $group->nid)) {
+  if ($user->uid == $group->uid) {
     $items['manage'] = array(
       '#type' => 'markup',
-      '#markup' => l(t('Manage this group'), '/manage'),
+      '#markup' => '<p>' . l(t('Manage this group'), '/manage') . '</p>',
     );
     if ($pending_requests = c4m_og_get_all_group_memberships_by_state($group->nid, OG_STATE_PENDING)) {
+      $link_text = t('There are @requests new membership requests.', array('@requests' => count($pending_requests)));
+      $pending_id = $group->nid . '_pending';
       $items['memberships'] = array(
         '#type' => 'markup',
-        '#markup' => t('There are %requests new membership requests.', array('%requests' => $pending_requests)),
+        '#markup' => '<p>' . l($link_text, 'members', array('query' => array('f[0]' => 'c4m_og_membership_type:' . $pending_id))) . '</p>',
       );
     }
   }
