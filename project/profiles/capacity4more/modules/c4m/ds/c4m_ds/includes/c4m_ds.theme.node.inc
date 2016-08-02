@@ -810,9 +810,11 @@ function theme_c4m_ds_group_notification_toggle(array $field) {
   $message_text = $user_subscribed ? t('Notifications are enabled ') : t('Notifications are disabled ');
   $link_text = $user_subscribed ? t('disable') : t('enable');
 
-  $variables = array(
-    'message_link' => $message_text . '  (' . l($link_text, '/') . ')',
+  $tag['element'] = array(
+    '#tag' => 'div',
+    '#value' => $message_text . '  (' . l($link_text, '/') . ')',
+    '#attributes' => array(),
   );
 
-  return theme('c4m_ds_group_notification_toggle', $variables);
+  return theme_html_tag($tag);
 }
