@@ -295,143 +295,7 @@ function c4m_content_document_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 3,
-    ),
-  );
-
-  // Exported field_instance: 'node-document-c4m_document'.
-  $field_instances['node-document-c4m_document'] = array(
-    'bundle' => 'document',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'activity_global' => array(
-        'label' => 'hidden',
-        'module' => 'c4m_ds',
-        'settings' => array(
-          'text' => 'Download [file:name]',
-        ),
-        'type' => 'c4m_ds_formatter_link_and_size',
-        'weight' => 3,
-      ),
-      'activity_group' => array(
-        'label' => 'hidden',
-        'module' => 'c4m_ds',
-        'settings' => array(
-          'text' => 'Download [file:name]',
-        ),
-        'type' => 'c4m_ds_formatter_link_and_size',
-        'weight' => 2,
-      ),
-      'block_list' => array(
-        'label' => 'hidden',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 21,
-      ),
-      'c4m_related' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'c4m_teaser_table' => array(
-        'label' => 'hidden',
-        'module' => 'file_entity',
-        'settings' => array(
-          'file_view_mode' => 'teaser',
-        ),
-        'type' => 'file_rendered',
-        'weight' => 4,
-      ),
-      'default' => array(
-        'label' => 'hidden',
-        'module' => 'c4m_ds',
-        'settings' => array(
-          'text' => 'Download [file:name]',
-        ),
-        'type' => 'c4m_ds_formatter_link_and_size',
-        'weight' => 2,
-      ),
-      'featured_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'full' => array(
-        'label' => 'hidden',
-        'module' => 'c4m_ds',
-        'settings' => array(
-          'text' => 'Download [file:name]',
-        ),
-        'type' => 'c4m_ds_formatter_link_and_size',
-        'weight' => 7,
-      ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'library' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'hidden',
-        'module' => 'c4m_ds',
-        'settings' => array(
-          'text' => 'Download [file:name]',
-        ),
-        'type' => 'c4m_ds_formatter_link_and_size',
-        'weight' => 7,
-      ),
-      'teaser_group' => array(
-        'label' => 'hidden',
-        'module' => 'c4m_ds',
-        'settings' => array(
-          'text' => 'Download [file:name]',
-        ),
-        'type' => 'c4m_ds_formatter_link_and_size',
-        'weight' => 6,
-      ),
-      'upcoming_event' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'ds_extras_field_template' => '',
-    'entity_type' => 'node',
-    'field_name' => 'c4m_document',
-    'label' => 'Document',
-    'required' => 1,
-    'settings' => array(
-      'description_field' => 0,
-      'file_directory' => 'documents',
-      'file_extensions' => 'txt pdf doc docx xls xlsx png bmp jpg jpeg pps ppsx ppt pptx odt ods odp odf gif pdt pdtx vsd vsdx zip',
-      'max_filesize' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'dragndrop_upload_file',
-      'settings' => array(
-        'allow_replace' => 1,
-        'droppable_area_text' => 'Drop a file here to upload',
-        'media_browser' => 0,
-        'multiupload' => 0,
-        'progress_indicator' => 'bar',
-        'standard_upload' => 1,
-        'upload_button_text' => 'Upload',
-        'upload_event' => 'auto',
-      ),
-      'type' => 'dragndrop_upload_file',
-      'weight' => 0,
+      'weight' => 4,
     ),
   );
 
@@ -540,7 +404,7 @@ function c4m_content_document_field_default_field_instances() {
         'display_label' => 1,
       ),
       'type' => 'options_onoff',
-      'weight' => 2,
+      'weight' => 3,
     ),
   );
 
@@ -755,7 +619,7 @@ function c4m_content_document_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 4,
+      'weight' => 5,
     ),
   );
 
@@ -1079,7 +943,87 @@ function c4m_content_document_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 5,
+      'weight' => 6,
+    ),
+  );
+
+  // Exported field_instance: 'node-document-field_c4m_document'.
+  $field_instances['node-document-field_c4m_document'] = array(
+    'bundle' => 'document',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 32,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'field_c4m_document',
+    'label' => 'Document',
+    'required' => 1,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'c4m_document_widget',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'c4m_add_document',
+      'weight' => 1,
     ),
   );
 
