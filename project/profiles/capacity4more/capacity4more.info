@@ -77,6 +77,8 @@ dependencies[] = views_content
 dependencies[] = views_bulk_operations
 dependencies[] = views_data_export
 dependencies[] = wysiwyg_filter
+dependencies[] = views_contextual_filters_or
+
 
 dependencies[] = services
 dependencies[] = user_revision
@@ -165,6 +167,7 @@ dependencies[] = c4m_features_og_events
 dependencies[] = c4m_features_og_group_dashboard
 dependencies[] = c4m_features_og_discussions
 dependencies[] = c4m_features_og_documents
+dependencies[] = c4m_features_og_media
 dependencies[] = c4m_features_og_highlights
 dependencies[] = c4m_features_og_manage
 dependencies[] = c4m_features_og_members
