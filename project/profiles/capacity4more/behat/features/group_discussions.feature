@@ -52,10 +52,3 @@ Feature: Group Discussions
     And   I start editing "discussion" "Some new discussion3" in group "Tennis Group"
     Then  I should see "Edit discussion"
     And   I should see "Some new discussion3"
-
-  @javascript
-  Scenario: Check unpublish button on node edit forms as an authenticated user
-    Given I am logged in as user "alfrednobel"
-    And   a discussion "Edit this discussion" in group "Nobel Prize" is created
-    When  I start editing "discussion" "Edit this discussion" in group "Nobel Prize"
-    Then  I should see "Unpublish" in the "#edit-draft" element

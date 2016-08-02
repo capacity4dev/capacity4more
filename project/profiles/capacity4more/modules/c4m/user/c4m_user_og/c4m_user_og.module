@@ -465,10 +465,15 @@ function c4m_user_og_c4m_cta_block() {
   if (!$group = c4m_og_current_group()) {
     return;
   }
+
   $items = array();
 
   if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
     $items['leave'] = $item;
+  }
+
+  if (!user_is_anonymous()) {
+    return $items;
   }
 
   $access_type = c4m_og_get_access_type($group);
@@ -516,6 +521,10 @@ function c4m_user_og_c4m_leave_group_cta($group) {
     return;
   }
 
+  if (c4m_og_user_is_owner('node', $group->nid)) {
+    return;
+  }
+
   global $user;
   // Group owner can't leave the group, needs to transfer ownership first.
   if ($user->uid == $group->uid) {
@@ -526,8 +535,42 @@ function c4m_user_og_c4m_leave_group_cta($group) {
     '#theme' => 'c4m_group_visitor_cta',
     '#button_label' => t('Leave group'),
     '#button_icon' => 'fa-arrow-right',
-    '#url' =>  url('group/node/' . $group->nid . '/unsubscribe', array('absolute' => TRUE)),
+    '#url' => url('group/node/' . $group->nid . '/unsubscribe', array('absolute' => TRUE)),
   );
+}
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * Alters the default unsubscription callback from OG to avoid group owners to
+ * leave the group before transfering the control of it.
+ */
+function c4m_user_og_menu_alter(&$menu) {
+  $menu['group/%/%/unsubscribe']['page callback'] = 'c4m_user_og_unsubscription_custom_callback';
+}
+
+/**
+ * Custom page callback to prevent group owners to leave a group.
+ */
+function c4m_user_og_unsubscription_custom_callback($group_type, $gid) {
+  $is_node = $group_type == 'node';
+  $user_is_owner = c4m_og_user_is_owner('node', $gid);
+
+  // If the group is not a node or the logged in user is not the owner of the
+  // group we return the default OG menu callback.
+  if (!$is_node || !$user_is_owner) {
+    return og_ui_unsubscribe($group_type, $gid);
+  }
+
+  $message = t(
+    "You can't leave the group if you are the owner. <a href=\"@link\">Transfer the ownership first.</a>",
+    array('@link' => url('group/node/' . $gid . '/admin/owner'))
+  );
+  drupal_set_message($message);
+
+  $group = node_load($gid);
+  $url = entity_uri($group_type, $group);
+  drupal_goto($url['path'], $url['options']);
 }
 
 /**
@@ -686,7 +729,7 @@ function c4m_user_og_group_unified_workflow($group, $account = FALSE) {
 
   $messages = array(
     'open' => t('You are now a member of this group'),
-    'moderated' => t('This is a moderated group. Your request is waiting for approval. Continue to explore group @group_title content', array('@group_title' => $group->title)),
+    'moderated' => t("This is a moderated group. Your request is waiting for approval. Continue to explore group's content."),
   );
   $message = $messages[$membership_request_value];
 
@@ -718,15 +761,17 @@ function c4m_user_og_mail_alter(&$message) {
     'user' => $user,
   );
 
-  $message['body'] = token_replace(
-    $text,
-    $variables,
-    array(
-      'language' => user_preferred_language($user),
-      'callback' => 'c4m_user_og_mail_tokens',
-      'sanitize' => FALSE,
-      'clear' => TRUE,
-    )
+  $message['body'] = array(
+    token_replace(
+      $text,
+      $variables,
+      array(
+        'language' => user_preferred_language($user),
+        'callback' => 'c4m_user_og_mail_tokens',
+        'sanitize' => FALSE,
+        'clear' => TRUE,
+      )
+    ),
   );
 }
 
