@@ -53,3 +53,15 @@ function check_access_by_group_type($perm, $group_type, $gid) {
   }
   return TRUE;
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_og_invite_form__og_invite_people_new_users_form_alter(&$form, &$form_state, $form_id) {
+  $form['og_invite_people']['tamessage'] = array(
+    '#type' => 'textarea',
+    '#title' => 'Add a message',
+    '#description' => 'Add a message to the invitation (optional)',
+    '#required' => FALSE,
+  );
+}
