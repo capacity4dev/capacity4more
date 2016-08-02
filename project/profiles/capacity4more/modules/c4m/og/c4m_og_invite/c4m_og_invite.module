@@ -65,3 +65,13 @@ function c4m_og_invite_form__og_invite_people_new_users_form_alter(&$form, &$for
     '#required' => FALSE,
   );
 }
+
+/**
+ * Implements hook_mail_alter().
+ */
+function c4m_og_invite_mail_alter(&$message) {
+  if ($message['key'] == 'register_admin_created') {
+    // This is the message sent by the og_invite_people module.
+    // @TODO: Change the subject and add custom message.
+  }
+}
