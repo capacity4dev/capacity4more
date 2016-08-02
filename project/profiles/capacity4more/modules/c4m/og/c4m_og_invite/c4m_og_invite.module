@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Code for og_invite and og_invite_people modules.
+ */
+
+/**
  * Implements hook_menu_alter().
  */
 function c4m_og_invite_menu_alter(&$items) {
@@ -30,7 +35,7 @@ function c4m_og_invite_user_access_group($perm, $group_type, $gid) {
   return FALSE;
 }
 
-/*
+/**
  * Return true if the user is allowed to invite and false if he isn't.
  */
 function check_access_by_group_type($perm, $group_type, $gid) {
