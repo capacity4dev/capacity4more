@@ -556,8 +556,10 @@ function c4m_user_og_unsubscription_custom_callback($group_type, $gid) {
     return og_ui_unsubscribe($group_type, $gid);
   }
 
-  $link = l(t('Transfer the ownership first.'), 'group/node/' . $gid . '/admin/owner');
-  $message = t("You can't leave the group if you are the owner. @link", array('@link' => $link));
+  $message = t(
+    "You can't leave the group if you are the owner. <a href=\"@link\">Transfer the ownership first.</a>",
+    array('@link' => url('group/node/' . $gid . '/admin/owner'))
+  );
   drupal_set_message($message);
 
   $group = node_load($gid);
