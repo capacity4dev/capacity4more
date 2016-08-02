@@ -300,7 +300,7 @@ function c4m_message_load_tokens__c4m_new_content_published(Message $message) {
 }
 
 /**
- * Resolves addressee user id.
+ * Returns addressee user id.
  *
  * @param Message $message
  *   The Message entity - used to retrieve required info.
