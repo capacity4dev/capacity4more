@@ -87,7 +87,7 @@ trait Activity {
     $steps[] = new Step\When("I go to \"$url\"");
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should see "posted Information" in the "div.pane-activity-stream" element');
-    $steps[] = new Step\When('I should see "updated information" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should see "updated the Information" in the "div.pane-activity-stream" element');
 
     return $steps;
   }

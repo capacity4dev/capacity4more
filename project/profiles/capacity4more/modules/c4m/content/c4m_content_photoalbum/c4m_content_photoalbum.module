@@ -85,8 +85,8 @@ function c4m_content_photoalbum_c4m_helper_entity_label_info() {
       'article' => t('a'),
       'singular' => t('photo album'),
       'plural' => t('photo albums'),
-      'insert action' => t('created a new photo album'),
-      'update action' => t('updated the photo album'),
+      'insert action' => t('created a new Photo album'),
+      'update action' => t('updated the Photo album'),
       'icon' => 'fa-picture-o',
     ),
   );

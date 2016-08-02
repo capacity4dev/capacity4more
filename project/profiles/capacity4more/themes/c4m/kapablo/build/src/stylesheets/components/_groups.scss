@@ -411,11 +411,6 @@
       display: none;
     }
 
-    .field-name-c4m-user-picture,
-    .field-name-c4m-user-first-and-last-name {
-      display: none;
-    }
-
     .field-name-c4m-user-first-and-last-name {
       @include clearfix;
     }
@@ -469,21 +464,10 @@
   margin: 15px 0 30px;
 
   .social-actions-share {
-    text-align: center;
-
-    h3 {
-      margin-bottom: 25px;
-      text-align: left;
-    }
-  }
-
-  .group-actions-recommend {
     margin-top: 20px;
-  }
-
-  .field-item {
-    display: flex;
-    flex-flow: column-reverse;
+    h3 {
+      margin-bottom: 5px;
+    }
   }
 }
 
@@ -840,4 +824,19 @@
 
 .group-node-organiser > div {
   margin-top: 10px;
+}
+
+.c4m-group-visitor-cta {
+  text-align: center;
+  margin: 10px 0;
+  padding: 10px 0;
+  border-bottom: 1px dashed $color-gray-darkThree;
+
+  a.btn {
+    width: 100%;
+    color: $color-white;
+    background-color: $color-text-alternative;
+    margin: 10px 0;
+    white-space: normal;
+  }
 }

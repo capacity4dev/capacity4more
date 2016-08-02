@@ -5,6 +5,7 @@
 @import "base/global";
 @import "base/mixins";
 @import "base/typography";
+@import "base/admin";
 
 @import "layout/region-content-above";
 
@@ -40,6 +41,7 @@
 @import "states/activity_group";
 @import "states/block_list";
 @import "states/full";
+@import "states/group_dashboard";
 @import "states/inthe_picture";
 @import "states/logged_in";
 @import "states/teaser";

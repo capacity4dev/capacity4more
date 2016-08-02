@@ -93,6 +93,7 @@
   text-transform: uppercase;
 }
 
+<<<<<<< HEAD
 // ========================================================================== //
 // Event Form
 // ========================================================================== //
@@ -158,5 +159,24 @@
 
   .cfm-file-upload__hand {
     font-size: 26px;
+  }
+
+#views-form-c4m-overview-og-members-page {
+
+  .vbo-fieldset-select-all {
+    width: 250px;
+    text-align: left;
+    padding-top: 20px;
+    padding-bottom: 10px;
+  }
+
+  .views-field-rendered-entity,
+  .views-field-views-bulk-operations {
+    display: inline-block;
+  }
+
+  .views-field-views-bulk-operations {
+    vertical-align: text-bottom;
+    margin-bottom: 12px;
   }
 }

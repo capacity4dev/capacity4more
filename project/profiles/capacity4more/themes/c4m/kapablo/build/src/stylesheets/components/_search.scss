@@ -278,50 +278,53 @@
   text-align: center;
 }
 
-.facetapi-link--article::before {
-  content: "\f1ea";
 
-  @extend .facetapi-link;
-}
+ul:not(.facetapi-facet-c4m-vocab-topic) {
+  .facetapi-link--article::before {
+    content: "\f1ea";
 
-.facetapi-link--group::before {
-  content: "\f0c0";
-  @extend .facetapi-link;
-}
+    @extend .facetapi-link;
+  }
 
-.facetapi-link--project::before {
-  content: "\f11e";
-  @extend .facetapi-link;
-}
+  .facetapi-link--group::before {
+    content: "\f0c0";
+    @extend .facetapi-link;
+  }
 
-.facetapi-link--discussion::before {
-  content: "\f040";
-  @extend .facetapi-link;
-}
+  .facetapi-link--project::before {
+    content: "\f11e";
+    @extend .facetapi-link;
+  }
 
-.facetapi-link--document::before {
-  content: "\f02d";
-  @extend .facetapi-link;
-}
+  .facetapi-link--discussion::before {
+    content: "\f040";
+    @extend .facetapi-link;
+  }
 
-.facetapi-link--event::before {
-  content: "\f073";
-  @extend .facetapi-link;
-}
+  .facetapi-link--document::before {
+    content: "\f02d";
+    @extend .facetapi-link;
+  }
 
-.facetapi-link--wiki-page::before {
-  content: "\f266";
-  @extend .facetapi-link;
-}
+  .facetapi-link--event::before {
+    content: "\f073";
+    @extend .facetapi-link;
+  }
 
-.facetapi-link--learning::before {
-  content: "\f19c";
-  @extend .facetapi-link;
-}
+  .facetapi-link--wiki-page::before {
+    content: "\f266";
+    @extend .facetapi-link;
+  }
 
-.facetapi-link--meeting::before {
-  content: "\f0c0";
-  @extend .facetapi-link;
+  .facetapi-link--learning::before {
+    content: "\f19c";
+    @extend .facetapi-link;
+  }
+
+  .facetapi-link--meeting::before {
+    content: "\f0c0";
+    @extend .facetapi-link;
+  }
 }
 
 .block-c4m-search-nodes {
@@ -423,4 +426,43 @@
 .view-mode-teaser .row-entity-count,
 .view-mode-teaser .group-iconbar-comments-views {
   color: $color-gray-dark !important;
+}
+
+#c4m-search-redirect-form {
+  display: none;
+}
+
+#block-menu-c4m-og-menu .search-form {
+  margin-bottom: 0.5rem;
+
+  input {
+    padding-right: 3rem;
+    width: 100%;
+  }
+
+  .form-group {
+    margin: 0;
+    position: relative;
+    width: 100%;
+  }
+
+  .form-submit {
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: $color-gray-dark;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+@media (min-width: $screen-tablet) {
+  #block-menu-c4m-og-menu .search-form {
+    display: none;
+  }
+
+  #c4m-search-redirect-form {
+    display: block;
+  }
 }

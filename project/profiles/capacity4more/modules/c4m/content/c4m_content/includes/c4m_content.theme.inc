@@ -25,6 +25,7 @@ function theme_c4m_website_statistics_summary(array $variables) {
     'article' => 'fa-bullhorn',
     'comment' => 'fa-comments-o',
     'discussion' => 'fa-comments-o',
+    // Same icon as in c4m_content_document_c4m_helper_entity_label_info().
     'document' => 'fa-file-o',
     'group' => 'fa-users',
     'project' => 'fa-flag-checkered',
