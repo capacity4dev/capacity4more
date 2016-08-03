@@ -201,12 +201,14 @@ function _c4m_user_notifications_new_content_published($node) {
   $gid = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
   $wrapper->field_group_node->set($gid);
 
+  // Flag suffix that is used at unsubscribe mechanism.
+  $flag_suffix = 'group';
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
   $context = array(
     'node' => array($gid => $gid),
     'user' => array($user->uid => $user->uid),
-    'entity_type' => 'group',
+    'entity_type' => $flag_suffix,
   );
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $wrapper->value(), array(), array(), $context);
