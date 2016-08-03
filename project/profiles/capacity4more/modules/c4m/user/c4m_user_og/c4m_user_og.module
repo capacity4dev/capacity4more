@@ -545,13 +545,19 @@ function c4m_user_og_group_actions_cta($group) {
       '#icon' => 'fa-cog',
       '#text' => l(t('Manage this group'),'/manage'),
     );
+
     if ($pending_requests = c4m_og_get_all_group_memberships_by_state($group->nid, OG_STATE_PENDING)) {
-      $link_text = t('There are @requests new membership requests.', array('@requests' => count($pending_requests)));
       $pending_id = $group->nid . '_pending';
+
+      $link_text = t('@requests new memberships', array('@requests' => count($pending_requests)));
+      $link = l($link_text, 'members', array('query' => array('f[0]' => 'c4m_og_membership_type:' . $pending_id)));
+
+      $cta_text = t('There are !link requests', array('!link' => $link));
+
       $items['memberships'] = array(
         '#theme' => 'c4m_group_text_cta',
         '#icon' => 'fa-user',
-        '#text' => l($link_text, 'members', array('query' => array('f[0]' => 'c4m_og_membership_type:' . $pending_id))),
+        '#text' => $cta_text,
       );
     }
   }
