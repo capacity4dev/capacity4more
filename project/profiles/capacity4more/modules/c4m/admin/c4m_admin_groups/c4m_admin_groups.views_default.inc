@@ -13,7 +13,7 @@ function c4m_admin_groups_views_default_views() {
   $view = new view();
   $view->name = 'c4m_admin_groups';
   $view->description = 'Administration interface to manage groups & their status.';
-  $view->tag = 'default';
+  $view->tag = 'C4M Admin';
   $view->base_table = 'node';
   $view->human_name = 'Admin : Groups';
   $view->core = 7;
@@ -176,7 +176,7 @@ function c4m_admin_groups_views_default_views() {
   $view = new view();
   $view->name = 'c4m_admin_groups_export';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'C4M Admin';
   $view->base_table = 'node';
   $view->human_name = 'Admin : Groups - Export';
   $view->core = 7;

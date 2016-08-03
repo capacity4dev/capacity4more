@@ -31,20 +31,26 @@ $conf["c4m_search_server_overrides"] = array(
   ),
 );
 $conf["search_api_attachments_tika_path"] = "xxx";
+$conf["search_api_attachments_tika_jar"] = "xxx";
 
 /**
  * Drupal settings
  ******************************************************************************/
-$conf['site_mail'] = 'xxx';
+$conf['site_mail'] = 'capfourdev.amplexor@gmail.com';
 $conf['file_temporary_path'] = 'xxx';
+$conf['file_public_path'] = 'xxx';
 $conf['file_private_path'] = 'xxx';
-$drupal_hash_salt = 'xxx';
+$conf['cron_key'] = '_cSwoAXUnQ2hBtoh3hbX8yxkhbi609q5QeAB9O_BKPM';
+$drupal_hash_salt = 'OMbDvLs285_CoevCU_qHPNLAaq2pj3ZkGPEA2pCooOU';
 
 /**
- * Migration settings (c4d source)
+ * Memcache settings
+ * Comment out if Memcache is installed.
  ******************************************************************************/
-$conf["c4d_migrate_db_hostname"] = "xxx";
-$conf["c4d_migrate_db_database"] = "xxx";
-$conf["c4d_migrate_db_username"] = "xxx";
-$conf["c4d_migrate_db_password"] = "xxx";
-$conf["c4d_migrate_files_root"] = "xxx";
+//$conf["cache_default_class"] = "MemCacheDrupal";
+//$conf["cache_backends"][] = "sites/all/modules/contrib/memcache/memcache.inc";
+//$conf["lock_inc"] = "sites/all/modules/contrib/memcache/memcache-lock.inc";
+//$conf["memcache_stampede_protection"] = TRUE;
+//$conf["cache_class_cache_form"] = "DrupalDatabaseCache";
+//$conf["page_cache_without_database"] = TRUE;
+//$conf["page_cache_invoke_hooks"] = FALSE;

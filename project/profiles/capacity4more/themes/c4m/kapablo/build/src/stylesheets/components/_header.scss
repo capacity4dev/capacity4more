@@ -64,6 +64,13 @@
     background: url('../images/header/background-green-white.png') repeat-x;
     background-size: contain;
   }
+
+  .header-content {
+
+    &.video-is-on {
+      height: 298px;
+    }
+  }
 }
 
 #c4m-search-redirect-form input {
@@ -300,4 +307,17 @@
 
 .og-context .header-actions--wrapper:nth-of-type(2) {
   display: none;
+}
+
+.og-menu-link {
+  &.media {
+    margin-top: 0;
+  }
+}
+
+.view-header {
+  .node-create:after {
+    content: '\A';
+    white-space: pre;
+  }
 }

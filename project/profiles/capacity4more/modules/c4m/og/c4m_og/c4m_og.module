@@ -55,6 +55,33 @@ function c4m_og_current_group_id() {
 }
 
 /**
+ * Helper to get the current value of the group membership request.
+ *
+ * @param object $group
+ *   The group object.
+ *
+ * @return mixed|null
+ *   Either 'open' or 'moderated' if it is a group type, otherwise NULL.
+ */
+function c4m_og_get_group_membership_request($group) {
+  if (!og_context('node', $group)) {
+    return NULL;
+  }
+
+  if ($group->type != 'group') {
+    return NULL;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $group);
+  $options = array(
+    C4M_OG_MODERATED_GROUP => 'moderated',
+    C4M_OG_OPEN_GROUP => 'open',
+  );
+
+  return $options[$wrapper->field_membership_open_request->value()];
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function c4m_og_ctools_plugin_directory($module, $plugin) {
@@ -469,6 +496,14 @@ function c4m_og_views_api() {
  *    TRUE or FALSE whether access is granted or not.
  */
 function c4m_og_access($feature = NULL, $account = NULL) {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return FALSE;
+  }
+
   // Check if the user has access to the group context.
   $og_context = og_context();
   if (!$og_context) {
@@ -907,24 +942,30 @@ function c4m_og_feature_uninstall($feature) {
  * @return array $groups
  *    Returns array of group nodes IDs of specific node type.
  */
-function c4m_og_get_user_group_nodes_by_bundle(
-  $bundle = NULL,
-  $account = NULL
-) {
-  $groups = og_get_groups_by_user($account, 'node');
+function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) {
+  if (empty($account)) {
+    global $user;
+    $account = $user;
+  }
 
+  $groups = og_get_groups_by_user($account, 'node');
   if (!$groups || !$bundle) {
     return $groups;
   }
 
-  foreach ($groups as $key => $gid) {
-    $wrapper = entity_metadata_wrapper('node', $gid);
-    $node_type = $wrapper->getBundle();
-    if ($node_type != $bundle) {
-      unset($groups[$key]);
-    }
+  $conditions = array(
+    'status' => NODE_PUBLISHED,
+    'type' => $bundle,
+  );
+
+  $groups = node_load_multiple($groups, $conditions);
+
+  $groups_ids = array();
+  foreach ($groups as $group) {
+    $groups_ids[] = $group->nid;
   }
-  return $groups;
+
+  return $groups_ids;
 }
 
 /**
