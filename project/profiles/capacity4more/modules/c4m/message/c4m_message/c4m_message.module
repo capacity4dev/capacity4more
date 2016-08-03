@@ -626,7 +626,7 @@ function c4m_message_format_node_body_teaser(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $node = $wrapper->field_node->value();
   if (empty($node->c4m_body)) {
-    return;
+    return '';
   }
 
   $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
@@ -706,14 +706,10 @@ function c4m_message_format_unsubscribe_group_url(Message $message) {
  */
 function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  if ($flag_suffix == 'group') {
-    $entity_type = 'group_node';
-  }
-  else {
-    $entity_type = $flag_suffix == 'term' ? 'taxonomy_term' : 'node';
-  }
 
-  $field = "field_{$entity_type}";
+  // Group field at message is 'field_group_node'.
+  $field_suffix = $flag_suffix == 'group' ? 'group_node' : $flag_suffix;
+  $field = "field_{$field_suffix}";
   $nid = $wrapper->$field->value(array('identifier' => TRUE));
   $uid = $message->uid;
   $account = user_load($uid);

@@ -1186,6 +1186,7 @@ function c4m_user_profile_unsubscribe_user_access(
 
   // Validate entity ID.
   try {
+    $entity_type = $entity_type == 'group' ? 'node' : $entity_type;
     $wrapper = entity_metadata_wrapper($entity_type, $entity_id);
     if (!$wrapper->value()) {
       return FALSE;
@@ -1234,8 +1235,9 @@ function c4m_user_profile_message_subscribe_get_subscribers_alter(
   $values
 ) {
   $entity_type = $values['entity_type'];
+  $entity_detailed_type = $values['context']['entity_type'];
   $entity_id = reset($values['context'][$entity_type]);
-  $uids = c4m_user_profile_get_subscribed($entity_type, $entity_id, $uids);
+  $uids = c4m_user_profile_get_subscribed($entity_detailed_type, $entity_id, $uids);
 }
 
 /**
@@ -1262,22 +1264,24 @@ function c4m_user_profile_get_subscribed(
     return array();
   }
 
+  $uids_keys = array_keys($uids);
   // Using db_select instead of user_load_multiple to optimize the performance.
   $query = db_select("field_data_c4m_optout_{$entity_type}", 'o');
   $query
     ->fields('o', array('entity_id'))
-    ->condition('entity_id', $uids, 'IN')
+    ->condition('entity_id', $uids_keys, 'IN')
     ->condition("c4m_optout_{$entity_type}_target_id", $entity_id);
 
   $unsubscribers = $query->execute()->fetchAllKeyed(0, 0);
 
-  return array_filter(
-    $uids,
-    function ($uid) use ($unsubscribers) {
-      // Removing all unsubscribed users.
-      return !in_array($uid, $unsubscribers);
+  // Unset unsubscribers from $uids array.
+  foreach ($unsubscribers as $unsubscriber) {
+    if (in_array($unsubscriber, $uids_keys)) {
+      unset($uids[$unsubscriber]);
     }
-  );
+  }
+
+  return $uids;
 }
 
 /**
