@@ -155,7 +155,7 @@ function c4m_content_article_preprocess(&$variables) {
     return;
   }
 
-  if (empty($variables['node'])) {
+  if ($variables['node']->type != 'article' && empty($variables['node'])) {
     return;
   }
 
