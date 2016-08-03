@@ -717,12 +717,13 @@ function c4m_content_group_c4m_content_statistics_info() {
         'singular'    => 'Group',
         'plural'      => 'Groups',
         'state'       => 1,
+        'c4m_status'  => array('published', 'archived'),
         'aggregate'   => array(),
         'weight'      => -4,
         'attributes'  => array(
           'class' => array('groups'),
         ),
-        'link' => array(
+        'link'        => array(
           'path' => 'groups',
         ),
       ),
