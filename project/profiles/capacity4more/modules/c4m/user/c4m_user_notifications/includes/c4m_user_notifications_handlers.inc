@@ -263,27 +263,33 @@ function c4m_user_notifications_notify_new_group_pending($node) {
 }
 
 /**
- * Helper function.
+ * Returns an array of subscriber to notify.
  *
- * Returns an array of structure [uid => notifier] as expected by
- * message_subscribe_send_message().
+ * Function message_subscribe_get_subscribers() implementation, which is invoked
+ * by message_subscribe_send_message().
+ * Returns an array of structure [uid => notifier].
  *  uid - user that have flagged $entity_id, with $flag_name.
  *  notifier - [email].
  *
- * @param string $entity_type
- *   Entity type.
- * @param int $entity_id
- *   Entity ID.
- * @param string $flag_name
- *   Name of the flag with which user flagged the entity with.
+ * @param object $message
+ *   The Message object.
+ * @param array $subscribe_options
+ *   The options array.
+ * @param array $context
+ *   Context array, that contains required parameters.
  *
  * @return array $uids
  *   Array of users that flagged the entity:
  *   $key - uid, $value - notifier type.
  */
-function _c4m_user_notifications_format_flagging_users_for_message_subscribe($entity_type, $entity_id, $flag_name) {
-  $users = flag_get_entity_flags($entity_type, $entity_id, $flag_name);
+function c4m_user_notifications_message_subscribe_get_subscribers($message, $subscribe_options, $context) {
+  // All entity types are nodes, besides 'term'.
+  $entity_type = $context['entity_type'] == 'term' ? 'taxonomy_term' : 'node';
+  $entity_id = key($context[$entity_type]);
+  $flag_name = 'subscribe_c4m_follow_' . $context['entity_type'];
 
+  $users = flag_get_entity_flags($entity_type, $entity_id, $flag_name);
+  // Set notifiers to mail.
   foreach ($users as $key => &$value) {
     $value = array('notifiers' => array('email'));
   }
