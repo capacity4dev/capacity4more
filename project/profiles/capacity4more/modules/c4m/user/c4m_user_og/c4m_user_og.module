@@ -483,7 +483,7 @@ function c4m_user_og_c4m_cta_block() {
         $items['join'] = $item;
       }
     }
-    else if ($membership_type == 'moderated') {
+    elseif ($membership_type == 'moderated') {
       if ($item = c4m_user_og_c4m_membership_cta($group)) {
         $items['membership'] = $item;
       }
@@ -523,7 +523,10 @@ function c4m_user_og_c4m_vistor_cta($group) {
 }
 
 /**
- * Sets the join group link CTA for logged in users that are not members of the group yet.
+ * Sets the join group link CTA.
+ *
+ * Sets the join group link CTA for logged in users that are not members
+ * of the group yet.
  */
 function c4m_user_og_c4m_join_cta($group) {
   if (og_is_member('node', $group->nid)) {
@@ -548,6 +551,10 @@ function c4m_user_og_c4m_membership_cta($group) {
   }
 
   if (og_is_member('node', $group->nid, 'user', NULL, array(OG_STATE_PENDING))) {
+    $replacements = array('%group' => $group->title);
+    $message = t("This is a moderated group. Your request is waiting for approval. Continue to explore group %group's content.", $replacements);
+    drupal_set_message($message);
+
     return array(
       '#type' => 'markup',
       '#markup' => '<div class="c4m-group-visitor-cta">' . t('Awaiting approval') . '</div>',
