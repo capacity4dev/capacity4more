@@ -19,7 +19,7 @@ function c4m_content_article_c4m_content_statistics_info() {
         'bundles'     => array('article'),
         'singular'    => 'Article',
         'plural'      => 'Articles',
-        'state'       => NULL,
+        'state'       => 1,
         'aggregate'   => array(),
         'weight'      => -5,
         'attributes'  => array(
