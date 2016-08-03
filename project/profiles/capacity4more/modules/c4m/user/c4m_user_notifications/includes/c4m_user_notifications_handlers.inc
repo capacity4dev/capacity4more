@@ -242,6 +242,7 @@ function c4m_user_notifications_notify_comment_on_content($comment) {
  *   Node id.
  */
 function _c4m_user_notifications_comment_on_content($cid, $nid) {
+  global $user;
   $message = message_create('c4m_notify_subscribers_new_comment');
   c4m_message_load_tokens__c4m_notify_subscribers_new_comment($message);
 
@@ -250,13 +251,17 @@ function _c4m_user_notifications_comment_on_content($cid, $nid) {
   $wrapper->field_comment->set($cid);
 
   $node = node_load($nid);
-  $flagging_uids = _c4m_user_notifications_get_flagging_uids($node, 'subscribe_c4m_follow_comment');
-  // $flagging_uids = array (2 => array('notifiers' => array('email')));.
-  $subscribe_options = array(
-    'uids' => $flagging_uids,
+  // Flag suffix that is used at unsubscribe mechanism.
+  $flag_suffix = 'comment';
+  // Construct the context, with parameters that will be used by
+  // c4m_user_notifications_message_subscribe_get_subscribers().
+  $context = array(
+    'node' => array($nid => $nid),
+    'user' => array($user->uid => $user->uid),
+    'entity_type' => $flag_suffix,
   );
   // Message will be saved in message_subscribe_send_message().
-  message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options);
+  message_subscribe_send_message('node', $node, $wrapper->value(), array(), array(), $context);
 }
 
 /**
