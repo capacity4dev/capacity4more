@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Code for the C4M notifications triggers.
+ * Code for the C4M notifications subscriptions.
  */
 
 /**
@@ -12,7 +12,7 @@
  * requires notification.
  */
 function c4m_user_subscribe_node_insert($node) {
-  if (!in_array($node->type, _c4m_user_subscribe_get_notification_types())) {
+  if (!in_array($node->type, _c4m_user_subscribe_get_group_content_notification_types())) {
     // Inserted content does not require notification.
     return;
   }
@@ -24,11 +24,11 @@ function c4m_user_subscribe_node_insert($node) {
  * Implements hook_node_update().
  *
  * Flags updated node with 'subscribe_c4m_follow_node' flag, for content that
- * requires notification. Verifies that user did not disabled the notifications
+ * requires notification, in case user did not disable the notifications
  * for that node.
  */
 function c4m_user_subscribe_node_update($node) {
-  if (!in_array($node->type, _c4m_user_subscribe_get_notification_types())) {
+  if (!in_array($node->type, _c4m_user_subscribe_get_group_content_notification_types())) {
     // Inserted content does not require notification.
     return;
   }
@@ -47,14 +47,14 @@ function c4m_user_subscribe_node_update($node) {
  * @return array
  *   Notification types.
  */
-function _c4m_user_subscribe_get_notification_types() {
+function _c4m_user_subscribe_get_group_content_notification_types() {
   return array('discussion', 'document', 'event', 'wiki_page');
 }
 
 /**
  * Helper function.
  *
- * Returns an array of possible flag suffixes, required for notification.
+ * Returns an array of possible flag suffixes, used for notification.
  *
  * @return array
  *   Notification flags suffixes.
