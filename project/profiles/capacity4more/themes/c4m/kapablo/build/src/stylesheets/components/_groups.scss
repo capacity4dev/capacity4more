@@ -574,9 +574,9 @@
     height: 25px;
   }*/
 
-  @media (min-width: $screen-tablet) {
+  @media (min-width: $screen-desktop) {
     float: right;
-    margin-top: 20px;
+    margin: 20px 0 40px;
   }
 }
 
