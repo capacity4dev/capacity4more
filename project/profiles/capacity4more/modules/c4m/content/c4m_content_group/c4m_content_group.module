@@ -146,10 +146,6 @@ function c4m_content_group_node_update($node) {
 
   $key = NULL;
   switch ($status_new) {
-    case 'rejected':
-      $key = 'group_rejected_user';
-      break;
-
     case 'draft':
     case 'published':
       $key = 'group_approved_user';
@@ -466,7 +462,7 @@ function c4m_content_group_node_access_records($node) {
   $realm_grants = array();
 
   switch ($wrapper->c4m_og_status->value()) {
-    case 'requested':
+    case 'pending':
       $realm_grants = array(
         C4M_CONTENT_GROUP_ACCESS_REALM_ALL => array(
           array(
@@ -585,21 +581,6 @@ function c4m_content_group_node_access_records($node) {
           ),
         );
       }
-      break;
-
-    case 'rejected':
-      $realm_grants = array(
-        C4M_CONTENT_GROUP_ACCESS_REALM_ALL => array(
-          array(
-            'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_REJECTED,
-            'grant_update' => 0,
-          ),
-          array(
-            'gid' => C4M_CONTENT_GROUP_STATUS_UPDATE_REJECTED,
-            'grant_update' => 1,
-          ),
-        ),
-      );
       break;
 
     case 'deleted':
