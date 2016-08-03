@@ -693,7 +693,7 @@ function c4m_message_format_node_body_teaser(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $node = $wrapper->field_node->value();
   if (empty($node->c4m_body)) {
-    return;
+    return '';
   }
 
   $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
