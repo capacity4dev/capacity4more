@@ -193,12 +193,14 @@ function _c4m_user_notifications_content_recommended($nid) {
   $wrapper->field_node->set($nid);
 
   $node = node_load($nid);
+  // Flag suffix that is used at unsubscribe mechanism.
+  $flag_suffix = 'node';
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
   $context = array(
     'node' => array($nid => $nid),
     'user' => array($user->uid => $user->uid),
-    'entity_type' => 'node',
+    'entity_type' => $flag_suffix,
   );
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $wrapper->value(), array(), array(), $context);
