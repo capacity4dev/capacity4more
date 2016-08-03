@@ -40,7 +40,6 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
     : NULL;
 
   $user_groups = og_get_groups_by_user($account, NULL, TRUE);
-  $groups = '';
 
   $query = new EntityFieldQuery();
 
@@ -74,22 +73,58 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
     return;
   }
 
-  // After selecting 5 random groups, they are ordered alphabetically.
-  $nodes = array();
-  foreach ($result['node'] as $group) {
-    $nodes[] = node_load($group->nid);
-  }
-  uasort($nodes, 'c4m_features_homepage_node_sort_by_title');
-
-  foreach ($nodes as $group) {
-    $node_view = node_view($group, 'block_list');
-    $groups .= drupal_render($node_view);
-  }
+  $groups = c4m_features_homepage_alphabetically_render_node_list($result['node']);
 
   $variables['groups'] = $groups;
   $variables['link'] = url('groups', array('absolute' => TRUE, 'query' => $link_filters));
 
   return theme('c4m_features_homepage_c4m_suggested_groups', $variables);
+}
+
+function c4m_features_homepage_c4m_featured_groups_get_groups() {
+  $query = new EntityFieldQuery();
+
+  $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'group')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->propertyCondition('promote', NODE_PROMOTED);
+
+  $result = $query
+    ->addTag('random')
+    ->range(0, 3)
+    ->execute();
+
+  if (empty($result['node'])) {
+    return;
+  }
+
+  $groups = c4m_features_homepage_alphabetically_render_node_list($result['node']);
+
+  $variables = array(
+    'groups' => $groups,
+  );
+
+  return theme('c4m_features_homepage_c4m_featured_groups', $variables);
+}
+
+/**
+ * Loads list of nodes, sorts them and renders them as block list.
+ */
+function c4m_features_homepage_alphabetically_render_node_list($node_ids) {
+  $items = array();
+  foreach ($node_ids as $node) {
+    $items[] = node_load($node->nid);
+  }
+  uasort($items, 'c4m_features_homepage_node_sort_by_title');
+
+  $rendered_nodes = '';
+  foreach ($items as $node) {
+    $node_view = node_view($node, 'block_list');
+    $rendered_nodes .= drupal_render($node_view);
+  }
+
+  return $rendered_nodes;
 }
 
 /**
