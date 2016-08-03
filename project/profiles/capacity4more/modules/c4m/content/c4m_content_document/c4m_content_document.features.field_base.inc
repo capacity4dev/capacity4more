@@ -72,13 +72,13 @@ function c4m_content_document_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_c4m_document'.
-  $field_bases['field_c4m_document'] = array(
+  // Exported field_base: 'c4m_document'.
+  $field_bases['c4m_document'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_c4m_document',
+    'field_name' => 'c4m_document',
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',

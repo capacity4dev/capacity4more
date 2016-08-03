@@ -947,8 +947,8 @@ function c4m_content_document_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-document-field_c4m_document'.
-  $field_instances['node-document-field_c4m_document'] = array(
+  // Exported field_instance: 'node-document-_c4m_document'.
+  $field_instances['node-document-_c4m_document'] = array(
     'bundle' => 'document',
     'default_value' => NULL,
     'default_value_function' => '',
@@ -1003,7 +1003,7 @@ function c4m_content_document_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'field_c4m_document',
+    'field_name' => 'c4m_document',
     'label' => 'Document',
     'required' => 1,
     'settings' => array(
