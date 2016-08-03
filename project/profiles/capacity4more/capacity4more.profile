@@ -89,6 +89,7 @@ function capacity4more_setup_set_variables(&$install_state) {
     'jquery_update_jquery_admin_version' => '2.1',
     'page_manager_node_view_disabled' => FALSE,
     'page_manager_term_view_disabled' => FALSE,
+    'jquery_update_jquery_migrate_enable' => TRUE,
 
     // RESTful.
     'restful_file_upload' => TRUE,
@@ -174,6 +175,27 @@ function capacity4more_setup_set_og_permissions() {
   $roles = og_roles('node', 'group');
   $admin_member_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
   og_role_grant_permissions($admin_member_rid, $permissions);
+
+  // Set OG_ADMINISTRATOR_ROLE permissions by project.
+  $content_types = array(
+    'document',
+    'event',
+  );
+
+  $permissions = array();
+  foreach ($content_types as $content_type) {
+    $permissions = array_merge($permissions, array(
+      "create $content_type content",
+      "update own $content_type content",
+      "update any $content_type content",
+      "delete own $content_type content",
+      "delete any $content_type content",
+    ));
+  }
+
+  $roles = og_roles('node', 'project');
+  $auth_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
+  og_role_grant_permissions($auth_rid, $permissions);
 }
 
 /**
