@@ -614,5 +614,4 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
   $star = '<i class="fa ' . $star_class[$highlight] . ' fa-2x" aria-hidden="true"></i>';
 
   return l($star, $url, $options);
->>>>>>> feature/CFM-1140-project-content-type
 }
