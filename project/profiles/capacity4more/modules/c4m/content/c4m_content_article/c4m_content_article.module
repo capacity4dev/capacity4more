@@ -155,8 +155,10 @@ function c4m_content_article_preprocess(&$variables) {
     return;
   }
 
-  if ($variables['node']->type != 'article' && empty($variables['node'])) {
-    return;
+  if (empty($variables['node'])) {
+    if ($variables['node']->type != 'article') {
+      return;
+    }
   }
 
   // Get the tree array, and slice it to start from the second child.
