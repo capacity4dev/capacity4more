@@ -8,6 +8,16 @@
 angular.module('c4mApp')
   .controller('ActivityCtrl', function ($scope, DrupalSettings, EntityResource, $timeout, $interval, $sce) {
 
+    /*
+     * Init the Bootstrap tooltips.
+     */
+    $scope.bindBoostrapTooltips = function() {
+      // Delay 100ms and allow all items to be added to the DOM before initializing the tooltips.
+      $timeout(function() {
+        angular.element('[data-toggle="tooltip"]').tooltip();
+      }, 100);
+    };
+
     // Get the current group ID.
     $scope.group = DrupalSettings.getData('entity').group;
 
@@ -23,6 +33,9 @@ angular.module('c4mApp')
 
     // Getting the activity stream.
     $scope.existingActivities = DrupalSettings.getActivities();
+
+    // Init the bootstrap tooltips.
+    $scope.bindBoostrapTooltips();
 
     // Empty new activities.
     $scope.newActivities = [];
@@ -187,6 +200,9 @@ angular.module('c4mApp')
             // Keep the "show more" button, only if the remaining activities to load is more than the range.
             // The "Count" variable will go down as we are filtering with the lowest activity Timestamp.
             $scope.showMoreButton = data.data.length >= $scope.range;
+
+            // Re-init the bootstrap tooltips for the added items.
+            $scope.bindBoostrapTooltips();
           }
         });
     };

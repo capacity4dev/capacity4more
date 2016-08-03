@@ -458,8 +458,6 @@ function c4m_user_og_theme() {
 
 /**
  * Implements hook_c4m_cta_block().
- *
- * Set the CTA block for visitors.
  */
 function c4m_user_og_c4m_cta_block() {
   if (!$group = c4m_og_current_group()) {
@@ -468,17 +466,28 @@ function c4m_user_og_c4m_cta_block() {
 
   $items = array();
 
+  if ($item = c4m_user_og_c4m_vistor_cta($group)) {
+    $items['visitor'] = $item;
+  }
+
+  if ($item = c4m_user_og_c4m_join_cta($group)) {
+    $items['join'] = $item;
+  }
+
   if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
     $items['leave'] = $item;
   }
 
-  if (!user_is_anonymous()) {
-    return $items;
-  }
+  return $items;
+}
 
+/**
+ * Sets the CTA block for visitors.
+ */
+function c4m_user_og_c4m_vistor_cta($group) {
   $access_type = c4m_og_get_access_type($group);
   if ($access_type['type'] != 'public') {
-    return $items;
+    return;
   }
 
   if (!user_is_anonymous()) {
@@ -492,25 +501,51 @@ function c4m_user_og_c4m_cta_block() {
 
   $types = array(
     'open' => array(
-      'button_label' => 'Join this group',
+      'button_label' => t('Join this group'),
       'button_icon' => 'fa-user-plus',
     ),
     'moderated' => array(
-      'button_label' => 'Request membership for this group',
+      'button_label' => t('Request membership for this group'),
       'button_icon' => 'fa-unlock-alt',
     ),
   );
 
   $membership_request_value = c4m_og_get_group_membership_request($group);
 
-  $items['visitors'] = array(
+  return array(
     '#theme' => 'c4m_group_visitor_cta',
     '#button_label' => $types[$membership_request_value]['button_label'],
     '#button_icon' => $types[$membership_request_value]['button_icon'],
     '#url' => url('/user'),
   );
+}
 
-  return $items;
+/**
+ * Sets the join group link CTA.
+ *
+ * Sets it for logged in users that are not members of the group yet.
+ */
+function c4m_user_og_c4m_join_cta($group) {
+  $access = c4m_og_get_access_type($group);
+  if ($access['type'] != 'public') {
+    return;
+  }
+
+  if (user_is_anonymous()) {
+    return;
+  }
+
+  if (og_is_member('node', $group->nid)) {
+    drupal_set_message(t('Welcome to group %group', array('%group' => $group->title)));
+    return;
+  }
+
+  return array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => t('Join this group'),
+    '#button_icon' => 'fa-user-plus',
+    '#url' => url('/group/node/' . $group->nid . '/subscribe'),
+  );
 }
 
 /**

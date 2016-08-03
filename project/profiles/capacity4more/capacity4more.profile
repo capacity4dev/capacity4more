@@ -119,6 +119,19 @@ function capacity4more_setup_set_permissions(&$install_state) {
     'create new books',
     'add content to books',
   );
+
+  $content_types = array(
+    'discussion',
+    'document',
+    'event',
+    'photo',
+    'photoalbum',
+  );
+
+  foreach ($content_types as $content_type) {
+    $permissions[] = "create $content_type content";
+  }
+
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 }
 
