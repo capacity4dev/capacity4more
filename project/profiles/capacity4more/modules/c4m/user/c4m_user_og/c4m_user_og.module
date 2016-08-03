@@ -520,6 +520,11 @@ function c4m_user_og_c4m_vistor_cta($group) {
   );
 }
 
+/**
+ * Sets the different actions an user can do in the group.
+ *
+ * Includes: manage group, pending membership requests and draft content.
+ */
 function c4m_user_og_group_actions_cta($group) {
   $access = c4m_og_get_access_type($group);
   if ($access['type'] != 'public') {
@@ -532,7 +537,8 @@ function c4m_user_og_group_actions_cta($group) {
   }
 
   $items = array();
-  // CTAs for the group owner: Manage group and number or new membership requests.
+  // CTAs for the group owner: Manage group and number or new membership
+  // requests.
   if ($user->uid == $group->uid) {
     $items['manage'] = array(
       '#theme' => 'c4m_group_text_cta',
@@ -552,7 +558,13 @@ function c4m_user_og_group_actions_cta($group) {
   // CTAs for members of the group: Amount of unpublished content.
   else {
     $variables = array(
-      'bundles' => array('wiki_page', 'photoalbum', 'discussion', 'event', 'document'),
+      'bundles' => array(
+        'wiki_page',
+        'photoalbum',
+        'discussion',
+        'event',
+        'document'
+      ),
       'state' => NODE_NOT_PUBLISHED,
       'entity_type' => 'node',
       'og_id' => $group->nid,
@@ -571,7 +583,9 @@ function c4m_user_og_group_actions_cta($group) {
 }
 
 /**
- * Sets the join group link CTA for logged in users that are not members of the group yet.
+ * Sets the join group link CTA.
+ *
+ * Sets it for logged in users that are not members of the group yet.
  */
 function c4m_user_og_c4m_join_cta($group) {
   $access = c4m_og_get_access_type($group);
