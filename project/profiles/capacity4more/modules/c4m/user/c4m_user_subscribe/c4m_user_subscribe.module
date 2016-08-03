@@ -8,11 +8,10 @@
 /**
  * Implements hook_node_insert().
  *
- * Flags inserted node with 'subscribe_c4m_follow_node' flag, for content that
- * requires notification.
+ * Flags inserted node, if content requires notification.
  */
 function c4m_user_subscribe_node_insert($node) {
-  if (!in_array($node->type, _c4m_user_subscribe_get_group_content_notification_types())) {
+  if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
     // Inserted content does not require notification.
     return;
   }
@@ -23,44 +22,18 @@ function c4m_user_subscribe_node_insert($node) {
 /**
  * Implements hook_node_update().
  *
- * Flags updated node with 'subscribe_c4m_follow_node' flag, for content that
- * requires notification, in case user did not disable the notifications
- * for that node.
+ * Flags updated node, if content requires notification.
  */
 function c4m_user_subscribe_node_update($node) {
-  if (!in_array($node->type, _c4m_user_subscribe_get_group_content_notification_types())) {
+  if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
     // Inserted content does not require notification.
     return;
   }
 
+  // If user has not unsubscribed from that type of notifications.
   if (!_c4m_user_subscribe_entity_notifications_disabled($node->nid, 'node')) {
     flag('flag', 'subscribe_c4m_follow_node', $node->nid);
   }
-}
-
-/**
- * Helper function.
- *
- * Returns an array of notification types names.
- * These are the types that require notification.
- *
- * @return array
- *   Notification types.
- */
-function _c4m_user_subscribe_get_group_content_notification_types() {
-  return array('discussion', 'document', 'event', 'wiki_page');
-}
-
-/**
- * Helper function.
- *
- * Returns an array of possible flag suffixes, used for notification.
- *
- * @return array
- *   Notification flags suffixes.
- */
-function _c4m_user_subscribe_get_flags_suffixes() {
-  return array('group', 'node', 'comment', 'term');
 }
 
 /**
@@ -80,21 +53,19 @@ function _c4m_user_subscribe_get_flags_suffixes() {
 function _c4m_user_subscribe_entity_notifications_disabled($entity_id, $flag_suffix) {
   global $user;
 
-  if (!in_array($flag_suffix, _c4m_user_subscribe_get_flags_suffixes())) {
+  if (!in_array($flag_suffix, c4m_features_og_group_dashboard_get_notification_flags_suffixes())) {
     // Unknown flag suffix.
     return FALSE;
   }
 
   $wrapper = entity_metadata_wrapper('user', $user);
   $field = "c4m_optout_{$flag_suffix}";
-  foreach ($wrapper->$field->value(
-    array('identifier' => TRUE)
-  ) as $existing_id) {
+  foreach ($wrapper->$field->value(array('identifier' => TRUE)) as $existing_id) {
     if ($existing_id == $entity_id) {
       // User unsubscribed from entity.
       return TRUE;
     }
-
-    return FALSE;
   }
+
+  return FALSE;
 }
