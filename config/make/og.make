@@ -3,10 +3,7 @@ api = 2
 
 ; Organic Groups and friends.
 
-projects[og][download][type] = "git"
-projects[og][download][url] = "https://github.com/capacity4dev/og.git"
-projects[og][download][branch] = og_context_check_access
-projects[og][type] = "module"
+projects[og][version] = "2.9"
 projects[og][subdir] = "contrib"
 projects[og][patch][] = "https://www.drupal.org/files/issues/access_check_when_getting_groups.patch"
 
@@ -38,3 +35,9 @@ projects[og_invite][version] = "1.0-beta5"
 
 projects[og_invite_people][subdir] = "contrib"
 projects[og_invite_people][version] = "1.0-beta2"
+
+projects[og_context_access_callback][subdir] = "contrib"
+projects[og_context_access_callback][version] = "1.x-dev"
+
+projects[og_menu][subdir] = "contrib"
+projects[og_menu][version] = "3.1"
