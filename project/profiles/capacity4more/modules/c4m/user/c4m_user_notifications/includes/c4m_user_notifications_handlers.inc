@@ -194,6 +194,8 @@ function _c4m_user_notifications_new_content_published($node) {
   global $user;
   $message = message_create('c4m_new_content_published');
   c4m_message_load_tokens__c4m_new_content_published($message);
+  $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
+  $message->arguments['@node_teaser_body'] = strip_tags($body_teaser[0]['#markup']);
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_node->set($node->nid);
