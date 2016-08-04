@@ -28,6 +28,25 @@ function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
  *   Rendered HTML of 5 suggested groups.
  */
 function c4m_features_homepage_c4m_suggested_groups_get_groups() {
+  $nodes = c4m_features_homepage_get_suggested_groups();
+  $output = '';
+
+  if ($nodes) {
+    $groups = c4m_features_homepage_alphabetically_render_node_list($nodes);
+
+    $variables['groups'] = $groups;
+    $variables['link'] = url('groups', array('absolute' => TRUE, 'query' => $link_filters));
+
+    $output = theme('c4m_features_homepage_c4m_suggested_groups', $variables);
+  }
+
+  return $output;
+}
+
+/**
+ * Gets the list of suggested groups for the logged in users.
+ */
+function c4m_features_homepage_get_suggested_groups() {
   global $user;
   $account = user_load($user->uid);
 
@@ -73,12 +92,7 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
     return;
   }
 
-  $groups = c4m_features_homepage_alphabetically_render_node_list($result['node']);
-
-  $variables['groups'] = $groups;
-  $variables['link'] = url('groups', array('absolute' => TRUE, 'query' => $link_filters));
-
-  return theme('c4m_features_homepage_c4m_suggested_groups', $variables);
+  return $result['node'];
 }
 
 /**
