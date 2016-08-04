@@ -135,9 +135,8 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     }
 
     $unallowed_values = array(
-      'requested',
+      'pending',
       'archived',
-      'rejected',
       'deleted',
     );
     $query->fieldCondition(
