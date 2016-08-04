@@ -1324,6 +1324,11 @@ function c4m_user_entity_insert($entity, $type) {
     // Add 'follow node' flag.
     _c4m_user_flag_content($entity->nid, $entity->type, 'subscribe_c4m_follow_node');
   }
+  elseif ($type == 'comment') {
+    $node = node_load($entity->nid);
+    // Add 'follow comment' flag.
+    _c4m_user_flag_content($entity->nid, $node->type, 'subscribe_c4m_follow_comment');
+  }
 }
 
 /**
