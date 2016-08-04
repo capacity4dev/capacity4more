@@ -1,25 +1,25 @@
 <?php
 /**
  * @file
- * c4m_content_group.context.inc
+ * c4m_content_project.context.inc
  */
 
 /**
  * Implements hook_context_default_contexts().
  */
-function c4m_content_group_context_default_contexts() {
+function c4m_content_project_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
-  $context->name = 'c4m_context_og_header_group';
-  $context->description = 'Context for setting the header inside OG Group CT';
-  $context->tag = 'cap4more - OG Group';
+  $context->name = 'c4m_context_og_header_project';
+  $context->description = 'Context for setting the header inside OG Project CT';
+  $context->tag = 'cap4more - OG Project';
   $context->conditions = array(
     'context_og_condition_group_type' => array(
       'values' => array(
-        'group' => 'group',
+        'project' => 'project',
       ),
       'options' => array(
         'node_form' => 1,
@@ -29,9 +29,9 @@ function c4m_content_group_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'c4m_content_group-header_name_banner_group' => array(
-          'module' => 'c4m_content_group',
-          'delta' => 'header_name_banner_group',
+        'c4m_content_project-header_name_banner_project' => array(
+          'module' => 'c4m_content_project',
+          'delta' => 'header_name_banner_project',
           'region' => 'content_above',
           'weight' => '-10',
         ),
@@ -42,9 +42,9 @@ function c4m_content_group_context_default_contexts() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Context for setting the header inside OG Group CT');
-  t('cap4more - OG Group');
-  $export['c4m_context_og_header_group'] = $context;
+  t('Context for setting the header inside OG Project CT');
+  t('cap4more - OG Project');
+  $export['c4m_context_og_header_project'] = $context;
 
   return $export;
 }
