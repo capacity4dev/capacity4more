@@ -566,7 +566,7 @@ function c4m_user_og_group_actions_cta($group) {
         'photoalbum',
         'discussion',
         'event',
-        'document'
+        'document',
       ),
       'state' => NODE_NOT_PUBLISHED,
       'entity_type' => 'node',
