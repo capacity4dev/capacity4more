@@ -465,14 +465,30 @@ function c4m_user_og_c4m_cta_block() {
     return;
   }
 
-  $items = array();
-
-  if ($item = c4m_user_og_c4m_vistor_cta($group)) {
-    $items['visitor'] = $item;
+  $access_type = c4m_og_get_access_type($group);
+  if ($access_type['type'] != 'public') {
+    return;
   }
 
-  if ($item = c4m_user_og_c4m_join_cta($group)) {
-    $items['join'] = $item;
+  $items = array();
+  if (user_is_anonymous()) {
+    if ($item = c4m_user_og_c4m_vistor_cta($group)) {
+      $items['visitor'] = $item;
+    }
+  }
+  else {
+    $membership_type = c4m_og_get_group_membership_request($group);
+
+    if ($membership_type == 'open') {
+      if ($item = c4m_user_og_c4m_join_cta($group)) {
+        $items['join'] = $item;
+      }
+    }
+    elseif ($membership_type == 'moderated') {
+      if ($item = c4m_user_og_c4m_membership_cta($group)) {
+        $items['membership'] = $item;
+      }
+    }
   }
 
   if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
@@ -571,20 +587,11 @@ function c4m_user_og_group_actions_cta($group) {
 /**
  * Sets the join group link CTA.
  *
- * Sets it for logged in users that are not members of the group yet.
+ * Sets the join group link CTA for logged in users that are not members
+ * of the group yet.
  */
 function c4m_user_og_c4m_join_cta($group) {
-  $access = c4m_og_get_access_type($group);
-  if ($access['type'] != 'public') {
-    return;
-  }
-
-  if (user_is_anonymous()) {
-    return;
-  }
-
   if (og_is_member('node', $group->nid)) {
-    drupal_set_message(t('Welcome to group %group', array('%group' => $group->title)));
     return;
   }
 
@@ -592,7 +599,36 @@ function c4m_user_og_c4m_join_cta($group) {
     '#theme' => 'c4m_group_visitor_cta',
     '#button_label' => t('Join this group'),
     '#button_icon' => 'fa-user-plus',
-    '#url' => url('/group/node/' . $group->nid . '/subscribe'),
+    '#url' => url('group/node/' . $group->nid . '/subscribe', array('absolute' => TRUE)),
+  );
+}
+
+/**
+ * Sets the CTA request membership link.
+ */
+function c4m_user_og_c4m_membership_cta($group) {
+  // Default state for og_is_member is active.
+  if (og_is_member('node', $group->nid)) {
+    drupal_set_message(t('Welcome to group %group', array('%group' => $group->title)));
+    return;
+  }
+
+  if (og_is_member('node', $group->nid, 'user', NULL, array(OG_STATE_PENDING))) {
+    $replacements = array('%group' => $group->title);
+    $message = t("This is a moderated group. Your request is waiting for approval. Continue to explore group %group's content.", $replacements);
+    drupal_set_message($message);
+
+    return array(
+      '#type' => 'markup',
+      '#markup' => '<div class="c4m-group-visitor-cta">' . t('Awaiting approval') . '</div>',
+    );
+  }
+
+  return array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => t('Request membership for this group'),
+    '#button_icon' => 'fa-unlock-alt',
+    '#url' => url('group/node/' . $group->nid . '/subscribe', array('absolute' => TRUE)),
   );
 }
 
@@ -601,10 +637,6 @@ function c4m_user_og_c4m_join_cta($group) {
  */
 function c4m_user_og_c4m_leave_group_cta($group) {
   if (!og_is_member('node', $group->nid)) {
-    return;
-  }
-
-  if (c4m_og_user_is_owner('node', $group->nid)) {
     return;
   }
 
