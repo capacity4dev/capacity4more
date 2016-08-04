@@ -34,6 +34,20 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   if ($nodes) {
     $groups = c4m_features_homepage_alphabetically_render_node_list($nodes);
 
+    global $user;
+    $account = user_load($user->uid);
+
+    $user_wrapper = entity_metadata_wrapper('user', $account->uid);
+
+    $link_filters = array();
+    $interests = $user_wrapper->c4m_vocab_topic->raw();
+
+    // Adds each interest to the exposed filters that will be pass to the
+    // groups page.
+    foreach ($interests as $key => $interest) {
+      $link_filters['f[' . $key . ']'] = 'c4m_vocab_topic:' . $interest;
+    }
+
     $variables['groups'] = $groups;
     $variables['link'] = url('groups', array('absolute' => TRUE, 'query' => $link_filters));
 
@@ -72,15 +86,8 @@ function c4m_features_homepage_get_suggested_groups() {
       ->propertyCondition('nid', $user_groups['node'], 'NOT IN');
   }
 
-  $link_filters = array();
   if (!empty($interests)) {
     $query->fieldCondition('c4m_vocab_topic', 'tid', $interests, 'IN');
-
-    // Adds each interest to the exposed filters that will be pass to the
-    // groups page.
-    foreach ($interests as $key => $interest) {
-      $link_filters['f[' . $key . ']'] = 'c4m_vocab_topic:' . $interest;
-    }
   }
 
   $result = $query
