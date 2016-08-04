@@ -537,9 +537,9 @@ function c4m_user_og_group_actions_cta($group) {
   }
 
   $items = array();
-  // CTAs for the group owner: Manage group and number or new membership
-  // requests.
-  if ($user->uid == $group->uid) {
+  // CTAs for the group owner and administrator: Manage group and number or new
+  // membership requests.
+  if (c4m_og_user_is_owner('node', $group->nid)) {
     $items['manage'] = array(
       '#theme' => 'c4m_group_text_cta',
       '#icon' => 'fa-cog',
@@ -561,28 +561,27 @@ function c4m_user_og_group_actions_cta($group) {
       );
     }
   }
-  // CTAs for members of the group: Amount of unpublished content.
-  else {
-    $variables = array(
-      'bundles' => array(
-        'wiki_page',
-        'photoalbum',
-        'discussion',
-        'event',
-        'document',
-      ),
-      'state' => NODE_NOT_PUBLISHED,
-      'entity_type' => 'node',
-      'og_id' => $group->nid,
-    );
 
-    if ($unpublished_content = c4m_helper_entity_get_number_of_entities($variables)) {
-      $items['new-content'] = array(
-        '#theme' => 'c4m_group_text_cta',
-        '#icon' => 'fa-exclamation-triangle',
-        '#text' => t('You have %count draft content items', array('%count' => $unpublished_content)),
-      );
-    }
+  // CTAs for members of the group: Amount of unpublished content.
+  $variables = array(
+    'bundles' => array(
+      'wiki_page',
+      'photoalbum',
+      'discussion',
+      'event',
+      'document',
+    ),
+    'state' => NODE_NOT_PUBLISHED,
+    'entity_type' => 'node',
+    'og_id' => $group->nid,
+  );
+
+  if ($unpublished_content = c4m_helper_entity_get_number_of_entities($variables)) {
+    $items['new-content'] = array(
+      '#theme' => 'c4m_group_text_cta',
+      '#icon' => 'fa-exclamation-triangle',
+      '#text' => t('You have %count draft content items', array('%count' => $unpublished_content)),
+    );
   }
 
   return $items;
