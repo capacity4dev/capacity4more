@@ -163,8 +163,8 @@ function c4m_content_article_preprocess(&$variables) {
     return;
   }
 
-  // Get the tree array, and slice it to start from the second child.
-  // Because the first child is the title of the taxonomy it don't need an <i> tag.
+  // Since the first element on the tree is actually the title we remove
+  // it because it should not have the arrow icon next to it (the <i> tag).
   $vocab_geo = $variables['node']->c4m_vocab_geo[LANGUAGE_NONE];
   $vocab_geo = array_slice($vocab_geo, 1);
 
