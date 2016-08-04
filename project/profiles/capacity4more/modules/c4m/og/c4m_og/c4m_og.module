@@ -352,15 +352,27 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
  *
  * @param int $gid
  *   The ID of the group.
+ * @param bool $verify_owner_added
+ *   Verifies that group owner id is returned, even if group owner does not
+ *   have 'administrator member' role.
  *
  * @return array
  *   An array of all group admins ids.
  */
-function c4m_og_get_group_admins_ids($gid) {
+function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE) {
   $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
   $admins = c4m_og_get_users_by_roles($gid, array($group_admin_role->rid));
   foreach ($admins as &$admin) {
     $admin = $admin->uid;
+  }
+
+  if ($verify_owner_added) {
+    $group = node_load($gid);
+    if ($group && og_is_group('node', $group)) {
+      if (!in_array($group->uid, $admins)) {
+        $admins[] = $group->uid;
+      }
+    }
   }
 
   return $admins;
@@ -371,12 +383,15 @@ function c4m_og_get_group_admins_ids($gid) {
  *
  * @param int $gid
  *   The ID of the group.
+ * @param bool $verify_owner_added
+ *   Verifies that group owner is returned, even if group owner does not
+ *   have 'administrator member' role.
  *
  * @return array
  *   An array of all group admins.
  */
-function c4m_og_get_group_admins($gid) {
-  return user_load_multiple(c4m_og_get_group_admins_ids($gid));
+function c4m_og_get_group_admins($gid, $verify_owner_added = FALSE) {
+  return user_load_multiple(c4m_og_get_group_admins_ids($gid, $verify_owner_added));
 }
 
 /**
@@ -509,6 +524,14 @@ function c4m_og_views_api() {
  *    TRUE or FALSE whether access is granted or not.
  */
 function c4m_og_access($feature = NULL, $account = NULL) {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return FALSE;
+  }
+
   // Check if the user has access to the group context.
   $og_context = og_context();
   if (!$og_context) {
@@ -947,24 +970,30 @@ function c4m_og_feature_uninstall($feature) {
  * @return array $groups
  *    Returns array of group nodes IDs of specific node type.
  */
-function c4m_og_get_user_group_nodes_by_bundle(
-  $bundle = NULL,
-  $account = NULL
-) {
-  $groups = og_get_groups_by_user($account, 'node');
+function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) {
+  if (empty($account)) {
+    global $user;
+    $account = $user;
+  }
 
+  $groups = og_get_groups_by_user($account, 'node');
   if (!$groups || !$bundle) {
     return $groups;
   }
 
-  foreach ($groups as $key => $gid) {
-    $wrapper = entity_metadata_wrapper('node', $gid);
-    $node_type = $wrapper->getBundle();
-    if ($node_type != $bundle) {
-      unset($groups[$key]);
-    }
+  $conditions = array(
+    'status' => NODE_PUBLISHED,
+    'type' => $bundle,
+  );
+
+  $groups = node_load_multiple($groups, $conditions);
+
+  $groups_ids = array();
+  foreach ($groups as $group) {
+    $groups_ids[] = $group->nid;
   }
-  return $groups;
+
+  return $groups_ids;
 }
 
 /**

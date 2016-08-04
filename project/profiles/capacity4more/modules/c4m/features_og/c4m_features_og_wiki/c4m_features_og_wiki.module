@@ -120,11 +120,15 @@ function c4m_features_og_wiki_theme() {
 }
 
 /**
- * Implements hook_block_view_MODULE_DELTA_alter().
+ * Implements hook_block_view_alter().
  *
  * No title for the group menu.
  */
-function c4m_features_og_wiki_block_view_menu_c4m_og_menu_alter(&$data, $block) {
+function c4m_features_og_wiki_block_view_alter(&$data, $block) {
+  if (!isset($block->bid) || $block->bid != 'og_menu-og_single_menu_block') {
+    return;
+  }
+
   if (!c4m_og_access('c4m_features_og_wiki')) {
     return;
   }
