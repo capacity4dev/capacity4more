@@ -17,15 +17,15 @@ function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Renders 3 suggested group for the user.
+ * Renders 5 suggested group for the user.
  *
- * Suggest 3 random groups for the user which he is not subscribed to.
+ * Suggest 5 random groups for the user which he is not subscribed to.
  * When interests filter is applied : select groups which has at least one
  * common topic of interest with the user.
  * Interests are taken from user's profile.
  *
  * @return mixed
- *   Rendered HTML of 3 suggested groups.
+ *   Rendered HTML of 5 suggested groups.
  */
 function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   global $user;
@@ -81,6 +81,12 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   return theme('c4m_features_homepage_c4m_suggested_groups', $variables);
 }
 
+/**
+ * Renders 3 featured groups.
+ *
+ * @return mixed
+ *   Rendered HTML of 3 featured groups.
+ */
 function c4m_features_homepage_c4m_featured_groups_get_groups() {
   $query = new EntityFieldQuery();
 
