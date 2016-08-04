@@ -82,7 +82,7 @@ function theme_c4m_footer_bar_project() {
   $project_link = l(t('Capacity4dev') . ' >',  base_path() . 'projects', $options);
 
   $options['attributes']['title'] = t('Home');
-  $options['attributes']['class'] = array('logo');
+  $options['attributes']['class'] = array('logo-project');
   $variables = array (
     'path' => (drupal_get_path('theme', 'kapablo') . '/project_logo.png'),
     'alt' => t('Home'),

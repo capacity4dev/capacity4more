@@ -6,7 +6,7 @@
  */
 ?>
 
-<div>
+<div >
   <ul class="c4m-footer-bar">
     <li class="first">
       <?php print $logo_link ?>
