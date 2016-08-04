@@ -25,4 +25,6 @@ MODULES_ENABLE=(
   "transliteration"
   "views"
   "views_bulk_operations"
+  "og_menu"
+  "views_contextual_filters_or"
 )

@@ -89,7 +89,7 @@ function c4m_field_og_field_access($op, $field, $entity_type, $entity, $account)
   if ($account->uid == $entity->uid) {
     // Group owner.
     $allowed_values = array(
-      'requested',
+      'pending',
       'draft',
       'published',
     );
@@ -130,38 +130,28 @@ function c4m_field_og_form_group_node_form_alter(&$form, &$form_state, $form_id)
   if (user_access('administer site configuration', $account)) {
     // This is site administrator.
     $unallowed_values = array(
-      'requested' => array(
+      'pending' => array(
         'archived',
         'published',
       ),
       'draft' => array(
-        'requested',
-        'rejected',
+        'pending',
         'archived',
       ),
       'published' => array(
-        'rejected',
-        'requested',
+        'pending',
       ),
       'archived' => array(
-        'rejected',
-        'requested',
+        'pending',
         'draft',
-      ),
-      'rejected' => array(
-        'requested',
-        'draft',
-        'published',
-        'archived',
       ),
       'deleted' => array(
-        'requested',
-        'rejected',
+        'pending',
       ),
     );
 
     if ($wrapper->{OG_ACCESS_FIELD}->value()) {
-      unset($unallowed_values['requested']['published']);
+      unset($unallowed_values['pending']['published']);
     }
 
     if (!empty($unallowed_values[$value])) {
@@ -175,21 +165,18 @@ function c4m_field_og_form_group_node_form_alter(&$form, &$form_state, $form_id)
   if ($account->uid == $entity->uid) {
     // Group owner.
     $unallowed_values = array(
-      'requested' => array(
+      'pending' => array(
         'draft',
         'published',
         'archived',
-        'rejected',
       ),
       'draft' => array(
         'archived',
-        'rejected',
-        'requested',
+        'pending',
       ),
       'published' => array(
         'draft',
-        'rejected',
-        'requested',
+        'pending',
       ),
     );
 
@@ -205,15 +192,13 @@ function c4m_field_og_form_group_node_form_alter(&$form, &$form_state, $form_id)
     // Group administrator.
     $unallowed_values = array(
       'draft' => array(
-        'requested',
+        'pending',
         'archived',
-        'rejected',
       ),
       'published' => array(
-        'requested',
+        'pending',
         'draft',
         'archived',
-        'rejected',
       ),
     );
     if (!empty($unallowed_values[$value])) {
