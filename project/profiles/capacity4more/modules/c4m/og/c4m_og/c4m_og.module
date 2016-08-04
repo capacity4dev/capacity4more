@@ -1261,7 +1261,7 @@ function c4m_og_get_user_administered_groups_count($uid, $node_type) {
  *   The group to get the type from.
  *
  * @return bool
- *   Wither current OG group type matches the input.
+ *   Whether current OG group type matches the input.
  */
 function c4m_og_is_of_group_type($type) {
   $context = og_context();
