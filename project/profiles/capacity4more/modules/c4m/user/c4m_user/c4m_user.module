@@ -143,6 +143,14 @@ function c4m_user_ds_fields_info($entity_type) {
     'function' => 'theme_c4m_user_contact_link',
   );
 
+  $fields['user']['c4m_user_group_member_contact'] = array(
+    'title' => t('C4M User contact link on group members page'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_user.theme.inc',
+    'function' => 'theme_c4m_user_group_member_contact',
+  );
+
   // User related fields for entity type node.
   $fields['node']['c4m_user_picture'] = $fields['user']['c4m_user_picture'];
   $fields['node']['c4m_user_first_and_last_name']
@@ -306,7 +314,12 @@ function _c4m_user_initials_colors() {
  */
 function c4m_user_action_info() {
   module_load_include('inc', 'c4m_user', 'actions/c4m_user_contact.action');
-  return c4m_user_contact_action_info();
+  module_load_include('inc', 'c4m_user', 'actions/c4m_user_contact_multiple.action');
+
+  $actions = c4m_user_contact_action_info();
+  $actions += c4m_user_contact_multiple_action_info();
+
+  return $actions;
 }
 
 /**
@@ -315,6 +328,12 @@ function c4m_user_action_info() {
  * Set's the message subject and body as configured.
  */
 function c4m_user_mail($key, &$message, $params) {
+
+  if ($key == 'user_contact_mail') {
+    // Do not edit email subject and body for user contact mail.
+    return;
+  }
+
   $message['subject'] .= str_replace(array("\r", "\n"), '', $params['subject']);
   $message['body'][] = $params['body'];
 }
@@ -677,15 +696,179 @@ function c4m_user_access_denied() {
 /**
  * Implements hook_menu_alter().
  *
- * Make the user/%user/contact page just a callback.
+ * Make the user/%user/contact page.
  */
 function c4m_user_menu_alter(&$items) {
   $items['user/login'] = array(
     'title' => 'Please log in to continue',
   );
+
   $items['user/%user/contact'] = array(
     'type' => MENU_CALLBACK,
+    'title' => 'User contact form',
+    'description' => 'User contact form.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_contact_form', 1),
+    'access callback' => 'c4m_user_contact_form_access',
+    'access arguments' => array(1),
   );
+}
+
+/**
+ * User contact form access function.
+ *
+ * Validates that user is logged in, and that account id entered at url exists.
+ */
+function c4m_user_contact_form_access($account) {
+  if (!user_is_logged_in()) {
+    // If not logged in, deny access.
+    return FALSE;
+  }
+
+  return !empty($account->uid);
+}
+
+/**
+ * Create 'Contact User' form.
+ */
+function c4m_user_contact_form($form, &$form_state, $account) {
+  global $user;
+  $form_state['addressee_user'] = $account;
+
+  $form['c4m_contact_user_from'] = array(
+    '#type' => 'textfield',
+    '#title' => t('From'),
+    '#description' => t('From address.'),
+    '#size' => 30,
+    '#default_value' => $user->mail,
+    '#disabled' => TRUE,
+  );
+
+  $form['c4m_contact_user_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subject'),
+    '#description' => t('Enter mail subject.'),
+    '#size' => 10,
+  );
+
+  $form['c4m_contact_user_body'] = array(
+    '#title' => t('Body'),
+    '#description' => t('Enter mail body.'),
+    '#type' => 'text_format',
+    '#format' => 'filtered_html',
+  );
+
+  $form['c4m_contact_user_self_copy'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Send me a copy'),
+    '#default_value' => FALSE,
+  );
+
+  $form['c4m_contact_user_submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Send'),
+  );
+
+  return $form;
+}
+
+/**
+ * Validate function for contact_form.
+ *
+ * Verifies that email subject and body are not empty.
+ */
+function c4m_user_contact_form_validate($form, $form_state) {
+  $subject = $form_state['values']['c4m_contact_user_subject'];
+  $body = $form_state['values']['c4m_contact_user_body']['value'];
+
+  if (empty($subject)) {
+    form_error($form['c4m_contact_user_subject'], 'The subject of the mail can\'t be empty.');
+  }
+
+  if (empty($body)) {
+    form_error($form['c4m_contact_user_body'], 'The body of the mail can\'t be empty.');
+  }
+}
+
+/**
+ * Submit function for contact_form.
+ *
+ * Generates required parameters and sends an email.
+ * If 'Send copy' checkbox is checked, sends copy mail to running user.
+ */
+function c4m_user_contact_form_submit($form, $form_state) {
+  global $user;
+
+  // Generate and send mail.
+  $addressee_account = $form_state['addressee_user'];
+  $addressee_language = user_preferred_language($addressee_account);
+  $subject = $form_state['values']['c4m_contact_user_subject'];
+  $body = $form_state['values']['c4m_contact_user_body']['value'];
+
+  _c4m_user_send_mail($addressee_account->mail, $user->mail, $subject, $body, $addressee_language);
+
+  if ($form_state['values']['c4m_contact_user_self_copy']) {
+    // Sending a copy of the mail to the sender since the user checked
+    // the "Send me a copy" checkbox on the form.
+    $user_language = user_preferred_language($user);
+    _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body, $user_language);
+  }
+}
+
+/**
+ * Generates and sends an email.
+ *
+ * @param string $to
+ *   Email destination address.
+ * @param string $from
+ *   Email source address - current user email.
+ * @param string $subject
+ *   Email message subject.
+ * @param string $body
+ *   Email message body.
+ * @param object $language
+ *   Preferred language for addressee user.
+ * @param bool $silent
+ *   Whether to display a status message or not.
+ */
+function _c4m_user_send_mail($to, $from, $subject, $body, $language, $silent = FALSE) {
+  $module = 'c4m_user';
+  $key = 'user_contact_mail';
+  $params = array();
+  $send = FALSE;
+
+  $message = drupal_mail($module, $key, $to, $language, $params, $from, $send);
+  $message['subject'] = $subject;
+  $message['body'] = [$body];
+
+  // Retrieve the responsible implementation for this message.
+  $system = drupal_mail_system($module, $key);
+
+  // Format the message body.
+  $message = $system->format($message);
+
+  // Send e-mail.
+  $message['result'] = $system->mail($message);
+
+  if (!$message['result']) {
+    $variables = array(
+      '%from' => $message['from'],
+      '%to' => $message['to'],
+    );
+    watchdog('c4m_user_send_mail',
+      'Attempt to send mail (from %from to %to) failed.',
+      $variables, WATCHDOG_ERROR
+    );
+
+    if (!$silent) {
+      drupal_set_message(t("Can't send the message."), 'error');
+    }
+  }
+  else {
+    if (!$silent) {
+      drupal_set_message(t('Message sent successfully.'));
+    }
+  }
 }
 
 /**
@@ -1122,5 +1305,38 @@ function c4m_user_c4m_offcanvas_trigger_label_left_alter(&$trigger_label) {
 function c4m_user_ckeditor_settings_alter(&$settings, $conf) {
   if (user_is_anonymous() && isset($settings['loadPlugins']['media'])) {
     unset($settings['loadPlugins']['media']);
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * Ensures c4m_user form_alter runs after VBO.
+ */
+function c4m_user_module_implements_alter(&$implementations, $hook) {
+  if ($hook != 'form_alter') {
+    return;
+  }
+
+  if (!isset($implementations['c4m_user'])) {
+    return;
+  }
+
+  $group = $implementations['c4m_user'];
+  unset($implementations['c4m_user']);
+  $implementations['c4m_user'] = $group;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Updates value of submit button.
+ */
+function c4m_user_form_views_form_c4m_overview_og_members_page_alter(&$form, &$form_state, $form_id) {
+  $form['actions']['submit']['#value'] = t('Send');
+  if (isset($form['select_all_markup']['#markup'])) {
+    // VBO module doesn't provide an option to change 'Select all' labels,
+    // hence the only option is to replace the text on the markup.
+    $form['select_all_markup']['#markup'] = str_replace('Select all items', 'Select all members', $form['select_all_markup']['#markup']);
   }
 }
