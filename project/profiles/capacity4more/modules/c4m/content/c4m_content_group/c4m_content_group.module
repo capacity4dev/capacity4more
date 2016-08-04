@@ -293,6 +293,11 @@ function c4m_content_group_form_group_node_form_alter(&$form, &$form_state) {
     // After a form is submitted, run a redirect function.
     $form['actions']['submit']['#submit'][] = 'c4m_content_group_submit_redirect';
   }
+
+  // Checks if the node is being created.
+  if (is_null($form['nid']['#value'])) {
+    $form['c4m_og_status']['#access'] = FALSE;
+  }
 }
 
 /**

@@ -635,12 +635,6 @@ function c4m_features_og_manage_project_details() {
     $details['partners'] = $list;
   }
 
-  // Implemented by.
-  $implementers = $wrapper->c4m_implemented_by->value();
-  if ($list = c4m_features_og_manage_list_simple($implementers)) {
-    $details['implemented_by'] = $list;
-  }
-
   // CRIS Decision numbers.
   $cris_decision_numbers = $wrapper->c4m_cris_decision_number->value();
   if ($list = c4m_features_og_manage_list_simple($cris_decision_numbers)) {
