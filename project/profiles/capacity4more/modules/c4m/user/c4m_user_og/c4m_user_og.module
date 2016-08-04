@@ -543,7 +543,7 @@ function c4m_user_og_group_actions_cta($group) {
     $items['manage'] = array(
       '#theme' => 'c4m_group_text_cta',
       '#icon' => 'fa-cog',
-      '#text' => l(t('Manage this group'),'/manage'),
+      '#text' => l(t('Manage this group'), 'manage'),
     );
 
     if ($pending_requests = c4m_og_get_all_group_memberships_by_state($group->nid, OG_STATE_PENDING)) {
@@ -569,7 +569,7 @@ function c4m_user_og_group_actions_cta($group) {
         'photoalbum',
         'discussion',
         'event',
-        'document'
+        'document',
       ),
       'state' => NODE_NOT_PUBLISHED,
       'entity_type' => 'node',
