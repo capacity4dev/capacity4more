@@ -44,15 +44,24 @@
       font-size: 11px;
     }
 
-    a.logo-project {
+    a {
 
-      img {
-        height: 27px;
+      &.logo-project {
+
+        img {
+          height: 27px;
+        }
       }
     }
 
-    div> a.text-orange {
-      color: $color-highlight;
+    div {
+
+      a {
+
+        &.text-orange {
+          color: $color-highlight;
+        }
+      }
     }
   }
 }
