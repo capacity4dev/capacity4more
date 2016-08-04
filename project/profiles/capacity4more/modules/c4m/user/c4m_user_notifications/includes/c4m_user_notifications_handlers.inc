@@ -100,7 +100,7 @@ function c4m_user_notifications_group_hard_deleted($node) {
 /**
  * Email notification about organic group access change.
  */
-function c4m_user_notifications_group_access_changed($node) {
+function c4m_user_notifications_group_permissions_changed($node, $permissions) {
 }
 
 /**
@@ -252,45 +252,43 @@ function c4m_user_notifications_notify_comment_on_content($comment) {
 }
 
 /**
- * Helper function.
- *
- * Returns an array of ids for all group admins and group owner.
+ * Email notification to group requester, that group is waiting for review.
  */
-function _c4m_user_notifications_get_admins_and_owner_ids($gid) {
-  // Get an array of ids for group admins.
-  $group_admins_ids = c4m_og_get_group_admins_ids($gid);
-  // Load group.
-  $group = node_load($gid);
-  // If group owner is not defined as group admin, add it to admins list.
-  if (!in_array($group->uid, $group_admins_ids)) {
-    $group_admins_ids[] = $group->uid;
-  }
+function c4m_user_notifications_notify_new_group_pending($node) {
 
-  return $group_admins_ids;
 }
 
 /**
- * Helper function.
+ * Returns an array of subscriber to notify.
  *
- * Returns ids of all users that have flagged $node, with $flag_name.
+ * Function message_subscribe_get_subscribers() implementation, which is invoked
+ * by message_subscribe_send_message().
+ * Returns an array of structure [uid => notifier].
+ *  uid - user that have flagged $entity_id, with $flag_name.
+ *  notifier - [email].
  *
- * @param object $node
- *   Node object.
- * @param string $flag_name
- *   Name of the flag with which user flagged the node.
+ * @param object $message
+ *   The Message object.
+ * @param array $subscribe_options
+ *   The options array.
+ * @param array $context
+ *   Context array, that contains required parameters.
  *
  * @return array $uids
- *   Array of user ids that flagged the node.
+ *   Array of users that flagged the entity:
+ *   $key - uid, $value - notifier type.
  */
-function _c4m_user_notifications_get_flagging_uids($node, $flag_name) {
-  // Set flag name as a search criteria.
-  $property_info = array('flag_name' => $flag_name);
-  $flagging_users_ids = flag_properties_get_flagging_users($node, array(), '', 'node', $property_info);
-  $uids = array();
+function c4m_user_notifications_message_subscribe_get_subscribers($message, $subscribe_options, $context) {
+  // All entity types are nodes, besides 'term'.
+  $entity_type = $context['entity_type'] == 'term' ? 'taxonomy_term' : 'node';
+  $entity_id = key($context[$entity_type]);
+  $flag_name = 'subscribe_c4m_follow_' . $context['entity_type'];
 
-  foreach ($flagging_users_ids as $flagging_user_id) {
-    $uids[$flagging_user_id] = array('notifiers' => array('email'));
+  $users = flag_get_entity_flags($entity_type, $entity_id, $flag_name);
+  // Set notifiers to mail.
+  foreach ($users as $key => &$value) {
+    $value = array('notifiers' => array('email'));
   }
 
-  return $uids;
+  return $users;
 }
