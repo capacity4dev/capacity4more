@@ -1731,13 +1731,20 @@ function c4m_message_load_homepage_activity_stream() {
     : 0;
   $group_context = (bool) og_context();
 
+  // Checks if this is an Authenticated user.
   if ($user->uid) {
-    // This is an Authenticated user.
-    if ($filter == 'interests' || $filter == 'groups') {
-      $groups = c4m_og_get_user_group_nodes_by_bundle('group');
-      $groups = $groups ? $groups : array();
+    switch ($filter) {
+      case 'groups':
+        // Gets all the group IDs that the user belongs to.
+        $groups = c4m_og_get_user_group_nodes_by_bundle('group');
+        break;
 
-      if ($filter == 'interests') {
+      case 'projects':
+        // Gets all the project IDs that the user belongs to.
+        $groups = c4m_og_get_user_group_nodes_by_bundle('project');
+        break;
+
+      case 'interests':
         $hide_articles = 0;
         // Get user's interests.
         $user_wrapper = entity_metadata_wrapper('user', $user->uid);
@@ -1763,7 +1770,7 @@ function c4m_message_load_homepage_activity_stream() {
         if (!empty($result['node'])) {
           $groups = array_merge($groups, array_keys($result['node']));
         }
-      }
+        break;
     }
   }
 
