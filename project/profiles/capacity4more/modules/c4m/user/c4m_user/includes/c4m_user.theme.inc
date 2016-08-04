@@ -342,7 +342,7 @@ function theme_c4m_user_contact_link(array $field) {
 
   // User administrators should always have access to personal contact forms.
   if (user_access('administer users') || user_access('access user contact forms')) {
-    return '<i class="fa fa-envelope-o"></i> ' . l(t('Contact this person'), "user/{$account->uid}/contact");
+    return '<i class="fa fa-envelope-o"></i> ' . l(t('Contact this person'), "user/{$account->uid}/contact", array('query' => drupal_get_destination()));
   }
   else {
     return t('!register or !login to contact a member', array(
@@ -351,5 +351,59 @@ function theme_c4m_user_contact_link(array $field) {
         'query' => drupal_get_destination(),
       )),
     ));
+  }
+}
+
+/**
+ * Callback for c4m_user_group_member_contact DS field.
+ *
+ * @param array $field
+ *   The field info.
+ *
+ * @return null|string
+ *   The rendered output.
+ *
+ * @see _contact_personal_tab_access()
+ */
+function theme_c4m_user_group_member_contact(array $field) {
+  global $user;
+
+  $account = $field['entity'];
+
+  // Anonymous users cannot have contact forms.
+  if (!$account->uid) {
+    return NULL;
+  }
+
+  // Users may not contact themselves.
+  if ($user->uid == $account->uid) {
+    return NULL;
+  }
+
+  // If the requested user has disabled their contact form, or this preference
+  // has not yet been saved, do not allow users to contact them.
+  if (empty($account->data['contact'])) {
+    return NULL;
+  }
+
+  // If requested user has been blocked, do not allow users to contact them.
+  if (empty($account->status)) {
+    return NULL;
+  }
+
+  $group = c4m_og_current_group();
+  // If not within OG context, return early.
+  if (!$group) {
+    return NULL;
+  }
+
+  if (_c4m_features_og_members_is_power_user($group)) {
+    // Site admin, group admin/owner have 'contact multiple' instead of link.
+    return NULL;
+  }
+
+  if (c4m_og_user_is_member()) {
+    // User is group member.
+    return '<i class="fa fa-envelope-o"></i> ' . l(t('Contact'), "user/{$account->uid}/contact", array('query' => drupal_get_destination()));
   }
 }
