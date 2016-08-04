@@ -23,3 +23,13 @@ function c4m_features_overview_groups_c4m_search_page_info() {
     ),
   );
 }
+/**
+ * Implements hook_views_pre_render().
+ */
+function c4m_features_overview_groups_views_pre_render(&$view) {
+  if($view->name != 'overview_og_related_projects') {
+    return;
+  }
+  
+  dpm($view);
+}
