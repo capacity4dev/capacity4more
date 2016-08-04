@@ -29,3 +29,25 @@
 .page-taxonomy .taxonomy-term {
   padding-bottom: 0!important;
 }
+
+.view {
+
+  .view-header {
+
+    a {
+      &.node-create-document,
+      &.node-create-discussion {
+        background-color: #8ABCC7;
+        padding: 10px;
+        color: #fff;
+        border-radius: 50px;
+        text-decoration: none;
+        text-transform: uppercase;
+
+        .fa {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}

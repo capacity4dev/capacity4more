@@ -27,6 +27,14 @@ function c4m_user_admin_views_data() {
     ),
   );
 
+  $data['users']['reactivate_user'] = array(
+    'field' => array(
+      'title' => t('Reactivate user link'),
+      'help' => t('Provide a simple link to reactivate the user.'),
+      'handler' => 'views_handler_field_user_link_reactivate',
+    ),
+  );
+
   $data['users']['resend_activation_email'] = array(
     'field' => array(
       'title' => t('Resend activation email link'),
@@ -55,6 +63,14 @@ function c4m_user_admin_menu() {
     'title' => 'Activate user',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_user_admin_user_activate_form', 1),
+    'access arguments' => array('administer users'),
+    'file' => 'c4m_user_admin.pages.inc',
+  );
+
+  $items['user/%user/reactivate'] = array(
+    'title' => 'Reactivate user',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_admin_user_reactivate_form', 1),
     'access arguments' => array('administer users'),
     'file' => 'c4m_user_admin.pages.inc',
   );
@@ -194,8 +210,19 @@ function c4m_user_admin_admin_paths() {
   $paths = array(
     'user/*/activate' => TRUE,
     'user/*/resend-activation-email' => TRUE,
+    'user/*/reactivate' => TRUE,
   );
   return $paths;
+}
+
+/**
+ * Implements hook_admin_paths_alter().
+ *
+ * Use front-end theme for edit user pages.
+ */
+function c4m_user_admin_admin_paths_alter(&$paths) {
+  unset($paths['user/*/edit']);
+  unset($paths['user/*/edit/*']);
 }
 
 /**

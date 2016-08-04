@@ -28,6 +28,32 @@ function c4m_user_admin_user_activate_form($form, &$form_state, $account) {
 }
 
 /**
+ * Form constructor for the reactivate user form.
+ *
+ * @see c4m_user_admin_user_reactivate_form_submit()
+ *
+ * @ingroup forms
+ */
+function c4m_user_admin_user_reactivate_form($form, &$form_state, $account) {
+  $form_state['user'] = $account;
+
+  $question = t('Are you sure you want to reactivate the account of @full_name?', array(
+    '@full_name' =>  c4m_user_name($account),
+  ));
+  $confirm_form =  confirm_form($form,
+    $question,
+    '',
+    '',
+    t('Submit'), t('Cancel'));
+  $confirm_form['c4m_notify_user'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Send reactivate notification.'),
+        '#default_value' => FALSE,
+  );
+  return $confirm_form;
+}
+
+/**
  * Form submission handler for c4m_user_admin_user_activate_form().
  *
  * @see c4m_user_admin_user_activate_form()
@@ -36,6 +62,22 @@ function c4m_user_admin_user_activate_form_submit($form, &$form_state) {
   $account = $form_state['user'];
   module_load_include('inc', 'c4m_user_admin', 'actions/c4m_user_admin.action');
   c4m_user_admin_activate_action($account);
+}
+
+/**
+ * Form submission handler for c4m_user_admin_user_activate_form().
+ *
+ * @see c4m_user_admin_user_activate_form()
+ */
+function c4m_user_admin_user_reactivate_form_submit($form, &$form_state) {
+  c4m_user_admin_user_activate_form_submit($form, $form_state);
+
+  if ($form_state['values']['c4m_notify_user']){
+    // Send reactivate notification.
+    $account = $form_state['user'];
+    $params['account'] = $account;
+    drupal_mail('user_registrationpassword', 'register', $account->mail, user_preferred_language($account), $params);
+  }
 }
 
 /**
@@ -76,20 +118,27 @@ function c4m_user_admin_resend_activation_email_form_submit($form, &$form_state)
  */
 function _c4m_user_admin_page_user_report() {
   $date = _c4m_user_admin_get_user_report_last_generated_date();
-  $content = array(
-    array(
-      '#markup' => t('<p>User report was last generated on @date.</p>', array('@date' => $date)),
-    ),
-    array(
-      '#markup' => l(t('Download report'), file_create_url('public://admin/user-report.csv'), array(
-        'attributes' => array('id' => 'edit-cancel'),
-      )),
-    ),
-    array(
-      '#markup' => l(t('Generate report'), 'admin/people/export/file', array(
-        'attributes' => array('class' => array('button')),
-      )),
-    ),
+
+  $content[] = array(
+    '#markup' => t('<p>User report was last generated: @date.</p>', array('@date' => $date ? $date : t('Never'))),
+  );
+  if ($date) {
+    $view = views_get_view('c4m_admin_users');
+    if ($view) {
+      if ($file_path = $view->display['views_data_export']->display_options['style_options']['file_path']) {
+        $content[] = array(
+          '#markup' => l(t('Download report'), file_create_url($file_path), array(
+            'attributes' => array('id' => 'edit-cancel'),
+          )),
+        );
+      }
+    }
+  }
+
+  $content[] = array(
+    '#markup' => l(t('Generate report'), 'admin/people/export/file', array(
+      'attributes' => array('class' => array('button')),
+    )),
   );
   return $content;
 }
@@ -103,7 +152,7 @@ function _c4m_user_admin_page_user_report() {
 function _c4m_user_admin_get_user_report_last_generated_date() {
   $timestamp = db_query("SELECT time_stamp FROM views_data_export WHERE view_name = 'c4m_admin_users' AND view_display_id = 'views_data_export' ORDER BY time_stamp DESC LIMIT 0, 1")->fetchCol();
   if (!$timestamp) {
-    return t('Never');
+    return '';
   }
   else {
     return date('Y-m-d H:i', $timestamp[0]);
