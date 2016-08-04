@@ -348,11 +348,8 @@ function c4m_content_field_formatter_view($entity_type, $entity, $field, $instan
         $currency_object = currency_load($currency);
 
         $symbol = $currency_object->sign;
-        $decimal_separator = '.';
-        $grouping_separator = '&nbsp;';
-
         // Amount with currency-based decimal and grouping separators.
-        $amount = number_format($item['amount'], $field['settings']['scale'], $decimal_separator, $grouping_separator);
+        $amount = c4m_content_ec_number_format($item['amount'], $field['settings']['scale']);
 
         // Amount with currency-based decimal and grouping separators and a
         // currency symbol.
@@ -394,6 +391,26 @@ function c4m_content_field_formatter_view($entity_type, $entity, $field, $instan
       break;
   }
   return $element;
+}
+
+/**
+ * Format a number according to EC format.
+ *
+ * @param float $number
+ *   Number to be formatted.
+ * @param int $decimals
+ *   Number of decimals.
+ *
+ * @return string
+ *   Formatted number.
+ */
+function c4m_content_ec_number_format($number, $decimals) {
+  $decimal_separator = '.';
+  $grouping_separator = '&nbsp;';
+
+  // Amount with currency-based decimal and grouping separators.
+  $amount = number_format($number, $decimals, $decimal_separator, $grouping_separator);
+  return $amount;
 }
 
 /**
