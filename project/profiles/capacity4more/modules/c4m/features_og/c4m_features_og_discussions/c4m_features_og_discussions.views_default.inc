@@ -55,6 +55,7 @@ function c4m_features_og_discussions_views_default_views() {
   $handler->display->display_options['header']['c4m_views_node_add']['empty'] = TRUE;
   $handler->display->display_options['header']['c4m_views_node_add']['node_type'] = 'discussion';
   $handler->display->display_options['header']['c4m_views_node_add']['link_text'] = 'Add a new Discussion';
+  $handler->display->display_options['header']['c4m_views_node_add']['icon'] = 'fa-pencil';
   /* Header: Number of items */
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
