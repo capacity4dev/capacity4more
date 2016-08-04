@@ -178,3 +178,23 @@ function c4m_content_project_c4m_offcanvas_trigger_label_left_alter(&$trigger_la
     $trigger_label['icon'] = 'filter';
   }
 }
+
+/**
+ * Implements hook_ds_fields_info().
+ */
+function c4m_content_project_ds_fields_info($entity_type) {
+  $fields = array();
+
+  $path = drupal_get_path('module', 'c4m_content_project');
+
+  // Twitter widget.
+  $fields['paragraphs_item']['c4m_ds_field_twitter_widget'] = array(
+    'title' => t('Twitter widget'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/c4m_content_project.ds_fields.inc',
+    'function' => '_c4m_ds_field_twitter_widget',
+  );
+
+  return $fields;
+}

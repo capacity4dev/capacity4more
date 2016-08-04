@@ -47,6 +47,11 @@ function c4m_content_project_paragraphs_info() {
       'bundle' => 'c4m_paragraph_text',
       'locked' => '1',
     ),
+    'c4m_paragraph_twitter' => array(
+      'name' => 'Twitter',
+      'bundle' => 'c4m_paragraph_twitter',
+      'locked' => '1',
+    ),
   );
   return $items;
 }
