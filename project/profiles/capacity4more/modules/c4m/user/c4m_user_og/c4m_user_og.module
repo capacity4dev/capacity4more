@@ -549,7 +549,7 @@ function c4m_user_og_group_actions_cta($group) {
     if ($pending_requests = c4m_og_get_all_group_memberships_by_state($group->nid, OG_STATE_PENDING)) {
       $pending_id = $group->nid . '_pending';
 
-      $link_text = t('@requests new memberships', array('@requests' => count($pending_requests)));
+      $link_text = t('@requests new membership', array('@requests' => count($pending_requests)));
       $link = l($link_text, 'members', array('query' => array('f[0]' => 'c4m_og_membership_type:' . $pending_id)));
 
       $cta_text = t('There are !link requests', array('!link' => $link));
