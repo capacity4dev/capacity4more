@@ -9,36 +9,37 @@
  * Implements hook_menu_alter().
  */
 function c4m_og_invite_menu_alter(&$items) {
-  $items['group/%/%/admin/people/invite']['access callback'] = 'c4m_og_invite_user_access_group';
-  $items['group/%/%/admin/people/invite-users']['access callback'] = 'c4m_og_invite_access';
-  $items['group/%/%/admin/people/invite-users/%user']['access callback'] = 'c4m_og_invite_access';
-  $items['group/%/%/admin/people/invite-users/autocomplete']['access callback'] = 'c4m_og_invite_access';
+  $items['group/%/%/admin/people/invite']['access callback'] = 'c4m_og_invite_people_access';
+  $items['group/%/%/admin/people/invite-users']['access callback'] = 'c4m_og_invite_users_access';
+  $items['group/%/%/admin/people/invite-users/%user']['access callback'] = 'c4m_og_invite_users_access';
+  $items['group/%/%/admin/people/invite-users/autocomplete']['access callback'] = 'c4m_og_invite_users_access';
 }
 
 /**
- * Invitation access callback.
+ * Invitation access callback - for inviting existing users [og_invite].
  *
- * Deny access to invite users into the group if either _og_invite_access() or
- * c4m_og_invite_check_access_by_group_type() returns false.
+ * Invoke c4m_og_invite_access() to check for access by user
+ * role as well as the group's Membership requests field (Open/Moderated) and
+ * the Group visibility (Public/Private).
  */
-function c4m_og_invite_access($group_type, $gid) {
+function c4m_og_invite_users_access($group_type, $gid) {
   if (_og_invite_access($group_type, $gid)) {
-    return c4m_og_invite_check_access_by_group_type(NULL, $group_type, $gid);
+    return c4m_og_invite_access(NULL, $group_type, $gid);
   }
 
   return FALSE;
 }
 
 /**
- * Check if entity is a group, and user has permission - Access.
+ * Invitation access callback - for inviting new people [og_invite_people].
  *
- * Deny access to invite new people to the group if either
- * og_invite_people_user_access_group() or
- * c4m_og_invite_check_access_by_group_type() returns false.
+ * Invoke c4m_og_invite_access() to check for access by user
+ * role as well as the group's Membership requests field (Open/Moderated) and
+ * the Group visibility (Public/Private).
  */
-function c4m_og_invite_user_access_group($perm, $group_type, $gid) {
+function c4m_og_invite_people_access($perm, $group_type, $gid) {
   if (og_invite_people_user_access_group($perm, $group_type, $gid)) {
-    return c4m_og_invite_check_access_by_group_type($perm, $group_type, $gid);
+    return c4m_og_invite_access($perm, $group_type, $gid);
   }
 
   return FALSE;
@@ -46,8 +47,11 @@ function c4m_og_invite_user_access_group($perm, $group_type, $gid) {
 
 /**
  * Return true if the user is allowed to invite and false if he isn't.
+ *
+ * Checks by user role and og_role against group visibility (Public/Private) and
+ * Membership requests setting (Open/Moderated).
  */
-function c4m_og_invite_check_access_by_group_type($perm, $group_type, $gid) {
+function c4m_og_invite_access($perm, $group_type, $gid) {
   if (user_access('administer site')) {
     return TRUE;
   }
