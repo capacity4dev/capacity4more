@@ -254,7 +254,7 @@ function c4m_features_og_group_dashboard_block_info() {
   );
 
   $blocks['c4m_follow_block'] = array(
-    'info' => t('C4M Follow group block'),
+    'info' => t('C4M Follow group or project block'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
 
