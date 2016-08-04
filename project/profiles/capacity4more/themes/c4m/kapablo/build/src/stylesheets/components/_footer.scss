@@ -41,17 +41,6 @@
       text-align: left;
       border: none;
       vertical-align: middle;
-      font-size: 11px;
-    }
-
-    a {
-
-      &.logo-project {
-
-        img {
-          height: 27px;
-        }
-      }
     }
 
     div {
@@ -76,6 +65,11 @@
       }
     }
   }
+}
+
+.c4m-footer-bar-wrapper {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .c4m-social-media-item {
