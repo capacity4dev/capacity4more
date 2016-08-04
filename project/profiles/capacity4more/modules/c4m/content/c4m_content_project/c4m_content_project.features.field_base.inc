@@ -266,7 +266,7 @@ function c4m_content_project_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
-        'not started' => 'NOT STARTED',
+        'notstarted' => 'NOTSTARTED',
         'ongoing' => 'ONGOING',
         'completed' => 'COMPLETED',
       ),

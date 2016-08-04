@@ -1967,7 +1967,7 @@ function c4m_content_project_field_default_field_instances() {
     'bundle' => 'project',
     'default_value' => array(
       0 => array(
-        'value' => 'not started',
+        'value' => 'notstarted',
       ),
     ),
     'deleted' => 0,
