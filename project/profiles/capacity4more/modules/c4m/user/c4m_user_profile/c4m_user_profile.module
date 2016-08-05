@@ -1359,8 +1359,9 @@ function c4m_user_profile_user_cancel($edit, $account, $method) {
       // sees the cookie has expired and removes it.
       // The two set cookies is to ensure that the cookie is removed
       // independently if is set on the current path or the full site.
-      setcookie($name, '', time() - 1000);
-      setcookie($name, '', time() - 1000, '/');
+      unset($_COOKIE[$name]);
+      setcookie($name, '', -1);
+      setcookie($name, '', -1, '/');
     }
   }
 
