@@ -498,10 +498,10 @@ function c4m_user_og_c4m_cta_block() {
         $items['membership'] = $item;
       }
     }
-  }
 
-  if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
-    $items['leave'] = $item;
+    if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
+      $items['leave'] = $item;
+    }
   }
 
   if ($item = c4m_user_og_group_actions_cta($group)) {
