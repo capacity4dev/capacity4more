@@ -998,9 +998,9 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'money',
+        'module' => 'c4m_content',
         'settings' => array(),
-        'type' => 'money_default',
+        'type' => 'c4m_formatter_ec_money',
         'weight' => 14,
       ),
       'featured_block' => array(
@@ -1011,9 +1011,9 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
-        'module' => 'money',
+        'module' => 'c4m_content',
         'settings' => array(),
-        'type' => 'money_default',
+        'type' => 'c4m_formatter_ec_money',
         'weight' => 14,
       ),
       'inthe_picture_block' => array(
@@ -1367,7 +1367,7 @@ function c4m_content_project_field_default_field_instances() {
     'bundle' => 'project',
     'default_value' => array(
       0 => array(
-        'value' => 'requested',
+        'value' => 'pending',
       ),
     ),
     'deleted' => 0,

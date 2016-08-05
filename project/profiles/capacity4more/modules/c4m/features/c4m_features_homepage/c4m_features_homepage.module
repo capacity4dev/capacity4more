@@ -39,10 +39,6 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
     ? $get_query['filter']
     : NULL;
 
-  if ($filter == 'groups') {
-    return;
-  }
-
   $user_groups = og_get_groups_by_user($account, NULL, TRUE);
   $groups = '';
 
@@ -58,27 +54,51 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
       ->propertyCondition('nid', $user_groups['node'], 'NOT IN');
   }
 
+  $link_filters = array();
   if (!empty($interests)) {
     $query->fieldCondition('c4m_vocab_topic', 'tid', $interests, 'IN');
+
+    // Adds each interest to the exposed filters that will be pass to the
+    // groups page.
+    foreach ($interests as $key => $interest) {
+      $link_filters['f[' . $key . ']'] = 'c4m_vocab_topic:' . $interest;
+    }
   }
 
   $result = $query
     ->addTag('random')
-    ->range(0, 3)
+    ->range(0, 5)
     ->execute();
 
   if (empty($result['node'])) {
     return;
   }
 
+  // After selecting 5 random groups, they are ordered alphabetically.
+  $nodes = array();
   foreach ($result['node'] as $group) {
-    $node_view = node_view(node_load($group->nid), 'block_list');
+    $nodes[] = node_load($group->nid);
+  }
+  uasort($nodes, 'c4m_features_homepage_node_sort_by_title');
+
+  foreach ($nodes as $group) {
+    $node_view = node_view($group, 'block_list');
     $groups .= drupal_render($node_view);
   }
 
   $variables['groups'] = $groups;
+  $variables['link'] = url('groups', array('absolute' => TRUE, 'query' => $link_filters));
 
   return theme('c4m_features_homepage_c4m_suggested_groups', $variables);
+}
+
+/**
+ * Callback function to be used within uasort to order alphabetically nodes.
+ */
+function c4m_features_homepage_node_sort_by_title($first_node, $second_node) {
+  // Function strcasecmp can't be used directly on uasort, as we need to get
+  // the node title.
+  return strcasecmp($first_node->title, $second_node->title);
 }
 
 /**
@@ -255,4 +275,22 @@ function c4m_features_homepage_newsletter_form_submit($form, &$form_state) {
   }
 
   drupal_set_message(t('We could not subscribe you to the newsletter, please try again later or !contact_us!', array('!contact_us' => l(t('contact_us'), 'about'))));
+}
+
+/**
+ * Implements hook_c4m_cta_block().
+ */
+function c4m_features_homepage_c4m_cta_block() {
+  $items = array();
+
+  if (drupal_is_front_page() && !user_is_anonymous()) {
+    $items['create-group'] = array(
+      '#theme' => 'c4m_group_visitor_cta',
+      '#button_label' => t('Create group'),
+      '#button_icon' => 'fa-plus',
+      '#url' => url('/node/add/group'),
+    );
+  }
+
+  return $items;
 }
