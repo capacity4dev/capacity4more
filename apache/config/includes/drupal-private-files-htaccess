@@ -1,4 +1,20 @@
-Deny from all
+#
+# By default, Drupal has set the following line here:
+# Deny from all
+#
+# But DIGIT needs different configuration because:
+#   - They use Apache 2.4.20
+#   - The directives "Order deny,allow", "Allow from …" are not supported by 2.4.x
+#   - The module "mod_access_compat" (compatibility module with previous versions of Apache httpd 2.x) is not allowed
+#
+# So the following lines replaces Drupal's default "Deny from all".
+#
+<IfModule mod_authz_core.c>
+  Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+  Deny from all
+</IfModule>
 
 # Turn off all options we don't need.
 Options None
