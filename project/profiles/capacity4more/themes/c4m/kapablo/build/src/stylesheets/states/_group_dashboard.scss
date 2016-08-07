@@ -5,3 +5,16 @@
     display: block;
   }
 }
+
+.related-block {
+  display: flex;
+
+  img {
+    height: 100%;
+    margin-right: 10px;
+  }
+
+  &__info p {
+    font-size: 13px;
+  }
+}
