@@ -453,16 +453,6 @@ function c4m_user_og_theme() {
     ),
   );
 
-  $theme['c4m_group_invite_cta'] = array(
-    'template' => 'c4m_group_invite_cta',
-    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
-    'variables' => array(
-      'url' => NULL,
-      'button_label' => NULL,
-      'button_icon' => NULL,
-    ),
-  );
-
   return $theme;
 }
 
@@ -502,10 +492,6 @@ function c4m_user_og_c4m_cta_block() {
 
   if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
     $items['leave'] = $item;
-  }
-
-  if (check_invite_access_by_group_type($group->nid)) {
-    $items['invite'] = c4m_user_og_c4m_invite_cta($group);
   }
 
   return $items;
@@ -556,18 +542,6 @@ function c4m_user_og_c4m_join_cta($group) {
 }
 
 /**
- * Sets the invite members link CTA.
- */
-function c4m_user_og_c4m_invite_cta($group) {
-  return array(
-    '#theme' => 'c4m_group_invite_cta',
-    '#button_label' => t('Invite a member'),
-    '#button_icon' => 'fa-user-plus',
-    '#url' => url('group/node/' . $group->nid . '/admin/people/invite-users', array('absolute' => TRUE)),
-  );
-}
-
-/**
  * Sets the CTA request membership link.
  */
 function c4m_user_og_c4m_membership_cta($group) {
@@ -594,30 +568,6 @@ function c4m_user_og_c4m_membership_cta($group) {
     '#button_icon' => 'fa-unlock-alt',
     '#url' => url('group/node/' . $group->nid . '/subscribe', array('absolute' => TRUE)),
   );
-}
-
-/*
- * Return true if the user is allowed to invite and false if he isn't.
- */
-function check_invite_access_by_group_type($gid, $group_type = 'node') {
-  global $user;
-  $og_roles = og_get_user_roles($group_type, $gid);
-  if (in_array('administrator', $user->roles) || in_array('administrator member', $og_roles)) {
-    // Global and Group administrators can invite.
-    return TRUE;
-  }
-  // Get group.
-  $group = entity_load_single($group_type, $gid);
-  // Get request type (open/moderated).
-  $membership_request_value = c4m_og_get_group_membership_request($group);
-  // Get access type (public/private).
-  $access_type = c4m_og_get_access_type($group);
-
-  if ($access_type['type'] == 'private' || $membership_request_value == 'moderated') {
-    // Group is either private, restricted - moderated or public - moderated.
-    return FALSE;
-  }
-  return TRUE;
 }
 
 /**
