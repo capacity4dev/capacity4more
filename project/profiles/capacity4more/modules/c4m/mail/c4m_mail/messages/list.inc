@@ -105,4 +105,16 @@ $messages = array(
     'subject' => 'group_approved_user_subject',
     'body' => 'group_approved_user_body',
   ),
+  array(
+    'module' => '',
+    'title' => '',
+    'subject' => 'group_invite_user_subject',
+    'body' => 'group_invite_user_body',
+  ),
+  array(
+    'module' => '',
+    'title' => '',
+    'subject' => 'group_invite_people_subject',
+    'body' => 'group_invite_people_body',
+  ),
 );
