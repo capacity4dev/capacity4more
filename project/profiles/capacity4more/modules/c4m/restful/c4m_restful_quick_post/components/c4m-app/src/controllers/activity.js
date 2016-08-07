@@ -181,9 +181,6 @@ angular.module('c4mApp')
         topics: $scope.topics
       };
 
-      // Enables to design elements on loading state - such as displaying the spinner.
-      angular.element('.activity-stream').addClass('loading');
-
       EntityResource.updateStream(activityStreamInfo, 'load')
         .success(function (data, status) {
           if (data.data) {
@@ -208,8 +205,6 @@ angular.module('c4mApp')
             // Re-init the bootstrap tooltips for the added items.
             $scope.bindBoostrapTooltips();
           }
-            // Removes loading state class.
-            angular.element('.activity-stream').removeClass('loading');
         });
     };
 
