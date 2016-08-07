@@ -1,0 +1,106 @@
+<?php
+
+/**
+ * @file
+ * Code for og_invite and og_invite_people modules.
+ */
+
+/**
+ * Implements hook_menu_alter().
+ */
+function c4m_og_invite_menu_alter(&$items) {
+  $items['group/%/%/admin/people/invite']['access callback'] = 'c4m_og_invite_user_access_group';
+  $items['group/%/%/admin/people/invite-users']['access callback'] =
+  $items['group/%/%/admin/people/invite-users/%user']['access callback'] =
+  $items['group/%/%/admin/people/invite-users/autocomplete']['access callback'] = 'c4m_og_invite_access';
+}
+
+/**
+ * Invitation access callback.
+ */
+function c4m_og_invite_access($group_type, $gid) {
+  if (_og_invite_access($group_type, $gid)) {
+    return check_access_by_group_type(NULL, $group_type, $gid);
+  }
+  return FALSE;
+}
+
+/**
+ * Check if entity is a group, and user has permission - Access.
+ */
+function c4m_og_invite_user_access_group($perm, $group_type, $gid) {
+  if (og_invite_people_user_access_group($perm, $group_type, $gid)) {
+    return check_access_by_group_type($perm, $group_type, $gid);
+  }
+  return FALSE;
+}
+
+/**
+ * Return true if the user is allowed to invite and false if he isn't.
+ */
+function check_access_by_group_type($perm, $group_type, $gid) {
+  global $user;
+  $og_roles = og_get_user_roles($group_type, $gid);
+  if (in_array('administrator', $user->roles) || in_array('administrator member', $og_roles)) {
+    // Global and Group administrators can invite.
+    return TRUE;
+  }
+  // Get group.
+  $group = entity_load_single($group_type, $gid);
+  // Get request type (open/moderated).
+  $membership_request_value = c4m_og_get_group_membership_request($group);
+  // Get access type (public/private).
+  $access_type = c4m_og_get_access_type($group);
+
+  if ($access_type['type'] == 'private' || $membership_request_value == 'moderated') {
+    // Group is either private, restricted - moderated or public - moderated.
+    return FALSE;
+  }
+  return TRUE;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_og_invite_form__og_invite_people_new_users_form_alter(&$form, &$form_state, $form_id) {
+  $form['og_invite_people']['tamessage'] = array(
+    '#type' => 'textarea',
+    '#title' => 'Add a message',
+    '#description' => 'Add a message to the invitation (optional)',
+    '#required' => FALSE,
+  );
+}
+
+/**
+ * Implements hook_mail_alter().
+ */
+function c4m_og_invite_mail_alter(&$message) {
+  if ($message['key'] == 'register_admin_created') {
+    $message['body'][0] = <<<'EOD'
+<p>
+Hello,
+</p>
+ 
+<p><br>
+[GM first_name] [GM last_name] invited you to join the following [group_node_type] at [site.name]: <strong>[group_node_title]</strong> 
+</p>
+ 
+<p>See their message below:</p>
+ 
+<p> 
+[personal_invite_message]
+</p>
+ 
+<p>
+To accept this invitation, click <a href="[!accept_group_invite_url]">Join this Group</a>.
+</p>
+ 
+<p> 
+<a href="[!GM-public-profile-url]">[GM first_name] [GM last_name]</a>,
+member of [group_name].
+</p>
+EOD;
+    // This is the message sent by the og_invite_people module.
+    // @TODO: Change the subject and add custom message.
+  }
+}
