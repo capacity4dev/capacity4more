@@ -103,7 +103,7 @@ function kapablo_form_element_label(&$variables) {
 /**
  * Renders the "what's this?" tooltip element.
  *
- * @param $description
+ * @param string $description
  *   The text that should be in the tooltip.
  *
  * @return string

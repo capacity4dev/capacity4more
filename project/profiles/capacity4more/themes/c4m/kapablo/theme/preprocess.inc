@@ -613,6 +613,8 @@ function kapablo_preprocess_html(&$variables) {
 }
 
 /**
+ * Pre-processes variables for the "bootstrap_panel" theme hook.
+ *
  * In case of a bootstrap panel the title is not being rendered under the
  * kapablo_form_element_label() and at this point the title is already
  * rendered, hence we're adding the tooltip element explicitly.
