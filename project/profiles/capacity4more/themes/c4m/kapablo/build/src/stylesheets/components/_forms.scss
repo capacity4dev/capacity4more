@@ -93,12 +93,10 @@
   text-transform: uppercase;
 }
 
-<<<<<<< HEAD
 // ========================================================================== //
 // Event Form
 // ========================================================================== //
 .node-form {
-
   .control-label {
     clear: both;
     display: block;
@@ -117,7 +115,7 @@
   }
 
   .document_file {
-    display: none !important;
+    display: none;
   }
 
   .hidden-input {
@@ -144,7 +142,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: #7EC9CB;
+      background-color: $color-link;
     }
 
     a {
@@ -160,6 +158,15 @@
   .cfm-file-upload__hand {
     font-size: 26px;
   }
+
+  // Specific radio buttons margin reset for the event form
+  .form-item-c4m-event-type-und {
+
+    .form-type-radio {
+      margin: 0;
+    }
+  }
+}
 
 #views-form-c4m-overview-og-members-page {
 
