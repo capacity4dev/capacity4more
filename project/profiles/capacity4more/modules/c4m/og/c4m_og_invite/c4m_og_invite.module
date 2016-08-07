@@ -71,10 +71,10 @@ function c4m_og_invite_access($perm, $group_type, $gid) {
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_og_invite_form__og_invite_people_new_users_form_alter(&$form, &$form_state, $form_id) {
-  $form['og_invite_people']['tamessage'] = array(
+  $form['og_invite_people']['personal_invite_message'] = array(
     '#type' => 'textarea',
-    '#title' => 'Add a message',
-    '#description' => 'Add a message to the invitation (optional)',
+    '#title' => t('Add a message'),
+    '#description' => t('Add a message to the invitation (optional)'),
     '#required' => FALSE,
   );
 }
@@ -85,6 +85,5 @@ function c4m_og_invite_form__og_invite_people_new_users_form_alter(&$form, &$for
 function c4m_og_invite_mail_alter(&$message) {
   if ($message['key'] == 'register_admin_created') {
     // This is the message sent by the og_invite_people module.
-    // @TODO: Add the correct tpl.
   }
 }
