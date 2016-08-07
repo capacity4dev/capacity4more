@@ -59,7 +59,6 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['header']['c4m_views_node_add_1']['ui_name'] = 'Add document link';
   $handler->display->display_options['header']['c4m_views_node_add_1']['node_type'] = 'document';
   $handler->display->display_options['header']['c4m_views_node_add_1']['link_text'] = 'Upload a document';
-  $handler->display->display_options['header']['c4m_views_node_add_1']['icon'] = 'fa-file-text';
   /* Header: Number of items */
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
