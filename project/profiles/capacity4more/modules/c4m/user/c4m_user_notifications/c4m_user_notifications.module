@@ -11,19 +11,6 @@
 module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications_handlers');
 
 /**
- * Check wither dummy migration process is currently running.
- *
- * 'dummy_content_migration' parameter is set to 1 when process starts, and set
- * to 0, once process ends.
- *
- * @return bool
- *   Wither dummy migration process is currently running, or not.
- */
-function c4m_user_notifications_dummy_content_migration() {
-  return drupal_is_cli();
-}
-
-/**
  * Check if the current membership has access to the triggering system.
  *
  * An og_membership should get access to the triggering system if it is not
@@ -36,8 +23,8 @@ function c4m_user_notifications_dummy_content_migration() {
  *   TRUE if the the membership is valid for access.
  */
 function c4m_user_notifications_og_membership_trigger_access($og_membership) {
-  // Don't send notifications during dummy content migration.
-  if (c4m_user_notifications_dummy_content_migration()) {
+  // Don't send notifications, if activated from CLI (dummy content migration).
+  if (drupal_is_cli()) {
     return FALSE;
   }
 
@@ -177,8 +164,8 @@ function c4m_user_notifications_og_membership_delete($og_membership) {
  * 'published'.
  */
 function c4m_user_notifications_node_insert($node) {
-  // Don't send notifications during dummy content migration.
-  if (c4m_user_notifications_dummy_content_migration()) {
+  // Don't send notifications, if activated from CLI (dummy content migration).
+  if (drupal_is_cli()) {
     return;
   }
 
@@ -193,8 +180,8 @@ function c4m_user_notifications_node_insert($node) {
  * Triggers email notification for node (group/project) status update.
  */
 function c4m_user_notifications_node_update($node) {
-  // Don't send notifications during dummy content migration.
-  if (c4m_user_notifications_dummy_content_migration()) {
+  // Don't send notifications, if activated from CLI (dummy content migration).
+  if (drupal_is_cli()) {
     return;
   }
 
@@ -209,8 +196,8 @@ function c4m_user_notifications_node_update($node) {
  * Triggers email notification for node (group/project) delete.
  */
 function c4m_user_notifications_node_delete($node) {
-  // Don't send notifications during dummy content migration.
-  if (c4m_user_notifications_dummy_content_migration()) {
+  // Don't send notifications, if activated from CLI (dummy content migration).
+  if (drupal_is_cli()) {
     return;
   }
 
@@ -227,8 +214,8 @@ function c4m_user_notifications_node_delete($node) {
  * Triggers email notification for comment insert.
  */
 function c4m_user_notifications_comment_insert($comment) {
-  // Don't send notifications during dummy content migration.
-  if (c4m_user_notifications_dummy_content_migration()) {
+  // Don't send notifications, if activated from CLI (dummy content migration).
+  if (drupal_is_cli()) {
     return;
   }
 
@@ -249,8 +236,8 @@ function c4m_user_notifications_comment_insert($comment) {
  * Triggers email notification for node (group/project) delete.
  */
 function c4m_user_notifications_user_delete($account) {
-  // Don't send notifications during dummy content migration.
-  if (c4m_user_notifications_dummy_content_migration()) {
+  // Don't send notifications, if activated from CLI (dummy content migration).
+  if (drupal_is_cli()) {
     return;
   }
 
@@ -263,8 +250,8 @@ function c4m_user_notifications_user_delete($account) {
  * Triggers email notification when user is promoted to administrator.
  */
 function c4m_user_notifications_og_role_grant($entity_type, $gid, $uid, $rid) {
-  // Don't send notifications during dummy content migration.
-  if (c4m_user_notifications_dummy_content_migration()) {
+  // Don't send notifications, if activated from CLI (dummy content migration).
+  if (drupal_is_cli()) {
     return;
   }
 
@@ -285,8 +272,8 @@ function c4m_user_notifications_og_role_grant($entity_type, $gid, $uid, $rid) {
  * Triggers email notification when user is revoked administrator role.
  */
 function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
-  // Don't send notifications during dummy content migration.
-  if (c4m_user_notifications_dummy_content_migration()) {
+  // Don't send notifications, if activated from CLI (dummy content migration).
+  if (drupal_is_cli()) {
     return;
   }
 
@@ -307,8 +294,8 @@ function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
  * Triggers email notification when user is invited to group by admin.
  */
 function c4m_user_notifications_form_og_ui_add_users_alter(&$form, &$form_state) {
-  // Don't send notifications during dummy content migration.
-  if (c4m_user_notifications_dummy_content_migration()) {
+  // Don't send notifications, if activated from CLI (dummy content migration).
+  if (drupal_is_cli()) {
     return;
   }
 
@@ -321,8 +308,8 @@ function c4m_user_notifications_form_og_ui_add_users_alter(&$form, &$form_state)
  * Triggers email notification when recommendation flag is set.
  */
 function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging) {
-  // Don't send notifications during dummy content migration.
-  if (c4m_user_notifications_dummy_content_migration()) {
+  // Don't send notifications, if activated from CLI (dummy content migration).
+  if (drupal_is_cli()) {
     return;
   }
 
