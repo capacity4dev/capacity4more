@@ -11,6 +11,19 @@
 module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications_handlers');
 
 /**
+ * Check wither dummy migration process is currently running.
+ *
+ * 'dummy_content_migration' parameter is set to 1 when process starts, and set
+ * to 0, once process ends.
+ *
+ * @return bool
+ *   Wither dummy migration process is currently running, or not.
+ */
+function c4m_user_notifications_dummy_content_migration() {
+  return variable_get('dummy_content_migration');
+}
+
+/**
  * Check if the current membership has access to the triggering system.
  *
  * An og_membership should get access to the triggering system if it is not
@@ -23,8 +36,8 @@ module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifica
  *   TRUE if the the membership is valid for access.
  */
 function c4m_user_notifications_og_membership_trigger_access($og_membership) {
-  // Don't send notifications during migration.
-  if (!empty($og_membership->migrate)) {
+  // Don't send notifications during dummy content migration.
+  if (c4m_user_notifications_dummy_content_migration()) {
     return FALSE;
   }
 
@@ -39,7 +52,9 @@ function c4m_user_notifications_og_membership_trigger_access($og_membership) {
 /**
  * Implements hook_og_membership_insert().
  *
- * Triggers email notification on new membership request for moderated groups.
+ * Triggers email notification on new membership request for moderated groups,
+ * and 'new member joined' notification to user and group owner and admins for
+ * open group.
  */
 function c4m_user_notifications_og_membership_insert($og_membership) {
   if (!c4m_user_notifications_og_membership_trigger_access($og_membership)) {
@@ -52,12 +67,17 @@ function c4m_user_notifications_og_membership_insert($og_membership) {
     return;
   }
 
-  if ($wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
-    // If not moderated group, return early.
-    return;
-  }
+  $moderated = $wrapper->field_membership_open_request->value();
 
-  c4m_user_notifications_moderated_group_new_membership_request($og_membership);
+  if ($moderated == C4M_OG_MODERATED_GROUP) {
+    c4m_user_notifications_moderated_group_new_membership_request($og_membership);
+  }
+  elseif ($moderated == C4M_OG_OPEN_GROUP) {
+    // Membership acceptance notification to user, for open and moderated
+    // group is the same (template MT13).
+    c4m_user_notifications_open_group_notify_admins_membership_accepted($og_membership);
+    c4m_user_notifications_notify_user_membership_accepted($og_membership);
+  }
 }
 
 /**
@@ -157,12 +177,11 @@ function c4m_user_notifications_og_membership_delete($og_membership) {
  * 'published'.
  */
 function c4m_user_notifications_node_insert($node) {
-  // Don't send notifications during migration.
-  if (!empty($node->migrate)) {
+  // Don't send notifications during dummy content migration.
+  if (c4m_user_notifications_dummy_content_migration()) {
     return;
   }
 
-  _c4m_user_notifications_process_general_triggers_insert($node);
   _c4m_user_notifications_process_og_alter($node, 'insert');
   _c4m_user_notifications_process_og_content_alter($node, 'insert');
 }
@@ -173,8 +192,8 @@ function c4m_user_notifications_node_insert($node) {
  * Triggers email notification for node (group/project) status update.
  */
 function c4m_user_notifications_node_update($node) {
-  // Don't send notifications during migration.
-  if (!empty($node->migrate)) {
+  // Don't send notifications during dummy content migration.
+  if (c4m_user_notifications_dummy_content_migration()) {
     return;
   }
 
@@ -189,8 +208,8 @@ function c4m_user_notifications_node_update($node) {
  * Triggers email notification for node (group/project) delete.
  */
 function c4m_user_notifications_node_delete($node) {
-  // Don't send notifications during migration.
-  if (!empty($node->migrate)) {
+  // Don't send notifications during dummy content migration.
+  if (c4m_user_notifications_dummy_content_migration()) {
     return;
   }
 
@@ -207,8 +226,8 @@ function c4m_user_notifications_node_delete($node) {
  * Triggers email notification for comment insert.
  */
 function c4m_user_notifications_comment_insert($comment) {
-  // Don't send notifications during migration.
-  if (!empty($comment->migrate)) {
+  // Don't send notifications during dummy content migration.
+  if (c4m_user_notifications_dummy_content_migration()) {
     return;
   }
 
@@ -222,8 +241,8 @@ function c4m_user_notifications_comment_insert($comment) {
  * Triggers email notification for node (group/project) delete.
  */
 function c4m_user_notifications_user_delete($account) {
-  // Don't send notifications during migration.
-  if (!empty($account->migrate)) {
+  // Don't send notifications during dummy content migration.
+  if (c4m_user_notifications_dummy_content_migration()) {
     return;
   }
 
@@ -236,6 +255,11 @@ function c4m_user_notifications_user_delete($account) {
  * Triggers email notification when user is promoted to administrator.
  */
 function c4m_user_notifications_og_role_grant($entity_type, $gid, $uid, $rid) {
+  // Don't send notifications during dummy content migration.
+  if (c4m_user_notifications_dummy_content_migration()) {
+    return;
+  }
+
   $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
 
   // Administrator role is not granted.
@@ -253,10 +277,15 @@ function c4m_user_notifications_og_role_grant($entity_type, $gid, $uid, $rid) {
  * Triggers email notification when user is revoked administrator role.
  */
 function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
+  // Don't send notifications during dummy content migration.
+  if (c4m_user_notifications_dummy_content_migration()) {
+    return;
+  }
+
   $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
 
   // Administrator role is not revoked.
-  if ($group_admin_role->rid == $rid) {
+  if ($group_admin_role->rid != $rid) {
     return;
   }
 
@@ -270,6 +299,11 @@ function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
  * Triggers email notification when user is invited to group by admin.
  */
 function c4m_user_notifications_form_og_ui_add_users_alter(&$form, &$form_state) {
+  // Don't send notifications during dummy content migration.
+  if (c4m_user_notifications_dummy_content_migration()) {
+    return;
+  }
+
   $form['#submit'][] = 'c4m_user_notifications_notify_user_invited_by_admin';
 }
 
@@ -279,6 +313,11 @@ function c4m_user_notifications_form_og_ui_add_users_alter(&$form, &$form_state)
  * Triggers email notification when recommendation flag is set.
  */
 function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging) {
+  // Don't send notifications during dummy content migration.
+  if (c4m_user_notifications_dummy_content_migration()) {
+    return;
+  }
+
   if ($flag->name != 'subscribe_c4m_follow_node') {
     // If not recommendation flag, return early.
     return;
@@ -300,34 +339,17 @@ function c4m_user_notifications_cron() {
 /**
  * Helper function.
  *
- * Triggers email notification when organic group is published.
- */
-function _c4m_user_notifications_process_general_triggers_insert($node) {
-  if (!og_is_group('node', $node)) {
-    return;
-  }
-
-  $wrapper = entity_metadata_wrapper('node', $node);
-  if (!isset($wrapper->c4m_og_status)) {
-    return;
-  }
-
-  $status = $wrapper->c4m_og_status->value();
-
-  if ($status == 'published') {
-    c4m_user_notifications_group_status_set_published($node);
-  }
-}
-
-/**
- * Helper function.
- *
  * Triggers different email notifications when organic group is updated:
  *   Status - group status changes (published/draft/etc...).
  *   Access - group access changes.
  *   Owner - group owner changes.
  */
 function _c4m_user_notifications_process_general_triggers_update($node) {
+  if ($node->status != NODE_PUBLISHED) {
+    // Return early, if node is not published (Status = Pending).
+    return;
+  }
+
   if (!og_is_group('node', $node)) {
     // Return early, if node type is not group/project.
     return;
@@ -346,30 +368,34 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
   }
 
   $status = $wrapper->c4m_og_status->value();
-  $prev_status = $wrapper_original->c4m_og_status->value();
-  if ($status != $prev_status) {
+  $group_former_status = $wrapper_original->c4m_og_status->value();
+  if ($status != $group_former_status) {
     // If group status has changed.
     switch ($status) {
+      // 'draft' -> 'published' => Published.
       case 'published':
-        if ($prev_status == 'archived' || $prev_status == 'unpublished' || $prev_status == 'deleted') {
-          c4m_user_notifications_group_status_set_republished($node);
+        if ($group_former_status == 'draft') {
+          c4m_user_notifications_group_status_set_published($node);
+        }
+        elseif ($group_former_status == 'archived') {
+          c4m_user_notifications_group_status_set_republished($node, $group_former_status);
         }
         break;
 
-      // Published -> Draft => Unpublished.
+      // 'published' -> 'draft' => Unpublished.
       case 'draft':
-        if ($prev_status == 'published') {
-          c4m_user_notifications_group_status_set_unpublished($node);
+        if ($group_former_status == 'published') {
+          c4m_user_notifications_group_status_set_unpublished($node, $group_former_status);
         }
         break;
 
       case 'archived':
-        c4m_user_notifications_group_status_set_archived($node);
+        c4m_user_notifications_group_status_set_archived($node, $group_former_status);
         break;
 
       // Soft delete.
       case 'deleted':
-        c4m_user_notifications_group_status_set_softdeleted($node);
+        c4m_user_notifications_group_status_set_softdeleted($node, $group_former_status);
         break;
     }
   }
