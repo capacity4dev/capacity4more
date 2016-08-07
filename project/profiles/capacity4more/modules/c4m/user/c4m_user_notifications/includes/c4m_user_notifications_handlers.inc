@@ -24,6 +24,7 @@ function c4m_user_notifications_notify_user_membership_accepted($membership) {
   // Send activation message to member.
   $message = message_create('c4m_welcome_to_group', array('uid' => $membership->etid));
   c4m_message_load_tokens__c4m_welcome_to_group($message);
+
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($membership->gid);
   // Message will be saved in message_notify_send_message().
