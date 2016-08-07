@@ -213,6 +213,16 @@ function c4m_user_profile_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['user/%user/leave'] = array(
+    'title' => 'Leave platform',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_profile_remove_account_form', 1),
+    'access callback' => 'user_is_logged_in',
+    'access arguments' => array(),
+    'file' => 'c4m_user_profile.pages.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+
   return $items;
 }
 
@@ -492,6 +502,8 @@ function c4m_user_profile_form_user_profile_form_alter(
   $form['account']['status']['#access'] = FALSE;
   // Hide OG related fields.
   $form['og_user_node']['#access'] = FALSE;
+  // Remove Terms and conditions fieldset.
+  $form['legal']['#access'] = FALSE;
 
   // Introduce simple Cancel button (goes to user profile)
   $form['actions']['cancel']['#access'] = FALSE;

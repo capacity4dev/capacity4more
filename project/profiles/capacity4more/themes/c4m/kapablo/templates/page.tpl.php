@@ -228,13 +228,6 @@
           <i class="pull-right fa fa-chevron-right"></i>
         </div>
 
-        <!-- TODO: DYNAMICALLY -->
-        <div class="trigger trigger--membership">
-          <span class="fa fa-unlock-alt trigger-label"></span>
-          <span class="trigger-text">Request membership</span>
-        </div>
-      </div>
-
       <header role="banner" id="page-header">
         <?php if (!empty($site_slogan)): ?>
           <p class="lead"><?php print $site_slogan; ?></p>
