@@ -334,6 +334,44 @@ function c4m_features_homepage_default_page_manager_pages() {
     $pane->uuid = 'd54f83ca-540d-4bd0-9d56-d99e5afd46d8';
     $display->content['new-d54f83ca-540d-4bd0-9d56-d99e5afd46d8'] = $pane;
     $display->panels['right'][4] = 'new-d54f83ca-540d-4bd0-9d56-d99e5afd46d8';
+    $pane = new stdClass();
+    $pane->pid = 'new-77dbe08c-372e-438b-b9c6-525010b38791';
+    $pane->panel = 'right';
+    $pane->type = 'views';
+    $pane->subtype = 'overview_og_related_projects';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_pager_settings' => 0,
+      'use_pager' => 0,
+      'nodes_per_page' => '3',
+      'pager_id' => '0',
+      'offset' => '0',
+      'more_link' => 0,
+      'feed_icons' => 0,
+      'panel_args' => 0,
+      'link_to_view' => 0,
+      'args' => '',
+      'url' => '',
+      'display' => 'default',
+      'context' => array(
+        0 => '',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 5;
+    $pane->locks = array();
+    $pane->uuid = '77dbe08c-372e-438b-b9c6-525010b38791';
+    $display->content['new-77dbe08c-372e-438b-b9c6-525010b38791'] = $pane;
+    $display->panels['right'][5] = 'new-77dbe08c-372e-438b-b9c6-525010b38791';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
