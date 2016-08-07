@@ -160,8 +160,11 @@
   }
 
   // Specific radio buttons margin reset for the event form
-  .form-item-c4m-event-type-und .form-type-radio {
-    margin: 0;
+  .form-item-c4m-event-type-und {
+
+    .form-type-radio {
+      margin: 0;
+    }
   }
 }
 
