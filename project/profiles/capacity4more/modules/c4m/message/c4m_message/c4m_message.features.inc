@@ -223,6 +223,28 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');
+  $items['c4m_log_group_admin_demoted'] = entity_import('message_type', '{
+    "name" : "c4m_log_group_admin_demoted",
+    "description" : "c4m Log Group Admin Demoted",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cpre\\u003E\\r\\n@group_node_type @group_node_title (id: @group_node_id): Administrator @user_full_name (id: @user_id) was demoted to regular member status by @event_user_full_name (id: @event_user_id).\\u003C\\/pre\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cpre\\u003E\\n@group_node_type @group_node_title (id: @group_node_id): Administrator @user_full_name (id: @user_id) was demoted to regular member status by @event_user_full_name (id: @event_user_id).\\u003C\\/pre\\u003E"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['c4m_welcome_to_group'] = entity_import('message_type', '{
     "name" : "c4m_welcome_to_group",
     "description" : "c4m Welcome to Group",

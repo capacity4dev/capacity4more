@@ -233,6 +233,49 @@ function c4m_message_load_tokens__c4m_welcome_to_group(Message $message) {
 }
 
 /**
+ * Add callbacks to c4m_log_group_admin_demoted message arguments.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_log_group_admin_demoted(Message $message) {
+  $message->arguments['@user_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@user_id'] = array(
+    'callback' => 'c4m_message_format_addressee_uid',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_id'] = array(
+    'callback' => 'c4m_message_format_group_gid',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_id'] = array(
+    'callback' => 'c4m_message_format_event_user_id',
+    'pass message' => TRUE,
+  );
+}
+
+/**
  * Returns message addressee user ID.
  *
  * @param Message $message

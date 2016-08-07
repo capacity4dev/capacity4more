@@ -149,6 +149,28 @@ function c4m_user_notifications_notify_admins_admin_granted($gid, $uid) {
  * Email notification to user about user him being revoked admin status.
  */
 function c4m_user_notifications_notify_user_admin_demoted($gid, $uid) {
+  _c4m_user_notifications_log_admin_demoted($gid, $uid);
+}
+
+/**
+ * Helper function.
+ *
+ * Logs action, when group admin is demoted to regular member.
+ *
+ * @param int $gid
+ *   Group id.
+ * @param int $uid
+ *   User id.
+ */
+function _c4m_user_notifications_log_admin_demoted($gid, $uid) {
+  global $user;
+  $message = message_create('c4m_log_group_admin_demoted', array('uid' => $uid));
+  c4m_message_load_tokens__c4m_log_group_admin_demoted($message);
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group_node->set($gid);
+  $wrapper->field_related_user->set($user->uid);
+  $wrapper->save();
 }
 
 /**
