@@ -48,12 +48,12 @@ function c4m_user_notifications_moderated_group_notify_admins_membership_accepte
  * Sends mail notification to group admins,admin about new member
  * that was approved.
  *
- * @param entity $membership
+ * @param Entity $membership
  *   Membership entity.
  * @param int $admin_id
  *   Addressee admin uid.
  */
-function _c4m_user_notifications_moderated_group_notify_admins_membership_accepted($membership, $admin_id) {
+function _c4m_user_notifications_moderated_group_notify_admins_membership_accepted(Entity $membership, $admin_id) {
   if (!($message = message_create('c4m_notify_admins_membership_approved', array('uid' => $admin_id)))) {
     // If message was not created properly, return early.
     return;
