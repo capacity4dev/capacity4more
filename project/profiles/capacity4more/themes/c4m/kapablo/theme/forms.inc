@@ -48,25 +48,16 @@ function kapablo_form_element_label(&$variables) {
   $checkbox = $type && $type === 'checkbox';
   $radio = $type && $type === 'radio';
 
-  // Immediately return if the element is not a checkbox or radio and there is
-  // no label to be rendered.
-  if (!$checkbox && !$radio && ($display === 'none' || !$title)) {
-    return '';
-  }
-
   $help_text = '';
   // Adding the "What's this?" in case of a help text.
   if (!empty($element['#what_is_this'])) {
-    $tag['element'] = array(
-      '#tag' => 'span',
-      '#attributes' => array(
-        'class' => array('what-is-this'),
-        'data-toggle' => 'tooltip',
-        'title' => $element['#what_is_this'],
-      ),
-      '#value' => t("What's this?"),
-    );
-    $help_text = theme_html_tag($tag);
+    $help_text = kapablo_render_what_is_this($element['#what_is_this']);
+  }
+
+  // Immediately return if the element is not a checkbox or radio and there is
+  // no label to be rendered.
+  if (!$checkbox && !$radio && ($display === 'none' || !$title)) {
+    return $help_text;
   }
 
   // Retrieve the label attributes array.
@@ -107,4 +98,35 @@ function kapablo_form_element_label(&$variables) {
 
   // The leading whitespace helps visually separate fields from inline labels.
   return ' <label' . drupal_attributes($attributes) . '>' . $output . "</label>{$help_text}\n";
+}
+
+/**
+ * Renders the "what's this?" tooltip element.
+ *
+ * @param $description
+ *   The text that should be in the tooltip.
+ *
+ * @return string
+ *   The rendered tooltip element.
+ */
+function kapablo_render_what_is_this($description) {
+  // Strip all tags because it doesn't make any sense to use them inside the
+  // tooltip.
+  $description = strip_tags($description);
+
+  if (empty($description)) {
+    return '';
+  }
+
+  $tag['element'] = array(
+    '#tag' => 'span',
+    '#attributes' => array(
+      'class' => array('what-is-this'),
+      'data-toggle' => 'tooltip',
+      'title' => $description,
+    ),
+    '#value' => t("What's this?"),
+  );
+
+  return theme_html_tag($tag);
 }

@@ -53,7 +53,7 @@ function _c4m_features_theme_set_what_is_this(&$elements) {
       continue;
     }
 
-    if (isset($element['#description'])) {
+    if (isset($element['#description']) && !isset($element['#what_is_this'])) {
       // Replace between the variables.
       $element['#what_is_this'] = $element['#description'];
       $element['#description'] = NULL;
