@@ -124,16 +124,16 @@ function c4m_content_photo_preprocess(&$variables, $hook) {
     return;
   }
 
-  global $base_path;
   $options = array(
     'absolute' => TRUE,
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
   );
 
-  // 'gallery_link' contain the full path to the gallery (back button).
-  // This create duplication of the base path in the link when creating
-  // it in the next line, so we strip the base path from the 'gallery_link'.
-  $variables['gallery_link'] = str_replace($base_path, '', $variables['gallery_link']);
-
-  // Create the link with absolute path.
-  $variables['back_to_galley_link'] = l(t('Back to photo album'), $variables['gallery_link'], $options);
+  // Modify the links with absolute path and no purl.
+  $variables['gallery_link'] = url($variables['gallery_link'], $options);
+  $variables['next_link'] = url($variables['next_link'], $options);
+  $variables['last_link'] = url($variables['last_link'], $options);
+  $variables['prev_link'] = url($variables['prev_link'], $options);
 }
