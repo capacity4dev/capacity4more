@@ -10,16 +10,11 @@
   <div class="col-md-12 right">
     <div class="my-groups panel-pane">
       <h2 class="pane-title"><?php print t('My Groups') ?></h2>
-      <?php print $first_groups; ?>
-      <div class="collapse" id="allGroups">
-        <?php print $extra_groups; ?>
-      </div>
-      <?php if ($show_all_link) : ?>
+      <?php print $groups; ?>
       <a class="see-more-link" href="<?php print $link; ?>">
-          <?php print t('Show all') ?>
-          <i class="fa fa-chevron-right"></i>
-        </a>
-      <?php endif; ?>
+        <?php print t('Show all') ?>
+        <i class="fa fa-chevron-right"></i>
+      </a>
     </div>
   </div>
 </div>
