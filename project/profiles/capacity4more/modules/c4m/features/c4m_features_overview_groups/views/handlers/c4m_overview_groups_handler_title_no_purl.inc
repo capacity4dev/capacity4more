@@ -1,12 +1,19 @@
 <?php
 
-class c4m_overview_groups_handler_title_no_purl extends views_handler_field_node {
+/**
+ * @file
+ * Contains the handler for node's title field.
+ */
 
-  /**
-   * When a node title's is linked inside a group context, the URL is modified
-   * by the PURL API. This handler adds the option field to Disable PURL,
-   * and adds the direct link to the node.
-   */
+/**
+ * When a node title's is linked inside a group context, the URL is modified
+ * by the PURL API. This handler adds the option field to Disable PURL,
+ * and adds the direct link to the node.
+ *
+ * @ingroup views_field_handlers
+ */
+
+class c4m_overview_groups_handler_title_no_purl extends views_handler_field_node {
 
   /**
    * {@inheritdoc}
