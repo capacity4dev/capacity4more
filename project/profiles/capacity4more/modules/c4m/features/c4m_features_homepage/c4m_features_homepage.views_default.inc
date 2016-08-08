@@ -40,6 +40,7 @@ function c4m_features_homepage_views_default_views() {
   $handler->display->display_options['relationships']['reverse_c4m_related_projects_node']['id'] = 'reverse_c4m_related_projects_node';
   $handler->display->display_options['relationships']['reverse_c4m_related_projects_node']['table'] = 'node';
   $handler->display->display_options['relationships']['reverse_c4m_related_projects_node']['field'] = 'reverse_c4m_related_projects_node';
+  $handler->display->display_options['relationships']['c4m_related_projects_target_id']['id'] = 'c4m_related_projects_target_id';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -51,7 +52,6 @@ function c4m_features_homepage_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['disable_purl'] = FALSE;
   /* Field: User: First Name */
   $handler->display->display_options['fields']['c4m_first_name']['id'] = 'c4m_first_name';
   $handler->display->display_options['fields']['c4m_first_name']['table'] = 'field_data_c4m_first_name';
@@ -89,9 +89,9 @@ function c4m_features_homepage_views_default_views() {
   $handler->display->display_options['fields']['nothing']['label'] = '';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div class="related-block">
 [c4m_media]
-<div class="related-block__info">
+<div>
 <h3>[title]</h3>
-<p class="related-block__node-author">Owned by [c4m_first_name] [c4m_last_name]</p>
+<div class="related-block-node-author">Owned by [c4m_first_name] [c4m_last_name]</div>
 </div>
 </div>';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
