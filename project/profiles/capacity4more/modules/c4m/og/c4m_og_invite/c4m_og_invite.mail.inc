@@ -18,7 +18,7 @@
  * @return string
  *   The mail text.
  */
-function _c4m_content_group_mail_text($key, $language, array $variables) {
+function _c4m_og_invite_mail_text($key, $language, array $variables) {
   // Try to load the text first from variable.
   $text = variable_get($key, NULL);
 

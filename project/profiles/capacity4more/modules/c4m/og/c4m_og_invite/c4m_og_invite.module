@@ -79,15 +79,28 @@ function c4m_og_invite_form__og_invite_people_new_users_form_alter(&$form, &$for
   );
 }
 
-///**
-// * Implements hook_mail_alter().
-// */
-//function c4m_og_invite_mail_alter(&$message) {
-//  if ($message['key'] == 'register_admin_created') {
-//    // This is the message sent by the og_invite_people module.
-//  }
-//}
+/**
+ * Implements hook_mail_alter().
+ */
+function c4m_og_invite_mail_alter(&$message) {
+  module_load_include('inc', 'c4m_og_invite', 'c4m_og_invite.mail');
+  $key = $message['key'];
 
+  $language = isset($message['language'])
+    ? $message['language']
+    : NULL;
+
+  $message['subject'] .= _c4m_og_invite_mail_text(
+    $key . '_subject',
+    $language,
+    NULL
+  );
+  $message['body'][] = _c4m_og_invite_mail_text(
+    $key . '_body',
+    $language,
+    NULL
+  );
+}
 
 /**
  * Implements hook_mail().
