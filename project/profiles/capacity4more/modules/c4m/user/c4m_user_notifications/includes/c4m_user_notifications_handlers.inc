@@ -67,7 +67,7 @@ function c4m_user_notifications_notify_user_membership_canceled($entity) {
  * Status changed from 'draft' to 'published'.
  */
 function c4m_user_notifications_group_status_set_published($node) {
-  $group_admins_ids = c4m_og_get_group_admins($node->nid, TRUE);
+  $group_admins_ids = c4m_og_get_group_admins_ids($node->nid, TRUE);
 
   foreach ($group_admins_ids as $admin_id) {
     _c4m_user_notifications_to_admin_group_status_set_published($node, $admin_id);
