@@ -504,7 +504,7 @@ function c4m_user_og_c4m_cta_block() {
     $items['leave'] = $item;
   }
 
-  if (c4m_user_og_check_invite_access_by_group_type($group->nid)) {
+  if (c4m_user_og_invite_access($group->nid)) {
     $items['invite'] = c4m_user_og_c4m_invite_cta($group);
   }
 
@@ -951,7 +951,7 @@ function c4m_user_og_user_update(&$edit, $account, $category) {
  * Checks by user role and og_role against group visibility (Public/Private) and
  * Membership requests setting (Open/Moderated).
  */
-function c4m_user_og_check_invite_access_by_group_type($gid, $group_type = 'node') {
+function c4m_user_og_invite_access($gid, $group_type = 'node') {
   global $user;
   $og_roles = og_get_user_roles($group_type, $gid);
 
