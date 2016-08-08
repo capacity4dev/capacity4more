@@ -117,7 +117,7 @@ function c4m_content_photo_c4m_helper_entity_label_info() {
 /**
  * Implements hook_preprocess().
  *
- * Create the back to photo album link.
+ * Disable the purl on the links producing by the node_gallery module.
  */
 function c4m_content_photo_preprocess(&$variables, $hook) {
   if ($hook != 'node_gallery_api_item_navigator') {
