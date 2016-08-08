@@ -276,3 +276,21 @@ function c4m_features_homepage_newsletter_form_submit($form, &$form_state) {
 
   drupal_set_message(t('We could not subscribe you to the newsletter, please try again later or !contact_us!', array('!contact_us' => l(t('contact_us'), 'about'))));
 }
+
+/**
+ * Implements hook_c4m_cta_block().
+ */
+function c4m_features_homepage_c4m_cta_block() {
+  $items = array();
+
+  if (drupal_is_front_page() && !user_is_anonymous()) {
+    $items['create-group'] = array(
+      '#theme' => 'c4m_group_visitor_cta',
+      '#button_label' => t('Create group'),
+      '#button_icon' => 'fa-plus',
+      '#url' => url('/node/add/group'),
+    );
+  }
+
+  return $items;
+}

@@ -348,11 +348,8 @@ function c4m_content_field_formatter_view($entity_type, $entity, $field, $instan
         $currency_object = currency_load($currency);
 
         $symbol = $currency_object->sign;
-        $decimal_separator = '.';
-        $grouping_separator = '&nbsp;';
-
         // Amount with currency-based decimal and grouping separators.
-        $amount = number_format($item['amount'], $field['settings']['scale'], $decimal_separator, $grouping_separator);
+        $amount = c4m_content_ec_number_format($item['amount'], $field['settings']['scale']);
 
         // Amount with currency-based decimal and grouping separators and a
         // currency symbol.
@@ -394,6 +391,85 @@ function c4m_content_field_formatter_view($entity_type, $entity, $field, $instan
       break;
   }
   return $element;
+}
+
+/**
+ * Format a number according to EC format.
+ *
+ * @param float $number
+ *   Number to be formatted.
+ * @param int $decimals
+ *   Number of decimals.
+ *
+ * @return string
+ *   Formatted number.
+ */
+function c4m_content_ec_number_format($number, $decimals) {
+  $decimal_separator = '.';
+  $grouping_separator = '&nbsp;';
+
+  // Amount with currency-based decimal and grouping separators.
+  $amount = number_format($number, $decimals, $decimal_separator, $grouping_separator);
+  return $amount;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Overrides the default confirm node delete form to offer the possibility to
+ * anonymize the content.
+ */
+function c4m_content_form_node_delete_confirm_alter(&$form, &$form_state) {
+  $node = $form['#node'];
+  $comments = $node->comment_count;
+
+  if ($comments) {
+    // Handle sentence plural when multiple comments.
+    $text = t('comment');
+    $them = t('it');
+    if ($comments > 1) {
+      $text = t('comments');
+      $them = t('them');
+    }
+
+    $replacements = array(
+      '@comment_count' => $comments,
+      '@comment_text' => $text,
+      '@them' => $them,
+      '!link' => l(t('edit it'), 'node/' . $node->nid . '/edit'),
+    );
+
+    $form['message'] = array(
+      '#type' => 'markup',
+      '#markup' => '<p>' . t('This content has @comment_count @comment_text, are you sure you want to delete @them? You can also opt to anonymize this content, or !link.', $replacements) . '</p>',
+      '#weight' => -10,
+    );
+
+    $form['anonymize'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Anonymize'),
+    );
+
+    // We override the default submit and we invoke it if necessary.
+    $form['#submit'] = array('c4m_content_custom_node_delete_confirm');
+  }
+}
+
+/**
+ * Custom submit callback for deleting nodes to anonymize content if requested.
+ */
+function c4m_content_custom_node_delete_confirm($form, &$form_state) {
+  if ($form_state['values']['anonymize']) {
+    $node = $form['#node'];
+    $node->uid = 0;
+
+    node_save($node);
+    $form_state['redirect'] = '/';
+  }
+  // Anonymize not requested. Call default submit.
+  else {
+    node_delete_confirm_submit($form, $form_state);
+  }
 }
 
 /**
