@@ -12,7 +12,6 @@
  *
  * @ingroup views_field_handlers
  */
-
 class c4m_overview_groups_handler_title_no_purl extends views_handler_field_node {
 
   /**
