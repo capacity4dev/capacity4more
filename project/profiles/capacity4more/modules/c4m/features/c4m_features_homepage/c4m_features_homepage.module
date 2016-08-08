@@ -118,10 +118,7 @@ function c4m_features_homepage_c4m_featured_groups_get_groups() {
  * Loads list of nodes, sorts them and renders them as block list.
  */
 function c4m_features_homepage_alphabetically_render_node_list($node_ids) {
-  $items = array();
-  foreach ($node_ids as $node) {
-    $items[] = node_load($node->nid);
-  }
+  $items = node_load_multiple(array_keys($node_ids));
   uasort($items, 'c4m_features_homepage_node_sort_by_title');
 
   $rendered_nodes = '';
