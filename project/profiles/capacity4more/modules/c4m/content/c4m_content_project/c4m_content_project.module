@@ -130,6 +130,7 @@ function c4m_content_project_form_project_node_form_alter(&$form, &$form_state) 
   }
 
   $form['c4m_project_type']['#access'] = FALSE;
+  $form['c4m_is_template']['#access'] = FALSE;
 }
 
 /**
