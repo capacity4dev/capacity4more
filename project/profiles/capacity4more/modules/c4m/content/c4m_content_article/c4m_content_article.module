@@ -175,4 +175,6 @@ function c4m_content_article_preprocess(&$variables) {
     // Add an <i> tag to the 'Regions & Countries' tree children.
     $geo_taxonomy->name = ' <i class="fa fa-caret-right" aria-hidden="true"></i> ' . $geo_taxonomy->name;
   }
+
+  $variables['hide_title'] = TRUE;
 }
