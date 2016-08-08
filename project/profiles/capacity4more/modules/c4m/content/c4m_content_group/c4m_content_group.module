@@ -687,7 +687,7 @@ function c4m_content_group_get_latest_activity($og_id = NULL) {
 
   // Find and return latest activity by comparing latest update node & comment.
   $latest_activity = max($latest_updated_node, $latest_updated_comment);
-  return empty($latest_activity) ? 0 : $latest_activity;
+  return empty($latest_activity) ? 0 : format_date($latest_activity, 'custom', 'd/m/Y');
 }
 
 /**
