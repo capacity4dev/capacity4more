@@ -39,7 +39,7 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
   usort($my_groups, 'c4m_sort_object_by_title');
 
   // Render node views for each group,
-  // First 3 groups are displayed (first_groups), the rest are hidden and only
+  // First 5 groups are displayed (first_groups), the rest are hidden and only
   // shown when user clicks on "Show all" (extra_groups).
   $count = 0;
   foreach ($my_groups as $group) {
@@ -47,7 +47,7 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
       continue;
     }
     $node_view = node_view($group, 'block_list');
-    if ($count < 3) {
+    if ($count < 5) {
       $first_groups .= drupal_render($node_view);
     }
     else {
@@ -56,10 +56,16 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
     $count++;
   }
 
+  $link_options = array(
+    'query' => array(
+      'filter' => 'groups',
+    )
+  );
   $variables = array(
     'first_groups' => $first_groups,
     'extra_groups' => $extra_groups,
-    'show_all_link' => $count > 3 ? TRUE : FALSE,
+    'show_all_link' => $count > 5 ? TRUE : FALSE,
+    'link' => url('groups', $link_options),
   );
 
   $block = new stdClass();
@@ -85,6 +91,7 @@ function c4m_features_homepage_my_groups_content_type_theme(&$theme, $plugin) {
       'first_groups' => NULL,
       'extra_groups' => NULL,
       'show_all_link' => NULL,
+      'link' => NULL,
     ),
     'path' => $plugin['path'],
     'template' => 'my-groups',

@@ -15,7 +15,7 @@
         <?php print $extra_groups; ?>
       </div>
       <?php if ($show_all_link) : ?>
-        <a class="see-more-link" id="toggleMyGroups" href="javascript://" data-toggle="collapse" data-target="#allGroups" aria-expanded="false" aria-controls="allGroups">
+      <a class="see-more-link" href="<?php print $link; ?>">
           <?php print t('Show all') ?>
           <i class="fa fa-chevron-right"></i>
         </a>
