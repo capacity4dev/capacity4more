@@ -2,6 +2,11 @@
 
 class c4m_overview_groups_handler_title_no_purl extends views_handler_field_node {
 
+  /**
+   * When a node title's is linked inside a group context, the URL is modified
+   * by the PURL API. This handler adds the option field to Disable PURL,
+   * and adds the direct link to the node.
+   */
 
   /**
    * {@inheritdoc}

@@ -29,4 +29,5 @@ function c4m_features_overview_groups_c4m_search_page_info() {
  */
 function c4m_features_overview_groups_views_data_alter(&$data) {
   $data['node']['title']['field']['handler'] = 'c4m_overview_groups_handler_title_no_purl';
+  // Adding custom handler for the title field, which will handle the "Disable PURL" option.
 }
