@@ -91,12 +91,12 @@ function c4m_og_invite_mail_alter(&$message) {
     ? $message['language']
     : NULL;
 
-  $message['subject'] .= _c4m_og_invite_mail_text(
+  $message['subject'] = _c4m_og_invite_mail_text(
     $key . '_subject',
     $language,
     $variables
   );
-  $message['body'][] = _c4m_og_invite_mail_text(
+  $message['body'][0] = _c4m_og_invite_mail_text(
     $key . '_body',
     $language,
     $variables
@@ -107,6 +107,7 @@ function c4m_og_invite_mail_alter(&$message) {
  * Implements hook_mail().
  *
  * Defines the Subject and Body of the message depending on the "key".
+ * This hook isn't triggered :-) -to be deleted.
  */
 function c4m_og_invite_mail($key, &$message, $variables) {
   module_load_include('inc', 'c4m_og_invite', 'c4m_og_invite.mail');
