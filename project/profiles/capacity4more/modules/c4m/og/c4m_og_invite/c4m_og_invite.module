@@ -85,6 +85,7 @@ function c4m_og_invite_form__og_invite_people_new_users_form_alter(&$form, &$for
 function c4m_og_invite_mail_alter(&$message) {
   module_load_include('inc', 'c4m_og_invite', 'c4m_og_invite.mail');
   $key = $message['key'];
+  $variables = $message['params'];
 
   $language = isset($message['language'])
     ? $message['language']
@@ -93,12 +94,12 @@ function c4m_og_invite_mail_alter(&$message) {
   $message['subject'] .= _c4m_og_invite_mail_text(
     $key . '_subject',
     $language,
-    NULL
+    $variables
   );
   $message['body'][] = _c4m_og_invite_mail_text(
     $key . '_body',
     $language,
-    NULL
+    $variables
   );
 }
 
