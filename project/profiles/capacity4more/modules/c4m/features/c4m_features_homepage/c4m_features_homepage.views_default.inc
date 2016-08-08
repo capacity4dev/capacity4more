@@ -51,6 +51,7 @@ function c4m_features_homepage_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['disable_purl'] = FALSE;
   /* Field: User: First Name */
   $handler->display->display_options['fields']['c4m_first_name']['id'] = 'c4m_first_name';
   $handler->display->display_options['fields']['c4m_first_name']['table'] = 'field_data_c4m_first_name';
