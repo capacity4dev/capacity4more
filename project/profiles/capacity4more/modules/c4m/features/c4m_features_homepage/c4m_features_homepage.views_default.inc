@@ -90,7 +90,7 @@ function c4m_features_homepage_views_default_views() {
 [c4m_media]
 <div class="related-block__info">
 <h3>[title]</h3>
-<p>Owned by [c4m_first_name] [c4m_last_name]</p>
+<p class="related-block__node-author">Owned by [c4m_first_name] [c4m_last_name]</p>
 </div>
 </div>';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
