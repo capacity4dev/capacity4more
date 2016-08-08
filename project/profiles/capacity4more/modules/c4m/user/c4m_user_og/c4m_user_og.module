@@ -942,7 +942,7 @@ function c4m_user_og_user_update(&$edit, $account, $category) {
   c4m_user_og_delete_unified_workflow_entries($account->uid);
 }
 
-/*
+/**
  * Return true if the user is allowed to invite and false if he isn't.
  */
 function check_invite_access_by_group_type($gid, $group_type = 'node') {
