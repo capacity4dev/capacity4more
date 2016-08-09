@@ -81,11 +81,13 @@ function c4m_user_notifications_group_status_set_published($node) {
  * from 'archived' to 'published'.
  */
 function _c4m_user_notifications_to_admin_group_status_set_published($node, $admin_id) {
+  global $user;
   $message = message_create('c4m_group_published', array('uid' => $admin_id));
   c4m_message_load_tokens__c4m_group_published($message);
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);
+  $wrapper->field_related_user->set($user->uid);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
