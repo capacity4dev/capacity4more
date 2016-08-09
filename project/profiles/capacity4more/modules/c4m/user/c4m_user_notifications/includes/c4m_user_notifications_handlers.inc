@@ -73,7 +73,7 @@ function c4m_user_notifications_group_status_set_published($node) {
  * Status changed from 'archived' to 'published'.
  */
 function c4m_user_notifications_group_status_set_republished($node, $group_former_status) {
-  $group_admins_ids = c4m_og_get_group_admins($node->nid, TRUE);
+  $group_admins_ids = c4m_og_get_group_admins_ids($node->nid, TRUE);
 
   foreach ($group_admins_ids as $admin_id) {
     _c4m_user_notifications_to_admin_group_status_set_republished($node, $admin_id, $group_former_status);
@@ -87,12 +87,14 @@ function c4m_user_notifications_group_status_set_republished($node, $group_forme
  * from 'archived' to 'published'.
  */
 function _c4m_user_notifications_to_admin_group_status_set_republished($node, $admin_id, $group_former_status) {
+  global $user;
   $message = message_create('c4m_group_republished', array('uid' => $admin_id));
   c4m_message_load_tokens__c4m_group_republished($message);
   $message->arguments['@group_former_status'] = $group_former_status;
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);
+  $wrapper->field_related_user->set($user->uid);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
