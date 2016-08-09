@@ -23,5 +23,15 @@ function c4m_admin_projects_menu() {
     'menu_name' => 'management',
   );
 
+  $items['admin/c4m/projects/export'] = array(
+    'title' => 'Export',
+    'description' => 'Capacity4more projects export.',
+    'page callback' => 'c4m_admin_projects_projects_export_page',
+    'access arguments' => array('administer nodes'),
+    'file' => 'c4m_admin_projects.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+  );
+
   return $items;
 }

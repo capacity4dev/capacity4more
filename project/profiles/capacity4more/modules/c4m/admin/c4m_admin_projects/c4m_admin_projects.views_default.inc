@@ -74,6 +74,80 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'd/m/Y';
   $handler->display->display_options['fields']['created']['second_date_format'] = 'c4m_long_without_time';
   $handler->display->display_options['fields']['created']['reldate'] = '0';
+  /* Field: Content: Duration */
+  $handler->display->display_options['fields']['c4m_date_end']['id'] = 'c4m_date_end';
+  $handler->display->display_options['fields']['c4m_date_end']['table'] = 'field_data_c4m_date_end';
+  $handler->display->display_options['fields']['c4m_date_end']['field'] = 'c4m_date_end';
+  $handler->display->display_options['fields']['c4m_date_end']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_date_end']['settings'] = array(
+    'format_type' => 'short',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+    'show_remaining_days' => 0,
+  );
+  /* Field: Content: Total budget */
+  $handler->display->display_options['fields']['c4m_money']['id'] = 'c4m_money';
+  $handler->display->display_options['fields']['c4m_money']['table'] = 'field_data_c4m_money';
+  $handler->display->display_options['fields']['c4m_money']['field'] = 'c4m_money';
+  $handler->display->display_options['fields']['c4m_money']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_money']['click_sort_column'] = 'amount';
+  $handler->display->display_options['fields']['c4m_money']['type'] = 'c4m_formatter_ec_money';
+  /* Field: Content: Source of funding */
+  $handler->display->display_options['fields']['c4m_source_of_funding']['id'] = 'c4m_source_of_funding';
+  $handler->display->display_options['fields']['c4m_source_of_funding']['table'] = 'field_data_c4m_source_of_funding';
+  $handler->display->display_options['fields']['c4m_source_of_funding']['field'] = 'c4m_source_of_funding';
+  $handler->display->display_options['fields']['c4m_source_of_funding']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_source_of_funding']['delta_offset'] = '0';
+  /* Field: Content: Partners */
+  $handler->display->display_options['fields']['c4m_partner']['id'] = 'c4m_partner';
+  $handler->display->display_options['fields']['c4m_partner']['table'] = 'field_data_c4m_partner';
+  $handler->display->display_options['fields']['c4m_partner']['field'] = 'c4m_partner';
+  $handler->display->display_options['fields']['c4m_partner']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_partner']['delta_offset'] = '0';
+  /* Field: Content: Implemented by */
+  $handler->display->display_options['fields']['c4m_implemented_by']['id'] = 'c4m_implemented_by';
+  $handler->display->display_options['fields']['c4m_implemented_by']['table'] = 'field_data_c4m_implemented_by';
+  $handler->display->display_options['fields']['c4m_implemented_by']['field'] = 'c4m_implemented_by';
+  $handler->display->display_options['fields']['c4m_implemented_by']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_implemented_by']['delta_offset'] = '0';
+  /* Field: Content: CRIS Decision number */
+  $handler->display->display_options['fields']['c4m_cris_decision_number']['id'] = 'c4m_cris_decision_number';
+  $handler->display->display_options['fields']['c4m_cris_decision_number']['table'] = 'field_data_c4m_cris_decision_number';
+  $handler->display->display_options['fields']['c4m_cris_decision_number']['field'] = 'c4m_cris_decision_number';
+  $handler->display->display_options['fields']['c4m_cris_decision_number']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_cris_decision_number']['delta_offset'] = '0';
+  /* Field: Content: CRIS Contract Number */
+  $handler->display->display_options['fields']['c4m_cris_contract_number']['id'] = 'c4m_cris_contract_number';
+  $handler->display->display_options['fields']['c4m_cris_contract_number']['table'] = 'field_data_c4m_cris_contract_number';
+  $handler->display->display_options['fields']['c4m_cris_contract_number']['field'] = 'c4m_cris_contract_number';
+  $handler->display->display_options['fields']['c4m_cris_contract_number']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_cris_contract_number']['delta_offset'] = '0';
+  /* Field: Field: Topics */
+  $handler->display->display_options['fields']['c4m_vocab_topic']['id'] = 'c4m_vocab_topic';
+  $handler->display->display_options['fields']['c4m_vocab_topic']['table'] = 'field_data_c4m_vocab_topic';
+  $handler->display->display_options['fields']['c4m_vocab_topic']['field'] = 'c4m_vocab_topic';
+  $handler->display->display_options['fields']['c4m_vocab_topic']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_vocab_topic']['type'] = 'term_reference_checked_inline_tree';
+  $handler->display->display_options['fields']['c4m_vocab_topic']['settings'] = array(
+    'link' => 0,
+    'separator' => ' > ',
+    'glue' => ', ',
+  );
+  $handler->display->display_options['fields']['c4m_vocab_topic']['delta_offset'] = '0';
+  /* Field: Field: Regions & Countries */
+  $handler->display->display_options['fields']['c4m_vocab_geo']['id'] = 'c4m_vocab_geo';
+  $handler->display->display_options['fields']['c4m_vocab_geo']['table'] = 'field_data_c4m_vocab_geo';
+  $handler->display->display_options['fields']['c4m_vocab_geo']['field'] = 'c4m_vocab_geo';
+  $handler->display->display_options['fields']['c4m_vocab_geo']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_vocab_geo']['type'] = 'term_reference_checked_inline_tree';
+  $handler->display->display_options['fields']['c4m_vocab_geo']['settings'] = array(
+    'link' => 0,
+    'separator' => ' > ',
+    'glue' => ', ',
+  );
+  $handler->display->display_options['fields']['c4m_vocab_geo']['delta_offset'] = '0';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
