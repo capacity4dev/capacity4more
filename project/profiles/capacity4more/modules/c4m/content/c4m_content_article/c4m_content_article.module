@@ -151,7 +151,7 @@ function c4m_content_article_c4m_offcanvas_trigger_label_left_alter(&$trigger_la
  * Implements hook_preprocess().
  *
  * Style the 'Regions & Countries' section in the right dashboard.
- * And hide the article title, because it's show twice before and after the banner.
+ * And hide the article title, because it's show before and after the banner.
  */
 function c4m_content_article_preprocess(&$variables) {
   if ($variables['theme_hook_original'] != 'page') {
