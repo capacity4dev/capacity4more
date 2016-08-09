@@ -603,6 +603,13 @@ function c4m_user_og_group_actions_cta($group) {
     );
   }
 
+  // Help & guidance.
+  $items['help_guidance'] = array(
+    '#theme' => 'c4m_group_text_cta',
+    '#icon' => 'fa-question',
+    '#text' => l(t('Help & guidance'), 'help-guidance/help-guidance', array('purl' => array('disabled' => TRUE))),
+  );
+
   return $items;
 }
 
