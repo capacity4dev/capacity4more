@@ -448,7 +448,7 @@ function c4m_message_format_new_member_expertise(Message $message) {
 function c4m_message_format_new_member_self_description(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  return $wrapper->field_related_user->c4m_body->value->value();
+  return strip_tags($wrapper->field_related_user->c4m_body->value->value());
 }
 
 /**
@@ -465,7 +465,11 @@ function c4m_message_format_group_pending_member_url(Message $message) {
   $gid = $wrapper->field_group_node->value(array('identifier' => TRUE));
   $mid = $wrapper->field_group_membership->value(array('identifier' => TRUE));
 
-  return url('/group/node/' . $gid . '/admin/people/edit-membership/' . $mid);
+  $options = array(
+    'absolute' => TRUE,
+  );
+
+  return url('group/node/' . $gid . '/admin/people/edit-membership/' . $mid, $options);
 }
 
 /**
@@ -481,7 +485,11 @@ function c4m_message_format_new_member_public_profile_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $uid = $wrapper->field_related_user->value(array('identifier' => TRUE));
 
-  return url('user/' . $uid);
+  $options = array(
+    'absolute' => TRUE,
+  );
+
+  return url('user/' . $uid, $options);
 }
 
 /**
@@ -528,7 +536,11 @@ function c4m_message_format_group_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $nid = $wrapper->field_group_node->value(array('identifier' => TRUE));
 
-  return url('node/' . $nid);
+  $options = array(
+    'absolute' => TRUE,
+  );
+
+  return url('node/' . $nid, $options);
 }
 
 /**
@@ -591,7 +603,11 @@ function c4m_message_format_group_owner_public_profile_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $author_id = $wrapper->field_group_node->author->getIdentifier();
 
-  return url('user/' . $author_id);
+  $options = array(
+    'absolute' => TRUE,
+  );
+
+  return url('user/' . $author_id, $options);
 }
 
 /**
@@ -666,7 +682,11 @@ function c4m_message_format_node_type(Message $message) {
 function c4m_message_format_node_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  return 'node/' . $wrapper->field_node->value(array('identifier' => TRUE));
+  $options = array(
+    'absolute' => TRUE,
+  );
+
+  return url('node/' . $wrapper->field_node->value(array('identifier' => TRUE)), $options);
 }
 
 /**
