@@ -436,6 +436,15 @@ function c4m_user_og_theme() {
     ),
   );
 
+  $theme['c4m_group_text_cta'] = array(
+    'template' => 'c4m_group_text_cta',
+    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
+    'variables' => array(
+      'text' => NULL,
+      'icon' => NULL,
+    ),
+  );
+
   $theme['c4m_unified_workflow_register'] = array(
     'template' => 'c4m_unified_workflow_register',
     'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
@@ -460,6 +469,7 @@ function c4m_user_og_theme() {
  * Implements hook_c4m_cta_block().
  */
 function c4m_user_og_c4m_cta_block() {
+  // Only add items if there is a group.
   if (!$group = c4m_og_current_group()) {
     return;
   }
@@ -488,10 +498,14 @@ function c4m_user_og_c4m_cta_block() {
         $items['membership'] = $item;
       }
     }
+
+    if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
+      $items['leave'] = $item;
+    }
   }
 
-  if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
-    $items['leave'] = $item;
+  if ($item = c4m_user_og_group_actions_cta($group)) {
+    $items['actions'] = $item;
   }
 
   return $items;
@@ -520,6 +534,76 @@ function c4m_user_og_c4m_vistor_cta($group) {
     '#button_icon' => $types[$membership_request_value]['button_icon'],
     '#url' => url('/user'),
   );
+}
+
+/**
+ * Sets the different actions an user can do in the group.
+ *
+ * Includes: manage group, pending membership requests and draft content.
+ */
+function c4m_user_og_group_actions_cta($group) {
+  $access = c4m_og_get_access_type($group);
+  if ($access['type'] != 'public') {
+    return;
+  }
+
+  global $user;
+  if (!og_get_membership('node', $group->nid, 'user', $user->uid)) {
+    return;
+  }
+
+  $items = array();
+  // CTAs for the group owner and administrators: Manage group and number or
+  // new membership requests.
+  $is_owner = ($user->uid == $group->uid);
+  $group_admins = c4m_og_get_group_admins($group->nid);
+  $is_admin = in_array($user->uid, array_keys($group_admins));
+  if ($is_owner || $is_admin) {
+    $items['manage'] = array(
+      '#theme' => 'c4m_group_text_cta',
+      '#icon' => 'fa-cog',
+      '#text' => l(t('Manage this group'), 'manage'),
+    );
+
+    if ($pending_requests = c4m_og_get_all_group_memberships_by_state($group->nid, OG_STATE_PENDING)) {
+      $pending_id = $group->nid . '_pending';
+
+      $link_text = t('@requests new membership', array('@requests' => count($pending_requests)));
+      $link = l($link_text, 'members', array('query' => array('f[0]' => 'c4m_og_membership_type:' . $pending_id)));
+
+      $cta_text = t('There are !link requests', array('!link' => $link));
+
+      $items['memberships'] = array(
+        '#theme' => 'c4m_group_text_cta',
+        '#icon' => 'fa-user',
+        '#text' => $cta_text,
+      );
+    }
+  }
+
+  // CTAs for members of the group: Amount of unpublished content.
+  $variables = array(
+    'bundles' => array(
+      'wiki_page',
+      'photoalbum',
+      'discussion',
+      'event',
+      'document',
+    ),
+    'state' => NODE_NOT_PUBLISHED,
+    'entity_type' => 'node',
+    'og_id' => $group->nid,
+  );
+
+  if ($unpublished_content = c4m_helper_entity_get_number_of_entities($variables)) {
+    $items['new-content'] = array(
+      '#theme' => 'c4m_group_text_cta',
+      '#icon' => 'fa-exclamation-triangle',
+      '#text' => t('You have %count draft content items', array('%count' => $unpublished_content)),
+    );
+  }
+
+  return $items;
 }
 
 /**
