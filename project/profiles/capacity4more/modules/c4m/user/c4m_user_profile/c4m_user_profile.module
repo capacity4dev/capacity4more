@@ -213,6 +213,16 @@ function c4m_user_profile_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['user/%user/leave'] = array(
+    'title' => 'Leave platform',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_profile_remove_account_form', 1),
+    'access callback' => 'user_is_logged_in',
+    'access arguments' => array(),
+    'file' => 'c4m_user_profile.pages.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+
   return $items;
 }
 
@@ -314,6 +324,14 @@ function c4m_user_profile_form_user_register_form_alter(
     ),
   );
   $form['#submit'][] = 'c4m_user_profile_form_user_register_form_submit';
+
+  // If user is administrator.
+  if (user_access('administer users')) {
+    // Hide status fields - SA-created user is always active.
+    $form['account']['status']['#access'] = FALSE;
+    // Alter 'notify user' checkbox title.
+    $form['account']['notify']['#title'] = t('Send password reset link');
+  }
 }
 
 /**
@@ -484,6 +502,8 @@ function c4m_user_profile_form_user_profile_form_alter(
   $form['account']['status']['#access'] = FALSE;
   // Hide OG related fields.
   $form['og_user_node']['#access'] = FALSE;
+  // Remove Terms and conditions fieldset.
+  $form['legal']['#access'] = FALSE;
 
   // Introduce simple Cancel button (goes to user profile)
   $form['actions']['cancel']['#access'] = FALSE;
@@ -568,6 +588,11 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
       array('@name' => $name)
     )
   );
+
+  // Always send "welcome" mail for user created by admin.
+  if (user_access('administer users')) {
+    _user_mail_notify('status_activated', $form['#user']);
+  }
 
   // Process subscription to mailing list.
   if (empty($form_state['values']['subscribe_to_mailinglist'])) {
@@ -685,6 +710,15 @@ function c4m_user_profile_module_implements_alter(&$implementations, $hook) {
     $c4m_user_profile = $implementations['c4m_user_profile'];
     unset($implementations['c4m_user_profile']);
     $implementations['c4m_user_profile'] = $c4m_user_profile;
+
+    // In order to alter the login/register form on the "c4m_user_og" module we
+    // have no other way but use this hook to set the order, because of the
+    // alphabetic order of the modules names.
+    if (isset($implementations['c4m_user_og'])) {
+      $c4m_user_profile = $implementations['c4m_user_og'];
+      unset($implementations['c4m_user_og']);
+      $implementations['c4m_user_og'] = $c4m_user_profile;
+    }
   }
 }
 
