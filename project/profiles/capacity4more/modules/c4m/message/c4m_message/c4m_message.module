@@ -545,10 +545,10 @@ function c4m_message_format_group_owner_public_profile_url(Message $message) {
 function c4m_message_format_event_user_id(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  return $wrapper->field_related_user->value(array('identifier' => TRUE));
+  return $wrapper->field_executing_user->value(array('identifier' => TRUE));
 }
 
-/**
+/**s
  * Returns full name of user that executed the event.
  *
  * @param Message $message
@@ -560,7 +560,7 @@ function c4m_message_format_event_user_id(Message $message) {
 function c4m_message_format_event_user_full_name(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  return c4m_user_name($wrapper->field_related_user->value());
+  return c4m_user_name($wrapper->field_executing_user->value());
 }
 
 /**
@@ -574,7 +574,7 @@ function c4m_message_format_event_user_full_name(Message $message) {
  */
 function c4m_message_format_event_user_message_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $uid = $wrapper->field_related_user->value(array('identifier' => TRUE));
+  $uid = $wrapper->field_executing_user->value(array('identifier' => TRUE));
 
   $options = array(
     'absolute' => TRUE,
@@ -594,7 +594,7 @@ function c4m_message_format_event_user_message_url(Message $message) {
  */
 function c4m_message_format_event_user_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $uid = $wrapper->field_related_user->value(array('identifier' => TRUE));
+  $uid = $wrapper->field_executing_user->value(array('identifier' => TRUE));
 
   $options = array(
     'absolute' => TRUE,
