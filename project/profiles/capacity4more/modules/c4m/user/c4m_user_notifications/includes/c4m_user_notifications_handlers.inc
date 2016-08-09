@@ -35,7 +35,7 @@ function c4m_user_notifications_notify_user_membership_accepted($membership) {
  * Email notification to group admins about new member at moderated group.
  */
 function c4m_user_notifications_moderated_group_notify_admins_membership_accepted($membership) {
-  $group_admins_ids = c4m_og_get_group_admins($membership->gid, TRUE);
+  $group_admins_ids = c4m_og_get_group_admins_ids($membership->gid, TRUE);
 
   foreach ($group_admins_ids as $admin_id) {
     _c4m_user_notifications_moderated_group_notify_admins_membership_accepted($membership, $admin_id);
