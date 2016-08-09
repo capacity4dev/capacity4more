@@ -371,7 +371,7 @@ function c4m_message_format_new_member_expertise(Message $message) {
 function c4m_message_format_new_member_self_description(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  return $wrapper->field_related_user->c4m_body->value->value();
+  return strip_tags($wrapper->field_related_user->c4m_body->value->value());
 }
 
 /**
