@@ -54,11 +54,14 @@ function c4m_user_notifications_moderated_group_notify_admins_membership_accepte
  *   Addressee admin uid.
  */
 function _c4m_user_notifications_moderated_group_notify_admins_membership_accepted(Entity $membership, $admin_id) {
+  global $user;
   if (!($message = message_create('c4m_notify_admins_membership_approved', array('uid' => $admin_id)))) {
     // If message was not created properly, return early.
     return;
   }
   c4m_message_load_tokens__c4m_notify_admins_membership_accepted($message);
+  $message->arguments['@event_user_full_name'] = c4m_user_name($user);
+  $message->arguments['!event_user_url'] = url('user/' . $user->uid, array('absolute' => TRUE));
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($membership->gid);
