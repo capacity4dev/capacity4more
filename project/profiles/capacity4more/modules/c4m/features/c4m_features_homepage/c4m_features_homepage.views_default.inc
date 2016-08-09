@@ -40,7 +40,6 @@ function c4m_features_homepage_views_default_views() {
   $handler->display->display_options['relationships']['reverse_c4m_related_projects_node']['id'] = 'reverse_c4m_related_projects_node';
   $handler->display->display_options['relationships']['reverse_c4m_related_projects_node']['table'] = 'node';
   $handler->display->display_options['relationships']['reverse_c4m_related_projects_node']['field'] = 'reverse_c4m_related_projects_node';
-  $handler->display->display_options['relationships']['c4m_related_projects_target_id']['id'] = 'c4m_related_projects_target_id';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -82,6 +81,13 @@ function c4m_features_homepage_views_default_views() {
     'image_style' => 'thumbnail',
     'image_link' => '',
   );
+  /* Field: Content: Status */
+  $handler->display->display_options['fields']['c4m_og_status']['id'] = 'c4m_og_status';
+  $handler->display->display_options['fields']['c4m_og_status']['table'] = 'field_data_c4m_og_status';
+  $handler->display->display_options['fields']['c4m_og_status']['field'] = 'c4m_og_status';
+  $handler->display->display_options['fields']['c4m_og_status']['label'] = '';
+  $handler->display->display_options['fields']['c4m_og_status']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['c4m_og_status']['element_label_colon'] = FALSE;
   /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
@@ -91,7 +97,7 @@ function c4m_features_homepage_views_default_views() {
 [c4m_media]
 <div>
 <h3>[title]</h3>
-<div class="related-block-node-author">Owned by [c4m_first_name] [c4m_last_name]</div>
+<div class="related-block-node-author">Owned by [c4m_first_name] [c4m_last_name] | [c4m_og_status]</div> 
 </div>
 </div>';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
