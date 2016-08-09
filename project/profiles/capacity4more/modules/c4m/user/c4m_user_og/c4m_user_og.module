@@ -445,6 +445,15 @@ function c4m_user_og_theme() {
     ),
   );
 
+  $theme['c4m_group_manage_cta'] = array(
+    'template' => 'c4m_group_manage_cta',
+    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
+    'variables' => array(
+      'links' => NULL,
+      'title' => NULL,
+    ),
+  );
+
   $theme['c4m_unified_workflow_register'] = array(
     'template' => 'c4m_unified_workflow_register',
     'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
@@ -482,30 +491,29 @@ function c4m_user_og_c4m_cta_block() {
   $items = array();
   if (user_is_anonymous()) {
     if ($item = c4m_user_og_c4m_vistor_cta($group)) {
-      $items['visitor'] = $item;
+      $items['buttons']['visitor'] = $item;
     }
   }
   else {
-    $membership_type = c4m_og_get_group_membership_request($group);
+    if ($item = c4m_user_og_group_actions_cta($group)) {
+      $items['actions'] = $item;
+    }
 
+    if ($item = c4m_user_og_group_management_cta($group)) {
+      $items['management'] = $item;
+    }
+
+    $membership_type = c4m_og_get_group_membership_request($group);
     if ($membership_type == 'open') {
       if ($item = c4m_user_og_c4m_join_cta($group)) {
-        $items['join'] = $item;
+        $items['buttons']['join'] = $item;
       }
     }
     elseif ($membership_type == 'moderated') {
       if ($item = c4m_user_og_c4m_membership_cta($group)) {
-        $items['membership'] = $item;
+        $items['buttons']['membership'] = $item;
       }
     }
-
-    if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
-      $items['leave'] = $item;
-    }
-  }
-
-  if ($item = c4m_user_og_group_actions_cta($group)) {
-    $items['actions'] = $item;
   }
 
   return $items;
@@ -542,29 +550,19 @@ function c4m_user_og_c4m_vistor_cta($group) {
  * Includes: manage group, pending membership requests and draft content.
  */
 function c4m_user_og_group_actions_cta($group) {
-  $access = c4m_og_get_access_type($group);
-  if ($access['type'] != 'public') {
-    return;
-  }
-
   global $user;
   if (!og_get_membership('node', $group->nid, 'user', $user->uid)) {
     return;
   }
 
   $items = array();
-  // CTAs for the group owner and administrators: Manage group and number or
-  // new membership requests.
   $is_owner = ($user->uid == $group->uid);
   $group_admins = c4m_og_get_group_admins($group->nid);
   $is_admin = in_array($user->uid, array_keys($group_admins));
-  if ($is_owner || $is_admin) {
-    $items['manage'] = array(
-      '#theme' => 'c4m_group_text_cta',
-      '#icon' => 'fa-cog',
-      '#text' => l(t('Manage this group'), 'manage'),
-    );
 
+  // CTAs for the group owner and administrators: Manage group and number or
+  // new membership requests.
+  if ($is_owner || $is_admin) {
     if ($pending_requests = c4m_og_get_all_group_memberships_by_state($group->nid, OG_STATE_PENDING)) {
       $pending_id = $group->nid . '_pending';
 
@@ -601,6 +599,35 @@ function c4m_user_og_group_actions_cta($group) {
       '#icon' => 'fa-exclamation-triangle',
       '#text' => t('You have %count draft content items', array('%count' => $unpublished_content)),
     );
+  }
+
+  return $items;
+}
+
+function c4m_user_og_group_management_cta($group) {
+  global $user;
+  $items = array();
+
+  $group_admins = c4m_og_get_group_admins($group->nid);
+  $is_admin = in_array($user->uid, array_keys($group_admins));
+  $is_owner = ($user->uid == $group->uid);
+
+  if ($is_owner || $is_admin) {
+    $items['#title'] = t('You\'re the manager of this group');
+    $items['#links'][] = array(
+      '#theme' => 'c4m_group_text_cta',
+      '#icon' => 'fa-cogs',
+      '#text' => l(t('Manage membership'), 'manage'),
+    );
+  }
+
+  if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
+    $items['#links'][] = $item;
+  }
+
+  if (isset($items['#links'])) {
+    $items['#theme'] = 'c4m_group_manage_cta';
+    $items['#weight'] = 0;
   }
 
   return $items;
@@ -668,11 +695,11 @@ function c4m_user_og_c4m_leave_group_cta($group) {
     return;
   }
 
+  $link = 'group/node/' . $group->nid . '/unsubscribe';
   return array(
-    '#theme' => 'c4m_group_visitor_cta',
-    '#button_label' => t('Leave group'),
-    '#button_icon' => 'fa-arrow-right',
-    '#url' => url('group/node/' . $group->nid . '/unsubscribe', array('absolute' => TRUE)),
+    '#theme' => 'c4m_group_text_cta',
+    '#icon' => 'fa-user-plus',
+    '#text' => l(t('Edit membership'), $link, array('absolute' => TRUE)),
   );
 }
 
