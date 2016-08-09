@@ -154,10 +154,6 @@ function c4m_content_article_c4m_offcanvas_trigger_label_left_alter(&$trigger_la
  * And hide the article title, because it's show before and after the banner.
  */
 function c4m_content_article_preprocess(&$variables) {
-  if ($variables['theme_hook_original'] != 'page') {
-    return;
-  }
-
   if (empty($variables['node'])) {
     return;
   }
@@ -165,6 +161,13 @@ function c4m_content_article_preprocess(&$variables) {
   if ($variables['node']->type != 'article') {
     return;
   }
+
+  if ($variables['theme_hook_original'] != 'page') {
+    return;
+  }
+
+  // Hide the title of the Article outside of the article content.
+  $variables['title'] = '';
 
   // Since the first element on the tree is actually the title we remove
   // it because it should not have the arrow icon next to it (the arrow tag).
@@ -178,7 +181,4 @@ function c4m_content_article_preprocess(&$variables) {
     // Add an arrow tag to the 'Regions & Countries' tree children.
     $geo_taxonomy->name = '<i class="fa fa-caret-right" aria-hidden="true"></i> ' . $geo_taxonomy->name;
   }
-
-  // Hide the title of the Article outside of the article content.
-  $variables['hide_title'] = TRUE;
 }
