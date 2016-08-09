@@ -106,7 +106,7 @@ $messages = array(
     'body' => 'group_approved_user_body',
   ),
 
-  // Invitations to join a group
+  // Invitations to join a group.
   array(
     'module' => 'c4m_og_invite',
     'title' => 'User alert when he has been invited to a group.',
