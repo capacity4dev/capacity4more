@@ -298,7 +298,7 @@ function c4m_message_load_tokens__c4m_new_content_published(Message $message) {
     'pass message' => TRUE,
   );
 
-  $message->arguments['@event_user_url'] = array(
+  $message->arguments['!event_user_url'] = array(
     'callback' => 'c4m_message_format_event_user_url',
     'pass message' => TRUE,
   );
