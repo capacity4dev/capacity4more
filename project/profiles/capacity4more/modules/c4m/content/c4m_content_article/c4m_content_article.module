@@ -149,6 +149,9 @@ function c4m_content_article_c4m_offcanvas_trigger_label_left_alter(&$trigger_la
 
 /**
  * Implements hook_preprocess().
+ *
+ * Style the 'Regions & Countries' section in the right dashboard.
+ * And hide the article title, because it's show twice before and after the banner.
  */
 function c4m_content_article_preprocess(&$variables) {
   if ($variables['theme_hook_original'] != 'page') {
@@ -164,17 +167,18 @@ function c4m_content_article_preprocess(&$variables) {
   }
 
   // Since the first element on the tree is actually the title we remove
-  // it because it should not have the arrow icon next to it (the <i> tag).
+  // it because it should not have the arrow icon next to it (the arrow tag).
   $vocab_geo = $variables['node']->c4m_vocab_geo[LANGUAGE_NONE];
   $vocab_geo = array_slice($vocab_geo, 1);
 
-  // Go through the array and add an <i> tag, before the text, to each of them.
+  // Add an arrow tag to each of the tree's children.
   foreach ($vocab_geo as $geo) {
     $geo_taxonomy = taxonomy_term_load($geo['tid']);
 
-    // Add an <i> tag to the 'Regions & Countries' tree children.
-    $geo_taxonomy->name = ' <i class="fa fa-caret-right" aria-hidden="true"></i> ' . $geo_taxonomy->name;
+    // Add an arrow tag to the 'Regions & Countries' tree children.
+    $geo_taxonomy->name = '<i class="fa fa-caret-right" aria-hidden="true"></i> ' . $geo_taxonomy->name;
   }
 
+  // Hide the title of the Article outside of the article content.
   $variables['hide_title'] = TRUE;
 }

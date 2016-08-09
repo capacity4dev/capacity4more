@@ -249,7 +249,7 @@
             ); ?></div>
         <?php endif; ?>
         <a id="main-content"></a>
-        <?php if (!isset($hide_title)): ?>
+        <?php if (!empty($hide_title)): ?>
           <?php print render($title_prefix); ?>
           <?php if (!empty($title)): ?>
             <h1 class="page-header"><?php print $title; ?></h1>
