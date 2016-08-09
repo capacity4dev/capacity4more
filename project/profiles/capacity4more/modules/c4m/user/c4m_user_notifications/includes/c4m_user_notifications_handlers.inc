@@ -202,6 +202,7 @@ function _c4m_user_notifications_new_content_published($node) {
   $node_wrapper = entity_metadata_wrapper('node', $node);
   $gid = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
   $wrapper->field_group_node->set($gid);
+  $wrapper->field_related_user->set($user->uid);
 
   // Flag suffix that is used at unsubscribe mechanism.
   $flag_suffix = 'group';
