@@ -67,6 +67,55 @@ function c4m_message_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance:
+  // 'message-c4m_group_access_change-field_related_user'.
+  $field_instances['message-c4m_group_access_change-field_related_user'] = array(
+    'bundle' => 'c4m_group_access_change',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 1,
+      ),
+      'message_notify_email_body' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'message_notify_email_subject' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'message',
+    'field_name' => 'field_related_user',
+    'label' => 'Event User',
+    'required' => FALSE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 4,
+    ),
+  );
+
   // Exported field_instance: 'message-c4m_insert__comment-field_comment'.
   $field_instances['message-c4m_insert__comment-field_comment'] = array(
     'bundle' => 'c4m_insert__comment',
@@ -2220,6 +2269,7 @@ function c4m_message_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Comment');
   t('Entity Published');
+  t('Event User');
   t('Group node');
   t('Message text');
   t('Node');

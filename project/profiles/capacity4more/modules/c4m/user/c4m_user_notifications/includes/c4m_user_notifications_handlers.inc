@@ -121,12 +121,14 @@ function c4m_user_notifications_group_permissions_changed($node, $permissions) {
  * change.
  */
 function _c4m_user_notifications_to_admin_group_permissions_changed($node, $admin_id, $permissions) {
+  global $user;
   $message = message_create('c4m_group_access_change', array('uid' => $admin_id));
   c4m_message_load_tokens__c4m_group_access_change($message);
   $message->arguments['@group_permissions'] = $permissions;
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);
+  $wrapper->field_related_user->set($user->uid);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }

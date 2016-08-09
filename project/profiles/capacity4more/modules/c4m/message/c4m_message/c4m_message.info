@@ -18,6 +18,7 @@ features[field_base][] = field_node
 features[field_base][] = field_operation
 features[field_base][] = message_text
 features[field_instance][] = message-c4m_group_access_change-field_group_node
+features[field_instance][] = message-c4m_group_access_change-field_related_user
 features[field_instance][] = message-c4m_insert__comment-field_comment
 features[field_instance][] = message-c4m_insert__comment-field_entity_published
 features[field_instance][] = message-c4m_insert__comment-field_group_node
