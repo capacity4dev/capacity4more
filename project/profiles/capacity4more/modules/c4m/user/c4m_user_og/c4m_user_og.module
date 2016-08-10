@@ -558,7 +558,7 @@ function c4m_user_og_c4m_membership_cta($group) {
 
     return array(
       '#type' => 'markup',
-      '#markup' => '<div class="c4m-group-visitor-cta">' . t('Awaiting approval') . '</div>',
+      '#markup' => '<div class="c4m-group-visitor-cta"><i class="fa fa-hourglass-end" aria-hidden="true"></i> ' . t('Membership waiting approval') . '</div>',
     );
   }
 
