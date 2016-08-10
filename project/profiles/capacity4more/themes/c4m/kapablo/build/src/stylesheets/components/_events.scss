@@ -4,13 +4,7 @@
 
 .event-date {
   float: left;
-}
-
-.event-title {
-  float: left;
-  margin-left: 35px;
-
-  @include clearfix;
+  margin-right: 10px;
 }
 
 .event-groups {
