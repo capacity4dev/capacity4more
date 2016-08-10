@@ -611,3 +611,23 @@ function kapablo_preprocess_html(&$variables) {
   // Render off_canvas into top level variables.
   $variables['off_canvas'] = drupal_render($variables['page']['off_canvas']);
 }
+
+/**
+ * Implements hook_preprocess_views_exposed_form().
+ *
+ * Add tooltip for the label (Search) of the full text search input.
+ */
+function kapablo_preprocess_views_exposed_form(&$vars) {
+  if (!isset($vars['form']['#info']['filter-search_api_views_fulltext'])) {
+    return;
+  }
+
+  $vars['widgets']['search']->label .= ' <i class="fa fa-info-circle" data-toggle="popover" data-placement="right" data-html="true" data-trigger="click" title="Special operators" data-content="<div class=\'search-tips\'><p>You can use special operators.</p>
+<ul>
+  <li>\'Energy Water\' equals to \'Energy AND Water\' (terms separated by spaces are treated as an AND operator)</li>
+  <li>AND operator: \'Energy AND Water\' equals to \'+Energy +Water\' (equals to \'Energy Water\')</li>
+  <li>Literal strings: &quot;Solar Power&quot;</li>
+  <li>OR operator: \'Energy OR Water\'</li>
+  <li>NOT operator: \'Energy -Water\' equals to \'Energy !Water\'</li>
+</ul></div>"></i>';
+}
