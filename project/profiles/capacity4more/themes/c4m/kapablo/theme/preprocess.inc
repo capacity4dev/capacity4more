@@ -624,10 +624,10 @@ function kapablo_preprocess_views_exposed_form(&$vars) {
 
   $vars['widgets']['search']->label .= ' <i class="fa fa-info-circle" data-toggle="popover" data-placement="right" data-html="true" data-trigger="click" title="Special operators" data-content="<div class=\'search-tips\'><p>You can use special operators.</p>
 <ul>
-  <li>Lusail City equals to Lusail AND City (terms separated by spaces is treated as an AND operator)</li>
-  <li>Literal strings: &quot;Lusail Zoo&quot;</li>
-  <li>AND operator: Lusail AND City equals to +Lusail +City equals to Lusail City</li>
-  <li>OR operator: Lusail OR Water</li>
-  <li>NOT operator: Lusail -City equals to Lusail !City</li>
+  <li>\'Energy Water\' equals to \'Energy AND Water\' (terms separated by spaces are treated as an AND operator)</li>
+  <li>AND operator: \'Energy AND Water\' equals to \'+Energy +Water\' (equals to \'Energy Water\')</li>
+  <li>Literal strings: &quot;Solar Power&quot;</li>
+  <li>OR operator: \'Energy OR Water\'</li>
+  <li>NOT operator: \'Energy -Water\' equals to \'Energy !Water\'</li>
 </ul></div>"></i>';
 }

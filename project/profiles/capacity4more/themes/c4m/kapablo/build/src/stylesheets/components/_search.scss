@@ -435,7 +435,16 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
 }
 
 .search-tips {
-  font-size: 0.9rem;
+  color: $color-text;
+  font-size: $font-size-small;
+}
+
+#edit-search-wrapper {
+  .fa-info-circle {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 
 #c4m-search-redirect-form {
