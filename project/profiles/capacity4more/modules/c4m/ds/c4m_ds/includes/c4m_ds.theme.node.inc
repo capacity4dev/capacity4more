@@ -796,7 +796,7 @@ function theme_c4m_ds_group_notification_toggle(array $field) {
 
   if ($user_subscribed) {
     $wrapper = entity_metadata_wrapper('user', $user);
-    foreach ($wrapper->c4m_optout_node->value(
+    foreach ($wrapper->c4m_optout_group->value(
       array('identifier' => TRUE)
     ) as $existing_id) {
       if ($existing_id == $group->nid) {
@@ -809,11 +809,23 @@ function theme_c4m_ds_group_notification_toggle(array $field) {
 
   $message_text = $user_subscribed ? t('Notifications are enabled ') : t('Notifications are disabled ');
   $link_text = $user_subscribed ? t('disable') : t('enable');
+  $wrapper = entity_metadata_wrapper('user', $user);
+  $user_hash = $wrapper->c4m_unsubscribe_hash->value();
+
+  $options = array(
+    '#attributes' => array(
+      'class' => 'use-ajax',
+    ),
+  );
+
+  $link = l($link_text, '/group/' . $group->nid . '/notification/' . $user_hash, $options);
 
   $tag['element'] = array(
     '#tag' => 'div',
-    '#value' => $message_text . '  (' . l($link_text, '/') . ')',
-    '#attributes' => array(),
+    '#value' => $message_text . '  (' . $link . ')',
+    '#attributes' => array(
+      'id' => 'group-notifications',
+    ),
   );
 
   return theme_html_tag($tag);
