@@ -812,13 +812,18 @@ function theme_c4m_ds_group_notification_toggle(array $field) {
   $wrapper = entity_metadata_wrapper('user', $user);
   $user_hash = $wrapper->c4m_unsubscribe_hash->value();
 
+  // Add Drupal's ajax system to the current page.
+  drupal_add_library('system', 'drupal.ajax');
+
   $options = array(
-    '#attributes' => array(
+    'attributes' => array(
       'class' => 'use-ajax',
     ),
+    'purl' => array('disabled' => TRUE),
+    'html' => TRUE,
   );
 
-  $link = l($link_text, '/group/' . $group->nid . '/notification/' . $user_hash, $options);
+  $link = l($link_text, '/group/' . $group->nid . '/notification/' . $user_hash . '/nojs', $options);
 
   $tag['element'] = array(
     '#tag' => 'div',
