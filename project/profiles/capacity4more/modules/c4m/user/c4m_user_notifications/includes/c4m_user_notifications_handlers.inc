@@ -249,6 +249,7 @@ function _c4m_user_notifications_comment_on_content($cid, $nid) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_node->set($nid);
   $wrapper->field_comment->set($cid);
+  $wrapper->field_executing_user->set($user->uid);
 
   $node = node_load($nid);
   // Flag suffix that is used at unsubscribe mechanism.
