@@ -625,7 +625,7 @@ function c4m_content_group_field_default_field_instances() {
     'bundle' => 'group',
     'default_value' => array(
       0 => array(
-        'value' => 'requested',
+        'value' => 'pending',
       ),
     ),
     'deleted' => 0,
