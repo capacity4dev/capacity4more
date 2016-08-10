@@ -143,7 +143,7 @@ function c4m_user_notifications_notify_user_admin_granted($gid, $uid) {
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($gid);
-  $wrapper->field_related_user->set($user->uid);
+  $wrapper->field_executing_user->set($user->uid);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
