@@ -604,6 +604,11 @@ function c4m_user_og_group_actions_cta($group) {
   return $items;
 }
 
+/**
+ * Sets the different CTA management links for a group.
+ *
+ * Currently contains the "Manage group" and "Edit membership" links.
+ */
 function c4m_user_og_group_management_cta($group) {
   global $user;
   $items = array();
@@ -613,7 +618,7 @@ function c4m_user_og_group_management_cta($group) {
   $is_owner = ($user->uid == $group->uid);
 
   if ($is_owner || $is_admin) {
-    $items['#title'] = t('You\'re the manager of this group');
+    $items['#title'] = t("You're the manager of this group");
     $items['#links'][] = array(
       '#theme' => 'c4m_group_text_cta',
       '#icon' => 'fa-cogs',
