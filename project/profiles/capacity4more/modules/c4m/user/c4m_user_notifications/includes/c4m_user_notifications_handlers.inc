@@ -87,7 +87,7 @@ function _c4m_user_notifications_to_admin_group_status_set_published($node, $adm
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);
-  $wrapper->field_related_user->set($user->uid);
+  $wrapper->field_executing_user->set($user->uid);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
