@@ -1340,3 +1340,31 @@ function c4m_user_profile_get_expertise_topics($uid) {
 
   return $amount;
 }
+
+/**
+ * Implements hook_user_cancel_methods_alter().
+ *
+ * Adds a new cancellation method that reassigns the content to the anonymous
+ * user without deleting the user account.
+ */
+function c4m_user_profile_user_cancel_methods_alter(&$methods) {
+  $methods['user_block_reassign'] = array(
+    'title' => t('Block the account and make its content belong to the %anonymous-name user.', array('%anonymous-name' => variable_get('anonymous', t('Anonymous')))),
+    'description' => t('Your account will be blocked. All of your content will be assigned to the %anonymous-name user.', array('%anonymous-name' => variable_get('anonymous', t('Anonymous')))),
+  );
+}
+
+/**
+ * Implements hook_user_cancel().
+ *
+ * Implements the functionallity for the custom cancellation method that blocks
+ * and reassigns.
+ */
+function c4m_user_profile_user_cancel($edit, $account, $method) {
+  // By default, the cancellation blocks the user, so we only care about the
+  // content reassign that is already implemented in the node hook
+  // implementation.
+  if ($method == 'user_block_reassign') {
+    node_user_cancel($edit, $account, 'user_cancel_reassign');
+  }
+}
