@@ -12,6 +12,6 @@
 ?>
 
 <span class="row-entity-count count-posts">
-  <i class="fa fa-comments-o"></i>
+  <i class="fa fa-comments"></i>
   <?php print $count; ?>
 </span>
