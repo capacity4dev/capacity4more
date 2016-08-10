@@ -15,4 +15,5 @@ features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[page_manager_pages][] = c4m_homepage
 features[path_breadcrumbs][] = home
+features[views_view][] = overview_og_related_groups
 features[views_view][] = overview_og_related_projects
