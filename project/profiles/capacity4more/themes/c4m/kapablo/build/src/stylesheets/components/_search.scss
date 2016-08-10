@@ -138,9 +138,9 @@
   }
 }
 
-/*
-* Search result page
-*/
+/**
+ * Search result page
+ */
 .offCanvasNavigation--left {
   padding: 0;
 }
@@ -429,4 +429,62 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
 .view-mode-teaser .row-entity-count,
 .view-mode-teaser .group-iconbar-comments-views {
   color: $color-gray-dark !important;
+}
+
+.search-keyword {
+  color: $color-highlight;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.search-tips {
+  color: $color-text;
+  font-size: $font-size-small;
+}
+
+#edit-search-wrapper {
+  .fa-info-circle {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+#c4m-search-redirect-form {
+  display: none;
+}
+
+#block-menu-c4m-og-menu .search-form {
+  margin-bottom: 0.5rem;
+
+  input {
+    padding-right: 3rem;
+    width: 100%;
+  }
+
+  .form-group {
+    margin: 0;
+    position: relative;
+    width: 100%;
+  }
+
+  .form-submit {
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: $color-gray-dark;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+@media (min-width: $screen-tablet) {
+  #block-menu-c4m-og-menu .search-form {
+    display: none;
+  }
+
+  #c4m-search-redirect-form {
+    display: block;
+  }
 }

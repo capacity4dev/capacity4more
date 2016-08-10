@@ -21,7 +21,7 @@ function c4m_user_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 16,
+        'weight' => 30,
       ),
       'default' => array(
         'label' => 'above',
