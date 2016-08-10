@@ -112,14 +112,6 @@ function c4m_content_wiki_page_node_insert($node) {
     'parent_depth_limit' => C4M_CONTENT_WIKI_PAGE_MAX_DEPTH,
     'weight'             => '0',
   );
-
-  // We want module book to run after c4m_content_wiki_page because we need
-  // all the form altering, so we do not change the weight of
-  // c4m_content_wiki_page to run before book module but this means we have to
-  // re-execute the behaviour of book_node_insert now that we made the node a
-  // book, because otherwise book will not do anything for us at node insert of
-  // an OG  group node.
-  book_node_insert($node);
 }
 
 /**
@@ -502,4 +494,25 @@ function c4m_content_wiki_page_c4m_helper_entity_label_info() {
       'icon' => 'fa-wikipedia-w',
     ),
   );
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * We want module book to run after c4m_content_wiki_page because we need all
+ * the form altering, so we do not change the weight of c4m_content_wiki_page to
+ * run before book module but this means we have to re-execute the behaviour of
+ * book_node_insert now that we made the node a book, because otherwise book
+ * will not do anything for us at node insert of an OG  group node.
+ */
+function c4m_content_wiki_page_module_implements_alter(&$implementations, $hook) {
+  if ($hook != 'node_insert') {
+    return;
+  }
+  if (!isset($implementations['book'])) {
+    return;
+  }
+  $group = $implementations['book'];
+  unset($implementations['book']);
+  $implementations['book'] = $group;
 }
