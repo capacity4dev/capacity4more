@@ -14,7 +14,7 @@ function _c4m_content_project_block_c4m_block_create_project() {
   if ($user->uid) {
     if (user_access('create project content')) {
       $create_project = l(t('Create a project'), 'node/add/project', array('attributes' => array('class' => array('btn', 'btn-default'))));
-      $create_programme = l(t('Create a programme'), 'node/add/project', array('attributes' => array('class' => array('btn', 'btn-default'))));
+      $create_programme = l(t('Create a programme'), 'node/add/programme', array('attributes' => array('class' => array('btn', 'btn-default'))));
       $markup = $create_project . $create_programme;
     }
   }

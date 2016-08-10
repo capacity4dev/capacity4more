@@ -194,7 +194,7 @@ function c4m_content_project_c4m_cta_block() {
     '#theme' => 'c4m_group_visitor_cta',
     '#button_label' => t('Create programme'),
     '#button_icon' => 'fa-plus',
-    '#url' => url('/node/add/project'),
+    '#url' => url('/node/add/programme'),
   );
 
   return $items;
