@@ -191,7 +191,7 @@ function _c4m_user_notifications_content_recommended($nid) {
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_node->set($nid);
-  $wrapper->field_related_user->set($user->uid);
+  $wrapper->field_executing_user->set($user->uid);
 
   $node = node_load($nid);
   // Flag suffix that is used at unsubscribe mechanism.
