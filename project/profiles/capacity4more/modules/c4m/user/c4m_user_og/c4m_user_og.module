@@ -961,7 +961,7 @@ function c4m_user_og_invite_access($gid, $group_type = 'node') {
 
   // SAs, GOs and GAs can invite new members.
   $role_in_group = c4m_user_og_get_role_in_group($user, $group);
-  if (( $role_in_group == 'owner' || $role_in_group == 'administrator') || user_access('administer site')) {
+  if (($role_in_group == 'owner' || $role_in_group == 'administrator') || user_access('administer site')) {
     return TRUE;
   }
 
