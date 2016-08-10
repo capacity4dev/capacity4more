@@ -11,6 +11,15 @@ define('C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE', 1);
 define('C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR', 2);
 
 /**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_user_profile_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
  * Implements hook_field_extra_fields_alter().
  */
 function c4m_user_profile_field_extra_fields_alter(&$info) {
