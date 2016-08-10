@@ -2071,6 +2071,63 @@ function c4m_message_field_default_field_instances() {
   );
 
   // Exported field_instance:
+  // 'message-c4m_notify_content_recommendation-field_executing_user'.
+  $field_instances['message-c4m_notify_content_recommendation-field_executing_user'] = array(
+    'bundle' => 'c4m_notify_content_recommendation',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 1,
+      ),
+      'message_notify_email_body' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'message_notify_email_subject' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'message',
+    'field_name' => 'field_executing_user',
+    'label' => 'Event executing user',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 4,
+    ),
+  );
+
+  // Exported field_instance:
   // 'message-c4m_notify_content_recommendation-field_node'.
   $field_instances['message-c4m_notify_content_recommendation-field_node'] = array(
     'bundle' => 'c4m_notify_content_recommendation',
@@ -2128,13 +2185,13 @@ function c4m_message_field_default_field_instances() {
   );
 
   // Exported field_instance:
-  // 'message-c4m_notify_content_recommendation-field_related_user'.
-  $field_instances['message-c4m_notify_content_recommendation-field_related_user'] = array(
-    'bundle' => 'c4m_notify_content_recommendation',
+  // 'message-c4m_welcome_to_group-field_executing_user'.
+  $field_instances['message-c4m_welcome_to_group-field_executing_user'] = array(
+    'bundle' => 'c4m_welcome_to_group',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Reference to user that has executed the event that led to issuing email notification',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -2160,8 +2217,8 @@ function c4m_message_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'message',
-    'field_name' => 'field_related_user',
-    'label' => 'Event User',
+    'field_name' => 'field_executing_user',
+    'label' => 'Event executing user',
     'required' => 0,
     'settings' => array(
       'behaviors' => array(
@@ -2180,7 +2237,7 @@ function c4m_message_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 4,
+      'weight' => 3,
     ),
   );
 
@@ -2278,11 +2335,12 @@ function c4m_message_field_default_field_instances() {
   t('Comment');
   t('Content Node');
   t('Entity Published');
-  t('Event User');
+  t('Event executing user');
   t('Group node');
   t('Message text');
   t('Node');
   t('Operation');
+  t('Reference to user that has executed the event that led to issuing email notification');
   t('This is the text of all messages of this type.');
 
   return $field_instances;
