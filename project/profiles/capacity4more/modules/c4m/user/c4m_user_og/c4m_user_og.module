@@ -955,7 +955,6 @@ function c4m_user_og_user_update(&$edit, $account, $category) {
  */
 function c4m_user_og_invite_access($gid, $group_type = 'node') {
   global $user;
-  $og_roles = og_get_user_roles($group_type, $gid);
 
   // Get group.
   $group = entity_load_single($group_type, $gid);
