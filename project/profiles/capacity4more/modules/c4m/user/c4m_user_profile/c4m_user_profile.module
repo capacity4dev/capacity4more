@@ -223,6 +223,15 @@ function c4m_user_profile_menu() {
     'type' => MENU_LOCAL_TASK,
   );
 
+  $items['user/%user/contentzevel'] = array(
+    'title' => 'My content',
+    'page callback' => 'c4m_user_profile_my_contact_view',
+    'access callback' => 'user_is_logged_in',
+    'access arguments' => array(),
+    'file' => 'c4m_user_profile.pages.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+
   return $items;
 }
 

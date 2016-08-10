@@ -119,3 +119,26 @@ function c4m_user_profile_remove_account_form_submit($form, &$form_state) {
   // current page (user profile). So we redirect it to the homepage.
   $form_state['redirect'] = '<front>';
 }
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function c4m_user_profile_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  dpm($router_item);
+}
+
+/**
+ * Menu callback function.
+ */
+function c4m_user_profile_my_contact_view() {
+  global $user;
+
+  $view = views_get_view('my_content');
+  $view->set_display('page');
+  $view->set_arguments(array(9));
+  $view->pre_execute();
+  $view->execute('page');
+  $output = $view->render('page');
+
+  return $output;
+}
