@@ -474,37 +474,39 @@ function c4m_user_og_c4m_cta_block() {
     return;
   }
 
-  $access_type = c4m_og_get_access_type($group);
-  if ($access_type['type'] != 'public') {
-    return;
-  }
-
   $items = array();
-  if (user_is_anonymous()) {
-    if ($item = c4m_user_og_c4m_vistor_cta($group)) {
-      $items['visitor'] = $item;
-    }
-  }
-  else {
-    $membership_type = c4m_og_get_group_membership_request($group);
 
-    if ($membership_type == 'open') {
-      if ($item = c4m_user_og_c4m_join_cta($group)) {
-        $items['join'] = $item;
+  $access_type = c4m_og_get_access_type($group);
+  if ($access_type['type'] == 'public') {
+
+    if (user_is_anonymous()) {
+      if ($item = c4m_user_og_c4m_vistor_cta($group)) {
+        $items['visitor'] = $item;
       }
     }
-    elseif ($membership_type == 'moderated') {
-      if ($item = c4m_user_og_c4m_membership_cta($group)) {
-        $items['membership'] = $item;
+    else {
+      $membership_type = c4m_og_get_group_membership_request($group);
+
+      if ($membership_type == 'open') {
+        if ($item = c4m_user_og_c4m_join_cta($group)) {
+          $items['join'] = $item;
+        }
+      }
+      elseif ($membership_type == 'moderated') {
+        if ($item = c4m_user_og_c4m_membership_cta($group)) {
+          $items['membership'] = $item;
+        }
       }
     }
+
+    if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
+      $items['leave'] = $item;
+    }
+
   }
 
-  if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
-    $items['leave'] = $item;
-  }
-
-  if (c4m_user_og_invite_access($group->nid)) {
+  // Add a link to the CTA block if the user is permitted to invite new members.
+  if (!user_is_anonymous() && c4m_user_og_invite_access($group->nid)) {
     $items['invite'] = c4m_user_og_c4m_invite_cta($group);
   }
 
@@ -558,8 +560,8 @@ function c4m_user_og_c4m_join_cta($group) {
 /**
  * Sets the Invite members link CTA.
  *
- * Sets the Invite a member link CTA for group members to invite other existing
- * users or new people to join the group.
+ * Sets the Invite a member link CTA for any group member to invite other
+ * existing users or new people to join the group.
  */
 function c4m_user_og_c4m_invite_cta($group) {
   return array(
@@ -946,29 +948,30 @@ function c4m_user_og_user_update(&$edit, $account, $category) {
 }
 
 /**
- * Return true if the user is allowed to invite and false if he isn't.
+ * Check current user permission to invite new members to the group.
  *
- * Checks by user role and og_role against group visibility (Public/Private) and
- * Membership requests setting (Open/Moderated).
+ * SAs and GAs can always invite to the group. GMs can only invite to Open
+ * groups (either public or restricted) but not to moderated or private groups.
  */
 function c4m_user_og_invite_access($gid, $group_type = 'node') {
   global $user;
   $og_roles = og_get_user_roles($group_type, $gid);
 
-  // Global and Group administrators can invite.
-  if (in_array('administrator', $user->roles) || in_array('administrator member', $og_roles)) {
+  // Get group.
+  $group = entity_load_single($group_type, $gid);
+
+  // SAs and GAs can invite new members.
+  if (c4m_user_og_get_role_in_group($user, $group) == 'administrator' || user_access('administer site')) {
     return TRUE;
   }
 
-  // Get group.
-  $group = entity_load_single($group_type, $gid);
   // Get request type (open/moderated).
   $membership_request_value = c4m_og_get_group_membership_request($group);
   // Get access type (public/private).
   $access_type = c4m_og_get_access_type($group);
 
+  // If the group is private or moderated, regular GMs can't invite.
   if ($access_type['type'] == 'private' || $membership_request_value == 'moderated') {
-    // Group is either private, restricted-moderated or public-moderated.
     return FALSE;
   }
 
