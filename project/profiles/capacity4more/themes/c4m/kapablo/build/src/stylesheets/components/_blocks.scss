@@ -37,8 +37,9 @@
     a {
 
       &.node-create-discussion,
-      &.node-create-event {
-        background-color: #8ABCC7;
+      &.node-create-event,
+      &.node-create-document {
+        background-color: $color-text-alternative;
         padding: 10px;
         color: #fff;
         border-radius: 50px;
