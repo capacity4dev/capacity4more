@@ -66,6 +66,7 @@ function _c4m_user_notifications_moderated_group_notify_admins_membership_accept
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($membership->gid);
   $wrapper->field_related_user->set($membership->etid);
+  $wrapper->field_executing_user->set($user->uid);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
