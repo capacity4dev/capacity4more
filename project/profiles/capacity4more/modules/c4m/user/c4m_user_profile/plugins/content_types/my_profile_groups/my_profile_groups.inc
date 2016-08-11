@@ -2,7 +2,7 @@
 
 /**
  * @file
- * my profile_groups panels block.
+ * The my_profile_groups panels block.
  */
 
 /**
@@ -28,7 +28,7 @@ function c4m_user_profile_my_profile_groups_content_type_render($subtype, $conf,
   }
 
   $rendered_groups = '';
-  // Render node views for each group,
+  // Render node views for each group.
   foreach ($groups as $type => $group_list) {
     $title = c4m_user_profile_get_group_type_title($type);
     $rendered_groups .= '<h3>' . $title . '</h3>';
@@ -50,11 +50,15 @@ function c4m_user_profile_my_profile_groups_content_type_render($subtype, $conf,
   return $block;
 }
 
+/**
+ * Returns the title for the type of membership of a group.
+ */
 function c4m_user_profile_get_group_type_title($type) {
   $titles = array(
-    'owned' => t('Groups I own'),
-    'admin' => t('Groups I manage'),
+    'owner' => t('Groups I own'),
+    'administrator' => t('Groups I manage'),
     'member' => t("Groups I'm member of"),
+    'pending' => t('Membership requested'),
   );
 
   return $titles[$type];
