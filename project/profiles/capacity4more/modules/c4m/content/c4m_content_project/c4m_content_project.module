@@ -706,3 +706,21 @@ function _c4m_content_project_clone_template_prepare($original_node) {
 
   return $node;
 }
+
+/**
+ * Implements hook_node_view_alter().
+ *
+ * Alter the Related projects field label for programmes.
+ */
+function c4m_content_project_node_view_alter(&$build) {
+  if ($build['#node']->type != 'project') {
+    return;
+  }
+
+  // @todo Change this.
+  if (empty($build['#node']->field_c4m_is_programme[LANGUAGE_NONE][0]['value'])) {
+    return;
+  }
+
+  $build['c4m_related_projects']['#title'] = t('Related Programmes');
+}
