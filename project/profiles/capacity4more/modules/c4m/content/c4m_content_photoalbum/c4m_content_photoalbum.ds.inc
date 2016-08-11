@@ -648,15 +648,17 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
       'left' => array(
         0 => 'c4m_ds_photoalbum_cover_image',
       ),
+      'footer' => array(
+        1 => 'c4m_ds_content_footer_stats',
+      ),
       'right' => array(
-        1 => 'c4m_body',
-        2 => 'c4m_ds_content_footer_stats',
+        2 => 'c4m_body',
       ),
     ),
     'fields' => array(
       'c4m_ds_photoalbum_cover_image' => 'left',
+      'c4m_ds_content_footer_stats' => 'footer',
       'c4m_body' => 'right',
-      'c4m_ds_content_footer_stats' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
