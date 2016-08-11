@@ -17,7 +17,7 @@ function kapablo_preprocess_message(&$variables) {
 
   $message = $variables['message'];
   if (strpos($message->type, 'c4m_insert__') !== 0) {
-    // Sort out mail messages (the ones that don't start with 'c4m_insert__').
+    // Sort out mail messages, which shouldn't be processed for activity stream.
     return;
   }
 
