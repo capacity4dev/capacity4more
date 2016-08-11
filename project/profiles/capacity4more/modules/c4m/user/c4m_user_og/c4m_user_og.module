@@ -518,7 +518,7 @@ function c4m_user_og_c4m_vistor_cta($group) {
     '#theme' => 'c4m_group_visitor_cta',
     '#button_label' => $types[$membership_request_value]['button_label'],
     '#button_icon' => $types[$membership_request_value]['button_icon'],
-    '#url' => url('/user'),
+    '#url' => url('group/join/' . $group->nid, array('absolute' => TRUE)),
   );
 }
 
