@@ -26,10 +26,8 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
   }
 
   $rendered_groups = '';
-  // Render node views for each group,
-  // First 5 groups are displayed (first_groups), the rest are hidden and only
-  // shown when user clicks on "Show all" (extra_groups).
   $count = 0;
+  // Render node views for each group,
   foreach ($groups as $group) {
     $node_view = node_view($group, 'block_list');
     $rendered_groups .= drupal_render($node_view);
@@ -62,13 +60,13 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
  *
  * @param object $account.
  *   User object. Defaults global user if NULL.
- * @param $types.
+ * @param $allowed_types.
  *   Array of group types to be returned.
  *
  * @returns mixed|null
  *   List of groups or NULL if the user has no groups.
  */
-function c4m_features_homepage_get_user_groups($account = NULL, $types = array('group')) {
+function c4m_features_homepage_get_user_groups($account = NULL, $allowed_types = array('group')) {
   if (is_null($account)) {
     global $user;
     $account = user_load($user->uid);
@@ -82,8 +80,13 @@ function c4m_features_homepage_get_user_groups($account = NULL, $types = array('
   }
 
   $nids = array_values($groups['node']);
-
   $groups = node_load_multiple($nids);
+
+  foreach ($groups as $group) {
+    if (!in_array($group->type, $allowed_types)) {
+      unset($groups[$group->nid]);
+    }
+  }
   usort($groups, 'c4m_sort_object_by_title');
 
   return $groups;
@@ -94,36 +97,18 @@ function c4m_features_homepage_get_user_groups($account = NULL, $types = array('
  *
  * @param object $account.
  *   User object. Defaults global user if NULL.
- * @param $types.
+ * @param $allowed_types.
  *   Array of group types to be returned.
  *
  * @returns mixed|null
  *   List of groups or NULL if the user has no groups.
  */
-function c4m_features_homepage_get_user_groups_grouped_by_membership($account = NULL, $types = array('group')) {
-  $groups = c4m_features_homepage_get_user_groups($account, $types);
+function c4m_features_homepage_get_user_groups_grouped_by_membership($account = NULL, $allowed_types = array('group')) {
+  $groups = c4m_features_homepage_get_user_groups($account, $allowed_types);
 
   foreach ($groups as $group) {
-    // Ignores not wanted groups.
-    if (in_array($group->type, $types)) {
-      continue;
-    }
-
-    $group_admins = c4m_og_get_group_admins($group->nid);
-    $is_admin = in_array($account->uid, array_keys($group_admins));
-
-    // Is the owner of the group.
-    if ($group->uid == $account->uid) {
-      $grouped_groups['owned'][$group->nid] = $group;
-    }
-    // Is a group admin.
-    else if ($is_admin) {
-      $grouped_groups['admin'][$group->nid] = $group;
-    }
-    // Is a group member.
-    else {
-      $grouped_groups['member'][$group->nid] = $group;
-    }
+    $membership = c4m_user_og_get_role_in_group($account, $group);
+    $grouped_groups[$membership][$group->nid] = $group;
   }
 
   return $grouped_groups;
