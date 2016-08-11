@@ -2,7 +2,7 @@ Feature: Unified Workflow
   Test unified workflow
 
   @api
-  Scenario: Create a comment on a task while changing some task fields and
+  Scenario: As a visitor I can request a membership of a moderated group.
     Given I am an anonymous user
      When  I visit the dashboard of group "Nobel Prize"
      And I click "Request membership for this group"
