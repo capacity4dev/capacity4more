@@ -14,6 +14,7 @@ class c4m_overview_groups_handler_members_count extends views_handler_field_enti
   /**
    * @param $node
    * @return mixed|null
+   *
    */
   function render($node) {
     if (empty($node->nid)) {
