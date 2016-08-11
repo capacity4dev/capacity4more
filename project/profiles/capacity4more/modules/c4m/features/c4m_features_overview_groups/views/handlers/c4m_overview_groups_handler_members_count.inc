@@ -10,7 +10,8 @@
  * @ingroup views_field_handlers
  */
 class c4m_overview_groups_handler_members_count extends views_handler_field_entity {
-  
+
+  // Gets and renders the group's members count
   function render($values) {
     $query = new EntityFieldQuery();
     return $query
