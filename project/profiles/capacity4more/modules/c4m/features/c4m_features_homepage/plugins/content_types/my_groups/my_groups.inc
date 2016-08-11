@@ -106,6 +106,7 @@ function c4m_features_homepage_get_user_groups($account = NULL, $allowed_types =
 function c4m_features_homepage_get_user_groups_grouped_by_membership($account = NULL, $allowed_types = array('group')) {
   $groups = c4m_features_homepage_get_user_groups($account, $allowed_types);
 
+  $grouped_groups = array();
   foreach ($groups as $group) {
     $membership = c4m_user_og_get_role_in_group($account, $group);
     $grouped_groups[$membership][$group->nid] = $group;
