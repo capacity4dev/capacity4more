@@ -780,6 +780,15 @@ function theme_c4m_ds_content_shared_to(array $field) {
   );
 }
 
+/**
+ * Themes toggle group notifications link
+ *
+ * @param array $field
+ *  The field definition.
+ *
+ * @return \Html|void
+ *   Rendered html for field.
+ */
 function theme_c4m_ds_group_notification_toggle(array $field) {
   global $user;
 
