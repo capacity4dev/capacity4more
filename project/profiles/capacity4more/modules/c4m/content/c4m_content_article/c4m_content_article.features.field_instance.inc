@@ -173,7 +173,7 @@ function c4m_content_article_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'c4m_banner',
     'label' => 'Banner',
-    'required' => 1,
+    'required' => 0,
     'settings' => array(
       'alt_field' => 0,
       'default_image' => 0,
@@ -190,6 +190,7 @@ function c4m_content_article_field_default_field_instances() {
       'module' => 'media',
       'settings' => array(
         'allowed_schemes' => array(
+          'private' => 0,
           'public' => 'public',
         ),
         'allowed_types' => array(
