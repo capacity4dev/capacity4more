@@ -11,15 +11,6 @@ define('C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE', 1);
 define('C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR', 2);
 
 /**
- * Implements hook_ctools_plugin_directory().
- */
-function c4m_user_profile_ctools_plugin_directory($module, $plugin) {
-  if ($module == 'ctools') {
-    return 'plugins/' . $plugin;
-  }
-}
-
-/**
  * Implements hook_field_extra_fields_alter().
  */
 function c4m_user_profile_field_extra_fields_alter(&$info) {
@@ -56,6 +47,11 @@ function c4m_user_profile_block_info() {
   $blocks['user_confirm_email'] = array(
     'info' => t('Engage user to confirm his email'),
     'cache' => DRUPAL_NO_CACHE,
+  );
+
+  $blocks['user_my_profile_groups'] = array(
+    'info' => t('My groups'),
+    'cache' => DRUPAL_CACHE_PER_USER,
   );
 
   return $blocks;
@@ -182,6 +178,14 @@ function c4m_user_profile_theme() {
     ),
     'file' => 'c4m_user_profile.theme.inc',
     'path' => drupal_get_path('module', 'c4m_user_profile') . '/includes',
+  );
+
+  $theme['c4m_user_profile_my_profile_groups'] = array(
+    'variables' => array(
+      'groups' => NULL,
+    ),
+    'path' => drupal_get_path('module', 'c4m_user_profile') . '/templates',
+    'template' => 'my-profile-groups',
   );
 
   return $theme;
