@@ -611,3 +611,13 @@ function kapablo_preprocess_html(&$variables) {
   // Render off_canvas into top level variables.
   $variables['off_canvas'] = drupal_render($variables['page']['off_canvas']);
 }
+
+/**
+ * Implements template_preprocess_user_profile().
+ */
+function kapablo_preprocess_user_profile(&$variables) {
+  $blocks = array(block_load('c4m_user_profile', 'user_my_profile_groups'));
+  $renderable_blocks = _block_render_blocks($blocks);
+  $renderable_array = _block_get_renderable_array($renderable_blocks);
+  $variables['right'] = render($renderable_array);
+}
