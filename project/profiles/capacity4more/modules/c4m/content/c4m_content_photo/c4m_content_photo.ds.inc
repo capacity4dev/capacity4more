@@ -43,10 +43,31 @@ function c4m_content_photo_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'photo';
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '18',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_ds_content_footer_stats' => array(
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => '',
+          'ow-def-cl' => TRUE,
+          'ow-at' => '',
+          'ow-def-at' => TRUE,
+          'fis' => TRUE,
+          'fis-el' => 'div',
+          'fis-cl' => 'pull-right',
+          'fis-at' => '',
+          'fis-def-at' => TRUE,
+        ),
+      ),
     ),
   );
   $export['node|photo|default'] = $ds_fieldsetting;
@@ -353,10 +374,10 @@ function c4m_content_photo_ds_layout_settings_info() {
         0 => 'c4m_ds_content_footer_stats',
       ),
       'left' => array(
-        1 => 'c4m_media',
+        0 => 'c4m_media',
       ),
       'right' => array(
-        2 => 'c4m_body',
+        1 => 'c4m_body',
       ),
     ),
     'fields' => array(
@@ -421,6 +442,7 @@ function c4m_content_photo_ds_layout_settings_info() {
       'header' => 'div',
       'left' => 'div',
       'right' => 'div',
+      'footer' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
