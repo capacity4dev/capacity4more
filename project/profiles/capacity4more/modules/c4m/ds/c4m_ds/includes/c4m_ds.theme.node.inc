@@ -787,51 +787,11 @@ function theme_c4m_ds_group_notification_toggle(array $field) {
     return;
   }
 
-  if (!c4m_og_user_is_member()) {
+  if (!og_is_member('node', $group->nid)) {
     return;
   }
 
-  $user_flags = flag_get_user_flags('node', $group->nid);
-  $user_subscribed = array_key_exists('subscribe_c4m_follow_group', $user_flags);
-
-  if ($user_subscribed) {
-    $wrapper = entity_metadata_wrapper('user', $user);
-    foreach ($wrapper->c4m_optout_group->value(
-      array('identifier' => TRUE)
-    ) as $existing_id) {
-      if ($existing_id == $group->nid) {
-        // User unsubscribed from entity.
-        $user_subscribed = FALSE;
-        break;
-      }
-    }
-  }
-
-  $message_text = $user_subscribed ? t('Notifications are enabled ') : t('Notifications are disabled ');
-  $link_text = $user_subscribed ? t('disable') : t('enable');
-  $wrapper = entity_metadata_wrapper('user', $user);
-  $user_hash = $wrapper->c4m_unsubscribe_hash->value();
-
-  // Add Drupal's ajax system to the current page.
-  drupal_add_library('system', 'drupal.ajax');
-
-  $options = array(
-    'attributes' => array(
-      'class' => 'use-ajax',
-    ),
-    'purl' => array('disabled' => TRUE),
-    'html' => TRUE,
-  );
-
-  $link = l($link_text, '/group/' . $group->nid . '/notification/' . $user_hash . '/nojs', $options);
-
-  $tag['element'] = array(
-    '#tag' => 'div',
-    '#value' => $message_text . '  (' . $link . ')',
-    '#attributes' => array(
-      'id' => 'group-notifications',
-    ),
-  );
-
-  return theme_html_tag($tag);
+  return c4m_content_group_create_toggle_notification_link($user, $group);
 }
+
+

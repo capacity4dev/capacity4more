@@ -916,37 +916,116 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
   }
 }
 
+/**
+ * Implements hook_menu_alter()
+ *
+ * Adds a menu item for AJAX call that enables / disables group notifications.
+ */
 function c4m_content_group_menu_alter(&$items) {
-  $items['group/%node/notification/%/%'] = array(
+  $items['group/%node/notification/%'] = array(
     'title' => 'Manage notifications',
     'page callback' => 'c4m_content_group_toggle_notification',
-    'page arguments' => array(1, 3, 4),
-    'access callback' => 'c4m_content_toggle_group_notification_access',
-    'access arguments' => array(1, 3, 4),
+    'page arguments' => array(1, 3),
+    'access callback' => 'c4m_content_group_toggle_notification_access',
+    'access arguments' => array(1),
   );
 
   return $items;
 }
 
-function c4m_content_group_toggle_notification_access($gid, $user_hash) {
-  global $user;
-
-  dpm('111');
-  $wrapper = entity_metadata_wrapper('user', $user);
-  $hash = $wrapper->c4m_unsubscribe_hash->value();
-
-  if ($hash !== $user_hash) {
-    return FALSE;
+function c4m_content_group_toggle_notification_access($group) {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return;
   }
 
-  return TRUE;
+  return og_is_member('node', $group->nid);
 }
 
-function c4m_content_group_toggle_notification($gid) {
-  $replace = 'Hello';
+function c4m_content_group_toggle_notification($group, $ajax = 'nojs') {
+  global $user;
 
-  dpm('222');
-  $commands[] = ajax_command_replace('#group-notifications', $replace);
+  if ($ajax != 'ajax') {
+    // Return a Drupal message if js in disabled or not found.
+    drupal_set_message(t('Change the promote value.'));
+    drupal_goto();
+
+    return;
+  }
+
+  $group = c4m_og_current_group();
+  _c4m_content_group_toggle_group_notifications($user, $group);
+  $link =  c4m_content_group_create_toggle_notification_link($user, $group);
+
+  $commands[] = ajax_command_replace('#group-notifications', $link);
   $page = array('#type' => 'ajax', '#commands' => $commands);
   ajax_deliver($page);
+}
+
+function c4m_content_group_create_toggle_notification_link ($account, $group) {
+  $user_subscribed = _c4m_content_group_is_subscribed_to_group_notifications($account, $group);
+  $message_text = $user_subscribed ? t('Notifications are enabled ') : t('Notifications are disabled ');
+  $link_text = $user_subscribed ? t('disable') : t('enable');
+
+  $options = array(
+    'attributes' => array(
+      'class' => 'use-ajax',
+    ),
+    'purl' => array('disabled' => TRUE),
+    'html' => TRUE,
+  );
+
+  $link = l($link_text, url('group/' . $group->nid . '/notification/nojs'), $options);
+
+  $tag['element'] = array(
+    '#tag' => 'div',
+    '#value' => $message_text . '  (' . $link . ')',
+    '#attributes' => array(
+      'id' => 'group-notifications',
+    ),
+  );
+
+  return theme_html_tag($tag);
+}
+
+function _c4m_content_group_is_subscribed_to_group_notifications($account, $group) {
+  $user_flags = flag_get_user_flags('node', $group->nid);
+  $user_subscribed = array_key_exists('subscribe_c4m_follow_group', $user_flags);
+
+  if ($user_subscribed) {
+    $wrapper = entity_metadata_wrapper('user', $account);
+    foreach ($wrapper->c4m_optout_group->value(array('identifier' => TRUE)) as $existing_id) {
+      if ($existing_id == $group->nid) {
+        // User unsubscribed from entity.
+        $user_subscribed = FALSE;
+        break;
+      }
+    }
+  }
+
+  return $user_subscribed;
+}
+
+function _c4m_content_group_toggle_group_notifications($account, $group) {
+  $user_subscribed = _c4m_content_group_is_subscribed_to_group_notifications($account, $group);
+
+  if($user_subscribed) {
+    // Unflag.
+    flag('unflag','subscribe_c4m_follow_group', $group->nid);
+  }
+  else {
+    // Flag.
+    flag('flag','subscribe_c4m_follow_group', $group->nid);
+    // Unset optout field.
+    $wrapper = entity_metadata_wrapper('user', $account);
+    $unsubscribed = $wrapper->c4m_optout_group->value(array('identifier' => TRUE));
+
+    if(($index = array_search($group->nid, $unsubscribed)) !== FALSE) {
+      $wrapper->c4m_optout_group->offsetUnset($index);
+      $wrapper->save();
+    }
+  }
 }
