@@ -7,7 +7,7 @@ Feature: Testing the did you mean feature offered for search api that provides
     When I visit the site homepage
     And I fill in "edit-keys" with "lega"
     And I press "<i class=\"fa fa-search\"></i>"
-    Then I should see "Did you mean"
+    Then I should see "did you mean"
 
   @api
   Scenario: Testing the did you mean feature from search api when it should not be displayed.
