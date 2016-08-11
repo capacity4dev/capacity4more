@@ -16,6 +16,11 @@ function kapablo_preprocess_message(&$variables) {
   }
 
   $message = $variables['message'];
+  if (strpos($message->type, 'c4m_insert__') !== 0) {
+    // If message name does not start with 'c4m_insert__'.
+    return;
+  }
+
   $variables['theme_hook_suggestions'][] = 'message__activity_stream';
   $variables['theme_hook_suggestions'][] = "message__{$message->type}__activity_stream";
 
