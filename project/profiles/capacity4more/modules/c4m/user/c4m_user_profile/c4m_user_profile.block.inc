@@ -203,8 +203,11 @@ function _c4m_user_profile_block_user_my_profile_groups() {
   $user = menu_get_object('user', 1);
   $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($user, array('group'));
 
+  $block = array();
+  $block['subject'] = '';
+  $block['content'] = '';
   if (is_null($groups)) {
-    return;
+    return $block;
   }
 
   $rendered_groups = '';
@@ -223,8 +226,6 @@ function _c4m_user_profile_block_user_my_profile_groups() {
     'groups' => $rendered_groups,
   );
 
-  $block = array();
-  $block['subject'] = '';
   $block['content'] = $rendered_groups ? theme('c4m_user_profile_my_profile_groups', $variables) : FALSE;
   return $block;
 }
@@ -234,11 +235,10 @@ function _c4m_user_profile_block_user_my_profile_groups() {
  */
 function c4m_user_profile_get_group_type_title($type) {
   $titles = array(
-   'owner' => t('Groups I own'),
-   'administrator' => t('Groups I manage'),
-   'member' => t("Groups I'm member of"),
-   'pending' => t('Membership requested'),
+    'owner' => t('Groups I own'),
+    'administrator' => t('Groups I manage'),
+    'member' => t("Groups I'm member of"),
+    'pending' => t('Membership requested'),
   );
   return $titles[$type];
 }
-
