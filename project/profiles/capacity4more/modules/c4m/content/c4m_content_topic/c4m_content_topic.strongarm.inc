@@ -137,6 +137,9 @@ function c4m_content_topic_strongarm() {
         'locations' => array(
           'weight' => '10',
         ),
+        'redirect' => array(
+          'weight' => '10',
+        ),
       ),
       'display' => array(),
     ),
