@@ -14,6 +14,7 @@ class c4m_overview_groups_handler_members_count extends views_handler_field_enti
   // Gets and renders the group's members count
   function render($values) {
     $query = new EntityFieldQuery();
+
     return $query
       ->entityCondition('entity_type', 'og_membership')
       ->propertyCondition('group_type', 'node')
@@ -22,5 +23,4 @@ class c4m_overview_groups_handler_members_count extends views_handler_field_enti
       ->count()
       ->execute();
   }
-
 }
