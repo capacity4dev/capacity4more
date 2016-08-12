@@ -27,4 +27,6 @@ MODULES_ENABLE=(
   "views_bulk_operations"
   "og_menu"
   "views_contextual_filters_or"
+  "og_invite"
+  "og_invite_people"
 )
