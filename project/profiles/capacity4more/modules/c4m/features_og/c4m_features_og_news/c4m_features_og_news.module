@@ -2,8 +2,10 @@
 
 /**
  * @file
- * Code for the Group News feature.
+ * Code for the News feature.
  */
+
+include_once 'c4m_features_og_news.features.inc';
 
 /**
  * Implements hook_c4m_og_feature_info().
