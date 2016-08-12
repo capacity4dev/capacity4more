@@ -19,7 +19,7 @@ function c4m_content_article_c4m_content_statistics_info() {
         'bundles'     => array('article'),
         'singular'    => 'Article',
         'plural'      => 'Articles',
-        'state'       => NULL,
+        'state'       => 1,
         'aggregate'   => array(),
         'weight'      => -5,
         'attributes'  => array(
@@ -128,8 +128,8 @@ function c4m_content_article_c4m_helper_entity_label_info() {
       'article' => t('an'),
       'singular' => t('article'),
       'plural' => t('articles'),
-      'insert action' => t('posted a new article'),
-      'update action' => t('updated the article'),
+      'insert action' => t('created a new Article'),
+      'update action' => t('updated the Article'),
       'icon' => 'fa-bullhorn',
     ),
   );
@@ -145,4 +145,38 @@ function c4m_content_article_c4m_offcanvas_trigger_label_left_alter(&$trigger_la
     $trigger_label['label'] = t('Filter results');
     $trigger_label['icon'] = 'filter';
   }
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function c4m_content_article_field_formatter_info() {
+  return array(
+    'c4m_formatter_title_link_abbreviation' => array(
+      'label' => t('Title with link + abbreviation'),
+      'field types' => array('link_field'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function c4m_content_article_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = $used = array();
+
+  switch ($display['type']) {
+    case 'c4m_formatter_title_link_abbreviation':
+      foreach ($items as $delta => $item) {
+        $initials = c4m_user_get_initials($item['title']);
+        $icon = c4m_user_get_themed_initials($initials, $item['url']);
+        $content = $item['url'] ? l($item['title'], $item['url']) : check_plain($item['title']);
+        $element[$delta] = array(
+          '#markup' => '<div class="icon-col">' . $icon . '</div><div class="content-col">' . $content . '</div>',
+        );
+      }
+
+      break;
+  }
+  return $element;
 }

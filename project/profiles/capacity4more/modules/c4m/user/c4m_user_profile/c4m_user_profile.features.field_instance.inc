@@ -61,19 +61,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
-        'module' => 'smart_trim',
-        'settings' => array(
-          'more_link' => FALSE,
-          'more_text' => 'Read more',
-          'summary_handler' => 'full',
-          'trim_length' => 300,
-          'trim_link' => FALSE,
-          'trim_options' => array(),
-          'trim_preserve_tags' => '',
-          'trim_suffix' => '...',
-          'trim_type' => 'chars',
-        ),
-        'type' => 'smart_trim_format',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
         'weight' => 5,
       ),
       'user_picture' => array(
@@ -1414,7 +1404,8 @@ function c4m_user_profile_field_default_field_instances() {
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'The Regions & Countries you are interested in.',
+    'description' => 'The Regions & Countries you are interested in.
+You can select maximum 3 regions and an unlimited number of subregions or countries.',
     'display' => array(
       'block_list' => array(
         'label' => 'above',
@@ -1477,15 +1468,16 @@ function c4m_user_profile_field_default_field_instances() {
         'weight' => 13,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'user',
     'field_name' => 'c4m_vocab_geo',
     'label' => 'Regions & Countries',
     'required' => 0,
     'settings' => array(
-      'user_register_form' => 0,
+      'user_register_form' => 1,
     ),
     'widget' => array(
-      'active' => 1,
+      'active' => 0,
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
@@ -1498,7 +1490,8 @@ function c4m_user_profile_field_default_field_instances() {
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Select one or more topics you are interested in.',
+    'description' => 'Select one or more topics you are interested in.
+You can select maximum 3 topics and an unlimited number of subtopics.',
     'display' => array(
       'block_list' => array(
         'label' => 'above',
@@ -1584,7 +1577,8 @@ function c4m_user_profile_field_default_field_instances() {
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Select one or more topics you are an expert in.',
+    'description' => 'Select one or more topics you are an expert in.
+You can select maximum 3 topics and an unlimited number of subtopics.',
     'display' => array(
       'block_list' => array(
         'label' => 'above',
@@ -1682,11 +1676,14 @@ function c4m_user_profile_field_default_field_instances() {
   t('Organisation type');
   t('Picture');
   t('Regions & Countries');
-  t('Select one or more topics you are an expert in.');
-  t('Select one or more topics you are interested in.');
+  t('Select one or more topics you are an expert in.
+You can select maximum 3 topics and an unlimited number of subtopics.');
+  t('Select one or more topics you are interested in.
+You can select maximum 3 topics and an unlimited number of subtopics.');
   t('Set if the user lost his LDAP validation.');
   t('Set if the user\'s email address has a domain mentioned in one of the "Organisation" nodes. ');
-  t('The Regions & Countries you are interested in.');
+  t('The Regions & Countries you are interested in.
+You can select maximum 3 regions and an unlimited number of subregions or countries.');
   t('Topics of Expertise');
   t('Topics of Interest');
   t('Unsubscribe Hash');

@@ -65,29 +65,57 @@
   }
 
   &.node-photo {
+    .field-name-c4m-ds-content-footer-stats {
+      text-align: left;
+
+      .row-entity-count {
+        margin-left: 0;
+        margin-right: 1rem;
+      }
+    }
+
     .field-name-c4m-body {
       //@include image-overlay-bottom();
+    }
+
+    .field-name-c4m-ds-photo-download {
+      margin-top: 2em;
+    }
+  }
+
+  &.node-photoalbum {
+    .field-name-c4m-ds-content-footer-stats {
+      text-align: left;
+
+      .row-entity-count {
+        margin-left: 0;
+        margin-right: 1rem;
+      }
+    }
+
+    .field-name-c4m-body {
+      margin: 2rem 0;
     }
   }
 
   &.node-event {
     .field-name-c4m-ds-event-start-icon {
-      float: left;
+      display: inline-block;
       text-align: center;
-      width: 50px;
+      vertical-align: middle;
+      width: 75px;
     }
 
     .date {
       color: $color-gray-dark;
-      display: table-cell;
-      height: 40px;
+      display: inline-block;
       line-height: 1.1;
-      vertical-align: middle
+      vertical-align: middle;
     }
 
     .field-name-c4m-body {
       clear: both;
-      margin-top: 2em;
+      margin-top: 2rem;
     }
 
     .node {
@@ -208,6 +236,15 @@
       .field-name-c4m-media {
         margin-bottom: 0;
       }
+    }
+  }
+
+  &.node-article,
+  &.node-event,
+  &.node-wiki-page {
+    .field-name-c4m-ds-content-footer-stats {
+      margin-bottom: 1rem;
+      margin-top: 1rem;
     }
   }
 
