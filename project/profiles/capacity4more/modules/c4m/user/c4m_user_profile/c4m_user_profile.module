@@ -516,7 +516,7 @@ function c4m_user_profile_form_user_profile_form_alter(
 
   $form['actions']['delete'] = array(
     '#type' => 'markup',
-    '#markup' => l('Delete account', 'user/' . $account->uid . '/leave'),
+    '#markup' => l(t('Delete account'), 'user/' . $account->uid . '/leave'),
   );
 }
 
