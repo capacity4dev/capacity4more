@@ -93,6 +93,7 @@ function kapablo_preprocess_block(&$variables) {
       );
 
       $variables['search_form'] = $form;
+
       break;
   }
 }
