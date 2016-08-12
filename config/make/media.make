@@ -6,6 +6,9 @@ api = 2
 projects[media][subdir] = "contrib"
 projects[media][version] = "2.0-beta2"
 
+projects[media_ckeditor][subdir] = "contrib"
+projects[media_ckeditor][version] = "2.0-alpha1"
+
 projects[media_flickr][subdir] = "contrib"
 projects[media_flickr][version] = "2.x-dev"
 

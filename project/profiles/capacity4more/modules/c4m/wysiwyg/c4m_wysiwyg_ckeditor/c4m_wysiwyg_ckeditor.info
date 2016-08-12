@@ -7,6 +7,7 @@ dependencies[] = ckeditor
 dependencies[] = features
 dependencies[] = filter
 dependencies[] = media_wysiwyg
+dependencies[] = media_ckeditor
 dependencies[] = wysiwyg_filter
 features[ckeditor_profile][] = Advanced
 features[ckeditor_profile][] = CKEditor Global Profile
