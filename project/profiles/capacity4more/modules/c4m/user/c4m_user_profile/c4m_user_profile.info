@@ -66,6 +66,7 @@ features[field_group][] = group_user_data|user|user|full
 features[field_group][] = group_user_expertise|user|user|full
 features[field_group][] = group_user_interests|user|user|full
 features[field_group][] = group_user_meta|user|user|full
+features[field_group][] = group_your_expertise|user|user|form
 features[field_group][] = group_your_interests|user|user|form
 features[field_instance][] = user-user-c4m_body
 features[field_instance][] = user-user-c4m_country

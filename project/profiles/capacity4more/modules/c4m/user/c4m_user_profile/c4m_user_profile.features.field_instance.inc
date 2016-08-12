@@ -1577,7 +1577,7 @@ You can select maximum 3 topics and an unlimited number of subtopics.',
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Select one or more topics you are an expert in.
+    'description' => 'Select your area(s) of expertise.
 You can select maximum 3 topics and an unlimited number of subtopics.',
     'display' => array(
       'block_list' => array(
@@ -1676,9 +1676,9 @@ You can select maximum 3 topics and an unlimited number of subtopics.',
   t('Organisation type');
   t('Picture');
   t('Regions & Countries');
-  t('Select one or more topics you are an expert in.
-You can select maximum 3 topics and an unlimited number of subtopics.');
   t('Select one or more topics you are interested in.
+You can select maximum 3 topics and an unlimited number of subtopics.');
+  t('Select your area(s) of expertise.
 You can select maximum 3 topics and an unlimited number of subtopics.');
   t('Set if the user lost his LDAP validation.');
   t('Set if the user\'s email address has a domain mentioned in one of the "Organisation" nodes. ');
