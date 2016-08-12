@@ -91,11 +91,11 @@ function c4m_features_og_news_views_default_views() {
     1 => '1',
   );
   $handler->display->display_options['filters']['status']['group'] = 1;
-  /* Filter criterion: Only Discussion nodes */
+  /* Filter criterion: Only News nodes */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['ui_name'] = 'Only Discussion nodes';
+  $handler->display->display_options['filters']['type']['ui_name'] = 'Only News nodes';
   $handler->display->display_options['filters']['type']['value'] = array(
     'news' => 'news',
   );
