@@ -162,7 +162,7 @@ function c4m_features_og_events_upcoming_events_loggedin() {
 
   $user_wrapper = entity_metadata_wrapper('user', $user->uid);
 
-  // Initiate $interests and $groups
+  // Initiate $interests and $groups.
   $interests = $groups = array();
 
   // Gets the user's interests / groups / projects, according to the filter.
