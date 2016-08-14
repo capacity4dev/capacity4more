@@ -28,6 +28,8 @@ function _c4m_og_invite_mail_text($key, $language, array $variables) {
   }
 
   // Replace variables & tokens.
+  $group = og_context();
+  $variables['group'] = node_load($group['gid']);
   return token_replace(
     $text,
     $variables,

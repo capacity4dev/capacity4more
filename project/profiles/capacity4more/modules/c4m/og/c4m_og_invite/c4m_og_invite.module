@@ -145,6 +145,7 @@ function c4m_og_invite_mail($key, &$message, $variables) {
  *   Unused parameter required by the token_replace() function.
  */
 function c4m_og_invite_mail_tokens(array &$replacements, array $data, $options) {
+  global $user, $base_url;
   if (isset($data['group'])) {
     $group = $data['group'];
     $owner = user_load($group->uid);
@@ -160,5 +161,9 @@ function c4m_og_invite_mail_tokens(array &$replacements, array $data, $options) 
     $replacements['[group:dashboard_url]'] = url('<front>', $url_options);
     $replacements['[group:owner]'] = $owner->name;
     $replacements['[group:title]'] = $group->title;
+    $replacements['[group:member]'] = $user->name;
+    $replacements['[group:type]'] = $group->type;
+    $replacements['[member:profile]'] = $base_url . '/users/' . $user->name;
+
   }
 }
