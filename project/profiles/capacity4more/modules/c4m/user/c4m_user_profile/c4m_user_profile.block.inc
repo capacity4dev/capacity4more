@@ -87,8 +87,62 @@ function _c4m_user_profile_block_user_menu() {
     ),
   );
 
-  $block['content'] = render($output);
+  $user_groups_top_bar = _c4m_user_profile_my_groups_top_bar();
+
+  $block['content'] = render($output) . $user_groups_top_bar;
   return $block;
+}
+
+/**
+ * Render the top bar menu for "my groups".
+ */
+function _c4m_user_profile_my_groups_top_bar() {
+  $user_groups = array();
+  foreach (c4m_user_og_get_groups() as $group) {
+    $node_view = node_view($group, 'block_list');
+    $user_groups[] = render($node_view);
+  }
+
+  $user_profile = array(
+    '#theme'  => 'c4m_user_profile_groups_top_bar',
+    '#link'   => array(
+      'url'     => 'groups',
+      'options' => array(
+        'attributes'  => array(
+          'class'         => array('fullname-picture-wrapper', 'dropdown-toggle'),
+          'data-toggle'   => array('dropdown'),
+          'data-disabled' => TRUE,
+        ),
+        'query' => array(
+          'filter' => 'groups',
+        ),
+        'html' => TRUE,
+        'purl'  => array(
+          'disabled' => TRUE,
+        ),
+      ),
+    ),
+  );
+
+  $menu = array(
+    '#theme'      => 'item_list',
+    '#items'  => $user_groups,
+    '#attributes' => array(
+      'class' => array('user-profile-menu', 'dropdown-menu'),
+    ),
+  );
+  $menu = render($menu);
+
+  $output = array(
+    '#theme'      => 'html_tag',
+    '#tag'        => 'div',
+    '#value'      => render($user_profile) . $menu,
+    '#attributes' => array(
+      'class' => array('userbar-userprofile', 'dropdown'),
+    ),
+  );
+
+  return render($output);
 }
 
 /**

@@ -49,6 +49,12 @@
   padding: 0.4rem 0;
 
   .userbar-userprofile {
+    display: inline-flex;
+
+    &:not(:first-child) {
+      margin-left: 10px;
+    }
+
     &.open > .item-list > .dropdown-menu {
       display: block;
     }
