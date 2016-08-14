@@ -169,7 +169,11 @@ function c4m_features_og_events_upcoming_events_loggedin() {
       $interests = $user_wrapper->c4m_vocab_topic->raw();
       break;
     case 'groups':
-      $groups = og_get_groups_by_user($user);
+      $groups = c4m_og_get_user_group_nodes_by_bundle('group');
+      break;
+
+    case 'projects':
+      $groups['node'] = c4m_og_get_user_group_nodes_by_bundle('project');
       break;
   }
 
@@ -197,7 +201,7 @@ function c4m_features_og_events_upcoming_events_anonymous() {
  * @param mixed $topics
  *   Optionally list of topics user is interested in.
  * @param mixed $groups
- *   Optionally list of groups events belong to.
+ *   Optionally list of groups / projects events belong to.
  *
  * @return bool|string
  *   HTML of rendered upcoming events, FALSE if there's no events.
