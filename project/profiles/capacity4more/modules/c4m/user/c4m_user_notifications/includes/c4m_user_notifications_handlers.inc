@@ -244,6 +244,7 @@ function c4m_user_notifications_notify_comment_on_content($comment) {
 function _c4m_user_notifications_comment_on_content($cid, $nid) {
   global $user;
   $message = message_create('c4m_notify_subscribers_new_comment');
+  // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_notify_subscribers_new_comment($message);
 
   $wrapper = entity_metadata_wrapper('message', $message);
@@ -257,10 +258,10 @@ function _c4m_user_notifications_comment_on_content($cid, $nid) {
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
   $context = array(
-    'node' => array($nid => $nid),
-    'user' => array($user->uid => $user->uid),
     'entity_type' => $flag_suffix,
+    'entity_id' => $nid,
   );
+
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $wrapper->value(), array(), array(), $context);
 }
