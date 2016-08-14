@@ -506,7 +506,7 @@ function c4m_user_og_c4m_cta_block() {
   }
 
   // Add a link to the CTA block if the user is permitted to invite new members.
-  if (!user_is_anonymous() && c4m_user_og_invite_access($group->nid)) {
+  if (!user_is_anonymous() && c4m_user_og_invite_access($group)) {
     $items['invite'] = c4m_user_og_c4m_invite_cta($group);
   }
 
@@ -950,14 +950,25 @@ function c4m_user_og_user_update(&$edit, $account, $category) {
 /**
  * Check current user permission to invite new members to the group.
  *
- * SAs and GAs can always invite to the group. GMs can only invite to Open
+ * SA, GO and GA can always invite to the group. GM can only invite to Open
  * groups (either public or restricted) but not to moderated or private groups.
+ *
+ * @param object $group
+ *   (optional) The group object, if not given then the current group will take
+ *    place.
+ *
+ * @return bool
+ *   TRUE if the current user has access to invite people to a group.
  */
-function c4m_user_og_invite_access($gid, $group_type = 'node') {
+function c4m_user_og_invite_access($group = NULL) {
   global $user;
 
-  // Get group.
-  $group = entity_load_single($group_type, $gid);
+  // If a group was not provided, try to get the current group.
+  if (!$group) {
+    if (!$group = c4m_og_current_group()) {
+      return FALSE;
+    }
+  }
 
   // SAs, GOs and GAs can invite new members.
   $role_in_group = c4m_user_og_get_role_in_group($user, $group);
@@ -975,5 +986,6 @@ function c4m_user_og_invite_access($gid, $group_type = 'node') {
     return FALSE;
   }
 
-  return TRUE;
+  // User must be at least a member in order to send an invitation.
+  return $role_in_group == 'member';
 }
