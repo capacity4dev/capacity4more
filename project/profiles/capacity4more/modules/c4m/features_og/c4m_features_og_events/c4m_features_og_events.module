@@ -172,11 +172,11 @@ function c4m_features_og_events_upcoming_events_loggedin() {
       break;
 
     case 'groups':
-      $groups = c4m_og_get_user_group_nodes_by_bundle('group');
+      $groups = c4m_og_get_user_group_ids_by_bundle('group');
       break;
 
     case 'projects':
-      $groups = c4m_og_get_user_group_nodes_by_bundle('project');
+      $groups = c4m_og_get_user_group_ids_by_bundle('project');
       break;
   }
 
