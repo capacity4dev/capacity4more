@@ -165,11 +165,12 @@ function c4m_features_og_events_upcoming_events_loggedin() {
   // Create empty array for both $interests & $groups.
   $interests = $groups = array();
 
-  switch($filter) {
   // Gets the user's interests / groups / projects, according to the filter.
+  switch ($filter) {
     case 'interests':
       $interests = $user_wrapper->c4m_vocab_topic->raw();
       break;
+
     case 'groups':
       $groups = c4m_og_get_user_group_nodes_by_bundle('group');
       break;
