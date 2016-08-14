@@ -48,6 +48,11 @@ function c4m_user_notifications_og_membership_insert($og_membership) {
     return;
   }
 
+  if ($og_membership->state == OG_STATE_PENDING) {
+    // No notification for Pending membership.
+    return;
+  }
+
   // Loading group/project to resolve it's membership type - moderated/open.
   $wrapper = entity_metadata_wrapper('node', $og_membership->gid);
   if (!isset($wrapper->field_membership_open_request)) {
