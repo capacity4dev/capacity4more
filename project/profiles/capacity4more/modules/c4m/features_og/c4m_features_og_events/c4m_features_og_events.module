@@ -161,9 +161,17 @@ function c4m_features_og_events_upcoming_events_loggedin() {
   $range = 3;
 
   $user_wrapper = entity_metadata_wrapper('user', $user->uid);
-  $interests = $filter == 'interests' ? $user_wrapper->c4m_vocab_topic->raw() : array();
 
-  $groups = $filter == 'groups' ? og_get_groups_by_user() : array();
+  $interests = $groups = array();
+
+  switch($filter) {
+    case 'interests':
+      $interests = $user_wrapper->c4m_vocab_topic->raw();
+      break;
+    case 'groups':
+      $groups = og_get_groups_by_user($user);
+      break;
+  }
 
   $events = c4m_features_og_events_upcoming_events_get_events($range, $interests, $groups);
 
