@@ -125,6 +125,48 @@ function c4m_user_notifications_notify_admins_owner_update($node) {
  * Email notification about user adding a comment.
  */
 function c4m_user_notifications_notify_user_commented($comment) {
+  _c4m_user_notifications_notify_content_followers_of_comment($comment->cid, $comment->nid);
+}
+
+/**
+ * Helper function.
+ *
+ * Sends mail notification to content comments subscribers, on new comment.
+ *
+ * @param int $cid
+ *   Comment id.
+ * @param int $nid
+ *   Node id.
+ */
+function _c4m_user_notifications_notify_content_followers_of_comment($cid, $nid) {
+  global $user;
+  $message = message_create('c4m_notify_content_followers_new_comment');
+  // Define functions with which to resolve email template tokens.
+  c4m_message_load_tokens__c4m_notify_content_followers_new_comment($message);
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_node->set($nid);
+  $wrapper->field_comment->set($cid);
+  $wrapper->field_executing_user->set($user->uid);
+
+  $node = node_load($nid);
+  // Flag suffix that is used at unsubscribe mechanism.
+  $flag_suffix = 'comment';
+  // Additional flag entity has to be marked with, for user to be selected
+  // for notification.
+  // With such setting, only user that got entity marked with 'follow node'
+  // and 'follow comment' flags will be selected.
+  $additional_flag_suffix = 'node';
+  // Construct the context, with parameters that will be used by
+  // c4m_user_notifications_message_subscribe_get_subscribers().
+  $context = array(
+    'entity_type' => 'comment',
+    'entity_id' => $nid,
+    'additional_flag_suffix' => $additional_flag_suffix,
+  );
+
+  // Message will be saved in message_subscribe_send_message().
+  message_subscribe_send_message('node', $node, $wrapper->value(), array(), array(), $context);
 }
 
 /**
@@ -259,14 +301,34 @@ function c4m_user_notifications_notify_new_group_pending($node) {
  */
 function c4m_user_notifications_message_subscribe_get_subscribers($message, $subscribe_options, $context) {
   // All entity types are nodes, besides 'term'.
-  $entity_type = $context['entity_type'] == 'term' ? 'taxonomy_term' : 'node';
-  $entity_id = key($context[$entity_type]);
-  $flag_name = 'subscribe_c4m_follow_' . $context['entity_type'];
+  $entity_type = $context['entity_type'];
+  $entity_id = $context['entity_id'];
+  $flag_name = 'subscribe_c4m_follow_' . $entity_type;
+  $flagged_entity_type = $entity_type == 'term' ? 'taxonomy_term' : 'node';
 
-  $users = flag_get_entity_flags($entity_type, $entity_id, $flag_name);
-  // Set notifiers to mail.
+  $users = flag_get_entity_flags($flagged_entity_type, $entity_id, $flag_name);
+  // Set filtered users to full list of $users - if no filtering required,
+  // this wil insure that noting gets filtered.
+  $filtered_users = array_keys($users);
+
+  // If we need to filter users according to additional flag.
+  if (isset($context['additional_flag_suffix'])) {
+    // Filtering.
+    $flag_name = 'subscribe_c4m_follow_' . $context['additional_flag_suffix'];
+    $filtered_users = flag_get_entity_flags($flagged_entity_type, $entity_id, $flag_name);
+    $filtered_users = array_intersect(array_keys($users), array_keys($filtered_users));
+  }
+
+  // Set notifiers to mail, for users that remain after filtering.
   foreach ($users as $key => &$value) {
-    $value = array('notifiers' => array('email'));
+    if (array_search($key, $filtered_users) !== FALSE) {
+      // If user is found at filtering array, keep it.
+      $value = array('notifiers' => array('email' => 'email'));
+    }
+    else {
+      // If not found, unset user from array.
+      unset($users[$key]);
+    }
   }
 
   return $users;
