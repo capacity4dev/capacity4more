@@ -22,12 +22,16 @@
 
   .field-name-c4m-vocab-topic,
   .field-name-c4m-vocab-geo {
+    .item {
+      margin-bottom: 10px;
+    }
+
     .taxonomy-title {
       margin: 0;
     }
 
     .taxonomy-item {
-      margin: 0  0 10px 10px;
+      margin-left: 10px;
     }
   }
 }

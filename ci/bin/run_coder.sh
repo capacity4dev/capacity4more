@@ -8,9 +8,10 @@
 
 
 # Do we need to run the coder review?
-if [ "$CODE_REVIEW" != 1 ]; then
-  exit 0
-fi
+#if [ "$CODE_REVIEW" != 1 ]; then
+#  exit 0
+#fi
+TRAVIS_BUILD_DIR="/Applications/MAMP/htdocs/capacity4more"
 
 HAS_ERRORS=0
 

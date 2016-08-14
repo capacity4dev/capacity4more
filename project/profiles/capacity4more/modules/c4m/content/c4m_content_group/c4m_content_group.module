@@ -952,12 +952,13 @@ function c4m_content_group_taxonomy_build_tree($items) {
   );
   $tree = '<div class="tree">';
 
-  // Loop through all the taxonomy items.
+  // Loop through all the taxonomy items and add them to the tree.
   foreach ($items as $item) {
-    $tree .= '<div class="item">';
-    $taxonomy_tree = taxonomy_get_parents_all($item['tid']);
     $root = '';
     $local_tree = array();
+
+    // Get the items taxonomy tree (include the item itself).
+    $taxonomy_tree = taxonomy_get_parents_all($item['tid']);
 
     // For every item, build his parents tree, if he has any.
     foreach ($taxonomy_tree as $index => $taxonomy) {
@@ -965,7 +966,7 @@ function c4m_content_group_taxonomy_build_tree($items) {
         'f[0]' => 'c4m_vocab_topic:' . $taxonomy->tid,
       );
 
-      // ...
+      // 'Topics' needs to link to groups facet, and 'Regions' to taxonomy page.
       if ($taxonomy->vocabulary_machine_name == 'c4m_vocab_topic') {
         $link = l($taxonomy->name, 'groups', $options);
       }
@@ -973,23 +974,24 @@ function c4m_content_group_taxonomy_build_tree($items) {
         $link = l($taxonomy->name, "/taxonomy/term/" . $taxonomy->tid);
       }
 
-      // ...
-      if (count($taxonomy_tree) - 1 != $index) {
-        // It's a child.
-        $local_tree[] = $link;
+      // If it's the last item on the local tree, it's the parent. We need to
+      // distinguish between the parent and his children because the parent needs
+      // to be style in a different way. We subtract 1 because the '$taxonomy_tree'
+      // give us the length of the array, and for '$index' start at 0.
+      if (count($taxonomy_tree) - 1 == $index) {
+        $root = $link;
       }
       else {
-        // It's a parent.
-        $root = '<p class="taxonomy-title">' . $link . '</p>';
+        $local_tree[] = $link;
       }
     }
 
+    // Use the taxonomy tree theme to style the local tree.
     $variables = array(
       'root' => $root,
       'local_tree' => implode(', ', $local_tree),
     );
     $tree .= theme('c4m_taxonomy_tree', $variables);
-    $tree .= '</div>';
   }
 
   $tree .= '</div>';
