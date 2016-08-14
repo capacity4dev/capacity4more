@@ -160,7 +160,7 @@ function _c4m_user_notifications_notify_content_followers_of_comment($cid, $nid)
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
   $context = array(
-    'entity_type' => 'comment',
+    'entity_type' => $flag_suffix,
     'entity_id' => $nid,
     'additional_flag_suffix' => $additional_flag_suffix,
   );
