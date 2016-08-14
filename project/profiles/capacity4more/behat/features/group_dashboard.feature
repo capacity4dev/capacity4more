@@ -40,3 +40,15 @@ Feature: Group dashboard
     And   I am logged in as user "president"
     And   I visit the dashboard of group "Movie Popcorn Corner"
     Then  I should see the group dashboard without quick post form
+
+  @api
+  Scenario: Check Invite a member link as group owner
+    Given I am logged in as user "mariecurie"
+    When  I visit the dashboard of group "Movie Popcorn Corner"
+    Then  I should see the link "Invite a member"
+
+  @api
+  Scenario: Check Invite a member link is not available for non-member of the group.
+    Given I am logged in as user "president"
+    When  I visit the dashboard of group "Movie Popcorn Corner"
+    Then  I should not see the link "Invite a member"
