@@ -854,6 +854,12 @@ function c4m_content_group_theme() {
     'variables' => array(),
   );
 
+  $theme['c4m_taxonomy_tree'] = array(
+    'template' => 'c4m_taxonomy_tree',
+    'path' => drupal_get_path('module', 'c4m_content_group') . '/templates',
+    'variables' => array(),
+  );
+
   return $theme;
 }
 
@@ -944,11 +950,15 @@ function c4m_content_group_taxonomy_build_tree($items) {
     'absolute' => TRUE,
     'purl' => array('disabled' => TRUE),
   );
+  $tree = '<div class="tree">';
 
   // Loop through all the taxonomy items.
+  dpm($items);
   foreach ($items as $item) {
+    $tree .= '<div class="item">';
     $taxonomy_tree = taxonomy_get_parents_all($item['tid']);
-    $tree = array();
+    $root = '';
+    $local_tree = array();
 
     // For every item, build his parents tree, if he has any.
     foreach ($taxonomy_tree as $index => $taxonomy) {
@@ -967,19 +977,22 @@ function c4m_content_group_taxonomy_build_tree($items) {
       // ...
       if (count($taxonomy_tree) - 1 != $index) {
         // It's a child.
-        $tree[] = $link;
+        $local_tree[] = $link;
       }
       else {
         // It's a parent.
-        $root = $link;
+        $root = '<p class="taxonomy-title">' . $link . '</p>';
       }
-
-      $variables = array(
-        'root' => $root,
-        'tree' => implode(', ', $tree),
-      );
-      return theme('c4m_taxonomy_tree', $variables);
-//      return 'nir';
     }
+
+    $variables = array(
+      'root' => $root,
+      'local_tree' => implode(', ', $local_tree),
+    );
+    $tree .= theme('c4m_taxonomy_tree', $variables);
+    $tree .= '</div>';
   }
+
+  $tree .= '</div>';
+  return $tree;
 }
