@@ -195,7 +195,7 @@ function _c4m_user_notifications_new_content_published($node) {
   $message = message_create('c4m_new_content_published');
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_new_content_published($message);
-  //Resolve comment body field, in teaser mode, and assign value to it's token.
+  // Resolve comment body field, in teaser mode, and assign value to it's token.
   $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
   $message->arguments['@node_teaser_body'] = strip_tags($body_teaser[0]['#markup']);
 
