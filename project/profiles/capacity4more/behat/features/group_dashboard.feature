@@ -45,7 +45,8 @@ Feature: Group dashboard
   Scenario: Check Invite a member link as group owner
     Given I am logged in as user "mariecurie"
     When  I visit the dashboard of group "Movie Popcorn Corner"
-    Then  I should see the link "Invite a member"
+    And   I click "Invite a member"
+    Then  I should see the text "Invite People to Join"
 
   @api
   Scenario: Check Invite a member link is not available for non-member of the group.
