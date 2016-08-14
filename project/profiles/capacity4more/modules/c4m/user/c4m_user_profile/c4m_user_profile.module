@@ -1243,10 +1243,9 @@ function c4m_user_profile_message_subscribe_get_subscribers_alter(
   &$uids,
   $values
 ) {
-  $entity_type = $values['entity_type'];
-  $entity_detailed_type = $values['context']['entity_type'];
-  $entity_id = reset($values['context'][$entity_type]);
-  $uids = c4m_user_profile_get_subscribed($entity_detailed_type, $entity_id, $uids);
+  $entity_type = $values['context']['entity_type'];
+  $entity_id = $values['context']['entity_id'];
+  $uids = c4m_user_profile_get_subscribed($entity_type, $entity_id, $uids);
 }
 
 /**
