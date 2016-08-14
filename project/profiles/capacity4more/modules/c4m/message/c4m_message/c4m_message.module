@@ -843,6 +843,12 @@ function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
   $field_suffix = $flag_suffix == 'group' ? 'group_node' : $flag_suffix;
   $field = "field_{$field_suffix}";
   $nid = $wrapper->$field->value(array('identifier' => TRUE));
+  if ($flag_suffix == 'comment') {
+    // The identifier we got is actually cid. Need to get the correct one.
+    $comment = comment_load($nid);
+    $nid = $comment->nid;
+  }
+
   $uid = $message->uid;
   $account = user_load($uid);
   $wrapper = entity_metadata_wrapper('user', $account);
