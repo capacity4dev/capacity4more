@@ -953,7 +953,6 @@ function c4m_content_group_taxonomy_build_tree($items) {
   $tree = '<div class="tree">';
 
   // Loop through all the taxonomy items.
-  dpm($items);
   foreach ($items as $item) {
     $tree .= '<div class="item">';
     $taxonomy_tree = taxonomy_get_parents_all($item['tid']);
