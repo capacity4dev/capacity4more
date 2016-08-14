@@ -56,10 +56,12 @@ function c4m_user_notifications_og_membership_insert($og_membership) {
 
   $moderated = $wrapper->field_membership_open_request->value();
 
-  if ($moderated == C4M_OG_MODERATED_GROUP) {
+  if ($moderated == C4M_OG_MODERATED_GROUP && $og_membership->state == OG_STATE_PENDING) {
+    // Moderated group with state Pending - new membership request.
     c4m_user_notifications_moderated_group_new_membership_request($og_membership);
   }
-  elseif ($moderated == C4M_OG_OPEN_GROUP) {
+  elseif ($moderated == C4M_OG_OPEN_GROUP && $og_membership->state == OG_STATE_ACTIVE) {
+    // Open group with state Active - new member added.
     // Membership acceptance notification to user, for open and moderated
     // group is the same (template MT13).
     c4m_user_notifications_open_group_notify_admins_membership_accepted($og_membership);
