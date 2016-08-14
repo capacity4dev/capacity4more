@@ -11,10 +11,9 @@ angular.module('c4mApp')
     /*
      * Init the Bootstrap tooltips.
      */
-    $scope.bindBoostrapTooltips = function () {
-      // Delay 100ms and allow all items to be added to the DOM before
-      // initializing the tooltips.
-      $timeout(function () {
+    $scope.bindBoostrapTooltips = function() {
+      // Delay 100ms and allow all items to be added to the DOM before initializing the tooltips.
+      $timeout(function() {
         angular.element('[data-toggle="tooltip"]').tooltip();
       }, 100);
     };
@@ -181,9 +180,6 @@ angular.module('c4mApp')
         topics: $scope.topics
       };
 
-      // Enables to design elements on loading state - such as displaying the spinner.
-      angular.element('.activity-stream').addClass('loading');
-
       EntityResource.updateStream(activityStreamInfo, 'load')
         .success(function (data, status) {
           if (data.data) {
@@ -208,8 +204,6 @@ angular.module('c4mApp')
             // Re-init the bootstrap tooltips for the added items.
             $scope.bindBoostrapTooltips();
           }
-            // Removes loading state class.
-            angular.element('.activity-stream').removeClass('loading');
         });
     };
 

@@ -1404,8 +1404,7 @@ function c4m_user_profile_field_default_field_instances() {
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'The Regions & Countries you are interested in.
-You can select maximum 3 regions and an unlimited number of subregions or countries.',
+    'description' => 'The Regions & Countries you are interested in.',
     'display' => array(
       'block_list' => array(
         'label' => 'above',
@@ -1468,16 +1467,15 @@ You can select maximum 3 regions and an unlimited number of subregions or countr
         'weight' => 13,
       ),
     ),
-    'ds_extras_field_template' => '',
     'entity_type' => 'user',
     'field_name' => 'c4m_vocab_geo',
     'label' => 'Regions & Countries',
     'required' => 0,
     'settings' => array(
-      'user_register_form' => 1,
+      'user_register_form' => 0,
     ),
     'widget' => array(
-      'active' => 0,
+      'active' => 1,
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
@@ -1490,8 +1488,7 @@ You can select maximum 3 regions and an unlimited number of subregions or countr
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Select one or more topics you are interested in.
-You can select maximum 3 topics and an unlimited number of subtopics.',
+    'description' => 'Select one or more topics you are interested in.',
     'display' => array(
       'block_list' => array(
         'label' => 'above',
@@ -1577,8 +1574,7 @@ You can select maximum 3 topics and an unlimited number of subtopics.',
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Select one or more topics you are an expert in.
-You can select maximum 3 topics and an unlimited number of subtopics.',
+    'description' => 'Select one or more topics you are an expert in.',
     'display' => array(
       'block_list' => array(
         'label' => 'above',
@@ -1676,14 +1672,11 @@ You can select maximum 3 topics and an unlimited number of subtopics.',
   t('Organisation type');
   t('Picture');
   t('Regions & Countries');
-  t('Select one or more topics you are an expert in.
-You can select maximum 3 topics and an unlimited number of subtopics.');
-  t('Select one or more topics you are interested in.
-You can select maximum 3 topics and an unlimited number of subtopics.');
+  t('Select one or more topics you are an expert in.');
+  t('Select one or more topics you are interested in.');
   t('Set if the user lost his LDAP validation.');
   t('Set if the user\'s email address has a domain mentioned in one of the "Organisation" nodes. ');
-  t('The Regions & Countries you are interested in.
-You can select maximum 3 regions and an unlimited number of subregions or countries.');
+  t('The Regions & Countries you are interested in.');
   t('Topics of Expertise');
   t('Topics of Interest');
   t('Unsubscribe Hash');

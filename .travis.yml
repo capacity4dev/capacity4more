@@ -1,5 +1,10 @@
 language: php
 
+branches:
+  only:
+    - master
+    - develop
+
 env:
   - INSTALL_PROFILE=1
     BEHAT_TAG="api"

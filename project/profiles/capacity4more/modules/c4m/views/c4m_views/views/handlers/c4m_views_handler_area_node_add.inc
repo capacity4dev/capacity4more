@@ -28,9 +28,6 @@ class c4m_views_handler_area_node_add extends views_handler_area {
       'default' => 'Add content',
       'translatable' => TRUE,
     );
-    $options['icon'] = array(
-      'default' => NULL,
-    );
 
     return $options;
   }
@@ -56,13 +53,6 @@ class c4m_views_handler_area_node_add extends views_handler_area {
       '#description' => t('Set the label for the link.'),
       '#default_value' => $this->options['link_text'],
     );
-    $form['icon'] = array(
-      '#type' => 'textfield',
-      '#required' => FALSE,
-      '#title' => t('Icon'),
-      '#description' => t('Set the Font Awesome icon class for the link.'),
-      '#default_value' => $this->options['icon'],
-    );
   }
 
   /**
@@ -71,32 +61,19 @@ class c4m_views_handler_area_node_add extends views_handler_area {
   public function render($empty = FALSE) {
     $node_type = filter_xss_admin($this->options['node_type']);
     $link_text = filter_xss_admin($this->options['link_text']);
-    $icon = filter_xss_admin($this->options['icon']);
-
     if (!$node_type || !$link_text) {
       return;
-    }
-
-    if ($icon) {
-      $link_text = '<i class="fa ' . $icon . '" aria-hidden="true"></i>' . $link_text;
     }
 
     // Check if user has access to the node creation form.
     if (!node_access('create', $node_type)) {
       return;
     }
-    
-    if ($context = og_context()) {
-      if (!og_user_access($context['group_type'], $context['gid'], "create {$node_type} content")) {
-        return;
-      }
-    }
 
     $options = array(
       'attributes' => array(
         'class' => array('node-create', 'node-create-' . $node_type),
       ),
-      'html' => TRUE,
     );
 
     return l($link_text, 'node/add/' . $node_type, $options);

@@ -118,11 +118,11 @@ function theme_c4m_user_picture(array $field) {
 
   // Check if image needs to be linked to user profile.
   if (FALSE !== strpos($field['formatter'], 'linked_', 0) && $user->uid > 0) {
-    $link = 'node/' . $user->uid;
+    $linked = TRUE;
     $style = substr($field['formatter'], 7);
   }
   else {
-    $link = '';
+    $linked = FALSE;
     $style = $field['formatter'];
   }
 
@@ -132,7 +132,7 @@ function theme_c4m_user_picture(array $field) {
 
   if (empty($file)) {
     // If there is no image, we render initials.
-    $output = c4m_user_get_themed_initials(c4m_user_get_user_initials($user), $link);
+    $output = c4m_user_initials_themed($user, $linked);
   }
   else {
     $file['style_name'] = empty($style) ? 'media_thumbnail' : $style;

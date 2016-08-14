@@ -285,14 +285,14 @@ function theme_c4m_ds_content_footer_stats(array $field) {
 
   $items['recommends'] = theme(
     'c4m_ds_entity_recommends_count',
-    array('count' => (!empty($recommends) ? c4m_content_ec_number_format($recommends) : 0))
+    array('count' => (!empty($recommends) ? $recommends : 0))
   );
 
   // Only show comments if comments are enabled.
   if ($entity->comment == COMMENT_NODE_OPEN) {
     $items['comments'] = theme(
       'c4m_ds_entity_comments_count',
-      array('count' => c4m_content_ec_number_format($entity->comment_count))
+      array('count' => $entity->comment_count)
     );
   }
 
@@ -303,7 +303,7 @@ function theme_c4m_ds_content_footer_stats(array $field) {
 
   $items['views'] = theme(
     'c4m_ds_entity_views_count',
-    array('count' => c4m_content_ec_number_format($statistic['totalcount']))
+    array('count' => $statistic['totalcount'])
   );
 
   if ($field['formatter'] === 'downloads') {
@@ -314,7 +314,7 @@ function theme_c4m_ds_content_footer_stats(array $field) {
       $file_object = file_load($document['fid']);
       $items['downloads'] = theme(
         'c4m_ds_entity_downloads_count',
-        array('count' => (!empty($file_object->download_count) ? c4m_content_ec_number_format($file_object->download_count) : 0))
+        array('count' => (!empty($file_object->download_count) ? $file_object->download_count : 0))
       );
     }
   }

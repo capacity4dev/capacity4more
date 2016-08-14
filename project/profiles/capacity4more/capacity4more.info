@@ -59,8 +59,6 @@ dependencies[] = og_purl
 dependencies[] = og_vocab
 dependencies[] = og_menu
 dependencies[] = og_group_menu
-dependencies[] = og_invite
-dependencies[] = og_invite_people
 dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = paragraphs
@@ -199,7 +197,6 @@ dependencies[] = c4m_document_widget
 
 ; Organic Groups
 dependencies[] = c4m_og_purl
-dependencies[] = c4m_og_invite
 
 ; Email Domains
 dependencies[] = c4m_domain

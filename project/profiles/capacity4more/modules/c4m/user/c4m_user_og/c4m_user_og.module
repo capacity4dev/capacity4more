@@ -530,7 +530,6 @@ function c4m_user_og_c4m_vistor_cta($group) {
  */
 function c4m_user_og_c4m_join_cta($group) {
   if (og_is_member('node', $group->nid)) {
-    drupal_set_message(t('Welcome to group %group', array('%group' => $group->title)));
     return;
   }
 
@@ -553,12 +552,13 @@ function c4m_user_og_c4m_membership_cta($group) {
   }
 
   if (og_is_member('node', $group->nid, 'user', NULL, array(OG_STATE_PENDING))) {
-    $message = t("This is a moderated group. Your request is waiting for approval. Continue to explore group's content.");
+    $replacements = array('%group' => $group->title);
+    $message = t("This is a moderated group. Your request is waiting for approval. Continue to explore group %group's content.", $replacements);
     drupal_set_message($message);
 
     return array(
       '#type' => 'markup',
-      '#markup' => '<div class="c4m-group-visitor-cta"><i class="fa fa-hourglass-end" aria-hidden="true"></i> ' . t('Membership waiting approval') . '</div>',
+      '#markup' => '<div class="c4m-group-visitor-cta">' . t('Awaiting approval') . '</div>',
     );
   }
 
