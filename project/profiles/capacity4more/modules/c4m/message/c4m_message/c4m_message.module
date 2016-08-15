@@ -390,6 +390,7 @@ function c4m_message_format_group_pending_member_url(Message $message) {
 
   $options = array(
     'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
   );
 
   return url('group/node/' . $gid . '/admin/people/edit-membership/' . $mid, $options);
@@ -410,6 +411,7 @@ function c4m_message_format_new_member_public_profile_url(Message $message) {
 
   $options = array(
     'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
   );
 
   return url('user/' . $uid, $options);
@@ -461,6 +463,7 @@ function c4m_message_format_group_url(Message $message) {
 
   $options = array(
     'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
   );
 
   return url('node/' . $nid, $options);
@@ -528,6 +531,7 @@ function c4m_message_format_group_owner_public_profile_url(Message $message) {
 
   $options = array(
     'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
   );
 
   return url('user/' . $author_id, $options);
@@ -578,6 +582,7 @@ function c4m_message_format_event_user_message_url(Message $message) {
 
   $options = array(
     'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
   );
 
   return url('user/' . $uid . '/contact', $options);
@@ -598,6 +603,7 @@ function c4m_message_format_event_user_url(Message $message) {
 
   $options = array(
     'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
   );
 
   return url('user/' . $uid, $options);
@@ -647,6 +653,7 @@ function c4m_message_format_node_url(Message $message) {
 
   $options = array(
     'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
   );
 
   return url('node/' . $wrapper->field_node->value(array('identifier' => TRUE)), $options);
@@ -784,6 +791,7 @@ function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
 
   $options = array(
     'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
   );
 
   return url('user/' . $uid . '/unsubscribe/' . $flag_suffix . '/' . $nid . '/' . $hash, $options);
