@@ -92,9 +92,9 @@ function c4m_user_notifications_group_status_set_softdeleted($node, $group_forme
 }
 
 /**
- * Email notification about organic group deletion.
+ * Email notification to admins about organic group deletion.
  */
-function c4m_user_notifications_group_hard_deleted($node) {
+function c4m_user_notifications_group_hard_deleted($node, $group_former_status) {
 }
 
 /**
