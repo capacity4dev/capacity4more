@@ -63,12 +63,6 @@ function c4m_restful_quick_post_get_form_fields_access($resource_name) {
     'discussions' => array(
       'bundle' => 'discussion',
     ),
-    'documents' => array(
-      'bundle' => 'document',
-    ),
-    'events' => array(
-      'bundle' => 'event',
-    ),
   );
 
   // Check if in a group.
@@ -216,16 +210,6 @@ function c4m_restful_quick_post_form($group_id) {
     'discussions' => array(
       'bundle' => 'Discussion',
       'description' => t('Discussion'),
-      'quick_post' => 1,
-    ),
-    'documents' => array(
-      'bundle' => 'Document',
-      'description' => t('Document'),
-      'quick_post' => 1,
-    ),
-    'events' => array(
-      'bundle' => 'Event',
-      'description' => t('Event'),
       'quick_post' => 1,
     ),
     'wiki-page' => array(
