@@ -104,14 +104,11 @@ class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
 
     
     // Saves the file to the database.
-    $new_file = $this->fileUriToObject(drupal_get_path('module', 'c4m_demo_content') . '/files/' . $row->file);
-
-    // Gets ID of the the newly stored file.
-    $fid = $new_file->fid;
+    $file = $this->fileUriToObject(drupal_get_path('module', 'c4m_demo_content') . '/files/' . $row->file);
 
     // Change the migration file name to the file ID - since the migration is
     // expecting an entity reference.
-    $row->file = $fid;
+    $row->file = $file->fid;
 
     $row->geo_entries = $this->mapTaxonomyVocabWithParent(
       $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo')
