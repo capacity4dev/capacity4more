@@ -436,19 +436,30 @@ function c4m_user_og_theme() {
     ),
   );
 
+  $theme['c4m_unified_workflow_register'] = array(
+    'template' => 'c4m_unified_workflow_register',
+    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
+    'variables' => array(
+      'group_title' => NULL,
+      'login_link' => NULL,
+    ),
+  );
+
+  $theme['c4m_unified_workflow_login'] = array(
+    'template' => 'c4m_unified_workflow_login',
+    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
+    'variables' => array(
+      'group_title' => NULL,
+    ),
+  );
+
   return $theme;
 }
 
 /**
- * Implements hook_c4m_cta_block_alter().
- *
- * Set the CTA block for visitors.
+ * Implements hook_c4m_cta_block().
  */
-function c4m_user_og_c4m_cta_block_alter(&$block) {
-  if (!user_is_anonymous()) {
-    return;
-  }
-
+function c4m_user_og_c4m_cta_block() {
   if (!$group = c4m_og_current_group()) {
     return;
   }
@@ -458,24 +469,441 @@ function c4m_user_og_c4m_cta_block_alter(&$block) {
     return;
   }
 
+  $items = array();
+  if (user_is_anonymous()) {
+    if ($item = c4m_user_og_c4m_vistor_cta($group)) {
+      $items['visitor'] = $item;
+    }
+  }
+  else {
+    $membership_type = c4m_og_get_group_membership_request($group);
+
+    if ($membership_type == 'open') {
+      if ($item = c4m_user_og_c4m_join_cta($group)) {
+        $items['join'] = $item;
+      }
+    }
+    elseif ($membership_type == 'moderated') {
+      if ($item = c4m_user_og_c4m_membership_cta($group)) {
+        $items['membership'] = $item;
+      }
+    }
+  }
+
+  if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
+    $items['leave'] = $item;
+  }
+
+  return $items;
+}
+
+/**
+ * Sets the CTA block for visitors.
+ */
+function c4m_user_og_c4m_vistor_cta($group) {
   $types = array(
     'open' => array(
-      'button_label' => 'Join this group',
+      'button_label' => t('Join this group'),
       'button_icon' => 'fa-user-plus',
     ),
     'moderated' => array(
-      'button_label' => 'Request membership for this group',
+      'button_label' => t('Request membership for this group'),
       'button_icon' => 'fa-unlock-alt',
     ),
   );
 
   $membership_request_value = c4m_og_get_group_membership_request($group);
 
-  $variables = array(
-    'button_label' => $types[$membership_request_value]['button_label'],
-    'button_icon' => $types[$membership_request_value]['button_icon'],
-    'url' => url('/user'),
+  return array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => $types[$membership_request_value]['button_label'],
+    '#button_icon' => $types[$membership_request_value]['button_icon'],
+    '#url' => url('group/join/' . $group->nid, array('absolute' => TRUE)),
+  );
+}
+
+/**
+ * Sets the join group link CTA.
+ *
+ * Sets the join group link CTA for logged in users that are not members
+ * of the group yet.
+ */
+function c4m_user_og_c4m_join_cta($group) {
+  if (og_is_member('node', $group->nid)) {
+    drupal_set_message(t('Welcome to group %group', array('%group' => $group->title)));
+    return;
+  }
+
+  return array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => t('Join this group'),
+    '#button_icon' => 'fa-user-plus',
+    '#url' => url('group/node/' . $group->nid . '/subscribe', array('absolute' => TRUE)),
+  );
+}
+
+/**
+ * Sets the CTA request membership link.
+ */
+function c4m_user_og_c4m_membership_cta($group) {
+  // Default state for og_is_member is active.
+  if (og_is_member('node', $group->nid)) {
+    drupal_set_message(t('Welcome to group %group', array('%group' => $group->title)));
+    return;
+  }
+
+  if (og_is_member('node', $group->nid, 'user', NULL, array(OG_STATE_PENDING))) {
+    $message = t("This is a moderated group. Your request is waiting for approval. Continue to explore group's content.");
+    drupal_set_message($message);
+
+    return array(
+      '#type' => 'markup',
+      '#markup' => '<div class="c4m-group-visitor-cta"><i class="fa fa-hourglass-end" aria-hidden="true"></i> ' . t('Membership waiting approval') . '</div>',
+    );
+  }
+
+  return array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => t('Request membership for this group'),
+    '#button_icon' => 'fa-unlock-alt',
+    '#url' => url('group/node/' . $group->nid . '/subscribe', array('absolute' => TRUE)),
+  );
+}
+
+/**
+ * Sets the CTA to leave a group.
+ */
+function c4m_user_og_c4m_leave_group_cta($group) {
+  if (!og_is_member('node', $group->nid)) {
+    return;
+  }
+
+  global $user;
+  // Group owner can't leave the group, needs to transfer ownership first.
+  if ($user->uid == $group->uid) {
+    return;
+  }
+
+  return array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => t('Leave group'),
+    '#button_icon' => 'fa-arrow-right',
+    '#url' => url('group/node/' . $group->nid . '/unsubscribe', array('absolute' => TRUE)),
+  );
+}
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * Alters the default unsubscription callback from OG to avoid group owners to
+ * leave the group before transfering the control of it.
+ */
+function c4m_user_og_menu_alter(&$menu) {
+  $menu['group/%/%/unsubscribe']['page callback'] = 'c4m_user_og_unsubscription_custom_callback';
+}
+
+/**
+ * Custom page callback to prevent group owners to leave a group.
+ */
+function c4m_user_og_unsubscription_custom_callback($group_type, $gid) {
+  $is_node = $group_type == 'node';
+  $user_is_owner = c4m_og_user_is_owner('node', $gid);
+
+  // If the group is not a node or the logged in user is not the owner of the
+  // group we return the default OG menu callback.
+  if (!$is_node || !$user_is_owner) {
+    return og_ui_unsubscribe($group_type, $gid);
+  }
+
+  $message = t(
+    "You can't leave the group if you are the owner. <a href=\"@link\">Transfer the ownership first.</a>",
+    array('@link' => url('group/node/' . $gid . '/admin/owner'))
+  );
+  drupal_set_message($message);
+
+  $group = node_load($gid);
+  $url = entity_uri($group_type, $group);
+  drupal_goto($url['path'], $url['options']);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_user_og_form_og_ui_confirm_unsubscribe_alter(&$form, &$form_state) {
+  $form['#submit'][] = 'c4m_user_og_custom_unsubscribe_submit';
+}
+
+/**
+ * Custom submit callback for og_ui_confirm_unsubscribe.
+ *
+ * Unflags the user as following the group.
+ */
+function c4m_user_og_custom_unsubscribe_submit($form, &$form_state) {
+  global $user;
+
+  $group = $form_state['values']['group'];
+  $flag = flag_get_flag('subscribe_c4m_follow_group');
+
+  $flag->flag('unflag', $group->nid, $user, TRUE);
+}
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_user_og_menu() {
+  $items['group/join/%node'] = array(
+    'title' => 'Join group',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'c4m_user_og_unified_workflow',
+    'page arguments' => array(2),
+    'access callback' => 'node_access',
+    'access arguments' => array('view', 2),
+    'file' => 'c4m_user_og.page.inc',
   );
 
-  $block['content'] = theme('c4m_group_visitor_cta', $variables);
+  return $items;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_user_og_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $gid);
+  $variables = array(
+    'group_title' => $wrapper->label(),
+    'login_link' => l(t('Log in.'), 'user/login'),
+  );
+  drupal_set_title(theme('c4m_unified_workflow_register', $variables), PASS_THROUGH);
+
+  $form['#submit'][] = 'c4m_user_og_unified_workflow_register_submit';
+  $form['actions']['submit']['#value'] = t('Register to join');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_user_og_form_user_login_alter(&$form, &$form_state, $form_id) {
+  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $gid);
+  drupal_set_title(theme('c4m_unified_workflow_login', array('group_title' => $wrapper->label())), PASS_THROUGH);
+
+  $form['#submit'][] = 'c4m_user_og_unified_workflow_login_submit';
+  $form['actions']['submit']['#value'] = t('Login to join');
+}
+
+/**
+ * A submit handler for the unified workflow (registration).
+ *
+ * Setting a message to the user and redirect back to the group.
+ */
+function c4m_user_og_unified_workflow_register_submit($form, &$form_state) {
+  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
+    return;
+  }
+
+  $group = node_load($gid);
+  // Removing the original message of the user_register_form.
+  drupal_get_messages('status');
+  $message = t(
+    'Hey @name, thank you for submitting your details. Please activate your account by clicking the link sent to your e-mail to join the @group_title group.', array(
+      '@name' => c4m_user_name($form_state['user']),
+      '@group_title' => $group->title,
+    )
+  );
+
+  drupal_set_message($message);
+  $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
+
+  // Store the group ID + user ID in the database after registration completes.
+  c4m_user_og_store_unified_workflow($form_state['user']->uid, $gid);
+
+  // drupal_goto has a fallback to the 'destination' so we must remove it.
+  unset($_GET['destination']);
+
+  // User is registered, and the variable is now stored in the database, the
+  // session variable should be destroyed.
+  unset($_SESSION['c4m_unified_workflow_gid_join']);
+}
+
+/**
+ * A submit handler for the unified workflow (login).
+ *
+ * Setting a message to the user and redirect back to the group.
+ */
+function c4m_user_og_unified_workflow_login_submit($form, &$form_state) {
+  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
+    return;
+  }
+
+  $group = node_load($gid);
+
+  // Associate the user to the group after login.
+  c4m_user_og_group_unified_workflow($group);
+
+  $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
+
+  // drupal_goto has a fallback to the 'destination' so we must remove it.
+  unset($_GET['destination']);
+
+  // User is logged in, the session variable should be destroyed.
+  unset($_SESSION['c4m_unified_workflow_gid_join']);
+}
+
+/**
+ * Associate a user to a group for unified workflow.
+ *
+ * Also sets a message depending on the group context.
+ *
+ * @param object $group
+ *   The object of the group.
+ * @param bool $account
+ *   The object of the user.
+ *
+ * @see og_group()
+ */
+function c4m_user_og_group_unified_workflow($group, $account = FALSE) {
+  $membership_request_value = c4m_og_get_group_membership_request($group);
+  $values = array(
+    'state' => $membership_request_value == 'open' ? OG_STATE_ACTIVE : OG_STATE_PENDING ,
+    'entity' => $account,
+  );
+
+  if (!og_group('node', $group, $values)) {
+    drupal_set_message(t('A problem occurred trying to join the group.'), 'error');
+    return;
+  }
+}
+
+/**
+ * Implements hook_mail_alter().
+ */
+function c4m_user_og_mail_alter(&$message) {
+  if ($message['id'] != 'user_registrationpassword_register') {
+    return;
+  }
+
+  $user = user_load_by_mail($message['to']);
+  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
+    if (!$results = c4m_user_og_fetch_unified_workflow_entries($user->uid)) {
+      return;
+    }
+    $gid = reset($results)->gid;
+  }
+
+  $group = node_load($gid);
+  $path = drupal_get_path('module', 'c4m_user_og');
+
+  $text = file_get_contents($path . '/messages/user_registrationpassword_register_to_group_body.html');
+  $variables = array(
+    'group' => $group,
+    'user' => $user,
+  );
+
+  $message['body'] = array(
+    token_replace(
+      $text,
+      $variables,
+      array(
+        'language' => user_preferred_language($user),
+        'callback' => 'c4m_user_og_mail_tokens',
+        'sanitize' => FALSE,
+        'clear' => TRUE,
+      )
+    ),
+  );
+}
+
+/**
+ * Store a group ID + user ID in the database.
+ *
+ * @param string $uid
+ *   The user ID.
+ * @param string $gid
+ *   The group ID.
+ */
+function c4m_user_og_store_unified_workflow($uid, $gid) {
+  try {
+    db_insert('c4m_unified_workflow')
+      ->fields(array(
+        'uid' => $uid,
+        'gid' => $gid,
+      ))
+      ->execute();
+  }
+  catch (PDOException $e) {
+    // Duplicated entry.
+    watchdog('c4m_unified_workflow', $e->errorInfo[2], array(), WATCHDOG_ERROR);
+  }
+}
+
+/**
+ * Fetch the entries for a specific user.
+ *
+ * @param string $uid
+ *   The user ID.
+ *
+ * @return array
+ *   Array with the entries.
+ */
+function c4m_user_og_fetch_unified_workflow_entries($uid) {
+  return db_select('c4m_unified_workflow', 'uw')
+    ->fields('uw')
+    ->condition('uid', $uid)
+    ->execute()
+    ->fetchAll();
+}
+
+/**
+ * Fetch the entries for a specific user.
+ *
+ * @param string $uid
+ *   The user ID.
+ *
+ * @return bool
+ *   TRUE if deleted the entries, FALSE otherwise.
+ */
+function c4m_user_og_delete_unified_workflow_entries($uid) {
+  return db_delete('c4m_unified_workflow')
+    ->condition('uid', $uid)
+    ->execute();
+}
+
+/**
+ * Token callback to add unsafe tokens for user mails.
+ *
+ * @see c4m_content_group_mail_tokens()
+ * @see user_registrationpassword_mail_tokens()
+ */
+function c4m_user_og_mail_tokens(array &$replacements, array $data, $options) {
+  c4m_content_group_mail_tokens($replacements, $data, $options);
+  user_registrationpassword_mail_tokens($replacements, $data, $options);
+
+  // Adding destination to the link in order to redirect to the group page
+  // after the activation.
+  $replacements['[user:registrationpassword-url]'] .= '?destination=' . drupal_get_path_alias('node/' . $data['group']->nid);
+}
+
+/**
+ * Implements hook_user_update().
+ */
+function c4m_user_og_user_update(&$edit, $account, $category) {
+  if ($account->original->status || !$account->status) {
+    return;
+  }
+
+  // Associate the user to the group.
+  foreach (c4m_user_og_fetch_unified_workflow_entries($account->uid) as $entry) {
+    $group = node_load($entry->gid);
+    c4m_user_og_group_unified_workflow($group, $account);
+  }
+
+  // Destroy the entry of this account.
+  c4m_user_og_delete_unified_workflow_entries($account->uid);
 }
