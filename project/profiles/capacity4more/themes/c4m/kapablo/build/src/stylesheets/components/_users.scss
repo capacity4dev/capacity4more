@@ -137,5 +137,9 @@
 
 .user-groups {
   @include grain_dark;
-  min-width: 245px;
+  min-width: 190px;
+
+  @media (min-width: $screen-md) {
+    min-width: 245px;
+  }
 }
