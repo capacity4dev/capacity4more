@@ -64,7 +64,7 @@ function c4m_restful_quick_post_get_form_fields_access($resource_name) {
     // The next time this access callback will be called, it will not enter
     // here.
     og_context_access_callback_register_path($_GET['q']);
-    return;
+    return FALSE;
   }
 
   $resources = array(
