@@ -164,10 +164,12 @@ function c4m_user_notifications_notify_user_admin_demoted($gid, $uid) {
  */
 function _c4m_user_notify_user_admin_demoted($gid, $uid) {
   $message = message_create('c4m_group_admin_demoted', array('uid' => $uid));
+  // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_admin_demoted($message);
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($gid);
+
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
