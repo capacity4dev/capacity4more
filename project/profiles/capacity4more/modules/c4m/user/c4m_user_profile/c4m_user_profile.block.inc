@@ -133,7 +133,7 @@ function _c4m_user_profile_my_groups_top_bar() {
     '#theme'      => 'item_list',
     '#items'  => $user_groups,
     '#attributes' => array(
-      'class' => array('user-profile-menu', 'dropdown-menu'),
+      'class' => array('user-profile-menu', 'dropdown-menu', 'user-groups'),
     ),
   );
   $menu = render($menu);
