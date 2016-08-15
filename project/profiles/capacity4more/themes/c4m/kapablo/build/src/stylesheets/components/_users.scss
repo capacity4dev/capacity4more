@@ -57,6 +57,10 @@
 
     &.open > .item-list > .dropdown-menu {
       display: block;
+
+      .group-members-count {
+        color: $color-white;
+      }
     }
   }
 
