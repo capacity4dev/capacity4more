@@ -57,7 +57,6 @@
 
     &.open > .item-list > .dropdown-menu {
       display: block;
-      min-width: 245px;
 
       .group-members-count {
         margin: 0;
@@ -134,4 +133,8 @@
 
 .field-name-c4m-job-title {
   margin-bottom: 0.5rem;
+}
+
+.user-groups {
+  min-width: 245px;
 }
