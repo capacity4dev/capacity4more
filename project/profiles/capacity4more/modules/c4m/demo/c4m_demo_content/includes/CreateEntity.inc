@@ -485,4 +485,25 @@ abstract class C4mDemoContentCreateEntity extends Migration {
     return $unique;
   }
 
+  /**
+   * @param $uri
+   *  Image uri path.
+   * @param bool $use_existing
+   * @return mixed|StdClass
+   */
+  public function fileUriToObject($uri, $use_existing = FALSE) {
+    if ($use_existing) {
+      $query = db_select('file_managed', 'f')
+        ->fields('f', array('fid'))
+        ->condition('uri', $uri)
+        ->execute()
+        ->fetchCol();
+      if (!empty($query)) {
+        $file = file_load(array_shift($query));
+      }
+    }
+
+    if (!isset($file)) {
+      global $user;
+      $uri = file_stream_wrapper_uri_normalize($uri);
 }
