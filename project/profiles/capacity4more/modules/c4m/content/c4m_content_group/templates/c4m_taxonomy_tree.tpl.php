@@ -6,12 +6,12 @@
  */
 ?>
 <div class="item">
-  <span class="taxonomy-root"><?php print $root ?></span>
+  <div class="taxonomy-root"><?php print $root ?></div>
 
   <?php if (!empty($local_tree)): ?>
-    <span class="taxonomy-tree">
+    <div class="taxonomy-tree">
       <i class="fa fa-caret-right" aria-hidden="true"></i>
       <?php print $local_tree; ?>
-    </span>
+    </div>
   <?php endif; ?>
 </div>
