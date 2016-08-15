@@ -915,7 +915,7 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
     '#markup' => implode(",", $links),
   );
 
-  $node->content['#pre_render'][] = 'c4m_content_group_style_topics_and_region';
+  $node->content['#pre_render'][] = 'c4m_content_group_theme_topics_and_regions';
 }
 
 /**
@@ -927,7 +927,7 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
  * @return array mixed
  *   The elements array with the new topics and regions.
  */
-function c4m_content_group_style_topics_and_region(&$elements) {
+function c4m_content_group_theme_topics_and_regions(&$elements) {
   // Remove the 'Regions' taxonomies.
   foreach ($elements['c4m_vocab_geo']['#items'] as $index => $item) {
     unset($elements['c4m_vocab_geo'][$index]);
@@ -939,14 +939,11 @@ function c4m_content_group_style_topics_and_region(&$elements) {
   }
 
   // Add the new markup Topics.
-  $elements['c4m_vocab_topic'][0]['#markup'] = c4m_content_group_taxonomy_build_tree(
-    $elements['c4m_vocab_topic']['#items']
-  );
-
+  $topics_options = array('vocabulary_name' => 'c4m_vocab_topic');
+  $elements['c4m_vocab_topic'][0]['#markup'] = c4m_content_group_taxonomy_build_tree($elements['c4m_vocab_topic']['#items'], $topics_options);
   // Add the new markup Regions.
-  $elements['c4m_vocab_geo'][0]['#markup'] = c4m_content_group_taxonomy_build_tree(
-    $elements['c4m_vocab_geo']['#items']
-  );
+  $elements['c4m_vocab_geo'][0]['#markup'] = c4m_content_group_taxonomy_build_tree($elements['c4m_vocab_geo']['#items']);
+
   return $elements;
 }
 
@@ -955,20 +952,21 @@ function c4m_content_group_style_topics_and_region(&$elements) {
  *
  * @param array $items
  *   The items in the tree.
+ * @param array $link_term_to_facet
+ *
  *
  * @return string
  *   The markup of the tree.
  */
-function c4m_content_group_taxonomy_build_tree($items) {
+function c4m_content_group_taxonomy_build_tree($items, $link_term_to_facet = array()) {
   $options = array(
     'absolute' => TRUE,
     'purl' => array('disabled' => TRUE),
   );
-  $tree = '<div class="tree">';
+  $tree = '';
 
   // Loop through all the taxonomy items and add them to the tree.
   foreach ($items as $item) {
-    $root = '';
     $local_tree = array();
 
     // Get the items taxonomy tree (include the item itself).
@@ -976,39 +974,40 @@ function c4m_content_group_taxonomy_build_tree($items) {
 
     // For every item, build his parents tree, if he has any.
     foreach ($taxonomy_tree as $index => $taxonomy) {
-      $options['query'] = array(
-        'f[0]' => 'c4m_vocab_topic:' . $taxonomy->tid,
-      );
 
-      // 'Topics' needs to link to groups facet, and 'Regions' to taxonomy page.
-      if ($taxonomy->vocabulary_machine_name == 'c4m_vocab_topic') {
-        $link = l($taxonomy->name, 'groups', $options);
-      }
-      else {
+      // ....
+      if (empty($link_term_to_facet['vocabulary_name']) || $taxonomy->vocabulary_machine_name != $link_term_to_facet['vocabulary_name']) {
         $link = l($taxonomy->name, "/taxonomy/term/" . $taxonomy->tid);
       }
-
-      // If it's the last item on the local tree, it's the parent. We need
-      // to distinguish between the parent and his children because the
-      // parent needs to be style in a different way. We subtract 1 because
-      // the '$taxonomy_tree' give us the length of the array, and
-      // for '$index' start at 0.
-      if (count($taxonomy_tree) - 1 == $index) {
-        $root = $link;
-      }
       else {
-        $local_tree[] = $link;
+        $options['query'] = array(
+          'f[0]' => $link_term_to_facet['vocabulary_name'] . ':' . $taxonomy->tid,
+        );
+
+        $link = l($taxonomy->name, 'groups', $options);
       }
+
+      $local_tree[] = $link;
     }
+
+    // If it's the last item on the local tree, it's the parent. We need
+    // to distinguish between the parent and its children because the
+    // parent needs to get a different style.
+    $root = end($local_tree);
+    // todo: pop it out
 
     // Use the taxonomy tree theme to style the local tree.
     $variables = array(
       'root' => $root,
+      // .
       'local_tree' => implode(', ', $local_tree),
     );
     $tree .= theme('c4m_taxonomy_tree', $variables);
   }
 
-  $tree .= '</div>';
-  return $tree;
+  $tag['element'] = array(
+    '#tag'   => 'div',
+    '#value' => $tree,
+  );
+  return theme_html_tag($tag);
 }
