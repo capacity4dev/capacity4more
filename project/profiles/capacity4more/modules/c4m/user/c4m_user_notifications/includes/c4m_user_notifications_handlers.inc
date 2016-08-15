@@ -46,12 +46,13 @@ function _c4m_user_notifications_moderated_group_admin_new_membership_request($m
  * Email notification to user about acceptance to group (moderated and open).
  */
 function c4m_user_notifications_notify_user_membership_accepted($membership) {
-  // Send activation message to member.
   $message = message_create('c4m_welcome_to_group', array('uid' => $membership->etid));
+  // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_welcome_to_group($message);
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($membership->gid);
+
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
