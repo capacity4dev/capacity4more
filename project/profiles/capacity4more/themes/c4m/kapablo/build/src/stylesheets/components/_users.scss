@@ -57,6 +57,7 @@
 
     &.open > .item-list > .dropdown-menu {
       display: block;
+      min-width: 245px;
 
       .group-members-count {
         color: $color-white;
