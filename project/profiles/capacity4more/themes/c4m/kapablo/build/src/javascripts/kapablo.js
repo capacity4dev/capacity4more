@@ -201,6 +201,40 @@
     }
   };
 
+  Drupal.behaviors.jumpToTitle = {
+    attach: function (context, settings) {
+      // Do this only once.
+      if (context !== document) {
+        return;
+      }
+
+      if (!settings.c4m.jumpToTitle) {
+        return;
+      }
+
+      // We have to use setTimeout because:
+      // - for some reason when attaching the behaviour h1 has the scroll top
+      //   value of 0. Only on $(document).ready() it has the right value.
+      // - we have to let admin menu to do its thing.
+      var timeout = 0;
+      var $body = $('body');
+      if ($body.hasClass('admin-menu')) {
+        timeout = 500;
+      }
+
+      setTimeout(function () {
+        // Don't do anything if the user already scrolled to a different
+        // position.
+        if ($body.scrollTop() !== 0) {
+          return;
+        }
+        $('html, body').animate({
+          scrollTop: parseInt($('h1').offset().top) + 'px'
+        }, 100);
+      }, timeout);
+    }
+  };
+
   Drupal.behaviors.fixLeafletMaps = {
     attach: function (context, settings) {
       setTimeout(function () {
