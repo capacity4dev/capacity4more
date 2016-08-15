@@ -59,14 +59,14 @@ function _c4m_user_notifications_moderated_group_notify_admins_membership_accept
     // If message was not created properly, return early.
     return;
   }
+  // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_notify_admins_membership_accepted($message);
-  $message->arguments['@event_user_full_name'] = c4m_user_name($user);
-  $message->arguments['!event_user_url'] = url('user/' . $user->uid, array('absolute' => TRUE));
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($membership->gid);
   $wrapper->field_related_user->set($membership->etid);
   $wrapper->field_executing_user->set($user->uid);
+
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
