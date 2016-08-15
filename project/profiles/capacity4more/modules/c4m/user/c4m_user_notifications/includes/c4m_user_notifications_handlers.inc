@@ -94,6 +94,11 @@ function c4m_user_notifications_group_status_set_softdeleted($node, $group_forme
 
 /**
  * Email notification to admins about organic group deletion.
+ *
+ * @param object $node
+ *   Node of type OG group.
+ * @param string $group_former_status
+ *   Status of OG group, before it was updated.
  */
 function c4m_user_notifications_group_hard_deleted($node, $group_former_status) {
 }
