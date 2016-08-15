@@ -123,12 +123,15 @@ function c4m_user_notifications_group_permissions_changed($node, $permissions) {
 function _c4m_user_notifications_to_admin_group_permissions_changed($node, $admin_id, $permissions) {
   global $user;
   $message = message_create('c4m_group_access_change', array('uid' => $admin_id));
+  // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_access_change($message);
+  // Set 'group permissions' token to input value.
   $message->arguments['@group_permissions'] = $permissions;
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);
   $wrapper->field_executing_user->set($user->uid);
+
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
