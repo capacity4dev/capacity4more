@@ -919,14 +919,13 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
 }
 
 /**
- * Remove the default Topics and Regions markup, and create
- * it as a tree.
+ * Remove the default Topics and Regions markup, and create it as a tree.
  *
  * @param array $elements
- *  The elements array of the node.
+ *   The elements array of the node.
  *
  * @return array mixed
- *  The elements array with the new topics and regions.
+ *   The elements array with the new topics and regions.
  */
 function c4m_content_group_style_topics_and_region(&$elements) {
   // Remove the 'Regions' taxonomies.
@@ -955,10 +954,10 @@ function c4m_content_group_style_topics_and_region(&$elements) {
  * Build a tree of a hierarchical taxonomy and theme it.
  *
  * @param array $items
- *  The items in the tree.
+ *   The items in the tree.
  *
  * @return string
- *  The markup of the tree.
+ *   The markup of the tree.
  */
 function c4m_content_group_taxonomy_build_tree($items) {
   $options = array(
