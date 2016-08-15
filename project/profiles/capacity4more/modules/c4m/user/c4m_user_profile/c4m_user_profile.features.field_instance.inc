@@ -1404,7 +1404,8 @@ function c4m_user_profile_field_default_field_instances() {
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'The Regions & Countries you are interested in.',
+    'description' => 'The Regions & Countries you are interested in.
+You can select maximum 3 regions and an unlimited number of subregions or countries.',
     'display' => array(
       'block_list' => array(
         'label' => 'above',
@@ -1489,7 +1490,8 @@ function c4m_user_profile_field_default_field_instances() {
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Select one or more topics you are interested in.',
+    'description' => 'Select one or more topics you are interested in.
+You can select maximum 3 topics and an unlimited number of subtopics.',
     'display' => array(
       'block_list' => array(
         'label' => 'above',
@@ -1575,7 +1577,8 @@ function c4m_user_profile_field_default_field_instances() {
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Select one or more topics you are an expert in.',
+    'description' => 'Select one or more topics you are an expert in.
+You can select maximum 3 topics and an unlimited number of subtopics.',
     'display' => array(
       'block_list' => array(
         'label' => 'above',
@@ -1673,11 +1676,14 @@ function c4m_user_profile_field_default_field_instances() {
   t('Organisation type');
   t('Picture');
   t('Regions & Countries');
-  t('Select one or more topics you are an expert in.');
-  t('Select one or more topics you are interested in.');
+  t('Select one or more topics you are an expert in.
+You can select maximum 3 topics and an unlimited number of subtopics.');
+  t('Select one or more topics you are interested in.
+You can select maximum 3 topics and an unlimited number of subtopics.');
   t('Set if the user lost his LDAP validation.');
   t('Set if the user\'s email address has a domain mentioned in one of the "Organisation" nodes. ');
-  t('The Regions & Countries you are interested in.');
+  t('The Regions & Countries you are interested in.
+You can select maximum 3 regions and an unlimited number of subregions or countries.');
   t('Topics of Expertise');
   t('Topics of Interest');
   t('Unsubscribe Hash');
