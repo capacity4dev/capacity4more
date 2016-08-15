@@ -142,6 +142,26 @@
   @media (min-width: $screen-md) {
     min-width: 245px;
   }
+
+  .content {
+    display: flex;
+    color: $color-white;
+  }
+
+  .group-left, .group-right {
+    width: auto;
+  }
+
+  .group-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .group-left {
+    margin: 0 10px;
+  }
+
   li a {
     color: $color-white;
   }
