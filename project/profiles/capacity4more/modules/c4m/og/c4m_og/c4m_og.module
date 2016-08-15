@@ -348,22 +348,50 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
 }
 
 /**
- * Fetch all group admins.
+ * Fetch all group admins ids.
  *
  * @param int $gid
  *   The ID of the group.
+ * @param bool $verify_owner_added
+ *   Verifies that group owner id is returned, even if group owner does not
+ *   have 'administrator member' role.
  *
  * @return array
- *   An array of all group admins.
+ *   An array of all group admins ids.
  */
-function c4m_og_get_group_admins($gid) {
+function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE) {
   $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
   $admins = c4m_og_get_users_by_roles($gid, array($group_admin_role->rid));
   foreach ($admins as &$admin) {
     $admin = $admin->uid;
   }
 
-  return user_load_multiple($admins);
+  if ($verify_owner_added) {
+    $group = node_load($gid);
+    if ($group && og_is_group('node', $group)) {
+      if (!in_array($group->uid, $admins)) {
+        $admins[] = $group->uid;
+      }
+    }
+  }
+
+  return $admins;
+}
+
+/**
+ * Fetch all group admins.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ * @param bool $verify_owner_added
+ *   Verifies that group owner is returned, even if group owner does not
+ *   have 'administrator member' role.
+ *
+ * @return array
+ *   An array of all group admins.
+ */
+function c4m_og_get_group_admins($gid, $verify_owner_added = FALSE) {
+  return user_load_multiple(c4m_og_get_group_admins_ids($gid, $verify_owner_added));
 }
 
 /**
