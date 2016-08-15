@@ -13,8 +13,12 @@ class c4m_overview_groups_handler_members_count extends views_handler_field_enti
 
   /**
    * @param $node
-   * @return mixed|null
+   *  The group to check it's member's count.
    *
+   * @return int|null
+   *  The group's members count, if the node provided is valid.
+   *
+   * Uses the current group ID to fetch & return it's member's count.
    */
   function render($node) {
     if (empty($node->nid)) {
