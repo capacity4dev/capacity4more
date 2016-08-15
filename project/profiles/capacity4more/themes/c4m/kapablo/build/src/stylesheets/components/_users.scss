@@ -142,4 +142,7 @@
   @media (min-width: $screen-md) {
     min-width: 245px;
   }
+  li a {
+    color: $color-white;
+  }
 }
