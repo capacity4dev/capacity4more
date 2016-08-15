@@ -30,8 +30,6 @@ function c4m_content_project_c4m_og_vocab_info_groups() {
 
 /**
  * Implements hook_c4m_content_statistics_info().
- *
- * @todo add c4m_status when it's available in the project content type
  */
 function c4m_content_project_c4m_content_statistics_info() {
   return array(
@@ -43,6 +41,7 @@ function c4m_content_project_c4m_content_statistics_info() {
         'singular'    => 'Project',
         'plural'      => 'Projects',
         'state'       => 1,
+        'c4m_status'  => array('published', 'archived'),
         'aggregate'   => array(),
         'weight'      => -3,
         'attributes'  => array(

@@ -456,12 +456,12 @@ function c4m_content_field_formatter_view($entity_type, $entity, $field, $instan
  * @param float $number
  *   Number to be formatted.
  * @param int $decimals
- *   Number of decimals.
+ *   (optional) Number of decimals. Defaults to 0.
  *
  * @return string
  *   Formatted number.
  */
-function c4m_content_ec_number_format($number, $decimals) {
+function c4m_content_ec_number_format($number, $decimals = 0) {
   $decimal_separator = '.';
   $grouping_separator = '&nbsp;';
 

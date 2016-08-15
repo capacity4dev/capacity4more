@@ -6,7 +6,7 @@
  */
 ?>
 <div class="c4m-group-visitor-cta">
-  <a class="btn" href="<?php print $url; ?>">
+  <a class="btn text-small" href="<?php print $url; ?>">
     <i class="fa <?php print $button_icon; ?>"></i>
     <?php print $button_label; ?>
   </a>
