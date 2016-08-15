@@ -99,12 +99,14 @@ function c4m_user_notifications_group_status_set_archived($node, $group_former_s
 function _c4m_user_notifications_to_admin_group_status_set_archived($node, $admin_id, $group_former_status) {
   global $user;
   $message = message_create('c4m_group_archived', array('uid' => $admin_id));
+  // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_archived($message);
   $message->arguments['@group_former_status'] = $group_former_status;
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);
   $wrapper->field_executing_user->set($user->uid);
+
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
