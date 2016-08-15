@@ -103,6 +103,11 @@ function _c4m_user_profile_my_groups_top_bar() {
     $user_groups[] = render($node_view);
   }
 
+  // The user is not yet a member of any group.
+  if (!$user_groups) {
+    return '';
+  }
+
   $user_profile = array(
     '#theme'  => 'c4m_user_profile_groups_top_bar',
     '#link'   => array(
