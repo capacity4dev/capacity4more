@@ -235,11 +235,12 @@ function c4m_user_notifications_notify_comment_on_content($comment) {
  */
 function c4m_user_notifications_notify_new_group_pending($node) {
   $message = message_create('c4m_group_requested', array('uid' => $node->uid));
+  // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_requested($message);
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);
-  
+
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
