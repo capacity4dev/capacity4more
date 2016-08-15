@@ -89,12 +89,14 @@ function c4m_user_notifications_group_status_set_republished($node, $group_forme
 function _c4m_user_notifications_to_admin_group_status_set_republished($node, $admin_id, $group_former_status) {
   global $user;
   $message = message_create('c4m_group_republished', array('uid' => $admin_id));
+  // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_republished($message);
   $message->arguments['@group_former_status'] = $group_former_status;
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);
   $wrapper->field_executing_user->set($user->uid);
+
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
