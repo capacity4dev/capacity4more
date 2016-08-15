@@ -59,12 +59,15 @@ function _c4m_user_notifications_open_group_notify_admin_membership_accepted($me
     // Return early, if message was not created properly.
     return;
   }
+  // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_new_member_joined($message);
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($membership->gid);
   $wrapper->field_related_user->set($membership->etid);
   $wrapper->field_group_membership->set($membership->id);
+
+  // Message will be saved inside message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
 
