@@ -918,6 +918,16 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
   $node->content['#pre_render'][] = 'c4m_content_group_style_topics_and_region';
 }
 
+/**
+ * Remove the default Topics and Regions markup, and create
+ * it as a tree.
+ *
+ * @param array $elements
+ *  The elements array of the node.
+ *
+ * @return array mixed
+ *  The elements array with the new topics and regions.
+ */
 function c4m_content_group_style_topics_and_region(&$elements) {
   // Remove the 'Regions' taxonomies.
   foreach ($elements['c4m_vocab_geo']['#items'] as $index => $item) {
@@ -929,12 +939,12 @@ function c4m_content_group_style_topics_and_region(&$elements) {
     unset($elements['c4m_vocab_topic'][$index]);
   }
 
-  // Add ...
+  // Add the new markup Topics.
   $elements['c4m_vocab_topic'][0]['#markup'] = c4m_content_group_taxonomy_build_tree(
     $elements['c4m_vocab_topic']['#items']
   );
 
-  // Add ..
+  // Add the new markup Regions.
   $elements['c4m_vocab_geo'][0]['#markup'] = c4m_content_group_taxonomy_build_tree(
     $elements['c4m_vocab_geo']['#items']
   );
@@ -942,8 +952,13 @@ function c4m_content_group_style_topics_and_region(&$elements) {
 }
 
 /**
- * Build a tree of a hierarchical_taxonomy, for custom theming.
+ * Build a tree of a hierarchical taxonomy and theme it.
  *
+ * @param array $items
+ *  The items in the tree.
+ *
+ * @return string
+ *  The markup of the tree.
  */
 function c4m_content_group_taxonomy_build_tree($items) {
   $options = array(
@@ -974,10 +989,11 @@ function c4m_content_group_taxonomy_build_tree($items) {
         $link = l($taxonomy->name, "/taxonomy/term/" . $taxonomy->tid);
       }
 
-      // If it's the last item on the local tree, it's the parent. We need to
-      // distinguish between the parent and his children because the parent needs
-      // to be style in a different way. We subtract 1 because the '$taxonomy_tree'
-      // give us the length of the array, and for '$index' start at 0.
+      // If it's the last item on the local tree, it's the parent. We need
+      // to distinguish between the parent and his children because the
+      // parent needs to be style in a different way. We subtract 1 because
+      // the '$taxonomy_tree' give us the length of the array, and
+      // for '$index' start at 0.
       if (count($taxonomy_tree) - 1 == $index) {
         $root = $link;
       }
