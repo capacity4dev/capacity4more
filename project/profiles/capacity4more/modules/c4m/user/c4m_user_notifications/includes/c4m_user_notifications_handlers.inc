@@ -261,14 +261,15 @@ function c4m_user_notifications_notify_comment_on_content($comment) {
  * Email notification to group requester, that group is waiting for review.
  */
 function c4m_user_notifications_notify_new_group_pending($node) {
-
 }
 
 /**
- * Returns an array of subscriber to notify.
+ * Returns an array of subscribers to notify.
  *
  * Function message_subscribe_get_subscribers() implementation, which is invoked
  * by message_subscribe_send_message().
+ * Uses designated context, thus disabling message_subscribe_get_subscribers()
+ * of message_subscribe module.
  * Returns an array of structure [uid => notifier].
  *  uid - user that have flagged $entity_id, with $flag_name.
  *  notifier - [email].
@@ -286,14 +287,34 @@ function c4m_user_notifications_notify_new_group_pending($node) {
  */
 function c4m_user_notifications_message_subscribe_get_subscribers($message, $subscribe_options, $context) {
   // All entity types are nodes, besides 'term'.
-  $entity_type = $context['entity_type'] == 'term' ? 'taxonomy_term' : 'node';
-  $entity_id = key($context[$entity_type]);
-  $flag_name = 'subscribe_c4m_follow_' . $context['entity_type'];
+  $entity_type = $context['entity_type'];
+  $entity_id = $context['entity_id'];
+  $flag_name = 'subscribe_c4m_follow_' . $entity_type;
+  $flagged_entity_type = $entity_type == 'term' ? 'taxonomy_term' : 'node';
 
-  $users = flag_get_entity_flags($entity_type, $entity_id, $flag_name);
-  // Set notifiers to mail.
+  $users = flag_get_entity_flags($flagged_entity_type, $entity_id, $flag_name);
+  // Set filtered users to full list of $users - if no filtering required,
+  // this wil insure that noting gets filtered.
+  $filtered_users = array_keys($users);
+
+  // If we need to filter users according to additional flag.
+  if (isset($context['additional_flag_suffix'])) {
+    // Filtering.
+    $flag_name = 'subscribe_c4m_follow_' . $context['additional_flag_suffix'];
+    $filtered_users = flag_get_entity_flags($flagged_entity_type, $entity_id, $flag_name);
+    $filtered_users = array_intersect(array_keys($users), array_keys($filtered_users));
+  }
+
+  // Set notifiers to mail, for users that remain after filtering.
   foreach ($users as $key => &$value) {
-    $value = array('notifiers' => array('email'));
+    if (array_search($key, $filtered_users) !== FALSE) {
+      // If user is found at filtering array, keep it.
+      $value = array('notifiers' => array('email' => 'email'));
+    }
+    else {
+      // If not found, unset user from array.
+      unset($users[$key]);
+    }
   }
 
   return $users;
