@@ -415,7 +415,7 @@ function c4m_message_format_new_member_expertise(Message $message) {
 function c4m_message_format_new_member_self_description(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  return $wrapper->field_related_user->c4m_body->value->value();
+  return strip_tags($wrapper->field_related_user->c4m_body->value->value());
 }
 
 /**
@@ -432,7 +432,11 @@ function c4m_message_format_group_pending_member_url(Message $message) {
   $gid = $wrapper->field_group_node->value(array('identifier' => TRUE));
   $mid = $wrapper->field_group_membership->value(array('identifier' => TRUE));
 
-  return url('/group/node/' . $gid . '/admin/people/edit-membership/' . $mid);
+  $options = array(
+    'absolute' => TRUE,
+  );
+
+  return url('group/node/' . $gid . '/admin/people/edit-membership/' . $mid, $options);
 }
 
 /**
@@ -448,7 +452,11 @@ function c4m_message_format_new_member_public_profile_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $uid = $wrapper->field_related_user->value(array('identifier' => TRUE));
 
-  return url('user/' . $uid);
+  $options = array(
+    'absolute' => TRUE,
+  );
+
+  return url('user/' . $uid, $options);
 }
 
 /**
@@ -495,7 +503,11 @@ function c4m_message_format_group_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $nid = $wrapper->field_group_node->value(array('identifier' => TRUE));
 
-  return url('node/' . $nid);
+  $options = array(
+    'absolute' => TRUE,
+  );
+
+  return url('node/' . $nid, $options);
 }
 
 /**
@@ -558,7 +570,11 @@ function c4m_message_format_group_owner_public_profile_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $author_id = $wrapper->field_group_node->author->getIdentifier();
 
-  return url('user/' . $author_id);
+  $options = array(
+    'absolute' => TRUE,
+  );
+
+  return url('user/' . $author_id, $options);
 }
 
 /**
@@ -573,7 +589,7 @@ function c4m_message_format_group_owner_public_profile_url(Message $message) {
 function c4m_message_format_event_user_id(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  return $wrapper->field_related_user->value(array('identifier' => TRUE));
+  return $wrapper->field_executing_user->value(array('identifier' => TRUE));
 }
 
 /**
@@ -588,7 +604,47 @@ function c4m_message_format_event_user_id(Message $message) {
 function c4m_message_format_event_user_full_name(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  return c4m_user_name($wrapper->field_related_user->value());
+  return c4m_user_name($wrapper->field_executing_user->value());
+}
+
+/**
+ * Returns a link to event user contact page.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns a link to event user contact page.
+ */
+function c4m_message_format_event_user_message_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $uid = $wrapper->field_executing_user->value(array('identifier' => TRUE));
+
+  $options = array(
+    'absolute' => TRUE,
+  );
+
+  return url('user/' . $uid . '/contact', $options);
+}
+
+/**
+ * Returns a link to event user profile.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns a link to event user public profile.
+ */
+function c4m_message_format_event_user_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $uid = $wrapper->field_executing_user->value(array('identifier' => TRUE));
+
+  $options = array(
+    'absolute' => TRUE,
+  );
+
+  return url('user/' . $uid, $options);
 }
 
 /**
@@ -633,7 +689,11 @@ function c4m_message_format_node_type(Message $message) {
 function c4m_message_format_node_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  return 'node/' . $wrapper->field_node->value(array('identifier' => TRUE));
+  $options = array(
+    'absolute' => TRUE,
+  );
+
+  return url('node/' . $wrapper->field_node->value(array('identifier' => TRUE)), $options);
 }
 
 /**
@@ -755,6 +815,12 @@ function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
   $field_suffix = $flag_suffix == 'group' ? 'group_node' : $flag_suffix;
   $field = "field_{$field_suffix}";
   $nid = $wrapper->$field->value(array('identifier' => TRUE));
+  if ($flag_suffix == 'comment') {
+    // The identifier we got is actually cid. Need to get the correct one.
+    $comment = comment_load($nid);
+    $nid = $comment->nid;
+  }
+
   $uid = $message->uid;
   $account = user_load($uid);
   $wrapper = entity_metadata_wrapper('user', $account);

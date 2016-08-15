@@ -117,23 +117,31 @@ function c4m_content_photo_c4m_helper_entity_label_info() {
 /**
  * Implements hook_preprocess().
  *
- * Create the back to photo album link.
+ * Disable the purl on the links producing by the node_gallery module.
  */
 function c4m_content_photo_preprocess(&$variables, $hook) {
   if ($hook != 'node_gallery_api_item_navigator') {
     return;
   }
 
-  global $base_path;
   $options = array(
     'absolute' => TRUE,
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
   );
 
-  // 'gallery_link' contain the full path to the gallery (back button).
-  // This create duplication of the base path in the link when creating
-  // it in the next line, so we strip the base path from the 'gallery_link'.
-  $variables['gallery_link'] = str_replace($base_path, '', $variables['gallery_link']);
-
-  // Create the link with absolute path.
-  $variables['back_to_galley_link'] = l(t('Back to photo album'), $variables['gallery_link'], $options);
+  // Modify the links with absolute path and no purl.
+  if (isset($variables['gallery_link'])) {
+    $variables['gallery_link'] = url($variables['gallery_link'], $options);
+  }
+  if (isset($variables['next_link'])) {
+    $variables['next_link'] = url($variables['next_link'], $options);
+  }
+  if (isset($variables['last_link'])) {
+    $variables['last_link'] = url($variables['last_link'], $options);
+  }
+  if (isset($variables['prev_link'])) {
+    $variables['prev_link'] = url($variables['prev_link'], $options);
+  }
 }
