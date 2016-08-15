@@ -207,7 +207,10 @@ function c4m_user_notifications_node_delete($node) {
     return;
   }
 
-  c4m_user_notifications_group_hard_deleted($node);
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $group_former_status = $wrapper->c4m_og_status->value();
+
+  c4m_user_notifications_group_hard_deleted($node, $group_former_status);
 }
 
 /**
