@@ -196,17 +196,17 @@ function _c4m_user_profile_block_user_confirm_email() {
  * Block definition for the user_my_profile_groups block.
  *
  * @return array
- *   The block definition.
+ *   The rendered "my groups" block.
  */
 function _c4m_user_profile_block_user_my_profile_groups() {
   module_load_include('inc', 'c4m_features_homepage', 'plugins/content_types/my_groups/my_groups');
-  $user = menu_get_object('user', 1);
+  $user = menu_get_object('user');
   $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($user, array('group'));
 
   $block = array();
   $block['subject'] = '';
   $block['content'] = '';
-  if (is_null($groups)) {
+  if (empty($groups)) {
     return $block;
   }
 
@@ -226,12 +226,19 @@ function _c4m_user_profile_block_user_my_profile_groups() {
     'groups' => $rendered_groups,
   );
 
-  $block['content'] = $rendered_groups ? theme('c4m_user_profile_my_profile_groups', $variables) : FALSE;
+  $block['content'] = empty($rendered_groups) ? theme('c4m_user_profile_my_profile_groups', $variables) : FALSE;
+
   return $block;
 }
 
 /**
  * Returns the title for the type of membership of a group.
+ *
+ * @param String $type
+ *   The group membership type.
+ *
+ * @return String
+ *   The translated title for the membership type.
  */
 function c4m_user_profile_get_group_type_title($type) {
   $titles = array(
@@ -240,5 +247,6 @@ function c4m_user_profile_get_group_type_title($type) {
     'member' => t("Groups I'm member of"),
     'pending' => t('Membership requested'),
   );
+
   return $titles[$type];
 }
