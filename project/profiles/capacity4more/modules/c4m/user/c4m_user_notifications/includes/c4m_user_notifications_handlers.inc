@@ -93,7 +93,7 @@ function c4m_user_notifications_group_status_set_archived($node, $group_former_s
  *   Node of type OG group.
  * @param string $group_former_status
  *   Status of OG group, before it was changed to Deleted.
-  */
+ */
 function c4m_user_notifications_group_status_set_softdeleted($node, $group_former_status) {
   $admins_ids = c4m_admin_get_admins_ids();
 
