@@ -72,21 +72,15 @@ function c4m_features_homepage_get_user_groups($account = NULL, $allowed_types =
     $account = user_load($user->uid);
   }
 
-  // Get All user's groups (We get them sorted by id).
-  $groups = og_get_groups_by_user($account, NULL, TRUE);
+  $groups = array();
+  foreach ($allowed_types as $type) {
+    $groups += c4m_user_og_get_groups($account);
+  }
 
-  if (empty($groups['node'])) {
+  if (empty($groups)) {
     return FALSE;
   }
 
-  $nids = array_values($groups['node']);
-  $groups = node_load_multiple($nids);
-
-  foreach ($groups as $group) {
-    if (!in_array($group->type, $allowed_types)) {
-      unset($groups[$group->nid]);
-    }
-  }
   usort($groups, 'c4m_sort_object_by_title');
 
   return $groups;
