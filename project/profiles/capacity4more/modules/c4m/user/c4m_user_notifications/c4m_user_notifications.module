@@ -494,10 +494,9 @@ function _c4m_user_notifications_build_group_permissions($access, $membership_op
  * Helper function.
  *
  * Triggers email notification when organic group node is updated.
- * Per subscribe_c4m_follow_term flag.
  */
 function _c4m_user_notifications_process_og_alter($node, $mode) {
-  $allowed_og_types = array('group', 'project', 'event', 'article');
+  $allowed_og_types = _c4m_user_notifications_get_group_content_notification_types();
   if (!in_array($node->type, $allowed_og_types)) {
     return;
   }
