@@ -599,9 +599,11 @@ function c4m_message_format_group_node_type(Message $message) {
  */
 function c4m_message_format_message_to_admins(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $message = $wrapper->field_group_node->field_message_to_site_admin->value();
+  if (!isset($wrapper->field_group_node->field_message_to_site_admin)) {
+    return '';
+  }
 
-  return $message ? $message : '';
+  return $wrapper->field_group_node->field_message_to_site_admin->value();
 }
 
 /**
