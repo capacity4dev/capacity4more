@@ -49,6 +49,7 @@ class c4m_overview_groups_handler_title_no_purl extends views_handler_field_node
    */
   function render_link($data, $values) {
 
+    // Renders a link without PURL, if the option selected.
     if ($this->options['disable_purl']) {
       return l($values->node_title, 'node/' . $this->get_value($values, 'nid'), ['purl' => array('disabled' => TRUE)]);
     }
