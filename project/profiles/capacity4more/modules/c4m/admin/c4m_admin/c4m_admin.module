@@ -29,7 +29,7 @@ function c4m_admin_menu() {
  * Returns site administrators ids.
  *
  * @return array
- *   Ids of site admins
+ *   Ids of site admins, or empty array, if none found.
  */
 function c4m_admin_get_admins_ids() {
   // Get all site administrators.
@@ -44,5 +44,5 @@ function c4m_admin_get_admins_ids() {
     $result = $result->uid;
   }
 
-  return empty($results) ? array() : $results;
+  return $results;
 }
