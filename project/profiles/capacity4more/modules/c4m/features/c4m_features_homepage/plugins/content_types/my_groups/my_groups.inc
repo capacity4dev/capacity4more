@@ -60,13 +60,11 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
  *
  * @param object $account.
  *   User object. Defaults global user if NULL.
- * @param $allowed_types.
- *   Array of group types to be returned.
  *
  * @returns mixed|null
  *   List of groups or NULL if the user has no groups.
  */
-function c4m_features_homepage_get_user_groups($account = NULL, $allowed_types = array('group')) {
+function c4m_features_homepage_get_user_groups($account = NULL) {
   $groups = c4m_user_og_get_groups($account);
   usort($groups, 'c4m_sort_object_by_title');
 
@@ -78,13 +76,11 @@ function c4m_features_homepage_get_user_groups($account = NULL, $allowed_types =
  *
  * @param object $account.
  *   User object. Defaults global user if NULL.
- * @param $allowed_types.
- *   Array of group types to be returned.
  *
  * @returns mixed|null
  *   List of groups or NULL if the user has no groups.
  */
-function c4m_features_homepage_get_user_groups_grouped_by_membership($account = NULL, $allowed_types = array('group')) {
+function c4m_features_homepage_get_user_groups_grouped_by_membership($account = NULL) {
   $groups = c4m_features_homepage_get_user_groups($account, $allowed_types);
 
   foreach ($groups as $group) {
