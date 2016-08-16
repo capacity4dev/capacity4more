@@ -367,7 +367,7 @@ function c4m_content_get_og_image_markup($group) {
         );
         $markup .= l(theme_html_tag($edit_link) . theme_image_style($file), url('node/' . $group->nid . '/edit', array(
           'absolute' => TRUE,
-          'fragment' => 'edit-image-banner'
+          'fragment' => 'edit-image-banner',
         )), $options);
       }
       else {
