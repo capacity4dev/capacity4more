@@ -68,11 +68,6 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
  */
 function c4m_features_homepage_get_user_groups($account = NULL, $allowed_types = array('group')) {
   $groups = c4m_user_og_get_groups($account);
-
-  if (empty($groups)) {
-    return array();
-  }
-
   usort($groups, 'c4m_sort_object_by_title');
 
   return $groups;
