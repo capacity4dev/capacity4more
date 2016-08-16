@@ -243,6 +243,18 @@ function c4m_user_notifications_notify_new_group_pending($node) {
 }
 
 /**
+ * Email notification to site admins, about new group request.
+ */
+function c4m_user_notifications_notify_admins_group_requested($node) {
+}
+/**
+ * Helper function.
+ *
+ * Email notification to site admin, about new group request.
+ */
+function _c4m_user_notifications_notify_admin_group_requested($node, $admin_id) {
+}
+/**
  * Returns an array of subscribers to notify.
  *
  * Function message_subscribe_get_subscribers() implementation, which is invoked
