@@ -99,9 +99,6 @@
   }
 
   &.node-event {
-    .field-name-c4m-ds-content-footer-stats {
-      margin-bottom: 1rem;
-    }
     .field-name-c4m-ds-event-start-icon {
       display: inline-block;
       text-align: center;
@@ -239,6 +236,15 @@
       .field-name-c4m-media {
         margin-bottom: 0;
       }
+    }
+  }
+
+  &.node-article,
+  &.node-event,
+  &.node-wiki-page {
+    .field-name-c4m-ds-content-footer-stats {
+      margin-bottom: 1rem;
+      margin-top: 1rem;
     }
   }
 
