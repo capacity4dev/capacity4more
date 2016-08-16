@@ -67,15 +67,7 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
  *   List of groups or NULL if the user has no groups.
  */
 function c4m_features_homepage_get_user_groups($account = NULL, $allowed_types = array('group')) {
-  if (is_null($account)) {
-    global $user;
-    $account = user_load($user->uid);
-  }
-
-  $groups = array();
-  foreach ($allowed_types as $type) {
-    $groups += c4m_user_og_get_groups($account);
-  }
+  $groups = c4m_user_og_get_groups($account);
 
   if (empty($groups)) {
     return FALSE;
