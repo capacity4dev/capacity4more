@@ -328,6 +328,13 @@ function c4m_features_homepage_c4m_cta_block() {
       '#button_icon' => 'fa-plus',
       '#url' => url('/node/add/group'),
     );
+
+    $items['create-project'] = array(
+      '#theme' => 'c4m_group_visitor_cta',
+      '#button_label' => t('Create project'),
+      '#button_icon' => 'fa-plus',
+      '#url' => url('/node/add/project'),
+    );
   }
 
   return $items;
