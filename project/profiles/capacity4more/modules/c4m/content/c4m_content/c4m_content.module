@@ -301,6 +301,12 @@ function c4m_content_theme() {
     'path' => drupal_get_path('module', 'c4m_content') . '/includes',
   );
 
+  $theme['c4m_taxonomy_tree'] = array(
+    'template' => 'c4m_taxonomy_tree',
+    'path' => drupal_get_path('module', 'c4m_content') . '/templates',
+    'variables' => array(),
+  );
+
   return $theme;
 }
 
@@ -633,4 +639,71 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
   $star = '<i class="fa ' . $star_class[$highlight] . ' fa-2x" aria-hidden="true"></i>';
 
   return l($star, $url, $options);
+}
+
+/**
+ * Build a tree of a hierarchical taxonomy and theme it.
+ *
+ * @param array $items
+ *   The items in the tree.
+ * @param array $link_term_to_facet
+ *   The current vocabulary machine name, for linking to facet.
+ *
+ * @return string
+ *   The markup of the tree.
+ */
+function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) {
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+  $tree = '';
+
+  // Loop through all the taxonomy items and add them to the tree.
+  foreach ($items as $item) {
+    $local_tree = array();
+
+    // Get the items taxonomy tree (include the item itself).
+    $taxonomy_tree = taxonomy_get_parents_all($item['tid']);
+
+    // For every item, build his parents tree, if he has any.
+    foreach ($taxonomy_tree as $index => $taxonomy) {
+
+      // If the link term was not provided, or it isn't the proper
+      // one for the current vocabulary, create a default link to
+      // the taxonomy term.
+      if (empty($link_term_to_facet['vocabulary_name']) || $taxonomy->vocabulary_machine_name != $link_term_to_facet['vocabulary_name']) {
+        $link = l($taxonomy->name, "/taxonomy/term/" . $taxonomy->tid);
+      }
+      else {
+        $options['query'] = array(
+          'f[0]' => $link_term_to_facet['vocabulary_name'] . ':' . $taxonomy->tid,
+        );
+
+        $link = l($taxonomy->name, 'groups', $options);
+      }
+
+      $local_tree[] = $link;
+    }
+
+    // If it's the last item on the local tree, it's the parent. We need
+    // to distinguish between the parent and its children because the
+    // parent needs to get a different style.
+    $root = array_pop($local_tree);
+
+    // Use the taxonomy tree theme to style the local tree.
+    $variables = array(
+      'root' => $root,
+      // Join the local_tree array to a string.
+      'local_tree' => implode(', ', $local_tree),
+    );
+    $tree .= theme('c4m_taxonomy_tree', $variables);
+  }
+
+  $tag['element'] = array(
+    '#tag'   => 'div',
+    '#value' => $tree,
+  );
+
+  return theme_html_tag($tag);
 }

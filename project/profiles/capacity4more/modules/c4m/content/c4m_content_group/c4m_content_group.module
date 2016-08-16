@@ -896,22 +896,34 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
     '#markup' => implode(",", $links),
   );
 
-  // Style the Topics vocab.
-  foreach ($node->content['c4m_vocab_topic']['#items'] as $index => $item) {
-    $topic = $item['taxonomy_term'];
+  $node->content['#pre_render'][] = 'c4m_content_group_theme_topics_and_regions';
+}
 
-    // Create the topics tree.
-    $topic_names = array();
-    $tree = hierarchical_taxonomy_get_tree($topic->vid, $topic->tid);
-    foreach ($tree as $term) {
-      $topic_names[] = l($term->name, "/taxonomy/term/" . $term->tid);
-    }
-
-    $variables = array(
-      'root' => $topic,
-      'tree' => implode(', ', $topic_names),
-    );
-
-    $node->content['c4m_vocab_topic'][$index]['#markup'] = theme('c4m_og_vocab', $variables);
+/**
+ * Remove the default Topics and Regions markup, and create it as a tree.
+ *
+ * @param array $elements
+ *   The elements array of the node.
+ *
+ * @return array mixed
+ *   The elements array with the new topics and regions.
+ */
+function c4m_content_group_theme_topics_and_regions(&$elements) {
+  // Remove the 'Regions' taxonomies.
+  foreach ($elements['c4m_vocab_geo']['#items'] as $index => $item) {
+    unset($elements['c4m_vocab_geo'][$index]);
   }
+
+  // Remove the 'Topics' taxonomies.
+  foreach ($elements['c4m_vocab_topic']['#items'] as $index => $item) {
+    unset($elements['c4m_vocab_topic'][$index]);
+  }
+
+  // Add the new markup Topics.
+  $topics_options = array('vocabulary_name' => 'c4m_vocab_topic');
+  $elements['c4m_vocab_topic'][0]['#markup'] = c4m_content_taxonomy_build_tree($elements['c4m_vocab_topic']['#items'], $topics_options);
+  // Add the new markup Regions.
+  $elements['c4m_vocab_geo'][0]['#markup'] = c4m_content_taxonomy_build_tree($elements['c4m_vocab_geo']['#items']);
+
+  return $elements;
 }
