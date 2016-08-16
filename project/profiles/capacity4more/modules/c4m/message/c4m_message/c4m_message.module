@@ -520,6 +520,44 @@ function c4m_message_format_group_node_type(Message $message) {
 }
 
 /**
+ * Returns message to admin token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return message to admin, which is entered by group requester.
+ */
+function c4m_message_format_group_message_to_admin(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $message = $wrapper->field_group_node->field_message_to_site_admin->value();
+
+  return $message ? $message : '';
+}
+
+/**
+ * Returns group edit url token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return group edit url.
+ */
+function c4m_message_format_group_edit_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $nid = $wrapper->field_group_node->value(array('identifier' => TRUE));
+
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  return url('node/' . $nid . '/edit', $options);
+}
+
+
+/**
  * Returns group owner url token.
  *
  * @param Message $message
