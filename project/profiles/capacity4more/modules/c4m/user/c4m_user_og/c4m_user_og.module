@@ -970,22 +970,16 @@ function c4m_user_og_invite_access($group = NULL) {
     }
   }
 
-  // SAs, GOs and GAs can invite new members.
-  $role_in_group = c4m_user_og_get_role_in_group($user, $group);
-  if (($role_in_group == 'owner' || $role_in_group == 'administrator') || user_access('administer site')) {
-    return TRUE;
-  }
-
   // Get request type (open/moderated).
   $membership_request_value = c4m_og_get_group_membership_request($group);
   // Get access type (public/private).
   $access_type = c4m_og_get_access_type($group);
 
-  // If the group is private or moderated, regular GMs can't invite.
+  // If the group is private or moderated, check for power member.
+  // Else just check for member.
   if ($access_type['type'] == 'private' || $membership_request_value == 'moderated') {
-    return FALSE;
+    return _c4m_features_og_members_is_power_user($group);
+  } else {
+    return og_is_member($group->type, $group->nid, 'user', $user);
   }
-
-  // User must be at least a member in order to send an invitation.
-  return $role_in_group == 'member';
 }
