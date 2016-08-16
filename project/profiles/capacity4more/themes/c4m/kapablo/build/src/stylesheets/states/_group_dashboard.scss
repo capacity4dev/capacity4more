@@ -4,17 +4,17 @@
 
     display: block;
   }
-}
 
-.related-block {
-  display: flex;
+  .related-block {
+    display: flex;
 
-  img {
-    height: 100%;
-    margin-right: 10px;
-  }
+    img {
+      height: 100%;
+      margin-right: 10px;
+    }
 
-  &-node-author {
-    font-size: 13px;
+    &-node-author {
+      font-size: 13px;
+    }
   }
 }
