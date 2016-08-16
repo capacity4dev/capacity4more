@@ -278,7 +278,7 @@ function _c4m_og_invite_visitors_mail_text($key, $language = NULL, $variables = 
     // No override, return default string.
     switch ($key) {
       case 'invite_group_member_subject':
-        $text = t('[personal_invite_subject]', array(), array('langcode' => $langcode));
+        $text = t('[personal:subject]', array(), array('langcode' => $langcode));
         break;
       case 'invite_group_member_body':
         $text = t(<<<EOD
@@ -293,7 +293,7 @@ Hello,
 <p>See their message below:</p>
  
 <p> 
-[user:personal_invite_message]
+[personal:body]
 </p>
  
 <p>
@@ -356,8 +356,8 @@ function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
     $replacements['[group:node_title]'] = $group->title;
     $replacements['[group:accept_invite_url]'] = '#url';
     $replacements['[group:dashboard_url]'] = url('<front>', $url_options);
-    $replacements['[message:personal_subject]'] = $data['form_fields']['subject'];
-    $replacements['[message:personal_body]'] = $data['form_fields']['body'];
+    $replacements['[personal:subject]'] = $data['form_fields']['subject'];
+    $replacements['[personal:body]'] = $data['form_fields']['body'];
     $replacements['[site:name]'] = variable_get('site_name', 'Capacity 4 More');
   }
 }
