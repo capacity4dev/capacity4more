@@ -830,10 +830,10 @@
     white-space: normal;
     width: 100%;
   }
+}
 
-  &:last-of-type {
-    border-bottom: 1px dashed $color-gray-darkThree;
-    margin: 10px 0 20px;
-    padding-bottom: 10px;
-  }
+.c4m-button-spacing-cta {
+  border-bottom: 1px dashed $color-gray-darkThree;
+  margin: 10px 0 20px;
+  padding-bottom: 10px;
 }

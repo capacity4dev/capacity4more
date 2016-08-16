@@ -324,6 +324,7 @@ function c4m_features_homepage_c4m_cta_block() {
   if (drupal_is_front_page() && !user_is_anonymous()) {
     $items['create-group'] = array(
       '#theme' => 'c4m_group_visitor_cta',
+      '#classes' => 'c4m-group-visitor-cta',
       '#button_label' => t('Create group'),
       '#button_icon' => 'fa-plus',
       '#url' => url('/node/add/group'),
@@ -331,6 +332,7 @@ function c4m_features_homepage_c4m_cta_block() {
 
     $items['create-project'] = array(
       '#theme' => 'c4m_group_visitor_cta',
+      '#classes' => 'c4m-group-visitor-cta c4m-button-spacing-cta',
       '#button_label' => t('Create project'),
       '#button_icon' => 'fa-plus',
       '#url' => url('/node/add/project'),
