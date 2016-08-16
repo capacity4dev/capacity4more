@@ -87,7 +87,7 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group_type
   $group = entity_load_single($group_type, $gid);
   $label = entity_label($group_type, $group);
   list(, , $bundle) = entity_extract_ids($group_type, $group);
-  $og_roles = og_roles($group_type, $bundle, $gid, FALSE, FALSE);
+  $og_roles = array('') + og_roles($group_type, $bundle, $gid, FALSE, FALSE);
 
   $form['group_type'] = array('#type' => 'value', '#value' => $group_type);
   $form['gid'] = array('#type' => 'value', '#value' => $gid);
@@ -102,17 +102,24 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group_type
     '#description' => t('Use commas or new lines to split email addresses. The new users will be created and invited as members of this group. A one time login link will be sent to the invitees\' email.  '),
     '#required' => TRUE,
   );
-  $form['c4m_og_invite_visitors']['roles'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Administrator member'),
-    '#value' => t('Administrator member'),
-    '#description' => t('"member" role is assigned by default'),
+  $form['og_invite_people']['roles'] = array(
+    '#type' => 'select',
+    '#multiple' => TRUE,
+    '#title' => t('Assign roles'),
+    '#description' => t('Choose one or more roles you would like to assign to the users. ("member" role is assigned by default)'),
+    '#options' => $og_roles,
+    '#size' => 5
   );
   $form['c4m_og_invite_visitors']['state'] = array(
     '#type' => 'select',
     '#title' => t('Membership state'),
     '#options' => og_group_content_states(),
     '#description' => t('Select the state of the membership.'),
+  );
+  $form['c4m_og_invite_visitors']['personal_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subject'),
+    '#description' => t('Add a personal subject to the invitation email.'),
   );
   $form['c4m_og_invite_visitors']['personal_message'] = array(
     '#type' => 'textarea',
@@ -151,7 +158,6 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group_type
   return $form;
 }
 
-
 /**
  * Validation handler for _c4m_og_invite_visitors_new_users_form.
  */
@@ -179,6 +185,10 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
   $og_roles = $form_state['values']['roles'];
   $state = $form_state['values']['state'];
   $field_name = $form_state['field_name'];
+  $form_fields = array(
+    'subject' => $form_state['values']['personal_subject'],
+    'body' => $form_state['values']['personal_message']
+  );
   $entity_type = 'user';
   $all_states = og_group_content_states();
 
@@ -195,7 +205,7 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
     }
     else {
       // Create a user and return $account object.
-      $account = _c4m_og_invite_visitors_create_user($invitee_email);
+      $account = _c4m_og_invite_visitors_create_user($invitee_email, $form_fields);
       $message = t('%user has been created and an email notification was sent.', array('%user' => format_username($account)));
     }
 
@@ -243,7 +253,11 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
  */
 function c4m_og_invite_visitors_mail($key, &$message, $params) {
   $language = $message['language'];
-  $variables = array('user' => $params['account']);
+  $variables = array(
+    'user' => $params['account'],
+    'message' => $message,
+    'form_fields' => $params['form_fields'],
+  );
   $message['subject'] .= _c4m_og_invite_visitors_mail_text($key . '_subject', $language, $variables);
   $message['body'][] = _c4m_og_invite_visitors_mail_text($key . '_body', $language, $variables);
 }
@@ -273,22 +287,22 @@ Hello,
 </p>
  
 <p><br>
-[GM first_name] [GM last_name] invited you to join the following [group_node_type] at [site.name]: <strong>[group_node_title]</strong> 
+[user:full_name] invited you to join the following [group:node_type] at [site:name]: <strong>[group:node_title]</strong> 
 </p>
  
 <p>See their message below:</p>
  
 <p> 
-[personal_invite_message]
+[user:personal_invite_message]
 </p>
  
 <p>
-To accept this invitation, click <a href="[!accept_group_invite_url]">Join this Group</a>.
+To accept this invitation, click <a href="[group:accept_invite_url]">Join this Group</a>.
 </p>
  
 <p> 
-<a href="[!GM-public-profile-url]">[GM first_name] [GM last_name]</a>,
-member of [group_name].
+<a href="[group:accept_invite_url]">[user:full_name]</a>,
+member of [group:node_title].
 </p>
 EOD
         , array(), array('langcode' => $langcode));
@@ -325,10 +339,26 @@ EOD
  *   Unused parameter required by the token_replace() function.
  */
 function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
+  global $user, $base_url;
   if (isset($data['user'])) {
-    $replacements['[user:one-time-login-url]'] = user_pass_reset_url($data['user']);
-    $replacements['[user:cancel-url]'] = user_cancel_url($data['user']);
+    $group = c4m_og_current_group();
+    $url_options = array(
+      'absolute' => TRUE,
+      'purl' => array(
+        'provider' => 'og_purl|node',
+        'id' => $group->nid,
+      ),
+    );
 
+    $replacements['[user:full_name]'] = c4m_user_name($user);
+    $replacements['[user:public-profile-url]'] = $base_url . '/users/' .preg_replace('@[^a-z0-9-]+@', '-', strtolower(trim($replacements['[user:full_name]'])));
+    $replacements['[group:node_type]'] = $group->type;
+    $replacements['[group:node_title]'] = $group->title;
+    $replacements['[group:accept_invite_url]'] = '#url';
+    $replacements['[group:dashboard_url]'] = url('<front>', $url_options);
+    $replacements['[message:personal_subject]'] = $data['form_fields']['subject'];
+    $replacements['[message:personal_body]'] = $data['form_fields']['body'];
+    $replacements['[site:name]'] = variable_get('site_name', 'Capacity 4 More');
   }
 }
 
@@ -338,7 +368,7 @@ function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
  * @param string $invitee_email
  * @return object $account
  */
-function _c4m_og_invite_visitors_create_user($invitee_email) {
+function _c4m_og_invite_visitors_create_user($invitee_email, $form_fields) {
   // This will generate a random password.
   $password = user_password(8);
 
@@ -377,7 +407,7 @@ function _c4m_og_invite_visitors_create_user($invitee_email) {
   $account = user_save('', $fields);
 
   // Send the e-mail through the user module.
-  drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, array('account' => $account), variable_get('site_mail', NULL));
+  drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, array('account' => $account, 'form_fields' => $form_fields), variable_get('site_mail', NULL));
 
   return $account;
 }
