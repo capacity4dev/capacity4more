@@ -980,8 +980,7 @@ function c4m_user_og_invite_access($group = NULL) {
   // Get access type (public/private).
   $access_type = c4m_og_get_access_type($group);
 
-  // If the group is private or moderated, check for power member.
-  // Else just check for member.
+  // For private or moderated groups, return false. Else check for member.
   if ($access_type['type'] == 'private' || $membership_request_value == 'moderated') {
     return FALSE;
   }
