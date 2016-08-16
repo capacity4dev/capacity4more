@@ -38,7 +38,7 @@ class c4m_overview_groups_handler_title_no_purl extends views_handler_field_node
       '#title' => t('Disable PURL'),
       '#description' => t("Disable persistent URL from links."),
       '#type' => 'checkbox',
-      '#default_value' => !empty($this->options['disable_purl']),
+      '#default_value' => $this->options['disable_purl'],
     );
 
     parent::options_form($form, $form_state);
