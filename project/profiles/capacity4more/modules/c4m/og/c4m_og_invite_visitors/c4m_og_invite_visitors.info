@@ -2,4 +2,3 @@ name = C4M OG Invite Visitors
 description = Invite new members to a group or project.
 core = 7.x
 dependencies[] = og
-

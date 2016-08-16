@@ -24,7 +24,7 @@ function c4m_og_invite_visitors_menu() {
 }
 
 /**
- * Implements hook_og_ui_get_group_admin()
+ * Implements hook_og_ui_get_group_admin().
  */
 function c4m_og_invite_visitors_og_ui_get_group_admin($group_type, $gid) {
   $items = array();
@@ -50,7 +50,6 @@ function c4m_og_invite_visitors_user_access($perm, $group_type, $gid) {
     return FALSE;
   }
 
-
   // SAs, GOs and GAs can invite new members.
   if (_c4m_features_og_members_is_power_user($group)) {
     return TRUE;
@@ -71,7 +70,7 @@ function c4m_og_invite_visitors_user_access($perm, $group_type, $gid) {
 }
 
 /**
- * Implement hook_og_permission().
+ * Implements hook_og_permission().
  */
 function c4m_og_invite_visitors_og_permission() {
   $items = array();
@@ -104,7 +103,7 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group_type
   $form['c4m_og_invite_visitors']['invitee'] = array(
     '#type' => 'textarea',
     '#title' => t('User email(s)'),
-    '#description' => t('Use commas or new lines to split email addresses. The new users will be created and invited as members of this group. A one time login link will be sent to the invitees\' email.  '),
+    '#description' => t("Use commas or new lines to split email addresses. The new users will be created and invited as members of this group. A one time login link will be sent to the invitees\' email."),
     '#required' => TRUE,
   );
   $form['og_invite_people']['roles'] = array(
@@ -113,7 +112,7 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group_type
     '#title' => t('Assign roles'),
     '#description' => t('Choose one or more roles you would like to assign to the users. ("member" role is assigned by default)'),
     '#options' => $og_roles,
-    '#size' => 5
+    '#size' => 5,
   );
   $form['c4m_og_invite_visitors']['state'] = array(
     '#type' => 'select',
@@ -157,7 +156,7 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group_type
   $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Invite user(s)')
+    '#value' => t('Invite user(s)'),
   );
 
   return $form;
@@ -172,7 +171,7 @@ function _c4m_og_invite_visitors_new_users_form_validate($form, &$form_state) {
 
   foreach (array_filter($invitee_emails) as $invitee_email) {
     if (!valid_email_address($invitee_email)) {
-      form_set_error('invitee', t('Invalid email ' . $invitee_email));
+      form_set_error('invitee', t('Invalid email @email', array('@email' => $invitee_email)));
     }
     else {
       $form_state['invitee_emails'][] = $invitee_email;
@@ -192,7 +191,7 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
   $field_name = $form_state['field_name'];
   $form_fields = array(
     'subject' => $form_state['values']['personal_subject'],
-    'body' => $form_state['values']['personal_message']
+    'body' => $form_state['values']['personal_message'],
   );
   $entity_type = 'user';
   $all_states = og_group_content_states();
@@ -214,7 +213,8 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
       $message = t('%user has been created and an email notification was sent.', array('%user' => format_username($account)));
     }
 
-    // Check if user is already assigned to the group. Any "state" (active, pending,... counts as existing).
+    // Check if user is already assigned to the group.
+    // Any "state" (active, pending,... counts as existing).
     if ($had_account && og_is_member($group_type, $gid, $entity_type, $account, array())) {
       // Load OG membership.
       $og_membership = og_get_membership($group_type, $gid, $entity_type, $account->uid);
@@ -227,9 +227,9 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
 
     // Update OG memebership if necessary.
     if ($og_membership->state != $state) {
-      $message .= t(' Membership state changed from "%prev_state" to "%post_state"', array(
+      $message .= t('Membership state changed from "%prev_state" to "%post_state"', array(
         '%prev_state' => $all_states[$og_membership->state],
-        '%post_state' => $all_states[$state]
+        '%post_state' => $all_states[$state],
       ));
       $og_membership->state = $state;
     }
@@ -245,7 +245,8 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
     // Offer invitee user account object in form_state.
     $form_state['account'][] = $account;
 
-    // Invoke hook_c4m_og_invite_visitors_invited() - after a user is created and added to group.
+    // Invoke hook_c4m_og_invite_visitors_invited() - after a user is created
+    // and added to group.
     module_invoke_all('c4m_og_invite_visitors_invited', $account, $og_membership);
 
     // Print the message for each user.
@@ -270,7 +271,8 @@ function c4m_og_invite_visitors_mail($key, &$message, $params) {
 /**
  * Returns a mail string for a variable name.
  *
- * Used by c4m_og_invite_visitors_mail() and the settings forms to retrieve strings.
+ * Used by c4m_og_invite_visitors_mail() and the settings forms to retrieve
+ * strings.
  */
 function _c4m_og_invite_visitors_mail_text($key, $language = NULL, $variables = array(), $replace = TRUE) {
   $langcode = isset($language) ? $language->language : NULL;
@@ -285,9 +287,9 @@ function _c4m_og_invite_visitors_mail_text($key, $language = NULL, $variables = 
       case 'invite_group_member_subject':
         $text = t('[personal:subject]', array(), array('langcode' => $langcode));
         break;
+
       case 'invite_group_member_body':
-        $text = t(<<<EOD
-<p>
+        $text = t('<p>
 Hello,
 </p>
  
@@ -308,17 +310,22 @@ To accept this invitation, click <a href="[group:accept_invite_url]">Join this G
 <p> 
 <a href="[user:public-profile-url]">[user:full_name]</a>,
 member of [group:node_title].
-</p>
-EOD
-        , array(), array('langcode' => $langcode));
+</p>', array(), array('langcode' => $langcode));
         break;
+
     }
   }
 
   if ($replace) {
     // We do not sanitize the token replacement, since the output of this
     // replacement is intended for an e-mail message, not a web browser.
-    return token_replace($text, $variables, array('language' => $language, 'callback' => 'c4m_og_invite_visitors_mail_tokens', 'sanitize' => FALSE, 'clear' => TRUE));
+    return token_replace($text, $variables, array(
+      'language' => $language,
+      'callback' => 'c4m_og_invite_visitors_mail_tokens',
+      'sanitize' => FALSE,
+      'clear' => TRUE,
+    )
+    );
   }
 
   return $text;
@@ -328,19 +335,19 @@ EOD
  * Token callback to add unsafe tokens for user mails.
  *
  * This function is used by the token_replace() call at the end of
- * _c4m_og_invite_visitors_mail_text() to set up some additional tokens that can be
- * used in email messages generated by c4m_og_invite_visitors_mail().
+ * _c4m_og_invite_visitors_mail_text() to set up some additional tokens that can
+ * be used in email messages generated by c4m_og_invite_visitors_mail().
  *
- * @param $replacements
+ * @param array $replacements
  *   An associative array variable containing mappings from token names to
  *   values (for use with strtr()).
- * @param $data
+ * @param array $data
  *   An associative array of token replacement values. If the 'user' element
  *   exists, it must contain a user account object with the following
  *   properties:
  *   - login: The UNIX timestamp of the user's last login.
  *   - pass: The hashed account login password.
- * @param $options
+ * @param array $options
  *   Unused parameter required by the token_replace() function.
  */
 function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
@@ -356,7 +363,7 @@ function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
     );
 
     $replacements['[user:full_name]'] = c4m_user_name($user);
-    $replacements['[user:public-profile-url]'] = $base_url . '/users/' .preg_replace('@[^a-z0-9-]+@', '-', strtolower(trim($replacements['[user:full_name]'])));
+    $replacements['[user:public-profile-url]'] = $base_url . '/users/' . preg_replace('@[^a-z0-9-]+@', '-', strtolower(trim($replacements['[user:full_name]'])));
     $replacements['[group:node_type]'] = $group->type;
     $replacements['[group:node_title]'] = $group->title;
     $replacements['[group:accept_invite_url]'] = user_pass_reset_url($data['user']);
@@ -371,7 +378,12 @@ function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
  * Create new user and send email.
  *
  * @param string $invitee_email
+ *    Email address for the new user.
+ * @param array $form_fields
+ *    The invite form fields including a personal subject and message.
+ *
  * @return object $account
+ *    A fully loaded user account.
  */
 function _c4m_og_invite_visitors_create_user($invitee_email, $form_fields) {
   // This will generate a random password.
