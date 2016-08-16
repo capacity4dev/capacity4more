@@ -247,6 +247,7 @@ function c4m_user_notifications_notify_new_group_pending($node) {
  */
 function c4m_user_notifications_notify_admins_group_requested($node) {
 }
+
 /**
  * Helper function.
  *
@@ -254,6 +255,7 @@ function c4m_user_notifications_notify_admins_group_requested($node) {
  */
 function _c4m_user_notifications_notify_admin_group_requested($node, $admin_id) {
 }
+
 /**
  * Returns an array of subscribers to notify.
  *
