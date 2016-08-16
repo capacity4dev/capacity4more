@@ -67,49 +67,12 @@ function c4m_content_group_block_info() {
  * Are called last.
  */
 function c4m_content_group_module_implements_alter(&$implementations, $hook) {
-  $last_hooks = array('node_insert', 'node_update');
+  $last_hooks = array('node_update');
 
   if (in_array($hook, $last_hooks)) {
     $group = $implementations['c4m_content_group'];
     unset($implementations['c4m_content_group']);
     $implementations['c4m_content_group'] = $group;
-  }
-}
-
-/**
- * Implements hook_node_insert().
- *
- * Sends notifications (By email) to site administrators to notify
- * about a new group request.
- */
-function c4m_content_group_node_insert($node) {
-  // Only for OG enabled content type.
-  if (!og_is_group_type('node', $node->type)) {
-    return;
-  }
-
-  // Don't send notifications during migration.
-  if (!empty($node->migrate)) {
-    return;
-  }
-
-  // Get all site administrators.
-  $admin_role = user_role_load_by_name('administrator');
-  $results = db_select('users_roles', 'r')
-            ->fields('r', array('uid'))
-            ->condition('rid', $admin_role->rid, '=')
-            ->execute()
-            ->fetchAll();
-
-  // Send a notification for each site admin.
-  if (!empty($results)) {
-    foreach ($results as $result) {
-      $admin = user_load($result->uid);
-
-      // Send the actual mail.
-      $key = 'group_pending_approval_admin';
-      c4m_content_group_send_mail($key, $admin, $node);
-    }
   }
 }
 

@@ -370,6 +370,7 @@ function _c4m_user_notifications_process_general_triggers_insert($node) {
   }
 
   c4m_user_notifications_notify_new_group_pending($node);
+  c4m_user_notifications_notify_admins_group_requested($node);
 }
 
 /**
