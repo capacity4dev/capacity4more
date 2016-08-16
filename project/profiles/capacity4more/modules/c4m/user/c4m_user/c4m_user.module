@@ -273,6 +273,11 @@ function c4m_user_initials($account) {
 function c4m_user_name($user) {
   $wrapper = entity_metadata_wrapper('user', $user);
 
+  // As there is no name at this stage.
+  if (isset($user->is_new)) {
+    return;
+  }
+
   if ($user->uid == 0) {
     return t('Anonymous');
   }
