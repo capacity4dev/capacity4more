@@ -11,6 +11,7 @@
 function _c4m_content_project_block_c4m_block_create_project() {
   global $user;
 
+  $markup = '';
   if ($user->uid) {
     if (user_access('create project content')) {
       $markup = l(t('Create a project'), 'node/add/project', array('attributes' => array('class' => array('btn', 'btn-default'))));
