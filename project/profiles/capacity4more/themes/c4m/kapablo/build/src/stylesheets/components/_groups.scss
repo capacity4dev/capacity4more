@@ -821,17 +821,19 @@
 }
 
 .c4m-group-visitor-cta {
-  border-bottom: 1px dashed $color-gray-darkThree;
   color: $color-gray-darkThree;
-  margin: 10px 0;
-  padding: 10px 0;
   text-align: center;
 
   a.btn {
     color: $color-white;
     background-color: $color-text-alternative;
-    margin: 10px 0;
     white-space: normal;
     width: 100%;
+  }
+
+  &:last-of-type {
+    border-bottom: 1px dashed $color-gray-darkThree;
+    margin: 10px 0 20px;
+    padding-bottom: 10px;
   }
 }
