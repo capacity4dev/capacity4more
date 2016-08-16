@@ -793,14 +793,12 @@ function theme_c4m_ds_group_notification_toggle(array $field) {
   global $user;
 
   if (!($group = c4m_og_current_group())) {
-    return;
+    return '';
   }
 
   if (!og_is_member('node', $group->nid)) {
-    return;
+    return '';
   }
 
   return c4m_content_group_create_toggle_notification_link($user, $group);
 }
-
-
