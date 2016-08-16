@@ -301,7 +301,7 @@ To accept this invitation, click <a href="[group:accept_invite_url]">Join this G
 </p>
  
 <p> 
-<a href="[group:accept_invite_url]">[user:full_name]</a>,
+<a href="[user:public-profile-url]">[user:full_name]</a>,
 member of [group:node_title].
 </p>
 EOD
@@ -354,7 +354,7 @@ function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
     $replacements['[user:public-profile-url]'] = $base_url . '/users/' .preg_replace('@[^a-z0-9-]+@', '-', strtolower(trim($replacements['[user:full_name]'])));
     $replacements['[group:node_type]'] = $group->type;
     $replacements['[group:node_title]'] = $group->title;
-    $replacements['[group:accept_invite_url]'] = '#url';
+    $replacements['[group:accept_invite_url]'] = user_pass_reset_url($data['user']);
     $replacements['[group:dashboard_url]'] = url('<front>', $url_options);
     $replacements['[personal:subject]'] = $data['form_fields']['subject'];
     $replacements['[personal:body]'] = $data['form_fields']['body'];
