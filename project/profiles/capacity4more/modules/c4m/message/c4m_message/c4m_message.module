@@ -589,7 +589,7 @@ function c4m_message_format_group_node_type(Message $message) {
 }
 
 /**
- * Returns message to admin token.
+ * Returns group message to admin token (entered by group requester).
  *
  * @param Message $message
  *   The Message entity.
@@ -597,7 +597,7 @@ function c4m_message_format_group_node_type(Message $message) {
  * @return string
  *   Return message to admin, which is entered by group requester.
  */
-function c4m_message_format_message_to_admins(Message $message) {
+function c4m_message_format_group_message_to_admins(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   if (!isset($wrapper->field_group_node->field_message_to_site_admin)) {
     return '';
