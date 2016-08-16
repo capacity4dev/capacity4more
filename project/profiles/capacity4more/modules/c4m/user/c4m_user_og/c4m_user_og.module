@@ -970,6 +970,11 @@ function c4m_user_og_invite_access($group = NULL) {
     }
   }
 
+  // SAs, GOs and GAs can invite new members.
+  if (_c4m_features_og_members_is_power_user($group)) {
+    return TRUE;
+  }
+
   // Get request type (open/moderated).
   $membership_request_value = c4m_og_get_group_membership_request($group);
   // Get access type (public/private).
@@ -978,8 +983,9 @@ function c4m_user_og_invite_access($group = NULL) {
   // If the group is private or moderated, check for power member.
   // Else just check for member.
   if ($access_type['type'] == 'private' || $membership_request_value == 'moderated') {
-    return _c4m_features_og_members_is_power_user($group);
-  } else {
+    return FALSE;
+  }
+  else {
     return og_is_member($group->type, $group->nid, 'user', $user);
   }
 }
