@@ -21,7 +21,7 @@ $plugin = array(
 function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $args, $context) {
   $groups = c4m_features_homepage_get_user_groups();
 
-  if (is_null($groups)) {
+  if (empty($groups)) {
     return;
   }
 
@@ -70,7 +70,7 @@ function c4m_features_homepage_get_user_groups($account = NULL, $allowed_types =
   $groups = c4m_user_og_get_groups($account);
 
   if (empty($groups)) {
-    return FALSE;
+    return array();
   }
 
   usort($groups, 'c4m_sort_object_by_title');
