@@ -185,7 +185,7 @@ function c4m_content_photoalbum_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'lb' => 'on ',
+          'lb' => ' | ',
           'lb-col' => TRUE,
         ),
       ),
