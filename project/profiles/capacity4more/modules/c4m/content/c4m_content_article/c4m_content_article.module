@@ -188,6 +188,10 @@ function c4m_content_article_field_formatter_view($entity_type, $entity, $field,
  * And hide the article title, because it's show before and after the banner.
  */
 function c4m_content_article_node_view_alter(&$build) {
+  if ($build['#bundle'] != 'article') {
+    return;
+  }
+
   // Remove the 'Regions' taxonomies.
   foreach ($build['c4m_vocab_geo']['#items'] as $index => $item) {
     unset($build['c4m_vocab_geo'][$index]);
