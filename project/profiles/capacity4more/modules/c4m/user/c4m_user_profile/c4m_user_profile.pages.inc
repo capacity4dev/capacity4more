@@ -143,6 +143,8 @@ function c4m_user_profile_remove_account_form_submit($form, &$form_state) {
   // This calls the default Drupal workflow for cancelling an account.
   user_cancel($values, $values['uid'], $values['user_cancel_method']);
 
+  drupal_set_message(t('Your account has been successfully removed from the platform.'));
+
   // As the user no longer exists, it doesn't have access to the
   // current page (user profile). So we redirect it to the homepage.
   $form_state['redirect'] = '<front>';
