@@ -182,37 +182,28 @@ function c4m_content_article_field_formatter_view($entity_type, $entity, $field,
 }
 
 /**
- * Implements hook_preprocess().
+ * Implements hook_node_view_alter().
  *
  * Style the 'Regions & Countries' section in the right dashboard.
  * And hide the article title, because it's show before and after the banner.
  */
-function c4m_content_article_preprocess(&$variables) {
-  if (empty($variables['node'])) {
-    return;
+function c4m_content_article_node_view_alter(&$build) {
+  // Remove the 'Regions' taxonomies.
+  foreach ($build['c4m_vocab_geo']['#items'] as $index => $item) {
+    unset($build['c4m_vocab_geo'][$index]);
   }
 
-  if ($variables['node']->type != 'article') {
-    return;
+  // Remove the 'Topics' taxonomies.
+  foreach ($build['c4m_vocab_topic']['#items'] as $index => $item) {
+    unset($build['c4m_vocab_topic'][$index]);
   }
 
-  if ($variables['theme_hook_original'] != 'page') {
-    return;
-  }
+  // Add the new markup Topics.
+  $topics_options = array('vocabulary_name' => 'c4m_vocab_topic');
+  $build['c4m_vocab_topic'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_topic']['#items'], $topics_options);
+  // Add the new markup Regions.
+  $build['c4m_vocab_geo'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_geo']['#items']);
 
-  // Hide the title of the Article outside of the article content.
-  $variables['title'] = '';
-
-  // Since the first element on the tree is actually the title we remove
-  // it because it should not have the arrow icon next to it (the arrow tag).
-  $vocab_geo = $variables['node']->c4m_vocab_geo[LANGUAGE_NONE];
-  $vocab_geo = array_slice($vocab_geo, 1);
-
-  // Add an arrow tag to each of the tree's children.
-  foreach ($vocab_geo as $geo) {
-    $geo_taxonomy = taxonomy_term_load($geo['tid']);
-
-    // Add an arrow tag to the 'Regions & Countries' tree children.
-    $geo_taxonomy->name = '<i class="fa fa-caret-right" aria-hidden="true"></i> ' . $geo_taxonomy->name;
-  }
+  return $build;
 }
+
