@@ -832,8 +832,10 @@
   }
 }
 
-.c4m-button-spacing-cta {
-  border-bottom: 1px dashed $color-gray-darkThree;
-  margin: 10px 0 20px;
-  padding-bottom: 10px;
+.pane-c4m-features-og-group-dashboard-c4m-cta-block {
+  .c4m-group-visitor-cta:last-of-type {
+    border-bottom: 1px dashed $color-gray-darkThree;
+    margin: 10px 0 20px;
+    padding-bottom: 10px;
+  }
 }
