@@ -213,6 +213,16 @@ function c4m_user_profile_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['user/%user/leave'] = array(
+    'title' => 'Leave platform',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_profile_remove_account_form', 1),
+    'access callback' => 'user_is_logged_in',
+    'access arguments' => array(),
+    'file' => 'c4m_user_profile.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -314,6 +324,14 @@ function c4m_user_profile_form_user_register_form_alter(
     ),
   );
   $form['#submit'][] = 'c4m_user_profile_form_user_register_form_submit';
+
+  // If user is administrator.
+  if (user_access('administer users')) {
+    // Hide status fields - SA-created user is always active.
+    $form['account']['status']['#access'] = FALSE;
+    // Alter 'notify user' checkbox title.
+    $form['account']['notify']['#title'] = t('Send password reset link');
+  }
 }
 
 /**
@@ -484,6 +502,8 @@ function c4m_user_profile_form_user_profile_form_alter(
   $form['account']['status']['#access'] = FALSE;
   // Hide OG related fields.
   $form['og_user_node']['#access'] = FALSE;
+  // Remove Terms and conditions fieldset.
+  $form['legal']['#access'] = FALSE;
 
   // Introduce simple Cancel button (goes to user profile)
   $form['actions']['cancel']['#access'] = FALSE;
@@ -492,6 +512,11 @@ function c4m_user_profile_form_user_profile_form_alter(
     '#submit' => array('c4m_user_profile_simple_cancel'),
     "#executes_submit_callback" => TRUE,
     '#value' => t('Cancel'),
+  );
+
+  $form['actions']['delete'] = array(
+    '#type' => 'markup',
+    '#markup' => l(t('Delete account'), 'user/' . $account->uid . '/leave'),
   );
 }
 
@@ -568,6 +593,11 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
       array('@name' => $name)
     )
   );
+
+  // Always send "welcome" mail for user created by admin.
+  if (user_access('administer users')) {
+    _user_mail_notify('status_activated', $form['#user']);
+  }
 
   // Process subscription to mailing list.
   if (empty($form_state['values']['subscribe_to_mailinglist'])) {
@@ -685,6 +715,15 @@ function c4m_user_profile_module_implements_alter(&$implementations, $hook) {
     $c4m_user_profile = $implementations['c4m_user_profile'];
     unset($implementations['c4m_user_profile']);
     $implementations['c4m_user_profile'] = $c4m_user_profile;
+
+    // In order to alter the login/register form on the "c4m_user_og" module we
+    // have no other way but use this hook to set the order, because of the
+    // alphabetic order of the modules names.
+    if (isset($implementations['c4m_user_og'])) {
+      $c4m_user_profile = $implementations['c4m_user_og'];
+      unset($implementations['c4m_user_og']);
+      $implementations['c4m_user_og'] = $c4m_user_profile;
+    }
   }
 }
 
@@ -920,7 +959,10 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
         'This account is already in use. If this is you, please !login or !request_password.',
         array(
           '!login' => l(t('log in'), 'user/login'),
-          '!request_password' => l(t('request a new password'), 'user/password'),
+          '!request_password' => l(
+            t('request a new password'),
+            'user/password'
+          ),
         )
       ),
       'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
@@ -928,14 +970,16 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
     );
   }
   else {
-    if (!$other_user->last_login->value() && !$other_user->last_access->value(
-      )
+    if (!$other_user->last_login->value() && !$other_user->last_access->value()
     ) {
       $data['validation_messages'][] = array(
         'message' => t(
           'This email address is already in use. Please activate your account, or !resend_activation.',
           array(
-            '!resend_activation' => l(t('log in'), 'user/' . $other_user->uid . '/resend-activation-email'),
+            '!resend_activation' => l(
+              t('log in'),
+              'user/' . $other_user->uid . '/resend-activation-email'
+            ),
           )
         ),
         'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
@@ -1305,4 +1349,63 @@ function c4m_user_profile_get_expertise_topics($uid) {
   $amount = $query->rowCount();
 
   return $amount;
+}
+
+/**
+ * Implements hook_user_cancel_methods_alter().
+ *
+ * Adds a new cancellation method that reassigns the content to the anonymous
+ * user without deleting the user account.
+ */
+function c4m_user_profile_user_cancel_methods_alter(&$methods) {
+  $methods['user_block_reassign'] = array(
+    'title' => t(
+      'Block the account and make its content belong to the %anonymous-name user.',
+      array('%anonymous-name' => variable_get('anonymous', t('Anonymous')))
+    ),
+    'description' => t(
+      'Your account will be blocked. All of your content will be assigned to the %anonymous-name user.',
+      array('%anonymous-name' => variable_get('anonymous', t('Anonymous')))
+    ),
+  );
+}
+
+/**
+ * Implements hook_user_cancel().
+ *
+ * Implements the functionality for the custom cancellation method that blocks
+ * and reassigns.
+ * Removes all user cookies and session information when an user leaves the
+ * platform. *  */
+function c4m_user_profile_user_cancel($edit, $account, $method) {
+  // By default, the cancellation blocks the user, so we only care about the
+  // content reassign that is already implemented in the node hook
+  // implementation.
+  if ($method == 'user_block_reassign') {
+    node_user_cancel($edit, $account, 'user_cancel_reassign');
+  }
+
+  // Remove all the cookies.
+  // @see http://www.php.net/manual/en/function.setcookie.php#73484
+  if (isset($_SERVER['HTTP_COOKIE'])) {
+    $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+
+    foreach ($cookies as $cookie) {
+      $parts = explode('=', $cookie);
+      $name = trim($parts[0]);
+      // Cookies can't be really deleted as they are in the user browser.
+      // Instead of deleted, we set a expiration date in the past so the brower
+      // sees the cookie has expired and removes it.
+      // The two set cookies is to ensure that the cookie is removed
+      // independently if is set on the current path or the full site.
+      unset($_COOKIE[$name]);
+      setcookie($name, '', -1);
+      setcookie($name, '', -1, '/');
+    }
+  }
+
+  // Remove all the session information.
+  $query = db_delete('sessions');
+  $query->condition('uid', $account->uid);
+  $query->execute();
 }
