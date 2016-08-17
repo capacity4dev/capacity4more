@@ -21,12 +21,13 @@ function c4m_user_notifications_moderated_group_new_membership_request($entity) 
  * Email notification to user about acceptance to group (moderated and open).
  */
 function c4m_user_notifications_notify_user_membership_accepted($membership) {
-  // Send activation message to member.
   $message = message_create('c4m_welcome_to_group', array('uid' => $membership->etid));
+  // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_welcome_to_group($message);
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($membership->gid);
+
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -118,9 +119,14 @@ function c4m_user_notifications_group_status_set_softdeleted($node, $group_forme
 }
 
 /**
- * Email notification about organic group deletion.
+ * Email notification to admins about organic group deletion.
+ *
+ * @param object $node
+ *   Node of type OG group.
+ * @param string $group_former_status
+ *   Status of OG group, before it was updated.
  */
-function c4m_user_notifications_group_hard_deleted($node) {
+function c4m_user_notifications_group_hard_deleted($node, $group_former_status) {
 }
 
 /**
@@ -260,6 +266,20 @@ function c4m_user_notifications_notify_comment_on_content($comment) {
  * Email notification to group requester, that group is waiting for review.
  */
 function c4m_user_notifications_notify_new_group_pending($node) {
+}
+
+/**
+ * Email notification to site admins, about new group request.
+ */
+function c4m_user_notifications_notify_admins_group_requested($node) {
+}
+
+/**
+ * Helper function.
+ *
+ * Email notification to site admin, about new group request.
+ */
+function _c4m_user_notifications_notify_admin_group_requested($node, $admin_id) {
 }
 
 /**
