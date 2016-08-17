@@ -145,3 +145,77 @@ function c4m_content_photo_preprocess(&$variables, $hook) {
     $variables['prev_link'] = url($variables['prev_link'], $options);
   }
 }
+
+/**
+ * Implements hook_c4m_content_statistics_info().
+ */
+function c4m_content_photo_c4m_content_statistics_info() {
+  return array(
+    'global' => array(
+      'c4m_photos' => array(
+        'type'        => 'photo',
+        'entity_type' => 'node',
+        'bundles'     => array('photo'),
+        'singular'    => 'Post',
+        'plural'      => 'Posts',
+        'state'       => 1,
+        'aggregate'   => array(
+          'type' => 'posts',
+        ),
+        'weight'      => 1,
+        'attributes'  => array(
+          'class' => array('posts'),
+        ),
+        'link' => array(
+          'path' => 'search',
+        ),
+      ),
+    ),
+    'group' => array(
+      'c4m_og_photos' => array(
+        'type'          => 'photo',
+        'entity_type'   => 'node',
+        'bundles'       => array('photo'),
+        'singular'      => 'Photo',
+        'plural'        => 'Photos',
+        'state'         => 1,
+        'aggregate'     => array(),
+        'weight'        => 2,
+        'feature_name'  => 'c4m_features_og_photos',
+        'attributes'    => array(
+          'class' => array('og-photos'),
+        ),
+        'link'          => array(
+          'path' => 'media',
+        ),
+      ),
+    ),
+    'topic' => array(
+      'c4m_topic_photos' => array(
+        'type'          => 'photo',
+        'entity_type'   => 'node',
+        'bundles'       => array('photo'),
+        'singular'      => 'Photo',
+        'plural'        => 'Photos',
+        'state'         => 1,
+        'aggregate'     => array(),
+        'weight'        => 5,
+        'attributes'    => array(
+          'class' => array('topic-photos'),
+        ),
+        'link'          => array(
+          'path' => 'search',
+          'options' => array(
+            'query' => array(
+              'f' => array(
+                'c4m_vocab_topic:@TOPIC_ID',
+                'type:photo',
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+

@@ -33,6 +33,9 @@ function theme_c4m_website_statistics_summary(array $variables) {
     'event' => 'fa-calendar',
     'user' => 'fa-user',
     'wiki_page' => 'fa-wikipedia-w',
+    'photo' => 'fa-file-image-o',
+    'photoalbum' => 'fa-picture-o',
+
   );
 
   foreach ($statistics as $key => $stat) {
