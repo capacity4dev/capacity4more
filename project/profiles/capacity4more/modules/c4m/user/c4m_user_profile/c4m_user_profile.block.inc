@@ -200,8 +200,8 @@ function _c4m_user_profile_block_user_confirm_email() {
  */
 function _c4m_user_profile_block_user_my_profile_groups() {
   module_load_include('inc', 'c4m_features_homepage', 'plugins/content_types/my_groups/my_groups');
-  $user = menu_get_object('user');
-  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($user, array('group'));
+  $account = menu_get_object('user');
+  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($account, array('group'));
 
   $block = array();
   $block['subject'] = '';
@@ -226,7 +226,7 @@ function _c4m_user_profile_block_user_my_profile_groups() {
     'groups' => $rendered_groups,
   );
 
-  $block['content'] = empty($rendered_groups) ? theme('c4m_user_profile_my_profile_groups', $variables) : FALSE;
+  $block['content'] = !empty($rendered_groups) ? theme('c4m_user_profile_my_profile_groups', $variables) : FALSE;
 
   return $block;
 }
