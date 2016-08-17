@@ -555,10 +555,7 @@ function c4m_user_og_group_actions_cta($group) {
   $items = array();
   // CTAs for the group owner and administrators: Manage group and number or
   // new membership requests.
-  $is_owner = ($user->uid == $group->uid);
-  $group_admins = c4m_og_get_group_admins($group->nid);
-  $is_admin = in_array($user->uid, array_keys($group_admins));
-  if ($is_owner || $is_admin) {
+  if (_c4m_features_og_members_is_power_user($group, $user)) {
     $items['manage'] = array(
       '#theme' => 'c4m_group_text_cta',
       '#icon' => 'fa-cog',
