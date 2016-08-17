@@ -116,6 +116,7 @@ function _c4m_message_format_new_member_joined_from_field(&$message, $message_en
   );
 }
 
+/**
  *
  * Formats 'c4m_group_archived' message From field, per MT30 template.
  */
