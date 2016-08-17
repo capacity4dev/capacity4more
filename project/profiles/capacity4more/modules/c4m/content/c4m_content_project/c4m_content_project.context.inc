@@ -32,7 +32,7 @@ function c4m_content_project_context_default_contexts() {
         'c4m_content_project-header_name_banner_project' => array(
           'module' => 'c4m_content_project',
           'delta' => 'header_name_banner_project',
-          'region' => 'content_above',
+          'region' => 'content_top',
           'weight' => '-10',
         ),
       ),
