@@ -44,6 +44,8 @@ function c4m_og_purl_init() {
  * Without this hook we would be redirected to /foo/groups/foo.
  */
 function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
+  return;
+
   if (drupal_is_cli()) {
     // The script is running in a command-line environment.
     return;
