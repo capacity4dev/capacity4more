@@ -54,7 +54,7 @@ function c4m_message_mail_alter(&$message) {
 }
 
 /**
- * Formats 'c4m_welcome_to_group' message From field, per MT13 template.
+ * Formats 'c4m_welcome_to_group' message From field, per MT10 template.
  */
 function _c4m_message_format_welcome_to_group_from_field(&$message, $message_entity) {
   if ($message_entity->type != 'c4m_welcome_to_group') {
@@ -122,15 +122,12 @@ function _c4m_message_format_group_status_update_set_from_field(&$message) {
  */
 function _c4m_message_format_from_field_to_default_pattern(&$message, $account = NULL) {
   if (!isset($account)) {
-    // If $account is not provided, global user is used for [user_name] and
-    // site email address is used for [email].
+    // If $account is not provided, global user will be used.
     global $user;
     $account = $user;
-    $mail = variable_get('site_mail');
   }
-  else {
-    $mail = $account->mail;
-  }
+
+  $mail = $account->mail;
 
   $message['from'] = format_string(
     '"@name at @site"<@mail>',
@@ -146,16 +143,24 @@ function _c4m_message_format_from_field_to_default_pattern(&$message, $account =
  * Helper function.
  *
  * Modifies messages 'From' field, to match pattern:
- * "[site_name]"<capacity4dev@ec.europa.eu>.
+ * "[name]"<capacity4dev@ec.europa.eu>.
  *
  * @param object $message
  *   Message entity.
+ * @param bool $add_team
+ *   Whether to add 'team' into [name], or not.
  */
-function _c4m_message_format_from_field_to_simple_pattern(&$message) {
+function _c4m_message_format_from_field_to_simple_pattern(&$message, $add_team = FALSE) {
+  $name = variable_get('site_name');
+
+  if ($add_team) {
+    $name = 'The ' . $name . ' team';
+  }
+
   $message['from'] = format_string(
-    '"@site"<@mail>',
+    '"@name"<@mail>',
     array(
-      '@site' => variable_get('site_name'),
+      '@name' => $name,
       '@mail' => 'capacity4dev@ec.europa.eu',
     )
   );
@@ -206,6 +211,9 @@ function c4m_message_entity_load($entities, $entity_type) {
 
 /**
  * Add callbacks to c4m_welcome_to_group message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
  *
  * @param Message $message
  *   The Message entity.
@@ -441,6 +449,7 @@ function c4m_message_format_group_pending_member_url(Message $message) {
 
   $options = array(
     'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
   );
 
   return url('group/node/' . $gid . '/admin/people/edit-membership/' . $mid, $options);
@@ -461,6 +470,7 @@ function c4m_message_format_new_member_public_profile_url(Message $message) {
 
   $options = array(
     'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
   );
 
   return url('user/' . $uid, $options);
@@ -512,6 +522,7 @@ function c4m_message_format_group_url(Message $message) {
 
   $options = array(
     'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
   );
 
   return url('node/' . $nid, $options);
@@ -565,6 +576,45 @@ function c4m_message_format_group_node_type(Message $message) {
 }
 
 /**
+ * Returns group message to admin token (entered by group requester).
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return message to admin, which is entered by group requester.
+ */
+function c4m_message_format_group_message_to_admins(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  if (!isset($wrapper->field_group_node->field_message_to_site_admin)) {
+    return '';
+  }
+
+  return $wrapper->field_group_node->field_message_to_site_admin->value();
+}
+
+/**
+ * Returns group edit url token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return group edit url.
+ */
+function c4m_message_format_group_edit_status_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $nid = $wrapper->field_group_node->value(array('identifier' => TRUE));
+
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  return url('node/' . $nid . '/edit', $options);
+}
+
+/**
  * Returns group owner url token.
  *
  * @param Message $message
@@ -579,6 +629,7 @@ function c4m_message_format_group_owner_public_profile_url(Message $message) {
 
   $options = array(
     'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
   );
 
   return url('user/' . $author_id, $options);
@@ -629,6 +680,7 @@ function c4m_message_format_event_user_message_url(Message $message) {
 
   $options = array(
     'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
   );
 
   return url('user/' . $uid . '/contact', $options);
@@ -649,6 +701,7 @@ function c4m_message_format_event_user_url(Message $message) {
 
   $options = array(
     'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
   );
 
   return url('user/' . $uid, $options);
@@ -698,6 +751,7 @@ function c4m_message_format_node_url(Message $message) {
 
   $options = array(
     'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
   );
 
   return url('node/' . $wrapper->field_node->value(array('identifier' => TRUE)), $options);
@@ -835,6 +889,7 @@ function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
 
   $options = array(
     'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
   );
 
   return url('user/' . $uid . '/unsubscribe/' . $flag_suffix . '/' . $nid . '/' . $hash, $options);
