@@ -117,7 +117,6 @@ function _c4m_message_format_new_member_joined_from_field(&$message, $message_en
 }
 
 /**
- *
  * Formats 'c4m_group_archived' message From field, per MT30 template.
  */
 function _c4m_message_format_group_archived_from_field(&$message, $message_entity) {
@@ -142,7 +141,6 @@ function _c4m_message_format_group_unpublished_from_field(&$message, $message_en
 
   _c4m_message_format_from_field_to_default_pattern($message);
 }
-
 
 /**
  * Helper function.
@@ -661,17 +659,8 @@ function c4m_message_format_new_member_expertise(Message $message) {
  */
 function c4m_message_format_new_member_self_description(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  //return test($message);
+
   return strip_tags($wrapper->field_related_user->c4m_body->value->value());
-}
-
-function test(Message $message) {
-  global $user;
-  $wrapper = entity_metadata_wrapper('message', $message);
-  $membership = $wrapper->field_group_membership->value();
-  $user = user_load($message->uid);
-
-  return c4m_og_autologin_control_membership_link($user, $membership, 'approve');
 }
 
 /**
