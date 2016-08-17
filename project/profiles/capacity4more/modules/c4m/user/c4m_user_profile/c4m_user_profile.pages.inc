@@ -54,25 +54,32 @@ function c4m_user_profile_resend_email_change_confirmation_email_form_submit($fo
  * @ingroup forms
  */
 function c4m_user_profile_remove_account_form($form, $form_state, $account) {
-  // We emulate the default user deletion form values to use the default process.
+  // We emulate the default user deletion form values to use
+  // the default process.
   $form['_account'] = array(
     '#type' => 'value',
-    '#value' => $account
+    '#value' => $account,
   );
+
   $form['uid'] = array(
     '#type' => 'value',
     '#value' => $account->uid,
   );
+
   $form['user_cancel_confirm'] = array(
     '#type' => 'value',
     '#value' => FALSE,
   );
+
   $form['user_cancel_notify'] = array(
     '#type' => 'value',
     '#value' => FALSE,
   );
+
   $form['user_cancel_method'] = array(
     '#type' => 'value',
+    // This method will block the user but leave the content
+    // assigned to the user.
     '#value' => 'user_cancel_block',
   );
 
@@ -103,9 +110,11 @@ function c4m_user_profile_remove_account_form_submit($form, &$form_state) {
 
   if ($values['anonymize']) {
     $account->c4m_is_deleted_anonymous[LANGUAGE_NONE][]['#value'] = 1;
-    $values['user_cancel_method'] = 'user_cancel_reassign';
-  }
 
+    // This cancel method will reassign all the content of the user
+    // to the anonymous user.
+    $values['user_cancel_method'] = 'user_block_reassign';
+  }
   $gids = c4m_og_get_user_group_nodes_by_bundle(NULL, $account);
   foreach ($gids as $gid) {
     og_ungroup('node', $gid, 'user', $account->uid);
@@ -113,7 +122,10 @@ function c4m_user_profile_remove_account_form_submit($form, &$form_state) {
 
   user_save($account);
 
+  // This calls the default Drupal workflow for cancelling an account.
   user_cancel($values, $values['uid'], $values['user_cancel_method']);
 
-  $form_state['redirect'] = '/';
+  // As the user no longer exists, it doesn't have access to the
+  // current page (user profile). So we redirect it to the homepage.
+  $form_state['redirect'] = '<front>';
 }

@@ -324,6 +324,14 @@ function c4m_user_profile_form_user_register_form_alter(
     ),
   );
   $form['#submit'][] = 'c4m_user_profile_form_user_register_form_submit';
+
+  // If user is administrator.
+  if (user_access('administer users')) {
+    // Hide status fields - SA-created user is always active.
+    $form['account']['status']['#access'] = FALSE;
+    // Alter 'notify user' checkbox title.
+    $form['account']['notify']['#title'] = t('Send password reset link');
+  }
 }
 
 /**
@@ -494,6 +502,8 @@ function c4m_user_profile_form_user_profile_form_alter(
   $form['account']['status']['#access'] = FALSE;
   // Hide OG related fields.
   $form['og_user_node']['#access'] = FALSE;
+  // Remove Terms and conditions fieldset.
+  $form['legal']['#access'] = FALSE;
 
   // Introduce simple Cancel button (goes to user profile)
   $form['actions']['cancel']['#access'] = FALSE;
@@ -578,6 +588,11 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
       array('@name' => $name)
     )
   );
+
+  // Always send "welcome" mail for user created by admin.
+  if (user_access('administer users')) {
+    _user_mail_notify('status_activated', $form['#user']);
+  }
 
   // Process subscription to mailing list.
   if (empty($form_state['values']['subscribe_to_mailinglist'])) {
@@ -1324,4 +1339,32 @@ function c4m_user_profile_get_expertise_topics($uid) {
   $amount = $query->rowCount();
 
   return $amount;
+}
+
+/**
+ * Implements hook_user_cancel_methods_alter().
+ *
+ * Adds a new cancellation method that reassigns the content to the anonymous
+ * user without deleting the user account.
+ */
+function c4m_user_profile_user_cancel_methods_alter(&$methods) {
+  $methods['user_block_reassign'] = array(
+    'title' => t('Block the account and make its content belong to the %anonymous-name user.', array('%anonymous-name' => variable_get('anonymous', t('Anonymous')))),
+    'description' => t('Your account will be blocked. All of your content will be assigned to the %anonymous-name user.', array('%anonymous-name' => variable_get('anonymous', t('Anonymous')))),
+  );
+}
+
+/**
+ * Implements hook_user_cancel().
+ *
+ * Implements the functionallity for the custom cancellation method that blocks
+ * and reassigns.
+ */
+function c4m_user_profile_user_cancel($edit, $account, $method) {
+  // By default, the cancellation blocks the user, so we only care about the
+  // content reassign that is already implemented in the node hook
+  // implementation.
+  if ($method == 'user_block_reassign') {
+    node_user_cancel($edit, $account, 'user_cancel_reassign');
+  }
 }
