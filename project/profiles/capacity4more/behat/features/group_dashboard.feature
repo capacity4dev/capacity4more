@@ -59,3 +59,17 @@ Feature: Group dashboard
     Given I am logged in as user "president"
     When  I visit the dashboard of group "Movie Popcorn Corner"
     Then  I should not see the link "Invite a member"
+
+  @api
+  Scenario: Check Invite a member link is available for an administrator of a private group.
+    Given I am logged in as user "alfrednobel"
+    When  I visit the dashboard of group "Tennis Group"
+    And   I click "Invite a member"
+    Then  I should see the text "Invite People to Join"
+
+  @api
+  Scenario: Check Invite a member link is available for a site administrator who is a non-member of a private group.
+    Given I am logged in as user "survivalofthefittest"
+    When  I visit the dashboard of group "Architecture"
+    And   I click "Invite a member"
+    Then  I should see the text "Invite People to Join"
