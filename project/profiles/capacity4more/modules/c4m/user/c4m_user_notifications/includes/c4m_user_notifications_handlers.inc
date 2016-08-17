@@ -63,9 +63,36 @@ function c4m_user_notifications_notify_user_membership_canceled($entity) {
 }
 
 /**
- * Email notification about organic group status change to 'published'.
+ * Email notification about organic group that was 'published'.
+ *
+ * Status changed from 'draft' to 'published'.
  */
 function c4m_user_notifications_group_status_set_published($node) {
+  $group_admins_ids = c4m_og_get_group_admins_ids($node->nid, TRUE);
+
+  foreach ($group_admins_ids as $admin_id) {
+    _c4m_user_notifications_to_admin_group_status_set_published($node, $admin_id);
+  }
+}
+
+/**
+ * Helper function.
+ *
+ * Email notification to organic group admin / owner, about status change
+ * from 'archived' to 'published'.
+ */
+function _c4m_user_notifications_to_admin_group_status_set_published($node, $admin_id) {
+  global $user;
+  $message = message_create('c4m_group_published', array('uid' => $admin_id));
+  // Define functions with which to resolve email template tokens.
+  c4m_message_load_tokens__c4m_group_published($message);
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group_node->set($node->nid);
+  $wrapper->field_executing_user->set($user->uid);
+
+  // Message will be saved in message_notify_send_message().
+  message_notify_send_message($wrapper->value());
 }
 
 /**
