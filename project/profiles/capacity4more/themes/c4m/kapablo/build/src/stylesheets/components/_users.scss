@@ -157,8 +157,21 @@
       margin: 0 10px;
     }
 
-    li a {
-      color: $color-white;
+    li {
+
+      &.last {
+
+        .view-mode-block_list {
+
+          .content {
+            border-bottom: none;
+          }
+        }
+      }
+
+      a {
+        color: $color-white;
+      }
     }
   }
 }
