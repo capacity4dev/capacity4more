@@ -16,6 +16,9 @@ class c4m_overview_groups_handler_title_no_purl extends views_handler_field_node
 
   /**
    * {@inheritdoc}
+   *
+   * Reads the value for the Disable URL option from the database, and sets
+   * the option's value accordingly.
    */
   function option_definition() {
     $options = parent::option_definition();
