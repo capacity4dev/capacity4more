@@ -220,7 +220,7 @@ function c4m_user_profile_menu() {
     'access callback' => 'user_is_logged_in',
     'access arguments' => array(),
     'file' => 'c4m_user_profile.pages.inc',
-    'type' => MENU_LOCAL_TASK,
+    'type' => MENU_CALLBACK,
   );
 
   return $items;
@@ -512,6 +512,11 @@ function c4m_user_profile_form_user_profile_form_alter(
     '#submit' => array('c4m_user_profile_simple_cancel'),
     "#executes_submit_callback" => TRUE,
     '#value' => t('Cancel'),
+  );
+
+  $form['actions']['delete'] = array(
+    '#type' => 'markup',
+    '#markup' => l(t('Delete account'), 'user/' . $account->uid . '/leave'),
   );
 }
 

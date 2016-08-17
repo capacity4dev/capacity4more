@@ -207,7 +207,10 @@ function c4m_user_notifications_node_delete($node) {
     return;
   }
 
-  c4m_user_notifications_group_hard_deleted($node);
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $group_former_status = $wrapper->c4m_og_status->value();
+
+  c4m_user_notifications_group_hard_deleted($node, $group_former_status);
 }
 
 /**
@@ -367,6 +370,7 @@ function _c4m_user_notifications_process_general_triggers_insert($node) {
   }
 
   c4m_user_notifications_notify_new_group_pending($node);
+  c4m_user_notifications_notify_admins_group_requested($node);
 }
 
 /**
@@ -490,10 +494,9 @@ function _c4m_user_notifications_build_group_permissions($access, $membership_op
  * Helper function.
  *
  * Triggers email notification when organic group node is updated.
- * Per subscribe_c4m_follow_term flag.
  */
 function _c4m_user_notifications_process_og_alter($node, $mode) {
-  $allowed_og_types = array('group', 'project', 'event', 'article');
+  $allowed_og_types = _c4m_user_notifications_get_group_content_notification_types();
   if (!in_array($node->type, $allowed_og_types)) {
     return;
   }
