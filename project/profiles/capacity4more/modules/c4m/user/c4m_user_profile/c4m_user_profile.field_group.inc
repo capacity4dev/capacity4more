@@ -125,7 +125,7 @@ function c4m_user_profile_field_group_info() {
       'label' => 'About',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-user-about field-group-html5',
+        'classes' => 'group-user-about',
         'description' => '',
         'show_label' => '1',
         'label_element' => 'h2',
@@ -157,7 +157,7 @@ function c4m_user_profile_field_group_info() {
       'label' => 'Notable Contributions',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-user-contributions field-group-html5',
+        'classes' => 'group-user-contributions',
         'description' => '',
         'show_label' => '1',
         'label_element' => 'h2',
@@ -224,7 +224,7 @@ function c4m_user_profile_field_group_info() {
       'label' => 'Expertise',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-user-expertise field-group-html5',
+        'classes' => 'group-user-expertise',
         'description' => '',
         'show_label' => '1',
         'label_element' => 'h2',
@@ -257,7 +257,7 @@ function c4m_user_profile_field_group_info() {
       'label' => 'Professional Interests',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-user-interests field-group-html5',
+        'classes' => 'group-user-interests',
         'description' => '',
         'show_label' => '1',
         'label_element' => 'h2',
@@ -290,7 +290,7 @@ function c4m_user_profile_field_group_info() {
       'label' => '',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-user-meta field-group-html5 clearfix',
+        'classes' => 'group-user-meta clearfix',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
