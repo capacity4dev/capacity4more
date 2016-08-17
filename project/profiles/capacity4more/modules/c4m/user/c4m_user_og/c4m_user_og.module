@@ -518,7 +518,7 @@ function c4m_user_og_c4m_vistor_cta($group) {
     '#theme' => 'c4m_group_visitor_cta',
     '#button_label' => $types[$membership_request_value]['button_label'],
     '#button_icon' => $types[$membership_request_value]['button_icon'],
-    '#url' => url('/user'),
+    '#url' => url('group/join/' . $group->nid, array('absolute' => TRUE)),
   );
 }
 
@@ -779,14 +779,6 @@ function c4m_user_og_group_unified_workflow($group, $account = FALSE) {
     drupal_set_message(t('A problem occurred trying to join the group.'), 'error');
     return;
   }
-
-  $messages = array(
-    'open' => t('You are now a member of this group'),
-    'moderated' => t("This is a moderated group. Your request is waiting for approval. Continue to explore group's content."),
-  );
-  $message = $messages[$membership_request_value];
-
-  drupal_set_message($message);
 }
 
 /**
