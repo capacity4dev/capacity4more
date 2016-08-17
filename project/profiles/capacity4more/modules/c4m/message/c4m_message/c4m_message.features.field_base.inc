@@ -100,7 +100,6 @@ function c4m_message_field_default_field_bases() {
     'translatable' => 0,
     'type' => 'entityreference',
   );
-
   // Exported field_base: 'field_group_node'.
   $field_bases['field_group_node'] = array(
     'active' => 1,

@@ -223,6 +223,33 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');
+  $items['c4m_new_member_joined'] = entity_import('message_type', '{
+    "name" : "c4m_new_member_joined",
+    "description" : "c4m New Member Joined",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003EA new member joined\\u0026nbsp;@group_node_title\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n",
+          "format" : "default_html",
+          "safe_value" : "\\u003Cp\\u003EA new member joined\\u00a0@group_node_title\\u00a0\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\nA new member\\u0026nbsp;joined\\u0026nbsp;\\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E at [site:name].\\u003Cbr \\/\\u003E\\r\\nPlease find their details below:\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cstrong\\u003E@new_member_full_name\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E@new_member_organisation, @new_member_organisation_type\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EBased in @new_member_country\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EExpertise: @new_member_expertise\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EAbout: @new_member_about_me\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EView this member\\u0027s \\u003Ca href=\\u0022!new_member_public_profile_url\\u0022 rel=\\u0022nofollow\\u0022\\u003Eprofile\\u003C\\/a\\u003E at [site:name].\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\nA new member\\u00a0joined\\u00a0\\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E at [site:name].\\u003Cbr \\/\\u003E\\nPlease find their details below:\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Cstrong\\u003E@new_member_full_name\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E@new_member_organisation, @new_member_organisation_type\\u003C\\/p\\u003E\\n\\u003Cp\\u003EBased in @new_member_country\\u003C\\/p\\u003E\\n\\u003Cp\\u003EExpertise: @new_member_expertise\\u003C\\/p\\u003E\\n\\u003Cp\\u003EAbout: @new_member_about_me\\u003C\\/p\\u003E\\n\\u003Cp\\u003EView this member\\u0027s \\u003Ca href=\\u0022!new_member_public_profile_url\\u0022 rel=\\u0022nofollow\\u0022\\u003Eprofile\\u003C\\/a\\u003E at [site:name].\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['c4m_welcome_to_group'] = entity_import('message_type', '{
     "name" : "c4m_welcome_to_group",
     "description" : "c4m Welcome to Group",
