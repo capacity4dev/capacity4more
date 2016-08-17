@@ -1295,3 +1295,26 @@ function c4m_og_get_user_administered_groups_count($uid, $node_type) {
 
   return $amount;
 }
+
+/**
+ * Returns the groups owned by an user.
+ *
+ * @param int $uid
+ *   User id.
+ * @param string|array $node_type
+ *   Node type or types.
+ *
+ * @return array.
+ *   Keyed array of Node IDs and titles.
+ */
+function c4m_og_get_user_owned_groups($uid, $node_type) {
+  $query = db_select('node', 'n');
+  $query->fields('n', array('nid', 'title'));
+  $query->condition('n.uid', $uid);
+  $query->condition('n.type', $node_type);
+
+  $results = $query->execute();
+  $nids = $results->fetchAllKeyed();
+
+  return $nids;
+}
