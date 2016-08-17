@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_discussion.field_group.inc
@@ -120,7 +121,7 @@ function c4m_content_discussion_field_group_info() {
     'weight' => '7',
     'children' => array(
       0 => 'c4m_user_picture',
-      1 => 'c4m_ds_type_insert_action',
+      1 => 'c4m_ds_entity_type_label',
       2 => 'group_meta_author',
     ),
     'format_type' => 'html5',
