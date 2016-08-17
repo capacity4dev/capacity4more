@@ -152,6 +152,7 @@ function c4m_og_menu() {
     'access arguments' => array(1, 2),
     'title' => 'Replace Owner',
   );
+
   $items['project/%/%/admin/owner'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_og_replace_owner_build_form', 1, 2),
@@ -160,8 +161,89 @@ function c4m_og_menu() {
     'title' => 'Replace Owner',
   );
 
+  $items['group/%/%/auto/login/%/approve-membership/%/%/%'] = array(
+    'page callback' => 'zzz', // c4m_og_control_membership',
+    'page arguments' => array('approve', 2, 5, 7, 8, 9),
+    'access callback' => 'c4m_og_user_control_membership_access',
+    'access arguments' => array(),
+  );
+
+/*  $items['group/%/%/admin/people/%/approve-membership'] = array(
+    'page callback' => 'zzz',
+    'page arguments' => array(1, 2),
+    'access callback' => TRUE,
+    'access arguments' => array(),
+  );*/
+
   return $items;
 }
+
+function zzz($a, $b) {
+  dpm('Hello');
+}
+
+//----------------
+
+function c4m_og_autologin_control_membership_link($account, $membership, $action) {
+  $timestamp = REQUEST_TIME;
+  return url('group/node/' . $membership->gid . '/admin/people/' . $account->uid . '/' . $action . '-membership/'
+    . $membership->id . '/' . $timestamp . '/' . user_pass_rehash($account->pass, $timestamp, $account->login, $account->uid), array('absolute' => TRUE));
+}
+
+function c4m_og_control_membership($action, $gid, $account, $membership, $timestamp = 0, $hashed_pass = '') {
+  // Time out in seconds until cancel URL expires; 24 hours = 86400 seconds.
+  $timeout = 86400;
+  $current = REQUEST_TIME;
+
+  if (!empty($timestamp) && !empty($hashed_pass)) {
+    // Validate expiration and hashed password/login.
+    if ($timestamp <= $current && $current - $timestamp < $timeout && $account->uid &&
+      $timestamp >= $account->login &&
+      $hashed_pass == user_pass_rehash($account->pass, $timestamp, $account->login, $account->uid)) {
+
+      // If not logged in, login user.
+      if (user_is_anonymous()) {
+        global $user;
+        $user = $account;
+      }
+
+      drupal_goto("/");
+      drupal_set_message("Logged In");
+    }
+    else {
+      drupal_goto("user/login");
+      drupal_set_message("Please Log In");
+    }
+  }
+}
+
+/**
+ * Menu access; Check if entity is a group, and user has permission.
+ */
+function c4m_og_user_control_membership_access($perm, $group_type, $gid) {
+  global $user;
+
+  $group = entity_load_single($group_type, $gid);
+  if (!$group || !og_is_group($group_type, $group)) {
+    return FALSE;
+  }
+
+/*  // Extract the group's bundle.
+  list(,,$bundle) = entity_extract_ids($group_type, $group);
+  // Verify the bundle has roles
+  if (!og_roles($group_type, $bundle, $gid)) {
+    return FALSE;
+  }
+
+  $entity_info = entity_get_info($group_type);
+  if (!$group_type || !$entity_info) {
+    // Not a valid entity type.
+    return FALSE;
+  }*/
+  return og_is_group($group_type, $gid) && og_user_access($group_type, $gid, $perm);
+}
+
+// ------------
 
 /**
  * Implements hook_og_ui_get_group_admin_alter().
