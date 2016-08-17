@@ -101,6 +101,12 @@ function _c4m_user_profile_my_groups_top_bar() {
   foreach (c4m_user_og_get_groups() as $group) {
     $node_view = node_view($group, 'block_list');
     $user_groups[] = render($node_view);
+
+    // The max groups to display on the top bar is 3 by definition.
+    if (count($user_groups) == 3) {
+      $user_groups[] = _c4m_user_profile_render_explore_all_my_groups_link();
+      break;
+    }
   }
 
   // The user is not yet a member of any group.
@@ -148,6 +154,39 @@ function _c4m_user_profile_my_groups_top_bar() {
   );
 
   return render($output);
+}
+
+/**
+ * Render a link to the groups overview page, filtered to the user groups.
+ *
+ * @return string
+ *   A link to the groups page (filtered).
+ */
+function _c4m_user_profile_render_explore_all_my_groups_link() {
+  $text = t('Explore all my groups');
+  $text .= '<i class="fa fa-angle-right" aria-hidden="true"></i>';
+
+  $options = array(
+    'html' => TRUE,
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
+    'query' => array(
+      'filter' => 'groups',
+    ),
+  );
+
+  $link = l($text, '/groups', $options);
+
+  $tag['element'] = array(
+    '#tag' => 'div',
+    '#value' => $link,
+    '#attributes' => array(
+      'class' => 'c4m-explore-all-my-groups-link',
+    ),
+  );
+
+  return theme_html_tag($tag);
 }
 
 /**
