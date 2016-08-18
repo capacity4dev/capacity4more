@@ -48,6 +48,10 @@
   border-bottom: none;
   position: relative;
 
+  &.c4m-project-page {
+    padding-top: 15px;
+  }
+
   & .col-xs-3,
   & .col-sm-4,
   & .col-md-3 {
