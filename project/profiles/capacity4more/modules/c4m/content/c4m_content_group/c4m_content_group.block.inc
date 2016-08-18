@@ -51,10 +51,10 @@ function _c4m_content_group_block_header_name_banner() {
   $variables['organisation_ellipsis'] = FALSE;
   $variables['emails'] = array();
 
-  if (isset($wrapper->pluggable_node_access)
-    && !empty($wrapper->pluggable_node_access->value())) {
-    // If pluggable_node_access is set, then access is restricted.
-    $group_access = 'restricted';
+  $group_access = c4m_og_get_access_type($group);
+  $variables['group_access'] = $group_access['type'];
+
+  if ($group_access['type'] == 'restricted') {
 
     $emails = array();
 
@@ -104,11 +104,6 @@ function _c4m_content_group_block_header_name_banner() {
     }
 
     $variables['emails'] = $emails;
-  }
-  elseif (isset($wrapper->group_access)) {
-    // Determine access per group_access parameter.
-    $group_access = $wrapper->group_access->value() ? 'private' : 'public';
-    $variables['group_access'] = $group_access;
   }
 
   $title = theme('c4m_content_group_header_title', $variables);

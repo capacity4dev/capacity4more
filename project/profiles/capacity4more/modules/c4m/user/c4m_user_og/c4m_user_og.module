@@ -457,11 +457,9 @@ function c4m_user_og_theme() {
 }
 
 /**
- * Implements hook_c4m_cta_block_alter().
- *
- * Set the CTA block for visitors.
+ * Implements hook_c4m_cta_block().
  */
-function c4m_user_og_c4m_cta_block_alter(&$block) {
+function c4m_user_og_c4m_cta_block() {
   if (!$group = c4m_og_current_group()) {
     return;
   }
@@ -471,35 +469,182 @@ function c4m_user_og_c4m_cta_block_alter(&$block) {
     return;
   }
 
-  if (!user_is_anonymous()) {
-    global $user;
+  $items = array();
+  if (user_is_anonymous()) {
+    if ($item = c4m_user_og_c4m_vistor_cta($group)) {
+      $items['visitor'] = $item;
+    }
+  }
+  else {
+    $membership_type = c4m_og_get_group_membership_request($group);
 
-    if (og_get_membership('node', $group->nid, 'user', $user->uid)) {
-      // Current user is already a member of this group.
-      return;
+    if ($membership_type == 'open') {
+      if ($item = c4m_user_og_c4m_join_cta($group)) {
+        $items['join'] = $item;
+      }
+    }
+    elseif ($membership_type == 'moderated') {
+      if ($item = c4m_user_og_c4m_membership_cta($group)) {
+        $items['membership'] = $item;
+      }
     }
   }
 
+  if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
+    $items['leave'] = $item;
+  }
+
+  return $items;
+}
+
+/**
+ * Sets the CTA block for visitors.
+ */
+function c4m_user_og_c4m_vistor_cta($group) {
   $types = array(
     'open' => array(
-      'button_label' => 'Join this group',
+      'button_label' => t('Join this group'),
       'button_icon' => 'fa-user-plus',
     ),
     'moderated' => array(
-      'button_label' => 'Request membership for this group',
+      'button_label' => t('Request membership for this group'),
       'button_icon' => 'fa-unlock-alt',
     ),
   );
 
   $membership_request_value = c4m_og_get_group_membership_request($group);
 
-  $variables = array(
-    'button_label' => $types[$membership_request_value]['button_label'],
-    'button_icon' => $types[$membership_request_value]['button_icon'],
-    'url' => url('group/join/' . $group->nid, array('purl' => array('disabled' => TRUE))),
+  return array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => $types[$membership_request_value]['button_label'],
+    '#button_icon' => $types[$membership_request_value]['button_icon'],
+    '#url' => url('group/join/' . $group->nid, array('absolute' => TRUE)),
   );
+}
 
-  $block['content'] = theme('c4m_group_visitor_cta', $variables);
+/**
+ * Sets the join group link CTA.
+ *
+ * Sets the join group link CTA for logged in users that are not members
+ * of the group yet.
+ */
+function c4m_user_og_c4m_join_cta($group) {
+  if (og_is_member('node', $group->nid)) {
+    drupal_set_message(t('Welcome to group %group', array('%group' => $group->title)));
+    return;
+  }
+
+  return array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => t('Join this group'),
+    '#button_icon' => 'fa-user-plus',
+    '#url' => url('group/node/' . $group->nid . '/subscribe', array('absolute' => TRUE)),
+  );
+}
+
+/**
+ * Sets the CTA request membership link.
+ */
+function c4m_user_og_c4m_membership_cta($group) {
+  // Default state for og_is_member is active.
+  if (og_is_member('node', $group->nid)) {
+    drupal_set_message(t('Welcome to group %group', array('%group' => $group->title)));
+    return;
+  }
+
+  if (og_is_member('node', $group->nid, 'user', NULL, array(OG_STATE_PENDING))) {
+    $message = t("This is a moderated group. Your request is waiting for approval. Continue to explore group's content.");
+    drupal_set_message($message);
+
+    return array(
+      '#type' => 'markup',
+      '#markup' => '<div class="c4m-group-visitor-cta"><i class="fa fa-hourglass-end" aria-hidden="true"></i> ' . t('Membership waiting approval') . '</div>',
+    );
+  }
+
+  return array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => t('Request membership for this group'),
+    '#button_icon' => 'fa-unlock-alt',
+    '#url' => url('group/node/' . $group->nid . '/subscribe', array('absolute' => TRUE)),
+  );
+}
+
+/**
+ * Sets the CTA to leave a group.
+ */
+function c4m_user_og_c4m_leave_group_cta($group) {
+  if (!og_is_member('node', $group->nid)) {
+    return;
+  }
+
+  global $user;
+  // Group owner can't leave the group, needs to transfer ownership first.
+  if ($user->uid == $group->uid) {
+    return;
+  }
+
+  return array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => t('Leave group'),
+    '#button_icon' => 'fa-arrow-right',
+    '#url' => url('group/node/' . $group->nid . '/unsubscribe', array('absolute' => TRUE)),
+  );
+}
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * Alters the default unsubscription callback from OG to avoid group owners to
+ * leave the group before transfering the control of it.
+ */
+function c4m_user_og_menu_alter(&$menu) {
+  $menu['group/%/%/unsubscribe']['page callback'] = 'c4m_user_og_unsubscription_custom_callback';
+}
+
+/**
+ * Custom page callback to prevent group owners to leave a group.
+ */
+function c4m_user_og_unsubscription_custom_callback($group_type, $gid) {
+  $is_node = $group_type == 'node';
+  $user_is_owner = c4m_og_user_is_owner('node', $gid);
+
+  // If the group is not a node or the logged in user is not the owner of the
+  // group we return the default OG menu callback.
+  if (!$is_node || !$user_is_owner) {
+    return og_ui_unsubscribe($group_type, $gid);
+  }
+
+  $message = t(
+    "You can't leave the group if you are the owner. <a href=\"@link\">Transfer the ownership first.</a>",
+    array('@link' => url('group/node/' . $gid . '/admin/owner'))
+  );
+  drupal_set_message($message);
+
+  $group = node_load($gid);
+  $url = entity_uri($group_type, $group);
+  drupal_goto($url['path'], $url['options']);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_user_og_form_og_ui_confirm_unsubscribe_alter(&$form, &$form_state) {
+  $form['#submit'][] = 'c4m_user_og_custom_unsubscribe_submit';
+}
+
+/**
+ * Custom submit callback for og_ui_confirm_unsubscribe.
+ *
+ * Unflags the user as following the group.
+ */
+function c4m_user_og_custom_unsubscribe_submit($form, &$form_state) {
+  global $user;
+
+  $group = $form_state['values']['group'];
+  $flag = flag_get_flag('subscribe_c4m_follow_group');
+
+  $flag->flag('unflag', $group->nid, $user, TRUE);
 }
 
 /**
@@ -634,14 +779,6 @@ function c4m_user_og_group_unified_workflow($group, $account = FALSE) {
     drupal_set_message(t('A problem occurred trying to join the group.'), 'error');
     return;
   }
-
-  $messages = array(
-    'open' => t('You are now a member of this group'),
-    'moderated' => t("This is a moderated group. Your request is waiting for approval. Continue to explore group's content."),
-  );
-  $message = $messages[$membership_request_value];
-
-  drupal_set_message($message);
 }
 
 /**

@@ -49,7 +49,7 @@ function c4m_content_project_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_project';
-  $strongarm->value = '0';
+  $strongarm->value = '1';
   $export['comment_project'] = $strongarm;
 
   $strongarm = new stdClass();
