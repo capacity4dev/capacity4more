@@ -593,6 +593,16 @@ function c4m_message_load_tokens__c4m_new_membership_request(Message $message) {
     'callback' => 'c4m_message_format_new_member_request_message',
     'pass message' => TRUE,
   );
+  
+  $message->arguments['!membership_approve_url'] = array(
+    'callback' => 'c4m_message_format_autologin_approve_membership_link',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!membership_reject_url'] = array(
+    'callback' => 'c4m_message_format_autologin_reject_membership_link',
+    'pass message' => TRUE,
+  );  
 }
 
 /**
@@ -1955,6 +1965,23 @@ function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
   );
 
   return url('user/' . $uid . '/unsubscribe/' . $flag_suffix . '/' . $nid . '/' . $hash, $options);
+}
+
+function c4m_message_format_autologin_approve_membership_link(Message $message) {
+  return _c4m_message_format_autologin_control_membership_link($message, 'approve');
+}
+
+function c4m_message_format_autologin_reject_membership_link(Message $message) {
+  return _c4m_message_format_autologin_control_membership_link($message, 'reject');
+}
+
+function _c4m_message_format_autologin_control_membership_link(Message $message, $action) {
+  global $user;
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $membership = $wrapper->field_group_membership->value();
+  $user = user_load($message->uid);
+
+  return c4m_og_autologin_control_membership_link($user, $membership, $action);
 }
 
 /**

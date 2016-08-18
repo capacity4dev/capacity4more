@@ -161,7 +161,95 @@ function c4m_og_menu() {
     'title' => 'Replace Owner',
   );
 
+  $items['group/%/%/admin/membership-approve/%user/%og_membership/%/%'] = array(
+    'page callback' => 'c4m_og_control_membership',
+    'page arguments' => array('approve', 2, 5, 6, 7, 8),
+    'access callback' => 'c4m_og_control_membership_access',
+    'access arguments' => array(1, 2),
+  );
+
+  $items['group/%/%/admin/membership-reject/%user/%og_membership/%/%'] = array(
+    'page callback' => 'c4m_og_control_membership',
+    'page arguments' => array('reject', 2, 5, 6, 7, 8),
+    'access callback' => 'c4m_og_control_membership_access',
+    'access arguments' => array(1, 2),
+  );
+
   return $items;
+}
+
+function c4m_og_autologin_control_membership_link($account, $membership, $action) {
+  $timestamp = REQUEST_TIME;
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  return url('group/node/' . $membership->gid . '/admin/membership-' . $action . '/' . $account->uid . '/'
+    . $membership->id . '/' . $timestamp . '/' . user_pass_rehash($account->pass, $timestamp, $account->login, $account->uid), $options);
+}
+
+function c4m_og_control_membership($action, $gid, $account, $membership, $timestamp = 0, $hashed_pass = '') {
+  global $user;
+  // Time out in seconds until cancel URL expires; 24 hours = 86400 seconds.
+  $timeout = 86400;
+  $current = REQUEST_TIME;
+
+  // If not logged in, or logged in as different user.
+  if (user_is_anonymous() || $account->uid != $user->uid) {
+    // Validate expiration and hashed password/login.
+    if ($timestamp <= $current && $current - $timestamp < $timeout && $account->uid && $timestamp >= $account->login &&
+      $hashed_pass == user_pass_rehash($account->pass, $timestamp, $account->login, $account->uid)) {
+
+      // If link data validated.
+      $user = $account;
+      drupal_session_regenerate();
+    }
+    else {
+      // If not valid, forward to login page, with forwarding to membership
+      // edit page, after successful login.
+      $query = array('destination' => 'group/node/' . $gid . '/admin/people/edit-membership/' . $membership->id);
+      drupal_goto('user/login', array('query' => $query));
+    }
+  }
+
+  // Approve/Reject membership request.
+  if ($membership->state == OG_STATE_PENDING) {
+    $membership->state = $action == 'approve' ? OG_STATE_ACTIVE : OG_STATE_BLOCKED;
+    og_membership_save($membership);
+    $message = $action == 'approve' ? t('Membership approved!') : t('Membership rejected!');
+    drupal_set_message($message);
+  }
+  else {
+    drupal_set_message(t('Membership request already handled!'), 'warning');
+  }
+
+  drupal_goto('group/node/' . $gid . '/admin/people');
+}
+
+/**
+ * Menu access; Check if entity is a group.
+ */
+function c4m_og_control_membership_access($group_type, $gid) {
+  $group = entity_load_single($group_type, $gid);
+  if (!$group || !og_is_group($group_type, $group)) {
+    return FALSE;
+  }
+
+  // Extract the group's bundle.
+  list(, , $bundle) = entity_extract_ids($group_type, $group);
+  // Verify the bundle has roles.
+  if (!og_roles($group_type, $bundle, $gid)) {
+    return FALSE;
+  }
+
+  $entity_info = entity_get_info($group_type);
+  if (!$group_type || !$entity_info) {
+    // Not a valid entity type.
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /**
