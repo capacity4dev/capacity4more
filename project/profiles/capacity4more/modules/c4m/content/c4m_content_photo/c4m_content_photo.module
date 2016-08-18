@@ -218,4 +218,3 @@ function c4m_content_photo_c4m_content_statistics_info() {
     ),
   );
 }
-
