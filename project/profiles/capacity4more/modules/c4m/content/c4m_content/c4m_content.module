@@ -20,7 +20,8 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     $form['actions']['send-notification'] = array(
       '#type' => 'checkbox',
       '#title' => t('Send Notification'),
-      '#value' => !$published, // Default to true only on new content.
+      // Default to true only on new content.
+      '#value' => !$published,
       '#limit_validation_errors' => array(),
       '#weight' => -1,
     );
