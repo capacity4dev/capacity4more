@@ -203,8 +203,8 @@ function c4m_content_article_node_view_alter(&$build) {
   }
 
   // Add the new markup Topics.
-  $topics_options = array('vocabulary_name' => 'c4m_vocab_topic');
-  $build['c4m_vocab_topic'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_topic']['#items'], $topics_options);
+//  $topics_options = array('vocabulary_name' => 'c4m_vocab_topic');
+//  $build['c4m_vocab_topic'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_topic']['#items'], $topics_options);
   // Add the new markup Regions.
   $build['c4m_vocab_geo'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_geo']['#items']);
 
