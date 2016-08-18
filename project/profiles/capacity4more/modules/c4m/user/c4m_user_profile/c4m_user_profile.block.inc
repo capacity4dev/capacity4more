@@ -234,10 +234,10 @@ function _c4m_user_profile_block_user_my_profile_groups() {
 /**
  * Returns the title for the type of membership of a group.
  *
- * @param String $type
+ * @param string $type
  *   The group membership type.
  *
- * @return String
+ * @return string
  *   The translated title for the membership type.
  */
 function c4m_user_profile_get_group_type_title($type) {
