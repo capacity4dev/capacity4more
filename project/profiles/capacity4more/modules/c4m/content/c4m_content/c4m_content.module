@@ -11,6 +11,15 @@
  * Add a cancel button to all node forms.
  */
 function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
+  // Add send notification checkbox.
+  $form['actions']['send-notification'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Send Notification'),
+    '#value' => TRUE,
+    '#limit_validation_errors' => array(),
+    '#weight' => -1,
+  );
+
   // Check if a cancel button should be added to node forms.
   $cancel = variable_get('c4m_content_cancel_button', FALSE);
   if (!$cancel) {
