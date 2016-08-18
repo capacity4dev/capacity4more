@@ -11,11 +11,14 @@
  * Add a cancel button to all node forms.
  */
 function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
+  // Checks if the form is for a published content.
+  $published = $form_state['node']->vid ? TRUE : FALSE;
+
   // Add send notification checkbox.
   $form['actions']['send-notification'] = array(
     '#type' => 'checkbox',
     '#title' => t('Send Notification'),
-    '#value' => TRUE,
+    '#value' => !$published, // Default to true only on new content.
     '#limit_validation_errors' => array(),
     '#weight' => -1,
   );
