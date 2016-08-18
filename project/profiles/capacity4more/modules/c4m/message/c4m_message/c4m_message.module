@@ -1225,9 +1225,7 @@ function c4m_message_load_homepage_activity_stream() {
     : '';
   $groups = array();
   $interests = array();
-  $hide_articles = $filter == 'groups'
-    ? 1
-    : 0;
+  $hide_articles = 0;
   $group_context = (bool) og_context();
 
   // Checks if this is an Authenticated user.
@@ -1236,6 +1234,7 @@ function c4m_message_load_homepage_activity_stream() {
       case 'groups':
         // Gets all the group IDs that the user belongs to.
         $groups = c4m_og_get_user_group_nodes_by_bundle('group');
+        $hide_articles = 1;
         break;
 
       case 'projects':
@@ -1245,7 +1244,6 @@ function c4m_message_load_homepage_activity_stream() {
         break;
 
       case 'interests':
-        $hide_articles = 0;
         // Get user's interests.
         $user_wrapper = entity_metadata_wrapper('user', $user->uid);
         $interests = $user_wrapper->c4m_vocab_topic->raw();
