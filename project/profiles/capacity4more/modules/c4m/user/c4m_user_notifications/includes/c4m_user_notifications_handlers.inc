@@ -357,6 +357,48 @@ function c4m_user_notifications_notify_admins_owner_update($node) {
  * Email notification about user adding a comment.
  */
 function c4m_user_notifications_notify_user_commented($comment) {
+  _c4m_user_notifications_notify_content_followers_of_comment($comment->cid, $comment->nid);
+}
+
+/**
+ * Helper function.
+ *
+ * Sends mail notification to content comments subscribers, on new comment.
+ *
+ * @param int $cid
+ *   Comment id.
+ * @param int $nid
+ *   Node id.
+ */
+function _c4m_user_notifications_notify_content_followers_of_comment($cid, $nid) {
+  global $user;
+  $message = message_create('c4m_notify_content_followers_new_comment');
+  // Define functions with which to resolve email template tokens.
+  c4m_message_load_tokens__c4m_notify_content_followers_new_comment($message);
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_node->set($nid);
+  $wrapper->field_comment->set($cid);
+  $wrapper->field_executing_user->set($user->uid);
+
+  $node = node_load($nid);
+  // Flag suffix that is used at unsubscribe mechanism.
+  $flag_suffix = 'comment';
+  // Additional flag entity has to be marked with, for user to be selected
+  // for notification.
+  // With such setting, only user that got entity marked with 'follow node'
+  // and 'follow comment' flags will be selected.
+  $additional_flag_suffix = 'node';
+  // Construct the context, with parameters that will be used by
+  // c4m_user_notifications_message_subscribe_get_subscribers().
+  $context = array(
+    'entity_type' => $flag_suffix,
+    'entity_id' => $nid,
+    'additional_flag_suffix' => $additional_flag_suffix,
+  );
+
+  // Message will be saved in message_subscribe_send_message().
+  message_subscribe_send_message('node', $node, $wrapper->value(), array(), array(), $context);
 }
 
 /**
