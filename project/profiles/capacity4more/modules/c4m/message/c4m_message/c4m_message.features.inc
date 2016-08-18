@@ -52,6 +52,33 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');  
+  $items['c4m_group_request_submitted'] = entity_import('message_type', '{
+    "name" : "c4m_group_request_submitted",
+    "description" : "c4m Group Request Submitted",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003ENew @group_node_type\\u0026nbsp;request\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n",
+          "format" : "default_html",
+          "safe_value" : "\\u003Cp\\u003ENew @group_node_type\\u00a0request\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "\\u003Cp\\u003EDear Administrator,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E requested a new @group_node_type: \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Cstrong\\u003EReason\\u003C\\/strong\\u003E: \\u003Cem\\u003E@message_to_site_admins\\u003C\\/em\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003ETo edit the status of this @group_node_type and add a rework message: \\u003Ca href=\\u0022!group_edit_status_url\\u0022\\u003Emanage this @group_node_type\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cp\\u003EDear Administrator,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\n\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E requested a new @group_node_type: \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\n\\u003Cstrong\\u003EReason\\u003C\\/strong\\u003E: \\u003Cem\\u003E@message_to_site_admins\\u003C\\/em\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003ETo edit the status of this @group_node_type and add a rework message: \\u003Ca href=\\u0022!group_edit_status_url\\u0022\\u003Emanage this @group_node_type\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');  
   $items['c4m_group_hard_deleted'] = entity_import('message_type', '{
     "name" : "c4m_group_hard_deleted",
     "description" : "c4m Group Hard Deleted",
