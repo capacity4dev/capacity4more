@@ -195,46 +195,6 @@
   }
 }
 
-#content-group-header-title {
-
-  h1 {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  .top-buffer {
-    margin-top: 10px;
-  }
-
-  .indication {
-    font-size: 12px;
-    text-align: center;
-    padding: 5px;
-    color: black;
-    display: block;
-  }
-
-  .group-icon {
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 6px;
-    height: 25px;
-
-    &.group-public {
-      border-color: $color-green;
-    }
-
-    &.group-private {
-      border-color: $color-red;
-    }
-
-    &.group-restricted {
-      border-color: $color-accent;
-    }
-  }
-}
-
-
 .header-actions {
   float: right;
 
