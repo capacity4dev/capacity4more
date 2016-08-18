@@ -116,8 +116,8 @@ function c4m_features_homepage_c4m_featured_projects_get_projects() {
 /**
  * Gets the list of featured OG.
  *
- * @param $type
- *   String - The type of the OG. Can be 'group' or 'project'
+ * @param string $type
+ *   The type of the OG. Can be 'group' or 'project'
  *
  * @return mixed
  *   NULL | List of nodes of OG.
