@@ -93,8 +93,8 @@ function c4m_content_news_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-news-c4m_intro_text'.
-  $field_instances['node-news-c4m_intro_text'] = array(
+  // Exported field_instance: 'node-news-c4m_body'.
+  $field_instances['node-news-c4m_body'] = array(
     'bundle' => 'news',
     'default_value' => NULL,
     'deleted' => 0,
@@ -140,7 +140,7 @@ function c4m_content_news_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'c4m_intro_text',
+    'field_name' => 'c4m_body',
     'label' => 'Body',
     'required' => 0,
     'settings' => array(
@@ -174,7 +174,9 @@ function c4m_content_news_field_default_field_instances() {
           ),
         ),
       ),
-      'text_processing' => 0,
+      'display_summary' => 0,
+      'summary_display' => 'default',
+      'text_processing' => 1,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -184,10 +186,14 @@ function c4m_content_news_field_default_field_instances() {
         'maxlength_js' => '',
         'maxlength_js_enforce' => 0,
         'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'maxlength_js_label_summary' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'maxlength_js_summary' => '',
         'maxlength_js_truncate_html' => 0,
-        'rows' => 5,
+        'rows' => 20,
+        'summary_display' => 'default',
+        'summary_rows' => 5,
       ),
-      'type' => 'text_textarea',
+      'type' => 'text_textarea_with_summary',
       'weight' => 1,
     ),
   );
