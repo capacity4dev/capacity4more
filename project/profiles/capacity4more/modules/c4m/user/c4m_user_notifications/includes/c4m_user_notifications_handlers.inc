@@ -297,9 +297,42 @@ function c4m_user_notifications_group_hard_deleted($node, $group_former_status) 
 }
 
 /**
- * Email notification about organic group access change.
+ * Email notification about organic group permissions change.
  */
 function c4m_user_notifications_group_permissions_changed($node, $permissions) {
+  global $user;
+
+  $group_admins_ids = c4m_og_get_group_admins_ids($node->nid, TRUE);
+  // Make sure admin that made the change does not get a notification.
+  if (($key = array_search($user->uid, $group_admins_ids)) !== FALSE) {
+    unset($group_admins_ids[$key]);
+  }
+
+  foreach ($group_admins_ids as $admin_id) {
+    _c4m_user_notifications_to_admin_group_permissions_changed($node, $admin_id, $permissions);
+  }
+}
+
+/**
+ * Helper function.
+ *
+ * Email notification to organic group admin / owner, about group permissions
+ * change.
+ */
+function _c4m_user_notifications_to_admin_group_permissions_changed($node, $admin_id, $permissions) {
+  global $user;
+  $message = message_create('c4m_group_access_change', array('uid' => $admin_id));
+  // Define functions with which to resolve email template tokens.
+  c4m_message_load_tokens__c4m_group_access_change($message);
+  // Set 'group permissions' token to input value.
+  $message->arguments['@group_permissions'] = $permissions;
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group_node->set($node->nid);
+  $wrapper->field_executing_user->set($user->uid);
+
+  // Message will be saved in message_notify_send_message().
+  message_notify_send_message($wrapper->value());
 }
 
 /**
