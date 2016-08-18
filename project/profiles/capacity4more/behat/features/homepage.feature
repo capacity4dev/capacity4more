@@ -126,8 +126,9 @@ Feature: Test homepage content and blocks
     Given I am logged in as user "isaacnewton"
     When  I visit the site homepage
     And   I select the radio button "My groups" with the id "edit-homepage-filter-groups"
-    Then  I should wait not to see "created a new Article" in the "div.activity-stream" element
-    And   I should not see "updated the Article" in the "div.activity-stream" element
+    Then  I should wait not to see "Nobel Prize" in the "div.activity-stream" element
+    And   I should not see "Football Talk" in the "div.activity-stream" element
+    And   I should not see "posted an Article" in the "div.activity-stream" element
 
   @javascript
   Scenario: Logged in user can't see article activities when My Projects filter is chosen.
