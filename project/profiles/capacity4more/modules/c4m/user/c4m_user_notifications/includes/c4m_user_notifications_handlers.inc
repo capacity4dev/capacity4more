@@ -467,6 +467,44 @@ function _c4m_user_notifications_content_recommended($nid) {
  * Email notification about new content at organic group.
  */
 function c4m_user_notifications_new_group_content_published($node) {
+  _c4m_user_notifications_new_content_published($node);
+}
+
+/**
+ * Helper function.
+ *
+ * Sends mail notification to group subscribers, when new content is added.
+ *
+ * @param object $node
+ *   Content node that was added.
+ */
+function _c4m_user_notifications_new_content_published($node) {
+  global $user;
+  $message = message_create('c4m_new_content_published');
+  // Define functions with which to resolve email template tokens.
+  c4m_message_load_tokens__c4m_new_content_published($message);
+  // Resolve comment body field, in teaser mode, and assign value to it's token.
+  $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
+  $message->arguments['@node_teaser_body'] = strip_tags($body_teaser[0]['#markup']);
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_node->set($node->nid);
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+  $gid = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
+  $wrapper->field_group_node->set($gid);
+  $wrapper->field_executing_user->set($user->uid);
+
+  // Flag suffix that is used at unsubscribe mechanism.
+  $flag_suffix = 'group';
+  // Construct the context, with parameters that will be used by
+  // c4m_user_notifications_message_subscribe_get_subscribers().
+  $context = array(
+    'entity_type' => $flag_suffix,
+    'entity_id' => $gid,
+  );
+
+  // Message will be saved in message_subscribe_send_message().
+  message_subscribe_send_message('node', $node, $wrapper->value(), array(), array(), $context);
 }
 
 /**
