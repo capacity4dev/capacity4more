@@ -1375,3 +1375,49 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
 
   return $nids;
 }
+
+/**
+ * Implements hook_c4m_group_dashboard_links().
+ */
+function c4m_og_c4m_group_dashboard_links() {
+  global $user;
+  $group = og_context();
+  // Draft content has unpublished status.
+  $items = c4m_og_get_content_count($group['gid'], $user->uid, NODE_NOT_PUBLISHED);
+  if ($items) {
+    return array(
+      '#markup' => '<i class="fa fa-exclamation-triangle"></i> ' . t('You have !n_draft_content @items', array(
+        '!n_draft_content' => l(t('@count draft content', array('@count' => $items)), '<front>'),
+        '@items' => format_plural($items, 'item', 'items'),
+      )),
+    );
+  }
+  return NULL;
+}
+
+/**
+ * Counts the content of a member in a given group.
+ *
+ * @param int $group_id
+ *    The group entity id.
+ * @param int $user_id
+ *    The user entity id.
+ * @param int $state
+ *    (optional) The node status. Defaults to published.
+ *
+ * @return int
+ *    The count of nodes of an user in the group.
+ */
+function c4m_og_get_content_count($group_id, $user_id, $state = NODE_PUBLISHED) {
+  $query = db_select('node', 'n');
+  // Draft.
+  $query->condition('n.status', $state);
+  $query->condition('n.uid', $user_id);
+  $query->join('og_membership', 'og', 'n.nid = og.etid');
+  $query->condition('og.entity_type', 'node');
+  $query->condition('og.gid', $group_id);
+  $query->addExpression('COUNT(n.nid)', 'nodes');
+  $count = $query->execute()->fetchField();
+
+  return $count;
+}

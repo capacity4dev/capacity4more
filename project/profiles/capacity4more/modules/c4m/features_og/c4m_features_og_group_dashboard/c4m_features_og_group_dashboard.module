@@ -264,7 +264,16 @@ function c4m_features_og_group_dashboard_block_info() {
 function c4m_features_og_group_dashboard_block_view($delta = '') {
   $block = array();
 
-  $block['content'] = module_invoke_all('c4m_cta_block');
+  // This naming should be modified but there are tickets in progress dependent
+  // on this.
+  $block['content']['cta'] = module_invoke_all('c4m_cta_block');
+  $block['content']['links'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('c4m-group-dashboard-links'),
+    ),
+    'content' => module_invoke_all('c4m_group_dashboard_links'),
+  );
 
   return $block;
 }

@@ -837,3 +837,10 @@
     box-shadow: none;
   }
 }
+
+.c4m-group-dashboard-links {
+  border-bottom: 1px dashed $color-gray-darkThree;
+  color: $color-gray-darkThree;
+  margin: 10px 0;
+  padding-bottom: 10px;
+}
