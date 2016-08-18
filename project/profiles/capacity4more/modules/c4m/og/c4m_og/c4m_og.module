@@ -178,6 +178,13 @@ function c4m_og_menu() {
   return $items;
 }
 
+/**
+ * @param $account
+ * @param $membership
+ * @param $action
+ * 
+ * @return string
+ */
 function c4m_og_autologin_control_membership_link($account, $membership, $action) {
   $timestamp = REQUEST_TIME;
   $options = array(
@@ -189,6 +196,14 @@ function c4m_og_autologin_control_membership_link($account, $membership, $action
     . $membership->id . '/' . $timestamp . '/' . user_pass_rehash($account->pass, $timestamp, $account->login, $account->uid), $options);
 }
 
+/**
+ * @param $action
+ * @param $gid
+ * @param $account
+ * @param $membership
+ * @param int $timestamp
+ * @param string $hashed_pass
+ */
 function c4m_og_control_membership($action, $gid, $account, $membership, $timestamp = 0, $hashed_pass = '') {
   global $user;
   // Time out in seconds until cancel URL expires; 24 hours = 86400 seconds.
