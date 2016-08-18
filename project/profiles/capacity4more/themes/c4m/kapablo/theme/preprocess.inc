@@ -102,8 +102,15 @@ function kapablo_preprocess_block(&$variables) {
  * Implements theme_preprocess_page().
  *
  * @see page.tpl.php
+ * @see page--og--project.tpl.php
  */
 function kapablo_preprocess_page(&$variables) {
+  // Determine if the current context is a project.
+  if (($group_type = c4m_og_get_group_type(og_context())) && $group_type == 'project') {
+    // Instruct to use a page template designated for project OG type.
+    $variables['theme_hook_suggestions'][] = 'page__og__project';
+  }
+
   // Add information about the number of sidebars.
   if (!empty($variables['page']['sidebar_first']) && !empty($variables['page']['sidebar_second'])) {
     $variables['content_column_class_kapablo'] = ' class="col-sm-4"';

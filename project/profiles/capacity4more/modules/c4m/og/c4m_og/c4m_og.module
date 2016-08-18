@@ -1269,6 +1269,29 @@ function c4m_og_get_user_administered_groups_count($uid, $node_type) {
 }
 
 /**
+ * Compares the OG type (project|group) to input.
+ *
+ * @param string $type
+ *   The group to get the type from.
+ *
+ * @return bool
+ *   Whether current OG group type matches the input.
+ */
+function c4m_og_is_of_group_type($type) {
+  $context = og_context();
+  if (!$context) {
+    return FALSE;
+  }
+
+  $og_group_type = c4m_og_get_group_type($context);
+  if (!$og_group_type || $og_group_type != $type) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
  * Returns the groups owned by an user.
  *
  * @param int $uid

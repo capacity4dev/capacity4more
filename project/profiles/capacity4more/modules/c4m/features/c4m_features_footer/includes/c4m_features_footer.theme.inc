@@ -15,6 +15,13 @@
  *   Rendered output.
  */
 function theme_c4m_footer_bar(array $variables) {
+
+  if (c4m_og_is_of_group_type('project')) {
+    // The template of the project page is different from the other pages on
+    // the site (by design).
+    return theme_c4m_footer_bar_project();
+  }
+
   $output = '<ul class="c4m-footer-bar clearfix">';
 
   // Get c4m footer navigation links.
@@ -53,6 +60,43 @@ function theme_c4m_footer_bar(array $variables) {
   $output .= $navigation_html_2;
 
   $output .= '</ul>';
+
+  return $output;
+}
+
+/**
+ * Theme function OG Project pages footer - uses project footer template.
+ *
+ * @return html
+ *   Rendered html.
+ */
+function theme_c4m_footer_bar_project() {
+  $options = array(
+    'alias' => TRUE,
+    'html' => TRUE,
+    'attributes' => array()
+  );
+  $europaid_link = l(t('International cooperation and development') . ' >', 'https://ec.europa.eu/europeaid/home_en');
+
+  $options['attributes']['class'] = array('text-orange');
+  $project_link = l(t('Capacity4dev') . ' >',  base_path() . 'projects', $options);
+
+  $options['attributes']['title'] = t('Home');
+  $options['attributes']['class'] = array('logo-project');
+  $variables = array (
+    'path' => (drupal_get_path('theme', 'kapablo') . '/project_logo.png'),
+    'alt' => t('Home'),
+    'attributes' => array(),
+  );
+  $logo_img = theme_image($variables);
+  $logo_link =  l($logo_img,  base_path(), $options);
+
+  $variables = array(
+    'project_link' => $project_link,
+    'logo_link' => $logo_link,
+    'europaid_link' => $europaid_link,
+  );
+  $output = theme('c4m_footer_bar_project', $variables);
 
   return $output;
 }
