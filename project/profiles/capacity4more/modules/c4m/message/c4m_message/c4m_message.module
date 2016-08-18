@@ -1225,7 +1225,7 @@ function c4m_message_load_homepage_activity_stream() {
     : '';
   $groups = array();
   $interests = array();
-  $hide_articles = 0;
+  $hide_articles = FALSE;
   $group_context = (bool) og_context();
 
   // Checks if this is an Authenticated user.
@@ -1234,13 +1234,13 @@ function c4m_message_load_homepage_activity_stream() {
       case 'groups':
         // Gets all the group IDs that the user belongs to.
         $groups = c4m_og_get_user_group_nodes_by_bundle('group');
-        $hide_articles = 1;
+        $hide_articles = TRUE;
         break;
 
       case 'projects':
         // Gets all the project IDs that the user belongs to.
         $groups = c4m_og_get_user_group_nodes_by_bundle('project');
-        $hide_articles = 1;
+        $hide_articles = TRUE;
         break;
 
       case 'interests':
