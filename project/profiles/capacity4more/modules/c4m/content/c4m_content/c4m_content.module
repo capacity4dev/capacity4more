@@ -26,8 +26,6 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     );
   };
 
-
-
   // Check if a cancel button should be added to node forms.
   $cancel = variable_get('c4m_content_cancel_button', FALSE);
   if (!$cancel) {
