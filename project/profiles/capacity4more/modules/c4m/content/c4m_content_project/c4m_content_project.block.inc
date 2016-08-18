@@ -10,6 +10,7 @@
  */
 function _c4m_content_project_block_c4m_block_create_project() {
   global $user;
+  $markup = '';
 
   if ($user->uid) {
     if (user_access('create project content')) {
@@ -24,7 +25,6 @@ function _c4m_content_project_block_c4m_block_create_project() {
       )),
     ));
   }
-
   return array(
     'subject' => '',
     'content' => $markup,
