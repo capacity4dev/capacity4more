@@ -280,6 +280,22 @@ function c4m_message_format_group_owner_public_profile_url(Message $message) {
 }
 
 /**
+ * @return array
+ *  The valid note types for messages.
+ */
+function c4m_message_valid_note_types() {
+  return array(
+    'discussion',
+    'event',
+    'photo',
+    'photoalbum',
+    'share',
+    'document',
+    'wiki_page',
+  );
+}
+
+/**
  * Delegate message CRUD to message type specific functions.
  *
  * @param string $entity_type
