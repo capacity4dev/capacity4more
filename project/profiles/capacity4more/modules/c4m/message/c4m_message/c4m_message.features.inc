@@ -493,6 +493,33 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');  
+  $items['c4m_notify_subscribers_new_comment'] = entity_import('message_type', '{
+    "name" : "c4m_notify_subscribers_new_comment",
+    "description" : "c4m Notify Subscribers New Comment",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003EYou received a reply to your comment\\u003C\\/p\\u003E\\r\\n",
+          "format" : "default_html",
+          "safe_value" : "\\u003Cp\\u003EYou received a reply to your comment\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E added a new comment on the following @comment_content_type: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!comment_content_url\\u0022\\u003E@comment_content_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cem\\u003E@comment_teaser_body \\u003C\\/em\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!comment_content_url\\u0022\\u003ERead more... \\u003C\\/a\\u003Eor directly \\u003Ca href=\\u0022!comment_content_url\\u0022\\u003Ereply to this comment\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYou\\u0027re receiving this e-mail because a new comment was made - if you no longer wish to receive notifications of comments on this content, please \\u003Ca href=\\u0022!unsubscribe_content_comments_url\\u0022\\u003Eunsubscribe\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E added a new comment on the following @comment_content_type: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!comment_content_url\\u0022\\u003E@comment_content_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Cem\\u003E@comment_teaser_body \\u003C\\/em\\u003E\\u003Cbr \\/\\u003E\\n\\u003Ca href=\\u0022!comment_content_url\\u0022\\u003ERead more... \\u003C\\/a\\u003Eor directly \\u003Ca href=\\u0022!comment_content_url\\u0022\\u003Ereply to this comment\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\n\\u003Cp\\u003EYou\\u0027re receiving this e-mail because a new comment was made - if you no longer wish to receive notifications of comments on this content, please \\u003Ca href=\\u0022!unsubscribe_content_comments_url\\u0022\\u003Eunsubscribe\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['c4m_welcome_to_group'] = entity_import('message_type', '{
     "name" : "c4m_welcome_to_group",
     "description" : "c4m Welcome to Group",

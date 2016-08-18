@@ -60,7 +60,7 @@ function c4m_message_mail_alter(&$message) {
   _c4m_message_format_admin_demoted_from_field($message, $message_entity);
   _c4m_message_format_notify_content_recommendation_from_field($message, $message_entity);
   _c4m_message_format_group_requested_from_field($message, $message_entity);
-
+  _c4m_message_format_notify_subscribers_new_comment_from_field($message, $message_entity);
 }
 
 /**
@@ -236,6 +236,22 @@ function _c4m_message_format_group_requested_from_field(&$message, $message_enti
 
   _c4m_message_format_from_field_to_simple_pattern($message);
 }
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_notify_subscribers_new_comment' message From field, per MT22.
+ */
+function _c4m_message_format_notify_subscribers_new_comment_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_notify_subscribers_new_comment') {
+    // For message type other than c4m_notify_content_recommendation,
+    // return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
 
 /**
  * Helper function.
@@ -872,6 +888,57 @@ function c4m_message_load_tokens__c4m_group_requested(Message $message) {
 
   $message->arguments['@group_node_type'] = array(
     'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_notify_subscribers_new_comment message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_notify_subscribers_new_comment(Message $message) {
+  $message->arguments['@user_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@comment_content_title'] = array(
+    'callback' => 'c4m_message_format_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@comment_content_type'] = array(
+    'callback' => 'c4m_message_format_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!comment_content_url'] = array(
+    'callback' => 'c4m_message_format_node_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@comment_teaser_body'] = array(
+    'callback' => 'c4m_message_format_comment_body_teaser',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!unsubscribe_content_comments_url'] = array(
+    'callback' => 'c4m_message_format_unsubscribe_content_comments_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!event_user_url'] = array(
+    'callback' => 'c4m_message_format_event_user_url',
     'pass message' => TRUE,
   );
 }
