@@ -65,6 +65,7 @@ function c4m_message_mail_alter(&$message) {
   _c4m_message_format_new_content_published_from_field($message, $message_entity);
   _c4m_message_format_notify_promoted_member_from_field($message, $message_entity);
   _c4m_message_format_notify_content_followers_new_comment_from_field($message, $message_entity);
+  _c4m_message_format_group_hard_deleted_from_field($message, $message_entity);
   
 }
 
@@ -287,6 +288,19 @@ function _c4m_message_format_notify_subscribers_new_comment_from_field(&$message
   _c4m_message_format_from_field_to_default_pattern($message);
 }
 
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_group_hard_deleted' message From field, per MT33 template.
+ */
+function _c4m_message_format_group_hard_deleted_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_group_hard_deleted') {
+    // For message type other than c4m_group_hard_deleted - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
 
 /**
  * Helper function.
@@ -1195,6 +1209,42 @@ function c4m_message_load_tokens__c4m_notify_content_followers_new_comment(Messa
 
   $message->arguments['!event_user_url'] = array(
     'callback' => 'c4m_message_format_event_user_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_group_hard_deleted message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_group_hard_deleted(Message $message) {
+  $message->arguments['@group_admin_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
   );
 }
