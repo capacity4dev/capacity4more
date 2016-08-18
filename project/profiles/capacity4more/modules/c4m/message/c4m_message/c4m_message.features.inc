@@ -574,6 +574,33 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');
+  $items['c4m_notify_promoted_member'] = entity_import('message_type', '{
+    "name" : "c4m_notify_promoted_member",
+    "description" : "c4m Notify Promoted Member",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003EYour are now administrator for\\u0026nbsp;@group_node_type: @group_node_title\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n",
+          "format" : "default_html",
+          "safe_value" : "\\u003Cp\\u003EYour are now administrator for\\u00a0@group_node_type: @group_node_title\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "\\u003Cp\\u003EDear @member_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYou are now an administrator for the @group_node_type \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EDiscover new functionalities and find out how you can administer this @group_node_type by consulting the following \\u003Ca href=\\u0022url]help-guidance\\u0022 rel=\\u0022nofollow\\u0022\\u003Ehelp section\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003Eif you have any questions about your role as administrator, please feel free to \\u003Ca href=\\u0022!event_user_message_url\\u0022\\u003Econtact me\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E@event_user_full_name\\u003Cbr \\/\\u003E\\r\\n@group_node_type Administrator, @group_node_title\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cp\\u003EDear @member_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003EYou are now an administrator for the @group_node_type \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003EDiscover new functionalities and find out how you can administer this @group_node_type by consulting the following \\u003Ca href=\\u0022url]help-guidance\\u0022 rel=\\u0022nofollow\\u0022\\u003Ehelp section\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\n\\u003Cp\\u003Eif you have any questions about your role as administrator, please feel free to \\u003Ca href=\\u0022!event_user_message_url\\u0022\\u003Econtact me\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\n\\u003Cp\\u003E@event_user_full_name\\u003Cbr \\/\\u003E\\n@group_node_type Administrator, @group_node_title\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['c4m_welcome_to_group'] = entity_import('message_type', '{
     "name" : "c4m_welcome_to_group",
     "description" : "c4m Welcome to Group",
