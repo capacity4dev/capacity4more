@@ -50,6 +50,7 @@ function c4m_message_mail_alter(&$message) {
   $message_entity = $message['params']['message_entity'];
 
   _c4m_message_format_welcome_to_group_from_field($message, $message_entity);
+  _c4m_message_format_notify_promoted_member_from_field($message, $message_entity);
 }
 
 /**
@@ -73,6 +74,18 @@ function _c4m_message_format_welcome_to_group_from_field(&$message, $message_ent
       '@mail' => $author->mail,
     )
   );
+}
+
+/**
+ * Formats 'c4m_notify_promoted_member' message From field, per MT35 template.
+ */
+function _c4m_message_format_notify_promoted_member_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_notify_promoted_member') {
+    // For message type other than c4m_notify_promoted_member - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
 }
 
 /**
@@ -236,6 +249,47 @@ function c4m_message_load_tokens__c4m_welcome_to_group(Message $message) {
 
   $message->arguments['@go_full_name'] = array(
     'callback' => 'c4m_message_format_group_owner_full_name',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_notify_promoted_member message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_notify_promoted_member(Message $message) {
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!event_user_message_url'] = array(
+    'callback' => 'c4m_message_format_event_user_message_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@member_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
   );
 }
