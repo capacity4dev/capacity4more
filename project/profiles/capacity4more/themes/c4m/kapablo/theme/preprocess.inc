@@ -93,6 +93,7 @@ function kapablo_preprocess_block(&$variables) {
       );
 
       $variables['search_form'] = $form;
+
       break;
   }
 }
@@ -101,8 +102,15 @@ function kapablo_preprocess_block(&$variables) {
  * Implements theme_preprocess_page().
  *
  * @see page.tpl.php
+ * @see page--og--project.tpl.php
  */
 function kapablo_preprocess_page(&$variables) {
+  // Determine if the current context is a project.
+  if (($group_type = c4m_og_get_group_type(og_context())) && $group_type == 'project') {
+    // Instruct to use a page template designated for project OG type.
+    $variables['theme_hook_suggestions'][] = 'page__og__project';
+  }
+
   // Add information about the number of sidebars.
   if (!empty($variables['page']['sidebar_first']) && !empty($variables['page']['sidebar_second'])) {
     $variables['content_column_class_kapablo'] = ' class="col-sm-4"';
@@ -187,32 +195,6 @@ function kapablo_preprocess_field(&$variables, $hook) {
       if (!empty($group_access['type'])) {
         $variables['classes_array'][] = 'group-' .
           drupal_html_class($group_access['type']);
-      }
-      break;
-
-    // Create an attribute to the link field.
-    // This field will contain the initials of the title.
-    // Using this initials in the css to create a ::before element
-    // The ::before element is used to create
-    // a circle with the user's initials in it.
-    case 'c4m_link_multiple':
-      foreach ($element['#items'] as $key => $item) {
-        // Get initials of the user name.
-        $title_array = preg_split("/\s+/", $item['title']);
-        $initials = "";
-        foreach ($title_array as $w) {
-          $initials .= $w[0];
-        }
-
-        // Set initials in an attribute to the 'a' tag to use in css.
-        $variables['items'][$key]['#element']['attributes']['data-initials'] = $initials;
-
-        // Add html if there's no link.
-        if (!$variables['items'][$key]['#element']['url']) {
-          $title = $item['title'];
-          $variables['items'][$key]['#element']['title'] = "<span data-initials='$initials'>$title</span>";
-          $variables['items'][$key]['#element']['html'] = TRUE;
-        }
       }
       break;
 
