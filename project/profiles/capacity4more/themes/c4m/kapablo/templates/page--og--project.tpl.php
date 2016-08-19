@@ -21,6 +21,24 @@
     </section>
   <?php endif; ?>
 
+  <div id="header-ec-wrapper" class="c4m-project-page">
+    <?php if ($image_banner_background): ?>
+      <div class="background-banner">
+        <?php print $image_banner_background; ?>
+      </div>
+    <?php endif; ?>
+
+    <div class="container">
+      <?php if ($image_banner): ?>
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <?php print $image_banner; ?>
+          </div>
+        </div>
+      <?php endif; ?>
+    </div>
+  </div><!-- /banner-ec -->
+
 </header>
 
 <?php if (!empty($page['content_top'])): ?>
