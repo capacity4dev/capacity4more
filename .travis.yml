@@ -65,7 +65,7 @@ install:
   - $TRAVIS_BUILD_DIR/ci/bin/install_taskrunners.sh
 
   # Install capacity4more profile.
-  - travis_wait 30 $TRAVIS_BUILD_DIR/ci/bin/install_drupal.sh
+  - travis_wait 35 $TRAVIS_BUILD_DIR/ci/bin/install_drupal.sh
 
 before_script:
   - date
