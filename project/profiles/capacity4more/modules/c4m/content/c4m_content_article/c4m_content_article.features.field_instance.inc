@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_article.features.field_instance.inc
@@ -952,7 +953,7 @@ function c4m_content_article_field_default_field_instances() {
         'settings' => array(
           'display' => 'all',
           'glue' => ', ',
-          'link' => '',
+          'link' => 1,
           'separator' => ' > ',
           'wrap' => 'none',
         ),
@@ -1049,7 +1050,7 @@ function c4m_content_article_field_default_field_instances() {
         'settings' => array(
           'display' => 'all',
           'glue' => ', ',
-          'link' => '',
+          'link' => 1,
           'separator' => ' > ',
           'wrap' => 'none',
         ),
