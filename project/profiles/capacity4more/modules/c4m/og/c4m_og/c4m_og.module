@@ -161,6 +161,7 @@ function c4m_og_menu() {
     'title' => 'Replace Owner',
   );
 
+  // Menu item for approve membership request url.
   $items['group/%/%/admin/membership-approve/%user/%og_membership/%/%'] = array(
     'page callback' => 'c4m_og_control_membership',
     'page arguments' => array('approve', 2, 5, 6, 7, 8),
@@ -168,9 +169,10 @@ function c4m_og_menu() {
     'access arguments' => array(1, 2),
   );
 
+  // Menu item for reject membership request url.
   $items['group/%/%/admin/membership-reject/%user/%og_membership/%/%'] = array(
-    'page callback' => 'c4m_og_control_membership',
-    'page arguments' => array('reject', 2, 5, 6, 7, 8),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_og_reject_membership_request', 2, 5, 6, 7, 8),
     'access callback' => 'c4m_og_control_membership_access',
     'access arguments' => array(1, 2),
   );
@@ -179,11 +181,79 @@ function c4m_og_menu() {
 }
 
 /**
- * @param $account
- * @param $membership
- * @param $action
- * 
+ * Function initializes form with input values, and returns confirm form.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ * @param int $gid
+ *   Group ID.
+ * @param object $account
+ *   Administrator user that performs the action.
+ * @param object $membership
+ *   OG membership on which action is performed.
+ * @param int $timestamp
+ *   Timestamp of the moment action was requested.
+ * @param string $hashed_pass
+ *   Validation for executing user.
+ *
+ * @return object
+ *   Confirm reject form.
+ */
+function c4m_og_reject_membership_request($form, &$form_state, $gid, $account, $membership, $timestamp = 0, $hashed_pass = '') {
+  $form['reject_membership_request_message'] = array(
+    '#type' => 'textarea',
+  );
+
+  // Add group membership form.
+  $form_state['membership'] = $membership;
+  field_attach_form('membership', $membership, $form, $form_state);
+  $form_state['account'] = $account;
+  field_attach_form('account', $account, $form, $form_state);
+
+  $form['gid'] = array('#type' => 'value', '#value' => $gid);
+  $form['timestamp'] = array('#type' => 'value', '#value' => $timestamp);
+  $form['hashed_pass'] = array('#type' => 'value', '#value' => $hashed_pass);
+
+  return confirm_form($form, t('Please enter reject reason:'), 'group/node/' . $gid . '/admin/people', '', t('Reject'), t('Cancel'));
+}
+
+/**
+ * Submits reject membership request form.
+ *
+ * Gets inputs from form, and activates c4m_og_control_membership() function
+ * with action = 'reject'.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ */
+function c4m_og_reject_membership_request_submit($form, &$form_state) {
+  $membership = $form_state['membership'];
+  $account = $form_state['account'];
+  $gid = $form_state['values']['gid'];
+  $timestamp = $form_state['values']['timestamp'];
+  $hashed_pass = $form_state['values']['hashed_pass'];
+
+  c4m_og_control_membership('reject', $gid, $account, $membership, $timestamp, $hashed_pass);
+}
+
+/**
+ * Function builds and returns a link for membership request control.
+ *
+ * Includes a token for auto login.
+ *
+ * @param object $account
+ *   Account which performs the action.
+ * @param object $membership
+ *   Membership for which action is performed.
+ * @param string $action
+ *   Approve / Reject.
+ *
  * @return string
+ *   A link for membership request control.
  */
 function c4m_og_autologin_control_membership_link($account, $membership, $action) {
   $timestamp = REQUEST_TIME;
@@ -197,16 +267,43 @@ function c4m_og_autologin_control_membership_link($account, $membership, $action
 }
 
 /**
- * @param $action
- * @param $gid
- * @param $account
- * @param $membership
+ * Retrieves group ID from form and forwards to it's People page.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ */
+function c4m_og_route_to_group_people($form, &$form_state) {
+  $gid = $form_state['values']['gid'];
+
+  drupal_goto('group/node/' . $gid . '/admin/people');
+}
+
+/**
+ * Function approves / rejects membership request, submitted by user.
+ *
+ * Verifies auto login token, and if valid, logs in the administrator and
+ * performs required state change to membership request. If not valid, forwards
+ * to login page.
+ *
+ * @param string $action
+ *   Approve / Reject.
+ * @param int $gid
+ *   Group ID.
+ * @param object $account
+ *   Administrator user that performs the action.
+ * @param object $membership
+ *   OG membership on which action is performed.
  * @param int $timestamp
+ *   Timestamp of the moment action was requested.
  * @param string $hashed_pass
+ *   Validation for executing user.
  */
 function c4m_og_control_membership($action, $gid, $account, $membership, $timestamp = 0, $hashed_pass = '') {
   global $user;
-  // Time out in seconds until cancel URL expires; 24 hours = 86400 seconds.
+  // Time out in seconds, until auto login token expires.
+  // 24 hours = 86400 seconds.
   $timeout = 86400;
   $current = REQUEST_TIME;
 
@@ -216,13 +313,14 @@ function c4m_og_control_membership($action, $gid, $account, $membership, $timest
     if ($timestamp <= $current && $current - $timestamp < $timeout && $account->uid && $timestamp >= $account->login &&
       $hashed_pass == user_pass_rehash($account->pass, $timestamp, $account->login, $account->uid)) {
 
-      // If link data validated.
+      // If link data validated, perform automatic login.
       $user = $account;
       drupal_session_regenerate();
     }
     else {
       // If not valid, forward to login page, with forwarding to membership
       // edit page, after successful login.
+      drupal_set_message('Auto login token expired', 'warning');
       $query = array('destination' => 'group/node/' . $gid . '/admin/people/edit-membership/' . $membership->id);
       drupal_goto('user/login', array('query' => $query));
     }
@@ -239,7 +337,10 @@ function c4m_og_control_membership($action, $gid, $account, $membership, $timest
     drupal_set_message(t('Membership request already handled!'), 'warning');
   }
 
-  drupal_goto('group/node/' . $gid . '/admin/people');
+  if ($action == 'approve') {
+    // For 'reject' route will be performed by form['#submit'].
+    drupal_goto('group/node/' . $gid . '/admin/people');
+  }
 }
 
 /**

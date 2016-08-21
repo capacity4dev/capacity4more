@@ -1968,28 +1968,44 @@ function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
 }
 
 /**
- * @param \Message $message
+ * Returns a url that is used to approve membership request embedded at message.
+ *
+ * @param Message $message
+ *   The Message entity.
  *
  * @return string
+ *   Approve membership auto login link.
  */
 function c4m_message_format_autologin_approve_membership_link(Message $message) {
   return _c4m_message_format_autologin_control_membership_link($message, 'approve');
 }
 
 /**
- * @param \Message $message
+ * Returns a url that is used to reject membership request embedded at message.
+ *
+ * @param Message $message
+ *   The Message entity.
  *
  * @return string
+ *   Reject membership auto login link.
  */
 function c4m_message_format_autologin_reject_membership_link(Message $message) {
   return _c4m_message_format_autologin_control_membership_link($message, 'reject');
 }
 
 /**
- * @param \Message $message
- * @param $action
+ * Helper function.
+ *
+ * Returns a url that is used to approve/reject membership request which is
+ * embedded inside message.
+ *
+ * @param Message $message
+ *   The Message entity.
+ * @param string $action
+ *   Approve / Reject.
  *
  * @return string
+ *   $action membership auto login link.
  */
 function _c4m_message_format_autologin_control_membership_link(Message $message, $action) {
   global $user;
