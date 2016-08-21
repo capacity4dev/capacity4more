@@ -275,46 +275,10 @@ function c4m_og_invite_visitors_mail($key, &$message, $params) {
  * strings.
  */
 function _c4m_og_invite_visitors_mail_text($key, $language = NULL, $variables = array(), $replace = TRUE) {
-  $langcode = isset($language) ? $language->language : NULL;
+  global $language;
 
-  if ($admin_setting = variable_get('c4m_og_invite_visitors_mail_' . $key, FALSE)) {
-    // An admin setting overrides the default string.
-    $text = $admin_setting;
-  }
-  else {
-    // No override, return default string.
-    switch ($key) {
-      case 'invite_group_member_subject':
-        $text = t('[personal:subject]', array(), array('langcode' => $langcode));
-        break;
-
-      case 'invite_group_member_body':
-        $text = t('<p>
-Hello,
-</p>
- 
-<p><br>
-[user:full_name] invited you to join the following [group:node_type] at [site:name]: <strong>[group:node_title]</strong> 
-</p>
- 
-<p>See their message below:</p>
- 
-<p> 
-[personal:body]
-</p>
- 
-<p>
-To accept this invitation, click <a href="[group:accept_invite_url]">Join this Group</a>.
-</p>
- 
-<p> 
-<a href="[user:public-profile-url]">[user:full_name]</a>,
-member of [group:node_title].
-</p>', array(), array('langcode' => $langcode));
-        break;
-
-    }
-  }
+  // Try to load the text first from variable.
+  $text = variable_get($key, FALSE);
 
   if ($replace) {
     // We do not sanitize the token replacement, since the output of this
@@ -352,26 +316,27 @@ member of [group:node_title].
  */
 function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
   global $user, $base_url;
-  if (isset($data['user'])) {
-    $group = c4m_og_current_group();
-    $url_options = array(
-      'absolute' => TRUE,
-      'purl' => array(
-        'provider' => 'og_purl|node',
-        'id' => $group->nid,
-      ),
-    );
-
-    $replacements['[user:full_name]'] = c4m_user_name($user);
-    $replacements['[user:public-profile-url]'] = $base_url . '/users/' . preg_replace('@[^a-z0-9-]+@', '-', strtolower(trim($replacements['[user:full_name]'])));
-    $replacements['[group:node_type]'] = $group->type;
-    $replacements['[group:node_title]'] = $group->title;
-    $replacements['[group:accept_invite_url]'] = user_pass_reset_url($data['user']);
-    $replacements['[group:dashboard_url]'] = url('<front>', $url_options);
-    $replacements['[personal:subject]'] = $data['form_fields']['subject'];
-    $replacements['[personal:body]'] = $data['form_fields']['body'];
-    $replacements['[site:name]'] = variable_get('site_name', 'Capacity 4 More');
+  if (empty($data['user'])) {
+    return;
   }
+  $group = c4m_og_current_group();
+  $url_options = array(
+    'absolute' => TRUE,
+    'purl' => array(
+      'provider' => 'og_purl|node',
+      'id' => $group->nid,
+    ),
+  );
+
+  $replacements['[user:full_name]'] = c4m_user_name($user);
+  $replacements['[user:public-profile-url]'] = $base_url . '/users/' . preg_replace('@[^a-z0-9-]+@', '-', strtolower(trim($replacements['[user:full_name]'])));
+  $replacements['[group:node_type]'] = $group->type;
+  $replacements['[group:node_title]'] = $group->title;
+  $replacements['[group:accept_invite_url]'] = user_pass_reset_url($data['user']);
+  $replacements['[group:dashboard_url]'] = url('<front>', $url_options);
+  $replacements['[personal:subject]'] = $data['form_fields']['subject'];
+  $replacements['[personal:body]'] = $data['form_fields']['body'];
+  $replacements['[site:name]'] = variable_get('site_name', 'Capacity 4 More');
 }
 
 /**

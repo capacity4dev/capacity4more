@@ -275,7 +275,7 @@ function c4m_user_name($user) {
 
   // As there is no name at this stage.
   if (isset($user->is_new)) {
-    return t('New');
+    return '';
   }
 
   if ($user->uid == 0) {

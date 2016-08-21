@@ -45,6 +45,9 @@ function c4m_og_invite_users_access($group_type, $gid) {
  * Implements hook_mail_alter().
  */
 function c4m_og_invite_users_mail_alter(&$message) {
+  if ($message['key'] != 'send_invitation') {
+    return;
+  }
   module_load_include('inc', 'c4m_og_invite_users', 'c4m_og_invite_users.mail');
   $key = $message['key'] = 'group_invite_user';
   $variables = $message['params'];
@@ -70,12 +73,24 @@ function c4m_og_invite_users_mail_alter(&$message) {
  *   Unused parameter required by the token_replace() function.
  */
 function c4m_og_invite_users_mail_tokens(array &$replacements, array $data, $options) {
+  global $base_url;
+
+  // Formulate the link for the user to accept/decline the invitation.
   $og_membership = og_get_membership('node', $data['group']->nid, 'user', $data['invitee']->uid);
   $hash = og_invite_generate_hash($og_membership);
   $answer_link = url(og_invite_answer_path_by_hash($data['group']->type, $data['group']->nid, $hash, 'answer'));
+  $answer_link = str_replace("/group/group/", "/group/node/", $answer_link);
 
   $replacements['[personal:subject]'] = 'Invitation to join the ' . $data['group']->type . ' ' . $data['group']->title;
   $replacements['[user:member]'] = c4m_user_name($data['inviter']);
+
+  // Make the full name lowercase and replace anything except a-z, 1-9  with
+  // dashes, to create the profile URL.
+  $inviter_profile = strtolower(trim($replacements['[user:member]']));
+  $inviter_profile = preg_replace('@[^a-z0-9-]+@', '-', $inviter_profile);
+  $inviter_profile = $base_url . '/users/' . $inviter_profile;
+  $replacements['[user:public-profile-url]'] = $inviter_profile;
+
   $replacements['[user:invitee]'] = c4m_user_name($data['invitee']);
   $replacements['[group:node_type]'] = $data['group']->type;
   $replacements['[group:node_title]'] = $data['group']->title;
