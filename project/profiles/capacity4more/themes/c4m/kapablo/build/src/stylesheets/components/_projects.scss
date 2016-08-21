@@ -1,0 +1,6 @@
+#block-c4m-content-project-c4m-block-create-project {
+  .btn + .btn {
+    // We assume here that due to design buttons will sit one below the other.
+    margin-top: 1rem;
+  }
+}

@@ -10,10 +10,13 @@
  */
 function _c4m_content_project_block_c4m_block_create_project() {
   global $user;
+  $markup = '';
 
   if ($user->uid) {
     if (user_access('create project content')) {
-      $markup = '<div class="c4m-wide-green-btn">' . l(t('Create a project'), 'node/add/project', array('attributes' => array('class' => array('btn', 'btn-default')))) . '</div>';
+      $create_project = '<div class="c4m-wide-green-btn">' . l(t('Create a project'), 'node/add/project', array('attributes' => array('class' => array('btn', 'btn-default')))) . '</div>';
+      $create_programme = '<div class="c4m-wide-green-btn">'  . l(t('Create a programme'), 'node/add/programme', array('attributes' => array('class' => array('btn', 'btn-default')))) . '</div>';
+      $markup = $create_project . $create_programme;
     }
   }
   else {
@@ -24,7 +27,6 @@ function _c4m_content_project_block_c4m_block_create_project() {
       )),
     ));
   }
-
   return array(
     'subject' => '',
     'content' => $markup,
