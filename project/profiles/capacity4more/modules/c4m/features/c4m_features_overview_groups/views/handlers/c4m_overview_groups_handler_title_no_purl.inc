@@ -24,8 +24,7 @@ class c4m_overview_groups_handler_title_no_purl extends views_handler_field_node
     $options = parent::option_definition();
 
     // Checks if the option has been already selected.
-    $default = $this->definition['disable_purl default'];
-    $is_selected = isset($default) ? $default : FALSE;
+    $is_selected = isset($this->definition['disable_purl default']);
 
     // Sets the option value.
     $options['disable_purl'] = array('default' => $is_selected, 'bool' => TRUE);
