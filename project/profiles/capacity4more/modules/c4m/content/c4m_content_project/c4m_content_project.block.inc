@@ -13,7 +13,7 @@ function _c4m_content_project_block_c4m_block_create_project() {
 
   if ($user->uid) {
     if (user_access('create project content')) {
-      $markup = '<div class="c4m-group-visitor-cta">' . l(t('Create a project'), 'node/add/project', array('attributes' => array('class' => array('btn', 'btn-default')))) . '</div>';
+      $markup = '<div class="c4m-wide-green-btn">' . l(t('Create a project'), 'node/add/project', array('attributes' => array('class' => array('btn', 'btn-default')))) . '</div>';
     }
   }
   else {
