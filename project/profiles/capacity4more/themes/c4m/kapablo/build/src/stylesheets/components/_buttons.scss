@@ -1,0 +1,11 @@
+.c4m-wide-green-btn {
+  color: $color-gray-darkThree;
+  text-align: center;
+
+  a.btn {
+    color: $color-white;
+    background-color: $color-text-alternative;
+    white-space: normal;
+    width: 100%;
+  }
+}
