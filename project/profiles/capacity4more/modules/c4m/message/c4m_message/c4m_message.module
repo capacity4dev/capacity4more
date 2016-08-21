@@ -364,7 +364,7 @@ function _c4m_message_format_notify_content_followers_new_comment_from_field(&$m
 /**
  * Helper function.
  *
- * Formats 'c4m_notify_content_followers_new_comment' From field, per MT26.
+ * Formats 'c4m_notify_content_followers_new_comment' From field, per MT17.
  */
 function _c4m_message_format_membership_request_rejected_from_field(&$message, $message_entity) {
   if ($message_entity->type != 'c4m_membership_request_rejected') {
