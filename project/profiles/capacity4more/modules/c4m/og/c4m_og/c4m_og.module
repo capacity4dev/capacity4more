@@ -237,8 +237,7 @@ function c4m_og_reject_membership_request_submit($form, &$form_state) {
   $timestamp = $form_state['values']['timestamp'];
   $hashed_pass = $form_state['values']['hashed_pass'];
 
-  $membership_updated = c4m_og_control_membership('reject', $gid, $account, $membership, $timestamp, $hashed_pass);
-  $form_state['values']['membership_updated'] = $membership_updated;
+  c4m_og_control_membership('reject', $gid, $account, $membership, $timestamp, $hashed_pass);
 }
 
 /**
@@ -300,11 +299,6 @@ function c4m_og_route_to_group_people($form, &$form_state) {
  *   Timestamp of the moment action was requested.
  * @param string $hashed_pass
  *   Validation for executing user.
- *
- * @return bool
- *   For rejected memberships: TRUE, on successful membership update, FALSE
- *   otherwise.
- *   For approved memberships - nothing.
  */
 function c4m_og_control_membership($action, $gid, $account, $membership, $timestamp = 0, $hashed_pass = '') {
   global $user;
@@ -332,11 +326,10 @@ function c4m_og_control_membership($action, $gid, $account, $membership, $timest
     }
   }
 
-  $success = FALSE;
   // Approve / Reject membership request.
   if ($membership->state == OG_STATE_PENDING) {
     $membership->state = $action == 'approve' ? OG_STATE_ACTIVE : OG_STATE_BLOCKED;
-    $success = (og_membership_save($membership) !== FALSE) ? TRUE: FALSE;
+    og_membership_save($membership);
     $message = $action == 'approve' ? t('Membership approved!') : t('Membership rejected!');
     drupal_set_message($message);
   }
@@ -347,9 +340,6 @@ function c4m_og_control_membership($action, $gid, $account, $membership, $timest
   if ($action == 'approve') {
     // For 'reject' route will be performed by form['#submit'].
     drupal_goto('group/node/' . $gid . '/admin/people');
-  }
-  else {
-    return $success;
   }
 }
 
