@@ -425,7 +425,6 @@
     }
 
     .field-name-c4m-content-group-statistics {
-
       margin-top: 25px;
 
       ul.statistics-list {
@@ -435,8 +434,8 @@
           border: none;
           margin-bottom: 15px;
           padding: 0;
-
           text-align: left;
+          width: calc(100% * (1/2) - 10px - 1px);
 
           a {
             margin-top: 0;
