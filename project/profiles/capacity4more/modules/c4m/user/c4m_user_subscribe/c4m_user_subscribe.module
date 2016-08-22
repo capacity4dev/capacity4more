@@ -47,6 +47,31 @@ function c4m_user_subscribe_node_update($node) {
 }
 
 /**
+ * Implements hook_entity_insert().
+ *
+ * Flags OG content that requires notification, when commenting on existing
+ * content.
+ */
+function c4m_user_entity_insert($entity, $type) {
+  if ($type == 'comment') {
+    $node = node_load($entity->nid);
+
+    if ($node->status != NODE_PUBLISHED) {
+      // Do not mark anything for node that is saved as draft.
+      return;
+    }
+
+    if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
+      // Inserted comment is on content that does not require notification.
+      return;
+    }
+
+    // Add 'follow comment' flag.
+    flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
+  }
+}
+
+/**
  * Helper function.
  *
  * Checks if user has disabled notifications for entity flagged by input flag.
