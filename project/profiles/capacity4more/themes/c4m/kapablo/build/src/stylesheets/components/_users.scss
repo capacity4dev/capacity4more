@@ -133,6 +133,9 @@
   .user-groups {
     @include grain_dark;
     min-width: 190px;
+    margin-top: 6.5px;
+    border: 1px solid $color-link;
+    border-radius: 2px;
 
     @media (min-width: $screen-md) {
       min-width: 245px;
