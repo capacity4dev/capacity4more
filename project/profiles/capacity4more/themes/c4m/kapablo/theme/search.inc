@@ -158,7 +158,10 @@ function kapablo_search_api_sorts_sort(array $variables) {
     $return_html = l(
       $name . theme(
         'tablesort_indicator',
-        array('style' => $order_options['query']['order'])
+        array(
+          'style' =>
+          ($order_options['query']['order'] == 'asc') ? 'desc' : 'asc',
+        )
       ),
       $path,
       $order_options
