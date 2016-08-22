@@ -729,3 +729,31 @@ function c4m_ds_user_activity_summary_helper(
 
   return $output;
 }
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_ds_menu() {
+  $items['admin/config/c4m/disclaimer'] = array(
+    'title' => 'Disclaimer text settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_ds_manage_disclaimer_form'),
+    'access arguments' => array('administer disclaimer settings'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'c4m_ds.pages.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function c4m_ds_permission() {
+  $perms['administer disclaimer settings'] = array(
+    'title' => t('Administer disclaimer settings'),
+    'description' => t('Allows the user to modify the disclaimer text.'),
+  );
+
+  return $perms;
+}
