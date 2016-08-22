@@ -1,0 +1,23 @@
+.btn-group-discussion_type {
+  button[value="idea"] {
+    .fa:before {
+      content: "\f0eb";
+    }
+  }
+  button[value="question"] {
+    .fa:before {
+      content: "\f059";
+    }
+  }
+  button[value="info"] {
+    .fa:before {
+      content: "\f05a";
+    }
+  }
+
+  button[value="debate"] {
+    .fa:before {
+      content: "\f086";
+    }
+  }
+}
