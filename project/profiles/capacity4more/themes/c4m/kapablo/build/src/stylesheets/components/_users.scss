@@ -138,6 +138,8 @@
     @include grain_dark;
     min-width: 190px;
     margin-top: 6.5px;
+    left: initial;
+    right: 0;
     border: 1px solid $color-link;
     border-radius: 2px;
 
