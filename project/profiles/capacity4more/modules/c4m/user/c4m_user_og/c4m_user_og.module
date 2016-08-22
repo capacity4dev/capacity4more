@@ -806,6 +806,16 @@ function c4m_user_og_mail_alter(&$message) {
     'user' => $user,
   );
 
+  $site_name = variable_get('site_name');
+  $message['subject'] = "Activate your " . $site_name . " account\n";
+  $message['from'] = format_string(
+    '"The @site team"<@mail>',
+    array(
+      '@site' => $site_name,
+      '@mail' => 'capacity4dev@ec.europa.eu',
+    )
+  );
+
   $message['body'] = array(
     token_replace(
       $text,
