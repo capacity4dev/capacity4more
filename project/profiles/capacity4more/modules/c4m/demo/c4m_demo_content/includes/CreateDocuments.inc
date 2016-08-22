@@ -102,7 +102,6 @@ class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
   public function prepareRow($row) {
     parent::prepareRow($row);
 
-    
     // Saves the file to the database.
     $file = $this->fileUriToObject(drupal_get_path('module', 'c4m_demo_content') . '/files/' . $row->file);
 

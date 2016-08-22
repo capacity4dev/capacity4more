@@ -506,4 +506,19 @@ abstract class C4mDemoContentCreateEntity extends Migration {
     if (!isset($file)) {
       global $user;
       $uri = file_stream_wrapper_uri_normalize($uri);
+      $file = new StdClass;
+      $file->uid = $user->uid;
+      $file->filename = basename($uri);
+      $file->uri = $uri;
+      $file->filemime = file_get_mimetype($uri);
+      // This is gagged because some uris will not support it.
+      $file->filesize = @filesize($uri);
+      $file->timestamp = REQUEST_TIME;
+      $file->status = FILE_STATUS_PERMANENT;
+      $file->is_new = TRUE;
+      // Saves the file object to the database
+      file_save($file);
+    }
+    return $file;
+  }
 }
