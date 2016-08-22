@@ -130,6 +130,10 @@
     }
   }
 
+  .right-menu-section {
+    float: right;
+  }
+
   .user-groups {
     @include grain_dark;
     min-width: 190px;

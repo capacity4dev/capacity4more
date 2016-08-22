@@ -149,7 +149,7 @@ function _c4m_user_profile_my_groups_top_bar() {
     '#tag'        => 'div',
     '#value'      => render($user_profile) . $menu,
     '#attributes' => array(
-      'class' => array('userbar-userprofile', 'dropdown'),
+      'class' => array('right-menu-section', 'userbar-userprofile', 'dropdown'),
     ),
   );
 
