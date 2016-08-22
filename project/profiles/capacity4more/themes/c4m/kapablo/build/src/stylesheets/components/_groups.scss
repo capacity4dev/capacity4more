@@ -820,10 +820,10 @@
   margin-top: 10px;
 }
 
-.c4m-group-visitor-cta {
+.c4m-group-visitor-cta, .c4m-group-invite-cta {
   text-align: center;
-  margin: 10px 0;
-  padding: 10px 0;
+  margin: 0 0 10px 0;
+  padding: 0 0 10px 0;
   border-bottom: 1px dashed $color-gray-darkThree;
 
   a.btn {
@@ -836,11 +836,6 @@
 }
 
 .c4m-group-invite-cta {
-  text-align: center;
-  margin: 10px 0;
-  padding: 10px 0;
-  border-bottom: 1px dashed $color-gray-darkThree;
-
   a.btn {
     box-shadow: none;
   }
