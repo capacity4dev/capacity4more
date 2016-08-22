@@ -191,26 +191,25 @@ function c4m_user_image($user, $style = NULL) {
 }
 
 /**
- * Return the themed initials (max 2) of a user's full name.
+ * Return the themed initials of a user's full name.
  *
- * @param object $account
- *    The user object.
- * @param mixed $linked
- *    Whether or not to wrap the output in a link.
+ * @param string $initials
+ *    The initials.
+ * @param string $link
+ *    (optional) Link to use for the output. Defaults to empty string.
  *
  * @return string
  *    Rendered html.
  */
-function c4m_user_initials_themed($account, $linked = TRUE) {
-  $initials = c4m_user_initials($account);
+function c4m_user_get_themed_initials($initials, $link = '') {
   static $colors;
 
   if (empty($colors)) {
     $colors = _c4m_user_initials_colors();
   }
 
-  if ($linked) {
-    $output = l($initials, 'user/' . $account->uid);
+  if ($link) {
+    $output = l($initials, $link);
   }
   else {
     $output = '<span class="inner-initials">' . $initials . '</span>';
@@ -239,16 +238,29 @@ function c4m_user_initials_themed($account, $linked = TRUE) {
 }
 
 /**
- * Return the initials (max 2) of a user's full name.
+ * Return the initials of a user's full name.
  *
  * @param object $account
  *    The user object.
  *
  * @return string
- *    The initials (max 2) of user's full name.
+ *    The initials (max 2).
  */
-function c4m_user_initials($account) {
+function c4m_user_get_user_initials($account) {
   $name = c4m_user_name($account);
+  return c4m_user_get_initials($name);
+}
+
+/**
+ * Return the initials (max 2) of a full name.
+ *
+ * @param string $name
+ *    The name.
+ *
+ * @return string
+ *    The initials (max 2).
+ */
+function c4m_user_get_initials($name) {
   $words = preg_split("/[\s,_-]+/", $name);
   $initials = '';
 
@@ -314,7 +326,12 @@ function _c4m_user_initials_colors() {
  */
 function c4m_user_action_info() {
   module_load_include('inc', 'c4m_user', 'actions/c4m_user_contact.action');
-  return c4m_user_contact_action_info();
+  module_load_include('inc', 'c4m_user', 'actions/c4m_user_contact_multiple.action');
+
+  $actions = c4m_user_contact_action_info();
+  $actions += c4m_user_contact_multiple_action_info();
+
+  return $actions;
 }
 
 /**
@@ -697,6 +714,7 @@ function c4m_user_menu_alter(&$items) {
   $items['user/login'] = array(
     'title' => 'Please log in to continue',
   );
+
   $items['user/%user/contact'] = array(
     'type' => MENU_CALLBACK,
     'title' => 'User contact form',
@@ -821,9 +839,11 @@ function c4m_user_contact_form_submit($form, $form_state) {
  * @param string $body
  *   Email message body.
  * @param object $language
- *   Addressee preferred language.
+ *   Preferred language for addressee user.
+ * @param bool $silent
+ *   Whether to display a status message or not.
  */
-function _c4m_user_send_mail($to, $from, $subject, $body, $language) {
+function _c4m_user_send_mail($to, $from, $subject, $body, $language, $silent = FALSE) {
   $module = 'c4m_user';
   $key = 'user_contact_mail';
   $params = array();
@@ -851,10 +871,15 @@ function _c4m_user_send_mail($to, $from, $subject, $body, $language) {
       'Attempt to send mail (from %from to %to) failed.',
       $variables, WATCHDOG_ERROR
     );
-    drupal_set_message(t("Can't send the message to %to.", array('%to' => $to)), 'error');
+
+    if (!$silent) {
+      drupal_set_message(t("Can't send the message."), 'error');
+    }
   }
   else {
-    drupal_set_message(t('Message to %to sent successfully.', array('%to' => $to)));
+    if (!$silent) {
+      drupal_set_message(t('Message sent successfully.'));
+    }
   }
 }
 
@@ -1293,4 +1318,76 @@ function c4m_user_ckeditor_settings_alter(&$settings, $conf) {
   if (user_is_anonymous() && isset($settings['loadPlugins']['media'])) {
     unset($settings['loadPlugins']['media']);
   }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * Ensures c4m_user form_alter runs after VBO.
+ */
+function c4m_user_module_implements_alter(&$implementations, $hook) {
+  if ($hook != 'form_alter') {
+    return;
+  }
+
+  if (!isset($implementations['c4m_user'])) {
+    return;
+  }
+
+  $group = $implementations['c4m_user'];
+  unset($implementations['c4m_user']);
+  $implementations['c4m_user'] = $group;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Updates value of submit button.
+ */
+function c4m_user_form_views_form_c4m_overview_og_members_page_alter(&$form, &$form_state, $form_id) {
+  $form['actions']['submit']['#value'] = t('Send');
+  if (isset($form['select_all_markup']['#markup'])) {
+    // VBO module doesn't provide an option to change 'Select all' labels,
+    // hence the only option is to replace the text on the markup.
+    $form['select_all_markup']['#markup'] = str_replace('Select all items', 'Select all members', $form['select_all_markup']['#markup']);
+  }
+}
+
+/**
+ * Custom validation for user login form.
+ *
+ * Alter the name value to the one obtained using the name as email.
+ * Inspired from logintoboggan module.
+ */
+function c4m_user_login_validate($form, &$form_state) {
+  if (isset($form_state['values']['name']) && $form_state['values']['name']) {
+    if ($name = db_query("SELECT name FROM {users} WHERE LOWER(mail) = LOWER(:name)", array(
+      ':name' => $form_state['values']['name'],
+    ))->fetchField()) {
+      form_set_value($form['name'], $name, $form_state);
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Adds custom validation callback for login form.
+ * Inspired from logintoboggan module.
+ */
+function c4m_user_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id != 'user_login' && $form_id != 'user_login_block') {
+    return;
+  }
+
+  // Ensure a valid validate array.
+  $form['#validate'] = is_array($form['#validate']) ? $form['#validate'] : array();
+
+  // Our validation function must run first.
+  array_unshift($form['#validate'], 'c4m_user_login_validate');
+
+  // Alter the title and description to mention email login option.
+  $form['name']['#title'] = t('Username or e-mail address');
+  // Message format inspired from user_login().
+  $form['name']['#description'] = t('Enter your @s username or your e-mail address.', array('@s' => variable_get('site_name', 'Drupal')));
 }
