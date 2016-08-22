@@ -11,12 +11,17 @@
  * Flags inserted node, if content requires notification.
  */
 function c4m_user_subscribe_node_insert($node) {
+  if ($node->status != NODE_PUBLISHED) {
+    // Do not mark anything that is saved as draft.
+    return;
+  }
+
   if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
     // Inserted content does not require notification.
     return;
   }
 
-  flag('flag', 'subscribe_c4m_follow_node', $node->nid);
+  flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
 }
 
 /**
@@ -25,14 +30,19 @@ function c4m_user_subscribe_node_insert($node) {
  * Flags updated node, if content requires notification.
  */
 function c4m_user_subscribe_node_update($node) {
+  if ($node->status != NODE_PUBLISHED) {
+    // Do not mark anything that is saved as draft.
+    return;
+  }
+
   if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
     // Inserted content does not require notification.
     return;
   }
 
   // If user has not unsubscribed from that type of notifications.
-  if (!_c4m_user_subscribe_entity_notifications_disabled($node->nid, 'node')) {
-    flag('flag', 'subscribe_c4m_follow_node', $node->nid);
+  if (!_c4m_user_subscribe_entity_notifications_disabled($node->nid, 'comment')) {
+    flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
   }
 }
 
