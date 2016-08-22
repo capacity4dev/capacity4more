@@ -458,7 +458,7 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
   display: none;
 }
 
-#block-menu-c4m-og-menu .search-form {
+#block-og-menu-og-single-menu-block .search-form {
   margin-bottom: 0.5rem;
 
   input {
@@ -484,7 +484,7 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
 }
 
 @media (min-width: $screen-tablet) {
-  #block-menu-c4m-og-menu .search-form {
+  #block-og-menu-og-single-menu-block .search-form {
     display: none;
   }
 
