@@ -321,7 +321,10 @@ function c4m_features_homepage_newsletter_form_submit($form, &$form_state) {
 function c4m_features_homepage_c4m_cta_block() {
   $items = array();
 
-  if (drupal_is_front_page() && !user_is_anonymous()) {
+  // drupal_is_front_page was not enough. It was returning TRUE for group
+  // homepages. So now we have to check that is not a group page.
+  $is_group_page = ($group = c4m_og_current_group());
+  if (drupal_is_front_page() && !user_is_anonymous() && !$is_group_page) {
     $items['create-group'] = array(
       '#theme' => 'c4m_group_visitor_cta',
       '#button_label' => t('Create group'),
