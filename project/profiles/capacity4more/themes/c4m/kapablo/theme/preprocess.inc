@@ -362,43 +362,6 @@ function _kapablo_help_facetapi_link_replace($text_orig) {
 }
 
 /**
- * Implements hook_preprocess_views_view().
- *
- * Set  parameters for the custom template of the
- * c4m_overview_inthe_picture_blocks view.
- *
- * @see views-view--c4m-overview-inthe-picture-blocks--block.tpl.php
- */
-function kapablo_preprocess_views_view(&$vars) {
-  switch ($vars['name']) {
-    case 'c4m_overview_inthe_picture_blocks':
-      $items = $vars['view']->result;
-      $carousels = array();
-      foreach ($items as $node) {
-        $wrapper = entity_metadata_wrapper('node', $node->nid);
-        $banner = $wrapper->c4m_media->value();
-        $link = $wrapper->c4m_link->value();
-        $body = $wrapper->c4m_body->value();
-        $carousels[] = array(
-          'id' => $wrapper->getIdentifier(),
-          'title' => $wrapper->c4m_heading->value(),
-          'text' => $body['value'],
-          'image' => file_create_url($banner['uri']),
-          'alias' => $link['url'],
-        );
-      }
-
-      // Pass info via Drupal.settings.
-      $settings['c4m'] = array(
-        'carousels' => $carousels,
-      );
-      drupal_add_js($settings, 'setting');
-
-      break;
-  }
-}
-
-/**
  * Overrides template_preprocess_views_view_fields().
  */
 function kapablo_preprocess_views_view_fields(&$vars) {
