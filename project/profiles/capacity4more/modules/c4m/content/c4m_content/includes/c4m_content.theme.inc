@@ -35,7 +35,6 @@ function theme_c4m_website_statistics_summary(array $variables) {
     'wiki_page' => 'fa-wikipedia-w',
     'photo' => 'fa-file-image-o',
     'photoalbum' => 'fa-picture-o',
-
   );
 
   foreach ($statistics as $key => $stat) {
