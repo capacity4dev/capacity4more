@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_discussion.ds.inc
@@ -185,12 +186,12 @@ function c4m_content_discussion_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'lb' => 'on ',
+          'lb' => ' | ',
           'lb-col' => TRUE,
         ),
       ),
     ),
-    'c4m_ds_type_insert_action' => array(
+    'c4m_ds_entity_type_label' => array(
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
@@ -701,7 +702,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
     'regions' => array(
       'right' => array(
         0 => 'c4m_vocab_topic',
-        1 => 'c4m_ds_type_insert_action',
+        1 => 'c4m_ds_entity_type_label',
         4 => 'c4m_vocab_date',
         5 => 'c4m_user_picture',
         7 => 'group_meta_author',
@@ -728,10 +729,10 @@ function c4m_content_discussion_ds_layout_settings_info() {
     ),
     'fields' => array(
       'c4m_vocab_topic' => 'right',
-      'c4m_ds_type_insert_action' => 'right',
       'c4m_discussion_type' => 'left',
       'c4m_ds_content_status' => 'left',
       'c4m_vocab_date' => 'right',
+      'c4m_ds_entity_type_label' => 'right',
       'c4m_user_picture' => 'right',
       'title' => 'left',
       'group_meta_author' => 'right',

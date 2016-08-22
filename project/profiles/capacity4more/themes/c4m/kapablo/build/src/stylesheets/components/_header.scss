@@ -44,9 +44,13 @@
 }
 
 #header-ec-wrapper {
-  @include grey_bar;
+  @include grey_bar_base;
   border-bottom: none;
-  padding: 1rem;
+  position: relative;
+
+  &.c4m-project-page {
+    padding-top: 15px;
+  }
 
   & .col-xs-3,
   & .col-sm-4,
@@ -54,6 +58,29 @@
     padding-right: 0;
   }
 
+  .background-banner {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60%;
+
+    img {
+      width: 100%;
+      height: 100%;
+
+      filter: blur(2px) grayscale(60%);
+      -webkit-filter: blur(2px) grayscale(60%);
+      -moz-filter: blur(2px) grayscale(60%);
+      -o-filter: blur(2px) grayscale(60%);
+      -ms-filter: blur(2px) grayscale(60%);
+
+      mask-image: linear-gradient(transparent 0%, black 100%);
+      -webkit-mask-image: linear-gradient(transparent 0%, black 100%);
+      -moz-mask-image: linear-gradient(transparent 0%, black 100%);
+      -o-mask-image: linear-gradient(transparent 0%, black 100%);
+      -ms-mask-image: linear-gradient(transparent 0%, black 100%);
+    }
+  }
 }
 
 #header-content-wrapper {
@@ -116,7 +143,7 @@
   ol {
     background: none;
     margin: 0 0 0 6rem;
-    padding: 0;
+    padding: 1rem;
 
     li {
       @extend .text-small;
