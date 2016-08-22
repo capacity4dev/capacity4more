@@ -27,7 +27,8 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
 
   $rendered_groups = '';
   $count = 0;
-  // Render node views for each group,
+
+  // Render node views for each group.
   foreach ($groups as $group) {
     $node_view = node_view($group, 'block_list');
     $rendered_groups .= drupal_render($node_view);
@@ -58,7 +59,7 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
 /**
  * Returns the list of groups of an user.
  *
- * @param object $account.
+ * @param object $account
  *   User object. Defaults global user if NULL.
  *
  * @returns mixed|null
@@ -74,7 +75,7 @@ function c4m_features_homepage_get_user_groups($account = NULL) {
 /**
  * Returns the list of groups of an user, grouped by the membership type.
  *
- * @param object $account.
+ * @param object $account
  *   User object. Defaults global user if NULL.
  *
  * @returns mixed|null
