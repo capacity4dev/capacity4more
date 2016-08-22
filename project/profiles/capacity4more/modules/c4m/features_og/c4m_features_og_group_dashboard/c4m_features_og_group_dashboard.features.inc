@@ -37,7 +37,7 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
       2 => 'event',
       3 => 'wiki_page',
     ),
-    'flag_short' => 'Promote',
+    'flag_short' => '<i class="fa fa-thumb-tack" aria-hidden="true"></i> Promote',
     'flag_long' => '',
     'flag_message' => '',
     'unflag_short' => 'Demote',
