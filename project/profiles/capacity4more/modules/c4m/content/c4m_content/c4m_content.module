@@ -38,9 +38,11 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     );
   }
 
+  $is_unpublish = $form['actions']['draft']['#value'] == t('Unpublish');
+  $is_og_group = in_array($form['type']['#value'], array('group', 'project'));
   // Removes Unpublish button from forms.
-  if ($form['actions']['draft']['#value'] == t('Unpublish')) {
-    unset($form['actions']['draft']);
+  if ($is_unpublish && $is_og_group) {
+    $form['actions']['draft']['#access'] = FALSE;
   }
 }
 
