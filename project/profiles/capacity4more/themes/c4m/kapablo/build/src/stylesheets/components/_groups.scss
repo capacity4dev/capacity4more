@@ -425,7 +425,6 @@
     }
 
     .field-name-c4m-content-group-statistics {
-
       margin-top: 25px;
 
       ul.statistics-list {
@@ -435,8 +434,8 @@
           border: none;
           margin-bottom: 15px;
           padding: 0;
-
           text-align: left;
+          width: calc(100% * (1/2) - 10px - 1px);
 
           a {
             margin-top: 0;
@@ -820,10 +819,8 @@
   margin-top: 10px;
 }
 
-.pane-c4m-features-og-group-dashboard-c4m-cta-block {
-  .c4m-wide-green-btn:last-of-type {
-    border-bottom: 1px dashed $color-gray-darkThree;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
+.c4m-group-invite-cta {
+  a.btn {
+    box-shadow: none;
   }
 }

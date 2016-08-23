@@ -144,12 +144,9 @@ function _c4m_user_profile_facet_country_alter(array &$build, $settings) {
   $field = field_info_field($settings->facet);
   $allowed_values = list_allowed_values($field);
   foreach ($build as $key => $item) {
-    $options = array(
-      '@country' => ucwords(
-        drupal_strtolower($allowed_values[drupal_strtoupper($key)])
-      ),
+    $build[$key]["#markup"] = ucwords(
+      drupal_strtolower($allowed_values[drupal_strtoupper($key)])
     );
-    $build[$key]["#markup"] = t('@country', $options);
   }
 }
 
@@ -497,6 +494,8 @@ function c4m_user_profile_form_user_profile_form_alter(
 
   // Hide the spammer / deleted checkboxes.
   $form['c4m_is_deleted']['#access'] = FALSE;
+  $form['c4m_is_deleted_by_uid']['#access'] = FALSE;
+  $form['c4m_is_deleted_anonymous']['#access'] = FALSE;
   $form['c4m_is_spammer']['#access'] = FALSE;
   // Hide status field.
   $form['account']['status']['#access'] = FALSE;
@@ -1376,7 +1375,8 @@ function c4m_user_profile_user_cancel_methods_alter(&$methods) {
  * Implements the functionality for the custom cancellation method that blocks
  * and reassigns.
  * Removes all user cookies and session information when an user leaves the
- * platform. *  */
+ * platform.
+ */
 function c4m_user_profile_user_cancel($edit, $account, $method) {
   // By default, the cancellation blocks the user, so we only care about the
   // content reassign that is already implemented in the node hook

@@ -3,14 +3,18 @@
 
 /**
  * @file
+ * Drupal config overrides.
+ */
+
+/**
  * Error logging
  * Uncomment to enable verbose mode.
  ******************************************************************************/
-
 // $conf['error_level'] = 2;
 // ini_set('display_errors', TRUE);
 // ini_set('display_startup_errors', TRUE);
 // error_reporting(E_ALL);
+
 /**
  * Database settings.
  ******************************************************************************/
@@ -66,6 +70,19 @@ $drupal_hash_salt = 'OMbDvLs285_CoevCU_qHPNLAaq2pj3ZkGPEA2pCooOU';
 
 // Uncomment and configure if Drupal is ran in a subdirectory.
 // $base_url = 'http://www.example.com/c4d';
+
+/**
+ * Cookie settings.
+ * Drupal automatically generates a unique session cookie name for each site
+ * based on its full domain name. If you have multiple domains pointing at the
+ * same Drupal site, you can either redirect them all to a single domain (see
+ * comment in .htaccess), or uncomment the line below and specify their shared
+ * base domain. Doing so assures that users remain logged in as they cross
+ * between your various domains. Make sure to always start the $cookie_domain
+ * with a leading dot, as per RFC 2109.
+ ******************************************************************************/
+// $cookie_domain = '.example.com';
+
 /**
  * Memcache settings
  * Uncomment if Memcache is installed.
