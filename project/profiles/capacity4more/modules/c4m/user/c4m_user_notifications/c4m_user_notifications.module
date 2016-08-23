@@ -270,6 +270,18 @@ function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
  * Triggers email notification when user is invited to group by admin.
  */
 function c4m_user_notifications_form_og_ui_add_users_alter(&$form, &$form_state) {
+  // Remove request message and invitation option when adding a user to a group.
+  $form['membership_fields'] = FALSE;
+
+  // Add a checkbox for sending a welcome message.
+  $form['og_user']['notifications'] = array(
+    "#type" => "checkboxes",
+    "#options" => array("Send a welcome email to the new user."),
+    "#default_value" => array(0),
+    "#title" => "Notifications",
+  );
+
+  // Add custom submit handler to process the form.
   $form['#submit'][] = 'c4m_user_notifications_notify_user_invited_by_admin';
 }
 
