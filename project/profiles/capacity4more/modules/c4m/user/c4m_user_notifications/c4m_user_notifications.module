@@ -308,11 +308,6 @@ function c4m_user_notifications_form_og_ui_add_users_alter(&$form, &$form_state)
  * request.
  */
 function c4m_user_notifications_form_c4m_og_reject_membership_request_alter(&$form, &$form_state) {
-  // Don't send notifications, if activated from CLI (dummy content migration).
-  if (drupal_is_cli()) {
-    return;
-  }
-
   $form['#submit'][] = 'c4m_user_notifications_moderated_group_notify_user_membership_rejected';
   $form['#submit'][] = 'c4m_og_route_to_group_people';
 }
