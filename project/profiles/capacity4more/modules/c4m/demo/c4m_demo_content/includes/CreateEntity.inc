@@ -486,10 +486,15 @@ abstract class C4mDemoContentCreateEntity extends Migration {
   }
 
   /**
-   * @param $uri
-   *  Image uri path.
+   * Create a file object from path.
+   *
+   * @param string $uri
+   *   Image uri path.
    * @param bool $use_existing
+   *   Use already existing file from database.
+   *
    * @return mixed|StdClass
+   *   The file object.
    */
   public function fileUriToObject($uri, $use_existing = FALSE) {
     if ($use_existing) {
@@ -506,7 +511,7 @@ abstract class C4mDemoContentCreateEntity extends Migration {
     if (!isset($file)) {
       global $user;
       $uri = file_stream_wrapper_uri_normalize($uri);
-      $file = new StdClass;
+      $file = new StdClass();
       $file->uid = $user->uid;
       $file->filename = basename($uri);
       $file->uri = $uri;
@@ -516,9 +521,10 @@ abstract class C4mDemoContentCreateEntity extends Migration {
       $file->timestamp = REQUEST_TIME;
       $file->status = FILE_STATUS_PERMANENT;
       $file->is_new = TRUE;
-      // Saves the file object to the database
+      // Saves the file object to the database.
       file_save($file);
     }
     return $file;
   }
+
 }
