@@ -19,7 +19,8 @@ $plugin = array(
  * Render callback.
  */
 function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $args, $context) {
-  $groups = c4m_features_homepage_get_user_groups();
+  global $user;
+  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($user, array('group'));
 
   if (empty($groups)) {
     return;
@@ -29,11 +30,20 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
   $count = 0;
 
   // Render node views for each group.
-  foreach ($groups as $group) {
-    $node_view = node_view($group, 'block_list');
-    $rendered_groups .= drupal_render($node_view);
+  foreach ($groups as $type => $group_list) {
+    $title = c4m_features_homepage_get_group_type_title($type);
+    $rendered_groups .= '<h3>' . $title . '</h3>';
 
-    $count++;
+    foreach ($group_list as $group) {
+      $node_view = node_view($group, 'block_list');
+      $rendered_groups .= drupal_render($node_view);
+
+      $count++;
+      if ($count >= 5) {
+        break;
+      }
+    }
+
     if ($count >= 5) {
       break;
     }
@@ -54,6 +64,26 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
   $block->title = '';
   $block->content = $rendered_groups ? theme('c4m_features_homepage_my_groups', $variables) : FALSE;
   return $block;
+}
+
+/**
+ * Returns the title for the type of membership of a group.
+ *
+ * @param string $type
+ *   The group membership type.
+ *
+ * @return string
+ *   The translated title for the membership type.
+ */
+function c4m_features_homepage_get_group_type_title($type) {
+  $titles = array(
+    'owner' => t('Groups I own'),
+    'administrator' => t('Groups I manage'),
+    'member' => t("Groups I'm member of"),
+    'pending' => t('Membership requested'),
+  );
+
+  return $titles[$type];
 }
 
 /**
@@ -84,6 +114,7 @@ function c4m_features_homepage_get_user_groups($account = NULL) {
 function c4m_features_homepage_get_user_groups_grouped_by_membership($account = NULL) {
   $groups = c4m_features_homepage_get_user_groups($account);
 
+  $grouped_groups = array();
   foreach ($groups as $group) {
     $membership = c4m_user_og_get_role_in_group($account, $group);
     $grouped_groups[$membership][$group->nid] = $group;
