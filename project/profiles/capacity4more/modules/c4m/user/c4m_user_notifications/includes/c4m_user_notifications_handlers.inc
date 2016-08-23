@@ -131,6 +131,10 @@ function c4m_user_notifications_notify_user_commented($comment) {
  * Email notification about user invitation to group, sent by admin.
  */
 function c4m_user_notifications_notify_user_invited_by_admin($form, $form_state) {
+  // Send a welcome email if the option is checked in the form.
+  if ($form_state['values']['notifications'][1]) {
+    c4m_user_notifications_notify_user_membership_accepted($form_state['og_membership']);
+  }
 }
 
 /**

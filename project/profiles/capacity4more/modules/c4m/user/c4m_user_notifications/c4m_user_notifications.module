@@ -276,12 +276,12 @@ function c4m_user_notifications_form_og_ui_add_users_alter(&$form, &$form_state)
   // Add a checkbox for sending a welcome message.
   $form['og_user']['notifications'] = array(
     "#type" => "checkboxes",
-    "#options" => array("Send a welcome email to the new user."),
-    "#default_value" => array(0),
+    "#options" => array(1 => "Send a welcome email to the new user."),
+    "#default_value" => array(1),
     "#title" => "Notifications",
   );
 
-  // Add custom submit handler to process the form.
+  // Add custom submit handler to process the notification.
   $form['#submit'][] = 'c4m_user_notifications_notify_user_invited_by_admin';
 }
 
