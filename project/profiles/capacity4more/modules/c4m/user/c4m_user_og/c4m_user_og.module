@@ -512,10 +512,9 @@ function c4m_user_og_c4m_cta_block() {
       }
     }
   }
-  else {
-    if ($item = c4m_user_og_c4m_join_cta($group)) {
-      $items['join'] = $item;
-    }
+
+  if ($item = c4m_user_og_c4m_join_cta($group)) {
+    $items['join'] = $item;
   }
 
   if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
