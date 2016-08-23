@@ -84,7 +84,7 @@
 <div class="actions row">
   <div class="col-xs-12">
     <div class="qp-post-button">
-      <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('POST'); ?></button>
+      <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('Submit'); ?></button>
     </div>
     <div class="qp-post-fullform">
       <a href="javascript://" id="full-from-button"
