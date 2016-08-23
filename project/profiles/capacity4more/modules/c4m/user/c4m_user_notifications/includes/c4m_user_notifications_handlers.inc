@@ -246,6 +246,11 @@ function c4m_user_notifications_notify_new_group_pending($node) {
  * Email notification to site admins, about new group request.
  */
 function c4m_user_notifications_notify_admins_group_requested($node) {
+  $admins_ids = c4m_admin_get_admins_ids();
+
+  foreach ($admins_ids as $admin_id) {
+    _c4m_user_notifications_notify_admin_group_requested($node, $admin_id);
+  }
 }
 
 /**
@@ -254,6 +259,17 @@ function c4m_user_notifications_notify_admins_group_requested($node) {
  * Email notification to site admin, about new group request.
  */
 function _c4m_user_notifications_notify_admin_group_requested($node, $admin_id) {
+  global $user;
+  $message = message_create('c4m_group_request_submitted', array('uid' => $admin_id));
+  // Define functions with which to resolve email template tokens.
+  c4m_message_load_tokens__c4m_group_request_submitted($message);
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group_node->set($node->nid);
+  $wrapper->field_executing_user->set($user->uid);
+
+  // Message will be saved in message_notify_send_message().
+  message_notify_send_message($wrapper->value());
 }
 
 /**
