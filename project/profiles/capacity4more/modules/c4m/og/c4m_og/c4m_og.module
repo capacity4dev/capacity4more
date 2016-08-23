@@ -367,8 +367,10 @@ function c4m_og_control_membership_access($group_type, $gid) {
     return FALSE;
   }
 
+  // Extract the group's bundle.
+  list(, , $bundle) = entity_extract_ids($group_type, $group);
   // Verify 'node' bundle has roles.
-  if (!og_roles($group_type, 'node', $gid)) {
+  if (!og_roles($group_type, $bundle, $gid)) {
     return FALSE;
   }
 
