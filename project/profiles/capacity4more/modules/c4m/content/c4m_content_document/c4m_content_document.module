@@ -32,6 +32,9 @@ function c4m_content_document_form_document_node_form_alter(&$form, $form_state)
   // Hide field Add to library from user.
   $form['c4m_document_add_to_library']['#access'] = FALSE;
 
+  // Show authoring information tab to GAs and GO when editing group content.
+  $form['author']['#access'] = _c4m_features_og_members_is_power_user();
+
   if (strpos(url(current_path()), 'overlay')) {
     // If this is overlay page - add our own submit handler.
     $form['actions']['submit']['#submit'][] = 'c4m_content_document_form_document_node_form_submit';
