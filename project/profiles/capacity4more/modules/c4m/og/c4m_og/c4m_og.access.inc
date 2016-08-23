@@ -359,7 +359,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   $form['c4m_related_group'][LANGUAGE_NONE]['#after_build'] = array('c4m_og_select2_widget_after_build');
 
   // Hide "Delete" button for all users except SA.
-  if (!user_access('administer users')) {
+  if (!user_access('administer nodes')) {
     $form['actions']['delete']['#access'] = FALSE;
   }
 }

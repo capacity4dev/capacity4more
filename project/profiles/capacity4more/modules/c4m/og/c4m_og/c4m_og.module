@@ -1321,7 +1321,7 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
  * Blocks access to 'node/%node/delete'.
  */
 function c4m_og_node_access($node, $op, $account) {
-  if ($op == 'delete' && og_is_group('node', $node) && !user_access('administer users')) {
+  if ($op == 'delete' && og_is_group('node', $node) && !user_access('administer nodes')) {
     return NODE_ACCESS_DENY;
   }
 
