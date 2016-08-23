@@ -238,6 +238,10 @@ function c4m_ds_entity_info_alter(&$entity_info) {
     'custom settings' => TRUE,
     'label' => 'Teaser',
   );
+  $entity_info['user']['view modes']['member_overview'] = array(
+    'custom settings' => TRUE,
+    'label' => 'Member Overview',
+  );
 }
 
 /**
@@ -715,45 +719,18 @@ function c4m_ds_ds_pre_render_alter(&$layout_render_array, $context, &$vars) {
  * @return null|string
  *    Formatted string with number of posts and comments.
  */
-function c4m_ds_user_activity_summary_helper(
-  $count_posts = array(),
-  $count_comments = array()
-) {
+function c4m_ds_user_activity_summary_helper($count_posts = 0, $count_comments = 0) {
   $output = '';
 
-  if ($count_posts > 0 && $count_comments > 0) {
-    $output = t(
-      'Posted !posts and !comments',
-      array(
-        '!posts' => format_plural($count_posts, '1 Item', '@count Items'),
-        '!comments' => format_plural(
-          $count_comments,
-          '1 Comment',
-          '@count Comments'
-        ),
-      )
-    );
-  }
-  elseif ($count_posts > 0) {
-    $output = t(
-      'Posted !posts',
-      array(
-        '!posts' => format_plural($count_posts, '1 Item', '@count Items'),
-      )
-    );
-  }
-  elseif ($count_comments > 0) {
-    $output = t(
-      'Posted !comments',
-      array(
-        '!comments' => format_plural(
-          $count_comments,
-          '1 Comment',
-          '@count Comments'
-        ),
-      )
-    );
-  }
+  $output .= theme(
+    'c4m_ds_user_posts_count',
+    array('count' => format_plural($count_posts, '1 Post', '@count Posts'))
+  );
+
+  $output .= theme(
+    'c4m_ds_entity_comments_count',
+    array('count' => format_plural($count_comments, '1 Comment', '@count Comments'))
+  );
 
   return $output;
 }
