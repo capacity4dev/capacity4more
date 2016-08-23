@@ -36,6 +36,40 @@ function c4m_user_notifications_notify_user_membership_accepted($membership) {
  * Email notification to group admins about new member at moderated group.
  */
 function c4m_user_notifications_moderated_group_notify_admins_membership_accepted($membership) {
+  $group_admins_ids = c4m_og_get_group_admins_ids($membership->gid, TRUE);
+
+  foreach ($group_admins_ids as $admin_id) {
+    _c4m_user_notifications_moderated_group_notify_admins_membership_accepted($membership, $admin_id);
+  }
+}
+
+/**
+ * Helper function.
+ *
+ * Sends mail notification to group admins,admin about new member
+ * that was approved.
+ *
+ * @param Entity $membership
+ *   Membership entity.
+ * @param int $admin_id
+ *   Addressee admin uid.
+ */
+function _c4m_user_notifications_moderated_group_notify_admins_membership_accepted(Entity $membership, $admin_id) {
+  global $user;
+  if (!($message = message_create('c4m_notify_admins_membership_approved', array('uid' => $admin_id)))) {
+    // If message was not created properly, return early.
+    return;
+  }
+  // Define functions with which to resolve email template tokens.
+  c4m_message_load_tokens__c4m_notify_admins_membership_accepted($message);
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group_node->set($membership->gid);
+  $wrapper->field_related_user->set($membership->etid);
+  $wrapper->field_executing_user->set($user->uid);
+
+  // Message will be saved in message_notify_send_message().
+  message_notify_send_message($wrapper->value());
 }
 
 /**
