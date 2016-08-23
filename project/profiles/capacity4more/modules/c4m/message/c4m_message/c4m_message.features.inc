@@ -25,6 +25,33 @@ function c4m_message_views_api($module = NULL, $api = NULL) {
  */
 function c4m_message_default_message_type() {
   $items = array();
+  $items['c4m_group_republished'] = entity_import('message_type', '{
+    "name" : "c4m_group_republished",
+    "description" : "c4m Group Republished",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003EYour @group_node_type\\u0026nbsp;@group_node_title\\u0026nbsp;is published once again\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n",
+          "format" : "default_html",
+          "safe_value" : "\\u003Cp\\u003EYour @group_node_type\\u00a0@group_node_title\\u00a0is published once again\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E was published once again.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E@event_user_full_name\\u0026nbsp;updated the status of this @group_node_type from @group_former_status to Published.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYou can consult \\u003Ca href=\\u0022url]help-guidance\\u0022 rel=\\u0022nofollow\\u0022\\u003Ethis help section\\u003C\\/a\\u003E to find out more about Group statuses and what they imply.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\nThe capacity4dev team\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\n\\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E was published once again.\\u003C\\/p\\u003E\\n\\u003Cp\\u003E@event_user_full_name\\u0026nbsp;updated the status of this @group_node_type from @group_former_status to Published.\\u003C\\/p\\u003E\\n\\u003Cp\\u003EYou can consult \\u003Ca href=\\u0022url]help-guidance\\u0022 rel=\\u0022nofollow\\u0022\\u003Ethis help section\\u003C\\/a\\u003E to find out more about Group statuses and what they imply.\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\nThe capacity4dev team\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['c4m_insert__comment'] = entity_import('message_type', '{
     "name" : "c4m_insert__comment",
     "description" : "c4m Insert Comment",
