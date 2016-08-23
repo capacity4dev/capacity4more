@@ -32,12 +32,6 @@
 
 <div ng-show="resources[selectedResource]" id="quick-post-fields">
 
-<div ng-if="selectedResource == 'discussions'" ng-class="{ 'has-error' : errors.discussion_type }">
-  <types field="'discussion_type'" field-schema="referenceValues" type="data.discussion_type" on-change="updateType"
-         cols="3"></types>
-  <p ng-show="errors.discussion_type" class="help-block"><?php print t('Discussion type is required.'); ?></p>
-</div>
-
 <!-- Body editor-->
 <div class="form-group" id="body-wrapper" ng-class="{ 'has-error' : errors.body }">
   <textarea ckeditor="editorOptions" name="body" id="body" ng-model="data.body"></textarea>
@@ -49,6 +43,13 @@
       <li ng-repeat="error in serverSide.data.errors.body">{{error}}</li>
     </ul>
   </div>
+</div>
+
+
+<div ng-if="selectedResource == 'discussions'" ng-class="{ 'has-error' : errors.discussion_type }">
+  <types field="'discussion_type'" field-schema="referenceValues" type="data.discussion_type" on-change="updateType"
+         cols="3"></types>
+  <p ng-show="errors.discussion_type" class="help-block"><?php print t('Discussion type is required.'); ?></p>
 </div>
 
 <div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.topic }">
