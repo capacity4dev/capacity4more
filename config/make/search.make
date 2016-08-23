@@ -10,13 +10,15 @@ projects[facetapi_bonus][subdir] = "contrib"
 projects[facetapi_bonus][version] = "1.2"
 
 projects[search_api][subdir] = "contrib"
-projects[search_api][version] = "1.18"
+projects[search_api][version] = "1.20"
+projects[search_api][patch][] = "https://www.drupal.org/files/issues/search-api-indexed-node-author-2769877-2.patch"
+projects[search_api][patch][] = "https://www.drupal.org/files/issues/1123454-89--vbo_support.patch"
 
 projects[search_api_attachments][subdir] = "contrib"
-projects[search_api_attachments][version] = "1.9"
+projects[search_api_attachments][version] = "1.10"
 
 projects[search_api_solr][subdir] = "contrib"
-projects[search_api_solr][version] = "1.10"
+projects[search_api_solr][version] = "1.11"
 
 projects[search_api_sorts][subdir] = "contrib"
 projects[search_api_sorts][version] = "1.x-dev"
