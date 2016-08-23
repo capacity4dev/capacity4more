@@ -5,12 +5,11 @@
  * Template to render the Quick post forms.
  */
 
+global $user;
+$og_context = og_context();
 
-  global $user;
-  $og_context = og_context();
-
-  // Display quick post form only if the visitor is a group member.
-  if (og_is_member('node', $og_context['gid'], 'user', $user)) {
+// Display quick post form only if the visitor is a group member.
+if (og_is_member('node', $og_context['gid'], 'user', $user)) {
 
 ?>
 <form name="entityForm"
@@ -264,4 +263,6 @@
   </div>
 </div>
 
-<?php } ?>
+<?php
+}
+?>
