@@ -88,7 +88,7 @@
     </div>
     <div class="qp-post-fullform">
       <a href="javascript://" id="full-from-button"
-         ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('Create in full form'); ?></a>
+         ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('Advanced Editing'); ?></a>
     </div>
     <div class="qp-post-cancel">
       <a href="javascript://" id="clear-button" ng-click="resetEntityForm()"><?php print t('Cancel'); ?></a>
