@@ -270,6 +270,11 @@ function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
  * Triggers email notification when user is invited to group by admin.
  */
 function c4m_user_notifications_form_og_ui_add_users_alter(&$form, &$form_state) {
+  // Apply only to SAs.
+  if (!user_has_role('administrator')) {
+    return;
+  }
+
   // Remove request message and invitation option when adding a user to a group.
   $form['membership_fields'] = FALSE;
 
