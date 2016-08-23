@@ -189,8 +189,8 @@ function c4m_content_document_strongarm() {
             'visible' => FALSE,
           ),
           'activity_group' => array(
-            'weight' => '23',
-            'visible' => FALSE,
+            'weight' => '4',
+            'visible' => TRUE,
           ),
           'activity_global' => array(
             'weight' => '23',

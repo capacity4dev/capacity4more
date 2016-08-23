@@ -143,7 +143,7 @@ function c4m_content_discussion_field_default_field_instances() {
           'trim_length' => 200,
         ),
         'type' => 'text_summary_or_trimmed',
-        'weight' => 1,
+        'weight' => 0,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -301,7 +301,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 28,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -393,7 +393,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 29,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -497,7 +497,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 27,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -591,7 +591,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 26,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -617,7 +617,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'settings' => array(
           'display' => 'all',
           'glue' => ', ',
-          'link' => 1,
+          'link' => '',
           'separator' => ' > ',
           'wrap' => 'none',
         ),
@@ -688,7 +688,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 22,
+        'weight' => 24,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -781,7 +781,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 20,
+        'weight' => 23,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -807,7 +807,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'settings' => array(
           'display' => 'all',
           'glue' => ', ',
-          'link' => 1,
+          'link' => '',
           'separator' => ' > ',
           'wrap' => 'none',
         ),
@@ -880,7 +880,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 18,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -1006,7 +1006,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 25,
       ),
       'c4m_related' => array(
         'label' => 'above',
