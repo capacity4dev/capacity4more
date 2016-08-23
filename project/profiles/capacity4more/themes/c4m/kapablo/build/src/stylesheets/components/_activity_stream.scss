@@ -103,3 +103,10 @@
   @include transform-origin(center center);
   @include rotate(45deg);
 }
+
+.pane-activity-stream {
+  .pane-title {
+    margin-bottom: 10px;
+    margin-top: 0;
+  }
+}

@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * @file
+ * Code for og_invite and og_invite_people modules.
+ */
+
+/**
+ * Implements hook_menu_alter().
+ */
+function c4m_og_invite_menu_alter(&$items) {
+  $items['group/%/%/admin/people/invite']['access callback'] = 'c4m_og_invite_people_access';
+  $items['group/%/%/admin/people/invite-users']['access callback'] = 'c4m_og_invite_users_access';
+  $items['group/%/%/admin/people/invite-users/%user']['access callback'] = 'c4m_og_invite_users_access';
+  $items['group/%/%/admin/people/invite-users/autocomplete']['access callback'] = 'c4m_og_invite_users_access';
+}
+
+/**
+ * Invitation access callback - for inviting existing users [og_invite].
+ *
+ * Invoke c4m_og_invite_access() to check for access by user
+ * role as well as the group's Membership requests field (Open/Moderated) and
+ * the Group visibility (Public/Private).
+ */
+function c4m_og_invite_users_access($group_type, $gid) {
+  if (_og_invite_access($group_type, $gid)) {
+    return c4m_og_invite_access(NULL, $group_type, $gid);
+  }
+
+  return FALSE;
+}
+
+/**
+ * Invitation access callback - for inviting new people [og_invite_people].
+ *
+ * Invoke c4m_og_invite_access() to check for access by user
+ * role as well as the group's Membership requests field (Open/Moderated) and
+ * the Group visibility (Public/Private).
+ */
+function c4m_og_invite_people_access($perm, $group_type, $gid) {
+  if (og_invite_people_user_access_group($perm, $group_type, $gid)) {
+    return c4m_og_invite_access($perm, $group_type, $gid);
+  }
+
+  return FALSE;
+}
+
+/**
+ * Return true if the user is allowed to invite and false if he isn't.
+ *
+ * Checks by user role and og_role against group visibility (Public/Private) and
+ * Membership requests setting (Open/Moderated).
+ */
+function c4m_og_invite_access($perm, $group_type, $gid) {
+  if (user_access('administer site')) {
+    return TRUE;
+  }
+
+  if (og_user_access($group_type, $gid, 'administrator member')) {
+    return TRUE;
+  }
+
+  // Get request type (open/moderated).
+  $group = entity_load_single($group_type, $gid);
+  $group_request_membership_value = c4m_og_get_group_membership_request($group);
+
+  return $group_request_membership_value == 'open' && og_user_access($group_type, $gid, 'member');
+}

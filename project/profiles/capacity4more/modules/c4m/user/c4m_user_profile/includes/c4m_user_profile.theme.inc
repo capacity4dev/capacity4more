@@ -27,7 +27,7 @@ function theme_c4m_user_profile_picture_fullname(array $variables) {
   $picture    = $user_wrapper->c4m_media->value();
   if (empty($picture)) {
     // If there is no image, we render initials.
-    $picture = c4m_user_initials_themed($user, FALSE);
+    $picture = c4m_user_get_themed_initials(c4m_user_get_user_initials($user));
   }
   else {
     $picture = array(

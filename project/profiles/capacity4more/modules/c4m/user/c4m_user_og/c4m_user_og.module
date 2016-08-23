@@ -436,6 +436,15 @@ function c4m_user_og_theme() {
     ),
   );
 
+  $theme['c4m_group_text_cta'] = array(
+    'template' => 'c4m_group_text_cta',
+    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
+    'variables' => array(
+      'text' => NULL,
+      'icon' => NULL,
+    ),
+  );
+
   $theme['c4m_unified_workflow_register'] = array(
     'template' => 'c4m_unified_workflow_register',
     'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
@@ -460,6 +469,7 @@ function c4m_user_og_theme() {
  * Implements hook_c4m_cta_block().
  */
 function c4m_user_og_c4m_cta_block() {
+  // Only add items if there is a group.
   if (!$group = c4m_og_current_group()) {
     return;
   }
@@ -488,10 +498,14 @@ function c4m_user_og_c4m_cta_block() {
         $items['membership'] = $item;
       }
     }
+
+    if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
+      $items['leave'] = $item;
+    }
   }
 
-  if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
-    $items['leave'] = $item;
+  if ($item = c4m_user_og_group_actions_cta($group)) {
+    $items['actions'] = $item;
   }
 
   return $items;
@@ -518,8 +532,90 @@ function c4m_user_og_c4m_vistor_cta($group) {
     '#theme' => 'c4m_group_visitor_cta',
     '#button_label' => $types[$membership_request_value]['button_label'],
     '#button_icon' => $types[$membership_request_value]['button_icon'],
-    '#url' => url('/user'),
+    '#url' => url('group/join/' . $group->nid, array('absolute' => TRUE)),
   );
+}
+
+/**
+ * Sets the different actions an user can do in the group.
+ *
+ * Includes: manage group, pending membership requests and draft content.
+ */
+function c4m_user_og_group_actions_cta($group) {
+  $access = c4m_og_get_access_type($group);
+  if ($access['type'] != 'public') {
+    return;
+  }
+
+  global $user;
+  if (!og_get_membership('node', $group->nid, 'user', $user->uid)) {
+    return;
+  }
+
+  $items = array();
+  // CTAs for the group owner and administrators: Manage group and number or
+  // new membership requests.
+  if (_c4m_features_og_members_is_power_user($group, $user)) {
+    $items['manage'] = array(
+      '#theme' => 'c4m_group_text_cta',
+      '#icon' => 'fa-cog',
+      '#text' => l(t('Manage this group'), 'manage'),
+    );
+
+    if ($pending_requests = c4m_og_get_all_group_memberships_by_state($group->nid, OG_STATE_PENDING)) {
+      $pending_id = $group->nid . '_pending';
+
+      $link_text = format_plural(
+        count($pending_requests),
+        'There is <a href="@link">1 new membership</a> request',
+        'There are <a href="@link">@requests new membership</a> requests',
+        array(
+          '@link' => url(
+            'members',
+            array('query' => array('f[0]' => 'c4m_og_membership_type:' . $pending_id))
+          ),
+          '@requests' => count($pending_requests),
+        )
+      );
+
+      $items['memberships'] = array(
+        '#theme' => 'c4m_group_text_cta',
+        '#icon' => 'fa-user',
+        '#text' => $link_text,
+      );
+    }
+  }
+
+  // CTAs for members of the group: Amount of unpublished content.
+  $variables = array(
+    'bundles' => array(
+      'wiki_page',
+      'photoalbum',
+      'discussion',
+      'event',
+      'document',
+    ),
+    'state' => NODE_NOT_PUBLISHED,
+    'entity_type' => 'node',
+    'og_id' => $group->nid,
+  );
+
+  if ($unpublished_content = c4m_helper_entity_get_number_of_entities($variables)) {
+    $items['new-content'] = array(
+      '#theme' => 'c4m_group_text_cta',
+      '#icon' => 'fa-exclamation-triangle',
+      '#text' => t('You have %count draft content items', array('%count' => $unpublished_content)),
+    );
+  }
+
+  // Help & guidance.
+  $items['help_guidance'] = array(
+    '#theme' => 'c4m_group_text_cta',
+    '#icon' => 'fa-question',
+    '#text' => l(t('Help & guidance'), 'help-guidance/help-guidance', array('purl' => array('disabled' => TRUE))),
+  );
+
+  return $items;
 }
 
 /**
@@ -530,6 +626,7 @@ function c4m_user_og_c4m_vistor_cta($group) {
  */
 function c4m_user_og_c4m_join_cta($group) {
   if (og_is_member('node', $group->nid)) {
+    drupal_set_message(t('Welcome to group %group', array('%group' => $group->title)));
     return;
   }
 
@@ -552,13 +649,12 @@ function c4m_user_og_c4m_membership_cta($group) {
   }
 
   if (og_is_member('node', $group->nid, 'user', NULL, array(OG_STATE_PENDING))) {
-    $replacements = array('%group' => $group->title);
-    $message = t("This is a moderated group. Your request is waiting for approval. Continue to explore group %group's content.", $replacements);
+    $message = t("This is a moderated group. Your request is waiting for approval. Continue to explore group's content.");
     drupal_set_message($message);
 
     return array(
       '#type' => 'markup',
-      '#markup' => '<div class="c4m-group-visitor-cta">' . t('Awaiting approval') . '</div>',
+      '#markup' => '<div class="c4m-group-visitor-cta"><i class="fa fa-hourglass-end" aria-hidden="true"></i> ' . t('Membership waiting approval') . '</div>',
     );
   }
 
@@ -779,14 +875,6 @@ function c4m_user_og_group_unified_workflow($group, $account = FALSE) {
     drupal_set_message(t('A problem occurred trying to join the group.'), 'error');
     return;
   }
-
-  $messages = array(
-    'open' => t('You are now a member of this group'),
-    'moderated' => t("This is a moderated group. Your request is waiting for approval. Continue to explore group's content."),
-  );
-  $message = $messages[$membership_request_value];
-
-  drupal_set_message($message);
 }
 
 /**
