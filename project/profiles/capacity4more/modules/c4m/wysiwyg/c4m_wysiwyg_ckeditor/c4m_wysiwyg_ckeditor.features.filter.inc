@@ -96,6 +96,11 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
           'rule_style_urls' => array(),
         ),
       ),
+      'youtube_prevent_rel' => array(
+        'weight' => 0,
+        'status' => 1,
+        'settings' => array(),
+      ),
       'filter_autop' => array(
         'weight' => 2,
         'status' => 1,
@@ -195,6 +200,11 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
           'rule_style_urls' => array(),
         ),
       ),
+      'youtube_prevent_rel' => array(
+        'weight' => 0,
+        'status' => 1,
+        'settings' => array(),
+      ),
       'filter_autop' => array(
         'weight' => 2,
         'status' => 1,
@@ -230,6 +240,11 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
       ),
       'filter_autop' => array(
         'weight' => -42,
+        'status' => 1,
+        'settings' => array(),
+      ),
+      'youtube_prevent_rel' => array(
+        'weight' => 0,
         'status' => 1,
         'settings' => array(),
       ),

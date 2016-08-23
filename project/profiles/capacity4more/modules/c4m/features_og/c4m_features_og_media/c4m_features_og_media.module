@@ -23,3 +23,40 @@ function c4m_features_og_media_c4m_og_feature_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_action_info().
+ */
+function c4m_features_og_media_filter_info() {
+  $filters['youtube_prevent_rel'] = array(
+    'title' => t('Make sure related YouTube videos do not play'),
+    'process callback' => 'c4m_features_og_media_youtube_prevent_rel',
+  );
+  return $filters;
+}
+
+/**
+ * Implements callback_filter_process().
+ *
+ * Add "rel=0" parameter for YouTube videos.
+ */
+function c4m_features_og_media_youtube_prevent_rel($text) {
+  $result = preg_replace('/data-oembed="https:\/\/www\.youtube\.com\/watch\?v=([0-9a-zA-Z_]+)/', 'data-oembed="https://www.youtube.com/watch?v=$1?rel=0', $text);
+  $result = preg_replace('/src="\/\/www\.youtube\.com\/embed\/([0-9a-zA-Z_]+)\?([^"]*)/', 'src="//www.youtube.com/embed/$1?rel=0&amp;$2"', $result);
+  return $result;
+}
+
+/**
+ * Implements hook_wysiwyg_filter_elements_blacklist_alter().
+ *
+ * Remove iframe from WYSIWYG Filter blacklist.
+ */
+function c4m_features_og_media_wysiwyg_filter_elements_blacklist_alter(&$blacklist){
+  $new_blacklist = array();
+  foreach ($blacklist as $value) {
+    if ($value !== 'iframe') {
+      $new_blacklist[] = $value;
+    }
+  }
+  $blacklist = $new_blacklist;
+}
