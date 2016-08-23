@@ -36,72 +36,69 @@ function c4m_user_admin_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
     'views_bulk_operations' => 'views_bulk_operations',
-    'uid' => 'uid',
-    'name' => 'name',
-    'mail' => 'name',
     'c4m_first_name' => 'c4m_first_name',
     'c4m_last_name' => 'c4m_last_name',
-    'view_user' => 'view_user',
-    'status' => 'status',
+    'c4m_organisation' => 'c4m_organisation',
+    'c4m_organisation_type' => 'c4m_organisation_type',
+    'c4m_country' => 'c4m_country',
+    'mail' => 'mail',
     'c4m_is_spammer' => 'c4m_is_spammer',
     'c4m_is_deleted' => 'c4m_is_deleted',
-    'rid' => 'rid',
+    'status' => 'status',
     'created' => 'created',
     'access' => 'access',
-    'login' => 'login',
-    'edit_node' => 'edit_node',
+    'view_user' => 'view_user',
     'cancel_node' => 'edit_node',
+    'activate_user' => 'activate_user',
+    'reactivate_user' => 'reactivate_user',
+    'resend_activation_email' => 'resend_activation_email',
+    'edit_node' => 'edit_node',
   );
-  $handler->display->display_options['style_options']['default'] = 'access';
+  $handler->display->display_options['style_options']['default'] = 'c4m_first_name';
   $handler->display->display_options['style_options']['info'] = array(
     'views_bulk_operations' => array(
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'uid' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'name' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '<br />',
-      'empty_column' => 0,
-    ),
-    'mail' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
     'c4m_first_name' => array(
-      'sortable' => 0,
+      'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
     'c4m_last_name' => array(
-      'sortable' => 0,
+      'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'view_user' => array(
+    'c4m_organisation' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'status' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'desc',
+    'c4m_organisation_type' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'c4m_country' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'mail' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -120,28 +117,48 @@ function c4m_user_admin_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'rid' => array(
+    'status' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'desc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
     'created' => array(
-      'sortable' => 0,
+      'sortable' => 1,
       'default_sort_order' => 'desc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
     'access' => array(
-      'sortable' => 0,
+      'sortable' => 1,
       'default_sort_order' => 'desc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'login' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
+    'view_user' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'cancel_node' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'activate_user' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'reactivate_user' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'resend_activation_email' => array(
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -149,11 +166,6 @@ function c4m_user_admin_views_default_views() {
     'edit_node' => array(
       'align' => '',
       'separator' => '&emsp;',
-      'empty_column' => 0,
-    ),
-    'cancel_node' => array(
-      'align' => '',
-      'separator' => '',
       'empty_column' => 0,
     ),
   );
@@ -168,7 +180,7 @@ function c4m_user_admin_views_default_views() {
   $handler->display->display_options['empty']['area_text_custom']['content'] = 'No users available.';
   /* Field: Bulk operations: User */
   $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
-  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'users';
+  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'views_entity_user';
   $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '0';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 0;
@@ -548,7 +560,7 @@ Last access : [access]';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['hide_admin_links'] = TRUE;
   $handler->display->display_options['defaults']['access'] = FALSE;
-  $handler->display->display_options['path'] = 'admin/people';
+  $handler->display->display_options['path'] = 'admin/people-2';
 
   /* Display: Data export */
   $handler = $view->new_display('views_data_export', 'Data export', 'views_data_export');
@@ -734,6 +746,448 @@ Last access : [access]';
   $handler->display->display_options['use_batch'] = 'batch';
   $handler->display->display_options['return_path'] = 'admin/people/export';
   $handler->display->display_options['segment_size'] = '50';
+
+  /* Display: Extended overview */
+  $handler = $view->new_display('system', 'Extended overview', 'extended_overview');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['hide_admin_links'] = TRUE;
+  $handler->display->display_options['defaults']['access'] = FALSE;
+  $handler->display->display_options['defaults']['exposed_form'] = FALSE;
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['exposed_form']['options']['expose_sort_order'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['columns'] = array(
+    'views_bulk_operations' => 'views_bulk_operations',
+    'c4m_first_name' => 'c4m_first_name',
+    'c4m_last_name' => 'c4m_last_name',
+    'c4m_organisation' => 'c4m_organisation',
+    'c4m_organisation_type' => 'c4m_organisation_type',
+    'c4m_country' => 'c4m_country',
+    'mail' => 'mail',
+    'c4m_is_spammer' => 'c4m_is_spammer',
+    'c4m_is_deleted' => 'c4m_is_deleted',
+    'status' => 'status',
+    'created' => 'created',
+    'access' => 'access',
+    'view_user' => 'view_user',
+    'cancel_node' => 'edit_node',
+    'activate_user' => 'activate_user',
+    'reactivate_user' => 'reactivate_user',
+    'resend_activation_email' => 'resend_activation_email',
+    'edit_node' => 'edit_node',
+  );
+  $handler->display->display_options['style_options']['default'] = 'c4m_first_name';
+  $handler->display->display_options['style_options']['info'] = array(
+    'views_bulk_operations' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'c4m_first_name' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'c4m_last_name' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'c4m_organisation' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'c4m_organisation_type' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'c4m_country' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'mail' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'c4m_is_spammer' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'desc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'c4m_is_deleted' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'desc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'status' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'desc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'created' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'desc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'access' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'desc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'view_user' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'cancel_node' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'activate_user' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'reactivate_user' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'resend_activation_email' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'edit_node' => array(
+      'align' => '',
+      'separator' => '&emsp;',
+      'empty_column' => 0,
+    ),
+  );
+  $handler->display->display_options['style_options']['override'] = FALSE;
+  $handler->display->display_options['style_options']['sticky'] = TRUE;
+  $handler->display->display_options['style_options']['empty_table'] = TRUE;
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Bulk operations: User */
+  $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'views_entity_user';
+  $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '0';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 0;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['row_clickable'] = 1;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['skip_batching'] = 1;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
+    'action::c4m_user_admin_activate_action' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::c4m_user_resend_activation_email_action' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+  );
+  /* Field: User: First Name */
+  $handler->display->display_options['fields']['c4m_first_name']['id'] = 'c4m_first_name';
+  $handler->display->display_options['fields']['c4m_first_name']['table'] = 'field_data_c4m_first_name';
+  $handler->display->display_options['fields']['c4m_first_name']['field'] = 'c4m_first_name';
+  $handler->display->display_options['fields']['c4m_first_name']['label'] = 'First name';
+  $handler->display->display_options['fields']['c4m_first_name']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_first_name']['element_default_classes'] = FALSE;
+  /* Field: User: Last Name */
+  $handler->display->display_options['fields']['c4m_last_name']['id'] = 'c4m_last_name';
+  $handler->display->display_options['fields']['c4m_last_name']['table'] = 'field_data_c4m_last_name';
+  $handler->display->display_options['fields']['c4m_last_name']['field'] = 'c4m_last_name';
+  $handler->display->display_options['fields']['c4m_last_name']['label'] = 'Last name';
+  $handler->display->display_options['fields']['c4m_last_name']['alter']['text'] = '[c4m_first_name] [c4m_last_name]';
+  $handler->display->display_options['fields']['c4m_last_name']['alter']['path'] = 'user/[uid]';
+  $handler->display->display_options['fields']['c4m_last_name']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_last_name']['empty'] = '<a href="user/[uid]">[name]</a>';
+  /* Field: User: Organisation */
+  $handler->display->display_options['fields']['c4m_organisation']['id'] = 'c4m_organisation';
+  $handler->display->display_options['fields']['c4m_organisation']['table'] = 'field_data_c4m_organisation';
+  $handler->display->display_options['fields']['c4m_organisation']['field'] = 'c4m_organisation';
+  $handler->display->display_options['fields']['c4m_organisation']['label'] = 'Organisation name';
+  /* Field: Field: Organisation type */
+  $handler->display->display_options['fields']['c4m_organisation_type']['id'] = 'c4m_organisation_type';
+  $handler->display->display_options['fields']['c4m_organisation_type']['table'] = 'field_data_c4m_organisation_type';
+  $handler->display->display_options['fields']['c4m_organisation_type']['field'] = 'c4m_organisation_type';
+  /* Field: User: Country */
+  $handler->display->display_options['fields']['c4m_country']['id'] = 'c4m_country';
+  $handler->display->display_options['fields']['c4m_country']['table'] = 'field_data_c4m_country';
+  $handler->display->display_options['fields']['c4m_country']['field'] = 'c4m_country';
+  /* Field: User: E-mail */
+  $handler->display->display_options['fields']['mail']['id'] = 'mail';
+  $handler->display->display_options['fields']['mail']['table'] = 'users';
+  $handler->display->display_options['fields']['mail']['field'] = 'mail';
+  $handler->display->display_options['fields']['mail']['alter']['text'] = '<a href="user/[uid]">[c4m_first_name] [c4m_last_name]</a>
+[mail]';
+  $handler->display->display_options['fields']['mail']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['mail']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['mail']['link_to_user'] = '0';
+  /* Field: User: Is spammer */
+  $handler->display->display_options['fields']['c4m_is_spammer']['id'] = 'c4m_is_spammer';
+  $handler->display->display_options['fields']['c4m_is_spammer']['table'] = 'field_data_c4m_is_spammer';
+  $handler->display->display_options['fields']['c4m_is_spammer']['field'] = 'c4m_is_spammer';
+  $handler->display->display_options['fields']['c4m_is_spammer']['label'] = '';
+  $handler->display->display_options['fields']['c4m_is_spammer']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_spammer']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_spammer']['alter']['text'] = 'Yes';
+  $handler->display->display_options['fields']['c4m_is_spammer']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_is_spammer']['empty'] = 'No';
+  $handler->display->display_options['fields']['c4m_is_spammer']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_spammer']['type'] = 'list_key';
+  $handler->display->display_options['fields']['c4m_is_spammer']['settings'] = array(
+    'field_name' => '0',
+  );
+  /* Field: User: Is deleted */
+  $handler->display->display_options['fields']['c4m_is_deleted']['id'] = 'c4m_is_deleted';
+  $handler->display->display_options['fields']['c4m_is_deleted']['table'] = 'field_data_c4m_is_deleted';
+  $handler->display->display_options['fields']['c4m_is_deleted']['field'] = 'c4m_is_deleted';
+  $handler->display->display_options['fields']['c4m_is_deleted']['label'] = '';
+  $handler->display->display_options['fields']['c4m_is_deleted']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted']['alter']['text'] = 'Yes';
+  $handler->display->display_options['fields']['c4m_is_deleted']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_is_deleted']['empty'] = 'No';
+  $handler->display->display_options['fields']['c4m_is_deleted']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted']['type'] = 'list_key';
+  /* Field: User: Active */
+  $handler->display->display_options['fields']['status']['id'] = 'status';
+  $handler->display->display_options['fields']['status']['table'] = 'users';
+  $handler->display->display_options['fields']['status']['field'] = 'status';
+  $handler->display->display_options['fields']['status']['label'] = 'Status';
+  $handler->display->display_options['fields']['status']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['status']['alter']['text'] = 'Active : [status]<br>
+Is Spammer : [c4m_is_spammer]<br>
+Is Deleted : [c4m_is_deleted]<br>';
+  $handler->display->display_options['fields']['status']['not'] = 0;
+  /* Field: User: Created date */
+  $handler->display->display_options['fields']['created']['id'] = 'created';
+  $handler->display->display_options['fields']['created']['table'] = 'users';
+  $handler->display->display_options['fields']['created']['field'] = 'created';
+  $handler->display->display_options['fields']['created']['label'] = 'Registration date';
+  $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['created']['date_format'] = 'short';
+  $handler->display->display_options['fields']['created']['second_date_format'] = 'c4m_long_without_time';
+  $handler->display->display_options['fields']['created']['reldate'] = '0';
+  /* Field: User: Last access */
+  $handler->display->display_options['fields']['access']['id'] = 'access';
+  $handler->display->display_options['fields']['access']['table'] = 'users';
+  $handler->display->display_options['fields']['access']['field'] = 'access';
+  $handler->display->display_options['fields']['access']['label'] = 'Last login';
+  $handler->display->display_options['fields']['access']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['access']['date_format'] = 'short';
+  $handler->display->display_options['fields']['access']['second_date_format'] = 'c4m_long_without_time';
+  $handler->display->display_options['fields']['access']['reldate'] = '0';
+  /* Field: User: Link */
+  $handler->display->display_options['fields']['view_user']['id'] = 'view_user';
+  $handler->display->display_options['fields']['view_user']['table'] = 'users';
+  $handler->display->display_options['fields']['view_user']['field'] = 'view_user';
+  $handler->display->display_options['fields']['view_user']['label'] = 'User profile';
+  $handler->display->display_options['fields']['view_user']['alter']['text'] = '[name]';
+  /* Field: User: Cancel link */
+  $handler->display->display_options['fields']['cancel_node']['id'] = 'cancel_node';
+  $handler->display->display_options['fields']['cancel_node']['table'] = 'users';
+  $handler->display->display_options['fields']['cancel_node']['field'] = 'cancel_node';
+  $handler->display->display_options['fields']['cancel_node']['label'] = '';
+  $handler->display->display_options['fields']['cancel_node']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['cancel_node']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['cancel_node']['hide_alter_empty'] = FALSE;
+  $handler->display->display_options['fields']['cancel_node']['text'] = 'Cancel account / Mark as spammer';
+  /* Field: User: Activate user link */
+  $handler->display->display_options['fields']['activate_user']['id'] = 'activate_user';
+  $handler->display->display_options['fields']['activate_user']['table'] = 'users';
+  $handler->display->display_options['fields']['activate_user']['field'] = 'activate_user';
+  $handler->display->display_options['fields']['activate_user']['label'] = '';
+  $handler->display->display_options['fields']['activate_user']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['activate_user']['element_label_colon'] = FALSE;
+  /* Field: User: Reactivate user link */
+  $handler->display->display_options['fields']['reactivate_user']['id'] = 'reactivate_user';
+  $handler->display->display_options['fields']['reactivate_user']['table'] = 'users';
+  $handler->display->display_options['fields']['reactivate_user']['field'] = 'reactivate_user';
+  $handler->display->display_options['fields']['reactivate_user']['label'] = '';
+  $handler->display->display_options['fields']['reactivate_user']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['reactivate_user']['element_label_colon'] = FALSE;
+  /* Field: User: Resend activation email link */
+  $handler->display->display_options['fields']['resend_activation_email']['id'] = 'resend_activation_email';
+  $handler->display->display_options['fields']['resend_activation_email']['table'] = 'users';
+  $handler->display->display_options['fields']['resend_activation_email']['field'] = 'resend_activation_email';
+  $handler->display->display_options['fields']['resend_activation_email']['label'] = '';
+  $handler->display->display_options['fields']['resend_activation_email']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['resend_activation_email']['element_label_colon'] = FALSE;
+  /* Field: User: Edit link */
+  $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['table'] = 'users';
+  $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['label'] = 'Operations';
+  $handler->display->display_options['fields']['edit_node']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['edit_node']['alter']['text'] = '[edit_node] [activate_user] [reactivate_user] [resend_activation_email] [cancel_node]';
+  $handler->display->display_options['fields']['edit_node']['text'] = 'Edit';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: User: Name */
+  $handler->display->display_options['filters']['uid']['id'] = 'uid';
+  $handler->display->display_options['filters']['uid']['table'] = 'users';
+  $handler->display->display_options['filters']['uid']['field'] = 'uid';
+  $handler->display->display_options['filters']['uid']['operator'] = 'not in';
+  $handler->display->display_options['filters']['uid']['value'] = array(
+    0 => 0,
+  );
+  $handler->display->display_options['filters']['uid']['group'] = 1;
+  /* Filter criterion: User: First Name (c4m_first_name) */
+  $handler->display->display_options['filters']['c4m_first_name_value']['id'] = 'c4m_first_name_value';
+  $handler->display->display_options['filters']['c4m_first_name_value']['table'] = 'field_data_c4m_first_name';
+  $handler->display->display_options['filters']['c4m_first_name_value']['field'] = 'c4m_first_name_value';
+  $handler->display->display_options['filters']['c4m_first_name_value']['operator'] = 'contains';
+  $handler->display->display_options['filters']['c4m_first_name_value']['group'] = 1;
+  $handler->display->display_options['filters']['c4m_first_name_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['c4m_first_name_value']['expose']['operator_id'] = 'c4m_first_name_value_op';
+  $handler->display->display_options['filters']['c4m_first_name_value']['expose']['label'] = 'First Name';
+  $handler->display->display_options['filters']['c4m_first_name_value']['expose']['operator'] = 'c4m_first_name_value_op';
+  $handler->display->display_options['filters']['c4m_first_name_value']['expose']['identifier'] = 'firstname';
+  $handler->display->display_options['filters']['c4m_first_name_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+  );
+  /* Filter criterion: User: Last Name (c4m_last_name) */
+  $handler->display->display_options['filters']['c4m_last_name_value']['id'] = 'c4m_last_name_value';
+  $handler->display->display_options['filters']['c4m_last_name_value']['table'] = 'field_data_c4m_last_name';
+  $handler->display->display_options['filters']['c4m_last_name_value']['field'] = 'c4m_last_name_value';
+  $handler->display->display_options['filters']['c4m_last_name_value']['operator'] = 'contains';
+  $handler->display->display_options['filters']['c4m_last_name_value']['group'] = 1;
+  $handler->display->display_options['filters']['c4m_last_name_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['c4m_last_name_value']['expose']['operator_id'] = 'c4m_last_name_value_op';
+  $handler->display->display_options['filters']['c4m_last_name_value']['expose']['label'] = 'Last Name';
+  $handler->display->display_options['filters']['c4m_last_name_value']['expose']['operator'] = 'c4m_last_name_value_op';
+  $handler->display->display_options['filters']['c4m_last_name_value']['expose']['identifier'] = 'lastname';
+  $handler->display->display_options['filters']['c4m_last_name_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+  );
+  /* Filter criterion: User: E-mail */
+  $handler->display->display_options['filters']['mail']['id'] = 'mail';
+  $handler->display->display_options['filters']['mail']['table'] = 'users';
+  $handler->display->display_options['filters']['mail']['field'] = 'mail';
+  $handler->display->display_options['filters']['mail']['operator'] = 'contains';
+  $handler->display->display_options['filters']['mail']['group'] = 1;
+  $handler->display->display_options['filters']['mail']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['mail']['expose']['operator_id'] = 'mail_op';
+  $handler->display->display_options['filters']['mail']['expose']['label'] = 'E-mail';
+  $handler->display->display_options['filters']['mail']['expose']['operator'] = 'mail_op';
+  $handler->display->display_options['filters']['mail']['expose']['identifier'] = 'email';
+  $handler->display->display_options['filters']['mail']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['mail']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+  );
+  /* Filter criterion: Field: Organisation type (c4m_organisation_type) */
+  $handler->display->display_options['filters']['c4m_organisation_type_value']['id'] = 'c4m_organisation_type_value';
+  $handler->display->display_options['filters']['c4m_organisation_type_value']['table'] = 'field_data_c4m_organisation_type';
+  $handler->display->display_options['filters']['c4m_organisation_type_value']['field'] = 'c4m_organisation_type_value';
+  $handler->display->display_options['filters']['c4m_organisation_type_value']['group'] = 1;
+  $handler->display->display_options['filters']['c4m_organisation_type_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['c4m_organisation_type_value']['expose']['operator_id'] = 'c4m_organisation_type_value_op';
+  $handler->display->display_options['filters']['c4m_organisation_type_value']['expose']['label'] = 'Organisation type';
+  $handler->display->display_options['filters']['c4m_organisation_type_value']['expose']['operator'] = 'c4m_organisation_type_value_op';
+  $handler->display->display_options['filters']['c4m_organisation_type_value']['expose']['identifier'] = 'c4m_organisation_type_value';
+  $handler->display->display_options['filters']['c4m_organisation_type_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    4 => 0,
+    3 => 0,
+  );
+  /* Filter criterion: User: Active */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'users';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 'All';
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['status']['expose']['operator_id'] = '';
+  $handler->display->display_options['filters']['status']['expose']['label'] = 'Active';
+  $handler->display->display_options['filters']['status']['expose']['operator'] = 'status_op';
+  $handler->display->display_options['filters']['status']['expose']['identifier'] = 'active';
+  $handler->display->display_options['filters']['status']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['status']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+  );
+  /* Filter criterion: User: Is spammer (c4m_is_spammer) */
+  $handler->display->display_options['filters']['c4m_is_spammer_value']['id'] = 'c4m_is_spammer_value';
+  $handler->display->display_options['filters']['c4m_is_spammer_value']['table'] = 'field_data_c4m_is_spammer';
+  $handler->display->display_options['filters']['c4m_is_spammer_value']['field'] = 'c4m_is_spammer_value';
+  $handler->display->display_options['filters']['c4m_is_spammer_value']['group'] = 1;
+  $handler->display->display_options['filters']['c4m_is_spammer_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['c4m_is_spammer_value']['expose']['operator_id'] = 'c4m_is_spammer_value_op';
+  $handler->display->display_options['filters']['c4m_is_spammer_value']['expose']['label'] = 'Spammer';
+  $handler->display->display_options['filters']['c4m_is_spammer_value']['expose']['operator'] = 'c4m_is_spammer_value_op';
+  $handler->display->display_options['filters']['c4m_is_spammer_value']['expose']['identifier'] = 'spammer';
+  $handler->display->display_options['filters']['c4m_is_spammer_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+  );
+  /* Filter criterion: User: Is deleted (c4m_is_deleted) */
+  $handler->display->display_options['filters']['c4m_is_deleted_value']['id'] = 'c4m_is_deleted_value';
+  $handler->display->display_options['filters']['c4m_is_deleted_value']['table'] = 'field_data_c4m_is_deleted';
+  $handler->display->display_options['filters']['c4m_is_deleted_value']['field'] = 'c4m_is_deleted_value';
+  $handler->display->display_options['filters']['c4m_is_deleted_value']['group'] = 1;
+  $handler->display->display_options['filters']['c4m_is_deleted_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['c4m_is_deleted_value']['expose']['operator_id'] = 'c4m_is_deleted_value_op';
+  $handler->display->display_options['filters']['c4m_is_deleted_value']['expose']['label'] = 'Deleted';
+  $handler->display->display_options['filters']['c4m_is_deleted_value']['expose']['operator'] = 'c4m_is_deleted_value_op';
+  $handler->display->display_options['filters']['c4m_is_deleted_value']['expose']['identifier'] = 'deleted';
+  $handler->display->display_options['filters']['c4m_is_deleted_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+  );
+  $handler->display->display_options['path'] = 'admin/people';
   $export['c4m_admin_users'] = $view;
 
   return $export;
