@@ -20,10 +20,14 @@ $plugin = array(
  */
 function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $args, $context) {
   global $user;
-  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($user, array('group'));
+  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($user);
 
+  $block = new stdClass();
+  $block->module = 'c4m_features_homepage';
+  $block->title = '';
+  $block->content = '';
   if (empty($groups)) {
-    return;
+    return $block;
   }
 
   $rendered_groups = '';
@@ -59,9 +63,6 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
     'link' => url('groups', $link_options),
   );
 
-  $block = new stdClass();
-  $block->module = 'c4m_features_homepage';
-  $block->title = '';
   $block->content = $rendered_groups ? theme('c4m_features_homepage_my_groups', $variables) : FALSE;
   return $block;
 }
