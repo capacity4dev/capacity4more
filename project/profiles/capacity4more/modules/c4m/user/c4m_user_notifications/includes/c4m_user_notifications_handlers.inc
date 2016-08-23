@@ -88,8 +88,38 @@ function c4m_user_notifications_group_status_set_archived($node, $group_former_s
 
 /**
  * Email notification about organic group status change to 'softdelete'.
+ *
+ * @param object $node
+ *   Node of type OG group.
+ * @param string $group_former_status
+ *   Status of OG group, before it was changed to Deleted.
  */
 function c4m_user_notifications_group_status_set_softdeleted($node, $group_former_status) {
+  $admins_ids = c4m_admin_get_admins_ids();
+
+  foreach ($admins_ids as $admin_id) {
+    _c4m_user_notifications_to_site_admin_group_soft_deleted($node, $admin_id, $group_former_status);
+  }
+}
+
+/**
+ * Helper function.
+ *
+ * Email notification to site admin, about group being soft deleted.
+ */
+function _c4m_user_notifications_to_site_admin_group_soft_deleted($node, $admin_id, $group_former_status) {
+  global $user;
+  $message = message_create('c4m_group_soft_deleted', array('uid' => $admin_id));
+  // Define functions with which to resolve email template tokens.
+  c4m_message_load_tokens__c4m_group_soft_deleted($message);
+  $message->arguments['@group_former_status'] = $group_former_status;
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group_node->set($node->nid);
+  $wrapper->field_executing_user->set($user->uid);
+
+  // Message will be saved in message_notify_send_message().
+  message_notify_send_message($wrapper->value());
 }
 
 /**
