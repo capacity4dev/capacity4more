@@ -508,6 +508,10 @@ function c4m_user_og_c4m_cta_block() {
     $items['actions'] = $item;
   }
 
+  if ($item = c4m_user_og_follow_group_cta($group)) {
+    $item['follow'] = $item;
+  }
+
   return $items;
 }
 
@@ -686,6 +690,16 @@ function c4m_user_og_c4m_leave_group_cta($group) {
     '#button_icon' => 'fa-arrow-right',
     '#url' => url('group/node/' . $group->nid . '/unsubscribe', array('absolute' => TRUE)),
   );
+}
+
+function c4m_user_og_follow_group_cta($group) {
+  $item = array(
+    '#theme' => 'c4m_group_text_cta',
+    '#icon' => 'fa-bell-o',
+    '#text' => flag_create_link('subscribe_c4m_follow_group', $group->nid),
+  );
+
+  return $item;
 }
 
 /**
