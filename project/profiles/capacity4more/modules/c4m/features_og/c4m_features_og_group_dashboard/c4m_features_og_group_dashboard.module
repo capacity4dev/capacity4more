@@ -253,11 +253,6 @@ function c4m_features_og_group_dashboard_block_info() {
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
 
-  $blocks['c4m_follow_block'] = array(
-    'info' => t('C4M Follow group or project block'),
-    'cache' => DRUPAL_CACHE_PER_PAGE,
-  );
-
   return $blocks;
 }
 
@@ -269,18 +264,8 @@ function c4m_features_og_group_dashboard_block_info() {
 function c4m_features_og_group_dashboard_block_view($delta = '') {
   $block = array();
 
-  switch ($delta) {
-    case 'c4m_cta_block':
-      $block['content'] = module_invoke_all('c4m_cta_block');
-      break;
-
-    case 'c4m_follow_block':
-      $group = c4m_og_current_group();
-
-      if ($group) {
-        $block['content'] = flag_create_link('subscribe_c4m_follow_group', $group->nid);
-      }
-      break;
+  if ($delta == 'c4m_cta_block') {
+    $block['content'] = module_invoke_all('c4m_cta_block');
   }
 
   return $block;
