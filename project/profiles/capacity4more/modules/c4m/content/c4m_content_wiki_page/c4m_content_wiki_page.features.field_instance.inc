@@ -804,6 +804,80 @@ function c4m_content_wiki_page_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-wiki_page-field_c4m_editing_open'.
+  $field_instances['node-wiki_page-field_c4m_editing_open'] = array(
+    'bundle' => 'wiki_page',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 10,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'field_c4m_editing_open',
+    'label' => 'Editing open to all group members',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 31,
+    ),
+  );
+
   // Exported field_instance: 'node-wiki_page-og_group_ref'.
   $field_instances['node-wiki_page-og_group_ref'] = array(
     'bundle' => 'wiki_page',
@@ -1041,6 +1115,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
   t('Comment');
   t('Date');
   t('Documents');
+  t('Editing open to all group members');
   t('Groups');
   t('Language');
   t('OG vocabulary');

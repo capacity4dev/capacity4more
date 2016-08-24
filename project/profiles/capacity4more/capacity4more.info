@@ -139,6 +139,7 @@ dependencies[] = c4m_content_project
 dependencies[] = c4m_content_share
 dependencies[] = c4m_content_topic
 dependencies[] = c4m_content_wiki_page
+dependencies[] = c4m_content_wiki_page_open
 dependencies[] = c4m_content_organisation
 
 dependencies[] = c4m_field_related_og
