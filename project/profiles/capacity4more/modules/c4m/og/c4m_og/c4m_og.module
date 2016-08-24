@@ -9,6 +9,11 @@ include_once 'c4m_og.features.inc';
 include_once 'c4m_og.access.inc';
 
 /**
+ * Define active user status.
+ */
+define('USER_STATUS_ACTIVE', 1);
+
+/**
  * The access realm of C4M group member.
  */
 define('C4M_OG_ACCESS_REALM', 'c4m_og_access');
@@ -159,7 +164,12 @@ function c4m_og_menu() {
     'access arguments' => array(1, 2),
     'title' => 'Replace Owner',
   );
-
+  // Auto-completes active group member's user names.
+  $items['edit-author/autocomplete/%node'] = array(
+    'page callback' => 'c4m_og_edit_author_autocomplete',
+    'access callback' => '_c4m_features_og_members_is_power_user',
+    'access arguments' => array(2),
+  );
   return $items;
 }
 
@@ -1312,4 +1322,63 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
   $nids = $results->fetchAllKeyed();
 
   return $nids;
+}
+
+/**
+ * Allows group owner and administrators to change the author of content in the
+ * group. Limits possible authors to group members or anonymous user.
+ */
+function c4m_og_change_author_of_group_content(&$form) {
+  list(, $gid) = array_values(og_context());
+
+  // Show authoring information tab to GAs and GO when editing group content.
+  $form['author']['#access'] = _c4m_features_og_members_is_power_user();
+
+  // Limit possible authors to members of the group only (except for SAs).
+  if (user_has_role('administrator')) {
+    return;
+  }
+  $form['author']['name']['#autocomplete_path'] = 'edit-author/autocomplete/' . $gid;
+  $form['#validate'][] = 'c4m_og_form_validate';
+}
+
+/**
+ * Added validation of the author for the group content editing forms.
+ */
+function c4m_og_form_validate($form, &$form_state) {
+  $user = user_load_by_name($form_state['values']['name']);
+  list(, $gid) = array_values(og_context());
+  if ($user && !og_is_member('node', $gid, 'user', $user)) {
+    form_set_error('name', $form_state['values']['name'] . ' is not an active member of this group.');
+  }
+}
+
+/**
+ * Author autocomplete callback.
+ *
+ * Returns a JASON of all active members of an OG group (name and ID) where the
+ * username contains the search string (for autocomplete author field).
+ */
+function c4m_og_edit_author_autocomplete($string = '') {
+  if (!trim($string)) {
+    return;
+  }
+  list(, $gid) = array_values(og_context());
+  $query = db_select('users', 'u');
+  $query
+    ->condition('u.status', USER_STATUS_ACTIVE, '=')
+    ->condition('u.name', '%' . db_like($string) . '%', 'LIKE')
+    ->fields('u', array('uid', 'name'))
+    ->fields('ogm', array('state'))
+    ->join('og_membership', 'ogm', "ogm.gid = :gid AND u.uid = ogm.etid AND ogm.entity_type = 'user'", array(':gid' => $gid));
+  $result = $query->execute();
+
+  foreach ($result as $member) {
+    if ($member->state == OG_STATE_ACTIVE) {
+      $user[$member->name] = $member->name;
+    }
+  }
+
+  // Convert to object to prevent drupal bug, see http://drupal.org/node/175361
+  drupal_json_output((object) $user);
 }
