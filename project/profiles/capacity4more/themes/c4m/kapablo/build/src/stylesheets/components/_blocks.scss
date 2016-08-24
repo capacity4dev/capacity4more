@@ -26,6 +26,10 @@
   margin: 0;
 }
 
+.node-add-wrapper + .node-add-wrapper {
+  margin-top: 10px;
+}
+
 .page-taxonomy .taxonomy-term {
   padding-bottom: 0!important;
 }
@@ -38,7 +42,9 @@
 
       &.node-create-discussion,
       &.node-create-event,
-      &.node-create-document {
+      &.node-create-document,
+      &.node-create-photoalbum,
+      &.node-create-photo {
         background-color: $color-text-alternative;
         color: #fff;
         text-decoration: none;
@@ -51,7 +57,8 @@
     }
 
     .total-items {
-      display: block;
+      display: inline-block;
+      float: left;
       margin: 20px 0;
     }
   }
