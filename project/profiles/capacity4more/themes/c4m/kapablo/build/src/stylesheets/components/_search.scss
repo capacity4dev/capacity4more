@@ -37,10 +37,12 @@
   }
 }
 
-.search-api-sort, .search-api-sort.open {
+.search-api-sort,
+.search-api-sort.open {
   float: right;
 
   button.dropdown-toggle {
+    color: $link-color;
     @extend %reset-button;
 
     &:hover {
@@ -404,10 +406,15 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
   }
 }
 
+.sort-item.active-sort {
+  font-weight: bold;
+}
+
 .group-header {
   margin: 0 0 15px 0;
 }
 
+.view-items-with-dashed-separator,
 .view-c4m-search-nodes,
 .view-c4m-overview-groups,
 .view-c4m-overview-articles,
@@ -425,7 +432,7 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
   display: none;
 }
 
-.view-mode-teaser .user-name a,
+.view-mode-teaser:not(.user-profile) .user-name a,
 .view-mode-teaser .fa,
 .view-mode-teaser .posted-by,
 .view-mode-teaser .creation-date,

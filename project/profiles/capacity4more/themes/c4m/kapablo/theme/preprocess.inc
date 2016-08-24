@@ -93,6 +93,7 @@ function kapablo_preprocess_block(&$variables) {
       );
 
       $variables['search_form'] = $form;
+
       break;
   }
 }
@@ -101,8 +102,15 @@ function kapablo_preprocess_block(&$variables) {
  * Implements theme_preprocess_page().
  *
  * @see page.tpl.php
+ * @see page--og--project.tpl.php
  */
 function kapablo_preprocess_page(&$variables) {
+  // Determine if the current context is a project.
+  if (($group_type = c4m_og_get_group_type(og_context())) && $group_type == 'project') {
+    // Instruct to use a page template designated for project OG type.
+    $variables['theme_hook_suggestions'][] = 'page__og__project';
+  }
+
   // Add information about the number of sidebars.
   if (!empty($variables['page']['sidebar_first']) && !empty($variables['page']['sidebar_second'])) {
     $variables['content_column_class_kapablo'] = ' class="col-sm-4"';
@@ -118,6 +126,9 @@ function kapablo_preprocess_page(&$variables) {
 
   // Add search form.
   $variables['search_form'] = drupal_get_form('c4m_search_form');
+
+  $variables['image_banner'] = kapablo_group_image_banner();
+  $variables['image_banner_background'] = kapablo_group_image_banner_background();
 
   // Take care of the breadcrumb for OG content.
   _set_og_breadcrumbs();
@@ -604,4 +615,71 @@ function kapablo_preprocess_views_exposed_form(&$vars) {
   <li>OR operator: \'Energy OR Water\'</li>
   <li>NOT operator: \'Energy -Water\' equals to \'Energy !Water\'</li>
 </ul></div>"></i>';
+}
+
+/**
+ * Create the image banner for groups.
+ *
+ * @param bool $background_image
+ *   Determine if the current render is for the background image or not.
+ *
+ * @return string
+ *   The image markup.
+ */
+function kapablo_group_image_banner($background_image = FALSE) {
+  // No OG context.
+  if (!$group = c4m_og_current_group()) {
+    return FALSE;
+  }
+
+  // First establish the current group.
+  $wrapper = entity_metadata_wrapper('node', $group);
+
+  $menu_item = menu_get_item();
+  $markup = '';
+  if (drupal_is_front_page() || ($menu_item['path'] == 'manage' && og_user_access('node', $group->nid, 'administer group'))) {
+    // Add group image.
+    $file = $wrapper->c4m_banner->value();
+    if (!empty($file)) {
+      $file['style_name'] = 'banner';
+      $file['path'] = $file['uri'];
+      $file['attributes'] = array('class' => 'group-banner');
+
+      // If current page is the 'Group Management' page, and the current
+      // rendering is not for the background image of the banner then add an
+      // edit link to the banner.
+      if (!$background_image && $menu_item['path'] == 'manage') {
+        $edit_link['element'] = array(
+          '#tag' => 'span',
+          '#attributes' => array(
+            'class' => array('edit-link'),
+          ),
+          '#value' => t('Edit'),
+        );
+        $options = array(
+          'html' => TRUE,
+          'attributes' => array(
+            'class' => array(
+              'edit-banner',
+            ),
+          ),
+        );
+        $markup .= l(theme_html_tag($edit_link) . theme_image_style($file), url('node/' . $group->nid . '/edit', array('absolute' => TRUE, 'fragment' => 'edit-image-banner')), $options);
+      }
+      else {
+        $markup .= theme('image_style', $file);
+      }
+    }
+  }
+
+  return $markup;
+}
+
+/**
+ * Returns the markup for the background image of the banner.
+ *
+ * @see kapablo_group_image_banner()
+ */
+function kapablo_group_image_banner_background() {
+  return kapablo_group_image_banner(TRUE);
 }
