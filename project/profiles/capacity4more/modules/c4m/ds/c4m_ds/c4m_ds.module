@@ -719,17 +719,21 @@ function c4m_ds_ds_pre_render_alter(&$layout_render_array, $context, &$vars) {
  * @return null|string
  *    Formatted string with number of posts and comments.
  */
-function c4m_ds_user_activity_summary_helper($count_posts = 0, $count_comments = 0) {
+function c4m_ds_user_activity_summary_helper($post_count = 0, $comment_count = 0) {
   $output = '';
 
   $output .= theme(
     'c4m_ds_user_posts_count',
-    array('count' => format_plural($count_posts, '1 Post', '@count Posts'))
+    array(
+      'count' => format_plural($post_count, '1 Post', '@count Posts'),
+    )
   );
 
   $output .= theme(
     'c4m_ds_entity_comments_count',
-    array('count' => format_plural($count_comments, '1 Comment', '@count Comments'))
+    array(
+      'count' => format_plural($comment_count, '1 Comment', '@count Comments'),
+    )
   );
 
   return $output;
