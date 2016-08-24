@@ -503,16 +503,6 @@ function c4m_user_og_c4m_cta_block() {
 
   $items = array();
 
-  $access_type = c4m_og_get_access_type($group);
-  if ($access_type['type'] == 'public') {
-
-    if (user_is_anonymous()) {
-      if ($item = c4m_user_og_c4m_vistor_cta($group)) {
-        $items['visitor'] = $item;
-      }
-    }
-  }
-
   if ($item = c4m_user_og_c4m_join_cta($group)) {
     $items['join'] = $item;
   }
