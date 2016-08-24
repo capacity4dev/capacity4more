@@ -9,11 +9,6 @@ include_once 'c4m_og.features.inc';
 include_once 'c4m_og.access.inc';
 
 /**
- * Define active user status.
- */
-define('USER_STATUS_ACTIVE', 1);
-
-/**
  * The access realm of C4M group member.
  */
 define('C4M_OG_ACCESS_REALM', 'c4m_og_access');
@@ -169,7 +164,9 @@ function c4m_og_menu() {
     'page callback' => 'c4m_og_edit_author_autocomplete',
     'access callback' => '_c4m_features_og_members_is_power_user',
     'access arguments' => array(2),
+    'title' => 'Replace Author',
   );
+
   return $items;
 }
 

@@ -226,3 +226,12 @@ function c4m_content_discussion_c4m_helper_entity_label_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add author information to the edit discussion form.
+ */
+function c4m_content_discussion_form_discussion_node_form_alter(&$form, $form_state) {
+  c4m_og_change_author_of_group_content($form);
+}

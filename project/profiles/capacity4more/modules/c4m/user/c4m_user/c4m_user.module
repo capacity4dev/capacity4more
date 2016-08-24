@@ -8,6 +8,11 @@
 include_once 'c4m_user.features.inc';
 
 /**
+ * Define active user status.
+ */
+define('USER_STATUS_ACTIVE', 1);
+
+/**
  * Define fields.
  *
  * These fields are not overridden through the interface.
