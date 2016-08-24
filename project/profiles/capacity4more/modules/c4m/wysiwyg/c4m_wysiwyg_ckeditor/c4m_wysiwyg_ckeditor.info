@@ -7,6 +7,7 @@ dependencies[] = c4m_moodle
 dependencies[] = ckeditor
 dependencies[] = features
 dependencies[] = filter
+dependencies[] = iframeremove
 dependencies[] = media_wysiwyg
 dependencies[] = wysiwyg_filter
 features[ckeditor_profile][] = Advanced
