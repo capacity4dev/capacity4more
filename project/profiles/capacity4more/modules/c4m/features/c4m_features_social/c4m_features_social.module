@@ -36,24 +36,33 @@ function c4m_features_social_actions_share($node) {
   $social = variable_get('c4m_social_share', array());
   $social = array_filter($social, 'c4m_features_social_social_enabled');
 
-  $items = '';
-  foreach ($social as $media => $info) {
-    if ($media == 'c4m_print') {
-      $items .= '
-        <div id="c4m-print">
-          <div class="share_list share_style_link share_style_icon_24">
-            <a href="#" title="Print" onclick="window.print();return false;"></a>
-          </div>
-        </div>';
-    }
-    else {
-      $items .= '<div id="ec-widget-share-' . $media . '" class="ec-widget-share-item">
-            <!--{"to":"' . $media . '","text":"","size":24,"lang":"' . $lang . '"}//--></div>';
-    }
-  }
+  $is_printable = isset($social['c4m_print']['enabled']);
+  unset($social['c4m_print']);
+
+  $social = array_keys($social);
+
+  $settings = array(
+    'service' => 'sbkm',
+    'popup' => FALSE,
+    'icon' => TRUE,
+    'to' => $social,
+    'counter' => array('atleast' => 1),
+    'selection' => FALSE,
+  );
+  $data = json_encode($settings);
+  $items = '<script type="application/json">' . $data . '</script>';
+
+  if ($is_printable) {
+    $items .= '
+      <div id="c4m-print">
+        <div class="share_list share_style_link share_style_icon_24">
+          <a href="#" title="Print" onclick="window.print();return false;"></a>
+        </div>
+      </div>';
+   }
 
   $output = '<div class="social-actions-share"><h3>' . t('Share this page') . '</h3>' . $items . '</div>';
-  drupal_add_js('//ec.europa.eu/wel/socialbookmark/share.js', 'external');
+  drupal_add_js('//europa.eu/webtools/load.js', 'external');
   return $output;
 }
 
