@@ -555,12 +555,12 @@ Last access : [access]';
     3 => 0,
   );
 
-  /* Display: System */
-  $handler = $view->new_display('system', 'System', 'system_1');
+  /* Display: System (not in use) */
+  $handler = $view->new_display('system', 'System (not in use)', 'system_1');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['hide_admin_links'] = TRUE;
   $handler->display->display_options['defaults']['access'] = FALSE;
-  $handler->display->display_options['path'] = 'admin/people-2';
+  $handler->display->display_options['path'] = 'admin/people-old';
 
   /* Display: Data export */
   $handler = $view->new_display('views_data_export', 'Data export', 'views_data_export');
