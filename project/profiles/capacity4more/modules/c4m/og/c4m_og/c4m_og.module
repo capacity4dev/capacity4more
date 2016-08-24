@@ -1322,6 +1322,8 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
 }
 
 /**
+ * Adds permissions for modifying content author.
+ *
  * Allows group owner and administrators to change the author of content in the
  * group. Limits possible authors to group members or anonymous user.
  */
@@ -1363,7 +1365,7 @@ function c4m_og_edit_author_autocomplete($string = '') {
   list(, $gid) = array_values(og_context());
   $query = db_select('users', 'u');
   $query
-    ->condition('u.status', USER_STATUS_ACTIVE, '=')
+    ->condition('u.status', C4M_USER_STATUS_ACTIVE, '=')
     ->condition('u.name', '%' . db_like($string) . '%', 'LIKE')
     ->fields('u', array('uid', 'name'))
     ->fields('ogm', array('state'))

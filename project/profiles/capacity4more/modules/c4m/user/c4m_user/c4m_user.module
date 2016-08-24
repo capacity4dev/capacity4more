@@ -10,7 +10,7 @@ include_once 'c4m_user.features.inc';
 /**
  * Define active user status.
  */
-define('USER_STATUS_ACTIVE', 1);
+define('C4M_USER_STATUS_ACTIVE', 1);
 
 /**
  * Define fields.
