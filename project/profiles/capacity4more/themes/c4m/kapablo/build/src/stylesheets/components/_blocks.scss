@@ -35,12 +35,12 @@
   .view-header {
 
     a {
-      &.node-create-document,
-      &.node-create-discussion {
-        background-color: #8ABCC7;
-        padding: 10px;
+
+      &.node-create-discussion,
+      &.node-create-event,
+      &.node-create-document {
+        background-color: $color-text-alternative;
         color: #fff;
-        border-radius: 50px;
         text-decoration: none;
         text-transform: uppercase;
 
@@ -48,6 +48,11 @@
           margin-right: 5px;
         }
       }
+    }
+
+    .total-items {
+      display: block;
+      margin: 20px 0;
     }
   }
 }

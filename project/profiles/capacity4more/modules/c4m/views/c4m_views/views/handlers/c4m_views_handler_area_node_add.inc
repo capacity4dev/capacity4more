@@ -94,7 +94,7 @@ class c4m_views_handler_area_node_add extends views_handler_area {
 
     $options = array(
       'attributes' => array(
-        'class' => array('node-create', 'node-create-' . $node_type),
+        'class' => array('btn', 'node-create', 'node-create-' . $node_type),
       ),
       'html' => TRUE,
     );
