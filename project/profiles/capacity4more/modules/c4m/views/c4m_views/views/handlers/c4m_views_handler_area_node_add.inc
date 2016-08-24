@@ -99,7 +99,14 @@ class c4m_views_handler_area_node_add extends views_handler_area {
       'html' => TRUE,
     );
 
-    return l($link_text, 'node/add/' . $node_type, $options);
+    $wrapper = array(
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => array('class' => 'node-add-wrapper'),
+      '#value' => l($link_text, 'node/add/' . $node_type, $options),
+    );
+
+    return drupal_render($wrapper);
   }
 
 }
