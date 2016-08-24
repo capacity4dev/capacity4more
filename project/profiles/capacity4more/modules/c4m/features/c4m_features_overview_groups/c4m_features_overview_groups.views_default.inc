@@ -158,6 +158,14 @@ function c4m_features_overview_groups_views_default_views() {
     1 => 0,
     3 => 0,
   );
+  /* Filter criterion: Indexed Node: Author */
+  $handler->display->display_options['filters']['author']['id'] = 'author';
+  $handler->display->display_options['filters']['author']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['author']['field'] = 'author';
+  $handler->display->display_options['filters']['author']['operator'] = '<>';
+  $handler->display->display_options['filters']['author']['value'] = array(
+    0 => 0,
+  );
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
