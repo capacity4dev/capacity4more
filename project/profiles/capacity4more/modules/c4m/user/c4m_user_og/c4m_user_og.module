@@ -511,20 +511,10 @@ function c4m_user_og_c4m_cta_block() {
         $items['visitor'] = $item;
       }
     }
-    else {
-      $membership_type = c4m_og_get_group_membership_request($group);
+  }
 
-      if ($membership_type == 'open') {
-        if ($item = c4m_user_og_c4m_join_cta($group)) {
-          $items['join'] = $item;
-        }
-      }
-      elseif ($membership_type == 'moderated') {
-        if ($item = c4m_user_og_c4m_membership_cta($group)) {
-          $items['membership'] = $item;
-        }
-      }
-    }
+  if ($item = c4m_user_og_c4m_join_cta($group)) {
+    $items['join'] = $item;
   }
 
   if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
@@ -671,22 +661,21 @@ function c4m_user_og_group_actions_cta($group) {
  * of the group yet.
  */
 function c4m_user_og_c4m_join_cta($group) {
-  if (og_is_member('node', $group->nid)) {
-    drupal_set_message(
-      t('Welcome to group %group', array('%group' => $group->title))
+  if (og_is_member('node', $group->nid, 'user', NULL, array(OG_STATE_PENDING))) {
+    $message = t("This is a moderated group. Your request is waiting for approval. Continue to explore group's content.");
+    drupal_set_message($message);
+
+    return array(
+      '#type' => 'markup',
+      '#markup' => '<div class="c4m-group-visitor-cta"><i class="fa fa-hourglass-end" aria-hidden="true"></i> ' . t('Membership waiting approval') . '</div>',
     );
+  }
+
+  if (og_is_member('node', $group->nid)) {
     return;
   }
 
-  return array(
-    '#theme' => 'c4m_group_visitor_cta',
-    '#button_label' => t('Join this group'),
-    '#button_icon' => 'fa-user-plus',
-    '#url' => url(
-      'group/node/' . $group->nid . '/subscribe',
-      array('absolute' => TRUE)
-    ),
-  );
+  return c4m_user_og_c4m_vistor_cta($group);
 }
 
 /**
@@ -702,49 +691,6 @@ function c4m_user_og_c4m_invite_cta($group) {
     '#button_icon' => 'fa-user-plus',
     '#url' => url(
       'group/node/' . $group->nid . '/admin/people/invite-users',
-      array('absolute' => TRUE)
-    ),
-  );
-}
-
-/**
- * Sets the CTA request membership link.
- */
-function c4m_user_og_c4m_membership_cta($group) {
-  // Default state for og_is_member is active.
-  if (og_is_member('node', $group->nid)) {
-    drupal_set_message(
-      t('Welcome to group %group', array('%group' => $group->title))
-    );
-    return;
-  }
-
-  if (og_is_member(
-    'node',
-    $group->nid,
-    'user',
-    NULL,
-    array(OG_STATE_PENDING)
-  )) {
-    $message = t(
-      "This is a moderated group. Your request is waiting for approval. Continue to explore group's content."
-    );
-    drupal_set_message($message);
-
-    return array(
-      '#type' => 'markup',
-      '#markup' => '<div class="c4m-group-visitor-cta"><i class="fa fa-hourglass-end" aria-hidden="true"></i> ' . t(
-          'Membership waiting approval'
-      ) . '</div>',
-    );
-  }
-
-  return array(
-    '#theme' => 'c4m_group_visitor_cta',
-    '#button_label' => t('Request membership for this group'),
-    '#button_icon' => 'fa-unlock-alt',
-    '#url' => url(
-      'group/node/' . $group->nid . '/subscribe',
       array('absolute' => TRUE)
     ),
   );
@@ -981,6 +927,11 @@ function c4m_user_og_group_unified_workflow($group, $account = FALSE) {
       'error'
     );
     return;
+  }
+  else {
+    if ($membership_request_value == 'open') {
+      drupal_set_message(t('Welcome to group %group', array('%group' => $group->title)));
+    }
   }
 }
 
