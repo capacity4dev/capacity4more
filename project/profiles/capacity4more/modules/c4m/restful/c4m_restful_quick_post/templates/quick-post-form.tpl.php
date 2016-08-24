@@ -91,7 +91,7 @@
          ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('Advanced Editing'); ?></a>
     </div>
     <div class="qp-post-cancel">
-      <a href="javascript://" id="clear-button" ng-click="resetEntityForm()"><?php print t('Cancel'); ?></a>
+      <a href="javascript://" id="clear-button" ng-click="closeForm()"><?php print t('Cancel'); ?></a>
     </div>
   </div>
 </div>

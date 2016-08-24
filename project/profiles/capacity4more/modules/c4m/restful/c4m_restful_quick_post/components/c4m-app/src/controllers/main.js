@@ -428,4 +428,14 @@ angular.module('c4mApp')
       // Remove file.
       $scope.removeUploadedFile();
     }
+
+    /**
+    * Closes quick-post form.
+    */
+    $scope.closeForm = function () {
+      // Clear all form fields.
+      $scope.resetEntityForm();
+      // Closes quick-post form.
+      $scope.selectedResource = '';
+    }
   });
