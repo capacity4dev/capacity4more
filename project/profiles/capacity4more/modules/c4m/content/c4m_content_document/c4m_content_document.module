@@ -25,9 +25,12 @@ function c4m_content_document_c4m_og_vocab_info_content() {
 
 /**
  * Author autocomplete callback.
+ *
+ * Returns a JASON of all active members of an OG group (name and ID) where the
+ * username contains the search string (for autocomplete author field).
  */
-function _edit_author_autocomplete($group_type, $gid, $string) {
-  extract(og_context());
+function c4m_content_document_edit_author_autocomplete($string = '') {
+  list(, $gid) = array_values(og_context());
   $query = db_select('users', 'u');
   $query
     ->condition('u.uid', 0, '<>')
@@ -52,13 +55,10 @@ function c4m_content_document_menu() {
   $menu = array();
 
   // Auto-completes available user names.
-  $menu['edit-author/autocomplete'] = array(
-    'page callback' => '_edit_author_autocomplete',
-    'page arguments' => array(1, 2),
+  $menu['edit-author/autocomplete/%node'] = array(
+    'page callback' => 'c4m_content_document_edit_author_autocomplete',
     'access callback' => '_c4m_features_og_members_is_power_user',
-    'access arguments' => array(1, 2),
-    'file' => 'c4m_content_document.module',
-    'type' => MENU_CALLBACK,
+    'access arguments' => array(2),
   );
 
   return $menu;
@@ -69,10 +69,9 @@ function c4m_content_document_menu() {
  */
 function c4m_content_document_form_validate($form, &$form_state) {
   $user = user_load_by_name($form_state['values']['name']);
-  extract(og_context());
+  list(, $gid) = array_values(og_context());
   if ($user && !og_is_member('node', $gid, 'user', $user)) {
     form_set_error('name', $form_state['values']['name'] . ' is not a member of this group.');
-    return FALSE;
   }
 }
 
@@ -82,6 +81,8 @@ function c4m_content_document_form_validate($form, &$form_state) {
  * Add our own submit handler as the last one.
  */
 function c4m_content_document_form_document_node_form_alter(&$form, $form_state) {
+  list(, $gid) = array_values(og_context());
+
   // Hide field Add to library from user.
   $form['c4m_document_add_to_library']['#access'] = FALSE;
 
@@ -90,7 +91,7 @@ function c4m_content_document_form_document_node_form_alter(&$form, $form_state)
 
   // Limit possible authors to members of the group only.
   if (!user_has_role('administrator')) {
-    $form['author']['name']['#autocomplete_path'] = 'edit-author/autocomplete';
+    $form['author']['name']['#autocomplete_path'] = 'edit-author/autocomplete/' . $gid;
     $form['#validate'][] = 'c4m_content_document_form_validate';
   }
 
