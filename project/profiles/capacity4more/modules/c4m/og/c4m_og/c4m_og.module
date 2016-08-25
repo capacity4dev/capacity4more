@@ -280,7 +280,7 @@ function c4m_og_autologin_control_membership_link($account, $membership, $action
 }
 
 /**
- * Retrieves group ID from form and forwards to it's People page.
+ * Forwards the page to group's People page.
  *
  * @param object $form
  *   Form array to populate.
