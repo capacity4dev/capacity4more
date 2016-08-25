@@ -136,15 +136,19 @@
 
   .user-groups {
     @include grain_dark;
-    min-width: 190px;
+    min-width: 220px;
     margin-top: 6.5px;
     left: initial;
     right: 0;
     border: 1px solid $color-link;
     border-radius: 2px;
 
-    @media (min-width: $screen-md) {
-      min-width: 245px;
+    @media (min-width: $screen-sm) {
+      min-width: 280px;
+    }
+
+    @media (min-width: $screen-lg) {
+      min-width: 310px;
     }
 
     .content {
