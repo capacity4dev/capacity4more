@@ -432,7 +432,7 @@ angular.module('c4mApp')
     /**
     * Closes quick-post form.
     */
-    $scope.closeForm = function () {
+    $scope.closeQuickPost = function () {
       // Clear all form fields.
       $scope.resetEntityForm();
       // Closes quick-post form.
