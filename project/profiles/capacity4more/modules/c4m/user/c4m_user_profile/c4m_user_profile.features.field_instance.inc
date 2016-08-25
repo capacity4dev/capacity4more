@@ -66,6 +66,12 @@ function c4m_user_profile_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 5,
       ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'user_picture' => array(
         'label' => 'above',
         'settings' => array(),
@@ -189,6 +195,12 @@ function c4m_user_profile_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 20,
       ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'user_picture' => array(
         'label' => 'above',
         'settings' => array(),
@@ -267,6 +279,12 @@ function c4m_user_profile_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 22,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'user_picture' => array(
         'label' => 'above',
@@ -353,6 +371,12 @@ function c4m_user_profile_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 24,
       ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'user_picture' => array(
         'label' => 'above',
         'settings' => array(),
@@ -403,6 +427,12 @@ function c4m_user_profile_field_default_field_instances() {
         'weight' => 10,
       ),
       'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -465,6 +495,12 @@ function c4m_user_profile_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'user_picture' => array(
         'label' => 'above',
         'settings' => array(),
@@ -518,6 +554,12 @@ function c4m_user_profile_field_default_field_instances() {
         'weight' => 9,
       ),
       'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -608,6 +650,12 @@ function c4m_user_profile_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 26,
       ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'user_picture' => array(
         'label' => 'above',
         'settings' => array(),
@@ -669,6 +717,12 @@ function c4m_user_profile_field_default_field_instances() {
         ),
         'type' => 'smart_trim_format',
         'weight' => 4,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'user_picture' => array(
         'label' => 'above',
@@ -782,6 +836,12 @@ function c4m_user_profile_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 23,
       ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'user_picture' => array(
         'label' => 'above',
         'settings' => array(),
@@ -866,6 +926,12 @@ function c4m_user_profile_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 16,
       ),
+      'teaser' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'user_picture' => array(
         'label' => 'above',
         'settings' => array(),
@@ -925,6 +991,12 @@ function c4m_user_profile_field_default_field_instances() {
         'weight' => 16,
       ),
       'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -992,6 +1064,12 @@ function c4m_user_profile_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'user_picture' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1054,6 +1132,12 @@ function c4m_user_profile_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'user_picture' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1111,6 +1195,12 @@ function c4m_user_profile_field_default_field_instances() {
         'weight' => 14,
       ),
       'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1207,6 +1297,13 @@ function c4m_user_profile_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 17,
       ),
+      'teaser' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_plain',
+        'weight' => 2,
+      ),
       'user_picture' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1290,6 +1387,12 @@ function c4m_user_profile_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 18,
       ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'user_picture' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1335,6 +1438,12 @@ function c4m_user_profile_field_default_field_instances() {
         'weight' => 12,
       ),
       'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1461,6 +1570,12 @@ You can select maximum 3 regions and an unlimited number of subregions or countr
         'type' => 'term_reference_only_parents',
         'weight' => 3,
       ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'user_picture' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1548,6 +1663,12 @@ You can select maximum 3 topics and an unlimited number of subtopics.',
         'type' => 'term_reference_only_parents',
         'weight' => 2,
       ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'user_picture' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1577,7 +1698,7 @@ You can select maximum 3 topics and an unlimited number of subtopics.',
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Select one or more topics you are an expert in.
+    'description' => 'Select your area(s) of expertise.
 You can select maximum 3 topics and an unlimited number of subtopics.',
     'display' => array(
       'block_list' => array(
@@ -1634,6 +1755,12 @@ You can select maximum 3 topics and an unlimited number of subtopics.',
         ),
         'type' => 'term_reference_only_parents',
         'weight' => 4,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'user_picture' => array(
         'label' => 'above',
@@ -1786,9 +1913,9 @@ You can select maximum 3 topics and an unlimited number of subtopics.',
   t('Organisation type');
   t('Picture');
   t('Regions & Countries');
-  t('Select one or more topics you are an expert in.
-You can select maximum 3 topics and an unlimited number of subtopics.');
   t('Select one or more topics you are interested in.
+You can select maximum 3 topics and an unlimited number of subtopics.');
+  t('Select your area(s) of expertise.
 You can select maximum 3 topics and an unlimited number of subtopics.');
   t('Set if the user lost his LDAP validation.');
   t('Set if the user\'s email address has a domain mentioned in one of the "Organisation" nodes. ');

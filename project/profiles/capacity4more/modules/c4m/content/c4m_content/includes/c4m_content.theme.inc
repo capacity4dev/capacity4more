@@ -28,6 +28,7 @@ function theme_c4m_website_statistics_summary(array $variables) {
     // Same icon as in c4m_content_document_c4m_helper_entity_label_info().
     'document' => 'fa-file-o',
     'group' => 'fa-users',
+    'photo' => 'fa-picture-o',
     'project' => 'fa-flag-checkered',
     'posts' => 'fa-comments-o',
     'event' => 'fa-calendar',
