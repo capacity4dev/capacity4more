@@ -459,6 +459,8 @@ function c4m_user_og_theme() {
     'variables' => array(
       'text' => NULL,
       'icon' => NULL,
+      'class' => 'c4m-group-text-cta text-copy--small',
+      'span_class' => NULL,
     ),
   );
 
@@ -732,9 +734,11 @@ function c4m_user_og_c4m_membership_cta($group) {
     drupal_set_message($message);
 
     return array(
-      '#theme' => 'c4m_group_membership_cta',
-      '#button_label' => t('Membership waiting approval'),
-      '#button_icon' => 'fa-hourglass-end',
+      '#theme' => 'c4m_group_text_cta',
+      '#text' => t('Membership waiting approval'),
+      '#icon' => 'fa-hourglass-end',
+      '#class' => 'c4m-wide-green-btn',
+      '#span_class' => 'btn text-small'
     );
   }
 
