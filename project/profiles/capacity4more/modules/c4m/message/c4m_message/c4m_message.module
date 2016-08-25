@@ -455,11 +455,6 @@ function c4m_message_load__c4m_insert__node__discussion(Message $message) {
     'pass message' => TRUE,
   );
 
-  $message->arguments['@promote'] = array(
-    'callback' => 'c4m_message_format_promote',
-    'pass message' => TRUE,
-  );
-
   $message->arguments['!icon'] = array(
     'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
@@ -514,11 +509,6 @@ function c4m_message_load__c4m_insert__node__wiki_page(Message $message) {
     'pass message' => TRUE,
   );
 
-  $message->arguments['@promote'] = array(
-    'callback' => 'c4m_message_format_promote',
-    'pass message' => TRUE,
-  );
-
   $message->arguments['!icon'] = array(
     'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
@@ -543,11 +533,6 @@ function c4m_message_load__c4m_insert__node__document(Message $message) {
 
   $message->arguments['@operation'] = array(
     'callback' => 'c4m_message_format_operation',
-    'pass message' => TRUE,
-  );
-
-  $message->arguments['@promote'] = array(
-    'callback' => 'c4m_message_format_promote',
     'pass message' => TRUE,
   );
 
@@ -673,33 +658,10 @@ function c4m_message_load__c4m_insert__node__event(Message $message) {
     'pass message' => TRUE,
   );
 
-  $message->arguments['@promote'] = array(
-    'callback' => 'c4m_message_format_promote',
-    'pass message' => TRUE,
-  );
-
   $message->arguments['!icon'] = array(
     'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
   );
-}
-
-/**
- * Return the formatted promote button.
- *
- * @param Message $message
- *   The Message entity.
- *
- * @return string
- *   The action text.
- */
-function c4m_message_format_promote(Message $message) {
-  $wrapper = entity_metadata_wrapper('message', $message);
-  $node = $wrapper->field_node->value();
-
-  dpm($node);
-
-  return 'nir';
 }
 
 /**
