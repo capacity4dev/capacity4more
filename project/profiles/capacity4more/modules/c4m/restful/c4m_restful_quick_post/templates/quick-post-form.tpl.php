@@ -10,7 +10,7 @@
       xmlns="http://www.w3.org/1999/html">
 
 <div class="form-group text" ng-class="{ 'has-error' : errors.label }">
-  <input id="label" class="form-control" name="label" ng-click="updateResource('<?php print key($show_resources) ?>', $event)" type="text" ng-model="data.label"
+  <input id="label" class="form-control quickpost-title" name="label" ng-click="updateResource('<?php print key($show_resources) ?>', $event)" type="text" ng-model="data.label"
          placeholder="<?php print t('Start a discussion, share an idea...'); ?>" required>
 
   <p ng-show="errors.label"

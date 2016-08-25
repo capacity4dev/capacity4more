@@ -1,3 +1,10 @@
+.quickpost-title {
+
+  &:focus::-webkit-input-placeholder {
+    color: transparent;
+  }
+}
+
 .btn-group-discussion_type {
   button[value="idea"] {
     .fa:before {
