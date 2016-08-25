@@ -232,6 +232,11 @@
   <p ng-show="errors.tags" class="help-block"><?php print t('Tags are required.'); ?></p>
 </div>
 
+<div class="input-wrapper">
+  <label><?php print t('Attachment') ?></label>
+  <input type="file" ng-model="data.attachment" class="form-control"/>
+</div>
+
 <div class="actions row">
   <div class="col-xs-12">
     <div class="qp-post-button">
