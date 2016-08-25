@@ -19,6 +19,28 @@ function c4m_features_social_c4m_content_actions_info() {
 }
 
 /**
+ * Implements hook_block_info().
+ */
+function c4m_features_social_block_info() {
+  $blocks['social_share_links'] = array(
+    'info' => t('Social share links'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_features_social_block_view($delta = '') {
+  $block = array(
+    'subject' => '',
+    'content' => c4m_features_social_actions_share(),
+  );
+}
+
+/**
  * Callback to show the enabled social media.
  *
  * @param object $node
@@ -27,7 +49,7 @@ function c4m_features_social_c4m_content_actions_info() {
  * @return string
  *    Rendered output of the share social media.
  */
-function c4m_features_social_actions_share($node) {
+function c4m_features_social_actions_share($node = NULL) {
   // Get the social settings.
   $social = variable_get('c4m_social_share', array());
   $social = array_filter($social, 'c4m_features_social_social_enabled');
