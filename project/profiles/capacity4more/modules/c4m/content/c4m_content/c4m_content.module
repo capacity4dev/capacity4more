@@ -249,6 +249,10 @@ function _c4m_content_statistics_collect_data(array $list) {
       ? $info['c4m_status']
       : NULL;
 
+    $skip_access_check = isset($info['skip_access_check'])
+      ? $info['skip_access_check']
+      : NULL;
+
     $arguments = array(
       'entity_type' => $info['entity_type'],
       'bundles' => $info['bundles'],
@@ -256,6 +260,7 @@ function _c4m_content_statistics_collect_data(array $list) {
       'og_id' => $og_id,
       'topic' => $topic,
       'c4m_status' => $status,
+      'skip_access_check' => $skip_access_check,
     );
     $count = c4m_helper_entity_get_number_of_entities($arguments);
 

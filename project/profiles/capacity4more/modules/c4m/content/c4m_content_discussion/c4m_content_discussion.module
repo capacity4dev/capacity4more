@@ -86,6 +86,7 @@ function c4m_content_discussion_c4m_content_statistics_info() {
         'singular' => 'Post',
         'plural' => 'Posts',
         'state' => 1,
+        'skip_access_check' => TRUE,
         'aggregate' => array(
           'type' => 'posts',
         ),
