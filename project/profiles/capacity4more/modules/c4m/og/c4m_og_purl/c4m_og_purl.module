@@ -21,19 +21,82 @@ include_once 'c4m_og_purl.uri_info.inc';
 function c4m_og_purl_init() {
   $item = menu_get_item();
 
-  if ($item['path'] != 'node/%') {
+  if (empty($item['path'])) {
+    return;
+  }
+
+  if ($item['path'] == 'node/%') {
     // We are not in node view.
+    $node = $item['map'][1];
+
+    if (!og_is_group_type('node', $node->type)) {
+      // This is not a group.
+      return;
+    }
+
+    drupal_goto($node->purl);
+  }
+
+  $skip_path = array(
+    'js/admin',
+    'system/ajax',
+    'file/ajax',
+    'admin',
+    'flag',
+    'batch',
+    'file/%',
+  );
+
+  if (_c4m_og_purl_starts_with_in_array($skip_path, $item['path'])) {
     return;
   }
 
-  $node = $item['map'][1];
+  $group_allowed_path = array(
+    'node',
+    'group',
+    'wiki',
+    'documents',
+    'discussions',
+    'media',
+    'calendar',
+    'comment',
+    'members',
+    'manage',
+    'user/%/contact',
+    'overlay/documents',
+  );
 
-  if (!og_is_group_type('node', $node->type)) {
-    // This is not a group.
-    return;
+  if ($context = og_context() &&
+    !_c4m_og_purl_starts_with_in_array($group_allowed_path, $item['path'])) {
+
+    drupal_access_denied();
+    drupal_exit();
+  }
+}
+
+/**
+ * Return whether search string begins with  one of strings at array.
+ *
+ * @param array $strings
+ *   Array of strings.
+ * @param string $search_string
+ *   String in which search is performed.
+ *
+ * @return bool
+ */
+function _c4m_og_purl_starts_with_in_array($strings, $search_string) {
+  foreach ($strings as $string) {
+    if (_c4m_og_purl_starts_with($search_string, $string)) {
+
+      return TRUE;
+    }
   }
 
-  drupal_goto($node->purl);
+  return FALSE;
+}
+
+function _c4m_og_purl_starts_with($heap, $needle) {
+  return strpos($heap, $needle) === 0;
 }
 
 /**

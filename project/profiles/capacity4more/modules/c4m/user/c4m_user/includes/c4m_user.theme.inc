@@ -141,8 +141,11 @@ function theme_c4m_user_picture(array $field) {
 
     // Only link user picture if user is active.
     if ($user->status) {
-      $output = l(theme_image_style($file), 'user/' . $user->uid,
-        array('html' => 'TRUE'));
+      $options = array(
+        'purl' => array('disabled' => TRUE),
+        'html' => 'TRUE',
+        );
+      $output = l(theme_image_style($file), 'user/' . $user->uid, $options);
     }
     else {
       $output = theme_image_style($file);
@@ -180,7 +183,8 @@ function theme_c4m_user_first_and_last_name(array $field) {
     if ($user->status && in_array($field['formatter'], array(
       'linked_user', 'linked_user_with_icon',
     ))) {
-      $name = l($name, 'user/' . $user->uid);
+      $options = array('purl' => array('disabled' => TRUE));
+      $name = l($name, 'user/' . $user->uid, $options);
     }
 
     $output .= $name;

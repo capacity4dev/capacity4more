@@ -676,3 +676,15 @@ function kapablo_group_image_banner($background_image = FALSE) {
 function kapablo_group_image_banner_background() {
   return kapablo_group_image_banner(TRUE);
 }
+
+/**
+ * Preprocesses variables for theme_username().
+ */
+/*function kapablo_preprocess_username(&$variables) {
+  // Populate link path if appropriate.
+  if ($variables['uid'] && $variables['profile_access']) {
+    // We are linking to a local user.
+    $options = array('purl' => array('disabled' => TRUE));
+    $variables['link_path'] = url('user/' . $variables['uid'], $options);
+  }
+}*/
