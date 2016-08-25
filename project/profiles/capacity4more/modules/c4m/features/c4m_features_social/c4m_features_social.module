@@ -79,7 +79,7 @@ function c4m_features_social_actions_share($node = NULL) {
           <a href="#" title="Print" onclick="window.print();return false;"></a>
         </div>
       </div>';
-   }
+  }
 
   $output = '<div class="social-actions-share"><h3>' . t('Share this page') . '</h3>' . $items . '</div>';
   drupal_add_js('//europa.eu/webtools/load.js', 'external');
