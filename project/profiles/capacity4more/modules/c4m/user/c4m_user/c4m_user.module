@@ -1342,9 +1342,12 @@ function c4m_user_module_implements_alter(&$implementations, $hook) {
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * Updates value of submit button.
+ * Updates value of submit button and remove the header.
  */
 function c4m_user_form_views_form_c4m_overview_og_members_page_alter(&$form, &$form_state, $form_id) {
+  // Remove the 'Operations' header.
+  $form['select']['#title'] = '';
+
   $form['actions']['submit']['#value'] = t('Send');
   if (isset($form['select_all_markup']['#markup'])) {
     // VBO module doesn't provide an option to change 'Select all' labels,
