@@ -132,7 +132,7 @@ function c4m_user_notifications_notify_user_commented($comment) {
  */
 function c4m_user_notifications_notify_user_invited_by_admin($form, $form_state) {
   // Apply only to SAs.
-  if (!user_has_role('administrator')) {
+  if (!user_has_role(C4M_USER_ROLE_ID_ADMINISTRATOR)) {
     return;
   }
 
