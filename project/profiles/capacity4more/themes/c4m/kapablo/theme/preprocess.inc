@@ -607,14 +607,7 @@ function kapablo_preprocess_views_exposed_form(&$vars) {
     return;
   }
 
-  $vars['widgets']['search']->label .= ' <i class="fa fa-info-circle" data-toggle="popover" data-placement="right" data-html="true" data-trigger="click" title="Special operators" data-content="<div class=\'search-tips\'><p>You can use special operators.</p>
-<ul>
-  <li>\'Energy Water\' equals to \'Energy AND Water\' (terms separated by spaces are treated as an AND operator)</li>
-  <li>AND operator: \'Energy AND Water\' equals to \'+Energy +Water\' (equals to \'Energy Water\')</li>
-  <li>Literal strings: &quot;Solar Power&quot;</li>
-  <li>OR operator: \'Energy OR Water\'</li>
-  <li>NOT operator: \'Energy -Water\' equals to \'Energy !Water\'</li>
-</ul></div>"></i>';
+  $vars['widgets']['search']->label .= theme('kapablo_search_advanced_help');
 }
 
 /**
