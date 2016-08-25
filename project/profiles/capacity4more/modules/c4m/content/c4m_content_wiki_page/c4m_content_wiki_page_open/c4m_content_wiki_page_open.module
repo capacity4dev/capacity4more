@@ -11,15 +11,18 @@ define('C4M_CONTENT_WIKI_PAGE_OPEN_GRANT_ID_PRIVATE', 1);
 
 /**
  * Implements hook_node_grants().
+ *
+ * Responsible for giving out grants for a given user and operation
+ * (view/update/delete). We will return grants for the update operation. Examine
+ * the current user and provide an array of grant IDs for our realm.
  */
 function c4m_content_wiki_page_open_node_grants($account, $op) {
-  global $user;
   // We're only interested in providing rules for editing content.
   if ($op != 'update') {
     return;
   }
   // We need to be in a group context and logged in.
-  if (!$group = c4m_og_current_group() || !$user) {
+  if (!$group = c4m_og_current_group() || !user_is_logged_in()) {
     return;
   }
 
@@ -30,7 +33,7 @@ function c4m_content_wiki_page_open_node_grants($account, $op) {
       C4M_CONTENT_WIKI_PAGE_OPEN_GRANT_ID_PRIVATE,
     );
   }
-  elseif (og_is_member('node', $group->nid, 'user', $user)) {
+  elseif (og_is_member('node', $group->nid, 'user', $account)) {
     $grants[C4M_CONTENT_WIKI_PAGE_OPEN_REALM] = array(
       C4M_CONTENT_WIKI_PAGE_OPEN_GRANT_ID_OPEN,
     );
@@ -41,6 +44,10 @@ function c4m_content_wiki_page_open_node_grants($account, $op) {
 
 /**
  * Implements hook_node_access_records().
+ *
+ * Responsible for populating the node_access table. It does this whenever a
+ * nodes is saved, or if the node permissions are rebuilt. We examine the node
+ * to see if it is private or open and return grants accordingly.
  */
 function c4m_content_wiki_page_open_node_access_records($node) {
   // We're only interested in providing rules for wiki pages.
