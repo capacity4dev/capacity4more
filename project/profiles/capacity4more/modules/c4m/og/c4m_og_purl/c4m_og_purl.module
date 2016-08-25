@@ -43,7 +43,6 @@ function c4m_og_purl_init() {
     'js/admin',
     'system/ajax',
     'file/ajax',
-    'admin',
     'flag',
     'batch',
     'file/%',
@@ -77,21 +76,6 @@ function c4m_og_purl_init() {
     drupal_access_denied();
     drupal_exit();
   }
-}
-
-/**
- * Returns whether search string begins with string.
- *
- * @param string $search_string
- *   String in which search is performed.
- * @param string $string
- *   String for which we check if it's search string prefix.
- *
- * @return bool
- *   Whether search string begins with string.
- */
-function _c4m_og_purl_starts_with($search_string, $string) {
-  return strpos($search_string, $string) === 0;
 }
 
 /**
@@ -301,6 +285,22 @@ function c4m_og_purl_field_formatter_view($entity_type, $entity, $field, $instan
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Under OG context, remove PURL from author link.
+ */
+function c4m_og_purl_form_comment_form_alter(&$form, &$form_state, $comment) {
+  if (!$context = og_context()) {
+    return;
+  }
+
+  $group = node_load($context['gid']);
+  $purl = '/' . $group->purl;
+  $markup = $form['author']['_author']['#markup'];
+  $form['author']['_author']['#markup'] = str_replace($purl, '', $markup);
+}
+
+/**
  * Return whether search string begins with  one of strings at array.
  *
  * @param array $strings
@@ -320,4 +320,19 @@ function _c4m_og_purl_starts_with_in_array($strings, $search_string) {
   }
 
   return FALSE;
+}
+
+/**
+ * Returns whether search string begins with string.
+ *
+ * @param string $search_string
+ *   String in which search is performed.
+ * @param string $string
+ *   String for which we check if it's search string prefix.
+ *
+ * @return bool
+ *   Whether search string begins with string.
+ */
+function _c4m_og_purl_starts_with($search_string, $string) {
+  return strpos($search_string, $string) === 0;
 }
