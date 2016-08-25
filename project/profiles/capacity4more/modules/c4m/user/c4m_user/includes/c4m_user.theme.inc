@@ -144,7 +144,7 @@ function theme_c4m_user_picture(array $field) {
       $options = array(
         'purl' => array('disabled' => TRUE),
         'html' => 'TRUE',
-        );
+      );
       $output = l(theme_image_style($file), 'user/' . $user->uid, $options);
     }
     else {
