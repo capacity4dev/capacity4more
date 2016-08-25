@@ -1,3 +1,11 @@
+<?php
+
+/**
+ * @file
+ * Render the "Advanced Search" icon + popover.
+ */
+?>
+
 <i
   class="fa fa-info-circle"
   data-toggle="popover"
