@@ -164,6 +164,10 @@
 
     .group-left {
       margin: 0 10px;
+
+      .img-responsive {
+        min-width: 60px;
+      }
     }
 
     li {
