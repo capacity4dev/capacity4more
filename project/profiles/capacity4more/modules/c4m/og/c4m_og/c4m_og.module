@@ -1322,29 +1322,30 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
 }
 
 /**
- * Adds permissions for modifying content author.
+ * Add the `Authoring information` tab to the group content editing forms.
  *
  * Allows group owner and administrators to change the author of content in the
  * group. Limits possible authors to group members or anonymous user.
  */
-function c4m_og_change_author_of_group_content(&$form) {
+function c4m_og_content_author(&$form) {
+  if (user_has_role('administrator')) {
+    return;
+  }
+
   list(, $gid) = array_values(og_context());
 
   // Show authoring information tab to GAs and GO when editing group content.
   $form['author']['#access'] = _c4m_features_og_members_is_power_user();
 
-  // Limit possible authors to members of the group only (except for SAs).
-  if (user_has_role('administrator')) {
-    return;
-  }
+  // Limit possible authors to members of the group only.
   $form['author']['name']['#autocomplete_path'] = 'edit-author/autocomplete/' . $gid;
-  $form['#validate'][] = 'c4m_og_form_validate';
+  $form['#validate'][] = 'c4m_og_form_valid_author';
 }
 
 /**
  * Added validation of the author for the group content editing forms.
  */
-function c4m_og_form_validate($form, &$form_state) {
+function c4m_og_form_valid_author($form, &$form_state) {
   $user = user_load_by_name($form_state['values']['name']);
   list(, $gid) = array_values(og_context());
   if ($user && !og_is_member('node', $gid, 'user', $user)) {
@@ -1355,8 +1356,8 @@ function c4m_og_form_validate($form, &$form_state) {
 /**
  * Author autocomplete callback.
  *
- * Returns a JASON of all active members of an OG group (name and ID) where the
- * username contains the search string (for autocomplete author field).
+ * Returns a JSON of all active members of an OG group where the username
+ * contains the search string (for autocomplete author field).
  */
 function c4m_og_edit_author_autocomplete($string = '') {
   if (!trim($string)) {

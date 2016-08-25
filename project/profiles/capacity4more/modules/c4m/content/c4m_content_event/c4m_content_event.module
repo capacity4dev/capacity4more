@@ -239,5 +239,5 @@ function c4m_content_event_c4m_offcanvas_trigger_label_left_alter(&$trigger_labe
  * Add author information to the edit event form.
  */
 function c4m_content_event_form_event_node_form_alter(&$form, $form_state) {
-  c4m_og_change_author_of_group_content($form);
+  c4m_og_content_author($form);
 }

@@ -204,7 +204,7 @@ function c4m_content_wiki_page_form_wiki_page_node_form_alter(&$form, &$form_sta
   }
 
   // Add author information to the edit wiki page form.
-  c4m_og_change_author_of_group_content($form);
+  c4m_og_content_author($form);
 }
 
 /**
