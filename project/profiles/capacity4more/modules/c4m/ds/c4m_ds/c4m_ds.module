@@ -584,6 +584,19 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
+  $fields['user']['c4m_ds_user_membership_type'] = array(
+    'title' => t('User membership type'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_ds.theme.user.inc',
+    'function' => 'theme_c4m_ds_user_membership_type',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
   return $fields;
 }
 
