@@ -173,10 +173,9 @@ function c4m_content_group_field_group_info() {
     'label' => 'Header inline',
     'weight' => '0',
     'children' => array(
-      0 => 'c4m_og_status',
-      1 => 'title',
-      2 => 'c4m_ds_group_type_icon',
-      3 => 'c4m_ds_group_membership_type',
+      0 => 'c4m_ds_group_type_icon',
+      1 => 'c4m_ds_group_membership_type',
+      2 => 'group_title',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -195,12 +194,44 @@ function c4m_content_group_field_group_info() {
   );
   $field_groups['group_teaser_header_inline|node|group|teaser'] = $field_group;
 
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_title|node|group|teaser';
+  $field_group->group_name = 'group_title';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'group';
+  $field_group->mode = 'teaser';
+  $field_group->parent_name = 'group_teaser_header_inline';
+  $field_group->data = array(
+    'label' => 'Title',
+    'weight' => '3',
+    'children' => array(
+      0 => 'c4m_og_status',
+      1 => 'title',
+    ),
+    'format_type' => 'html-element',
+    'format_settings' => array(
+      'label' => 'Title',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'field-name-title',
+        'element' => 'div',
+        'show_label' => '0',
+        'label_element' => 'div',
+        'attributes' => '',
+      ),
+    ),
+  );
+  $field_groups['group_title|node|group|teaser'] = $field_group;
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Author information');
   t('Header inline');
   t('Icons');
   t('More details');
+  t('Title');
 
   return $field_groups;
 }

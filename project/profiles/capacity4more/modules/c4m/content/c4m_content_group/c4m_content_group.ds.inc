@@ -202,7 +202,7 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '3',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -210,7 +210,7 @@ function c4m_content_group_ds_field_settings_info() {
         'wrapper' => 'h3',
         'class' => '',
         'ft' => array(
-          'func' => 'theme_ds_field_expert',
+          'func' => 'theme_ds_field_reset',
           'prefix' => '<div class="field-name-title">',
         ),
       ),
@@ -311,7 +311,7 @@ function c4m_content_group_ds_field_settings_info() {
     'c4m_og_status' => array(
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_expert',
+          'func' => 'theme_ds_field_reset',
           'suffix' => '</div>',
         ),
       ),
@@ -459,6 +459,7 @@ function c4m_content_group_ds_layout_settings_info() {
       'header' => array(
         0 => 'group_teaser_header_inline',
         2 => 'c4m_ds_group_type_icon',
+        3 => 'group_title',
         4 => 'title',
         7 => 'c4m_ds_group_membership_type',
         10 => 'c4m_og_status',
@@ -486,6 +487,7 @@ function c4m_content_group_ds_layout_settings_info() {
       'c4m_body' => 'right',
       'c4m_ds_group_access_info' => 'right',
       'c4m_ds_group_membership_type' => 'header',
+      'group_title' => 'header',
       'group_iconbar_comments_views' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_creation_date' => 'right',

@@ -62,6 +62,7 @@ features[field_group][] = group_extra_info|node|group|group_dashboard
 features[field_group][] = group_iconbar_comments_views|node|group|teaser
 features[field_group][] = group_teaser_author_information|node|group|teaser
 features[field_group][] = group_teaser_header_inline|node|group|teaser
+features[field_group][] = group_title|node|group|teaser
 features[field_instance][] = comment-comment_node_group-comment_body
 features[field_instance][] = node-group-c4m_banner
 features[field_instance][] = node-group-c4m_body

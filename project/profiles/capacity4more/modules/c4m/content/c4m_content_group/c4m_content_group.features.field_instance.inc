@@ -657,7 +657,7 @@ function c4m_content_group_field_default_field_instances() {
         'module' => 'c4m_og',
         'settings' => array(),
         'type' => 'c4m_formatter_group_status',
-        'weight' => 4,
+        'weight' => 5,
       ),
       'teaser_group' => array(
         'label' => 'above',
