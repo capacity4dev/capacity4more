@@ -255,6 +255,52 @@ function c4m_user_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
+  $ds_layout->id = 'user|user|member_overview';
+  $ds_layout->entity_type = 'user';
+  $ds_layout->bundle = 'user';
+  $ds_layout->view_mode = 'member_overview';
+  $ds_layout->layout = 'c4m_ds_2col_icon_left';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'left' => array(
+        0 => 'c4m_user_picture',
+      ),
+      'right' => array(
+        1 => 'c4m_ds_user_membership_type',
+        2 => 'c4m_user_first_and_last_name',
+        3 => 'c4m_organisation',
+        4 => 'c4m_user_country',
+        5 => 'c4m_features_og_members_since',
+        6 => 'c4m_features_og_members_activity_summary',
+        7 => 'c4m_user_contact_link',
+      ),
+    ),
+    'fields' => array(
+      'c4m_user_picture' => 'left',
+      'c4m_ds_user_membership_type' => 'right',
+      'c4m_user_first_and_last_name' => 'right',
+      'c4m_organisation' => 'right',
+      'c4m_user_country' => 'right',
+      'c4m_features_og_members_since' => 'right',
+      'c4m_features_og_members_activity_summary' => 'right',
+      'c4m_user_contact_link' => 'right',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'left' => 'div',
+      'right' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['user|user|member_overview'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
   $ds_layout->id = 'user|user|teaser';
   $ds_layout->entity_type = 'user';
   $ds_layout->bundle = 'user';

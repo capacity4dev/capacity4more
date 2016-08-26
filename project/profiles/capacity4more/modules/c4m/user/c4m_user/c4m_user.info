@@ -28,6 +28,7 @@ features[ds_field_settings][] = user|user|member_overview
 features[ds_field_settings][] = user|user|teaser
 features[ds_field_settings][] = user|user|user_picture
 features[ds_layout_settings][] = user|user|block_list
+features[ds_layout_settings][] = user|user|member_overview
 features[ds_layout_settings][] = user|user|teaser
 features[ds_layout_settings][] = user|user|user_picture
 features[elysia_cron][] = c4m_user_cron
