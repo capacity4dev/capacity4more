@@ -53,17 +53,35 @@ function c4m_user_ds_field_settings_info() {
     'c4m_user_picture' => array(
       'weight' => '0',
       'label' => 'hidden',
-      'format' => 'fullwidth',
+      'format' => 'thumbnail',
     ),
     'c4m_user_first_and_last_name' => array(
       'weight' => '2',
       'label' => 'hidden',
-      'format' => 'user',
+      'format' => 'linked_user_with_icon',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
     ),
     'c4m_user_country' => array(
       'weight' => '4',
-      'label' => 'hidden',
+      'label' => 'inline',
       'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Based in',
+          'lb-el' => 'span',
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => '',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
     ),
     'c4m_user_contact_link' => array(
       'weight' => '7',
@@ -72,8 +90,21 @@ function c4m_user_ds_field_settings_info() {
     ),
     'c4m_features_og_members_since' => array(
       'weight' => '5',
-      'label' => 'hidden',
+      'label' => 'inline',
       'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Member since',
+          'lb-el' => 'span',
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => '',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
     ),
     'c4m_features_og_members_activity_summary' => array(
       'weight' => '6',
