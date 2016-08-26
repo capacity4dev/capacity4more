@@ -67,10 +67,10 @@ function c4m_features_social_actions_share($node) {
  * Allows share icons depending on the group membership type.
  *
  * @param string $icon
- * The key identificator of the share icon.
+ *   The key identificator of the share icon.
  *
  * @return bool
- * If the icon is allowed in the group context or not.
+ *   If the icon is allowed in the group context or not.
  */
 function c4m_features_social_share_icons_filter($icon) {
   $group = c4m_og_current_group();
@@ -87,8 +87,10 @@ function c4m_features_social_share_icons_filter($icon) {
     case 'public':
       // All share icons are allowed.
       return TRUE;
+
     case 'restricted':
       return in_array($icon, array('e-mail', 'yammer'));
+
     case 'private':
       return in_array($icon, array('e-mail'));
   }
