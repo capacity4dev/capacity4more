@@ -299,7 +299,7 @@ function kapablo_preprocess_facetapi_link_active(&$variables) {
  */
 function _kapablo_help_facetapi_link_add_icon($text_orig) {
   if ($class = c4m_content_discussion_icon_class($text_orig)) {
-    return '<i class="fa '. $class . '"></i>' . $text_orig;
+    return '<i class="fa ' . $class . '"></i>' . $text_orig;
   }
 
   return $text_orig;
