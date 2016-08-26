@@ -163,7 +163,7 @@ function c4m_content_group_strongarm() {
             'visible' => FALSE,
           ),
           'block_list' => array(
-            'weight' => '31',
+            'weight' => '35',
             'visible' => FALSE,
           ),
         ),
@@ -173,7 +173,7 @@ function c4m_content_group_strongarm() {
             'visible' => FALSE,
           ),
           'block_list' => array(
-            'weight' => '26',
+            'weight' => '32',
             'visible' => FALSE,
           ),
         ),
