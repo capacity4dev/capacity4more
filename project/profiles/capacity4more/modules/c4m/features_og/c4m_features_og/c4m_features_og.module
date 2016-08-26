@@ -5,7 +5,6 @@
  * Code for the features og modules.
  */
 
-
 /**
  * Add an icon to the button that appears in $type related views.
  */
@@ -24,5 +23,3 @@ function c4m_features_og_preprocess_button(&$variables, $related_views, $type, $
   $icon = '<i class="fa fa-pencil" aria-hidden="true"></i>';
   $variables['header'] = str_replace($text, $icon . ' ' . $text, $variables['header']);
 }
-
-

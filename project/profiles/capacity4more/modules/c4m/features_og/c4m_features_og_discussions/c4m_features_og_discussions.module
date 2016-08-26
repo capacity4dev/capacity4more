@@ -32,5 +32,5 @@ function c4m_features_og_discussions_c4m_og_feature_info() {
  */
 function c4m_features_og_discussions_preprocess_views_view(&$variables) {
   $related_views = ["c4m_overview_og_discussions_landing", "c4m_overview_og_discussions"];
-  c4m_features_og_preprocess_button($variables, $related_views,'discussion', 'fa-pencil', t('Add a new Discussion'));
+  c4m_features_og_preprocess_button($variables, $related_views, 'discussion', 'fa-pencil', t('Add a new Discussion'));
 }
