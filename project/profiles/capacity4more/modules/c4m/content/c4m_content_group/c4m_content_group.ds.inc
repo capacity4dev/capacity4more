@@ -73,6 +73,13 @@ function c4m_content_group_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_og_status' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
   );
   $export['node|group|block_list'] = $ds_fieldsetting;
 
@@ -364,14 +371,16 @@ function c4m_content_group_ds_layout_settings_info() {
       'right' => array(
         1 => 'c4m_ds_group_membership_type',
         2 => 'title',
-        3 => 'c4m_user_first_and_last_name',
-        4 => 'c4m_ds_group_members_count',
+        3 => 'c4m_og_status',
+        4 => 'c4m_user_first_and_last_name',
+        5 => 'c4m_ds_group_members_count',
       ),
     ),
     'fields' => array(
       'c4m_media' => 'left',
       'c4m_ds_group_membership_type' => 'right',
       'title' => 'right',
+      'c4m_og_status' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_group_members_count' => 'right',
     ),

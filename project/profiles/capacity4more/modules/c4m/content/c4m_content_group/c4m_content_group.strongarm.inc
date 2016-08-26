@@ -162,6 +162,20 @@ function c4m_content_group_strongarm() {
             'weight' => '0',
             'visible' => FALSE,
           ),
+          'block_list' => array(
+            'weight' => '31',
+            'visible' => FALSE,
+          ),
+        ),
+        'highlighted' => array(
+          'teaser' => array(
+            'weight' => '0',
+            'visible' => FALSE,
+          ),
+          'block_list' => array(
+            'weight' => '26',
+            'visible' => FALSE,
+          ),
         ),
       ),
     ),

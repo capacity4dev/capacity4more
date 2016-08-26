@@ -633,10 +633,11 @@ function c4m_content_group_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'block_list' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'c4m_og',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 38,
+        'type' => 'c4m_formatter_group_status',
+        'weight' => 3,
       ),
       'default' => array(
         'label' => 'above',
