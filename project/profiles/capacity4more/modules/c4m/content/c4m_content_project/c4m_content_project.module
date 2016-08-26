@@ -202,3 +202,23 @@ function c4m_content_project_c4m_offcanvas_trigger_label_left_alter(&$trigger_la
     $trigger_label['icon'] = 'filter';
   }
 }
+
+/**
+ * Implements hook_c4m_cta_block().
+ */
+function c4m_content_project_c4m_cta_block() {
+  $items = array();
+
+  if (!drupal_is_front_page() || user_is_anonymous()) {
+    return $items;
+  }
+
+  $items['create-programme'] = array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => t('Create programme'),
+    '#button_icon' => 'fa-plus',
+    '#url' => url('/node/add/programme'),
+  );
+
+  return $items;
+}
