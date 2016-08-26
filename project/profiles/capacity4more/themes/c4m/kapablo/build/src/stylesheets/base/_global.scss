@@ -84,12 +84,12 @@ div.contextual-links-wrapper {
   overflow-y: scroll;
 }
 
-.flag-c4m-og-content-recommend {
+.popover {
+  max-width: 100%;
+}
 
-  .flag-action {
-
-    .fa-thumbs-o-up {
-      color: $color-text;
-    }
-  }
+cite {
+  background: #EEE;
+  border: 1px solid #CCC;
+  padding: 1px;
 }

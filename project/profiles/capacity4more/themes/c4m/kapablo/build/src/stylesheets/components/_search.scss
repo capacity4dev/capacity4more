@@ -24,6 +24,8 @@
 }
 
 .search-api-sort {
+  margin: 20px 0;
+
   img {
     display: inline;
     margin: -3px 0 0 7px
@@ -388,6 +390,10 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
       }
     }
   }
+}
+
+.view-content {
+  clear: both;
 }
 
 .view-c4m-search-nodes {
