@@ -20,7 +20,7 @@ function kapablo_css_alter(&$css) {
     'media'      => 'all',
     'preprocess' => FALSE,
     'group'      => CSS_THEME,
-    'browsers'   => array('!IE' => TRUE, 'IE' => TRUE),
+    'browsers'   => array('!IE' => TRUE, 'IE' => 'gte IE 9'),
     'weight'     => 4,
   );
 

@@ -4,7 +4,7 @@ api = 2
 ; Modules related to moodle.
 
 projects[services][subdir] = "contrib"
-projects[services][version] = "3.16"
+projects[services][version] = "3.14"
 
 projects[user_revision][subdir] = "contrib"
 projects[user_revision][version] = "1.7"

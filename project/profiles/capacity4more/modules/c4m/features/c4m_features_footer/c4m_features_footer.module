@@ -63,15 +63,6 @@ function c4m_features_footer_theme() {
     'file'  => 'c4m_features_footer.theme.inc',
     'path'  => drupal_get_path('module', 'c4m_features_footer') . '/includes',
   );
-  $theme['c4m_footer_bar_project'] = array(
-    'variables' => array(
-      'europaid_link' => '',
-      'project_link' => '',
-      'logo_link' => '',
-    ),
-    'path' => drupal_get_path('module', 'c4m_features_footer') . '/theme',
-    'template' => 'c4m-features-footer-bar-project',
-  );
 
   return $theme;
 }

@@ -24,10 +24,10 @@ Feature: Test activity stream
     Given a group "Discussion Insert 5" with "Public" access is created with group manager "isaacnewton"
     When  I am logged in as user "isaacnewton"
     And   a "discussion" is created with title "Discussion added 5" and topic "Fire" in the group "Discussion Insert 5"
-    And   I update a "discussion" with title "Discussion added 5" with new title "Discussion updated 5" in group "Discussion Insert 5"
+    And   I update a "discussion" with title "Discussion added 5" with new title "Discussion updated 5"
     Then  I should see a creation message for "Discussion updated 5" in the activity stream of the group "Discussion Insert 5"
 
-  @javascript
+  @javascript 
   Scenario: A new message is not created when the same user updates right after he has updated it earlier than 6 hours ago.
     Given a group "Discussion Insert 6" with "Public" access is created with group manager "isaacnewton"
     When  I am logged in as user "isaacnewton"
@@ -36,16 +36,16 @@ Feature: Test activity stream
     And   I update a "discussion" with title "Discussion added 6" with new title "Discussion updated again 6" "2" times
     Then  I should see a new message for "Discussion updated again 6" in the activity stream of the group "Discussion Insert 6"
 
-  @javascript
+  @javascript 
   Scenario: New message is created when the other user updates the discussion.
     Given a group "Discussion Insert 7" with "Public" access is created with group manager "isaacnewton"
     When  I am logged in as user "isaacnewton"
     And   a "discussion" is created with title "Discussion added 7" and topic "Fire" in the group "Discussion Insert 7"
     And   I am logged in as user "survivalofthefittest"
-    And   I update a "discussion" with title "Discussion added 7" with new title "Discussion updated 7" in group "Discussion Insert 7"
+    And   I update a "discussion" with title "Discussion added 7" with new title "Discussion updated 7"
     Then  I should see a new message for "Discussion updated 7" in the activity stream of the group "Discussion Insert 7"
 
-  @javascript
+  @javascript 
   Scenario: New message is created when updating after 6 hours.
     Given a group "Discussion Insert 8" with "Public" access is created with group manager "isaacnewton"
     When  I am logged in as user "isaacnewton"

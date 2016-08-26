@@ -51,11 +51,6 @@ function kapablo_preprocess_message(&$variables) {
  * Implements theme_preprocess_block().
  */
 function kapablo_preprocess_block(&$variables) {
-  if (isset($variables['elements']['#block']->bid) && $variables['elements']['#block']->bid == 'og_menu-og_single_menu_block') {
-    // This block is the OG Menu. Add the tpl to the suggested filename list:
-    $variables['theme_hook_suggestions'][] = 'block__menu__c4m_og_menu';
-  }
-
   $block_id = $variables['block']->module . '-' . $variables['block']->delta;
   $classes = &$variables['classes_array'];
 
@@ -93,7 +88,6 @@ function kapablo_preprocess_block(&$variables) {
       );
 
       $variables['search_form'] = $form;
-
       break;
   }
 }
@@ -102,15 +96,8 @@ function kapablo_preprocess_block(&$variables) {
  * Implements theme_preprocess_page().
  *
  * @see page.tpl.php
- * @see page--og--project.tpl.php
  */
 function kapablo_preprocess_page(&$variables) {
-  // Determine if the current context is a project.
-  if (($group_type = c4m_og_get_group_type(og_context())) && $group_type == 'project') {
-    // Instruct to use a page template designated for project OG type.
-    $variables['theme_hook_suggestions'][] = 'page__og__project';
-  }
-
   // Add information about the number of sidebars.
   if (!empty($variables['page']['sidebar_first']) && !empty($variables['page']['sidebar_second'])) {
     $variables['content_column_class_kapablo'] = ' class="col-sm-4"';
@@ -126,9 +113,6 @@ function kapablo_preprocess_page(&$variables) {
 
   // Add search form.
   $variables['search_form'] = drupal_get_form('c4m_search_form');
-
-  $variables['image_banner'] = kapablo_group_image_banner();
-  $variables['image_banner_background'] = kapablo_group_image_banner_background();
 
   // Take care of the breadcrumb for OG content.
   _set_og_breadcrumbs();
@@ -198,6 +182,32 @@ function kapablo_preprocess_field(&$variables, $hook) {
       if (!empty($group_access['type'])) {
         $variables['classes_array'][] = 'group-' .
           drupal_html_class($group_access['type']);
+      }
+      break;
+
+    // Create an attribute to the link field.
+    // This field will contain the initials of the title.
+    // Using this initials in the css to create a ::before element
+    // The ::before element is used to create
+    // a circle with the user's initials in it.
+    case 'c4m_link_multiple':
+      foreach ($element['#items'] as $key => $item) {
+        // Get initials of the user name.
+        $title_array = preg_split("/\s+/", $item['title']);
+        $initials = "";
+        foreach ($title_array as $w) {
+          $initials .= $w[0];
+        }
+
+        // Set initials in an attribute to the 'a' tag to use in css.
+        $variables['items'][$key]['#element']['attributes']['data-initials'] = $initials;
+
+        // Add html if there's no link.
+        if (!$variables['items'][$key]['#element']['url']) {
+          $title = $item['title'];
+          $variables['items'][$key]['#element']['title'] = "<span data-initials='$initials'>$title</span>";
+          $variables['items'][$key]['#element']['html'] = TRUE;
+        }
       }
       break;
 
@@ -595,91 +605,4 @@ function kapablo_preprocess_image(&$variables) {
 function kapablo_preprocess_html(&$variables) {
   // Render off_canvas into top level variables.
   $variables['off_canvas'] = drupal_render($variables['page']['off_canvas']);
-}
-
-/**
- * Implements hook_preprocess_views_exposed_form().
- *
- * Add tooltip for the label (Search) of the full text search input.
- */
-function kapablo_preprocess_views_exposed_form(&$vars) {
-  if (!isset($vars['form']['#info']['filter-search_api_views_fulltext'])) {
-    return;
-  }
-
-  $vars['widgets']['search']->label .= ' <i class="fa fa-info-circle" data-toggle="popover" data-placement="right" data-html="true" data-trigger="click" title="Special operators" data-content="<div class=\'search-tips\'><p>You can use special operators.</p>
-<ul>
-  <li>\'Energy Water\' equals to \'Energy AND Water\' (terms separated by spaces are treated as an AND operator)</li>
-  <li>AND operator: \'Energy AND Water\' equals to \'+Energy +Water\' (equals to \'Energy Water\')</li>
-  <li>Literal strings: &quot;Solar Power&quot;</li>
-  <li>OR operator: \'Energy OR Water\'</li>
-  <li>NOT operator: \'Energy -Water\' equals to \'Energy !Water\'</li>
-</ul></div>"></i>';
-}
-
-/**
- * Create the image banner for groups.
- *
- * @param bool $background_image
- *   Determine if the current render is for the background image or not.
- *
- * @return string
- *   The image markup.
- */
-function kapablo_group_image_banner($background_image = FALSE) {
-  // No OG context.
-  if (!$group = c4m_og_current_group()) {
-    return FALSE;
-  }
-
-  // First establish the current group.
-  $wrapper = entity_metadata_wrapper('node', $group);
-
-  $menu_item = menu_get_item();
-  $markup = '';
-  if (drupal_is_front_page() || ($menu_item['path'] == 'manage' && og_user_access('node', $group->nid, 'administer group'))) {
-    // Add group image.
-    $file = $wrapper->c4m_banner->value();
-    if (!empty($file)) {
-      $file['style_name'] = 'banner';
-      $file['path'] = $file['uri'];
-      $file['attributes'] = array('class' => 'group-banner');
-
-      // If current page is the 'Group Management' page, and the current
-      // rendering is not for the background image of the banner then add an
-      // edit link to the banner.
-      if (!$background_image && $menu_item['path'] == 'manage') {
-        $edit_link['element'] = array(
-          '#tag' => 'span',
-          '#attributes' => array(
-            'class' => array('edit-link'),
-          ),
-          '#value' => t('Edit'),
-        );
-        $options = array(
-          'html' => TRUE,
-          'attributes' => array(
-            'class' => array(
-              'edit-banner',
-            ),
-          ),
-        );
-        $markup .= l(theme_html_tag($edit_link) . theme_image_style($file), url('node/' . $group->nid . '/edit', array('absolute' => TRUE, 'fragment' => 'edit-image-banner')), $options);
-      }
-      else {
-        $markup .= theme('image_style', $file);
-      }
-    }
-  }
-
-  return $markup;
-}
-
-/**
- * Returns the markup for the background image of the banner.
- *
- * @see kapablo_group_image_banner()
- */
-function kapablo_group_image_banner_background() {
-  return kapablo_group_image_banner(TRUE);
 }

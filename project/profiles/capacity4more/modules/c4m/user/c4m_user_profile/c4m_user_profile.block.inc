@@ -49,15 +49,6 @@ function _c4m_user_profile_block_user_menu() {
         ),
       ),
     ),
-    'user_content' => array(
-      'title'   => t('My content'),
-      'url'     => 'user/' . $user->uid . '/content/',
-      'options' => array(
-        'purl'  => array(
-          'disabled' => TRUE,
-        ),
-      ),
-    ),
     'user_logout' => array(
       'title'   => t('Log out'),
       'url'     => 'user/logout',

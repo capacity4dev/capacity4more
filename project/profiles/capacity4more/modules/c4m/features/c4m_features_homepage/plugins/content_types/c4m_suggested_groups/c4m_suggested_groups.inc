@@ -41,7 +41,6 @@ function c4m_features_homepage_c4m_suggested_groups_content_type_theme(&$theme, 
   $theme['c4m_features_homepage_c4m_suggested_groups'] = array(
     'variables' => array(
       'groups' => NULL,
-      'link' => NULL,
     ),
     'path' => $plugin['path'],
     'template' => 'c4m_suggested_groups',

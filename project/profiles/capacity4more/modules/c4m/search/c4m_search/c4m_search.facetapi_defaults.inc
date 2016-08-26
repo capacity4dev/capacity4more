@@ -44,35 +44,6 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
-  $facet->name = 'search_api@c4m_search_nodes::c4m_vocab_geo';
-  $facet->searcher = 'search_api@c4m_search_nodes';
-  $facet->realm = '';
-  $facet->facet = 'c4m_vocab_geo';
-  $facet->enabled = FALSE;
-  $facet->settings = array(
-    'operator' => 'and',
-    'hard_limit' => '-1',
-    'dependencies' => array(
-      'facets' => array(),
-      'reverse_dependency' => FALSE,
-      'force_deactivation' => TRUE,
-      'regex' => FALSE,
-    ),
-    'facet_mincount' => '1',
-    'facet_missing' => '0',
-    'flatten' => '0',
-    'individual_parent' => '0',
-    'query_type' => 'term',
-    'limit_active_items' => 0,
-    'default_true' => '1',
-    'facet_search_ids' => array(),
-    'exclude' => 0,
-  );
-  $export['search_api@c4m_search_nodes::c4m_vocab_geo'] = $facet;
-
-  $facet = new stdClass();
-  $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
-  $facet->api_version = 1;
   $facet->name = 'search_api@c4m_search_nodes:block:c4m_date';
   $facet->searcher = 'search_api@c4m_search_nodes';
   $facet->realm = 'block';
@@ -713,35 +684,6 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
-  $facet->name = 'search_api@c4m_search_users::c4m_country';
-  $facet->searcher = 'search_api@c4m_search_users';
-  $facet->realm = '';
-  $facet->facet = 'c4m_country';
-  $facet->enabled = FALSE;
-  $facet->settings = array(
-    'operator' => 'and',
-    'hard_limit' => '-1',
-    'dependencies' => array(
-      'facets' => array(),
-      'reverse_dependency' => FALSE,
-      'force_deactivation' => TRUE,
-      'regex' => FALSE,
-    ),
-    'facet_mincount' => '1',
-    'facet_missing' => '0',
-    'flatten' => 0,
-    'individual_parent' => 0,
-    'query_type' => 'term',
-    'limit_active_items' => 0,
-    'default_true' => '1',
-    'facet_search_ids' => array(),
-    'exclude' => 0,
-  );
-  $export['search_api@c4m_search_users::c4m_country'] = $facet;
-
-  $facet = new stdClass();
-  $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
-  $facet->api_version = 1;
   $facet->name = 'search_api@c4m_search_users::c4m_og_membership_type';
   $facet->searcher = 'search_api@c4m_search_users';
   $facet->realm = '';
@@ -800,36 +742,6 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
-  $facet->name = 'search_api@c4m_search_users::c4m_vocab_geo';
-  $facet->searcher = 'search_api@c4m_search_users';
-  $facet->realm = '';
-  $facet->facet = 'c4m_vocab_geo';
-  $facet->enabled = FALSE;
-  $facet->settings = array(
-    'operator' => 'and',
-    'hard_limit' => '-1',
-    'dependencies' => array(
-      'facets' => array(),
-      'reverse_dependency' => FALSE,
-      'force_deactivation' => TRUE,
-      'regex' => FALSE,
-      'roles' => array(),
-    ),
-    'facet_mincount' => '1',
-    'facet_missing' => '0',
-    'flatten' => '0',
-    'individual_parent' => '0',
-    'query_type' => 'term',
-    'limit_active_items' => 0,
-    'default_true' => '1',
-    'facet_search_ids' => array(),
-    'exclude' => 0,
-  );
-  $export['search_api@c4m_search_users::c4m_vocab_geo'] = $facet;
-
-  $facet = new stdClass();
-  $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
-  $facet->api_version = 1;
   $facet->name = 'search_api@c4m_search_users:block:c4m_country';
   $facet->searcher = 'search_api@c4m_search_users';
   $facet->realm = 'block';
@@ -872,16 +784,16 @@ function c4m_search_facetapi_default_facet_settings() {
       'indexed' => 0,
     ),
     'sort_weight' => array(
-      'display' => '-50',
       'active' => '-49',
       'count' => '-48',
+      'display' => '-50',
       'natural' => '-47',
       'indexed' => '-46',
     ),
     'sort_order' => array(
-      'display' => '4',
       'active' => '3',
       'count' => '3',
+      'display' => '4',
       'natural' => '4',
       'indexed' => '4',
     ),
@@ -1429,17 +1341,17 @@ function c4m_search_facetapi_default_facet_settings() {
       'taxonomy_weight' => 0,
     ),
     'sort_weight' => array(
-      'display' => '-50',
       'active' => '-49',
       'count' => '-48',
+      'display' => '-50',
       'natural' => '-47',
       'indexed' => '-46',
       'taxonomy_weight' => '-45',
     ),
     'sort_order' => array(
-      'display' => '4',
       'active' => '3',
       'count' => '3',
+      'display' => '4',
       'natural' => '4',
       'indexed' => '4',
       'taxonomy_weight' => '4',

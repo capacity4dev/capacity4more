@@ -23,7 +23,7 @@
     }
   }
 
-  &:not(.node-group):not(.user-profile) {
+  &:not(.node-group) {
     .fa, .user-name, .user-name a, .creation-date, .posted-by, .posted-by a, .field-name-c4m-field-og-group, .field-name-c4m-field-og-group a {
       color: $color-gray-light;
     }
@@ -60,14 +60,6 @@
     .date-display-range {
       display: inline-block;
     }
-
-    .field-label {
-      font-weight: normal;
-    }
-
-    .event-location {
-      display: inline;
-    }
   }
 
   &.node-share {
@@ -78,13 +70,6 @@
       h2 {
         margin-top: 0;
       }
-    }
-  }
-
-  &.user-profile {
-    .organisation-icon {
-      display: inline;
-      margin-left: 0.5em;
     }
   }
 }

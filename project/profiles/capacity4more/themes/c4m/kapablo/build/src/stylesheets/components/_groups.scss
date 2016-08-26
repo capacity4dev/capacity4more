@@ -66,7 +66,7 @@
     @include box-shadow(inset 0 8px 8px -8px #696868, inset 0 -8px 8px -8px #696868);
 
     ul {
-      margin: 0;
+      margin: 0 0 20px 0;
     }
 
     li {
@@ -121,7 +121,7 @@
         color: $color-white;
 
         &:hover, &:focus {
-          background: none;
+          background: $color-text-alternative;
         }
 
         &:focus {
@@ -131,7 +131,7 @@
     }
 
     @media (min-width: $screen-tablet) {
-      margin: 40px 0 0;
+      margin: 0;
       padding: 0;
       background: none;
       box-shadow: none;
@@ -142,6 +142,7 @@
         display: flex;
         width: 100%;
       }
+
 
       li {
         flex: 1;
@@ -425,6 +426,7 @@
     }
 
     .field-name-c4m-content-group-statistics {
+
       margin-top: 25px;
 
       ul.statistics-list {
@@ -434,8 +436,8 @@
           border: none;
           margin-bottom: 15px;
           padding: 0;
+
           text-align: left;
-          width: calc(100% * (1/2) - 10px - 1px);
 
           a {
             margin-top: 0;
@@ -569,9 +571,13 @@
     margin-top: 0;
   }
 
-  @media (min-width: $screen-desktop) {
+  /*span {
+    height: 25px;
+  }*/
+
+  @media (min-width: $screen-tablet) {
     float: right;
-    margin: 20px 0 40px;
+    margin-top: 20px;
   }
 }
 
@@ -608,6 +614,7 @@
     margin-top: 6px;
   }
 }
+
 
 .restricted-organisation-icons {
   display: none;
@@ -775,9 +782,9 @@
   padding-bottom: 15px;
 
   ul li {
-    margin-top: 15px;
+  margin-top: 15px;
 
-    img {
+    img{
       width: 25px;
       height: 25px;
       margin-right: 10px;
@@ -792,7 +799,7 @@
   border-top: 1px dashed $color-gray-light;
   padding-top: 15px;
 
-  ul li {
+  ul li{
     margin-top: 10px;
   }
 }
@@ -806,7 +813,7 @@
 }
 
 .pane-c4m-overview-og-highlights .views-row,
-.pane-c4m-overview-og-highlights .views-row + .views-row {
+.pane-c4m-overview-og-highlights .views-row  + .views-row {
   margin-top: 1rem;
   padding-top: 1rem;
 }
@@ -819,24 +826,17 @@
   margin-top: 10px;
 }
 
-.c4m-group-visitor-cta, .c4m-group-invite-cta {
-  border-bottom: 1px dashed $color-gray-darkThree;
-  color: $color-gray-darkThree;
-  margin: 0 0 10px 0;
-  padding: 0 0 10px 0;
+.c4m-group-visitor-cta {
   text-align: center;
+  margin: 10px 0;
+  padding: 10px 0;
+  border-bottom: 1px dashed $color-gray-darkThree;
 
   a.btn {
+    width: 100%;
     color: $color-white;
     background-color: $color-text-alternative;
     margin: 10px 0;
     white-space: normal;
-    width: 100%;
-  }
-}
-
-.c4m-group-invite-cta {
-  a.btn {
-    box-shadow: none;
   }
 }

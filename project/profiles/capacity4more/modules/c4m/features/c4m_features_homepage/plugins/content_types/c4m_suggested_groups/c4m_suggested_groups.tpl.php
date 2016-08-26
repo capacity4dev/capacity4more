@@ -11,7 +11,7 @@
     <div class="suggested-groups panel-pane">
       <h2 class="pane-title"><?php print t('Suggested Groups') ?></h2>
       <?php print $groups ?>
-      <a class="see-more-link" href="<?php print $link; ?>">
+      <a class="see-more-link" href="<?php print url('groups', array('absolute' => TRUE)); ?>">
         <?php print t('See more') ?>
         <i class="fa fa-chevron-right"></i>
       </a>

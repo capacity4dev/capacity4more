@@ -21,7 +21,7 @@ function c4m_user_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 30,
+        'weight' => 16,
       ),
       'default' => array(
         'label' => 'above',
@@ -35,12 +35,6 @@ function c4m_user_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 21,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
       ),
       'user_picture' => array(
         'label' => 'above',

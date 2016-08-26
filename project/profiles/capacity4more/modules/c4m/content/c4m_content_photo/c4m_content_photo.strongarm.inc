@@ -93,7 +93,7 @@ function c4m_content_photo_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_global' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'diff_standard' => array(
         'custom_settings' => FALSE,
@@ -142,7 +142,7 @@ function c4m_content_photo_strongarm() {
             'visible' => FALSE,
           ),
           'activity_global' => array(
-            'weight' => '22',
+            'weight' => '17',
             'visible' => FALSE,
           ),
           'default' => array(

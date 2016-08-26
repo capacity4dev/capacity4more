@@ -33,7 +33,7 @@ trait Field {
         $locator = '.region-content .download-link';
         break;
       case 'Group banner':
-        $locator = '#header-ec-wrapper .group-banner';
+        $locator = '.region-content-top .group-banner';
         break;
       case 'Group title':
         $locator = '.region-content-top .group-title';

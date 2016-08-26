@@ -30,7 +30,7 @@ function c4m_content_photoalbum_field_group_info() {
       'label' => 'Do more through capacity4dev',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-node-actions',
+        'classes' => 'group-node-actions field-group-html5',
         'description' => '',
         'show_label' => '1',
         'label_element' => 'h3',
@@ -64,7 +64,7 @@ function c4m_content_photoalbum_field_group_info() {
       'label' => 'Group meta author',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-node-meta field-group clearfix',
+        'classes' => 'group-node-meta field-group-html5',
         'wrapper' => 'section',
       ),
     ),

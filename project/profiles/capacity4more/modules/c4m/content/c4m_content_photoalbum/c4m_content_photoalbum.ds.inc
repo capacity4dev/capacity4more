@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_photoalbum.ds.inc
@@ -185,7 +184,7 @@ function c4m_content_photoalbum_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'lb' => ' | ',
+          'lb' => 'on ',
           'lb-col' => TRUE,
         ),
       ),

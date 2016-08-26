@@ -12,16 +12,16 @@ function _c4m_search_nodes_block_search_overview() {
   // Get active query parameters.
   $param = drupal_get_query_parameters();
 
-  $has_search_term = (bool) (isset($param['text']) && strlen($param['text']) > 0);
+  $search_term = (bool) (isset($param['text']) && strlen($param['text']) > 0);
 
   $facet_items = _c4m_search_get_facet_items('type');
-  if (!$facet_items && !$has_search_term) {
+  if (!$facet_items && !$search_term) {
     return NULL;
   }
 
   $facet_item = reset($facet_items);
   // Return if the first facet item is active.
-  if ($facet_item['#active'] && !$has_search_term) {
+  if ($facet_item['#active'] && !$search_term) {
     return NULL;
   }
 
@@ -39,13 +39,13 @@ function _c4m_search_nodes_block_search_overview() {
     ),
   );
 
-  if ($has_search_term) {
+  if ($search_term) {
     $content['info']['term'] = array(
       '#type' => 'html_tag',
       '#tag' => 'div',
       '#value' => t(
-        'You searched for: !searchterm',
-        array('!searchterm' => c4m_search_highlight_search_keywords($param['text']))
+        'You searched for: %searchterm',
+        array('%searchterm' => $param['text'])
       ),
     );
   }

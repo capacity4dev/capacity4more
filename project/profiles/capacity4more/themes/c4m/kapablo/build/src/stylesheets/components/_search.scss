@@ -24,8 +24,6 @@
 }
 
 .search-api-sort {
-  margin: 20px 0;
-
   img {
     display: inline;
     margin: -3px 0 0 7px
@@ -37,12 +35,10 @@
   }
 }
 
-.search-api-sort,
-.search-api-sort.open {
+.search-api-sort, .search-api-sort.open {
   float: right;
 
   button.dropdown-toggle {
-    color: $link-color;
     @extend %reset-button;
 
     &:hover {
@@ -140,9 +136,9 @@
   }
 }
 
-/**
- * Search result page
- */
+/*
+* Search result page
+*/
 .offCanvasNavigation--left {
   padding: 0;
 }
@@ -392,10 +388,6 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
   }
 }
 
-.view-content {
-  clear: both;
-}
-
 .view-c4m-search-nodes {
   .view-content {
     margin: 25px 0;
@@ -406,15 +398,10 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
   }
 }
 
-.sort-item.active-sort {
-  font-weight: bold;
-}
-
 .group-header {
   margin: 0 0 15px 0;
 }
 
-.view-items-with-dashed-separator,
 .view-c4m-search-nodes,
 .view-c4m-overview-groups,
 .view-c4m-overview-articles,
@@ -432,69 +419,11 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
   display: none;
 }
 
-.view-mode-teaser:not(.user-profile) .user-name a,
+.view-mode-teaser .user-name a,
 .view-mode-teaser .fa,
 .view-mode-teaser .posted-by,
 .view-mode-teaser .creation-date,
 .view-mode-teaser .row-entity-count,
 .view-mode-teaser .group-iconbar-comments-views {
   color: $color-gray-dark !important;
-}
-
-.search-keyword {
-  color: $color-highlight;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-.search-tips {
-  color: $color-text;
-  font-size: $font-size-small;
-}
-
-#edit-search-wrapper {
-  .fa-info-circle {
-    &:hover {
-      cursor: pointer;
-    }
-  }
-}
-
-#c4m-search-redirect-form {
-  display: none;
-}
-
-#block-menu-c4m-og-menu .search-form {
-  margin-bottom: 0.5rem;
-
-  input {
-    padding-right: 3rem;
-    width: 100%;
-  }
-
-  .form-group {
-    margin: 0;
-    position: relative;
-    width: 100%;
-  }
-
-  .form-submit {
-    background: none;
-    border: none;
-    box-shadow: none;
-    color: $color-gray-dark;
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-}
-
-@media (min-width: $screen-tablet) {
-  #block-menu-c4m-og-menu .search-form {
-    display: none;
-  }
-
-  #c4m-search-redirect-form {
-    display: block;
-  }
 }

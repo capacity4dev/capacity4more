@@ -26,7 +26,7 @@ function pre_migrate {
 function post_migrate {
   drupal_drush --uri="$SITE_URL" search-api-enable -y c4m_search_nodes
   drupal_drush --uri="$SITE_URL" search-api-enable -y c4m_search_users
-  drupal_drush --uri="$SITE_URL" vset maintenance_mode 1
+  drupal_drush --uri="$SITE_URL" drush vset maintenance_mode 1
   drupal_drush --uri="$SITE_URL" vset restful_skip_basic_auth 1
   mv "$DIR_WEB/cron.php" "$DIR_WEB/cron-disabled.php"
   drupal_drush --uri="$SITE_URL" search-api-index c4m_search_nodes && drupal_drush --uri="$SITE_URL" search-api-index c4m_search_users

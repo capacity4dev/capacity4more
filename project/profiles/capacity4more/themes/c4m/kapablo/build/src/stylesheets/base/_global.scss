@@ -3,7 +3,7 @@ body {
   height: 100vh;
 
   @media (min-width: $screen-tablet) {
-    height: auto;
+    height: 100%;
   }
 }
 

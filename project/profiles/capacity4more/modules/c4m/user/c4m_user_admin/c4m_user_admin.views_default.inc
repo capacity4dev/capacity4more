@@ -339,13 +339,6 @@ Last access : [access]';
   $handler->display->display_options['fields']['activate_user']['label'] = '';
   $handler->display->display_options['fields']['activate_user']['exclude'] = TRUE;
   $handler->display->display_options['fields']['activate_user']['element_label_colon'] = FALSE;
-  /* Field: User: Reactivate user link */
-  $handler->display->display_options['fields']['reactivate_user']['id'] = 'reactivate_user';
-  $handler->display->display_options['fields']['reactivate_user']['table'] = 'users';
-  $handler->display->display_options['fields']['reactivate_user']['field'] = 'reactivate_user';
-  $handler->display->display_options['fields']['reactivate_user']['label'] = '';
-  $handler->display->display_options['fields']['reactivate_user']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['reactivate_user']['element_label_colon'] = FALSE;
   /* Field: User: Resend activation email link */
   $handler->display->display_options['fields']['resend_activation_email']['id'] = 'resend_activation_email';
   $handler->display->display_options['fields']['resend_activation_email']['table'] = 'users';
@@ -359,7 +352,7 @@ Last access : [access]';
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['label'] = 'Operations';
   $handler->display->display_options['fields']['edit_node']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['edit_node']['alter']['text'] = '[edit_node] [activate_user] [reactivate_user] [resend_activation_email] [cancel_node]';
+  $handler->display->display_options['fields']['edit_node']['alter']['text'] = '[edit_node] [activate_user] [resend_activation_email] [cancel_node]';
   $handler->display->display_options['fields']['edit_node']['text'] = 'Edit';
   /* Sort criterion: User: First Name (c4m_first_name) */
   $handler->display->display_options['sorts']['c4m_first_name_value']['id'] = 'c4m_first_name_value';

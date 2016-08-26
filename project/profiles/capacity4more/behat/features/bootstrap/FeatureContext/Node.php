@@ -62,12 +62,12 @@ trait Node {
   }
 
   /**
-   * @Then /^I should be allowed to create a "([^"]*)" in group "([^"]*)"$/
+   * @Then /^I should be allowed to create a "([^"]*)"$/
    */
-  public function iShouldBeAllowedToCreateA($type, $group) {
+  public function iShouldBeAllowedToCreateA($type) {
 
     return array(
-      new Step\When('I go to "' . $this->humanToMachineReadable($group, '-') . '/node/add/'.$type.'"'),
+      new Step\When('I go to "node/add/'.$type.'"'),
       new Step\Then('I should not see "Access denied"'),
     );
   }
@@ -91,9 +91,10 @@ trait Node {
    */
   public function aNodeIsCreatedWithTitleAndTopicInTheGroup($type, $title, $topic, $group) {
     $steps = array();
-    $steps[] = new Step\When('I visit "' . $this->humanToMachineReadable($group, '-') . '/node/add/' . $type . '"');
+    $steps[] = new Step\When('I visit "node/add/' . $type . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in ckeditor field "edit-c4m-body-und-0-value" with "Some text"');
+    $steps[] = new Step\When('I select "' . $group . '" from "edit-og-group-ref-und-0-default"');
     $steps[] = new Step\When('I check the related topic checkbox with "' . $topic . '"');
     $steps[] = new Step\When('I press "Publish"');
     $steps[] = new Step\When('I should see "has been created."');
@@ -101,9 +102,9 @@ trait Node {
   }
 
   /**
-   * @Given /^I update a "([^"]*)" with title "([^"]*)" with new title "([^"]*)" in group "([^"]*)"$/
+   * @Given /^I update a "([^"]*)" with title "([^"]*)" with new title "([^"]*)"$/
    */
-  public function iUpdateAWithTitleInTheGroupWithNewTitle($type, $title, $new_title, $group) {
+  public function iUpdateAWithTitleInTheGroupWithNewTitle($type, $title, $new_title) {
     $steps = array();
 
     $query = new \entityFieldQuery();
@@ -125,7 +126,7 @@ trait Node {
 
     $nid = key($result['node']);
 
-    $steps[] = new Step\When('I visit "' . $this->humanToMachineReadable($group, '-') . '/node/' .  $nid . '/edit"');
+    $steps[] = new Step\When('I visit "node/' .  $nid . '/edit"');
     $steps[] = new Step\When('I fill in "title" with "' . $new_title . '"');
     $steps[] = new Step\When('I press "Save"');
     return $steps;
@@ -220,17 +221,4 @@ trait Node {
     $node->title = $new_title;
     node_save($node);
   }
-
-  /**
-   * Convert a human readable title to a machine readable name.
-   *
-   * The function replaces anything other than letters, numbers and underscores
-   * in the $title string with the $delimiter and converts capital to lowercase.
-   *
-   * @return string
-   */
-  public function humanToMachineReadable($title, $delimiter) {
-    return preg_replace('@[^a-z0-9_]+@', $delimiter, strtolower(trim($title)));
-  }
-
 }

@@ -30,12 +30,56 @@
   </div>
 <?php endif; ?>
 
+<div class="form-group input-wrapper file-wrapper" ng-if="selectedResource == 'documents'"
+     ng-class="{ 'has-error' : errors.document }">
+  <div ng-hide="serverSide.file"  class="form-control drop-box" ng-file-drop="onFileSelect($files);"
+       ng-file-drag-over-class="file-upload-drag">
+    <div class="drop-text">
+      <span class="uppercase"><?php print t('Drop file here to upload'); ?></span><br/>
+      <?php print t('or');?> <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
+      <input type="file" name="document-file" id="document_file" class="hidden-input" ng-file-select="onFileSelect($files)">
+    </div>
+  </div>
+  <div ng-if="serverSide.file.status == 200">
+    <div class="row" ng-file-drop="onFileSelect($files);" ng-file-drag-over-class="file-change-drag">
+      <div class="col-sm-2">
+        <span class="icon icon-missing"></span>
+      </div>
+      <div class="col-sm-10">
+        <h4>{{serverSide.file.config.file.name}}
+          <a href="javascript://" ng-click="removeFile()" title="<?php print t('Remove the file.'); ?>"><span class="fa fa-times"></span></a></h4>
+        <p>Filetype: {{serverSide.file.config.file.type}} <span class="separator">|</span> Filesize: {{serverSide.file.config.file.size | filesize:1}}</p>
+
+        <div>
+          <span><?php print t('Drop a file here to replace'); ?></span>
+          <?php print t('or');?> <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>.
+          <input type="file" name="document-file" id="document_file" class="hidden-input" ng-file-select="onFileSelect($files)">
+          <br/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="errors">
+    <ul ng-show="serverSide.data.errors.image">
+      <li ng-repeat="error in serverSide.data.errors.image">{{error}}</li>
+    </ul>
+  </div>
+  <p ng-show="errors.document" class="help-block"><?php print t('Document file is required.'); ?></p>
+</div>
+
 <div ng-show="resources[selectedResource]" id="quick-post-fields">
 
 <div ng-if="selectedResource == 'discussions'" ng-class="{ 'has-error' : errors.discussion_type }">
   <types field="'discussion_type'" field-schema="referenceValues" type="data.discussion_type" on-change="updateType"
          cols="3"></types>
   <p ng-show="errors.discussion_type" class="help-block"><?php print t('Discussion type is required.'); ?></p>
+</div>
+
+<div ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.event_type }">
+  <types field="'event_type'" field-schema="referenceValues" type="data.event_type" on-change="updateType"
+         cols="4"></types>
+  <p ng-show="errors.event_type" class="help-block"><?php print t('Event type is required.'); ?></p>
 </div>
 
 <!-- Body editor-->
@@ -49,6 +93,63 @@
       <li ng-repeat="error in serverSide.data.errors.body">{{error}}</li>
     </ul>
   </div>
+</div>
+
+<div class="form-group text clearfix btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.organiser }">
+  <label>{{fieldSchema.resources[selectedResource].organiser.info.label}}</label>
+  <input id="organiser" class="form-control" name="organiser" type="text" ng-model="data.organiser">
+
+  <div class="errors">
+    <ul ng-show="serverSide.data.errors.organiser">
+      <li ng-repeat="error in serverSide.data.errors.organiser">{{error}}</li>
+    </ul>
+  </div>
+</div>
+
+<div class="form-group date clearfix btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.datetime}">
+  <label><?php print t('When') ?></label>
+
+  <div class="row">
+    <calendar></calendar>
+  </div>
+  <p class="errors" ng-show="errors.datetime"><?php print t('Date / time is not valid'); ?></p>
+</div>
+
+<div class="form-group btn-group clearfix btn-group-selectors" ng-if="selectedResource == 'documents'"
+     ng-class="{ 'has-error' : errors.document_type }">
+  <div class="label-wrapper">
+    <label>{{fieldSchema.resources[selectedResource].document_type.info.label}}</label>
+    <span id="document_type_description" class="description">{{fieldSchema.resources[selectedResource].document_type.info.description}}</span>
+  </div>
+  <div class="checkboxes-wrapper">
+    <div class="popup-button">
+      <button type="button" ng-click="togglePopover('document_type', $event)" class="btn">
+        &nbsp;<?php print t('Select Type'); ?></button>
+      <p ng-show="errors.document_type" class="help-block"><?php print t('Document type is required.'); ?></p>
+    </div>
+    <div class="selected-values" ng-show="data.document_type">
+          <span ng-if="value === true" ng-repeat="(key, value) in data.document_type">
+            {{ findLabel(document_type, key) }} <i ng-click="removeTaxonomyValue(key, 'document_type')"
+                                                   class="fa fa-times"></i>
+          </span>
+    </div>
+    <!-- Hidden document_type checkboxes.-->
+    <div class="popover right hidden-checkboxes" ng-show="popups.document_type">
+      <div class="arrow"></div>
+      <div class="popover-content">
+        <list-terms type="document_type" model="data.document_type" items="document_type"></list-terms>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="form-group place clearfix btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
+  <label><?php print t('Where') ?></label>
+
+  <div class="row">
+    <location data="data" class="col-xs-12"></location>
+  </div>
+  <p class="errors" ng-show="errors.location"><?php print t('Location is not valid'); ?></p>
 </div>
 
 <div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.topic }">
@@ -119,7 +220,8 @@
   </div>
 </div>
 
-<div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.date }">
+<div class="form-group btn-group clearfix btn-group-selectors" ng-show="selectedResource != 'events'"
+     ng-class="{ 'has-error' : errors.date }">
   <div class="label-wrapper">
     <label>{{fieldSchema.resources[selectedResource].date.info.label}}</label>
     <span id="date_description"

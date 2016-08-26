@@ -37,21 +37,6 @@ function c4m_content_photo_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
-  $ds_fieldsetting->id = 'node|photo|activity_global';
-  $ds_fieldsetting->entity_type = 'node';
-  $ds_fieldsetting->bundle = 'photo';
-  $ds_fieldsetting->view_mode = 'activity_global';
-  $ds_fieldsetting->settings = array(
-    'c4m_media' => array(
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
-    ),
-  );
-  $export['node|photo|activity_global'] = $ds_fieldsetting;
-
-  $ds_fieldsetting = new stdClass();
-  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|photo|default';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'photo';
@@ -358,41 +343,6 @@ function c4m_content_photo_ds_layout_settings_info() {
     'layout_disable_css' => FALSE,
   );
   $export['comment|comment_node_photo|default'] = $ds_layout;
-
-  $ds_layout = new stdClass();
-  $ds_layout->api_version = 1;
-  $ds_layout->id = 'node|photo|activity_global';
-  $ds_layout->entity_type = 'node';
-  $ds_layout->bundle = 'photo';
-  $ds_layout->view_mode = 'activity_global';
-  $ds_layout->layout = 'c4m_ds_8_4_fluid';
-  $ds_layout->settings = array(
-    'regions' => array(
-      'left' => array(
-        0 => 'c4m_media',
-      ),
-      'right' => array(
-        1 => 'c4m_body',
-      ),
-    ),
-    'fields' => array(
-      'c4m_media' => 'left',
-      'c4m_body' => 'right',
-    ),
-    'classes' => array(),
-    'wrappers' => array(
-      'header' => 'div',
-      'left' => 'div',
-      'right' => 'div',
-    ),
-    'layout_wrapper' => 'div',
-    'layout_attributes' => '',
-    'layout_attributes_merge' => 1,
-    'layout_link_attribute' => '',
-    'layout_link_custom' => '',
-    'layout_disable_css' => FALSE,
-  );
-  $export['node|photo|activity_global'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;

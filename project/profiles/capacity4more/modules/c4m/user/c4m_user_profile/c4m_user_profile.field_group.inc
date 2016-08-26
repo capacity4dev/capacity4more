@@ -88,8 +88,7 @@ function c4m_user_profile_field_group_info() {
     'children' => array(
       0 => 'c4m_body',
       1 => 'c4m_media',
-      2 => 'group_your_expertise',
-      3 => 'group_your_interests',
+      2 => 'group_your_interests',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -126,7 +125,7 @@ function c4m_user_profile_field_group_info() {
       'label' => 'About',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-user-about',
+        'classes' => 'group-user-about field-group-html5',
         'description' => '',
         'show_label' => '1',
         'label_element' => 'h2',
@@ -158,7 +157,7 @@ function c4m_user_profile_field_group_info() {
       'label' => 'Notable Contributions',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-user-contributions',
+        'classes' => 'group-user-contributions field-group-html5',
         'description' => '',
         'show_label' => '1',
         'label_element' => 'h2',
@@ -225,7 +224,7 @@ function c4m_user_profile_field_group_info() {
       'label' => 'Expertise',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-user-expertise',
+        'classes' => 'group-user-expertise field-group-html5',
         'description' => '',
         'show_label' => '1',
         'label_element' => 'h2',
@@ -258,7 +257,7 @@ function c4m_user_profile_field_group_info() {
       'label' => 'Professional Interests',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-user-interests',
+        'classes' => 'group-user-interests field-group-html5',
         'description' => '',
         'show_label' => '1',
         'label_element' => 'h2',
@@ -291,7 +290,7 @@ function c4m_user_profile_field_group_info() {
       'label' => '',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-user-meta clearfix',
+        'classes' => 'group-user-meta field-group-html5 clearfix',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
@@ -306,37 +305,6 @@ function c4m_user_profile_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_your_expertise|user|user|form';
-  $field_group->group_name = 'group_your_expertise';
-  $field_group->entity_type = 'user';
-  $field_group->bundle = 'user';
-  $field_group->mode = 'form';
-  $field_group->parent_name = 'group_public_profile';
-  $field_group->data = array(
-    'label' => 'Your expertise',
-    'weight' => '10',
-    'children' => array(
-      0 => 'c4m_vocab_topic_expertise',
-    ),
-    'format_type' => 'html-element',
-    'format_settings' => array(
-      'label' => 'Your expertise',
-      'instance_settings' => array(
-        'required_fields' => 0,
-        'id' => '',
-        'classes' => '',
-        'element' => 'div',
-        'show_label' => '1',
-        'label_element' => 'label',
-        'attributes' => '',
-      ),
-    ),
-  );
-  $field_groups['group_your_expertise|user|user|form'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
   $field_group->identifier = 'group_your_interests|user|user|form';
   $field_group->group_name = 'group_your_interests';
   $field_group->entity_type = 'user';
@@ -345,16 +313,17 @@ function c4m_user_profile_field_group_info() {
   $field_group->parent_name = 'group_public_profile';
   $field_group->data = array(
     'label' => 'Your interests',
-    'weight' => '11',
+    'weight' => '10',
     'children' => array(
       0 => 'c4m_vocab_geo',
       1 => 'c4m_vocab_topic',
+      2 => 'c4m_vocab_topic_expertise',
     ),
     'format_type' => 'html-element',
     'format_settings' => array(
       'label' => 'Your interests',
       'instance_settings' => array(
-        'required_fields' => 0,
+        'required_fields' => 1,
         'id' => '',
         'classes' => '',
         'element' => 'div',
@@ -373,7 +342,6 @@ function c4m_user_profile_field_group_info() {
   t('Notable Contributions');
   t('Professional Interests');
   t('Your account');
-  t('Your expertise');
   t('Your interests');
   t('Your personal info');
   t('Your public profile');

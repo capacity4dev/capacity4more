@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_article.features.field_instance.inc
@@ -174,7 +173,7 @@ function c4m_content_article_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'c4m_banner',
     'label' => 'Banner',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'alt_field' => 0,
       'default_image' => 0,
@@ -191,7 +190,6 @@ function c4m_content_article_field_default_field_instances() {
       'module' => 'media',
       'settings' => array(
         'allowed_schemes' => array(
-          'private' => 0,
           'public' => 'public',
         ),
         'allowed_types' => array(
@@ -522,9 +520,9 @@ function c4m_content_article_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
-        'module' => 'c4m_content_article',
+        'module' => 'link',
         'settings' => array(),
-        'type' => 'c4m_formatter_title_link_abbreviation',
+        'type' => 'link_default',
         'weight' => 10,
       ),
       'teaser' => array(
@@ -949,15 +947,12 @@ function c4m_content_article_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
+        'module' => 'term_reference_tree',
         'settings' => array(
-          'display' => 'all',
-          'glue' => ', ',
-          'link' => 1,
-          'separator' => ' > ',
-          'wrap' => 'none',
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
         ),
-        'type' => 'term_reference_checked_inline_tree',
+        'type' => 'term_reference_tree',
         'weight' => 1,
       ),
       'inthe_picture_block' => array(
@@ -1046,15 +1041,12 @@ function c4m_content_article_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
+        'module' => 'term_reference_tree',
         'settings' => array(
-          'display' => 'all',
-          'glue' => ', ',
-          'link' => 1,
-          'separator' => ' > ',
-          'wrap' => 'none',
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
         ),
-        'type' => 'term_reference_checked_inline_tree',
+        'type' => 'term_reference_tree',
         'weight' => 0,
       ),
       'inthe_picture_block' => array(

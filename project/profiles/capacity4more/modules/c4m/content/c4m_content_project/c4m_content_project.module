@@ -30,6 +30,8 @@ function c4m_content_project_c4m_og_vocab_info_groups() {
 
 /**
  * Implements hook_c4m_content_statistics_info().
+ *
+ * @todo add c4m_status when it's available in the project content type
  */
 function c4m_content_project_c4m_content_statistics_info() {
   return array(
@@ -41,7 +43,6 @@ function c4m_content_project_c4m_content_statistics_info() {
         'singular'    => 'Project',
         'plural'      => 'Projects',
         'state'       => 1,
-        'c4m_status'  => array('published', 'archived'),
         'aggregate'   => array(),
         'weight'      => -3,
         'attributes'  => array(
@@ -177,24 +178,4 @@ function c4m_content_project_c4m_offcanvas_trigger_label_left_alter(&$trigger_la
     $trigger_label['label'] = t('Filter results');
     $trigger_label['icon'] = 'filter';
   }
-}
-
-/**
- * Implements hook_c4m_cta_block().
- */
-function c4m_content_project_c4m_cta_block() {
-  $items = array();
-
-  if (!drupal_is_front_page() || user_is_anonymous()) {
-    return $items;
-  }
-
-  $items['create-programme'] = array(
-    '#theme' => 'c4m_group_visitor_cta',
-    '#button_label' => t('Create programme'),
-    '#button_icon' => 'fa-plus',
-    '#url' => url('/node/add/programme'),
-  );
-
-  return $items;
 }

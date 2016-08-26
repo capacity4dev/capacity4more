@@ -26,10 +26,11 @@ function c4m_field_og_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
-        'pending' => 'Pending',
+        'requested' => 'Requested',
         'draft' => 'Draft',
         'published' => 'Published',
         'archived' => 'Archived',
+        'rejected' => 'Rejected',
         'deleted' => 'Deleted',
       ),
       'allowed_values_function' => '',

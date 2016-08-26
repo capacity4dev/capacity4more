@@ -67,14 +67,11 @@ function kapablo_search_api_sorts_list(array $variables) {
 
   $output = '';
   if ($items) {
-    // Current order is the reverse of the active item link order.
-    $order = $active_item['#order_options']['query']['order'] == 'asc' ? 'desc' : 'asc';
     $output = theme(
       'c4m_search_dropdown_sort_filters',
       array(
         'list' => theme('item_list', array('items' => $items) + $options),
         'active' => $active_item,
-        'order' => $order,
       )
     );
   }
@@ -158,10 +155,7 @@ function kapablo_search_api_sorts_sort(array $variables) {
     $return_html = l(
       $name . theme(
         'tablesort_indicator',
-        array(
-          'style' =>
-          ($order_options['query']['order'] == 'asc') ? 'desc' : 'asc',
-        )
+        array('style' => $order_options['query']['order'])
       ),
       $path,
       $order_options

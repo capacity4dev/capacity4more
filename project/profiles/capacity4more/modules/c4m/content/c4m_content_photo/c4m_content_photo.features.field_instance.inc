@@ -104,11 +104,10 @@ function c4m_content_photo_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'activity_global' => array(
-        'label' => 'hidden',
-        'module' => 'text',
+        'label' => 'above',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 27,
+        'type' => 'hidden',
+        'weight' => 22,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -228,10 +227,10 @@ function c4m_content_photo_field_default_field_instances() {
         'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
-          'image_style' => 'large',
+          'image_style' => 'c4m_image_medium',
         ),
         'type' => 'image',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'activity_group' => array(
         'label' => 'hidden',
@@ -364,7 +363,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 21,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -454,7 +453,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 20,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -545,7 +544,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 18,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -646,7 +645,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 19,
       ),
       'activity_group' => array(
         'label' => 'above',

@@ -107,12 +107,6 @@
   <?php endif; ?>
 
   <div id="header-ec-wrapper">
-    <?php if ($image_banner_background): ?>
-      <div class="background-banner">
-        <?php print $image_banner_background; ?>
-      </div>
-    <?php endif; ?>
-
     <div class="container">
       <div class="row">
         <div class="col-xs-9 col-sm-8 col-md-9 header-logo">
@@ -155,14 +149,6 @@
           endif; ?>
         </div>
       </div>
-
-      <?php if ($image_banner): ?>
-        <div class="row">
-          <div class="col-sm-12 col-md-12">
-            <?php print $image_banner; ?>
-          </div>
-        </div>
-      <?php endif; ?>
     </div>
   </div><!-- /banner-ec -->
 
@@ -241,6 +227,13 @@
           <span class="trigger-text">Group info</span>
           <i class="pull-right fa fa-chevron-right"></i>
         </div>
+
+        <!-- TODO: DYNAMICALLY -->
+        <div class="trigger trigger--membership">
+          <span class="fa fa-unlock-alt trigger-label"></span>
+          <span class="trigger-text">Request membership</span>
+        </div>
+      </div>
 
       <header role="banner" id="page-header">
         <?php if (!empty($site_slogan)): ?>

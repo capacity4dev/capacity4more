@@ -207,7 +207,7 @@ function c4m_content_event_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '26',
+            'weight' => '24',
             'visible' => FALSE,
           ),
           'c4m_related' => array(

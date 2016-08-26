@@ -29,19 +29,19 @@ function c4m_og_menu_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'og_menu-og_single_menu_block' => array(
-          'module' => 'og_menu',
-          'delta' => 'og_single_menu_block',
+        'menu-c4m-og-menu' => array(
+          'module' => 'menu',
+          'delta' => 'c4m-og-menu',
           'region' => 'content_top',
-          'weight' => '-9',
+          'weight' => '-10',
         ),
       ),
     ),
   );
   $context->condition_mode = 0;
 
-// Translatables
-// Included for use with string extractors like potx.
+  // Translatables
+  // Included for use with string extractors like potx.
   t('Context for setting the sub menu inside OG');
   t('cap4more - OG');
   $export['c4m_context_og_menu'] = $context;

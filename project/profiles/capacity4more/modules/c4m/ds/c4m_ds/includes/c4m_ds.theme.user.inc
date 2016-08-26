@@ -33,36 +33,3 @@ function theme_c4m_ds_article_notable_contribution(array $field) {
     )
   );
 }
-
-/**
- * Get all user stats in one field.
- *
- * @param array $field
- *   The field info.
- *
- * @return string
- *   The rendered field.
- */
-function theme_c4m_ds_user_footer_stats(array $field) {
-  $entity = $field['entity'];
-
-  $recommends = c4m_helper_entity_entity_get_properties(
-    $entity,
-    array(),
-    '',
-    'node',
-    array('flag_name' => 'c4m_og_content_recommend')
-  );
-
-  $items['posts'] = theme(
-    'c4m_ds_user_posts_count',
-    array('count' => theme_c4m_user_activity_posts($field))
-  );
-
-  $items['comments'] = theme(
-    'c4m_ds_entity_comments_count',
-    array('count' => theme_c4m_user_activity_comments($field))
-  );
-
-  return implode($items);
-}

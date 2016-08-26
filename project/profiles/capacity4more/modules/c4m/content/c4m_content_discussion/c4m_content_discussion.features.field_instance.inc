@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_discussion.features.field_instance.inc
@@ -613,15 +612,12 @@ function c4m_content_discussion_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
+        'module' => 'term_reference_tree',
         'settings' => array(
-          'display' => 'all',
-          'glue' => ', ',
-          'link' => 1,
-          'separator' => ' > ',
-          'wrap' => 'none',
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
         ),
-        'type' => 'term_reference_checked_inline_tree',
+        'type' => 'term_reference_tree',
         'weight' => 3,
       ),
       'inthe_picture_block' => array(
@@ -803,15 +799,12 @@ function c4m_content_discussion_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
+        'module' => 'term_reference_tree',
         'settings' => array(
-          'display' => 'all',
-          'glue' => ', ',
-          'link' => 1,
-          'separator' => ' > ',
-          'wrap' => 'none',
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
         ),
-        'type' => 'term_reference_checked_inline_tree',
+        'type' => 'term_reference_tree',
         'weight' => 0,
       ),
       'inthe_picture_block' => array(
