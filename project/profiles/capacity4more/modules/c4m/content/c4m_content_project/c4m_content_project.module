@@ -128,6 +128,8 @@ function c4m_content_project_form_project_node_form_alter(&$form, &$form_state) 
     // Change submit button on creation.
     $form['actions']['submit']['#value'] = t('Request');
   }
+
+  $form['c4m_project_type']['#access'] = FALSE;
 }
 
 /**
