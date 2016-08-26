@@ -39,15 +39,16 @@ function _c4m_content_project_block_c4m_block_create_project() {
  * The function handles header title redesign project page.
  */
 function _c4m_content_project_block_header_name_banner_project() {
-  // First establish the current group.
-  $group = c4m_og_current_group();
-  $wrapper = entity_metadata_wrapper('node', $group);
-  $markup = c4m_content_get_og_image_markup($group);
+  // First establish the current project.
+  $project = c4m_og_current_group();
+  $wrapper = entity_metadata_wrapper('node', $project);
+  $markup = '';
 
   $title = $wrapper->title->value();
   $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value() : 'published';
 
   $project_stage = $wrapper->c4m_project_stage->value();
+
   switch ($project_stage) {
     case 'notstarted':
       $flag_icon = 'fa-flag-o';

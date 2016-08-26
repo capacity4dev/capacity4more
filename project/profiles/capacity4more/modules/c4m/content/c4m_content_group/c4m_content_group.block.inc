@@ -33,7 +33,7 @@ function _c4m_content_group_block_header_name_banner_group() {
   // First establish the current group.
   $group = c4m_og_current_group();
   $wrapper = entity_metadata_wrapper('node', $group);
-  $markup = c4m_content_get_og_image_markup($group);
+  $markup = '';
 
   $variables = array();
 
