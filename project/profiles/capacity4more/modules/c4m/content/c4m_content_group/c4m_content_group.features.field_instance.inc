@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_group.features.field_instance.inc
@@ -651,10 +652,11 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 36,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'c4m_og',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 27,
+        'type' => 'c4m_formatter_group_status',
+        'weight' => 4,
       ),
       'teaser_group' => array(
         'label' => 'above',

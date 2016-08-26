@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_group.ds.inc
@@ -194,14 +195,17 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
         'link' => 'purl_og_dashboard',
         'wrapper' => 'h3',
         'class' => '',
-        'ft' => array(),
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'prefix' => '<div class="field-name-title">',
+        ),
       ),
     ),
     'c4m_user_first_and_last_name' => array(
@@ -274,11 +278,13 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_group_membership_type' => array(
-      'weight' => '3',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'ft' => array(),
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
       ),
     ),
     'c4m_body' => array(
@@ -292,6 +298,14 @@ function c4m_content_group_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+        ),
+      ),
+    ),
+    'c4m_og_status' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'suffix' => '</div>',
         ),
       ),
     ),
@@ -438,6 +452,7 @@ function c4m_content_group_ds_layout_settings_info() {
         2 => 'c4m_ds_group_type_icon',
         4 => 'title',
         7 => 'c4m_ds_group_membership_type',
+        10 => 'c4m_og_status',
       ),
       'left' => array(
         1 => 'c4m_media',
@@ -465,6 +480,7 @@ function c4m_content_group_ds_layout_settings_info() {
       'group_iconbar_comments_views' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_creation_date' => 'right',
+      'c4m_og_status' => 'header',
       'c4m_ds_group_members_count' => 'right',
       'c4m_ds_group_posts_count' => 'right',
     ),

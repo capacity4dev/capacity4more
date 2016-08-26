@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_group.field_group.inc
@@ -172,9 +173,10 @@ function c4m_content_group_field_group_info() {
     'label' => 'Header inline',
     'weight' => '0',
     'children' => array(
-      0 => 'title',
-      1 => 'c4m_ds_group_type_icon',
-      2 => 'c4m_ds_group_membership_type',
+      0 => 'c4m_og_status',
+      1 => 'title',
+      2 => 'c4m_ds_group_type_icon',
+      3 => 'c4m_ds_group_membership_type',
     ),
     'format_type' => 'div',
     'format_settings' => array(

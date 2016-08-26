@@ -69,8 +69,12 @@
       </div>
     <?php endif; ?>
   </div>
-  <?php if ($group_type): ?>
-    <span class="top-buffer indication label label-default group-type"><?php print $group_type; ?></span><?php
-  endif; ?><?php if ($group_status): ?><span class="top-buffer indication label label-default group-status"><?php print $group_status; ?></span>
-  <?php endif; ?>
+  <?php
+  if ($group_type):
+    print render($group_type);
+  endif;
+  if ($group_status):
+    print render($group_status);
+  endif;
+  ?>
 </div>

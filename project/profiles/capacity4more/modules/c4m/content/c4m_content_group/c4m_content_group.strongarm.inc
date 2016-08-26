@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_group.strongarm.inc
@@ -156,6 +157,10 @@ function c4m_content_group_strongarm() {
           'default' => array(
             'weight' => '0',
             'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '0',
+            'visible' => FALSE,
           ),
         ),
       ),

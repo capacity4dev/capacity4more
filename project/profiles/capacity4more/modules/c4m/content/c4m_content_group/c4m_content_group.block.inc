@@ -39,12 +39,16 @@ function _c4m_content_group_block_header_name_banner() {
 
   $variables['title'] = $title;
 
-  $variables['group_type'] = c4m_og_get_group_type_name($group);
+  $variables['group_type'] = array(
+    '#theme' => 'c4m_og_group_type',
+    '#type' => c4m_og_get_group_type_name($group),
+  );
 
-  $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value(
-  ) : 'published';
-
-  $variables['group_status'] = ($status !== 'published') ? $status : '';
+  $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value() : 'published';
+  $variables['group_status'] = array(
+    '#theme' => 'c4m_og_group_status',
+    '#status' => $status,
+  );
 
   $variables['organisations'] = array();
   $variables['organisation_icons'] = array();

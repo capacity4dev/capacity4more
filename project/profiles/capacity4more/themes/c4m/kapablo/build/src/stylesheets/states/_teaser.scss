@@ -87,4 +87,13 @@
       margin-left: 0.5em;
     }
   }
+
+  &.node-group {
+    .group-status {
+      position: initial;
+    }
+    h3 {
+      display: inline;
+    }
+  }
 }

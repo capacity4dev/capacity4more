@@ -1313,3 +1313,57 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
 
   return $nids;
 }
+
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_og_theme() {
+  $theme['c4m_og_group_status'] = array(
+    'variables' => array(
+      'status' => '',
+    ),
+    'file' => 'c4m_og.theme.inc',
+  );
+
+  $theme['c4m_og_group_type'] = array(
+    'variables' => array(
+      'type' => '',
+    ),
+    'file' => 'c4m_og.theme.inc',
+  );
+
+  return $theme;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function c4m_og_field_formatter_info() {
+  return array(
+    'c4m_formatter_group_status' => array(
+      'label' => t('Group status'),
+      'field types' => array('list_text'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function c4m_og_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  switch ($display['type']) {
+    case 'c4m_formatter_group_status':
+      foreach ($items as $delta => $item) {
+        $group_status = array(
+          '#theme' => 'c4m_og_group_status',
+          '#status' => $item['value'],
+        );
+
+        $element[$delta]['#markup'] = drupal_render($group_status);
+      }
+      break;
+  }
+  return $element;
+}
