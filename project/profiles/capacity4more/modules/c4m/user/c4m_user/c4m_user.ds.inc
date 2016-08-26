@@ -45,6 +45,51 @@ function c4m_user_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'user|user|member_overview';
+  $ds_fieldsetting->entity_type = 'user';
+  $ds_fieldsetting->bundle = 'user';
+  $ds_fieldsetting->view_mode = 'member_overview';
+  $ds_fieldsetting->settings = array(
+    'c4m_user_picture' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'fullwidth',
+    ),
+    'c4m_user_first_and_last_name' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'user',
+    ),
+    'c4m_user_country' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_user_contact_link' => array(
+      'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_features_og_members_since' => array(
+      'weight' => '5',
+      'label' => 'hidden',
+      'format' => 'j F Y',
+    ),
+    'c4m_features_og_members_activity_summary' => array(
+      'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_user_membership_type' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+  );
+  $export['user|user|member_overview'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'user|user|teaser';
   $ds_fieldsetting->entity_type = 'user';
   $ds_fieldsetting->bundle = 'user';
