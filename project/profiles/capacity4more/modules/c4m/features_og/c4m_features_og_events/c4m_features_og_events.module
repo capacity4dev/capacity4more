@@ -122,6 +122,35 @@ function c4m_features_og_events_views_pre_render(&$view) {
 }
 
 /**
+ * Implements hook_preprocess().
+ *
+ * Add an icon to the "Add an event" button
+ * that appears in the event related views.
+ */
+function c4m_features_og_events_preprocess_views_view(&$variables) {
+  if (!in_array($variables['name'], array('c4m_overview_og_events_landing', 'c4m_overview_og_events'))) {
+    // Not an event related view.
+    return;
+  }
+
+  if (!in_array($variables['display_id'], array('page', 'page_1'))) {
+    // Not a "page" display.
+    return;
+  }
+
+  $og_context = og_context();
+
+  if (!og_user_access($og_context['group_type'], $og_context['gid'], 'create event content')) {
+    // User doesn't have permission to create a new event.
+    return;
+  }
+
+  $icon = '<i class="fa fa-calendar-plus-o" aria-hidden="true"></i>';
+  $text = t('Add an Event');
+  $variables['header'] = str_replace($text, $icon . ' ' . $text, $variables['header']);
+}
+
+/**
  * Implements hook_block_info().
  */
 function c4m_features_og_events_block_info() {

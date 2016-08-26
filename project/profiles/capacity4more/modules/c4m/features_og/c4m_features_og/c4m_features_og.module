@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Code for the features og modules.
+ */
+
+/**
+ * Add an icon to the button that appears in $type related views.
+ */
+function c4m_features_og_preprocess_button(&$variables, $related_views, $type, $icon, $text) {
+
+  if (!in_array($variables['name'], $related_views)) {
+    // Not a $type related view.
+    return;
+  }
+
+  if (!in_array($variables['display_id'], array('page', 'page_1'))) {
+    // Not a "page" display.
+    return;
+  }
+
+  $icon = '<i class="fa fa-pencil" aria-hidden="true"></i>';
+  $variables['header'] = str_replace($text, $icon . ' ' . $text, $variables['header']);
+}

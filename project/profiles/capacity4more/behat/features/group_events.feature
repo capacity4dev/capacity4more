@@ -18,7 +18,7 @@ Feature: Group Events
     Given I am logged in as user "alfrednobel"
     When I visit the events landing page of group "Nobel Prize"
     Then I should see an upcoming and past events block
-    And I should see the "Add an event" link above the overview
+    And I should see the "Add an Event" link above the overview
 
   @api
   Scenario: Check upcoming events overview as an anonymous user
