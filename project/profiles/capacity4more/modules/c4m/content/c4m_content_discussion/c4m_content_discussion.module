@@ -36,41 +36,36 @@ function c4m_content_discussion_entity_type_label_alter(&$variables) {
 }
 
 /**
- * Retrieve a simple label for a discussion type.
+ * Retrieve icon class for a discussion type.
  *
  * @param string $label
  *   Original text label.
  *
- * @return array
- *   Simple label and icon class.
+ * @return string
+ *   Icon class.
  */
-function c4m_content_discussion_simple_label($label) {
-  $text = $label;
+function c4m_content_discussion_icon_class($label) {
   $class = '';
 
   switch ($label) {
-    case t('Ask a Question'):
-      $text = t('Question');
+    case t('Question'):
       $class = 'fa-question-circle';
       break;
 
-    case t('Share an Idea'):
-      $text = t('Idea');
+    case t('Idea'):
       $class = 'fa-lightbulb-o';
       break;
 
-    case t('Share Information'):
-      $text = t('Information');
+    case t('Information'):
       $class = 'fa-info-circle';
       break;
 
-    case t('Start a Debate'):
-      $text = t('Debate');
+    case t('Debate'):
       $class = 'fa-comments';
       break;
   }
 
-  return array('label' => $text, 'class' => $class);
+  return $class;
 }
 
 /**
@@ -196,32 +191,32 @@ function c4m_content_discussion_c4m_helper_entity_label_info() {
       'article' => '',
       'singular' => t('information'),
       'plural' => t('informations'),
-      'insert action' => t('posted information'),
-      'update action' => t('updated information'),
+      'insert action' => t('posted Information'),
+      'update action' => t('updated the Information'),
       'icon' => 'fa-info-circle',
     ),
     'discussion-debate' => array(
       'article' => t('a'),
       'singular' => t('debate'),
       'plural' => t('debates'),
-      'insert action' => t('started a new debate'),
-      'update action' => t('updated the debate'),
+      'insert action' => t('started a Debate'),
+      'update action' => t('updated the Debate'),
       'icon' => 'fa-comments',
     ),
     'discussion-question' => array(
       'article' => t('a'),
       'singular' => t('question'),
       'plural' => t('question'),
-      'insert action' => t('asked a question'),
-      'update action' => t('updated the question'),
+      'insert action' => t('asked a Question'),
+      'update action' => t('updated the Question'),
       'icon' => 'fa-question-circle',
     ),
     'discussion-idea' => array(
       'article' => t('a'),
       'singular' => t('idea'),
       'plural' => t('ideas'),
-      'insert action' => t('posted a new idea'),
-      'update action' => t('updated the idea'),
+      'insert action' => t('posted an Idea'),
+      'update action' => t('updated the Idea'),
       'icon' => 'fa-lightbulb-o',
     ),
   );

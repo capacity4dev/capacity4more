@@ -180,6 +180,15 @@
       }
     }
 
+    #c4m-stop-video {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 10;
+      color: $color-blue-dark;
+    }
+
     iframe {
       display: none;
       height: 298px;
@@ -205,4 +214,12 @@
 
 .pane-c4m-features-homepage-c4m-features-homepage-newsletter {
   padding-bottom: 40px;
+}
+
+.spinner {
+  display: none;
+}
+
+.loading .spinner {
+  display: inline-block;
 }

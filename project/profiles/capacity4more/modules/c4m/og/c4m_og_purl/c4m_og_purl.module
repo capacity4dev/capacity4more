@@ -54,6 +54,14 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
     return;
   }
 
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return;
+  }
+
   $item = menu_get_item();
 
   if ($item['path'] != 'node/%') {

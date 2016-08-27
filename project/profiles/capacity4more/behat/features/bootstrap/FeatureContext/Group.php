@@ -324,8 +324,6 @@ trait Group {
       }
     }
 
-    $steps[] = new Step\When('I fill in "edit-field-message-to-site-admin-und-0-value" with "This is default message to admin."');
-
     $steps[] = new Step\When('I press "Save"');
     $steps[] = new Step\When('I wait');
     $steps[] = new Step\When('I should not see "Group access"');
@@ -400,7 +398,7 @@ trait Group {
    */
   public function iShouldSeeTheGroupHeaderWithBanner() {
     $page = $this->getSession()->getPage();
-    $el = $page->find('css', '#block-c4m-content-group-header-name-banner');
+    $el = $page->find('css', '#block-c4m-content-group-header-name-banner-group');
     if ($el === null) {
       throw new \Exception('The Group Header block is not visible.');
     }

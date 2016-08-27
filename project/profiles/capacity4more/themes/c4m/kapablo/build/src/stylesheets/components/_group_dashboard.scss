@@ -1,0 +1,41 @@
+.pane-c4m-content-group {
+
+  .form-item.form-type-item.form-group {
+    label {
+      display: block;
+    }
+  }
+
+  .c4m-created-on-date {
+    text-align: center;
+    padding: 8px 0;
+    border-top: 1px dashed;
+    border-bottom: 1px dashed;
+  }
+
+  .field-group-fieldset {
+
+    a.fieldset-legend {
+      direction: rtl;
+    }
+  }
+
+  .taxonomy-title {
+    margin: 5px 0;
+  }
+
+  .taxonomy-item {
+    margin-left: 10px;
+  }
+}
+
+.pane-c4m-features-og-group-dashboard-c4m-cta-block {
+  border-bottom: 1px dotted $color-gray-light;
+  margin: 1em 0;
+  padding-bottom: 1em;
+
+  i {
+    text-align: center;
+    width: 2em;
+  }
+}

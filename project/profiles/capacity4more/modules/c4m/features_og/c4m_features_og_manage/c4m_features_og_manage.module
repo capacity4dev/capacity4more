@@ -118,6 +118,14 @@ function c4m_features_og_manage_menu() {
  * Access callback for manage group categories.
  */
 function c4m_features_og_manage_categories_access() {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return;
+  }
+
   // Check if in a group.
   $gid = c4m_og_current_group_id();
   if (empty($gid)) {
@@ -137,6 +145,14 @@ function c4m_features_og_manage_categories_access() {
  *   User's access to the current group.
  */
 function c4m_features_og_manage_categories_terms_access($tid) {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return FALSE;
+  }
+
   // Check if in a group.
   $group = c4m_og_current_group();
   if (empty($group)) {
@@ -173,6 +189,14 @@ function c4m_features_og_manage_categories_terms_access($tid) {
  * Access callback for manage features menu.
  */
 function c4m_features_og_manage_features_access() {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return;
+  }
+
   // Check if in a group.
   $gid = c4m_og_current_group_id();
   if (empty($gid)) {
@@ -558,7 +582,6 @@ function c4m_features_og_manage_project_details() {
     'total_budget' => t('No total budget'),
     'source_funding' => t('No source of funding'),
     'partners' => t('No partners'),
-    'implemented_by' => t('No implementator'),
     'cris_decision_number' => t('No CRIS Decision number'),
     'cris_contact_number' => t('No CRIS Contact number'),
     'topics' => t('No Group Topics'),
