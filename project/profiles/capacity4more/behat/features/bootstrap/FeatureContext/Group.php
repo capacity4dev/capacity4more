@@ -566,6 +566,7 @@ trait Group {
    */
   public function iShouldBeAllowedToDeleteAGroup($group_title) {
     $group = $this->loadGroupByTitleAndType($group_title, 'group');
+
     return array(
       new Step\When('I go to "/node/' . $group->nid . '/delete"'),
       new Step\Then('I should get a "200" HTTP response'),
@@ -577,6 +578,7 @@ trait Group {
    */
   public function iShouldNotBeAllowedToDeleteAGroup($group_title) {
     $group = $this->loadGroupByTitleAndType($group_title, 'group');
+
     return array(
       new Step\When('I go to "/node/' . $group->nid . '/delete"'),
       new Step\Then('I should get a "403" HTTP response'),
