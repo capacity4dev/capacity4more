@@ -658,7 +658,7 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
   foreach($items as $item) {
     $parent = taxonomy_get_parents($item['tid']);
     if (!empty($parent)) {
-      // If item has a parent, unset the parent at 'filtered items array.
+      // If item has a parent, unset the parent at 'filtered items' array.
       $parent_id = (string) key($parent);
       foreach ($filtered_items as $key => $filtered) {
         if ($filtered['tid'] == $parent_id) {
