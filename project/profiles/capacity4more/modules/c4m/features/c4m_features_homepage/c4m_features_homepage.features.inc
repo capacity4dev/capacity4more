@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_features_homepage.features.inc

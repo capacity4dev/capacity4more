@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_features_homepage.pages_default.inc
@@ -178,8 +177,9 @@ function c4m_features_homepage_default_page_manager_pages() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => 'Latest activity',
+      'override_title_heading' => 'h2',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -491,8 +491,9 @@ function c4m_features_homepage_default_page_manager_pages() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => 'Latest activity',
+      'override_title_heading' => 'h2',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -685,8 +686,9 @@ function c4m_features_homepage_default_page_manager_pages() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => 'Latest activity',
+      'override_title_heading' => 'h2',
     );
     $pane->cache = array();
     $pane->style = array(

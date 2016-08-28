@@ -86,6 +86,11 @@ function c4m_content_project_c4m_content_statistics_info() {
 function c4m_content_project_block_info() {
   $blocks = array();
 
+  $blocks['header_name_banner_project'] = array(
+    'info' => t('Project header'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
   $blocks['c4m_block_create_project'] = array(
     'info' => t('Project: Create project'),
     'cache' => DRUPAL_NO_CACHE,
@@ -114,7 +119,7 @@ function c4m_content_project_block_view($delta) {
  *
  * Alter the Project creation form.
  */
-function c4m_og_form_project_node_form_alter(&$form, &$form_state) {
+function c4m_content_project_form_project_node_form_alter(&$form, &$form_state) {
   // Form changes on creation.
   if (!$form['nid']['#value']) {
     // Change title.
@@ -123,6 +128,8 @@ function c4m_og_form_project_node_form_alter(&$form, &$form_state) {
     // Change submit button on creation.
     $form['actions']['submit']['#value'] = t('Request');
   }
+
+  $form['c4m_project_type']['#access'] = FALSE;
 }
 
 /**
@@ -134,7 +141,7 @@ function c4m_og_form_project_node_form_alter(&$form, &$form_state) {
  * @return int
  *   Count.
  */
-function c4m_user_get_administered_projects_count($uid) {
+function c4m_content_project_get_administered_projects_count($uid) {
   return c4m_og_get_user_administered_groups_count($uid, 'project');
 }
 
@@ -162,9 +169,28 @@ function c4m_content_project_c4m_helper_entity_metrics_info() {
     'c4m_user_projects_administered' => array(
       'type' => 'projects_administered',
       'context' => 'user',
-      'callback' => 'c4m_user_get_administered_projects_count',
+      'callback' => 'c4m_content_project_get_administered_projects_count',
     ),
   );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_content_project_theme() {
+  $theme['c4m_content_project_header_title'] = array(
+    'variables' => array(
+      'title' => '',
+      'stage' => '',
+      'type' => '',
+      'status' => '',
+      'flag' => '',
+    ),
+    'path' => drupal_get_path('module', 'c4m_content_project') . '/theme',
+    'template' => 'c4m-content-project-header-title',
+  );
+
+  return $theme;
 }
 
 /**
@@ -177,4 +203,24 @@ function c4m_content_project_c4m_offcanvas_trigger_label_left_alter(&$trigger_la
     $trigger_label['label'] = t('Filter results');
     $trigger_label['icon'] = 'filter';
   }
+}
+
+/**
+ * Implements hook_c4m_cta_block().
+ */
+function c4m_content_project_c4m_cta_block() {
+  $items = array();
+
+  if (!drupal_is_front_page() || user_is_anonymous()) {
+    return $items;
+  }
+
+  $items['create-programme'] = array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => t('Create programme'),
+    '#button_icon' => 'fa-plus',
+    '#url' => url('/node/add/programme'),
+  );
+
+  return $items;
 }
