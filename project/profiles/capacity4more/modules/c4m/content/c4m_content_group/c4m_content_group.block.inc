@@ -13,7 +13,7 @@
  * @param array $variables
  *   Block variables.
  */
-function _c4m_content_group_preprocess_header_name_banner(array &$variables) {
+function _c4m_content_group_preprocess_header_name_banner_group(array &$variables) {
   // First establish the current group.
   $group = c4m_og_current_group();
 
@@ -25,9 +25,11 @@ function _c4m_content_group_preprocess_header_name_banner(array &$variables) {
 }
 
 /**
- * The group name.
+ * OG group title redesign.
+ *
+ * The function handles header title redesign for group page.
  */
-function _c4m_content_group_block_header_name_banner() {
+function _c4m_content_group_block_header_name_banner_group() {
   // First establish the current group.
   $group = c4m_og_current_group();
   $wrapper = entity_metadata_wrapper('node', $group);

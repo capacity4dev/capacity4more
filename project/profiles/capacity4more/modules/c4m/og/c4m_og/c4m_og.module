@@ -309,11 +309,20 @@ function c4m_og_user_is_owner($group_type, $gid) {
  * @param int $gid
  *   The ID of the group.
  *
- * @return bool
+ * @return void|bool
  *   TRUE if the current user is group member, FALSE otherwise.
  */
 function c4m_og_user_is_member($group_type = NULL, $gid = NULL) {
   if (empty($gid)) {
+    if (!og_context_is_init()) {
+      // OG context was not determined yet, so register the path and return
+      // early. The next time this access callback will be called, it will not
+      // enter here.
+      og_context_access_callback_register_path($_GET['q']);
+
+      return NULL;
+    }
+
     $context = og_context('node');
     $gid = $context['gid'];
     $group_type = $context['group_type'];

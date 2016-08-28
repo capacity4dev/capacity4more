@@ -5,7 +5,7 @@ Feature: Testing the did you mean feature offered for search api that provides
   Scenario: Testing the did you mean feature from search api with some result.
     Given I am an anonymous user
     When I visit the site homepage
-    And I fill in "edit-keys" with "lega"
+    And I fill in "edit-keys" with "leve"
     And I press "<i class=\"fa fa-search\"></i>"
     Then I should see "Did you mean"
 
