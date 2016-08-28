@@ -8,11 +8,6 @@
 include_once 'c4m_user.features.inc';
 
 /**
- * Define administrator role ID.
- */
-define('C4M_USER_ROLE_ID_ADMINISTRATOR', 4);
-
-/**
  * Define fields.
  *
  * These fields are not overridden through the interface.
