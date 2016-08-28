@@ -233,5 +233,5 @@ function c4m_content_discussion_c4m_helper_entity_label_info() {
  * Add author information to the edit discussion form.
  */
 function c4m_content_discussion_form_discussion_node_form_alter(&$form, $form_state) {
-  c4m_og_content_author($form);
+  c4m_og_add_content_author_options_to_power_users($form);
 }

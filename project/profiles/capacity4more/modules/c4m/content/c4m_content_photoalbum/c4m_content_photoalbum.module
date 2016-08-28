@@ -40,7 +40,7 @@ function c4m_content_photoalbum_form_photoalbum_node_form_alter(&$form, &$form_i
   );
 
   // Add author information to the edit photoalbum form.
-  c4m_og_content_author($form);
+  c4m_og_add_content_author_options_to_power_users($form);
 }
 
 /**

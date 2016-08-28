@@ -52,3 +52,19 @@ Feature: Group Discussions
     And   I start editing "discussion" "Some new discussion3" in group "Tennis Group"
     Then  I should see "Edit discussion"
     And   I should see "Some new discussion3"
+
+  @api
+  Scenario: Check GA can edit a document's author
+    Given I am logged in as user "galileo"
+    When I visit the group "discussion" detail page "Medals"
+    And I click "Edit" under ul "tabs--primary"
+    Then I should see the text "Edit Discussion Medals"
+    And I should see the text "Authoring information"
+
+  @api
+  Scenario: Check SA can edit a document's author
+    Given I am logged in as user "survivalofthefittest"
+    When I visit the group "discussion" detail page "Medals"
+    And I click "Edit" under ul "tabs--primary"
+    Then I should see the text "Edit Discussion Medals"
+    And I should see the text "Authoring information"

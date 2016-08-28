@@ -1327,8 +1327,10 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
  * Allows group owner and administrators to change the author of content in the
  * group. Limits possible authors to group members or anonymous user.
  */
-function c4m_og_content_author(&$form) {
-  if (user_has_role('administrator')) {
+function c4m_og_add_content_author_options_to_power_users(&$form) {
+  // If the user is a site administrator, there is no need to do anything.
+  $site_admin_role = user_role_load_by_name('administrator');
+  if (user_has_role($site_admin_role)) {
     return;
   }
 
@@ -1360,9 +1362,11 @@ function c4m_og_form_valid_author($form, &$form_state) {
  * contains the search string (for autocomplete author field).
  */
 function c4m_og_edit_author_autocomplete($string = '') {
+  // Return early if no search string was received.
   if (!trim($string)) {
     return;
   }
+
   list(, $gid) = array_values(og_context());
   $query = db_select('users', 'u');
   $query

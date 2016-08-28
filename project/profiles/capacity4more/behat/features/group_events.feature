@@ -78,3 +78,19 @@ Feature: Group Events
     Given I am logged in as user "mariecurie"
     When  I start editing "event" "Some new event1" in group "Architecture"
     Then  I should not see an "edit-og-group-ref-und-0-default" element
+
+  @api
+  Scenario: Check GA can edit a document's author
+    Given I am logged in as user "galileo"
+    When I visit the group "event" detail page "Nobel Prize Issueing"
+    And I click "Edit" under ul "tabs--primary"
+    Then I should see the text "Edit Event Nobel Prize Issueing"
+    And I should see the text "Authoring information"
+
+  @api
+  Scenario: Check SA can edit a document's author
+    Given I am logged in as user "survivalofthefittest"
+    When I visit the group "event" detail page "Nobel Prize Issueing"
+    And I click "Edit" under ul "tabs--primary"
+    Then I should see the text "Edit Event Nobel Prize Issueing"
+    And I should see the text "Authoring information"

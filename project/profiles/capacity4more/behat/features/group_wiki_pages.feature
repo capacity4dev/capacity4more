@@ -45,3 +45,19 @@ Feature: Group Wiki pages
     Given I am an anonymous user
     When I visit the group "wiki_page" detail page "Unpublished Wiki Page (Tennis)" with status "unpublished"
     Then I should see "Please log in to continue"
+
+#  @api
+#  Scenario: Check GA can edit a document's author
+#    Given I am logged in as user "galileo"
+#    When I visit the group "wiki_page" detail page "History"
+#    And I click "Edit" under ul "tabs--primary"
+#    Then I should see the text "Edit Wiki page History"
+#    And I should see the text "Authoring information"
+
+  @api
+  Scenario: Check SA can edit a document's author
+    Given I am logged in as user "survivalofthefittest"
+    When I visit the group "wiki_page" detail page "History"
+    And I click "Edit" under ul "tabs--primary"
+    Then I should see the text "Edit Wiki page History"
+    And I should see the text "Authoring information"
