@@ -212,9 +212,20 @@ function c4m_og_reject_membership_request($form, &$form_state, $gid, $account, $
   $form_state['account'] = $account;
   field_attach_form('account', $account, $form, $form_state);
 
-  $form['gid'] = array('#type' => 'value', '#value' => $gid);
-  $form['timestamp'] = array('#type' => 'value', '#value' => $timestamp);
-  $form['hashed_pass'] = array('#type' => 'value', '#value' => $hashed_pass);
+  $form['gid'] = array(
+    '#type' => 'value',
+    '#value' => $gid,
+  );
+
+  $form['timestamp'] = array(
+    '#type' => 'value',
+    '#value' => $timestamp,
+  );
+
+  $form['hashed_pass'] = array(
+    '#type' => 'value',
+    '#value' => $hashed_pass,
+  );
 
   return confirm_form($form, t('Please enter reject reason:'), 'group/node/' . $gid . '/admin/people', '', t('Reject'), t('Cancel'));
 }
@@ -262,12 +273,14 @@ function c4m_og_autologin_control_membership_link($account, $membership, $action
     'purl' => array('disabled' => TRUE),
   );
 
-  return url('group/node/' . $membership->gid . '/admin/membership-' . $action . '/' . $account->uid . '/'
-    . $membership->id . '/' . $timestamp . '/' . user_pass_rehash($account->pass, $timestamp, $account->login, $account->uid), $options);
+  $path = 'group/node/' . $membership->gid . '/admin/membership-' . $action . '/' . $account->uid . '/'
+    . $membership->id . '/' . $timestamp . '/' . user_pass_rehash($account->pass, $timestamp, $account->login, $account->uid);
+
+  return url($path, $options);
 }
 
 /**
- * Retrieves group ID from form and forwards to it's People page.
+ * Forwards the page to group's People page.
  *
  * @param object $form
  *   Form array to populate.
@@ -304,15 +317,17 @@ function c4m_og_control_membership($action, $gid, $account, $membership, $timest
   global $user;
   // Time out in seconds, until auto login token expires.
   // 24 hours = 86400 seconds.
-  $timeout = 86400;
+  $timeout = variable_get('autologin_timeout', 86400);
   $current = REQUEST_TIME;
 
   // If not logged in, or logged in as different user.
   if (user_is_anonymous() || $account->uid != $user->uid) {
-    // Validate expiration and hashed password/login.
-    if ($timestamp <= $current && $current - $timestamp < $timeout && $account->uid && $timestamp >= $account->login &&
-      $hashed_pass == user_pass_rehash($account->pass, $timestamp, $account->login, $account->uid)) {
+    $timestamp_valid = $timestamp <= $current && $timestamp >= $account->login;
+    $timeout_occurred = $current - $timestamp > $timeout;
+    $rehashed_pass = user_pass_rehash($account->pass, $timestamp, $account->login, $account->uid);
 
+    // Validate expiration and hashed password/login.
+    if ($timestamp_valid && !$timeout_occurred && $account->uid && $hashed_pass == $rehashed_pass) {
       // If link data validated, perform automatic login.
       $user = $account;
       drupal_session_regenerate();
@@ -354,7 +369,7 @@ function c4m_og_control_membership_access($group_type, $gid) {
 
   // Extract the group's bundle.
   list(, , $bundle) = entity_extract_ids($group_type, $group);
-  // Verify the bundle has roles.
+  // Verify 'node' bundle has roles.
   if (!og_roles($group_type, $bundle, $gid)) {
     return FALSE;
   }
@@ -507,11 +522,20 @@ function c4m_og_user_is_owner($group_type, $gid) {
  * @param int $gid
  *   The ID of the group.
  *
- * @return bool
+ * @return void|bool
  *   TRUE if the current user is group member, FALSE otherwise.
  */
 function c4m_og_user_is_member($group_type = NULL, $gid = NULL) {
   if (empty($gid)) {
+    if (!og_context_is_init()) {
+      // OG context was not determined yet, so register the path and return
+      // early. The next time this access callback will be called, it will not
+      // enter here.
+      og_context_access_callback_register_path($_GET['q']);
+
+      return NULL;
+    }
+
     $context = og_context('node');
     $gid = $context['gid'];
     $group_type = $context['group_type'];
@@ -1499,6 +1523,29 @@ function c4m_og_get_user_administered_groups_count($uid, $node_type) {
   $amount = $query->rowCount();
 
   return $amount;
+}
+
+/**
+ * Compares the OG type (project|group) to input.
+ *
+ * @param string $type
+ *   The group to get the type from.
+ *
+ * @return bool
+ *   Whether current OG group type matches the input.
+ */
+function c4m_og_is_of_group_type($type) {
+  $context = og_context();
+  if (!$context) {
+    return FALSE;
+  }
+
+  $og_group_type = c4m_og_get_group_type($context);
+  if (!$og_group_type || $og_group_type != $type) {
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /**
