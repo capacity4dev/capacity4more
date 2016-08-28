@@ -42,7 +42,7 @@ function c4m_content_project_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_preview_project';
-  $strongarm->value = '1';
+  $strongarm->value = '0';
   $export['comment_preview_project'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -132,16 +132,19 @@ function c4m_content_project_strongarm() {
     'extra_fields' => array(
       'form' => array(
         'title' => array(
-          'weight' => '0',
+          'weight' => '1',
         ),
         'og_purl' => array(
-          'weight' => '2',
+          'weight' => '4',
         ),
         'path' => array(
-          'weight' => '11',
+          'weight' => '16',
         ),
         'redirect' => array(
-          'weight' => '12',
+          'weight' => '17',
+        ),
+        'og_menu' => array(
+          'weight' => '0',
         ),
       ),
       'display' => array(),
