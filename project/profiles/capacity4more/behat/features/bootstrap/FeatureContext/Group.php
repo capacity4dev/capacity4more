@@ -698,17 +698,4 @@ trait Group {
     $el = $page->find('xpath', '//a[contains(text(),\'Order items alphabetically\') and not(ancestor::*[contains(@style,\'visibility: hidden\')])]');
     $el->click();
   }
-
-  /**
-   * @When /^I click "(?P<path>[^"]*)" under ul "(?P<field>[^"]*)"$/
-   */
-  public function assertClickUnderUl($link, $ul) {
-    $page = $this->getSession()->getPage();
-    $elm = $page->find('xpath', "//ul[contains(@class, '$ul')]//li//a[contains(text(), '$link')]");
-    if (!$elm) {
-      throw new \Exception("Could not find '$link' under '$ul'");
-    }
-
-    $elm->click();
-  }
 }
