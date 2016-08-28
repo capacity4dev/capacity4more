@@ -334,6 +334,9 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   // Filesize library.
   drupal_add_js($bower_path . '/filesize/lib/filesize.min.js');
 
+  // Filesize library.
+  drupal_add_js($bower_path . '/ng-file-upload/ng-file-upload.min.js');
+
   // Load our custom app.
   $app_path = $bower_path . '/c4m-app/dist';
   drupal_add_js($app_path . '/c4m-app.js');
