@@ -653,6 +653,21 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
  *   The markup of the tree.
  */
 function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) {
+  // Filter all items that are not leafs at the tree.
+  $filtered_items = $items;
+  foreach($items as $item) {
+    $parent = taxonomy_get_parents($item['tid']);
+    if (!empty($parent)) {
+      // If item has a parent, unset the parent at 'filtered items array.
+      $parent_id = (string) key($parent);
+      foreach ($filtered_items as $key => $filtered) {
+        if ($filtered['tid'] == $parent_id) {
+          unset($filtered_items[$key]);
+        }
+      }
+    }
+  }
+
   $options = array(
     'absolute' => TRUE,
     'purl' => array('disabled' => TRUE),
@@ -660,7 +675,7 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
   $tree = '';
 
   // Loop through all the taxonomy items and add them to the tree.
-  foreach ($items as $item) {
+  foreach ($filtered_items as $item) {
     $local_tree = array();
 
     // Get the items taxonomy tree (include the item itself).
