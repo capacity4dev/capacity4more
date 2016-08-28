@@ -561,6 +561,27 @@ trait Group {
     );
   }
 
+  /**
+   * @Then /^I should be allowed to delete a group "([^"]*)"$/
+   */
+  public function iShouldBeAllowedToDeleteAGroup($group_title) {
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+    return array(
+      new Step\When('I go to "/node/' . $group->nid . '/delete"'),
+      new Step\Then('I should get a "200" HTTP response'),
+    );
+  }
+
+  /**
+   * @Then /^I should not be allowed to delete a group "([^"]*)"$/
+   */
+  public function iShouldNotBeAllowedToDeleteAGroup($group_title) {
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+    return array(
+      new Step\When('I go to "/node/' . $group->nid . '/delete"'),
+      new Step\Then('I should get a "403" HTTP response'),
+    );
+  }
 
   /**
    * @Given /^The group "([^"]*)" status is changed by admin to "([^"]*)"$/
@@ -697,5 +718,34 @@ trait Group {
     $page = $this->getSession()->getPage();
     $el = $page->find('xpath', '//a[contains(text(),\'Order items alphabetically\') and not(ancestor::*[contains(@style,\'visibility: hidden\')])]');
     $el->click();
+  }
+
+  /**
+   * @Then /^I should see the "([^"]*)" button$/
+   */
+  public function IShouldSeeTheButton($locator) {
+    $page = $this->getSession()->getPage();
+    $result =  $page->find('named', array(
+      'button', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
+    ));
+
+    if (empty($result)) {
+      throw new \Exception(sprintf("No '%s' button on the page %s", $locator, $this->getSession()->getCurrentUrl()));
+    }
+  }
+
+  /**
+   * @Then /^I should not see the "([^"]*)" button$/
+   */
+  public function IShouldNotSeeTheButton($locator) {
+    $page = $this->getSession()->getPage();
+    $result =  $page->find('named', array(
+      'button', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
+    ));
+
+    if ($result) {
+      throw new \Exception(sprintf("'%s' button is on the page %s, but was not supposed to be", $locator, $this->getSession()->getCurrentUrl()));
+    }
+
   }
 }
