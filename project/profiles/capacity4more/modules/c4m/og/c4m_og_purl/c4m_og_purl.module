@@ -46,6 +46,7 @@ function c4m_og_purl_init() {
     'flag',
     'batch',
     'file/%',
+    'search',
   );
 
   if (_c4m_og_purl_starts_with_in_array($skip_path, $item['path'])) {
@@ -65,6 +66,7 @@ function c4m_og_purl_init() {
     'members',
     'manage',
     'user/register',
+    'user/autocomplete',
     'user/%/contact',
     'overlay/documents',
   );

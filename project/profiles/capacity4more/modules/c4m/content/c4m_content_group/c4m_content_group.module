@@ -884,9 +884,14 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
   $accounts = c4m_og_get_group_admins($node->nid);
 
   $links = array();
+  $options = array(
+    'purl'  => array(
+      'disabled' => TRUE,
+    ),
+  );
   foreach ($accounts as $account) {
     $uri = entity_uri('user', $account);
-    $links[] = l(c4m_user_name($account), $uri['path']);
+    $links[] = l(c4m_user_name($account), $uri['path'], $options);
   }
 
   $node->content['group_admins'] = array(
