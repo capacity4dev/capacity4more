@@ -80,7 +80,7 @@ Feature: Group Events
     Then  I should not see an "edit-og-group-ref-und-0-default" element
 
   @api
-  Scenario: Check GA can edit a document's author
+  Scenario: Check GA can edit an event's author
     Given I am logged in as user "galileo"
     When I visit the group "event" detail page "Nobel Prize Issueing"
     And I click "Edit" under ul "tabs--primary"
@@ -88,7 +88,7 @@ Feature: Group Events
     And I should see the text "Authoring information"
 
   @api
-  Scenario: Check SA can edit a document's author
+  Scenario: Check SA can edit an event's author
     Given I am logged in as user "survivalofthefittest"
     When I visit the group "event" detail page "Nobel Prize Issueing"
     And I click "Edit" under ul "tabs--primary"

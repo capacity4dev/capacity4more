@@ -54,7 +54,7 @@ Feature: Group Discussions
     And   I should see "Some new discussion3"
 
   @api
-  Scenario: Check GA can edit a document's author
+  Scenario: Check GA can edit a discussion's author
     Given I am logged in as user "galileo"
     When I visit the group "discussion" detail page "Medals"
     And I click "Edit" under ul "tabs--primary"
@@ -62,7 +62,7 @@ Feature: Group Discussions
     And I should see the text "Authoring information"
 
   @api
-  Scenario: Check SA can edit a document's author
+  Scenario: Check SA can edit a discussion's author
     Given I am logged in as user "survivalofthefittest"
     When I visit the group "discussion" detail page "Medals"
     And I click "Edit" under ul "tabs--primary"
