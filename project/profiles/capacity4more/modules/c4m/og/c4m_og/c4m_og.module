@@ -341,7 +341,7 @@ function c4m_og_control_membership($action, $gid, $account, $membership, $timest
     }
   }
 
-  // Approve/Reject membership request.
+  // Approve / Reject membership request.
   if ($membership->state == OG_STATE_PENDING) {
     $membership->state = $action == 'approve' ? OG_STATE_ACTIVE : OG_STATE_BLOCKED;
     og_membership_save($membership);

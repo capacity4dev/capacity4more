@@ -308,7 +308,13 @@ function c4m_user_notifications_form_og_ui_add_users_alter(&$form, &$form_state)
  * request.
  */
 function c4m_user_notifications_form_c4m_og_reject_membership_request_alter(&$form, &$form_state) {
-  $form['#submit'][] = 'c4m_user_notifications_moderated_group_notify_user_membership_rejected';
+  $membership = $form_state['membership'];
+
+  if ($membership->state == OG_STATE_PENDING) {
+    // In case membership was updated (rejected), set notification function.
+    $form['#submit'][] = 'c4m_user_notifications_moderated_group_notify_user_membership_rejected';
+  }
+
   $form['#submit'][] = 'c4m_og_route_to_group_people';
 }
 

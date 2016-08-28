@@ -135,6 +135,22 @@ function _c4m_user_notifications_open_group_notify_admin_membership_accepted($me
  * Email notification to user about rejection of membership request.
  */
 function c4m_user_notifications_moderated_group_notify_user_membership_rejected(&$form, &$form_state) {
+  global $user;
+  $membership = $form_state['membership'];
+  if (!($message = message_create('c4m_membership_request_rejected', array('uid' => $membership->etid)))) {
+    // Return early, if message was not created properly.
+    return;
+  }
+  // Define functions with which to resolve email template tokens.
+  c4m_message_load_tokens__c4m_membership_request_rejected($message);
+  $message->arguments['@membership_reject_reason'] = $form_state['values']['reject_membership_request_message'];
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group_node->set($membership->gid);
+  $wrapper->field_executing_user->set($user->uid);
+
+  // Message will be saved inside message_notify_send_message().
+  message_notify_send_message($wrapper->value());
 }
 
 /**
