@@ -21,7 +21,7 @@ Feature: Test custom admin pages
     When  I go to "admin/c4m/groups"
     Then  I should see the groups and the user "mariecurie" in the group management table
 
-  @api @my
+  @api
   Scenario: Site Admin user visits "Published" group, and is allowed to edit and delete it
     Given I am logged in as user "mariecurie"
     When  I visit "Published group" node of type "group"
@@ -29,7 +29,7 @@ Feature: Test custom admin pages
     And   I should see "Delete" in the "#edit-delete" element
     And   I should be allowed to delete a group "Published group"
 
-  @api @my
+  @api
   Scenario: Group Admin user visits "Published" group, and is allowed to edit but not to delete it
     Given I am logged in as user "turing"
     When  I visit "Published group" node of type "group"
