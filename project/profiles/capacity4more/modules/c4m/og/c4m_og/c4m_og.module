@@ -1330,7 +1330,7 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
 function c4m_og_add_content_author_options_to_power_users(&$form) {
   // If the user is a site administrator, there is no need to do anything.
   $site_admin_role = user_role_load_by_name('administrator');
-  if (user_has_role($site_admin_role)) {
+  if (user_has_role($site_admin_role->rid)) {
     return;
   }
 
