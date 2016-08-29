@@ -1,3 +1,7 @@
+.pane-quick-form {
+  @include grain_dark;
+}
+
 .btn-group-discussion_type {
   button[value="idea"] {
     .fa:before {
