@@ -665,7 +665,7 @@ function c4m_user_og_group_management_cta($group) {
     $items['#links'][] = array(
       '#theme' => 'c4m_group_text_cta',
       '#icon' => 'fa-cogs',
-      '#text' => l(t('Manage membership'), 'manage'),
+      '#text' => l(t('Manage group'), 'manage'),
     );
   }
 
