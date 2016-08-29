@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_photo.strongarm.inc
@@ -91,7 +90,7 @@ function c4m_content_photo_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'activity_global' => array(
         'custom_settings' => TRUE,
@@ -139,16 +138,16 @@ function c4m_content_photo_strongarm() {
       'display' => array(
         'node_gallery_navigation' => array(
           'activity_group' => array(
-            'weight' => '22',
+            'weight' => '17',
             'visible' => FALSE,
           ),
           'activity_global' => array(
-            'weight' => '23',
+            'weight' => '22',
             'visible' => FALSE,
           ),
           'default' => array(
             'weight' => '5',
-            'visible' => FALSE,
+            'visible' => TRUE,
           ),
           'full' => array(
             'weight' => '3',

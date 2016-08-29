@@ -232,6 +232,16 @@ function c4m_ds_ds_view_modes_info() {
 }
 
 /**
+ * Implements hook_entity_info_alter().
+ */
+function c4m_ds_entity_info_alter(&$entity_info) {
+  $entity_info['user']['view modes']['teaser'] = array(
+    'custom settings' => TRUE,
+    'label' => 'Teaser',
+  );
+}
+
+/**
  * Define fields.
  *
  * These fields are not overridden through the interface.
@@ -558,6 +568,19 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
+  $fields['user']['c4m_ds_user_footer_stats'] = array(
+    'title' => t('User footer stats'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_ds.theme.user.inc',
+    'function' => 'theme_c4m_ds_user_footer_stats',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
   return $fields;
 }
 
@@ -651,6 +674,11 @@ function c4m_ds_theme() {
       'variables' => array('count' => 0),
       'path' => $path,
       'template' => 'c4m_ds_entity_recommends_count',
+    ),
+    'c4m_ds_user_posts_count' => array(
+      'variables' => array('count' => 0),
+      'path' => $path,
+      'template' => 'c4m_ds_user_posts_count',
     ),
     'c4m_ds_embed_view' => array(
       'variables' => array(
