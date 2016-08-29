@@ -116,6 +116,25 @@ function c4m_field_og_field_access($op, $field, $entity_type, $entity, $account)
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_field_og_form_group_node_form_alter(&$form, &$form_state, $form_id) {
+  _c4m_field_og_set_status_flow($form, $form_state, 'group');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_field_og_form_project_node_form_alter(&$form, &$form_state, $form_id) {
+  _c4m_field_og_set_status_flow($form, $form_state, 'project');
+}
+
+/**
+ * Defines allowed values for c4m_og_status field, per access type.
+ *
+ * @param array $form
+ *   Form array.
+ * @param $form_state
+ *   Form access array.
+ */
+function _c4m_field_og_set_status_flow(&$form, $form_state, $type) {
   global $user;
 
   if (!isset($form_state['field']['c4m_og_status'])) {
@@ -150,7 +169,7 @@ function c4m_field_og_form_group_node_form_alter(&$form, &$form_state, $form_id)
       ),
     );
 
-    if ($wrapper->{OG_ACCESS_FIELD}->value()) {
+    if ($type == 'group' && $wrapper->{OG_ACCESS_FIELD}->value()) {
       unset($unallowed_values['pending']['published']);
     }
 
