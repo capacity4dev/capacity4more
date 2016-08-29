@@ -1394,3 +1394,11 @@ function c4m_user_form_alter(&$form, &$form_state, $form_id) {
   // Message format inspired from user_login().
   $form['name']['#description'] = t('Enter your @s username or your e-mail address.', array('@s' => variable_get('site_name', 'Drupal')));
 }
+
+/**
+ * @see user_registrationpassword_confirmation_url()
+ */
+function c4m_user_registrationpassword_confirmation_url($account) {
+  $timestamp = REQUEST_TIME;
+  return url("user/registrationpassword/$account->uid/$timestamp/" . user_pass_rehash($account->pass, $timestamp, $account->name, $account->uid), array('absolute' => TRUE, 'purl' => array('disabled' => TRUE)));
+}

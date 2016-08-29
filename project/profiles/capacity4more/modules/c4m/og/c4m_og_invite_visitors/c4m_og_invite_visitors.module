@@ -333,7 +333,7 @@ function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
   $replacements['[user:public-profile-url]'] = $base_url . '/users/' . c4m_og_human_to_machine_readable($replacements['[user:full_name]']);
   $replacements['[group:node_type]'] = $group->type;
   $replacements['[group:node_title]'] = $group->title;
-  $replacements['[group:accept_invite_url]'] = user_registrationpassword_confirmation_url($data['user']);
+  $replacements['[group:accept_invite_url]'] = c4m_user_registrationpassword_confirmation_url($data['user']);
   $replacements['[group:dashboard_url]'] = url('<front>', $url_options);
   $replacements['[personal:subject]'] = $data['form_fields']['subject'];
   $replacements['[personal:body]'] = $data['form_fields']['body'];
