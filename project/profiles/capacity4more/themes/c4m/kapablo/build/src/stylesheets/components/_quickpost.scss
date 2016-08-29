@@ -1,6 +1,7 @@
 .pane-quick-form {
   @include grain_dark;
   padding: 15px;
+  color: white;
 }
 
 .btn-group-discussion_type {
@@ -8,6 +9,7 @@
 
   .discussion_type {
     margin: 0 20px;
+    color: white;
     background: transparent;
   }
 
