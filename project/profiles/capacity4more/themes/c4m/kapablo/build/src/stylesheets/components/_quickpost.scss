@@ -13,6 +13,14 @@
     border: 1px solid white;
     border-radius: 1px !important;
     background: transparent;
+
+    &:first-of-type {
+      margin-left: 0;
+    }
+
+    &:last-of-type {
+      margin-right: 0;
+    }
   }
 
   button[value="idea"] {
