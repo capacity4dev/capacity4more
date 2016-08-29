@@ -357,7 +357,6 @@ function c4m_content_project_get_node_template($type) {
   return FALSE;
 }
 
-
 /**
  * Page callback for node autocomplete.
  *
