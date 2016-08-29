@@ -684,6 +684,7 @@ function get_first_root_item(&$items) {
  */
 function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) {
   $arrays_tree = array();
+
   while (!empty($items)) {
     $root = get_first_root_item($items);
     $children = get_common_parent_items($items, $root->tid);
@@ -728,7 +729,7 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
     // If it's the last item on the local tree, it's the parent. We need
     // to distinguish between the parent and its children because the
     // parent needs to get a different style.
-    $root = array_pop($local_tree);
+    $root = array_shift($local_tree);
 
     // Use the taxonomy tree theme to style the local tree.
     $variables = array(
@@ -738,46 +739,6 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
     );
     $tree .= theme('c4m_taxonomy_tree', $variables);
   }
-
-/*  // Loop through all the taxonomy items and add them to the tree.
-  foreach ($items as $item) {
-    $local_tree = array();
-    // Get the items taxonomy tree (include the item itself).
-    $taxonomy_tree = taxonomy_get_parents_all($item['tid']);
-
-    // For every item, build his parents tree, if he has any.
-    foreach ($taxonomy_tree as $index => $taxonomy) {
-
-      // If the link term was not provided, or it isn't the proper
-      // one for the current vocabulary, create a default link to
-      // the taxonomy term.
-      if (empty($link_term_to_facet['vocabulary_name']) || $taxonomy->vocabulary_machine_name != $link_term_to_facet['vocabulary_name']) {
-        $link = l($taxonomy->name, "/taxonomy/term/" . $taxonomy->tid);
-      }
-      else {
-        $options['query'] = array(
-          'f[0]' => $link_term_to_facet['vocabulary_name'] . ':' . $taxonomy->tid,
-        );
-
-        $link = l($taxonomy->name, 'groups', $options);
-      }
-
-      $local_tree[] = $link;
-    }
-
-    // If it's the last item on the local tree, it's the parent. We need
-    // to distinguish between the parent and its children because the
-    // parent needs to get a different style.
-    $root = array_pop($local_tree);
-
-    // Use the taxonomy tree theme to style the local tree.
-    $variables = array(
-      'root' => $root,
-      // Join the local_tree array to a string.
-      'local_tree' => implode(', ', $local_tree),
-    );
-    $tree .= theme('c4m_taxonomy_tree', $variables);
-  }*/
 
   $tag['element'] = array(
     '#tag'   => 'div',
