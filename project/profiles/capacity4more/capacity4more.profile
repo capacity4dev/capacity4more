@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * The capacity4more profile.
@@ -89,6 +90,7 @@ function capacity4more_setup_set_variables(&$install_state) {
     'jquery_update_jquery_admin_version' => '2.1',
     'page_manager_node_view_disabled' => FALSE,
     'page_manager_term_view_disabled' => FALSE,
+    'jquery_update_jquery_migrate_enable' => TRUE,
 
     // RESTful.
     'restful_file_upload' => TRUE,
@@ -118,6 +120,19 @@ function capacity4more_setup_set_permissions(&$install_state) {
     'create new books',
     'add content to books',
   );
+
+  $content_types = array(
+    'discussion',
+    'document',
+    'event',
+    'photo',
+    'photoalbum',
+  );
+
+  foreach ($content_types as $content_type) {
+    $permissions[] = "create $content_type content";
+  }
+
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 }
 

@@ -47,7 +47,7 @@ function c4m_content_group_ctools_plugin_directory($module, $plugin_type) {
  * Implements hook_block_info().
  */
 function c4m_content_group_block_info() {
-  $blocks['header_name_banner'] = array(
+  $blocks['header_name_banner_group'] = array(
     'info' => t('Group header'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
@@ -146,10 +146,6 @@ function c4m_content_group_node_update($node) {
 
   $key = NULL;
   switch ($status_new) {
-    case 'rejected':
-      $key = 'group_rejected_user';
-      break;
-
     case 'draft':
     case 'published':
       $key = 'group_approved_user';
@@ -296,6 +292,11 @@ function c4m_content_group_form_group_node_form_alter(&$form, &$form_state) {
     $form['revision_information']['#access'] = FALSE;
     // After a form is submitted, run a redirect function.
     $form['actions']['submit']['#submit'][] = 'c4m_content_group_submit_redirect';
+  }
+
+  // Checks if the node is being created.
+  if (is_null($form['nid']['#value'])) {
+    $form['c4m_og_status']['#access'] = FALSE;
   }
 }
 
@@ -466,7 +467,7 @@ function c4m_content_group_node_access_records($node) {
   $realm_grants = array();
 
   switch ($wrapper->c4m_og_status->value()) {
-    case 'requested':
+    case 'pending':
       $realm_grants = array(
         C4M_CONTENT_GROUP_ACCESS_REALM_ALL => array(
           array(
@@ -587,21 +588,6 @@ function c4m_content_group_node_access_records($node) {
       }
       break;
 
-    case 'rejected':
-      $realm_grants = array(
-        C4M_CONTENT_GROUP_ACCESS_REALM_ALL => array(
-          array(
-            'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_REJECTED,
-            'grant_update' => 0,
-          ),
-          array(
-            'gid' => C4M_CONTENT_GROUP_STATUS_UPDATE_REJECTED,
-            'grant_update' => 1,
-          ),
-        ),
-      );
-      break;
-
     case 'deleted':
       $realm_grants = array(
         C4M_CONTENT_GROUP_ACCESS_REALM . '_' . $node->nid => array(
@@ -717,12 +703,13 @@ function c4m_content_group_c4m_content_statistics_info() {
         'singular'    => 'Group',
         'plural'      => 'Groups',
         'state'       => 1,
+        'c4m_status'  => array('published', 'archived'),
         'aggregate'   => array(),
         'weight'      => -4,
         'attributes'  => array(
           'class' => array('groups'),
         ),
-        'link' => array(
+        'link'        => array(
           'path' => 'groups',
         ),
       ),
