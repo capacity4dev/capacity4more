@@ -21,24 +21,19 @@ function c4m_og_invite_users_menu_alter(&$items) {
  * Membership requests setting (Open/Moderated).
  */
 function c4m_og_invite_users_access($group_type, $gid) {
-  if (_og_invite_access($group_type, $gid)) {
-
-    if (user_access('administer site')) {
-      return TRUE;
-    }
-
-    if (og_user_access($group_type, $gid, 'administrator member')) {
-      return TRUE;
-    }
-
-    // Get request type (open/moderated).
-    $group = entity_load_single($group_type, $gid);
-    $group_request_membership_value = c4m_og_get_group_membership_request($group);
-
-    return $group_request_membership_value == 'open' && og_user_access($group_type, $gid, 'member');
+  if (!_og_invite_access($group_type, $gid)) {
+    return FALSE;
   }
 
-  return FALSE;
+  if (_c4m_features_og_members_is_power_user()) {
+    return TRUE;
+  }
+
+  // Get request type (open/moderated).
+  $group = entity_load_single($group_type, $gid);
+  $group_request_membership_value = c4m_og_get_group_membership_request($group);
+
+  return $group_request_membership_value == 'open' && og_user_access($group_type, $gid, 'member');
 }
 
 /**
@@ -87,7 +82,7 @@ function c4m_og_invite_users_mail_tokens(array &$replacements, array $data, $opt
   // Make the full name lowercase and replace anything except a-z, 1-9  with
   // dashes, to create the profile URL.
   $inviter_profile = strtolower(trim($replacements['[user:member]']));
-  $inviter_profile = preg_replace('@[^a-z0-9-]+@', '-', $inviter_profile);
+  $inviter_profile = c4m_og_human_to_machine_readable($inviter_profile);
   $inviter_profile = $base_url . '/users/' . $inviter_profile;
   $replacements['[user:public-profile-url]'] = $inviter_profile;
 

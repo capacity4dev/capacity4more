@@ -64,9 +64,8 @@ function c4m_og_invite_visitors_user_access($perm, $group_type, $gid) {
   if ($access_type['type'] == 'private' || $membership_request_value == 'moderated') {
     return FALSE;
   }
-  else {
-    return og_is_member($group->type, $group->nid, 'user', $user);
-  }
+
+  return og_is_member($group->type, $group->nid, 'user', $user);
 }
 
 /**
@@ -93,8 +92,15 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group_type
   list(, , $bundle) = entity_extract_ids($group_type, $group);
   $og_roles = array('') + og_roles($group_type, $bundle, $gid, FALSE, FALSE);
 
-  $form['group_type'] = array('#type' => 'value', '#value' => $group_type);
-  $form['gid'] = array('#type' => 'value', '#value' => $gid);
+  $form['group_type'] = array(
+    '#type' => 'value',
+    '#value' => $group_type
+  );
+
+  $form['gid'] = array(
+    '#type' => 'value',
+    '#value' => $gid
+  );
 
   $form['c4m_og_invite_visitors'] = array(
     '#type' => 'fieldset',
@@ -131,25 +137,16 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group_type
     '#description' => t('Add a personal message to the invitation email.'),
   );
 
+  // Get the name of the group-audience type field = The name of the field
+  // holding the group ID the OG membership is associated with.
   $field_names = og_get_group_audience_fields('user', 'user', $group_type);
-  $field_name = !empty($form_state['values']['field_name']) ? $form_state['values']['field_name'] : key($field_names);
+  $field_name = key($field_names);
 
-  if (count($field_names) > 1) {
-    $form['c4m_og_invite_visitors']['field_name'] = array(
-      '#type' => 'select',
-      '#title' => t('Field name'),
-      '#options' => $field_names,
-      '#default_value' => $field_name,
-      '#description' => t('Select the field name, the group membership should be registered in.'),
-    );
-  }
-  else {
-    // There is only a single field name, so just pass it as a value.
-    $form['c4m_og_invite_visitors']['field_name'] = array(
-      '#type' => 'value',
-      '#value' => $field_name,
-    );
-  }
+  // There is only a single field name, so just pass it as a value.
+  $form['c4m_og_invite_visitors']['field_name'] = array(
+    '#type' => 'value',
+    '#value' => $field_name,
+  );
 
   $form_state['field_name'] = $field_name;
 
@@ -164,8 +161,12 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group_type
 
 /**
  * Validation handler for _c4m_og_invite_visitors_new_users_form.
+ *
+ * Check the list of emails to invite and filter out invalid entries. File an
+ * error for the filtered addresses (if any).
  */
 function _c4m_og_invite_visitors_new_users_form_validate($form, &$form_state) {
+  // Split the list of email addresses by comma, newline or white space.
   $invitee_emails = preg_split('/\s*[,\n]\s*/', $form_state['values']['invitee']);
   $form_state['invitee_emails'] = array();
 
@@ -181,6 +182,9 @@ function _c4m_og_invite_visitors_new_users_form_validate($form, &$form_state) {
 
 /**
  * Submit handler for _c4m_og_invite_visitors_new_users_form.
+ *
+ * Creates a new user for each invited visitor. Creates an OG membership and
+ * adds the user to the group.
  */
 function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
   $group_type = $form_state['values']['group_type'];
@@ -215,9 +219,8 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
 
     // Check if user is already assigned to the group.
     // Any "state" (active, pending,... counts as existing).
-    if ($had_account && og_is_member($group_type, $gid, $entity_type, $account, array())) {
+    if ($had_account && $og_membership = og_get_membership($group_type, $gid, $entity_type, $account->uid)) {
       // Load OG membership.
-      $og_membership = og_get_membership($group_type, $gid, $entity_type, $account->uid);
       $message = t('%user is already a member of this group.', array('%user' => format_username($account)));
     }
     else {
@@ -281,14 +284,14 @@ function _c4m_og_invite_visitors_mail_text($key, $language = NULL, $variables = 
   $text = variable_get($key, FALSE);
 
   if ($replace) {
-    // We do not sanitize the token replacement, since the output of this
-    // replacement is intended for an e-mail message, not a web browser.
+    // We do not sanitize the token replacement since we do not output the
+    // result to the browser.
     return token_replace($text, $variables, array(
-      'language' => $language,
-      'callback' => 'c4m_og_invite_visitors_mail_tokens',
-      'sanitize' => FALSE,
-      'clear' => TRUE,
-    )
+        'language' => $language,
+        'callback' => 'c4m_og_invite_visitors_mail_tokens',
+        'sanitize' => FALSE,
+        'clear' => TRUE,
+      )
     );
   }
 
@@ -316,9 +319,7 @@ function _c4m_og_invite_visitors_mail_text($key, $language = NULL, $variables = 
  */
 function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
   global $user, $base_url;
-  if (empty($data['user'])) {
-    return;
-  }
+
   $group = c4m_og_current_group();
   $url_options = array(
     'absolute' => TRUE,
@@ -329,7 +330,7 @@ function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
   );
 
   $replacements['[user:full_name]'] = c4m_user_name($user);
-  $replacements['[user:public-profile-url]'] = $base_url . '/users/' . preg_replace('@[^a-z0-9-]+@', '-', strtolower(trim($replacements['[user:full_name]'])));
+  $replacements['[user:public-profile-url]'] = $base_url . '/users/' . c4m_og_human_to_machine_readable($replacements['[user:full_name]']);
   $replacements['[group:node_type]'] = $group->type;
   $replacements['[group:node_title]'] = $group->title;
   $replacements['[group:accept_invite_url]'] = user_pass_reset_url($data['user']);
@@ -378,8 +379,8 @@ function _c4m_og_invite_visitors_create_user($invitee_email, $form_fields) {
     'name' => $name,
     'mail' => $invitee_email,
     'pass' => $password,
-    'status' => 1,
     'init' => 'email address',
+    'status' => 1,
     'roles' => array(
       DRUPAL_AUTHENTICATED_RID => 'authenticated user',
     ),
@@ -389,7 +390,10 @@ function _c4m_og_invite_visitors_create_user($invitee_email, $form_fields) {
   $account = user_save('', $fields);
 
   // Send the e-mail through the user module.
-  drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, array('account' => $account, 'form_fields' => $form_fields), variable_get('site_mail', NULL));
+  drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, array(
+    'account' => $account,
+    'form_fields' => $form_fields
+  ), variable_get('site_mail', NULL));
 
   return $account;
 }
