@@ -484,29 +484,22 @@ function c4m_content_form_node_delete_confirm_alter(&$form, &$form_state) {
 
   if ($comments) {
     // Handle sentence plural when multiple comments.
-    $text = t('comment');
-    $them = t('it');
-    if ($comments > 1) {
-      $text = t('comments');
-      $them = t('them');
-    }
+    $text = $comments > 1 ? t('comments') : t('comment');
 
     $replacements = array(
       '@comment_count' => $comments,
       '@comment_text' => $text,
-      '@them' => $them,
-      '!link' => l(t('edit it'), 'node/' . $node->nid . '/edit'),
     );
 
     $form['message'] = array(
       '#type' => 'markup',
-      '#markup' => '<p>' . t('This content has @comment_count @comment_text, are you sure you want to delete @them? You can also opt to anonymize this content, or !link.', $replacements) . '</p>',
+      '#markup' => '<p>' . t('This content has @comment_count @comment_text - by deleting this post, you will also delete the @comment_text. If you would rather preserve this content, please select the check box below to remove your name and editorial rights; the author will become anonymous, and all content will be preserved.', $replacements) . '</p>',
       '#weight' => -10,
     );
 
     $form['anonymize'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Anonymize'),
+      '#title' => t('Update the author to anonymous'),
     );
 
     // We override the default submit and we invoke it if necessary.
