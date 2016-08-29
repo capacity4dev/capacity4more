@@ -292,14 +292,18 @@ function c4m_og_purl_field_formatter_view($entity_type, $entity, $field, $instan
  * Under OG context, remove PURL from author link.
  */
 function c4m_og_purl_form_comment_form_alter(&$form, &$form_state, $comment) {
+  global $user;
+
   if (!$context = og_context()) {
     return;
   }
 
-  $group = node_load($context['gid']);
-  $purl = '/' . $group->purl;
-  $markup = $form['author']['_author']['#markup'];
-  $form['author']['_author']['#markup'] = str_replace($purl, '', $markup);
+  $options = array('purl' => array('disabled' => TRUE));
+  $variables = array(
+    'account' => $user,
+    'link_options' => $options,
+  );
+  $form['author']['_author']['#markup'] = theme('username', $variables);
 }
 
 /**
