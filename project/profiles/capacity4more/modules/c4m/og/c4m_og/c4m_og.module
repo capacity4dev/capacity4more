@@ -194,28 +194,33 @@ function c4m_og_replace_owner_build_form($form, $form_state, $entity_type, $etid
     $admins[$admin->uid] = c4m_user_name($admin);
   }
 
-  $form['new_owner'] = array(
-    '#type' => 'select',
-    '#required' => TRUE,
-    '#options' => $admins,
-    '#title' => t('Select new owner'),
-    '#description' => t('Select the name of the member you wish to be the new owner.'),
-  );
+  if (!empty($admins)) {
+    $form['new_owner'] = array(
+      '#type' => 'select',
+      '#required' => TRUE,
+      '#options' => $admins,
+      '#title' => t('Select new owner'),
+      '#description' => t('Select the name of the group admin you wish to be the new owner.'),
+    );
 
-  $form['group'] = array(
-    '#type' => 'value',
-    '#value' => $etid,
-  );
+    $form['group'] = array(
+      '#type' => 'value',
+      '#value' => $etid,
+    );
 
-  $form['type'] = array(
-    '#type' => 'value',
-    '#value' => $entity_type,
-  );
+    $form['type'] = array(
+      '#type' => 'value',
+      '#value' => $entity_type,
+    );
 
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Replace'),
-  );
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Replace'),
+    );
+  }
+  else {
+    drupal_set_message(t('The group does not have any site admin to be the new owner.'));
+  }
 
   return $form;
 }

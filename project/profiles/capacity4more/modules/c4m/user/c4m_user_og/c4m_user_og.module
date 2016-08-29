@@ -776,7 +776,7 @@ function c4m_user_og_unsubscription_custom_callback($group_type, $gid) {
 
   $group = node_load($gid);
   $url = entity_uri($group_type, $group);
-  drupal_goto($url['path'], $url['options']);
+  drupal_goto($url['path']);
 }
 
 /**
