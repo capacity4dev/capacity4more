@@ -93,6 +93,81 @@
   text-transform: uppercase;
 }
 
+// ========================================================================== //
+// Event Form
+// ========================================================================== //
+.node-form {
+  .control-label {
+    clear: both;
+    display: block;
+  }
+
+  .form-control:not(textarea) {
+    color: $color-gray-dark;
+    font-style: italic;
+    background-color: #EBEAE4;
+    border: 0;
+    border-radius: 20px;
+
+    &:focus {
+      box-shadow: 0 0 8px rgba(0, 0, 0, .6);
+    }
+  }
+
+  .document_file {
+    display: none;
+  }
+
+  .hidden-input {
+    display: none;
+  }
+
+  .cfm-file-upload-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cfm-file-upload {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial;
+    color: white;
+    border-radius: 90px;
+    background-color: $color-text-alternative;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $color-link;
+    }
+
+    a {
+      color: $color-white;
+    }
+  }
+
+  .cfm-file-upload__title {
+    margin: 10px 0 0;
+    text-transform: uppercase;
+  }
+
+  .cfm-file-upload__hand {
+    font-size: 26px;
+  }
+
+  // Specific radio buttons margin reset for the event form
+  .form-item-c4m-event-type-und {
+
+    .form-type-radio {
+      margin: 0;
+    }
+  }
+}
+
 #views-form-c4m-overview-og-members-page {
 
   .vbo-fieldset-select-all {
