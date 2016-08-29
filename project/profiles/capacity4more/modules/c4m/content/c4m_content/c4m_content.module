@@ -641,6 +641,36 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
   return l($star, $url, $options);
 }
 
+function get_common_parent_items(&$items, $parent_id = NULL) {
+  $result = array();
+  $remaining = array();
+
+  foreach ($items as $item) {
+    $parent = taxonomy_get_parents($item['tid']);
+    if (!empty($parent) &&  key($parent) == $parent_id) {
+      $result[] = $item['taxonomy_term'];
+    }
+    else {
+      $remaining[] = $item;
+    }
+  }
+
+  $items = $remaining;
+  return $result;
+}
+
+function get_first_root_item(&$items) {
+  foreach ($items as $key => $item) {
+    $parent = taxonomy_get_parents($item['tid']);
+    if (empty($parent)) {
+      unset($items[$key]);
+      return $item['taxonomy_term'];
+    }
+  }
+
+  return FALSE;
+}
+
 /**
  * Build a tree of a hierarchical taxonomy and theme it.
  *
@@ -654,7 +684,7 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
  */
 function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) {
   // Filter all items that are not leafs at the tree.
-  $filtered_items = $items;
+/*  $filtered_items = $items;
   foreach($items as $item) {
     $parent = taxonomy_get_parents($item['tid']);
     if (!empty($parent)) {
@@ -666,7 +696,27 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
         }
       }
     }
+  }*/
+
+ // get_common_parent_items($items, 329);
+/*  dpm($items);
+  dpm(get_first_root_item($items));
+  dpm($items);*/
+
+  $tree = array();
+  while (!empty($items)) {
+    $root = get_first_root_item($items);
+    $children = get_common_parent_items($items, $root->tid);
+    $tree[] = array_merge(array($root), $children);
+
+    foreach($children as $child) {
+      $children = get_common_parent_items($items, $child->tid);
+      $tree[] = array_merge(array($child), $children);
+    }
+    dpm($items);
   }
+
+  dpm($tree);
 
   $options = array(
     'absolute' => TRUE,
@@ -675,7 +725,7 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
   $tree = '';
 
   // Loop through all the taxonomy items and add them to the tree.
-  foreach ($filtered_items as $item) {
+  foreach ($items as $item) {
     $local_tree = array();
 
     // Get the items taxonomy tree (include the item itself).
