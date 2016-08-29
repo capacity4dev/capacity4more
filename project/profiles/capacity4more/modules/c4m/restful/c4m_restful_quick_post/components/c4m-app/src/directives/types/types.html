@@ -1,3 +1,3 @@
-<div class="form-group btn-group btn-group-{{field}}">
+<div class="form-group btn-group-{{field}}">
   <button type="button" ng-value="value.id" ng-class="{active: value.id==type}" ng-model="type" ng-required="!discussionType" ng-click="updateType(value.id, field)" class="btn btn-default {{field}} col-xs-12 col-lg-{{cols}}" ng-repeat="value in allowedValues"><i class="fa"> {{ value.label }}</button>
 </div>
