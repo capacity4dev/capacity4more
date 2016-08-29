@@ -970,8 +970,6 @@ function c4m_content_group_toggle_notification($group, $ajax = 'nojs') {
     // Return a Drupal message if js in disabled or not found.
     drupal_set_message(t('Change the promote value.'));
     drupal_goto();
-
-    return;
   }
 
   $group = c4m_og_current_group();
@@ -981,7 +979,7 @@ function c4m_content_group_toggle_notification($group, $ajax = 'nojs') {
   $link = c4m_content_group_create_toggle_notification_link($user, $group);
 
   // Use AJAX commands to replace link on the page.
-  $commands[] = ajax_command_replace('#group-notifications', $link);
+  $commands[] = ajax_command_replace('#toggle-group-notifications', $link);
   $page = array('#type' => 'ajax', '#commands' => $commands);
   ajax_deliver($page);
 }
@@ -1016,7 +1014,7 @@ function c4m_content_group_create_toggle_notification_link($account, $group) {
     '#tag' => 'div',
     '#value' => $message_text . '  (' . $link . ')',
     '#attributes' => array(
-      'id' => 'group-notifications',
+      'id' => 'toggle-group-notifications',
     ),
   );
 
