@@ -71,7 +71,7 @@ function c4m_content_photoalbum_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -99,6 +99,11 @@ function c4m_content_photoalbum_ds_field_settings_info() {
         'ft' => array(
           'func' => 'theme_ds_field_reset',
         ),
+      ),
+    ),
+    'c4m_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
       ),
     ),
   );
@@ -140,6 +145,11 @@ function c4m_content_photoalbum_ds_field_settings_info() {
         'ft' => array(
           'func' => 'theme_ds_field_reset',
         ),
+      ),
+    ),
+    'c4m_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
       ),
     ),
   );
@@ -610,15 +620,17 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
         1 => 'c4m_ds_photoalbum_cover_image',
       ),
       'right' => array(
-        2 => 'c4m_ds_content_footer_stats',
-        3 => 'c4m_body',
+        2 => 'c4m_body',
+      ),
+      'footer' => array(
+        3 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'c4m_field_og_group' => 'header',
       'c4m_ds_photoalbum_cover_image' => 'left',
-      'c4m_ds_content_footer_stats' => 'right',
       'c4m_body' => 'right',
+      'c4m_ds_content_footer_stats' => 'footer',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -645,20 +657,20 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
   $ds_layout->layout = 'c4m_ds_4_8_fluid_stacked';
   $ds_layout->settings = array(
     'regions' => array(
-      'footer' => array(
-        2 => 'c4m_ds_content_footer_stats',
-      ),
       'left' => array(
         0 => 'c4m_ds_photoalbum_cover_image',
       ),
+      'footer' => array(
+        1 => 'c4m_ds_content_footer_stats',
+      ),
       'right' => array(
-        1 => 'c4m_body',
+        2 => 'c4m_body',
       ),
     ),
     'fields' => array(
       'c4m_ds_photoalbum_cover_image' => 'left',
-      'c4m_body' => 'right',
       'c4m_ds_content_footer_stats' => 'footer',
+      'c4m_body' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
