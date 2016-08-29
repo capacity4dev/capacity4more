@@ -22,6 +22,17 @@
     &:last-of-type {
       margin-right: 0;
     }
+
+    &.active {
+      color: $color-white;
+      background: rgba($color-white, 0.3);
+    }
+
+    &:hover,
+    &:active {
+      color: $color-white;
+      background: rgba($color-white, 0.1);
+    }
   }
 
   button[value="idea"] {
