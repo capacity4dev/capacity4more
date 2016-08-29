@@ -3,6 +3,11 @@
 }
 
 .btn-group-discussion_type {
+
+  .discussion_type {
+    background: transparent;
+  }
+
   button[value="idea"] {
     .fa:before {
       content: "\f0eb";
