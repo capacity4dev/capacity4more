@@ -140,6 +140,25 @@ function c4m_content_share_fields_info($bundle = NULL) {
 }
 
 /**
+ * Implements hook_ds_fields_info().
+ */
+function c4m_content_share_ds_fields_info($entity_type) {
+  $fields = array();
+
+  $path = drupal_get_path('module', 'c4m_content_share') . '/includes';
+
+  $fields['node']['c4m_content_share_original_group'] = array(
+    'title' => t('Original group'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('share|*'),
+    'file' => $path . '/c4m_content_share.theme.inc',
+    'function' => 'theme_c4m_content_share_original_group',
+  );
+
+  return $fields;
+}
+
+/**
  * Implements hook_node_view().
  */
 function c4m_content_share_node_view($node, $view_mode, $langcode) {

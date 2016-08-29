@@ -7,7 +7,7 @@ ul.statistics-list {
   flex-direction: row;
   flex-wrap: wrap;
 
-  @media (min-width: $screen-tablet) {
+  @media (min-width: $screen-desktop) {
     display: flex;
 
     width: 100%;
@@ -20,6 +20,11 @@ ul.statistics-list {
   li {
     display: inline-block;
     width: calc(100% / 2);
+
+    @media (min-width: $screen-tablet) {
+      width: auto;
+    }
+
     padding: 20px 40px;
 
     color: $color-gray-dark;
