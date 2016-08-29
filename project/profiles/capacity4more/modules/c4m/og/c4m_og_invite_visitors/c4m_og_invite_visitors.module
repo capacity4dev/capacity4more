@@ -94,12 +94,12 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group_type
 
   $form['group_type'] = array(
     '#type' => 'value',
-    '#value' => $group_type
+    '#value' => $group_type,
   );
 
   $form['gid'] = array(
     '#type' => 'value',
-    '#value' => $gid
+    '#value' => $gid,
   );
 
   $form['c4m_og_invite_visitors'] = array(
@@ -287,11 +287,11 @@ function _c4m_og_invite_visitors_mail_text($key, $language = NULL, $variables = 
     // We do not sanitize the token replacement since we do not output the
     // result to the browser.
     return token_replace($text, $variables, array(
-        'language' => $language,
-        'callback' => 'c4m_og_invite_visitors_mail_tokens',
-        'sanitize' => FALSE,
-        'clear' => TRUE,
-      )
+      'language' => $language,
+      'callback' => 'c4m_og_invite_visitors_mail_tokens',
+      'sanitize' => FALSE,
+      'clear' => TRUE,
+    )
     );
   }
 
