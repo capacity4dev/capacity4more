@@ -234,7 +234,7 @@
 
 <div class="input-wrapper">
   <label><?php print t('Attachment') ?></label>
-  <input type="file" ng-model="data.attachment" class="form-control"/>
+  <input type="file" ng-model="data.attachment" ngf-select="onFileSelect([$file], 'document')" class="form-control"/>
 </div>
 
 <div class="actions row">
