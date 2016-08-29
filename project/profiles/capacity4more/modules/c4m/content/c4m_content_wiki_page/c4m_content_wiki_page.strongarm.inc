@@ -166,6 +166,12 @@ function c4m_content_wiki_page_strongarm() {
       'block_list' => array(
         'custom_settings' => TRUE,
       ),
+      'pinned_content' => array(
+        'custom_settings' => TRUE,
+      ),
+      'group_dashboard' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -207,6 +213,10 @@ function c4m_content_wiki_page_strongarm() {
           ),
           'block_list' => array(
             'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'pinned_content' => array(
+            'weight' => '33',
             'visible' => FALSE,
           ),
         ),
