@@ -131,7 +131,8 @@ function c4m_content_project_form_project_node_form_alter(&$form, &$form_state) 
 
   $form['c4m_project_type']['#access'] = FALSE;
 
-  // Checks if the node is being created.
+  // There's no node ID at form => form is for new project creation.
+  // Hide status field, for it to get default value of Pending, once created.
   if (is_null($form['nid']['#value'])) {
     $form['c4m_og_status']['#access'] = FALSE;
   }

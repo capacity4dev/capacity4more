@@ -114,6 +114,9 @@ function c4m_field_og_field_access($op, $field, $entity_type, $entity, $account)
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
+ * Sets predefined status flow for the group.
+ * Hides certain status values at form, according to users access rights.
  */
 function c4m_field_og_form_group_node_form_alter(&$form, &$form_state, $form_id) {
   _c4m_field_og_set_status_flow($form, $form_state, 'group');
@@ -121,6 +124,9 @@ function c4m_field_og_form_group_node_form_alter(&$form, &$form_state, $form_id)
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
+ * Sets predefined status flow for the project.
+ * Hides certain status values at form, according to users access rights.
  */
 function c4m_field_og_form_project_node_form_alter(&$form, &$form_state, $form_id) {
   _c4m_field_og_set_status_flow($form, $form_state, 'project');
