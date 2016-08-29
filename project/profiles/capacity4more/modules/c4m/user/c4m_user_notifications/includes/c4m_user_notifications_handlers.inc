@@ -21,12 +21,13 @@ function c4m_user_notifications_moderated_group_new_membership_request($entity) 
  * Email notification to user about acceptance to group (moderated and open).
  */
 function c4m_user_notifications_notify_user_membership_accepted($membership) {
-  // Send activation message to member.
   $message = message_create('c4m_welcome_to_group', array('uid' => $membership->etid));
-  c4m_message_load__c4m_welcome_to_group($message);
+  // Define functions with which to resolve email template tokens.
+  c4m_message_load_tokens__c4m_welcome_to_group($message);
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($membership->gid);
+
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -70,37 +71,42 @@ function c4m_user_notifications_group_status_set_published($node) {
 /**
  * Email notification about organic group status change to 'republished'.
  */
-function c4m_user_notifications_group_status_set_republished($node) {
+function c4m_user_notifications_group_status_set_republished($node, $group_former_status) {
 }
 
 /**
  * Email notification about organic group status change to 'unpublished'.
  */
-function c4m_user_notifications_group_status_set_unpublished($node) {
+function c4m_user_notifications_group_status_set_unpublished($node, $group_former_status) {
 }
 
 /**
  * Email notification about organic group status change to 'archived'.
  */
-function c4m_user_notifications_group_status_set_archived($node) {
+function c4m_user_notifications_group_status_set_archived($node, $group_former_status) {
 }
 
 /**
  * Email notification about organic group status change to 'softdelete'.
  */
-function c4m_user_notifications_group_status_set_softdeleted($node) {
+function c4m_user_notifications_group_status_set_softdeleted($node, $group_former_status) {
 }
 
 /**
- * Email notification about organic group deletion.
+ * Email notification to admins about organic group deletion.
+ *
+ * @param object $node
+ *   Node of type OG group.
+ * @param string $group_former_status
+ *   Status of OG group, before it was updated.
  */
-function c4m_user_notifications_group_hard_deleted($node) {
+function c4m_user_notifications_group_hard_deleted($node, $group_former_status) {
 }
 
 /**
  * Email notification about organic group access change.
  */
-function c4m_user_notifications_group_access_changed($node) {
+function c4m_user_notifications_group_permissions_changed($node, $permissions) {
 }
 
 /**
@@ -148,13 +154,13 @@ function c4m_user_notifications_notify_admins_admin_granted($gid, $uid) {
 /**
  * Email notification to user about user him being revoked admin status.
  */
-function c4m_user_notifications_notify_user_admin_revoked($gid, $uid) {
+function c4m_user_notifications_notify_user_admin_demoted($gid, $uid) {
 }
 
 /**
  * Email notification to group admins about user being revoked admin status.
  */
-function c4m_user_notifications_notify_admins_admin_revoked($gid, $uid) {
+function c4m_user_notifications_notify_admins_admin_demoted($gid, $uid) {
 }
 
 /**
@@ -170,15 +176,9 @@ function c4m_user_notifications_existing_node_updated($node) {
 }
 
 /**
- * Email notification to content author about recommendation on his content.
+ * Email notification to users 'subscribed' to content about new recommendation.
  */
-function c4m_user_notifications_notify_author_content_recommended($flag, $entity_id, $account, $flagging) {
-}
-
-/**
- * Email notification to subscribed editor about recommendation on content.
- */
-function c4m_user_notifications_notify_subscribed_editor_content_recommended($flag, $entity_id, $account, $flagging) {
+function c4m_user_notifications_content_recommended($flag, $entity_id, $account, $flagging) {
 }
 
 /**
@@ -234,4 +234,81 @@ function c4m_user_notifications_notify_inactive_users() {
  * Email notification to all commenters, about comment on group content.
  */
 function c4m_user_notifications_notify_comment_on_content($comment) {
+}
+
+/**
+ * Email notification to group requester, that group is waiting for review.
+ */
+function c4m_user_notifications_notify_new_group_pending($node) {
+}
+
+/**
+ * Email notification to site admins, about new group request.
+ */
+function c4m_user_notifications_notify_admins_group_requested($node) {
+}
+
+/**
+ * Helper function.
+ *
+ * Email notification to site admin, about new group request.
+ */
+function _c4m_user_notifications_notify_admin_group_requested($node, $admin_id) {
+}
+
+/**
+ * Returns an array of subscribers to notify.
+ *
+ * Function message_subscribe_get_subscribers() implementation, which is invoked
+ * by message_subscribe_send_message().
+ * Uses designated context, thus disabling message_subscribe_get_subscribers()
+ * of message_subscribe module.
+ * Returns an array of structure [uid => notifier].
+ *  uid - user that have flagged $entity_id, with $flag_name.
+ *  notifier - [email].
+ *
+ * @param object $message
+ *   The Message object.
+ * @param array $subscribe_options
+ *   The options array.
+ * @param array $context
+ *   Context array, that contains required parameters.
+ *
+ * @return array $uids
+ *   Array of users that flagged the entity:
+ *   $key - uid, $value - notifier type.
+ */
+function c4m_user_notifications_message_subscribe_get_subscribers($message, $subscribe_options, $context) {
+  // All entity types are nodes, besides 'term'.
+  $entity_type = $context['entity_type'];
+  $entity_id = $context['entity_id'];
+  $flag_name = 'subscribe_c4m_follow_' . $entity_type;
+  $flagged_entity_type = $entity_type == 'term' ? 'taxonomy_term' : 'node';
+
+  $users = flag_get_entity_flags($flagged_entity_type, $entity_id, $flag_name);
+  // Set filtered users to full list of $users - if no filtering required,
+  // this wil insure that noting gets filtered.
+  $filtered_users = array_keys($users);
+
+  // If we need to filter users according to additional flag.
+  if (isset($context['additional_flag_suffix'])) {
+    // Filtering.
+    $flag_name = 'subscribe_c4m_follow_' . $context['additional_flag_suffix'];
+    $filtered_users = flag_get_entity_flags($flagged_entity_type, $entity_id, $flag_name);
+    $filtered_users = array_intersect(array_keys($users), array_keys($filtered_users));
+  }
+
+  // Set notifiers to mail, for users that remain after filtering.
+  foreach ($users as $key => &$value) {
+    if (array_search($key, $filtered_users) !== FALSE) {
+      // If user is found at filtering array, keep it.
+      $value = array('notifiers' => array('email' => 'email'));
+    }
+    else {
+      // If not found, unset user from array.
+      unset($users[$key]);
+    }
+  }
+
+  return $users;
 }
