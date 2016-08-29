@@ -46,7 +46,6 @@
 }
 
 .offCanvasNavigation {
-  display: none;
   position: absolute;
   top: 0;
 
@@ -63,10 +62,6 @@
   -webkit-transition: all 0.5s;
 
   @include box-shadow(inset 20px -1px 48px -27px rgba(0,0,0,0.75));
-}
-
-.offCanvasNavigation--visible .offCanvasNavigation {
-  display: block;
 }
 
 .offCanvasNavigation--left {
