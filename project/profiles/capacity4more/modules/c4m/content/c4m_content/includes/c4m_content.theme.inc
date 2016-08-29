@@ -28,6 +28,7 @@ function theme_c4m_website_statistics_summary(array $variables) {
     // Same icon as in c4m_content_document_c4m_helper_entity_label_info().
     'document' => 'fa-file-o',
     'group' => 'fa-users',
+    'photo' => 'fa-picture-o',
     'project' => 'fa-flag-checkered',
     'posts' => 'fa-comments-o',
     'event' => 'fa-calendar',
@@ -41,7 +42,7 @@ function theme_c4m_website_statistics_summary(array $variables) {
     }
 
     // Format single/plural text.
-    $text = '<i class="fa ' . $icons_table[$key] . '"></i> ' . $stat['count'] . ' ' . format_plural(
+    $text = '<i class="fa ' . $icons_table[$key] . '"></i> ' . c4m_content_ec_number_format($stat['count']) . ' ' . format_plural(
         $stat['count'],
         $stat['title']['singular'],
         $stat['title']['plural']

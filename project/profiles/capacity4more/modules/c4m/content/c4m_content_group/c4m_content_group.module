@@ -47,7 +47,7 @@ function c4m_content_group_ctools_plugin_directory($module, $plugin_type) {
  * Implements hook_block_info().
  */
 function c4m_content_group_block_info() {
-  $blocks['header_name_banner'] = array(
+  $blocks['header_name_banner_group'] = array(
     'info' => t('Group header'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
@@ -703,12 +703,13 @@ function c4m_content_group_c4m_content_statistics_info() {
         'singular'    => 'Group',
         'plural'      => 'Groups',
         'state'       => 1,
+        'c4m_status'  => array('published', 'archived'),
         'aggregate'   => array(),
         'weight'      => -4,
         'attributes'  => array(
           'class' => array('groups'),
         ),
-        'link' => array(
+        'link'        => array(
           'path' => 'groups',
         ),
       ),
