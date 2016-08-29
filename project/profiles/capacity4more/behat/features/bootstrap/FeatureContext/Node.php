@@ -51,6 +51,29 @@ trait Node {
   }
 
   /**
+   * @When /^I start editing "([^"]*)" node$/
+   */
+  public function iStartEditingNode($title) {
+    $q = new \entityFieldQuery();
+    $q->entityCondition('entity_type', 'node');
+    $q->propertyCondition('title', $title);
+    $q->range(0, 1);
+
+    $result = $q->execute();
+
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+      );
+      throw new \Exception(format_string("Node with title '@title' not found.", $params));
+    }
+
+    $nid = key($result['node']);
+
+    return new Given("I go to \"node/$nid/edit\"");
+  }
+
+  /**
    * @Then /^I should not be allowed to create a "([^"]*)"$/
    */
   public function iShouldNotBeAllowedToCreateA($type) {
