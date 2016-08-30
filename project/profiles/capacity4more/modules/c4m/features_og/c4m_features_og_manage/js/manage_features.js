@@ -10,7 +10,6 @@
       $('.form-type-checkbox').each(function (i) {
         var $cell = $(this);
         var $checkbox = $(':checkbox', $cell);
-        $checkbox.hide();
         var $state = 'off';
         if ($checkbox.is(":checked")) {
           $state = 'on enabled';

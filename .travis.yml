@@ -64,11 +64,11 @@ install:
   # Install grunt & bower
   - $TRAVIS_BUILD_DIR/ci/bin/install_taskrunners.sh
 
+  # Install capacity4more profile.
+  - travis_wait 35 $TRAVIS_BUILD_DIR/ci/bin/install_drupal.sh
+
 before_script:
   - date
-
-  # Install capacity4more profile.
-  - $TRAVIS_BUILD_DIR/ci/bin/install_drupal.sh
 
   # Index content in Solr.
   - $TRAVIS_BUILD_DIR/ci/bin/index_drupal.sh
