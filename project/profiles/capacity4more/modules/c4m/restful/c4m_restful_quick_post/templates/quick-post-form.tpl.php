@@ -62,23 +62,21 @@ instead.</span>
     </span>
   </div>
   <div class="checkboxes-wrapper">
-    <div class="checkboxes-wrapper">
-      <div class="popup-button">
-        <button type="button" ng-click="togglePopover('topic', $event)" class="btn">
-          &nbsp;<?php print t('Select Topic'); ?></button>
-        <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
-      </div>
-      <div class="selected-values" ng-show="data.topic">
-      <span ng-if="value === true" ng-repeat="(key, value) in data.topic">
-        {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
-      </span>
-      </div>
-      <!-- Hidden topic checkboxes.-->
-      <div class="popover right hidden-checkboxes" ng-show="popups.topic">
-        <div class="arrow"></div>
-        <div class="popover-content">
-          <list-terms type="topic" popup="popups.topic" model="data.topic" items="topic"></list-terms>
-        </div>
+    <div class="popup-button">
+      <button type="button" ng-click="togglePopover('topic', $event)" class="btn">
+        &nbsp;<?php print t('Select Topic'); ?></button>
+      <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
+    </div>
+    <div class="selected-values" ng-show="data.topic">
+    <span ng-if="value === true" ng-repeat="(key, value) in data.topic">
+      {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
+    </span>
+    </div>
+    <!-- Hidden topic checkboxes.-->
+    <div class="popover right hidden-checkboxes" ng-show="popups.topic">
+      <div class="arrow"></div>
+      <div class="popover-content">
+        <list-terms type="topic" popup="popups.topic" model="data.topic" items="topic"></list-terms>
       </div>
     </div>
   </div>
