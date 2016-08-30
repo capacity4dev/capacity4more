@@ -38,11 +38,11 @@ function c4m_features_overview_projects_context_default_contexts() {
           'region' => 'content_above',
           'weight' => '-9',
         ),
-        'c4m_search_filter-search_filter' => array(
+        'c4m_search_filter-search_filter_interests' => array(
           'module' => 'c4m_search_filter',
-          'delta' => 'search_filter',
+          'delta' => 'search_filter_interests',
           'region' => 'content_above',
-          'weight' => '-8',
+          'weight' => '-7',
         ),
         'c4m_content_project-c4m_block_create_project' => array(
           'module' => 'c4m_content_project',

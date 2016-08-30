@@ -55,3 +55,11 @@
   $archive: zip, rar, rarx, gz, tar;
   @include looped_backgrounds($archive, '../images/icons/document-zip.svg');
 }
+
+.flag-c4m-og-content-recommend {
+  .flag-action {
+    .fa-thumbs-o-up {
+      color: $color-text;
+    }
+  }
+}

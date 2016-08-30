@@ -425,7 +425,6 @@
     }
 
     .field-name-c4m-content-group-statistics {
-
       margin-top: 25px;
 
       ul.statistics-list {
@@ -435,8 +434,8 @@
           border: none;
           margin-bottom: 15px;
           padding: 0;
-
           text-align: left;
+          width: calc(100% * (1/2) - 10px - 1px);
 
           a {
             margin-top: 0;
@@ -570,7 +569,7 @@
     margin-top: 0;
   }
 
-  @media (min-width: $screen-desktop) {
+  @media (min-width: $screen-tablet) {
     float: right;
     margin: 20px 0 40px;
   }
@@ -621,6 +620,7 @@
     display: table;
     width: 120px;
     margin-top: 6px;
+    min-height: 20px;
     border-radius: 4px;
     border: 1px solid $color-accent;
 
@@ -772,30 +772,27 @@
   }
 }
 
-.restricted-organisations {
-  padding-bottom: 15px;
+.restricted-organisations ul li {
+  margin-top: 15px;
 
-  ul li {
-    margin-top: 15px;
+  img {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    border: 1px solid $color-white;
+    border-radius: 4px;
 
-    img {
-      width: 25px;
-      height: 25px;
-      margin-right: 10px;
-      border: 1px solid $color-white;
-      border-radius: 4px;
-
-    }
   }
 }
 
-.restricted-emails {
-  border-top: 1px dashed $color-gray-light;
-  padding-top: 15px;
+.restricted-emails ul li {
+  margin-top: 10px;
+}
 
-  ul li {
-    margin-top: 10px;
-  }
+.restricted-organisations + .restricted-emails {
+  border-top: 1px dashed $color-gray-light;
+  margin-top: 15px;
+  padding-top: 15px;
 }
 
 .pane-c4m-overview-og-highlights .pane-title {
@@ -820,11 +817,11 @@
   margin-top: 10px;
 }
 
-.c4m-group-visitor-cta {
+.c4m-group-visitor-cta, .c4m-group-invite-cta {
   border-bottom: 1px dashed $color-gray-darkThree;
   color: $color-gray-darkThree;
-  margin: 10px 0;
-  padding: 10px 0;
+  margin: 0 0 10px 0;
+  padding: 0 0 10px 0;
   text-align: center;
 
   a.btn {
@@ -833,5 +830,11 @@
     margin: 10px 0;
     white-space: normal;
     width: 100%;
+  }
+}
+
+.c4m-group-invite-cta {
+  a.btn {
+    box-shadow: none;
   }
 }
