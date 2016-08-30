@@ -345,11 +345,12 @@ function c4m_og_control_membership($action, $gid, $account, $membership, $timest
   if ($membership->state == OG_STATE_PENDING) {
     $membership->state = $action == 'approve' ? OG_STATE_ACTIVE : OG_STATE_BLOCKED;
     og_membership_save($membership);
-    $message = $action == 'approve' ? t('Membership approved!') : t('Membership rejected!');
+    $message = $action == 'approve' ? t('Membership approved') : t('Membership rejected');
     drupal_set_message($message);
   }
   else {
-    drupal_set_message(t('Membership request already handled!'), 'warning');
+    $message = $membership->state == OG_STATE_ACTIVE ? t('This request was already approved') : t('This request was already rejected');
+    drupal_set_message($message, 'warning');
   }
 
   if ($action == 'approve') {
