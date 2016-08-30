@@ -1068,10 +1068,11 @@ function _c4m_content_group_toggle_group_notifications($account, $group) {
   else {
     // Flag.
     flag('flag', 'subscribe_c4m_follow_group', $group->nid);
-    // Unset optout field.
+
+    // If required, unset optout_group field.
     $wrapper = entity_metadata_wrapper('user', $account);
     $unsubscribed = $wrapper->c4m_optout_group->value(array('identifier' => TRUE));
-
+    // If group id is found at array of unsubscribed groups, unset it.
     if (($index = array_search($group->nid, $unsubscribed)) !== FALSE) {
       $wrapper->c4m_optout_group->offsetUnset($index);
       $wrapper->save();
