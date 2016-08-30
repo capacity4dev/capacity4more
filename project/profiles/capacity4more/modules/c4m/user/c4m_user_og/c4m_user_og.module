@@ -661,7 +661,7 @@ function c4m_user_og_c4m_join_cta($group) {
       '#theme' => 'c4m_group_text_cta',
       '#text' => t('Membership waiting approval'),
       '#icon' => 'fa-hourglass-end',
-      '#class' => 'c4m-wide-green-btn',
+      '#class' => 'c4m-wide-gothic-btn',
       '#span_class' => 'btn text-small',
     );
   }
@@ -719,7 +719,7 @@ function c4m_user_og_c4m_membership_cta($group) {
       '#theme' => 'c4m_group_text_cta',
       '#text' => t('Membership waiting approval'),
       '#icon' => 'fa-hourglass-end',
-      '#class' => 'c4m-wide-green-btn',
+      '#class' => 'c4m-wide-gothic-btn',
       '#span_class' => 'btn text-small',
     );
   }
