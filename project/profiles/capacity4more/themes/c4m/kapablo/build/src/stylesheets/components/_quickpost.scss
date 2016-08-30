@@ -14,6 +14,14 @@
     border-top: 1px dashed darken($color-white, 20%);
     border-bottom: 1px dashed darken($color-white, 20%);
   }
+
+  .popover-content {
+    color: black;
+
+    .popover-content-list {
+      padding: 0;
+    }
+  }
 }
 
 .btn-group-discussion_type {
