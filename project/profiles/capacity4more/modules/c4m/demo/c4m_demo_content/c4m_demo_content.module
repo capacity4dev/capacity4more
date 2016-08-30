@@ -25,6 +25,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateBanners',
     'C4mDemoContentCreateBookPages',
     'C4mDemoContentCreateProjects',
+    'C4mDemoContentCreateProgrammes',
     'C4mDemoContentCreateArticles',
     'C4mDemoContentCreateArticleComments',
     'C4mDemoContentCreateCategories',

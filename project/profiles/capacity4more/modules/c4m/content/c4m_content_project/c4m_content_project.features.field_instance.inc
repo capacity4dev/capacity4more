@@ -2412,6 +2412,62 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-project-c4m_is_template'.
+  $field_instances['node-project-c4m_is_template'] = array(
+    'bundle' => 'project',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 20,
+      ),
+      'group_dashboard' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_is_template',
+    'label' => 'Is template',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 0,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 20,
+    ),
+  );
+
   // Exported field_instance: 'node-project-group_group'.
   $field_instances['node-project-group_group'] = array(
     'bundle' => 'project',
@@ -2619,6 +2675,7 @@ function c4m_content_project_field_default_field_instances() {
   t('Group');
   t('Image');
   t('Implemented by');
+  t('Is template');
   t('Left column content');
   t('Names of organisations & companies who are the partners (stakeholders) of the Project.');
   t('Names of organisations & companies who fund the Project.');
