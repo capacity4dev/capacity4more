@@ -59,6 +59,13 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['fields']['path']['label'] = 'URL';
   $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['path']['absolute'] = TRUE;
+  /* Field: Content: Project type */
+  $handler->display->display_options['fields']['c4m_project_type']['id'] = 'c4m_project_type';
+  $handler->display->display_options['fields']['c4m_project_type']['table'] = 'field_data_c4m_project_type';
+  $handler->display->display_options['fields']['c4m_project_type']['field'] = 'c4m_project_type';
+  $handler->display->display_options['fields']['c4m_project_type']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_project_type']['alter']['text'] = '[c4m_project_type-value]';
+  $handler->display->display_options['fields']['c4m_project_type']['element_label_colon'] = FALSE;
   /* Field: Content: Status */
   $handler->display->display_options['fields']['c4m_og_status']['id'] = 'c4m_og_status';
   $handler->display->display_options['fields']['c4m_og_status']['table'] = 'field_data_c4m_og_status';
