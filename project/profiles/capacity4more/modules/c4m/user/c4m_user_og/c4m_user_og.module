@@ -554,80 +554,75 @@ function c4m_user_og_c4m_vistor_cta($group) {
  * Includes: manage group, pending membership requests and draft content.
  */
 function c4m_user_og_group_actions_cta($group) {
-  $access = c4m_og_get_access_type($group);
-  if ($access['type'] != 'public') {
-    return;
-  }
-
-  global $user;
-  if (!og_get_membership('node', $group->nid, 'user', $user->uid)) {
-    return;
-  }
-
   $items = array();
-  // CTAs for the group owner and administrators: Manage group and number or
-  // new membership requests.
-  if (_c4m_features_og_members_is_power_user($group, $user)) {
-    $items['manage'] = array(
-      '#theme' => 'c4m_group_text_cta',
-      '#icon' => 'fa-cog',
-      '#text' => l(t('Manage this group'), 'manage'),
+  $access = c4m_og_get_access_type($group);
+  global $user;
+
+  if ($access['type'] == 'public' && og_get_membership('node', $group->nid, 'user', $user->uid)) {
+    // CTAs for the group owner and administrators: Manage group and number or
+    // new membership requests.
+    if (_c4m_features_og_members_is_power_user($group, $user)) {
+      $items['manage'] = array(
+        '#theme' => 'c4m_group_text_cta',
+        '#icon' => 'fa-cog',
+        '#text' => l(t('Manage this group'), 'manage'),
+      );
+
+      if ($pending_requests = c4m_og_get_all_group_memberships_by_state(
+        $group->nid,
+        OG_STATE_PENDING
+      )
+      ) {
+        $pending_id = $group->nid . '_pending';
+
+        $link_text = format_plural(
+          count($pending_requests),
+          'There is <a href="@link">1 new membership</a> request',
+          'There are <a href="@link">@requests new membership</a> requests',
+          array(
+            '@link' => url(
+              'members',
+              array('query' => array('f[0]' => 'c4m_og_membership_type:' . $pending_id))
+            ),
+            '@requests' => count($pending_requests),
+          )
+        );
+
+        $items['memberships'] = array(
+          '#theme' => 'c4m_group_text_cta',
+          '#icon' => 'fa-user',
+          '#text' => $link_text,
+        );
+      }
+    }
+
+    // CTAs for members of the group: Amount of unpublished content.
+    $variables = array(
+      'bundles' => array(
+        'wiki_page',
+        'photoalbum',
+        'discussion',
+        'event',
+        'document',
+      ),
+      'state' => NODE_NOT_PUBLISHED,
+      'entity_type' => 'node',
+      'og_id' => $group->nid,
     );
 
-    if ($pending_requests = c4m_og_get_all_group_memberships_by_state(
-      $group->nid,
-      OG_STATE_PENDING
+    if ($unpublished_content = c4m_helper_entity_get_number_of_entities(
+      $variables
     )
     ) {
-      $pending_id = $group->nid . '_pending';
-
-      $link_text = format_plural(
-        count($pending_requests),
-        'There is <a href="@link">1 new membership</a> request',
-        'There are <a href="@link">@requests new membership</a> requests',
-        array(
-          '@link' => url(
-            'members',
-            array('query' => array('f[0]' => 'c4m_og_membership_type:' . $pending_id))
-          ),
-          '@requests' => count($pending_requests),
-        )
-      );
-
-      $items['memberships'] = array(
+      $items['new-content'] = array(
         '#theme' => 'c4m_group_text_cta',
-        '#icon' => 'fa-user',
-        '#text' => $link_text,
+        '#icon' => 'fa-exclamation-triangle',
+        '#text' => t(
+          'You have %count draft content items',
+          array('%count' => $unpublished_content)
+        ),
       );
     }
-  }
-
-  // CTAs for members of the group: Amount of unpublished content.
-  $variables = array(
-    'bundles' => array(
-      'wiki_page',
-      'photoalbum',
-      'discussion',
-      'event',
-      'document',
-    ),
-    'state' => NODE_NOT_PUBLISHED,
-    'entity_type' => 'node',
-    'og_id' => $group->nid,
-  );
-
-  if ($unpublished_content = c4m_helper_entity_get_number_of_entities(
-    $variables
-  )
-  ) {
-    $items['new-content'] = array(
-      '#theme' => 'c4m_group_text_cta',
-      '#icon' => 'fa-exclamation-triangle',
-      '#text' => t(
-        'You have %count draft content items',
-        array('%count' => $unpublished_content)
-      ),
-    );
   }
 
   // Help & guidance.
