@@ -25,12 +25,23 @@
 
   .quickpost-btn {
     width: 150px;
-    color: black;
+    color: $color-text-alternative;
     background-color: white;
   }
 
   .popup-btn {
     margin-top: 15px;
+  }
+
+  .actions-row {
+    display: flex;
+    margin-top: 15px;
+    justify-content: flex-end;
+    align-items: center;
+
+    .quickpost-btn {
+      margin-right: 15px;
+    }
   }
 
   .btn-group-discussion_type {

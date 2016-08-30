@@ -229,7 +229,7 @@ instead.</span>
 
   <div class="actions-row">
     <div class="qp-post-button">
-      <button type="submit" id="quick-submit" class="btn btn-primary quickpost-btn" tabindex="100"><?php print t('POST'); ?></button>
+      <button type="submit" id="quick-submit" class="btn btn-primary quickpost-btn quickpost-submit-btn" tabindex="100"><?php print t('Post'); ?></button>
     </div>
     <div class="qp-post-cancel">
       <a href="javascript://" id="clear-button" ng-click="resetEntityForm()"><?php print t('Cancel'); ?></a>
