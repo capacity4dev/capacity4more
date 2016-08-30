@@ -29,58 +29,61 @@
     color: black;
     background-color: white;
   }
+
+
+  .btn-group-discussion_type {
+    display: flex;
+
+    .discussion_type {
+      margin: 0 10px;
+      color: white;
+      border: 1px solid lighten($color-gray, 10%);
+      border-radius: 3px;
+      background: transparent;
+      box-shadow: none;
+
+      &:first-of-type {
+        margin-left: 0;
+      }
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+
+      &.active {
+        color: $color-white;
+        background: rgba($color-white, 0.3);
+      }
+
+      &:hover,
+      &:active {
+        color: $color-white;
+        background: rgba($color-white, 0.1);
+      }
+    }
+
+    button[value="idea"] {
+      .fa:before {
+        content: "\f0eb";
+      }
+    }
+    button[value="question"] {
+      .fa:before {
+        content: "\f059";
+      }
+    }
+    button[value="info"] {
+      .fa:before {
+        content: "\f05a";
+      }
+    }
+
+    button[value="debate"] {
+      .fa:before {
+        content: "\f086";
+      }
+    }
+  }
 }
 
-.btn-group-discussion_type {
-  display: flex;
 
-  .discussion_type {
-    margin: 0 10px;
-    color: white;
-    border: 1px solid lighten($color-gray, 10%);
-    border-radius: 3px;
-    background: transparent;
-    box-shadow: none;
-
-    &:first-of-type {
-      margin-left: 0;
-    }
-
-    &:last-of-type {
-      margin-right: 0;
-    }
-
-    &.active {
-      color: $color-white;
-      background: rgba($color-white, 0.3);
-    }
-
-    &:hover,
-    &:active {
-      color: $color-white;
-      background: rgba($color-white, 0.1);
-    }
-  }
-
-  button[value="idea"] {
-    .fa:before {
-      content: "\f0eb";
-    }
-  }
-  button[value="question"] {
-    .fa:before {
-      content: "\f059";
-    }
-  }
-  button[value="info"] {
-    .fa:before {
-      content: "\f05a";
-    }
-  }
-
-  button[value="debate"] {
-    .fa:before {
-      content: "\f086";
-    }
-  }
-}
