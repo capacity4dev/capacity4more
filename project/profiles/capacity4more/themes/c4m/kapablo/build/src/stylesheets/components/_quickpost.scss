@@ -2,6 +2,11 @@
   @include grain_dark;
   padding: 15px;
   color: white;
+
+  a {
+    text-decoration: underline;
+    color: $color-white;
+  }
 }
 
 .btn-group-discussion_type {

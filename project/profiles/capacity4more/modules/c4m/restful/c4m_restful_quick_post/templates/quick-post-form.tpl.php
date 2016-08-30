@@ -51,7 +51,11 @@
   </div>
 </div>
 
-<div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.topic }">
+<span>Create a post with additional details by using
+  <a href="javascript://" id="full-from-button" ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('the advanced form'); ?></a>
+instead.</span>
+
+<div class="form-group btn-group clearfix btn-group-selectors topics-section" ng-class="{ 'has-error' : errors.topic }">
   <div class="label-wrapper">
     <label>{{fieldSchema.resources[selectedResource].topic.info.label}}</label>
   <span id="topic_description"
@@ -236,10 +240,6 @@
   <div class="col-xs-12">
     <div class="qp-post-button">
       <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('POST'); ?></button>
-    </div>
-    <div class="qp-post-fullform">
-      <a href="javascript://" id="full-from-button"
-         ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('Create in full form'); ?></a>
     </div>
     <div class="qp-post-cancel">
       <a href="javascript://" id="clear-button" ng-click="resetEntityForm()"><?php print t('Cancel'); ?></a>
