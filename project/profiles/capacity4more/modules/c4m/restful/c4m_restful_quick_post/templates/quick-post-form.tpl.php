@@ -56,7 +56,7 @@ instead.</span>
   </div>
   <div class="checkboxes-wrapper">
     <div class="popup-button">
-      <button type="button" ng-click="togglePopover('topic', $event)" class="btn popup-btn">
+      <button type="button" ng-click="togglePopover('topic', $event)" class="btn quickpost-btn popup-btn">
         &nbsp;<?php print t('Select Topic'); ?></button>
       <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
     </div>
@@ -83,7 +83,7 @@ instead.</span>
   <div class="checkboxes-wrapper">
     <div class="popup-button">
       <button type="button" ng-click="togglePopover('categories', $event)"
-              class="btn popup-btn"><?php print t('Select Category'); ?></button>
+              class="btn quickpost-btn popup-btn"><?php print t('Select Category'); ?></button>
       <p ng-show="errors.categories" class="help-block"><?php print t('Categories are required.'); ?></p>
     </div>
 
@@ -124,7 +124,7 @@ instead.</span>
     <div class="checkboxes-wrapper">
       <div class="popup-button">
         <button type="button" id="date" ng-click="togglePopover('date', $event)"
-                class="btn popup-btn"><?php print t('Select Date'); ?></button>
+                class="btn quickpost-btn popup-btn"><?php print t('Select Date'); ?></button>
         <p ng-show="errors.date" class="help-block"><?php print t('Date is required.'); ?></p>
       </div>
       <div class="selected-values" ng-show="data.date">
@@ -152,7 +152,7 @@ instead.</span>
   <div class="checkboxes-wrapper">
     <div class="popup-button">
       <button type="button" ng-click="togglePopover('language', $event)"
-              class="btn popup-btn"><?php print t('Select Language'); ?></button>
+              class="btn quickpost-btn popup-btn"><?php print t('Select Language'); ?></button>
       <p ng-show="errors.language" class="help-block"><?php print t('Language is required.'); ?></p>
     </div>
     <div class="selected-values" ng-show="data.language">
@@ -180,7 +180,7 @@ instead.</span>
     <div class="checkboxes-wrapper">
       <div class="popup-button">
         <button type="button" ng-click="togglePopover('geo', $event)"
-                class="btn popup-btn"><?php print t('Select Region'); ?></button>
+                class="btn quickpost-btn popup-btn"><?php print t('Select Region'); ?></button>
         <p ng-show="errors.geo" class="help-block"><?php print t('Regions & Countries are required.'); ?></p>
       </div>
       <div class="selected-values geo-values" ng-show="data.geo">
@@ -227,10 +227,9 @@ instead.</span>
   <p ng-show="errors.tags" class="help-block"><?php print t('Tags are required.'); ?></p>
 </div>
 
-<div class="actions row">
-  <div class="col-xs-12">
+  <div class="actions-row">
     <div class="qp-post-button">
-      <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('POST'); ?></button>
+      <button type="submit" id="quick-submit" class="btn btn-primary quickpost-btn" tabindex="100"><?php print t('POST'); ?></button>
     </div>
     <div class="qp-post-cancel">
       <a href="javascript://" id="clear-button" ng-click="resetEntityForm()"><?php print t('Cancel'); ?></a>
