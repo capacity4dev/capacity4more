@@ -72,11 +72,6 @@ function c4m_content_news_ds_field_settings_info() {
         ),
       ),
     ),
-    'body' => array(
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
-    ),
   );
   $export['node|news|activity_global'] = $ds_fieldsetting;
 
@@ -108,7 +103,7 @@ function c4m_content_news_ds_field_settings_info() {
         ),
       ),
     ),
-    'body' => array(
+    'c4m_body' => array(
       'formatter_settings' => array(
         'ft' => array(),
       ),
@@ -124,7 +119,7 @@ function c4m_content_news_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -135,7 +130,7 @@ function c4m_content_news_ds_field_settings_info() {
       ),
     ),
     'comments' => array(
-      'weight' => '5',
+      'weight' => '6',
       'label' => 'above',
       'format' => 'default',
     ),
@@ -148,7 +143,7 @@ function c4m_content_news_ds_field_settings_info() {
       ),
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '10',
+      'weight' => '11',
       'label' => 'hidden',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -158,7 +153,7 @@ function c4m_content_news_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_creation_date' => array(
-      'weight' => '11',
+      'weight' => '12',
       'label' => 'inline',
       'format' => 'j F Y',
       'formatter_settings' => array(
@@ -186,13 +181,30 @@ function c4m_content_news_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_ds_content_type_label' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'fi' => TRUE,
+          'fi-el' => 'div',
+          'fi-cl' => 'label label-primary',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
+      ),
+    ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'c4m_ds_content_status' => array(
-      'weight' => '0',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -213,7 +225,7 @@ function c4m_content_news_ds_field_settings_info() {
       'format' => 'default',
     ),
     'c4m_ds_content_actions' => array(
-      'weight' => '12',
+      'weight' => '11',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -536,13 +548,13 @@ function c4m_content_news_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'c4m_field_og_group',
-        1 => 'body',
+        1 => 'c4m_body',
         2 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'c4m_field_og_group' => 'ds_content',
-      'body' => 'ds_content',
+      'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
     ),
     'classes' => array(),
@@ -568,12 +580,12 @@ function c4m_content_news_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'body',
+        0 => 'c4m_body',
         1 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
-      'body' => 'ds_content',
+      'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
     ),
     'classes' => array(),
@@ -599,32 +611,34 @@ function c4m_content_news_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
-        0 => 'c4m_ds_content_status',
-        1 => 'title',
-        2 => 'c4m_ds_content_footer_stats',
-        3 => 'c4m_body',
-        4 => 'c4m_related_document',
-        5 => 'comments',
+        0 => 'c4m_ds_content_type_label',
+        1 => 'c4m_ds_content_status',
+        2 => 'title',
+        3 => 'c4m_ds_content_footer_stats',
+        4 => 'c4m_body',
+        5 => 'c4m_related_document',
+        6 => 'comments',
       ),
       'right' => array(
-        6 => 'group_node_meta',
-        7 => 'group_node_actions',
-        8 => 'group_node_details',
+        7 => 'group_node_meta',
+        8 => 'group_node_actions',
         9 => 'c4m_ds_content_shared_to',
-        10 => 'c4m_user_first_and_last_name',
-        11 => 'c4m_ds_creation_date',
-        12 => 'c4m_ds_content_actions',
-        13 => 'c4m_ds_type_insert_action',
-        14 => 'c4m_user_picture',
-        15 => 'group_meta_author',
-        16 => 'c4m_vocab_topic',
-        17 => 'c4m_vocab_date',
-        18 => 'c4m_vocab_language',
-        19 => 'c4m_vocab_geo',
-        20 => 'og_vocabulary',
+        10 => 'group_node_details',
+        11 => 'c4m_ds_content_actions',
+        12 => 'c4m_user_first_and_last_name',
+        13 => 'c4m_ds_creation_date',
+        14 => 'c4m_ds_type_insert_action',
+        15 => 'c4m_user_picture',
+        16 => 'group_meta_author',
+        17 => 'c4m_vocab_topic',
+        18 => 'c4m_vocab_date',
+        19 => 'c4m_vocab_language',
+        20 => 'c4m_vocab_geo',
+        21 => 'og_vocabulary',
       ),
     ),
     'fields' => array(
+      'c4m_ds_content_type_label' => 'left',
       'c4m_ds_content_status' => 'left',
       'title' => 'left',
       'c4m_ds_content_footer_stats' => 'left',
@@ -633,11 +647,11 @@ function c4m_content_news_ds_layout_settings_info() {
       'comments' => 'left',
       'group_node_meta' => 'right',
       'group_node_actions' => 'right',
-      'group_node_details' => 'right',
       'c4m_ds_content_shared_to' => 'right',
+      'group_node_details' => 'right',
+      'c4m_ds_content_actions' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_creation_date' => 'right',
-      'c4m_ds_content_actions' => 'right',
       'c4m_ds_type_insert_action' => 'right',
       'c4m_user_picture' => 'right',
       'group_meta_author' => 'right',
@@ -722,7 +736,7 @@ function c4m_content_news_ds_layout_settings_info() {
         2 => 'c4m_user_first_and_last_name',
         3 => 'c4m_ds_type_insert_action',
         4 => 'c4m_ds_creation_date',
-        5 => 'body',
+        5 => 'c4m_body',
         6 => 'c4m_ds_content_footer_stats',
       ),
     ),
@@ -732,7 +746,7 @@ function c4m_content_news_ds_layout_settings_info() {
       'c4m_user_first_and_last_name' => 'ds_content',
       'c4m_ds_type_insert_action' => 'ds_content',
       'c4m_ds_creation_date' => 'ds_content',
-      'body' => 'ds_content',
+      'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
     ),
     'classes' => array(),
