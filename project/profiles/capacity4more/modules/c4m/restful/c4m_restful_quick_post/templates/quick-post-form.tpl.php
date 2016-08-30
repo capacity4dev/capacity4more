@@ -63,7 +63,7 @@ instead.</span>
   </div>
   <div class="checkboxes-wrapper">
     <div class="popup-button">
-      <button type="button" ng-click="togglePopover('topic', $event)" class="btn">
+      <button type="button" ng-click="togglePopover('topic', $event)" class="btn popup-btn">
         &nbsp;<?php print t('Select Topic'); ?></button>
       <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
     </div>
