@@ -516,12 +516,12 @@ function c4m_user_og_c4m_cta_block() {
     $items['management'] = $item;
   }
 
-  if ($item = c4m_user_og_c4m_join_cta($group)) {
-    $items['join'] = $item;
-  }
-
   if ($item = c4m_user_og_group_actions_cta($group)) {
     $items['actions'] = $item;
+  }
+
+  if ($item = c4m_user_og_c4m_join_cta($group)) {
+    $items['join'] = $item;
   }
 
   // Add a link to the CTA block if the user is permitted to invite new members.
@@ -535,7 +535,7 @@ function c4m_user_og_c4m_cta_block() {
 /**
  * Sets the CTA block for visitors.
  */
-function c4m_user_og_c4m_vistor_cta($group) {
+function c4m_user_og_c4m_visitor_cta($group) {
   $types = array(
     'open' => array(
       'button_label' => t('Join this group'),
@@ -554,6 +554,7 @@ function c4m_user_og_c4m_vistor_cta($group) {
     '#button_label' => $types[$membership_request_value]['button_label'],
     '#button_icon' => $types[$membership_request_value]['button_icon'],
     '#url' => url('group/join/' . $group->nid, array('absolute' => TRUE)),
+    '#weight' => 10,
   );
 }
 
@@ -569,15 +570,9 @@ function c4m_user_og_group_actions_cta($group) {
   }
 
   $items = array();
-  // CTAs for the group owner and administrators: Manage group and number or
-  // new membership requests.
+  // CTAs for the group owner and administrators: Number of new membership
+  // requests, Draft content and Help and guidance links.
   if (_c4m_features_og_members_is_power_user($group, $user)) {
-    $items['manage'] = array(
-      '#theme' => 'c4m_group_text_cta',
-      '#icon' => 'fa-cog',
-      '#text' => l(t('Manage this group'), 'manage'),
-    );
-
     if ($pending_requests = c4m_og_get_all_group_memberships_by_state(
       $group->nid,
       OG_STATE_PENDING
@@ -645,6 +640,8 @@ function c4m_user_og_group_actions_cta($group) {
     ),
   );
 
+  $items['#weight'] = 5;
+
   return $items;
 }
 
@@ -661,7 +658,7 @@ function c4m_user_og_group_management_cta($group) {
     $items['#links'][] = array(
       '#theme' => 'c4m_group_text_cta',
       '#icon' => 'fa-cogs',
-      '#text' => l(t('Manage membership'), 'manage'),
+      '#text' => l(t('Manage group'), 'manage'),
     );
   }
 
@@ -698,7 +695,7 @@ function c4m_user_og_c4m_join_cta($group) {
     return;
   }
 
-  return c4m_user_og_c4m_vistor_cta($group);
+  return c4m_user_og_c4m_visitor_cta($group);
 }
 
 /**
@@ -716,6 +713,7 @@ function c4m_user_og_c4m_invite_cta($group) {
       'group/node/' . $group->nid . '/admin/people/invite-users',
       array('absolute' => TRUE)
     ),
+    '#weight' => 15,
   );
 }
 
