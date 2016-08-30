@@ -90,7 +90,7 @@ instead.</span>
   <div class="checkboxes-wrapper">
     <div class="popup-button">
       <button type="button" ng-click="togglePopover('categories', $event)"
-              class="btn"><?php print t('Select Category'); ?></button>
+              class="btn popup-btn"><?php print t('Select Category'); ?></button>
       <p ng-show="errors.categories" class="help-block"><?php print t('Categories are required.'); ?></p>
     </div>
 
@@ -131,7 +131,7 @@ instead.</span>
     <div class="checkboxes-wrapper">
       <div class="popup-button">
         <button type="button" id="date" ng-click="togglePopover('date', $event)"
-                class="btn"><?php print t('Select Date'); ?></button>
+                class="btn popup-btn"><?php print t('Select Date'); ?></button>
         <p ng-show="errors.date" class="help-block"><?php print t('Date is required.'); ?></p>
       </div>
       <div class="selected-values" ng-show="data.date">
@@ -159,7 +159,7 @@ instead.</span>
   <div class="checkboxes-wrapper">
     <div class="popup-button">
       <button type="button" ng-click="togglePopover('language', $event)"
-              class="btn"><?php print t('Select Language'); ?></button>
+              class="btn popup-btn"><?php print t('Select Language'); ?></button>
       <p ng-show="errors.language" class="help-block"><?php print t('Language is required.'); ?></p>
     </div>
     <div class="selected-values" ng-show="data.language">
@@ -187,7 +187,7 @@ instead.</span>
     <div class="checkboxes-wrapper">
       <div class="popup-button">
         <button type="button" ng-click="togglePopover('geo', $event)"
-                class="btn"><?php print t('Select Region'); ?></button>
+                class="btn popup-btn"><?php print t('Select Region'); ?></button>
         <p ng-show="errors.geo" class="help-block"><?php print t('Regions & Countries are required.'); ?></p>
       </div>
       <div class="selected-values geo-values" ng-show="data.geo">
