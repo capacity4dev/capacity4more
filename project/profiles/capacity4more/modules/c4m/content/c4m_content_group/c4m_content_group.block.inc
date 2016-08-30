@@ -13,7 +13,7 @@
  * @param array $variables
  *   Block variables.
  */
-function _c4m_content_group_preprocess_header_name_banner(array &$variables) {
+function _c4m_content_group_preprocess_header_name_banner_group(array &$variables) {
   // First establish the current group.
   $group = c4m_og_current_group();
 
@@ -25,9 +25,11 @@ function _c4m_content_group_preprocess_header_name_banner(array &$variables) {
 }
 
 /**
- * The group name.
+ * OG group title redesign.
+ *
+ * The function handles header title redesign for group page.
  */
-function _c4m_content_group_block_header_name_banner() {
+function _c4m_content_group_block_header_name_banner_group() {
   // First establish the current group.
   $group = c4m_og_current_group();
   $wrapper = entity_metadata_wrapper('node', $group);
@@ -41,14 +43,14 @@ function _c4m_content_group_block_header_name_banner() {
 
   $variables['group_type'] = c4m_og_get_group_type_name($group);
 
-  $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value(
-  ) : 'published';
+  $status = isset($wrapper->c4m_og_status) ?
+    $wrapper->c4m_og_status->value() :
+    'published';
 
   $variables['group_status'] = ($status !== 'published') ? $status : '';
 
   $variables['organisations'] = array();
   $variables['organisation_icons'] = array();
-  $variables['organisation_ellipsis'] = FALSE;
   $variables['emails'] = array();
 
   $group_access = c4m_og_get_access_type($group);
@@ -86,21 +88,19 @@ function _c4m_content_group_block_header_name_banner() {
 
       $variables['organisations'] = $organisation_list;
       $variables['organisation_icons'] = $organisation_icons;
-
-      if (count($organisations) > 3) {
-        $variables['organisation_ellipsis'] = TRUE;
-      }
     }
 
     if ($domain_info = c4m_og_get_email_domains($group)) {
-      $emails = array_values($domain_info);
-      array_walk(
-        $emails,
-        function (&$value, $key) {
-          $value = trim($value, ', ');
-          $value = '@' . $value;
-        }
-      );
+      if (!isset($domain_info[0]) || !empty($domain_info[0])) {
+        $emails = array_values($domain_info);
+        array_walk(
+          $emails,
+          function (&$value, $key) {
+            $value = trim($value, ', ');
+            $value = '@' . $value;
+          }
+        );
+      }
     }
 
     $variables['emails'] = $emails;

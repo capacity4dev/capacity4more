@@ -734,7 +734,7 @@ function c4m_message_format_photo_photoalbum(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $album_label = $wrapper->field_node->node_gallery_ref_1->label();
 
-  return $album_label ? 'to Photo album ' . $album_label : '';
+  return $album_label ? 'to the Photo album ' . $album_label : '';
 }
 
 /**
@@ -1235,12 +1235,12 @@ function c4m_message_load_homepage_activity_stream() {
     switch ($filter) {
       case 'groups':
         // Gets all the group IDs that the user belongs to.
-        $groups = c4m_og_get_user_group_nodes_by_bundle('group');
+        $groups = c4m_og_get_user_group_ids_by_bundle('group');
         break;
 
       case 'projects':
         // Gets all the project IDs that the user belongs to.
-        $groups = c4m_og_get_user_group_nodes_by_bundle('project');
+        $groups = c4m_og_get_user_group_ids_by_bundle('project');
         break;
 
       case 'interests':
