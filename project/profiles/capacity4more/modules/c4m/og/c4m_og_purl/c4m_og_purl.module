@@ -100,6 +100,8 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
   ) {
     // Under OG context, but path prefix is not specified at allowed array.
     // Cancel the 'prefix' that was added by purl_url_outbound_alter().
+    // purl_url_outbound_alter() will always run before this hook, as
+    // PURL model weight is lower (-20) than standard (0).
     $options['prefix'] = '';
 
     return;
