@@ -32,6 +32,7 @@ files[] = includes/CreatePageElements.inc
 files[] = includes/CreatePhotoalbums.inc
 ;files[] = includes/CreatePhotoComments.inc
 files[] = includes/CreatePhotos.inc
+files[] = includes/CreateProgrammes.inc
 files[] = includes/CreateProjects.inc
 files[] = includes/CreateTags.inc
 files[] = includes/CreateThemes.inc
