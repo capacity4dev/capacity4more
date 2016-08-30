@@ -1067,31 +1067,19 @@ function c4m_user_profile_user_login_validate($form, &$form_state) {
   }
 
   $account = entity_metadata_wrapper('user', $account);
-  if (!$account->c4m_is_deleted->value() && !$account->c4m_is_spammer->value(
-    ) && !$account->last_login->value()
-  ) {
-    form_set_error(
-      'name',
-      t(
-        'You used valid credentials but your account is not activated yet. Use the !password_recovery form to resend the activation email.',
-        array(
-          '!password_recovery' => l(
-            t('password recovery'),
-            'user/password'
-          ),
-        )
-      )
+  if (!$account->c4m_is_deleted->value() && !$account->c4m_is_spammer->value() && !$account->last_login->value()) {
+    $message = t(
+      'You used valid credentials but your account is not activated yet. Use the !password_recovery form to resend the activation email.',
+      array('!password_recovery' => l(t('password recovery'), 'user/password'))
     );
   }
   else {
-    form_set_error(
-      'name',
-      t(
-        'The username %name has not been activated or is blocked.',
-        array('%name' => $form_state['values']['name'])
-      )
+    $message = t(
+      'There is a problem with your account, please !contact the site administrators.',
+      array('!contact' => l(t('contact'), 'contact'))
     );
   }
+  form_set_error('name', $message);
 }
 
 /**
