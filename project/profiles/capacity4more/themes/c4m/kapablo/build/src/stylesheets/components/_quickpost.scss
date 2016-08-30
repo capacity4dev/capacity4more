@@ -8,6 +8,12 @@
     color: $color-white;
   }
 
+  .quickpost-title[placeholder] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
   .topics-section {
     margin: 20px 0;
     padding: 10px 0 5px;
