@@ -103,7 +103,7 @@ function c4m_user_profile_remove_account_form($form, $form_state, $account) {
 
   $form['anonymize'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Do you want to anonymize your content?'),
+    '#title' => t('I no longer want my name to appear on contents I have contributed - please make all my content anonymous.'),
   );
 
   $form['feedback'] = array(
