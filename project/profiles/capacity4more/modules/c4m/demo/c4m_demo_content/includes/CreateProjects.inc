@@ -69,10 +69,6 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
 
     $this->addFieldMapping('c4m_is_template', 'is_template')
       ->defaultValue(0);
-
-    $this->addFieldMapping(
-      'field_membership_open_request'
-    )->defaultValue(0);
   }
 
   /**
