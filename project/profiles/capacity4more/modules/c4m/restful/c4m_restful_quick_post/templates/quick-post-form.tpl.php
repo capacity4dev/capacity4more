@@ -237,7 +237,6 @@ instead.</span>
     </div>
   </div>
 </div>
-</div>
 </form>
 
 <!-- Display an error if we can't save an entity-->
