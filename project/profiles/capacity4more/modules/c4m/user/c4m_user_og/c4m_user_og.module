@@ -558,7 +558,11 @@ function c4m_user_og_group_actions_cta($group) {
   $access = c4m_og_get_access_type($group);
   global $user;
 
-  if ($access['type'] == 'public' && og_get_membership('node', $group->nid, 'user', $user->uid)) {
+  if (!og_get_membership('node', $group->nid, 'user', $user->uid)) {
+    return;
+  }
+
+  if ($access['type'] == 'public') {
     // CTAs for the group owner and administrators: Manage group and number or
     // new membership requests.
     if (_c4m_features_og_members_is_power_user($group, $user)) {
