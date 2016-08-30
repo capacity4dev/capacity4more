@@ -57,9 +57,9 @@ instead.</span>
 
 <div class="form-group btn-group clearfix btn-group-selectors topics-section" ng-class="{ 'has-error' : errors.topic }">
   <div class="label-wrapper">
-    <label>{{fieldSchema.resources[selectedResource].topic.info.label}}</label>
-  <span id="topic_description"
-        class="description">{{fieldSchema.resources[selectedResource].topic.info.description}}</span>
+    <span id="topic_description" class="description">
+      {{fieldSchema.resources[selectedResource].topic.info.description}}
+    </span>
   </div>
   <div class="checkboxes-wrapper">
     <div class="checkboxes-wrapper">
