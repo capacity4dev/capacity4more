@@ -7,6 +7,7 @@ dependencies[] = c4m_field_body
 dependencies[] = c4m_field_media
 dependencies[] = c4m_field_organisation_type
 dependencies[] = c4m_helper_captcha
+dependencies[] = c4m_og_purl
 dependencies[] = c4m_vocab_geo
 dependencies[] = c4m_vocab_topic
 dependencies[] = c4m_vocab_widget
