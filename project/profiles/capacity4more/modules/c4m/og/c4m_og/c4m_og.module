@@ -219,7 +219,9 @@ function c4m_og_replace_owner_build_form($form, $form_state, $entity_type, $etid
     );
   }
   else {
-    drupal_set_message(t('The group does not have any site admin to be the new owner.'));
+    $link = l(t('Visit the members overview page'), 'members');
+    $message = t('The group does not have any site admin to be the new owner. !link', array('!link' => $link));
+    drupal_set_message($message, 'warning');
   }
 
   return $form;
