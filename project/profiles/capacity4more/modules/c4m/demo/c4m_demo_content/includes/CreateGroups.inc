@@ -43,14 +43,6 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
    */
   public function __construct() {
     parent::__construct();
-
-    $this->addFieldMapping(
-      'field_membership_open_request',
-      'membership_open_request'
-    )->defaultValue(OG_STATE_ACTIVE);
-
-    $this->addFieldMapping(OG_ACCESS_FIELD, 'group_access')
-      ->defaultValue(0);
   }
 
   /**

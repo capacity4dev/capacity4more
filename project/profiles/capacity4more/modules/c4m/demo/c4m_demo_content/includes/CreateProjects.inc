@@ -40,7 +40,8 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
     array('geo', 'Geo'),
     array('groups', 'Groups'),
     array('projects', 'Projects'),
-    array('is_template', 'Template'),
+    array('membership_open_request', 'Membership_Request'),
+    array('group_access', 'Access'),
   );
 
   /**
@@ -63,12 +64,6 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
 
     $this->addFieldMapping('c4m_cris_contract_number', 'cris_contract')
       ->separator(';');
-
-    $this->addFieldMapping('c4m_project_type')
-      ->defaultValue('project');
-
-    $this->addFieldMapping('c4m_is_template', 'is_template')
-      ->defaultValue(0);
   }
 
   /**
