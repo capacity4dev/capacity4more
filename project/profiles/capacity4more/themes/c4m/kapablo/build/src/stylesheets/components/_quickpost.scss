@@ -48,7 +48,7 @@
     display: flex;
     flex-direction: column;
 
-    @media(min-width: $screen-lg) {
+    @media(min-width: $screen-md) {
       flex-direction: row;
     }
 
@@ -59,20 +59,13 @@
       background: transparent;
       box-shadow: none;
 
-      @media (min-width: $screen-lg) {
-        margin: 0 10px;
-      }
-
-      &:first-of-type {
-
-        @media(min-width: $screen-lg) {
-          margin-left: 0;
-        }
+      @media (min-width: $screen-md) {
+        margin-right: 20px;
       }
 
       &:last-of-type {
 
-        @media(min-width: $screen-lg) {
+        @media(min-width: $screen-md) {
           margin-right: 0;
         }
       }
@@ -87,7 +80,6 @@
         color: $color-white;
         background: rgba($color-white, 0.1);
       }
-    }
 
     button[value="idea"] {
       .fa:before {
@@ -111,15 +103,13 @@
       }
     }
   }
-
-  .btn-group-quickpost-info {
-    display: flex;
-    flex-wrap: wrap;
-
-    .form-group {
-      margin-right: 10px;
-    }
-  }
 }
 
+.btn-group-quickpost-info {
+  display: flex;
+  flex-wrap: wrap;
 
+  .form-group {
+    margin-right: 10px;
+  }
+}
