@@ -111,6 +111,15 @@
       }
     }
   }
+
+  .btn-group-quickpost-info {
+    display: flex;
+    flex-wrap: wrap;
+
+    .form-group {
+      margin-right: 10px;
+    }
+  }
 }
 
 

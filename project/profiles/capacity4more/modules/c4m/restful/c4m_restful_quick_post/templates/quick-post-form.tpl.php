@@ -75,96 +75,98 @@ instead.</span>
   </div>
 </div>
 
-<div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.date }">
-  <div class="label-wrapper">
-    <label><?php print t('Group categories') ?></label>
-    <span id="date_description" class="description">{{fieldSchema.resources[selectedResource].categories.info.description}}</span>
-  </div>
-  <div class="checkboxes-wrapper">
-    <div class="popup-button">
-      <button type="button" ng-click="togglePopover('categories', $event)"
-              class="btn quickpost-btn popup-btn"><?php print t('Select Category'); ?></button>
-      <p ng-show="errors.categories" class="help-block"><?php print t('Categories are required.'); ?></p>
+<div class="btn-group-quickpost-info">
+  <div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.date }">
+    <div class="label-wrapper">
+      <label><?php print t('Group categories') ?></label>
+      <span id="date_description" class="description">{{fieldSchema.resources[selectedResource].categories.info.description}}</span>
     </div>
-
-    <div class="selected-values" ng-show="data.categories">
-      <div class="value row" ng-repeat="(key, value) in categories">
-        <div class="parent col-sm-6">
-          <span ng-show="termHasChildrenSelected('categories', key, 'null')">
-            {{ findLabel(categories, key) }}
-            <i class="fa fa-chevron-right " ng-show="termHasChildrenSelected('categories', key, 'null')"></i>
-          </span>
-        </div>
-        <div class="child col-sm-6" ng-repeat="(childkey, child) in categories[key].children">
-          <span ng-if="data.categories[child.id] === true" >
-            <i ng-click="removeTaxonomyValue(child.id, 'categories')" class="fa fa-times"></i>
-            {{ findLabel(categories, child.id) }}
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Hidden date checkboxes.-->
-    <div class="popover right hidden-checkboxes" ng-show="popups.categories">
-      <div class="arrow"></div>
-      <div class="popover-content">
-        <group-categories type="categories" model="data.categories" items="categories"></group-categories>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.date }">
-  <div class="label-wrapper">
-    <label>{{fieldSchema.resources[selectedResource].date.info.label}}</label>
-    <span id="date_description"
-          class="description">{{fieldSchema.resources[selectedResource].date.info.description}}</span>
-  </div>
-  <div class="checkboxes-wrapper">
     <div class="checkboxes-wrapper">
       <div class="popup-button">
-        <button type="button" id="date" ng-click="togglePopover('date', $event)"
-                class="btn quickpost-btn popup-btn"><?php print t('Select Date'); ?></button>
-        <p ng-show="errors.date" class="help-block"><?php print t('Date is required.'); ?></p>
+        <button type="button" ng-click="togglePopover('categories', $event)"
+                class="btn quickpost-btn popup-btn"><?php print t('Select Category'); ?></button>
+        <p ng-show="errors.categories" class="help-block"><?php print t('Categories are required.'); ?></p>
       </div>
-      <div class="selected-values" ng-show="data.date">
-            <span ng-if="value === true" ng-repeat="(key, value) in data.date">
-              {{ findLabel(date, key) }} <i ng-click="removeTaxonomyValue(key, 'date')" class="fa fa-times"></i>
+
+      <div class="selected-values" ng-show="data.categories">
+        <div class="value row" ng-repeat="(key, value) in categories">
+          <div class="parent col-sm-6">
+            <span ng-show="termHasChildrenSelected('categories', key, 'null')">
+              {{ findLabel(categories, key) }}
+              <i class="fa fa-chevron-right " ng-show="termHasChildrenSelected('categories', key, 'null')"></i>
             </span>
+          </div>
+          <div class="child col-sm-6" ng-repeat="(childkey, child) in categories[key].children">
+            <span ng-if="data.categories[child.id] === true" >
+              <i ng-click="removeTaxonomyValue(child.id, 'categories')" class="fa fa-times"></i>
+              {{ findLabel(categories, child.id) }}
+            </span>
+          </div>
+        </div>
       </div>
+
       <!-- Hidden date checkboxes.-->
-      <div class="popover right hidden-checkboxes" ng-show="popups.date">
+      <div class="popover right hidden-checkboxes" ng-show="popups.categories">
         <div class="arrow"></div>
         <div class="popover-content">
-          <list-terms update-popover-position="updatePopoverPosition" type="date" model="data.date"
-                      items="date"></list-terms>
+          <group-categories type="categories" model="data.categories" items="categories"></group-categories>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.language }">
-  <div class="label-wrapper">
-    <label>{{fieldSchema.resources[selectedResource].language.info.label}}</label>
-    <span id="language_description" class="description">{{fieldSchema.resources[selectedResource].language.info.description}}</span>
+  <div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.date }">
+    <div class="label-wrapper">
+      <label>{{fieldSchema.resources[selectedResource].date.info.label}}</label>
+      <span id="date_description"
+            class="description">{{fieldSchema.resources[selectedResource].date.info.description}}</span>
+    </div>
+    <div class="checkboxes-wrapper">
+      <div class="checkboxes-wrapper">
+        <div class="popup-button">
+          <button type="button" id="date" ng-click="togglePopover('date', $event)"
+                  class="btn quickpost-btn popup-btn"><?php print t('Select Date'); ?></button>
+          <p ng-show="errors.date" class="help-block"><?php print t('Date is required.'); ?></p>
+        </div>
+        <div class="selected-values" ng-show="data.date">
+              <span ng-if="value === true" ng-repeat="(key, value) in data.date">
+                {{ findLabel(date, key) }} <i ng-click="removeTaxonomyValue(key, 'date')" class="fa fa-times"></i>
+              </span>
+        </div>
+        <!-- Hidden date checkboxes.-->
+        <div class="popover right hidden-checkboxes" ng-show="popups.date">
+          <div class="arrow"></div>
+          <div class="popover-content">
+            <list-terms update-popover-position="updatePopoverPosition" type="date" model="data.date"
+                        items="date"></list-terms>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="checkboxes-wrapper">
-    <div class="popup-button">
-      <button type="button" ng-click="togglePopover('language', $event)"
-              class="btn quickpost-btn popup-btn"><?php print t('Select Language'); ?></button>
-      <p ng-show="errors.language" class="help-block"><?php print t('Language is required.'); ?></p>
+
+  <div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.language }">
+    <div class="label-wrapper">
+      <label>{{fieldSchema.resources[selectedResource].language.info.label}}</label>
+      <span id="language_description" class="description">{{fieldSchema.resources[selectedResource].language.info.description}}</span>
     </div>
-    <div class="selected-values" ng-show="data.language">
-            <span ng-if="value === true" ng-repeat="(key, value) in data.language">
-              {{ findLabel(language, key) }} <i ng-click="removeTaxonomyValue(key, 'language')" class="fa fa-times"></i>
-            </span>
-    </div>
-    <!-- Hidden language checkboxes.-->
-    <div class="popover right hidden-checkboxes" ng-show="popups.language">
-      <div class="arrow"></div>
-      <div class="popover-content">
-        <list-terms type="language" model="data.language" items="language"></list-terms>
+    <div class="checkboxes-wrapper">
+      <div class="popup-button">
+        <button type="button" ng-click="togglePopover('language', $event)"
+                class="btn quickpost-btn popup-btn"><?php print t('Select Language'); ?></button>
+        <p ng-show="errors.language" class="help-block"><?php print t('Language is required.'); ?></p>
+      </div>
+      <div class="selected-values" ng-show="data.language">
+              <span ng-if="value === true" ng-repeat="(key, value) in data.language">
+                {{ findLabel(language, key) }} <i ng-click="removeTaxonomyValue(key, 'language')" class="fa fa-times"></i>
+              </span>
+      </div>
+      <!-- Hidden language checkboxes.-->
+      <div class="popover right hidden-checkboxes" ng-show="popups.language">
+        <div class="arrow"></div>
+        <div class="popover-content">
+          <list-terms type="language" model="data.language" items="language"></list-terms>
+        </div>
       </div>
     </div>
   </div>
