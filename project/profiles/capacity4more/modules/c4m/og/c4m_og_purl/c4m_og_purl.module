@@ -38,21 +38,6 @@ function c4m_og_purl_init() {
     drupal_goto($node->purl);
   }
 
-  // Menu items prefixes for which we don't perform any changes.
-  $skip_path = array(
-    'js/admin',
-    'system/ajax',
-    'file/ajax',
-    'flag',
-    'batch',
-    'file/%',
-    'search',
-  );
-
-  if (_c4m_og_purl_starts_with_in_array($skip_path, $item['path'])) {
-    return;
-  }
-
   // Menu items prefixes, which we allow to be accessed under OG context.
   $group_allowed_path = array(
     'node',
@@ -65,10 +50,6 @@ function c4m_og_purl_init() {
     'comment',
     'members',
     'manage',
-    'user/register',
-    'user/autocomplete',
-    'user/%/contact',
-    'overlay/documents',
   );
 
   if ($context = og_context() &&
@@ -83,18 +64,12 @@ function c4m_og_purl_init() {
 /**
  * Implements hook_url_outbound_alter().
  *
- * Change the path of a group node to be the expected url.
- * For example when visiting /node/1 we should be redirected to /foo instead.
- * Without this hook we would be redirected to /foo/groups/foo.
+ * Prevent PURL prefix from appearing at page links, if they don't point
+ * to group content.
  */
 function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
   if (drupal_is_cli()) {
     // The script is running in a command-line environment.
-    return;
-  }
-
-  if (strpos($_GET['q'], 'admin/') === 0) {
-    // Admin pages.
     return;
   }
 
@@ -106,23 +81,29 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
     return;
   }
 
-  $item = menu_get_item();
+  // Path prefixes, which we allow to be accessed under OG context.
+  $group_allowed_path = array(
+    'node',
+    'group',
+    'wiki',
+    'documents',
+    'discussions',
+    'media',
+    'calendar',
+    'comment',
+    'members',
+    'manage',
+  );
 
-  if ($item['path'] != 'node/%') {
-    // We are not in node view.
+  if ($context = og_context() &&
+    !_c4m_og_purl_starts_with_in_array($group_allowed_path, $path)
+  ) {
+    // Under OG context, but path prefix is not specified at allowed array.
+    // Cancel the 'prefix' that was added by purl_url_outbound_alter().
+    $options['prefix'] = '';
+
     return;
   }
-
-  $node = $item['map'][1];
-
-  if (!og_is_group_type('node', $node->type)) {
-    // This is not a group.
-    return;
-  }
-
-  // Set the path alias.
-  $path = $node->purl;
-  $options['alias'] = $node->purl;
 }
 
 /**
@@ -284,26 +265,6 @@ function c4m_og_purl_field_formatter_view($entity_type, $entity, $field, $instan
   }
 
   return $result;
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- *
- * Under OG context, remove PURL from author link.
- */
-function c4m_og_purl_form_comment_form_alter(&$form, &$form_state, $comment) {
-  global $user;
-
-  if (!$context = og_context()) {
-    return;
-  }
-
-  $options = array('purl' => array('disabled' => TRUE));
-  $variables = array(
-    'account' => $user,
-    'link_options' => $options,
-  );
-  $form['author']['_author']['#markup'] = theme('username', $variables);
 }
 
 /**
