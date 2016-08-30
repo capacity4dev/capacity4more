@@ -33,7 +33,7 @@
 
 <!-- Body editor-->
 <div class="form-group" id="body-wrapper" ng-class="{ 'has-error' : errors.body }">
-  <textarea ckeditor="editorOptions" name="body" id="body" ng-model="data.body"></textarea>
+  <textarea ckeditor="editorOptions" name="body" class="form-control" id="body" ng-model="data.body" placeholder="Body"></textarea>
 
   <p ng-show="errors.body" class="errors"><?php print t('Body is required.'); ?></p>
 

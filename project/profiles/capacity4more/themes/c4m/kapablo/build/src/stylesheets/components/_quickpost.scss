@@ -46,21 +46,35 @@
 
   .btn-group-discussion_type {
     display: flex;
+    flex-direction: column;
+
+    @media(min-width: $screen-lg) {
+      flex-direction: row;
+    }
 
     .discussion_type {
-      margin: 0 10px;
       color: white;
       border: 1px solid lighten($color-gray, 10%);
       border-radius: 3px;
       background: transparent;
       box-shadow: none;
 
+      @media (min-width: $screen-lg) {
+        margin: 0 10px;
+      }
+
       &:first-of-type {
-        margin-left: 0;
+
+        @media(min-width: $screen-lg) {
+          margin-left: 0;
+        }
       }
 
       &:last-of-type {
-        margin-right: 0;
+
+        @media(min-width: $screen-lg) {
+          margin-right: 0;
+        }
       }
 
       &.active {
