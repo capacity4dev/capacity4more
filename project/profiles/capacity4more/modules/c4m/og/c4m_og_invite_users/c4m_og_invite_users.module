@@ -21,6 +21,14 @@ function c4m_og_invite_users_menu_alter(&$items) {
  * Membership requests setting (Open/Moderated).
  */
 function c4m_og_invite_users_access($group_type, $gid) {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return;
+  }
+
   if (!_og_invite_access($group_type, $gid)) {
     return FALSE;
   }
@@ -33,7 +41,7 @@ function c4m_og_invite_users_access($group_type, $gid) {
   $group = entity_load_single($group_type, $gid);
   $group_request_membership_value = c4m_og_get_group_membership_request($group);
 
-  return $group_request_membership_value == 'open' && og_user_access($group_type, $gid, 'member');
+  return $group_request_membership_value == 'open' && og_user_access('node', $gid, 'invite any user');
 }
 
 /**
