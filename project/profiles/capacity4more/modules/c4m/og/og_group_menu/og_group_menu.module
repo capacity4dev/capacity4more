@@ -40,3 +40,30 @@ function og_group_menu_block_view_alter(&$data, $block) {
     }
   }
 }
+
+/**
+ * Implements hook_og_ui_get_group_admin_alter().
+ *
+ * Prevents editing group menus. Allow only for projects.
+ */
+function og_group_menu_og_ui_get_group_admin_alter(&$data, $context) {
+  // If we are in a project context, keep the link in place.
+  $group = node_load($context['etid']);
+  if ($group && $group->type == 'project') {
+    return;
+  }
+
+  unset($data['menus']);
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function og_group_menu_menu_alter(&$items) {
+  $group = node_load(og_menu_get_context());
+  if ($group && $group->type == 'project') {
+    return;
+  }
+
+  $items['group/%/%/admin/menus']['access callback'] = FALSE;
+}
