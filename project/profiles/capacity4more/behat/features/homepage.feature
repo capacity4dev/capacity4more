@@ -149,7 +149,7 @@ Feature: Test homepage content and blocks
     And   I load more activities
     And   I should see "posted" in the "div.activity-stream" element
 
-  @javascript
+  @javascript @guy
   Scenario: Logged in, non member user should see only activities from groups of
   interests when filter is set to My interests
     Given I am logged in as user "president"
