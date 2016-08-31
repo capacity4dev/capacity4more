@@ -161,6 +161,7 @@ function c4m_message_field_default_field_bases() {
         ),
         'target_bundles' => array(
           'group' => 'group',
+          'project' => 'project',
         ),
       ),
       'target_type' => 'node',
@@ -199,6 +200,7 @@ function c4m_message_field_default_field_bases() {
           'discussion' => 'discussion',
           'document' => 'document',
           'event' => 'event',
+          'news' => 'news',
           'photo' => 'photo',
           'photoalbum' => 'photoalbum',
           'share' => 'share',
