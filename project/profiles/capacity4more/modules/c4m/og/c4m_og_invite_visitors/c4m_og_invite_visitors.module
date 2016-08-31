@@ -349,9 +349,11 @@ function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
 function c4m_og_invite_visitors_drupal_goto_alter(&$path, &$options, &$http_response_code) {
   global $user;
 
-  if ($path == 'user/' . $user->uid && empty($user->c4m_first_name) && empty($user->c4m_last_name)) {
-    $path .= '/edit';
+  if ($path != 'user/' . $user->uid || !empty($user->c4m_first_name) || !empty($user->c4m_last_name)) {
+    return;
   }
+
+  $path .= '/edit';
 }
 
 /**
