@@ -49,7 +49,7 @@ function c4m_contact_c4m_captcha_form_info() {
  * Alters the contact mail to replace the recipient with the custom list.
  */
 function c4m_contact_mail_alter(&$message) {
-  if ($message['id ']== 'page_mail') {
+  if ($message['id'] == 'contact_page_mail') {
     $message['to'] = variable_get('c4m_contact_email_addresses', variable_get('site_mail'));
   }
 }
