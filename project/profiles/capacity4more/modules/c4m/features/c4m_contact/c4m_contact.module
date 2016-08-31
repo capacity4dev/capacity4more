@@ -44,6 +44,17 @@ function c4m_contact_c4m_captcha_form_info() {
 }
 
 /**
+ * Implements hook_mail_alter().
+ *
+ * Alters the contact mail to replace the recipient with the custom list.
+ */
+function c4m_contact_mail_alter(&$message) {
+  if ($message['id ']== 'page_mail') {
+    $message['to'] = variable_get('c4m_contact_email_addresses', variable_get('site_mail'));
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Alter the site contact form.
