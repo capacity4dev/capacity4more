@@ -64,6 +64,9 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
 
     $this->addFieldMapping('c4m_cris_contract_number', 'cris_contract')
       ->separator(';');
+
+    $this->addFieldMapping('c4m_project_type')
+      ->defaultValue('project');
   }
 
   /**
