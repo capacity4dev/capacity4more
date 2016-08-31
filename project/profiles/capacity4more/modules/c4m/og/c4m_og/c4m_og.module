@@ -18,6 +18,7 @@ define('C4M_OG_ACCESS_REALM', 'c4m_og_access');
  */
 define('C4M_OG_MODERATED_GROUP', 0);
 define('C4M_OG_OPEN_GROUP', 1);
+define('C4M_OG_PRIVATE_GROUP', 2);
 
 /**
  * Helper to get the current active group (based on og_context()).
