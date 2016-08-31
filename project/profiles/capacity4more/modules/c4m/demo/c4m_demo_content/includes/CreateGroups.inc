@@ -43,6 +43,9 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
    */
   public function __construct() {
     parent::__construct();
+
+    $this->addFieldMapping(OG_ACCESS_FIELD, 'group_access')
+      ->defaultValue(0);
   }
 
   /**
