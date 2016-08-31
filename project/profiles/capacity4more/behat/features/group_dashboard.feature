@@ -42,9 +42,9 @@ Feature: Group dashboard
     Then  I should see the group dashboard without quick post form
 
   @api
-  Scenario: Check Invite a member link is available for a member of a public group.
-    Given I am logged in as user "mariecurie"
-    When  I visit the dashboard of group "Music Lovers"
+  Scenario: Check Invite a member link is available for a member of an open public group.
+    Given I am logged in as user "isaacnewton"
+    When  I visit the dashboard of group "Movie Popcorn Corner"
     And   I click "Invite a member"
     Then  I should see the text "Invite People to Join"
 

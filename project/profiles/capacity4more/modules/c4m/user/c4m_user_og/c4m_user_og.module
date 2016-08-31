@@ -1098,5 +1098,5 @@ function c4m_user_og_invite_access($group = NULL) {
     return FALSE;
   }
 
-  return og_is_member($group->type, $group->nid, 'user', $user);
+  return og_is_member('node', $group->nid, 'user', $user);
 }
