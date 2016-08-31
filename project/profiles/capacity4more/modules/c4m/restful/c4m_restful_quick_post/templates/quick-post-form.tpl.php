@@ -10,8 +10,14 @@
       xmlns="http://www.w3.org/1999/html">
 
 <div class="form-group text" ng-class="{ 'has-error' : errors.label }">
+<<<<<<< HEAD
   <input id="label" class="form-control quickpost-title" name="label" ng-click="updateResource('<?php print key($show_resources) ?>', $event)" type="text" ng-model="data.label"
          placeholder="<?php print t('Share information or an idea, start a debmate or ask a question here...'); ?>" required>
+=======
+  <input id="label" class="form-control" name="label" ng-click="updateResource('<?php print key($show_resources) ?>', $event)" type="text" ng-model="data.label"
+         ng-attr-placeholder="{{ titlePlaceholder ? titlePlaceholderText : '' }}"
+         ng-focus="titlePlaceholder = false" ng-blur="titlePlaceholder = true" required>
+>>>>>>> feature/CFM-937-quickpost-fields-order
 
   <p ng-show="errors.label"
      class="help-block"><?php print t('Title is too short.'); ?></p>
@@ -22,14 +28,8 @@
     </ul>
   </div>
 </div>
-  
-<div ng-show="resources[selectedResource]" id="quick-post-fields">
 
-<div ng-if="selectedResource == 'discussions'" ng-class="{ 'has-error' : errors.discussion_type }">
-  <types field="'discussion_type'" field-schema="referenceValues" type="data.discussion_type" on-change="updateType"
-         cols="3"></types>
-  <p ng-show="errors.discussion_type" class="help-block"><?php print t('Discussion type is required.'); ?></p>
-</div>
+<div ng-show="resources[selectedResource]" id="quick-post-fields">
 
 <!-- Body editor-->
 <div class="form-group" id="body-wrapper" ng-class="{ 'has-error' : errors.body }">
@@ -44,6 +44,7 @@
   </div>
 </div>
 
+<<<<<<< HEAD
 <span>Create a post with additional details by using
   <a href="javascript://" id="full-from-button" ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('the advanced form'); ?></a>
 instead.</span>
@@ -232,9 +233,55 @@ instead.</span>
   <div class="actions-row">
     <div class="qp-post-button">
       <button type="submit" id="quick-submit" class="btn btn-primary quickpost-btn quickpost-submit-btn" tabindex="100"><?php print t('Post'); ?></button>
+=======
+
+<div ng-if="selectedResource == 'discussions'" ng-class="{ 'has-error' : errors.discussion_type }">
+  <types field="'discussion_type'" field-schema="referenceValues" type="data.discussion_type" on-change="updateType"
+         cols="3"></types>
+  <p ng-show="errors.discussion_type" class="help-block"><?php print t('Discussion type is required.'); ?></p>
+</div>
+
+<div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.topic }">
+  <div class="label-wrapper">
+    <label>{{fieldSchema.resources[selectedResource].topic.info.label}}</label>
+  <span id="topic_description"
+        class="description">{{fieldSchema.resources[selectedResource].topic.info.description}}</span>
+  </div>
+  <div class="checkboxes-wrapper">
+    <div class="checkboxes-wrapper">
+      <div class="popup-button">
+        <button type="button" ng-click="togglePopover('topic', $event)" class="btn">
+          &nbsp;<?php print t('Select Topic'); ?></button>
+        <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
+      </div>
+      <div class="selected-values" ng-show="data.topic">
+      <span ng-if="value === true" ng-repeat="(key, value) in data.topic">
+        {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
+      </span>
+      </div>
+      <!-- Hidden topic checkboxes.-->
+      <div class="popover right hidden-checkboxes" ng-show="popups.topic">
+        <div class="arrow"></div>
+        <div class="popover-content">
+          <list-terms type="topic" popup="popups.topic" model="data.topic" items="topic"></list-terms>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="actions row">
+  <div class="col-xs-12">
+    <div class="qp-post-button">
+      <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('Submit'); ?></button>
+    </div>
+    <div class="qp-post-fullform">
+      <a href="javascript://" id="full-from-button"
+         ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('Advanced Editing'); ?></a>
+>>>>>>> feature/CFM-937-quickpost-fields-order
     </div>
     <div class="qp-post-cancel">
-      <a href="javascript://" id="clear-button" ng-click="resetEntityForm()"><?php print t('Cancel'); ?></a>
+      <a href="javascript://" id="clear-button" ng-click="closeQuickPost()"><?php print t('Cancel'); ?></a>
     </div>
   </div>
 </div>
