@@ -112,6 +112,10 @@
         content: "\f0c0";
       }
 
+      &.news::before {
+        content: "\f1ea"
+      }
+
       &:not(:last-of-type) {
         border-bottom: 1px dotted $color-gray-light;
       }
