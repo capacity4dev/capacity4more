@@ -1233,22 +1233,14 @@ function c4m_message_load_homepage_activity_stream() {
     switch ($filter) {
       case 'groups':
         // Gets all the group IDs that the user belongs to.
-<<<<<<< HEAD
-        $groups = c4m_og_get_user_group_nodes_by_bundle('group');
-        $hide_articles = TRUE;
-=======
         $groups = c4m_og_get_user_group_ids_by_bundle('group');
->>>>>>> develop
+        $hide_articles = TRUE;
         break;
 
       case 'projects':
         // Gets all the project IDs that the user belongs to.
-<<<<<<< HEAD
-        $groups = c4m_og_get_user_group_nodes_by_bundle('project');
-        $hide_articles = TRUE;
-=======
         $groups = c4m_og_get_user_group_ids_by_bundle('project');
->>>>>>> develop
+        $hide_articles = TRUE;
         break;
 
       case 'interests':
