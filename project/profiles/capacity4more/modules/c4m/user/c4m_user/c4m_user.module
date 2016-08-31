@@ -1396,6 +1396,8 @@ function c4m_user_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * Generates a unique URL for a user to login with their password already set.
+ *
  * @see user_registrationpassword_confirmation_url()
  *
  * Remove group purl from the accept invitation URL.

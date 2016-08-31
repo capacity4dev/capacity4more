@@ -341,6 +341,20 @@ function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
 }
 
 /**
+ * Implements hook_drupal_goto_alter().
+ *
+ * When new users accepts an invitation, redirect them to edit their profile so
+ * they can enter their name and choose a password.
+ */
+function c4m_og_invite_visitors_drupal_goto_alter(&$path, &$options, &$http_response_code) {
+  global $user;
+
+  if ($path == 'user/' . $user->uid && empty($user->c4m_first_name) && empty($user->c4m_last_name)) {
+    $path .= '/edit';
+  }
+}
+
+/**
  * Create new user and send email.
  *
  * @param string $invitee_email
