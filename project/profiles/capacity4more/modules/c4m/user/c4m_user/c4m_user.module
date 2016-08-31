@@ -1397,6 +1397,8 @@ function c4m_user_form_alter(&$form, &$form_state, $form_id) {
 
 /**
  * @see user_registrationpassword_confirmation_url()
+ *
+ * Remove group purl from the accept invitation URL.
  */
 function c4m_user_registrationpassword_confirmation_url($account) {
   $timestamp = REQUEST_TIME;
