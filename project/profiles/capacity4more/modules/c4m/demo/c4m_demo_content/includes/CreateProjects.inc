@@ -41,7 +41,7 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
     array('groups', 'Groups'),
     array('projects', 'Projects'),
     array('membership_open_request', 'Membership_Request'),
-    array('group_access', 'Access'),
+    array('is_template', 'Template'),
   );
 
   /**
@@ -67,6 +67,9 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
 
     $this->addFieldMapping('c4m_project_type')
       ->defaultValue('project');
+
+    $this->addFieldMapping('c4m_is_template', 'is_template')
+      ->defaultValue(0);
   }
 
   /**
