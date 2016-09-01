@@ -440,10 +440,10 @@ function _c4m_user_notifications_notify_content_followers_of_comment($cid, $nid)
   $node = node_load($nid);
   // Flag suffix that is used at unsubscribe mechanism.
   $flag_suffix = 'comment';
-  // Additional flag entity has to be marked with, for user to be selected
-  // for notification.
-  // With such setting, only user that got entity marked with 'follow node'
-  // and 'follow comment' flags will be selected.
+  // Additional flag, entity has (or has not) to be marked with,
+  // for user to be selected for notification.
+  // With 'flags_operation' set to 'intersect', only user that got entity
+  // marked with 'follow node' and 'follow comment' flags will be selected.
   $additional_flag_suffix = 'node';
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
@@ -451,6 +451,7 @@ function _c4m_user_notifications_notify_content_followers_of_comment($cid, $nid)
     'entity_type' => $flag_suffix,
     'entity_id' => $nid,
     'additional_flag_suffix' => $additional_flag_suffix,
+    'flags_operation' => 'intersect',
   );
 
   // Message will be saved in message_subscribe_send_message().
@@ -690,11 +691,18 @@ function _c4m_user_notifications_comment_on_content($cid, $nid) {
   $node = node_load($nid);
   // Flag suffix that is used at unsubscribe mechanism.
   $flag_suffix = 'comment';
+  // Additional flag, entity has (or has not) to be marked with,
+  // for user to be selected for notification.
+  // With 'flags_operation' set to 'diff', only user that got entity
+  // marked with 'follow comment' and not 'follow node' flags will be selected.
+  $additional_flag_suffix = 'node';
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
   $context = array(
     'entity_type' => $flag_suffix,
     'entity_id' => $nid,
+    'additional_flag_suffix' => $additional_flag_suffix,
+    'flags_operation' => 'diff',
   );
 
   // Message will be saved in message_subscribe_send_message().
@@ -781,11 +789,13 @@ function c4m_user_notifications_message_subscribe_get_subscribers($message, $sub
   $filtered_users = array_keys($users);
 
   // If we need to filter users according to additional flag.
-  if (isset($context['additional_flag_suffix'])) {
+  if (isset($context['additional_flag_suffix']) && isset($context['flags_operation'])) {
     // Filtering.
     $flag_name = 'subscribe_c4m_follow_' . $context['additional_flag_suffix'];
     $filtered_users = flag_get_entity_flags($flagged_entity_type, $entity_id, $flag_name);
-    $filtered_users = array_intersect(array_keys($users), array_keys($filtered_users));
+    // Flag operations can be 'intersect' or 'diff'.
+    $function = 'array_' . $context['flags_operation'];
+    $filtered_users = $function(array_keys($users), array_keys($filtered_users));
   }
 
   // Set notifiers to mail, for users that remain after filtering.
