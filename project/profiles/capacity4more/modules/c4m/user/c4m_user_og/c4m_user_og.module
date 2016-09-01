@@ -459,8 +459,8 @@ function c4m_user_og_theme() {
     'variables' => array(
       'text' => NULL,
       'icon' => NULL,
-      'class' => 'c4m-group-text-cta text-copy--small',
-      'span_class' => NULL,
+      'wrapper_class' => 'c4m-group-text-cta text-copy--small',
+      'text_class' => NULL,
     ),
   );
 
@@ -661,8 +661,8 @@ function c4m_user_og_c4m_join_cta($group) {
       '#theme' => 'c4m_group_text_cta',
       '#text' => t('Membership waiting approval'),
       '#icon' => 'fa-hourglass-end',
-      '#class' => 'c4m-wide-gothic-btn',
-      '#span_class' => 'btn text-small',
+      '#wrapper_class' => 'c4m-wide-gothic-btn',
+      '#text_class' => 'btn text-small',
     );
   }
 
@@ -697,30 +697,20 @@ function c4m_user_og_c4m_invite_cta($group) {
 function c4m_user_og_c4m_membership_cta($group) {
   // Default state for og_is_member is active.
   if (og_is_member('node', $group->nid)) {
-    drupal_set_message(
-      t('Welcome to group %group', array('%group' => $group->title))
-    );
+    drupal_set_message(t('Welcome to group %group', array('%group' => $group->title)));
     return;
   }
 
-  if (og_is_member(
-    'node',
-    $group->nid,
-    'user',
-    NULL,
-    array(OG_STATE_PENDING)
-  )) {
-    $message = t(
-      "This is a moderated group. Your request is waiting for approval. Continue to explore group's content."
-    );
+  if (og_is_member('node', $group->nid, 'user', NULL, array(OG_STATE_PENDING))) {
+    $message = t("This is a moderated group. Your request is waiting for approval. Continue to explore group's content.");
     drupal_set_message($message);
 
     return array(
       '#theme' => 'c4m_group_text_cta',
       '#text' => t('Membership waiting approval'),
       '#icon' => 'fa-hourglass-end',
-      '#class' => 'c4m-wide-gothic-btn',
-      '#span_class' => 'btn text-small',
+      '#wrapper_class' => 'c4m-wide-gothic-btn',
+      '#text_class' => 'btn text-small',
     );
   }
 
