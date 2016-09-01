@@ -66,6 +66,28 @@ body {
       border-color: $color-accent;
     }
   }
+
+  &.label-stage {
+      color: $color-white;
+      border: 1px solid $color-white;
+      font-weight: normal;
+      text-transform: uppercase;
+
+    &.notstarted {
+      background-color: $color-gray;
+      border-color: $color-gray;
+    }
+
+    &.ongoing {
+      background-color: $color-blue-light;
+      border-color: $color-blue-light;
+    }
+
+    &.completed {
+      background-color: $color-blue;
+      border-color: $color-blue;
+    }
+  }
 }
 
 div.contextual-links-wrapper {
@@ -81,7 +103,6 @@ div.contextual-links-wrapper {
 .page-content {
   position: relative;
   height: 100%;
-  overflow-y: scroll;
 }
 
 .popover {
