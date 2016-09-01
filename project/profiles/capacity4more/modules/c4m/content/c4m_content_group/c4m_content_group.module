@@ -114,52 +114,6 @@ function c4m_content_group_node_insert($node) {
 }
 
 /**
- * Implements hook_node_update().
- *
- * Sends notifications (By email) to the group author,
- * when the group status changes (Rejected/ Approved).
- */
-function c4m_content_group_node_update($node) {
-  // Only for OG enabled content type.
-  if (!og_is_group_type('node', $node->type)) {
-    return;
-  }
-
-  // Do not send notifications if it's not a group.
-  // Don't send notifications during migration.
-  if ($node->type != 'group' || !empty($node->migrate)) {
-    return;
-  }
-
-  // Status now and before update.
-  $status_new = isset($node->c4m_og_status)
-    ? $node->c4m_og_status[LANGUAGE_NONE][0]['value']
-    : NULL;
-  $status_original = (isset($node->original->c4m_og_status))
-    ? $node->original->c4m_og_status[LANGUAGE_NONE][0]['value']
-    : NULL;
-
-  // Don't do anything if status did NOT change.
-  if ($status_original === $status_new) {
-    return;
-  }
-
-  $key = NULL;
-  switch ($status_new) {
-    case 'draft':
-    case 'published':
-      $key = 'group_approved_user';
-      break;
-  }
-
-  // Send mail only if there's a key.
-  if ($key) {
-    $account = user_load($node->uid);
-    c4m_content_group_send_mail($key, $account, $node);
-  }
-}
-
-/**
  * Helper to send out an email.
  *
  * @param string $key
