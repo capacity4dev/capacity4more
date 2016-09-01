@@ -1,8 +1,0 @@
-<?php
-
-/**
- * @file
- * Code for the News item content type feature.
- */
-
-include_once 'c4m_content_news_item.features.inc';
