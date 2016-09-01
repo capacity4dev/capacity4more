@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * og_group_menu.features.menu_links.inc
+ * c4m_og_group_menu.features.menu_links.inc
  */
 
 /**
  * Implements hook_menu_default_menu_links().
  */
-function og_group_menu_menu_default_menu_links() {
+function c4m_og_group_menu_menu_default_menu_links() {
   $menu_links = array();
 
   // Exported menu link: management_og-menu-settings:admin/config/group/og_menu.
