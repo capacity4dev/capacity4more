@@ -56,8 +56,12 @@
       }
 
       label {
-        margin-left: 5px;
+        margin-left: 10px;
         font-weight: 100;
+
+        @media (min-width: $screen-md) {
+          margin-left: 5px;
+        }
       }
     }
 
