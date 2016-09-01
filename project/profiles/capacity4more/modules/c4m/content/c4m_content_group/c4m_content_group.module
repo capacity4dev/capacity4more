@@ -916,3 +916,4 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
     $node->content['c4m_vocab_topic'][$index]['#markup'] = theme('c4m_og_vocab', $variables);
   }
 }
+

@@ -77,6 +77,11 @@ function c4m_user_notifications_group_status_set_republished($node) {
  * Email notification about organic group status change to 'unpublished'.
  */
 function c4m_user_notifications_group_status_set_unpublished($node) {
+  $uids = c4m_user_notifications_get_group_admins($node);
+
+  foreach ($uids as $uid) {
+    c4m_user_notification_create_group_unpublish_message($uid, $node);
+  }
 }
 
 /**
@@ -89,6 +94,67 @@ function c4m_user_notifications_group_status_set_archived($node) {
  * Email notification about organic group status change to 'softdelete'.
  */
 function c4m_user_notifications_group_status_set_softdeleted($node) {
+}
+
+/**
+ * Creates the new group unpublished message for an uid.
+ */
+function c4m_user_notification_create_group_unpublish_message($uid, $group) {
+  $message = message_create('c4m_unpublish_group', array('uid' => $uid));
+
+  $message->arguments['@member_full_name'] = array(
+    'callback' => 'c4m_message_format_member_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_help_section'] = array(
+    'callback' => 'c4m_message_format_group_help_section',
+    'pass message' => FALSE,
+  );
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group_node->set($group->nid);
+
+  message_notify_send_message($wrapper->value());
+}
+
+/**
+ * Gets the admins of a group.
+ */
+function c4m_user_notifications_get_group_admins($group) {
+  $uids = array();
+  // Add owner of the group.
+  $uids[$group->uid] = $group->uid;
+
+  $admin_role = 'administrator member';
+
+  $query = db_select('og_users_roles', 'ur');
+  $query->innerJoin('og_role', 'r', 'ur.rid = r.rid');
+  $query->fields('ur', array('uid'));
+  $query->condition('ur.gid', $group->nid);
+  $query->condition('r.name', $admin_role);
+
+  $results = $query->execute();
+  foreach ($results as $item) {
+    $uids[$item->uid] = $item->uid;
+  }
+
+  return $uids;
 }
 
 /**
