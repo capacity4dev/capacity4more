@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * og_group_menu.features.menu_custom.inc
+ * c4m_og_group_menu.features.menu_custom.inc
  */
 
 /**
  * Implements hook_menu_default_menu_custom().
  */
-function og_group_menu_menu_default_menu_custom() {
+function c4m_og_group_menu_menu_default_menu_custom() {
   $menus = array();
 
   // Exported menu: management.
