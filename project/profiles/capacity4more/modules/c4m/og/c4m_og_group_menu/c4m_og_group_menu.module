@@ -58,6 +58,8 @@ function og_group_menu_og_ui_get_group_admin_alter(&$data, $context) {
 
 /**
  * Implements hook_menu_alter().
+ *
+ * Registers the function that grants or denied access to edit the og menu.
  */
 function og_group_menu_menu_alter(&$items) {
   $items['group/%/%/admin/menus']['access callback'] = 'c4m_og_group_menu_page_access';
@@ -72,6 +74,9 @@ function og_group_menu_menu_alter(&$items) {
 
 /**
  * Allow access to the custom menu (og_menu) only under a project context.
+ *
+ * @see og_menu_access()
+ *   For more details about the access checks.
  */
 function c4m_og_group_menu_page_access() {
   if (!og_context_is_init()) {
