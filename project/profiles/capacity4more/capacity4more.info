@@ -58,7 +58,6 @@ dependencies[] = og_ui
 dependencies[] = og_purl
 dependencies[] = og_vocab
 dependencies[] = og_menu
-dependencies[] = c4m_og_group_menu
 dependencies[] = og_invite
 dependencies[] = og_invite_people
 dependencies[] = page_manager
@@ -169,6 +168,7 @@ dependencies[] = c4m_restful
 
 ; Overview content within groups
 dependencies[] = c4m_og_menu
+dependencies[] = c4m_og_group_menu
 dependencies[] = c4m_features_og_events
 dependencies[] = c4m_features_og_group_dashboard
 dependencies[] = c4m_features_og_discussions
