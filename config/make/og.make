@@ -17,6 +17,7 @@ projects[og_variables][version] = "1.0"
 projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
 projects[og_vocab][patch][] = https://www.drupal.org/files/issues/og_vocab-fix_strict_warning.patch
+projects[og_vocab][patch][] = https://www.drupal.org/files/issues/2399883-og_vocab-menuitem-7.patch
 
 projects[pluggable_node_access][subdir] = "contrib"
 projects[pluggable_node_access][version] = "1.x-dev"
