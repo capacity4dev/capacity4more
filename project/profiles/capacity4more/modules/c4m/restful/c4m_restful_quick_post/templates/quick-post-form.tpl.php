@@ -226,7 +226,7 @@ instead.</span>
 
   <div class="actions-row">
     <div class="actions-row-group">
-      <input type="checkbox" id="notification">
+      <input type="checkbox" id="notification" ng-model="data.notification">
       <label for="notification">Notify members of the group about this post</label>
     </div>
     <div class="actions-row-group">
