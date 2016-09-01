@@ -98,8 +98,11 @@ function c4m_features_homepage_get_group_type_title($type) {
  */
 function c4m_features_homepage_get_user_groups($account = NULL) {
   $groups = c4m_user_og_get_groups($account);
-  usort($groups, 'c4m_sort_object_by_title');
+
+  // Removes groups where the logged in user has no access.
   $groups = array_filter($groups, 'c4m_features_homepage_node_access_view_filter');
+
+  usort($groups, 'c4m_sort_object_by_title');
 
   return $groups;
 }
