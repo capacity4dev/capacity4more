@@ -36,6 +36,18 @@ function c4m_user_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 21,
       ),
+      'member_overview' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 13,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'user_picture' => array(
         'label' => 'above',
         'settings' => array(),
