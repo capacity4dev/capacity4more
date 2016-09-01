@@ -7,6 +7,9 @@
 
 /**
  * Implements hook_menu_alter().
+ *
+ * Define a custom access function that checks if the user is allowed to invite
+ * other existing users to the group.
  */
 function c4m_og_invite_users_menu_alter(&$items) {
   $items['group/%/%/admin/people/invite-users']['access callback'] = 'c4m_og_invite_users_access';
@@ -46,6 +49,10 @@ function c4m_og_invite_users_access($group_type, $gid) {
 
 /**
  * Implements hook_mail_alter().
+ *
+ * Alters the email sent to users when they are invited to join a group. The
+ * email subject and body are loaded from template files with the same name as
+ * the email identification $key.
  */
 function c4m_og_invite_users_mail_alter(&$message) {
   if ($message['key'] != 'send_invitation') {

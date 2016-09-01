@@ -7,6 +7,8 @@
 
 /**
  * Implements hook_menu().
+ *
+ * Defines a path for the page/form used to invite visitors into a group.
  */
 function c4m_og_invite_visitors_menu() {
   $items = array();
@@ -25,6 +27,9 @@ function c4m_og_invite_visitors_menu() {
 
 /**
  * Implements hook_og_ui_get_group_admin().
+ *
+ * Adds a menu item (Invite members) to the group administration page. Links to
+ * the invite visitors form.
  */
 function c4m_og_invite_visitors_og_ui_get_group_admin($group_type, $gid) {
   $items = array();
@@ -40,7 +45,10 @@ function c4m_og_invite_visitors_og_ui_get_group_admin($group_type, $gid) {
 }
 
 /**
- * Check if entity is a group, and user has permission - Access.
+ * Invite access. Checks if the user is allowed to invite visitors to the group.
+ *
+ * Checks by user role and og_role against group visibility (Public/Private) and
+ * Membership requests setting (Open/Moderated).
  */
 function c4m_og_invite_visitors_user_access($perm, $group_type, $gid) {
   global $user;
@@ -70,6 +78,8 @@ function c4m_og_invite_visitors_user_access($perm, $group_type, $gid) {
 
 /**
  * Implements hook_og_permission().
+ *
+ * Adds a group permissions to invite visitors to a group.
  */
 function c4m_og_invite_visitors_og_permission() {
   $items = array();
@@ -84,6 +94,8 @@ function c4m_og_invite_visitors_og_permission() {
 
 /**
  * Main OG Invite members form.
+ *
+ * Defines the form structure for inviting visitors to join a group.
  */
 function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group_type, $gid) {
   og_set_breadcrumb($group_type, $gid, array(l(t('Group'), "$group_type/$gid/group")));
@@ -259,6 +271,10 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
 
 /**
  * Implements hook_mail().
+ *
+ * Alters the email sent to visitors when they are invited to join a group. The
+ * email subject and body are loaded from template files with the same name as
+ * the email identification $key.
  */
 function c4m_og_invite_visitors_mail($key, &$message, $params) {
   $language = $message['language'];
