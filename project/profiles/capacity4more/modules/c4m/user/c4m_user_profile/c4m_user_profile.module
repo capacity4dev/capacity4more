@@ -49,6 +49,11 @@ function c4m_user_profile_block_info() {
     'cache' => DRUPAL_NO_CACHE,
   );
 
+  $blocks['user_my_profile_groups'] = array(
+    'info' => t('My groups'),
+    'cache' => DRUPAL_CACHE_PER_USER,
+  );
+
   return $blocks;
 }
 
@@ -144,12 +149,9 @@ function _c4m_user_profile_facet_country_alter(array &$build, $settings) {
   $field = field_info_field($settings->facet);
   $allowed_values = list_allowed_values($field);
   foreach ($build as $key => $item) {
-    $options = array(
-      '@country' => ucwords(
-        drupal_strtolower($allowed_values[drupal_strtoupper($key)])
-      ),
+    $build[$key]["#markup"] = ucwords(
+      drupal_strtolower($allowed_values[drupal_strtoupper($key)])
     );
-    $build[$key]["#markup"] = t('@country', $options);
   }
 }
 
@@ -173,6 +175,14 @@ function c4m_user_profile_theme() {
     ),
     'file' => 'c4m_user_profile.theme.inc',
     'path' => drupal_get_path('module', 'c4m_user_profile') . '/includes',
+  );
+
+  $theme['c4m_user_profile_my_profile_groups'] = array(
+    'variables' => array(
+      'groups' => NULL,
+    ),
+    'path' => drupal_get_path('module', 'c4m_user_profile') . '/templates',
+    'template' => 'my-profile-groups',
   );
 
   return $theme;
@@ -220,7 +230,7 @@ function c4m_user_profile_menu() {
     'access callback' => 'user_is_logged_in',
     'access arguments' => array(),
     'file' => 'c4m_user_profile.pages.inc',
-    'type' => MENU_LOCAL_TASK,
+    'type' => MENU_CALLBACK,
   );
 
   return $items;
@@ -497,6 +507,8 @@ function c4m_user_profile_form_user_profile_form_alter(
 
   // Hide the spammer / deleted checkboxes.
   $form['c4m_is_deleted']['#access'] = FALSE;
+  $form['c4m_is_deleted_by_uid']['#access'] = FALSE;
+  $form['c4m_is_deleted_anonymous']['#access'] = FALSE;
   $form['c4m_is_spammer']['#access'] = FALSE;
   // Hide status field.
   $form['account']['status']['#access'] = FALSE;
@@ -512,6 +524,11 @@ function c4m_user_profile_form_user_profile_form_alter(
     '#submit' => array('c4m_user_profile_simple_cancel'),
     "#executes_submit_callback" => TRUE,
     '#value' => t('Cancel'),
+  );
+
+  $form['actions']['delete'] = array(
+    '#type' => 'markup',
+    '#markup' => l(t('Delete account'), 'user/' . $account->uid . '/leave'),
   );
 }
 
@@ -1050,31 +1067,19 @@ function c4m_user_profile_user_login_validate($form, &$form_state) {
   }
 
   $account = entity_metadata_wrapper('user', $account);
-  if (!$account->c4m_is_deleted->value() && !$account->c4m_is_spammer->value(
-    ) && !$account->last_login->value()
-  ) {
-    form_set_error(
-      'name',
-      t(
-        'You used valid credentials but your account is not activated yet. Use the !password_recovery form to resend the activation email.',
-        array(
-          '!password_recovery' => l(
-            t('password recovery'),
-            'user/password'
-          ),
-        )
-      )
+  if (!$account->c4m_is_deleted->value() && !$account->c4m_is_spammer->value() && !$account->last_login->value()) {
+    $message = t(
+      'You used valid credentials but your account is not activated yet. Use the !password_recovery form to resend the activation email.',
+      array('!password_recovery' => l(t('password recovery'), 'user/password'))
     );
   }
   else {
-    form_set_error(
-      'name',
-      t(
-        'The username %name has not been activated or is blocked.',
-        array('%name' => $form_state['values']['name'])
-      )
+    $message = t(
+      'There is a problem with your account, please !contact the site administrators.',
+      array('!contact' => l(t('contact'), 'contact'))
     );
   }
+  form_set_error('name', $message);
 }
 
 /**
@@ -1371,7 +1376,8 @@ function c4m_user_profile_user_cancel_methods_alter(&$methods) {
  * Implements the functionality for the custom cancellation method that blocks
  * and reassigns.
  * Removes all user cookies and session information when an user leaves the
- * platform. *  */
+ * platform.
+ */
 function c4m_user_profile_user_cancel($edit, $account, $method) {
   // By default, the cancellation blocks the user, so we only care about the
   // content reassign that is already implemented in the node hook

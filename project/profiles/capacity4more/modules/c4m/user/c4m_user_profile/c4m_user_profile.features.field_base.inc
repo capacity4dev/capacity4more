@@ -327,6 +327,46 @@ function c4m_user_profile_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
+  // Exported field_base: 'c4m_is_deleted_anonymous'.
+  $field_bases['c4m_is_deleted_anonymous'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_is_deleted_anonymous',
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => '',
+        1 => '',
+      ),
+      'allowed_values_function' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_boolean',
+  );
+
+  // Exported field_base: 'c4m_is_deleted_by_uid'.
+  $field_bases['c4m_is_deleted_by_uid'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_is_deleted_by_uid',
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'number',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'number_integer',
+  );
+
   // Exported field_base: 'c4m_is_invalid_email'.
   $field_bases['c4m_is_invalid_email'] = array(
     'active' => 1,

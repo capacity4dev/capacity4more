@@ -73,10 +73,16 @@ function c4m_user_og_get_role_in_group($user, $group) {
 
   // Check if the user has the administrator role.
   $roles = og_roles('node', $group->type, $group->nid);
-  $admin_role = array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $roles);
+  $admin_role = array_search(
+    C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME,
+    $roles
+  );
   if ($admin_role) {
     $user_roles = og_get_user_roles('node', $group->nid, $user->uid);
-    if (array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $user_roles)) {
+    if (array_search(
+      C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME,
+      $user_roles
+    )) {
       return 'administrator';
     }
   }
@@ -223,7 +229,11 @@ function c4m_user_og_count_comments_in_group($uid, $gid) {
  * @return bool
  *   Boolean indication if the user has groups.
  */
-function c4m_user_og_has_groups($account = NULL, $bundle = 'group', $status = NODE_PUBLISHED) {
+function c4m_user_og_has_groups(
+  $account = NULL,
+  $bundle = 'group',
+  $status = NODE_PUBLISHED
+) {
   $groups = og_get_groups_by_user($account);
   if (empty($groups)) {
     return FALSE;
@@ -254,7 +264,11 @@ function c4m_user_og_has_groups($account = NULL, $bundle = 'group', $status = NO
  * @return array|void
  *   An array with the groups or an empty array.
  */
-function c4m_user_og_get_groups($account = NULL, $bundle = 'group', $status = NODE_PUBLISHED) {
+function c4m_user_og_get_groups(
+  $account = NULL,
+  $bundle = 'group',
+  $status = NODE_PUBLISHED
+) {
   $groups = og_get_groups_by_user($account);
 
   if (empty($groups)) {
@@ -353,7 +367,10 @@ function c4m_user_og_get_number_of_contributors_vs_members($og_id) {
   $contributors = c4m_user_og_get_number_of_contributors($og_id);
   $active_members = c4m_user_og_get_number_of_active_members($og_id);
 
-  if (is_numeric($contributors) && (is_numeric($active_members) && $active_members > 0)) {
+  if (is_numeric($contributors) && (is_numeric(
+        $active_members
+      ) && $active_members > 0)
+  ) {
     $calculation = $contributors / $active_members;
     return empty($calculation) ? 0 : $calculation;
   }
@@ -368,18 +385,18 @@ function c4m_user_og_c4m_content_statistics_info() {
   return array(
     'group' => array(
       'c4m_og_user' => array(
-        'type'          => 'user',
-        'entity_type'   => 'user',
-        'bundles'       => array(),
-        'singular'      => 'Member',
-        'plural'        => 'Members',
-        'state'         => 1,
-        'c4m_status'    => array(1),
-        'scope'         => 'group',
-        'aggregate'     => array(),
-        'weight'        => 7,
-        'feature_name'  => 'c4m_features_og_members',
-        'attributes'    => array(
+        'type' => 'user',
+        'entity_type' => 'user',
+        'bundles' => array(),
+        'singular' => 'Member',
+        'plural' => 'Members',
+        'state' => 1,
+        'c4m_status' => array(1),
+        'scope' => 'group',
+        'aggregate' => array(),
+        'weight' => 7,
+        'feature_name' => 'c4m_features_og_members',
+        'attributes' => array(
           'class' => array('og-users'),
         ),
         'link' => array(
@@ -396,28 +413,28 @@ function c4m_user_og_c4m_content_statistics_info() {
 function c4m_user_og_c4m_helper_entity_metrics_info() {
   return array(
     'c4m_og_contributors' => array(
-      'type'     => 'contributors',
-      'context'  => 'group',
+      'type' => 'contributors',
+      'context' => 'group',
       'callback' => 'c4m_user_og_get_number_of_contributors',
-      'weight'   => 9,
+      'weight' => 9,
     ),
     'c4m_og_contributors_vs_pending_members' => array(
-      'type'     => 'contributors_vs_pending_members',
-      'context'  => 'group',
+      'type' => 'contributors_vs_pending_members',
+      'context' => 'group',
       'callback' => 'c4m_user_og_get_number_of_contributors_vs_pending_members',
-      'weight'   => 13,
+      'weight' => 13,
     ),
     'c4m_og_pending_members' => array(
-      'type'     => 'pending_members',
-      'context'  => 'group',
+      'type' => 'pending_members',
+      'context' => 'group',
       'callback' => 'c4m_user_og_get_number_of_pending_members',
-      'weight'   => 11,
+      'weight' => 11,
     ),
     'c4m_og_users' => array(
-      'type'     => 'users',
-      'context'  => 'group',
+      'type' => 'users',
+      'context' => 'group',
       'callback' => 'c4m_og_group_user_metric',
-      'weight'   => 7,
+      'weight' => 7,
     ),
   );
 }
@@ -433,6 +450,17 @@ function c4m_user_og_theme() {
       'url' => NULL,
       'button_label' => NULL,
       'button_icon' => NULL,
+    ),
+  );
+
+  $theme['c4m_group_text_cta'] = array(
+    'template' => 'c4m_group_text_cta',
+    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
+    'variables' => array(
+      'text' => NULL,
+      'icon' => NULL,
+      'wrapper_class' => 'c4m-group-text-cta text-copy--small',
+      'text_class' => NULL,
     ),
   );
 
@@ -453,6 +481,16 @@ function c4m_user_og_theme() {
     ),
   );
 
+  $theme['c4m_group_invite_cta'] = array(
+    'template' => 'c4m_group_invite_cta',
+    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
+    'variables' => array(
+      'url' => NULL,
+      'button_label' => NULL,
+      'button_icon' => NULL,
+    ),
+  );
+
   return $theme;
 }
 
@@ -460,38 +498,28 @@ function c4m_user_og_theme() {
  * Implements hook_c4m_cta_block().
  */
 function c4m_user_og_c4m_cta_block() {
+  // Only add items if there is a group.
   if (!$group = c4m_og_current_group()) {
     return;
   }
 
-  $access_type = c4m_og_get_access_type($group);
-  if ($access_type['type'] != 'public') {
-    return;
-  }
-
   $items = array();
-  if (user_is_anonymous()) {
-    if ($item = c4m_user_og_c4m_vistor_cta($group)) {
-      $items['visitor'] = $item;
-    }
-  }
-  else {
-    $membership_type = c4m_og_get_group_membership_request($group);
 
-    if ($membership_type == 'open') {
-      if ($item = c4m_user_og_c4m_join_cta($group)) {
-        $items['join'] = $item;
-      }
-    }
-    elseif ($membership_type == 'moderated') {
-      if ($item = c4m_user_og_c4m_membership_cta($group)) {
-        $items['membership'] = $item;
-      }
-    }
+  if ($item = c4m_user_og_c4m_join_cta($group)) {
+    $items['join'] = $item;
   }
 
   if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
     $items['leave'] = $item;
+  }
+
+  if ($item = c4m_user_og_group_actions_cta($group)) {
+    $items['actions'] = $item;
+  }
+
+  // Add a link to the CTA block if the user is permitted to invite new members.
+  if (!user_is_anonymous() && c4m_user_og_invite_access($group)) {
+    $items['invite'] = c4m_user_og_c4m_invite_cta($group);
   }
 
   return $items;
@@ -518,8 +546,103 @@ function c4m_user_og_c4m_vistor_cta($group) {
     '#theme' => 'c4m_group_visitor_cta',
     '#button_label' => $types[$membership_request_value]['button_label'],
     '#button_icon' => $types[$membership_request_value]['button_icon'],
-    '#url' => url('/user'),
+    '#url' => url('group/join/' . $group->nid, array('absolute' => TRUE)),
   );
+}
+
+/**
+ * Sets the different actions an user can do in the group.
+ *
+ * Includes: manage group, pending membership requests and draft content.
+ */
+function c4m_user_og_group_actions_cta($group) {
+  $items = array();
+  $access = c4m_og_get_access_type($group);
+  global $user;
+
+  if (!og_get_membership('node', $group->nid, 'user', $user->uid)) {
+    return;
+  }
+
+  if ($access['type'] == 'public') {
+    // CTAs for the group owner and administrators: Manage group and number or
+    // new membership requests.
+    if (_c4m_features_og_members_is_power_user($group, $user)) {
+      $items['manage'] = array(
+        '#theme' => 'c4m_group_text_cta',
+        '#icon' => 'fa-cog',
+        '#text' => l(t('Manage this group'), 'manage'),
+      );
+
+      if ($pending_requests = c4m_og_get_all_group_memberships_by_state(
+        $group->nid,
+        OG_STATE_PENDING
+      )
+      ) {
+        $pending_id = $group->nid . '_pending';
+
+        $link_text = format_plural(
+          count($pending_requests),
+          'There is <a href="@link">1 new membership</a> request',
+          'There are <a href="@link">@requests new membership</a> requests',
+          array(
+            '@link' => url(
+              'members',
+              array('query' => array('f[0]' => 'c4m_og_membership_type:' . $pending_id))
+            ),
+            '@requests' => count($pending_requests),
+          )
+        );
+
+        $items['memberships'] = array(
+          '#theme' => 'c4m_group_text_cta',
+          '#icon' => 'fa-user',
+          '#text' => $link_text,
+        );
+      }
+    }
+
+    // CTAs for members of the group: Amount of unpublished content.
+    $variables = array(
+      'bundles' => array(
+        'wiki_page',
+        'photoalbum',
+        'discussion',
+        'event',
+        'document',
+      ),
+      'state' => NODE_NOT_PUBLISHED,
+      'entity_type' => 'node',
+      'og_id' => $group->nid,
+    );
+
+    if ($unpublished_content = c4m_helper_entity_get_number_of_entities(
+      $variables
+    )
+    ) {
+      $items['new-content'] = array(
+        '#theme' => 'c4m_group_text_cta',
+        '#icon' => 'fa-exclamation-triangle',
+        '#text' => t(
+          'You have %count draft content items',
+          array('%count' => $unpublished_content)
+        ),
+      );
+    }
+  }
+
+  // Help & guidance.
+  $items['help_guidance'] = array(
+    '#theme' => 'c4m_group_text_cta',
+    '#icon' => 'fa-question',
+    '#text' => l(
+      t('Help & guidance'),
+      'help-guidance/help-guidance',
+      array('purl' => array('disabled' => TRUE))
+    ),
+  );
+
+  return $items;
 }
 
 /**
@@ -529,16 +652,41 @@ function c4m_user_og_c4m_vistor_cta($group) {
  * of the group yet.
  */
 function c4m_user_og_c4m_join_cta($group) {
+  if (og_is_member('node', $group->nid, 'user', NULL, array(OG_STATE_PENDING))) {
+    $message = t("This is a moderated group. Your request is waiting for approval. Continue to explore group's content.");
+    drupal_set_message($message);
+
+    return array(
+      '#theme' => 'c4m_group_text_cta',
+      '#text' => t('Membership waiting approval'),
+      '#icon' => 'fa-hourglass-end',
+      '#wrapper_class' => 'c4m-wide-gothic-btn',
+      '#text_class' => 'btn text-small',
+    );
+  }
+
   if (og_is_member('node', $group->nid)) {
-    drupal_set_message(t('Welcome to group %group', array('%group' => $group->title)));
     return;
   }
 
+  return c4m_user_og_c4m_vistor_cta($group);
+}
+
+/**
+ * Sets the Invite members link CTA.
+ *
+ * Sets the Invite a member link CTA for any group member to invite other
+ * existing users or new people to join the group.
+ */
+function c4m_user_og_c4m_invite_cta($group) {
   return array(
-    '#theme' => 'c4m_group_visitor_cta',
-    '#button_label' => t('Join this group'),
+    '#theme' => 'c4m_group_invite_cta',
+    '#button_label' => t('Invite a member'),
     '#button_icon' => 'fa-user-plus',
-    '#url' => url('group/node/' . $group->nid . '/subscribe', array('absolute' => TRUE)),
+    '#url' => url(
+      'group/node/' . $group->nid . '/admin/people/invite-users',
+      array('absolute' => TRUE)
+    ),
   );
 }
 
@@ -557,8 +705,11 @@ function c4m_user_og_c4m_membership_cta($group) {
     drupal_set_message($message);
 
     return array(
-      '#type' => 'markup',
-      '#markup' => '<div class="c4m-group-visitor-cta"><i class="fa fa-hourglass-end" aria-hidden="true"></i> ' . t('Membership waiting approval') . '</div>',
+      '#theme' => 'c4m_group_text_cta',
+      '#text' => t('Membership waiting approval'),
+      '#icon' => 'fa-hourglass-end',
+      '#wrapper_class' => 'c4m-wide-gothic-btn',
+      '#text_class' => 'btn text-small',
     );
   }
 
@@ -566,7 +717,10 @@ function c4m_user_og_c4m_membership_cta($group) {
     '#theme' => 'c4m_group_visitor_cta',
     '#button_label' => t('Request membership for this group'),
     '#button_icon' => 'fa-unlock-alt',
-    '#url' => url('group/node/' . $group->nid . '/subscribe', array('absolute' => TRUE)),
+    '#url' => url(
+      'group/node/' . $group->nid . '/subscribe',
+      array('absolute' => TRUE)
+    ),
   );
 }
 
@@ -588,7 +742,10 @@ function c4m_user_og_c4m_leave_group_cta($group) {
     '#theme' => 'c4m_group_visitor_cta',
     '#button_label' => t('Leave group'),
     '#button_icon' => 'fa-arrow-right',
-    '#url' => url('group/node/' . $group->nid . '/unsubscribe', array('absolute' => TRUE)),
+    '#url' => url(
+      'group/node/' . $group->nid . '/unsubscribe',
+      array('absolute' => TRUE)
+    ),
   );
 }
 
@@ -629,7 +786,10 @@ function c4m_user_og_unsubscription_custom_callback($group_type, $gid) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function c4m_user_og_form_og_ui_confirm_unsubscribe_alter(&$form, &$form_state) {
+function c4m_user_og_form_og_ui_confirm_unsubscribe_alter(
+  &$form,
+  &$form_state
+) {
   $form['#submit'][] = 'c4m_user_og_custom_unsubscribe_submit';
 }
 
@@ -667,7 +827,11 @@ function c4m_user_og_menu() {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function c4m_user_og_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+function c4m_user_og_form_user_register_form_alter(
+  &$form,
+  &$form_state,
+  $form_id
+) {
   if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
     return;
   }
@@ -677,7 +841,10 @@ function c4m_user_og_form_user_register_form_alter(&$form, &$form_state, $form_i
     'group_title' => $wrapper->label(),
     'login_link' => l(t('Log in.'), 'user/login'),
   );
-  drupal_set_title(theme('c4m_unified_workflow_register', $variables), PASS_THROUGH);
+  drupal_set_title(
+    theme('c4m_unified_workflow_register', $variables),
+    PASS_THROUGH
+  );
 
   $form['#submit'][] = 'c4m_user_og_unified_workflow_register_submit';
   $form['actions']['submit']['#value'] = t('Register to join');
@@ -692,7 +859,13 @@ function c4m_user_og_form_user_login_alter(&$form, &$form_state, $form_id) {
   }
 
   $wrapper = entity_metadata_wrapper('node', $gid);
-  drupal_set_title(theme('c4m_unified_workflow_login', array('group_title' => $wrapper->label())), PASS_THROUGH);
+  drupal_set_title(
+    theme(
+      'c4m_unified_workflow_login',
+      array('group_title' => $wrapper->label())
+    ),
+    PASS_THROUGH
+  );
 
   $form['#submit'][] = 'c4m_user_og_unified_workflow_login_submit';
   $form['actions']['submit']['#value'] = t('Login to join');
@@ -712,7 +885,8 @@ function c4m_user_og_unified_workflow_register_submit($form, &$form_state) {
   // Removing the original message of the user_register_form.
   drupal_get_messages('status');
   $message = t(
-    'Hey @name, thank you for submitting your details. Please activate your account by clicking the link sent to your e-mail to join the @group_title group.', array(
+    'Hey @name, thank you for submitting your details. Please activate your account by clicking the link sent to your e-mail to join the @group_title group.',
+    array(
       '@name' => c4m_user_name($form_state['user']),
       '@group_title' => $group->title,
     )
@@ -771,22 +945,22 @@ function c4m_user_og_unified_workflow_login_submit($form, &$form_state) {
 function c4m_user_og_group_unified_workflow($group, $account = FALSE) {
   $membership_request_value = c4m_og_get_group_membership_request($group);
   $values = array(
-    'state' => $membership_request_value == 'open' ? OG_STATE_ACTIVE : OG_STATE_PENDING ,
+    'state' => $membership_request_value == 'open' ? OG_STATE_ACTIVE : OG_STATE_PENDING,
     'entity' => $account,
   );
 
   if (!og_group('node', $group, $values)) {
-    drupal_set_message(t('A problem occurred trying to join the group.'), 'error');
+    drupal_set_message(
+      t('A problem occurred trying to join the group.'),
+      'error'
+    );
     return;
   }
-
-  $messages = array(
-    'open' => t('You are now a member of this group'),
-    'moderated' => t("This is a moderated group. Your request is waiting for approval. Continue to explore group's content."),
-  );
-  $message = $messages[$membership_request_value];
-
-  drupal_set_message($message);
+  else {
+    if ($membership_request_value == 'open') {
+      drupal_set_message(t('Welcome to group %group', array('%group' => $group->title)));
+    }
+  }
 }
 
 /**
@@ -808,7 +982,9 @@ function c4m_user_og_mail_alter(&$message) {
   $group = node_load($gid);
   $path = drupal_get_path('module', 'c4m_user_og');
 
-  $text = file_get_contents($path . '/messages/user_registrationpassword_register_to_group_body.html');
+  $text = file_get_contents(
+    $path . '/messages/user_registrationpassword_register_to_group_body.html'
+  );
   $variables = array(
     'group' => $group,
     'user' => $user,
@@ -839,10 +1015,12 @@ function c4m_user_og_mail_alter(&$message) {
 function c4m_user_og_store_unified_workflow($uid, $gid) {
   try {
     db_insert('c4m_unified_workflow')
-      ->fields(array(
-        'uid' => $uid,
-        'gid' => $gid,
-      ))
+      ->fields(
+        array(
+          'uid' => $uid,
+          'gid' => $gid,
+        )
+      )
       ->execute();
   }
   catch (PDOException $e) {
@@ -895,7 +1073,9 @@ function c4m_user_og_mail_tokens(array &$replacements, array $data, $options) {
 
   // Adding destination to the link in order to redirect to the group page
   // after the activation.
-  $replacements['[user:registrationpassword-url]'] .= '?destination=' . drupal_get_path_alias('node/' . $data['group']->nid);
+  $replacements['[user:registrationpassword-url]'] .= '?destination=' . drupal_get_path_alias(
+      'node/' . $data['group']->nid
+    );
 }
 
 /**
@@ -907,11 +1087,54 @@ function c4m_user_og_user_update(&$edit, $account, $category) {
   }
 
   // Associate the user to the group.
-  foreach (c4m_user_og_fetch_unified_workflow_entries($account->uid) as $entry) {
+  foreach (c4m_user_og_fetch_unified_workflow_entries(
+             $account->uid
+           ) as $entry) {
     $group = node_load($entry->gid);
     c4m_user_og_group_unified_workflow($group, $account);
   }
 
   // Destroy the entry of this account.
   c4m_user_og_delete_unified_workflow_entries($account->uid);
+}
+
+/**
+ * Check current user permission to invite new members to the group.
+ *
+ * SA, GO and GA can always invite to the group. GM can only invite to Open
+ * groups (either public or restricted) but not to moderated or private groups.
+ *
+ * @param object $group
+ *   (optional) The group object, if not given then the current group will take
+ *    place.
+ *
+ * @return bool
+ *   TRUE if the current user has access to invite people to a group.
+ */
+function c4m_user_og_invite_access($group = NULL) {
+  global $user;
+
+  // If a group was not provided, try to get the current group.
+  if (!$group) {
+    if (!$group = c4m_og_current_group()) {
+      return FALSE;
+    }
+  }
+
+  // SAs, GOs and GAs can invite new members.
+  if (_c4m_features_og_members_is_power_user($group)) {
+    return TRUE;
+  }
+
+  // Get request type (open/moderated).
+  $membership_request_value = c4m_og_get_group_membership_request($group);
+  // Get access type (public/private).
+  $access_type = c4m_og_get_access_type($group);
+
+  // For private or moderated groups, return false. Else check for member.
+  if ($access_type['type'] == 'private' || $membership_request_value == 'moderated') {
+    return FALSE;
+  }
+
+  return og_is_member($group->type, $group->nid, 'user', $user);
 }

@@ -302,11 +302,20 @@ function c4m_og_user_is_owner($group_type, $gid) {
  * @param int $gid
  *   The ID of the group.
  *
- * @return bool
+ * @return void|bool
  *   TRUE if the current user is group member, FALSE otherwise.
  */
 function c4m_og_user_is_member($group_type = NULL, $gid = NULL) {
   if (empty($gid)) {
+    if (!og_context_is_init()) {
+      // OG context was not determined yet, so register the path and return
+      // early. The next time this access callback will be called, it will not
+      // enter here.
+      og_context_access_callback_register_path($_GET['q']);
+
+      return NULL;
+    }
+
     $context = og_context('node');
     $gid = $context['gid'];
     $group_type = $context['group_type'];
@@ -825,10 +834,10 @@ function c4m_og_feature_enabled_features() {
 }
 
 /**
- * Get a list of enabled features for the active group.
+ * Get a list of disabled features for the active group.
  *
  * @return array
- *   An array with the features that are enabled for the active group.
+ *   An array with the features that are disabled for the active group.
  */
 function c4m_og_feature_disabled_features() {
   $features = variable_get('c4m_og_features_group');
@@ -942,7 +951,7 @@ function c4m_og_feature_uninstall($feature) {
  * @return array $groups
  *    Returns array of group nodes IDs of specific node type.
  */
-function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) {
+function c4m_og_get_user_group_ids_by_bundle($bundle = NULL, $account = NULL) {
   if (empty($account)) {
     global $user;
     $account = $user;
@@ -1266,4 +1275,50 @@ function c4m_og_get_user_administered_groups_count($uid, $node_type) {
   $amount = $query->rowCount();
 
   return $amount;
+}
+
+/**
+ * Compares the OG type (project|group) to input.
+ *
+ * @param string $type
+ *   The group to get the type from.
+ *
+ * @return bool
+ *   Whether current OG group type matches the input.
+ */
+function c4m_og_is_of_group_type($type) {
+  $context = og_context();
+  if (!$context) {
+    return FALSE;
+  }
+
+  $og_group_type = c4m_og_get_group_type($context);
+  if (!$og_group_type || $og_group_type != $type) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
+ * Returns the groups owned by an user.
+ *
+ * @param int $uid
+ *   User id.
+ * @param string|array $node_type
+ *   Node type or types.
+ *
+ * @return array.
+ *   Keyed array of Node IDs and titles.
+ */
+function c4m_og_get_user_owned_groups($uid, $node_type) {
+  $query = db_select('node', 'n');
+  $query->fields('n', array('nid', 'title'));
+  $query->condition('n.uid', $uid);
+  $query->condition('n.type', $node_type);
+
+  $results = $query->execute();
+  $nids = $results->fetchAllKeyed();
+
+  return $nids;
 }

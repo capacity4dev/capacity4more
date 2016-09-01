@@ -41,6 +41,7 @@ function c4m_content_project_c4m_content_statistics_info() {
         'singular'    => 'Project',
         'plural'      => 'Projects',
         'state'       => 1,
+        'skip_access_check' => TRUE,
         'c4m_status'  => array('published', 'archived'),
         'aggregate'   => array(),
         'weight'      => -3,
@@ -86,6 +87,11 @@ function c4m_content_project_c4m_content_statistics_info() {
 function c4m_content_project_block_info() {
   $blocks = array();
 
+  $blocks['header_name_banner_project'] = array(
+    'info' => t('Project header'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
   $blocks['c4m_block_create_project'] = array(
     'info' => t('Project: Create project'),
     'cache' => DRUPAL_NO_CACHE,
@@ -114,7 +120,7 @@ function c4m_content_project_block_view($delta) {
  *
  * Alter the Project creation form.
  */
-function c4m_og_form_project_node_form_alter(&$form, &$form_state) {
+function c4m_content_project_form_project_node_form_alter(&$form, &$form_state) {
   // Form changes on creation.
   if (!$form['nid']['#value']) {
     // Change title.
@@ -123,6 +129,9 @@ function c4m_og_form_project_node_form_alter(&$form, &$form_state) {
     // Change submit button on creation.
     $form['actions']['submit']['#value'] = t('Request');
   }
+
+  $form['c4m_project_type']['#access'] = FALSE;
+  $form['c4m_is_template']['#access'] = FALSE;
 }
 
 /**
@@ -134,7 +143,7 @@ function c4m_og_form_project_node_form_alter(&$form, &$form_state) {
  * @return int
  *   Count.
  */
-function c4m_user_get_administered_projects_count($uid) {
+function c4m_content_project_get_administered_projects_count($uid) {
   return c4m_og_get_user_administered_groups_count($uid, 'project');
 }
 
@@ -162,9 +171,28 @@ function c4m_content_project_c4m_helper_entity_metrics_info() {
     'c4m_user_projects_administered' => array(
       'type' => 'projects_administered',
       'context' => 'user',
-      'callback' => 'c4m_user_get_administered_projects_count',
+      'callback' => 'c4m_content_project_get_administered_projects_count',
     ),
   );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_content_project_theme() {
+  $theme['c4m_content_project_header_title'] = array(
+    'variables' => array(
+      'title' => '',
+      'stage' => '',
+      'type' => '',
+      'status' => '',
+      'flag' => '',
+    ),
+    'path' => drupal_get_path('module', 'c4m_content_project') . '/theme',
+    'template' => 'c4m-content-project-header-title',
+  );
+
+  return $theme;
 }
 
 /**
@@ -177,4 +205,204 @@ function c4m_content_project_c4m_offcanvas_trigger_label_left_alter(&$trigger_la
     $trigger_label['label'] = t('Filter results');
     $trigger_label['icon'] = 'filter';
   }
+}
+
+/**
+ * Implements hook_c4m_cta_block().
+ */
+function c4m_content_project_c4m_cta_block() {
+  $items = array();
+
+  if (!drupal_is_front_page() || user_is_anonymous()) {
+    return $items;
+  }
+
+  $items['create-programme'] = array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => t('Create programme'),
+    '#button_icon' => 'fa-plus',
+    '#url' => url('/node/add/programme'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_menu().
+ *
+ * Create menu item for non-admins to clear the cache.
+ */
+function c4m_content_project_menu() {
+  $items['admin/config/c4m/projects-programmes-templates'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_content_project_choose_template_form'),
+    'access arguments' => array('administer site configuration'),
+    'title' => 'Projects & programmes templates',
+    'type' => MENU_NORMAL_ITEM,
+    'weight' => 1000,
+  );
+
+  $items['c4m/autocomplete/c4m_content_project/%'] = array(
+    'title' => 'Autocomplete for projects & programmes',
+    'page callback' => 'c4m_content_project_autocomplete',
+    'page arguments' => array(3),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Form builder for choose project / programme as template form.
+ */
+function c4m_content_project_choose_template_form($form, &$form_state) {
+  $node = c4m_content_project_get_project_template();
+  $form['project'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Project template'),
+    '#default_value' => $node ? "{$node->title} ({$node->nid})" : '',
+    '#autocomplete_path' => 'c4m/autocomplete/c4m_content_project/project',
+  );
+
+  $node = c4m_content_project_get_programme_template();
+  $form['programme'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Programme template'),
+    '#default_value' => $node ? "{$node->title} ({$node->nid})" : '',
+    '#autocomplete_path' => 'c4m/autocomplete/c4m_content_project/programme',
+  );
+
+  $form['actions']['#type'] = 'actions';
+  $form['actions']['submit'] = array('#type' => 'submit', '#value' => t('Save'));
+
+  return $form;
+}
+
+/**
+ * Submit handler for c4m_content_project_choose_template_form.
+ */
+function c4m_content_project_choose_template_form_submit($form, &$form_state) {
+  if ($form_state['values']['project']) {
+    $value = $form_state['values']['project'];
+    if (preg_match('/\((\d+)\)$/', $value, $matches)) {
+      $node = node_load($matches[1]);
+      if ($node->type == 'project' && $node->c4m_project_type[LANGUAGE_NONE][0]['value'] == 'project') {
+        if ($old_node = c4m_content_project_get_project_template()) {
+          $old_node->c4m_is_template[LANGUAGE_NONE][0]['value'] = 0;
+          node_save($old_node);
+        }
+        $node->c4m_is_template[LANGUAGE_NONE][0]['value'] = 1;
+        node_save($node);
+      }
+    }
+  }
+  if ($form_state['values']['programme']) {
+    $value = $form_state['values']['programme'];
+    if (preg_match('/\((\d+)\)$/', $value, $matches)) {
+      $node = node_load($matches[1]);
+      if ($node->type == 'project' && $node->c4m_project_type[LANGUAGE_NONE][0]['value'] == 'programme') {
+        if ($old_node = c4m_content_project_get_programme_template()) {
+          $old_node->c4m_is_template[LANGUAGE_NONE][0]['value'] = 0;
+          node_save($old_node);
+        }
+        $node->c4m_is_template[LANGUAGE_NONE][0]['value'] = 1;
+        node_save($node);
+      }
+    }
+  }
+}
+
+/**
+ * Returns the current project template.
+ *
+ * @return bool|object
+ *   FALSE if not found. Node object if found.
+ */
+function c4m_content_project_get_project_template() {
+  return c4m_content_project_get_node_template('project');
+}
+
+/**
+ * Returns the current project template.
+ *
+ * @return bool|object
+ *   FALSE if not found. Node object if found.
+ */
+function c4m_content_project_get_programme_template() {
+  return c4m_content_project_get_node_template('programme');
+}
+
+/**
+ * Returns the current project template.
+ *
+ * @type string
+ *   The type of project. 'project' / 'programme'.
+ *
+ * @return bool|object
+ *   FALSE if not found. Node object if found.
+ */
+function c4m_content_project_get_node_template($type) {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'project')
+    ->fieldCondition('c4m_is_template', 'value', 1)
+    ->fieldCondition('c4m_project_type', 'value', $type == 'programme' ? 'programme' : 'project');
+  $result = $query->execute();
+
+  if (isset($result['node'])) {
+    list($node_id) = array_keys($result['node']);
+    return node_load($node_id);
+  }
+
+  return FALSE;
+}
+
+/**
+ * Page callback for node autocomplete.
+ *
+ * @param string $type
+ *   The project type: 'project', 'programme'.
+ * @param string $title
+ *   The search string.
+ */
+function c4m_content_project_autocomplete($type, $title = '') {
+  // If the request has a '/' in the search text, then the menu system will have
+  // split it into multiple arguments, recover the intended $titles_typed.
+  $args = func_get_args();
+  // Shift off the $type argument.
+  array_shift($args);
+  $title = implode('/', $args);
+
+  $node_matches = array();
+  if (!empty($title)) {
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'project')
+      ->fieldCondition('c4m_is_template', 'value', 0);
+    $query->fieldCondition('c4m_project_type', 'value', $type == 'programme' ? 'programme' : 'project');
+
+    // Select rows that match by title.
+    $result = $query
+      ->propertyCondition('title', '%' . db_like($title) . '%', 'LIKE')
+      ->range(0, 10)
+      ->execute();
+
+    if (isset($result['node'])) {
+      $nids = array_keys($result['node']);
+      $nodes = node_load_multiple($nids);
+
+      foreach ($nodes as $node) {
+        $name = "{$node->title} ({$node->nid})";
+        $n = $name;
+        // Titles containing commas or quotes must be wrapped in quotes.
+        if (strpos($name, ',') !== FALSE || strpos($name, '"') !== FALSE) {
+          $n = '"' . str_replace('"', '""', $name) . '"';
+        }
+        $node_matches[$n] = check_plain($name);
+      }
+    }
+  }
+
+  drupal_json_output($node_matches);
 }
