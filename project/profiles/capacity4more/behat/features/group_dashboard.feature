@@ -45,6 +45,7 @@ Feature: Group dashboard
   Scenario: Check Invite a member link is available for a member of an open public group.
     Given I am logged in as user "charlesbabbage"
     When  I visit the dashboard of group "Music Lovers"
+    And   I click "Join this group"
     And   I click "Invite a member"
     Then  I should see the text "Invite People to Join"
 
