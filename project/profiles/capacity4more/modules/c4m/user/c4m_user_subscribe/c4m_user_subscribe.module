@@ -21,6 +21,8 @@ function c4m_user_subscribe_node_insert($node) {
     return;
   }
 
+  flag('flag', 'subscribe_c4m_follow_node', $node->nid);
+
   flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
 }
 
@@ -39,6 +41,8 @@ function c4m_user_subscribe_node_update($node) {
     // Inserted content does not require notification.
     return;
   }
+
+  flag('flag', 'subscribe_c4m_follow_node', $node->nid);
 
   // If user has not unsubscribed from that type of notifications.
   if (!_c4m_user_subscribe_entity_notifications_disabled($node->nid, 'comment')) {
