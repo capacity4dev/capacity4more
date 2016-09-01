@@ -841,10 +841,10 @@ function c4m_og_feature_enabled_features() {
 }
 
 /**
- * Get a list of enabled features for the active group.
+ * Get a list of disabled features for the active group.
  *
  * @return array
- *   An array with the features that are enabled for the active group.
+ *   An array with the features that are disabled for the active group.
  */
 function c4m_og_feature_disabled_features() {
   $features = variable_get('c4m_og_features_group');
@@ -958,7 +958,7 @@ function c4m_og_feature_uninstall($feature) {
  * @return array $groups
  *    Returns array of group nodes IDs of specific node type.
  */
-function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) {
+function c4m_og_get_user_group_ids_by_bundle($bundle = NULL, $account = NULL) {
   if (empty($account)) {
     global $user;
     $account = $user;

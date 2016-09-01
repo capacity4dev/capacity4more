@@ -35,6 +35,46 @@ function theme_c4m_ds_article_notable_contribution(array $field) {
 }
 
 /**
+ * DS function field.
+ *
+ * Render user membership type in the current group context.
+ *
+ * @param array $field
+ *   The field that needs to be rendered.
+ *
+ * @return mixed
+ *   The rendered field.
+ */
+function theme_c4m_ds_user_membership_type(array $field) {
+  $group = c4m_og_current_group();
+
+  if (!isset($field['entity']) || !$group) {
+    return NULL;
+  }
+
+  $account = user_load($field['entity']->uid);
+
+  $group_membership_type = c4m_user_og_get_role_in_group_human($account, $group);
+  if (!$group_membership_type) {
+    return NULL;
+  }
+
+  $tag['element'] = array(
+    '#tag' => 'span',
+    '#value' => $group_membership_type,
+    '#attributes' => array(
+      'class' => array(
+        'membership-indicator',
+        'label',
+        'label-primary',
+      ),
+    ),
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
  * Get all user stats in one field.
  *
  * @param array $field

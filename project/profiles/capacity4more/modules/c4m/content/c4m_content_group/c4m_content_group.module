@@ -703,6 +703,7 @@ function c4m_content_group_c4m_content_statistics_info() {
         'singular'    => 'Group',
         'plural'      => 'Groups',
         'state'       => 1,
+        'skip_access_check' => TRUE,
         'c4m_status'  => array('published', 'archived'),
         'aggregate'   => array(),
         'weight'      => -4,
