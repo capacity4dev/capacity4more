@@ -821,22 +821,6 @@
   margin-top: 10px;
 }
 
-.c4m-group-visitor-cta, .c4m-group-invite-cta {
-  border-bottom: 1px dashed $color-gray-darkThree;
-  color: $color-gray-darkThree;
-  margin: 0 0 10px 0;
-  padding: 0 0 10px 0;
-  text-align: center;
-
-  a.btn {
-    color: $color-white;
-    background-color: $color-text-alternative;
-    margin: 10px 0;
-    white-space: normal;
-    width: 100%;
-  }
-}
-
 .c4m-group-invite-cta {
   a.btn {
     box-shadow: none;
