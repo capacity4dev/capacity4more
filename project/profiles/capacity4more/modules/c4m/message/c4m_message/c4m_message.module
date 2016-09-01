@@ -706,6 +706,11 @@ function c4m_message_load_tokens__c4m_group_archived(Message $message) {
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
   );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
+    'pass message' => TRUE,
+  );
 }
 
 /**
@@ -747,6 +752,11 @@ function c4m_message_load_tokens__c4m_group_unpublished(Message $message) {
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
   );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
+    'pass message' => TRUE,
+  );
 }
 
 /**
@@ -781,6 +791,11 @@ function c4m_message_load_tokens__c4m_group_published(Message $message) {
 
   $message->arguments['@event_user_full_name'] = array(
     'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
     'pass message' => TRUE,
   );
 }
@@ -822,6 +837,11 @@ function c4m_message_load_tokens__c4m_group_republished(Message $message) {
 
   $message->arguments['@event_user_full_name'] = array(
     'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
     'pass message' => TRUE,
   );
 }
@@ -1120,6 +1140,16 @@ function c4m_message_load_tokens__c4m_notify_subscribers_new_comment(Message $me
     'callback' => 'c4m_message_format_event_user_url',
     'pass message' => TRUE,
   );
+
+  $message->arguments['!comment_url'] = array(
+    'callback' => 'c4m_message_format_comment_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!comment_reply_url'] = array(
+    'callback' => 'c4m_message_format_comment_reply_url',
+    'pass message' => TRUE,
+  );
 }
 
 /**
@@ -1248,6 +1278,16 @@ function c4m_message_load_tokens__c4m_notify_content_followers_new_comment(Messa
     'callback' => 'c4m_message_format_event_user_url',
     'pass message' => TRUE,
   );
+
+  $message->arguments['!comment_url'] = array(
+    'callback' => 'c4m_message_format_comment_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!comment_reply_url'] = array(
+    'callback' => 'c4m_message_format_comment_reply_url',
+    'pass message' => TRUE,
+  );
 }
 
 /**
@@ -1359,6 +1399,11 @@ function c4m_message_load_tokens__c4m_group_soft_deleted(Message $message) {
 
   $message->arguments['@event_user_full_name'] = array(
     'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
     'pass message' => TRUE,
   );
 }
@@ -1601,6 +1646,24 @@ function c4m_message_format_group_url(Message $message) {
 }
 
 /**
+ * Returns help guidance url token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return help guidance url.
+ */
+function c4m_message_format_help_section_url(Message $message) {
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  return url('help-guidance/help-guidance', $options);
+}
+
+/**
  * Returns group title token.
  *
  * @param Message $message
@@ -1827,6 +1890,46 @@ function c4m_message_format_node_url(Message $message) {
   );
 
   return url('node/' . $wrapper->field_node->value(array('identifier' => TRUE)), $options);
+}
+
+/**
+ * Returns direct url to reply on comment.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Direct path to reply on comment.
+ */
+function c4m_message_format_comment_reply_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $node_id = $wrapper->field_node->value(array('identifier' => TRUE));
+  $comment_id = $wrapper->field_comment->value(array('identifier' => TRUE));
+
+  $options = array(
+    'absolute' => TRUE,
+  );
+
+  return url('comment/reply/' . $node_id . '/' . $comment_id, $options);
+}
+
+/**
+ * Returns direct url to comment.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Direct path to comment.
+ */
+function c4m_message_format_comment_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $node_url = c4m_message_format_node_url($message);
+  $comment_id = $wrapper->field_comment->value(array('identifier' => TRUE));
+
+  return $node_url . '#comment-' . $comment_id;
 }
 
 /**
