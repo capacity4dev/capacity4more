@@ -66,6 +66,18 @@ trait Homepage {
   }
 
   /**
+   * @Then /^I should wait to see "([^"]*)" in the "([^"]*)" element$/
+   */
+  public function iShouldWaitToSeeInElement($text, $element) {
+    $steps[] = new Step\When('I wait');
+    $steps[] = new Step\When(
+      'I should see "' . $text . '" in the "' . $element . '" element'
+    );
+
+    return $steps;
+  }
+
+  /**
    * @Then /^I should wait to see "([^"]*)"$/
    */
   public function iShouldWaitToSee($text) {

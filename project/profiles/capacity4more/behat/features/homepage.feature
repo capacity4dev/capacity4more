@@ -149,7 +149,7 @@ Feature: Test homepage content and blocks
     And   I load more activities
     And   I should see "posted" in the "div.activity-stream" element
 
-  @javascript @guy
+  @javascript
   Scenario: Logged in, non member user should see only activities from groups of
   interests when filter is set to My interests
     Given I am logged in as user "president"
@@ -157,7 +157,7 @@ Feature: Test homepage content and blocks
     And   I select the radio button "My interests" with the id "edit-homepage-filter-interests"
     Then  I should wait not to see "Lusail City" in the "div.activity-stream" element
     And   I load more activities
-    And   I should see "created a new Article" in the "div.activity-stream" element
+    And   I should wait to see "Article" in the "div.activity-stream" element
 
   @javascript
   Scenario: Change one group access back to public.
