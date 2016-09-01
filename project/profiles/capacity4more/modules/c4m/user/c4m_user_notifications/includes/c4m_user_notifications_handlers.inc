@@ -204,7 +204,7 @@ function _c4m_user_notifications_to_admin_group_status_set_republished($node, $a
   $message = message_create('c4m_group_republished', array('uid' => $admin_id));
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_republished($message);
-  $message->arguments['@group_former_status'] = $group_former_status;
+  $message->arguments['@group_former_status'] = ucfirst($group_former_status);
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);
@@ -237,7 +237,7 @@ function _c4m_user_notifications_to_admin_group_status_set_unpublished($node, $a
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_unpublished($message);
   // Set 'group former status' token to input value.
-  $message->arguments['@group_former_status'] = $group_former_status;
+  $message->arguments['@group_former_status'] = ucfirst($group_former_status);
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);
@@ -269,7 +269,7 @@ function _c4m_user_notifications_to_admin_group_status_set_archived($node, $admi
   $message = message_create('c4m_group_archived', array('uid' => $admin_id));
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_archived($message);
-  $message->arguments['@group_former_status'] = $group_former_status;
+  $message->arguments['@group_former_status'] = ucfirst($group_former_status);
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);
@@ -305,7 +305,7 @@ function _c4m_user_notifications_to_site_admin_group_soft_deleted($node, $admin_
   $message = message_create('c4m_group_soft_deleted', array('uid' => $admin_id));
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_soft_deleted($message);
-  $message->arguments['@group_former_status'] = $group_former_status;
+  $message->arguments['@group_former_status'] = ucfirst($group_former_status);
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);

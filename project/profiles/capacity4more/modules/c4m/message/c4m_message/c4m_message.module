@@ -696,6 +696,11 @@ function c4m_message_load_tokens__c4m_group_archived(Message $message) {
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
   );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
+    'pass message' => TRUE,
+  );
 }
 
 /**
@@ -737,6 +742,11 @@ function c4m_message_load_tokens__c4m_group_unpublished(Message $message) {
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
   );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
+    'pass message' => TRUE,
+  );
 }
 
 /**
@@ -771,6 +781,11 @@ function c4m_message_load_tokens__c4m_group_published(Message $message) {
 
   $message->arguments['@event_user_full_name'] = array(
     'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
     'pass message' => TRUE,
   );
 }
@@ -812,6 +827,11 @@ function c4m_message_load_tokens__c4m_group_republished(Message $message) {
 
   $message->arguments['@event_user_full_name'] = array(
     'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
     'pass message' => TRUE,
   );
 }
@@ -1351,6 +1371,11 @@ function c4m_message_load_tokens__c4m_group_soft_deleted(Message $message) {
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
   );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
+    'pass message' => TRUE,
+  );
 }
 
 /**
@@ -1588,6 +1613,24 @@ function c4m_message_format_group_url(Message $message) {
   );
 
   return url('node/' . $nid, $options);
+}
+
+/**
+ * Returns help guidance url token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return help guidance url.
+ */
+function c4m_message_format_help_section_url(Message $message) {
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  return url('help-guidance/help-guidance', $options);
 }
 
 /**
