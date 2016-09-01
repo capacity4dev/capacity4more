@@ -60,10 +60,33 @@ function og_group_menu_og_ui_get_group_admin_alter(&$data, $context) {
  * Implements hook_menu_alter().
  */
 function og_group_menu_menu_alter(&$items) {
-  $group = node_load(og_menu_get_context());
-  if ($group && $group->type == 'project') {
+  $items['group/%/%/admin/menus']['access callback'] = 'c4m_og_group_menu_page_access';
+  $items['group/%/%/admin/menus/add']['access callback'] = 'c4m_og_group_menu_page_access';
+  $items['group/%/%/admin/menus/%menu']['access callback'] = 'c4m_og_group_menu_page_access';
+  $items['group/%/%/admin/menus/%menu/add']['access callback'] = 'c4m_og_group_menu_page_access';
+  $items['group/%/%/admin/menus/%menu/edit']['access callback'] = 'c4m_og_group_menu_page_access';
+  $items['group/%/%/admin/menus/%menu/delete']['access callback'] = 'c4m_og_group_menu_page_access';
+  $items['group/%/%/admin/menus/%menu/item/%menu_link/edit']['access callback'] = 'c4m_og_group_menu_page_access';
+  $items['group/%/%/admin/menus/%menu/item/%menu_link/delete']['access callback'] = 'c4m_og_group_menu_page_access';
+}
+
+/**
+ * Allow access to the custom menu (og_menu) only under a project context.
+ */
+function c4m_og_group_menu_page_access() {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
     return;
   }
 
-  $items['group/%/%/admin/menus']['access callback'] = FALSE;
+  $gid = og_menu_get_context();
+  $group = node_load($gid);
+  if (!$group || $group->type != 'project') {
+    return FALSE;
+  }
+
+  return og_menu_access('node', $gid);
 }
