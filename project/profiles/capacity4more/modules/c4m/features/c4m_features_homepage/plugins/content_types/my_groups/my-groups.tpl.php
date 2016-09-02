@@ -9,7 +9,7 @@
 <div class="row">
   <div class="col-md-12 right">
     <div class="my-groups panel-pane">
-      <h2 class="pane-title"><?php print t('My Groups') ?></h2>
+      <h2 class="pane-title"><?php print t('Groups') ?></h2>
       <?php print $groups; ?>
       <a class="see-more-link" href="<?php print $link; ?>">
         <?php print t('Show all') ?>
