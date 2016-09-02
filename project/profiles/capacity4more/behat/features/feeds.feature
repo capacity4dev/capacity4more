@@ -22,7 +22,7 @@ Feature: Feeds
     And   I should see a "Description" field
     And   I should see a "Related Topics" field
     And   I should see a "Related Voices & Views" field
-    And   I should see a "Groups" field
+    And   I should see a "Related Groups" field
 
   @api
   Scenario: As an administrator I should be able to create a feed.
