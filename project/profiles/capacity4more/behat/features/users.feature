@@ -17,3 +17,15 @@ Feature: Testing user creation/manipulations.
        And I should see a "About You" field
        And I should see a "Notable Contributions" field
 
+  @api
+  Scenario: The user tries to leave the platform but still has groups.
+    Given I am logged in as user "mariecurie"
+    When I visit the leave platform page of "mariecurie"
+    Then I should see "You can't leave the platform"
+
+  @api
+  Scenario: The user leaves the platform.
+    Given I am logged in with a temporal user
+    When I visit the leave platform page of "temporaluser"
+    And I press "Confirm"
+    Then I should see "Cancelling account"
