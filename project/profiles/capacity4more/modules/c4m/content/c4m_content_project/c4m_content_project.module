@@ -334,7 +334,7 @@ function c4m_content_project_system_block_renderer($field) {
       // If the referenced block is NOT a View.
       if ($block_info[0] != 'views') {
         // Simply render the block.
-        $rendered_block = c4m_content_project_render_block($block_info[0], $block_info[1]);
+        $rendered_block = c4m_helper_block_render($block_info[0], $block_info[1]);
         return render($rendered_block);
       }
 
@@ -359,23 +359,6 @@ function c4m_content_project_system_block_renderer($field) {
 
   return '';
 }
-
-/**
- * Returns the render-able array for a block.
- *
- * @param string $module
- *   The block's module.
- * @param string $delta
- *   The block's delta.
- *
- * @return array
- *   Renderable array.
- */
-function c4m_content_project_render_block($module, $delta) {
-  $block = block_load($module, $delta);
-  $render_array = _block_get_renderable_array(_block_render_blocks(array($block)));
-  return $render_array;
-  }
 
 /*
  * Implements hook_theme().
