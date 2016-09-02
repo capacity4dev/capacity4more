@@ -324,20 +324,28 @@ function c4m_features_homepage_c4m_cta_block() {
   // homepages. So now we have to check that is not a group page.
   $is_group_page = ($group = c4m_og_current_group());
   if (drupal_is_front_page() && !user_is_anonymous() && !$is_group_page) {
-    $items['create-group'] = array(
-      '#theme' => 'c4m_group_visitor_cta',
-      '#button_label' => t('Create group'),
-      '#button_icon' => 'fa-plus',
-      '#url' => url('/node/add/group'),
-    );
-
-    $items['create-project'] = array(
-      '#theme' => 'c4m_group_visitor_cta',
-      '#button_label' => t('Create project'),
-      '#button_icon' => 'fa-plus',
-      '#url' => url('/node/add/project'),
-    );
+    $items['create-project'] = c4m_features_homepage_node_creation_button_cta('project');
   }
 
   return $items;
+}
+
+/**
+ * Returns the CTA button to create a group.
+ *
+ * @param string $node_type
+ *   The type of the node to be created after using the CTA.
+ *
+ * @returns Array
+ *   Returns a renderable array with the CTA button.
+ */
+function c4m_features_homepage_node_creation_button_cta($node_type) {
+  $cta = array(
+    '#theme' => 'c4m_group_visitor_cta',
+    '#button_label' => t('Create @type', array('@type' => $node_type)),
+    '#button_icon' => 'fa-plus',
+    '#url' => url('/node/add/' . $node_type),
+  );
+
+  return $cta;
 }
