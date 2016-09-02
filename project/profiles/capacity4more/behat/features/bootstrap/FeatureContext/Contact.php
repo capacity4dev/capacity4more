@@ -6,8 +6,6 @@
 
 namespace FeatureContext;
 
-use Behat\Behat\Context\Step;
-
 trait Contact {
 
   /**
