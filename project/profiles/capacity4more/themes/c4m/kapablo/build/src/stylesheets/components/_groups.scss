@@ -541,10 +541,12 @@
 }
 
 .pane-og-dashboard {
-  // Same as .pane-activity-stream pane-title.
   .pane-title {
-    margin-bottom: 10px;
+    // Same as .pane-activity-stream pane-title. Use padding instead of margin
+    // to avoid margin collapse.
+    margin-bottom: 0;
     margin-top: 0;
+    padding-bottom: 10px;
   }
   margin-bottom: 3rem;
 }
