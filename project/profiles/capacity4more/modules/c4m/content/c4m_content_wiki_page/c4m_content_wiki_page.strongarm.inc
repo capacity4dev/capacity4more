@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_wiki_page.strongarm.inc
@@ -216,7 +217,7 @@ function c4m_content_wiki_page_strongarm() {
             'visible' => FALSE,
           ),
           'pinned_content' => array(
-            'weight' => '33',
+            'weight' => '32',
             'visible' => FALSE,
           ),
         ),
