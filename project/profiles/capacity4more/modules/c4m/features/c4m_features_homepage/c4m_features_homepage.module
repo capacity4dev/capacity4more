@@ -8,6 +8,28 @@
 include_once 'c4m_features_homepage.features.inc';
 
 /**
+ * Implements hook_menu_alter().
+ *
+ * Remove access to certain standard Drupal paths
+ */
+function c4m_features_homepage_menu_alter(&$items) {
+  // Disable node path.
+  if (isset($items['node'])) {
+    unset($items['node']);
+  }
+
+  // Disable default RSS feed.
+  if (isset($items['rss.xml'])) {
+    unset($items['rss.xml']);
+  }
+
+  // Disable filter tips.
+  if (isset($items['filter/tips'])) {
+    unset($items['filter/tips']);
+  }
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
