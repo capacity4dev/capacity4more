@@ -61,6 +61,19 @@
   float: right;
 }
 
+.view-display-id-og_dashboard_promoted_block {
+  background: $color-background;
+  padding: 1em;
+
+  .node {
+
+    h2, .field-name-c4m-ds-content-footer-stats div {
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
 .view-items-with-dashed-separator .views-row,
 .view-c4m-overview-articles .views-row,
 .view-c4m-overview-groups .views-row,

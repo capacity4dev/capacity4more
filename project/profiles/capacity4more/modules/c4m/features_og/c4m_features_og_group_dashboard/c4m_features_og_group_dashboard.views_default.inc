@@ -23,7 +23,7 @@ function c4m_features_og_group_dashboard_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Pinned by group manager';
+  $handler->display->display_options['title'] = '<i class="fa fa-thumb-tack"></i> Pinned by group manager';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
