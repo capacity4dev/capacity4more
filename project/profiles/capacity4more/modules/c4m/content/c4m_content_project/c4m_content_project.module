@@ -216,12 +216,13 @@ function c4m_content_project_c4m_helper_entity_metrics_info() {
  */
 function c4m_content_project_field_formatter_info() {
   return array(
-    'c4m_partner_formatter' => array('label' => t('C4M Partner'),
+    'c4m_partner_formatter' => array(
+      'label' => t('C4M Partner'),
       'field types' => array('image'),
       'settings'  => array(),
     ),
   );
- }
+}
 
 /**
  * Implements hook_field_formatter_view().
@@ -361,7 +362,7 @@ function c4m_content_project_system_block_renderer($field) {
   return '';
 }
 
-/*
+/**
  * Implements hook_theme().
  */
 function c4m_content_project_theme() {
