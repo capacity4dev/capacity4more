@@ -132,16 +132,19 @@ function c4m_content_project_strongarm() {
     'extra_fields' => array(
       'form' => array(
         'title' => array(
-          'weight' => '0',
+          'weight' => '1',
         ),
         'og_purl' => array(
-          'weight' => '2',
+          'weight' => '4',
         ),
         'path' => array(
-          'weight' => '11',
+          'weight' => '16',
         ),
         'redirect' => array(
-          'weight' => '12',
+          'weight' => '17',
+        ),
+        'og_menu' => array(
+          'weight' => '0',
         ),
       ),
       'display' => array(),
