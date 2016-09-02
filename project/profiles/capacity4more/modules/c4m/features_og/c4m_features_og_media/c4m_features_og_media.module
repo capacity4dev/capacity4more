@@ -51,7 +51,7 @@ function c4m_features_og_media_youtube_prevent_rel($text) {
  *
  * Remove iframe from WYSIWYG Filter blacklist.
  */
-function c4m_features_og_media_wysiwyg_filter_elements_blacklist_alter(&$blacklist){
+function c4m_features_og_media_wysiwyg_filter_elements_blacklist_alter(&$blacklist) {
   $new_blacklist = array();
   foreach ($blacklist as $value) {
     if ($value !== 'iframe') {
