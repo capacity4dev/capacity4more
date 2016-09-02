@@ -116,12 +116,6 @@ function c4m_user_notifications_og_membership_update($og_membership) {
         c4m_user_notifications_open_group_notify_admins_membership_accepted($og_membership);
       }
       break;
-
-    case OG_STATE_BLOCKED:
-      if ($moderated == C4M_OG_MODERATED_GROUP) {
-        c4m_user_notifications_moderated_group_notify_user_membership_rejected($og_membership);
-      }
-      break;
   }
 }
 
@@ -319,6 +313,17 @@ function c4m_user_notifications_form_og_ui_add_users_alter(&$form, &$form_state)
 
   // Add custom submit handler to process the notification.
   $form['#submit'][] = 'c4m_user_notifications_notify_user_invited_by_admin';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Triggers email notification when group administrator rejects membership
+ * request.
+ */
+function c4m_user_notifications_form_c4m_og_reject_membership_request_alter(&$form, &$form_state) {
+  $form['#submit'][] = 'c4m_user_notifications_moderated_group_notify_user_membership_rejected';
+  $form['#submit'][] = 'c4m_og_route_to_group_people';
 }
 
 /**

@@ -134,7 +134,7 @@ function _c4m_user_notifications_open_group_notify_admin_membership_accepted($me
 /**
  * Email notification to user about rejection of membership request.
  */
-function c4m_user_notifications_moderated_group_notify_user_membership_rejected($membership) {
+function c4m_user_notifications_moderated_group_notify_user_membership_rejected(&$form, &$form_state) {
 }
 
 /**
