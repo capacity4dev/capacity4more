@@ -11,7 +11,10 @@ include_once 'c4m_content_photo.features.inc';
  * Implements hook_theme_registry_alter().
  */
 function c4m_content_photo_theme_registry_alter(&$theme_registry) {
-  $theme_registry['node_gallery_api_item_navigator']['path'] = drupal_get_path('module', 'c4m_content_photo') . "/theme";
+  $theme_registry['node_gallery_api_item_navigator']['path'] = drupal_get_path(
+      'module',
+      'c4m_content_photo'
+    ) . "/theme";
 }
 
 /**
@@ -40,7 +43,12 @@ function c4m_content_photo_node_presave($node) {
 
   $source = file_load($wrapper->c4m_media->value()['fid']);
   $gallery_title = $wrapper->node_gallery_ref_1->label();
-  $destination = drupal_dirname($source->uri) . '/' . transliteration_clean_filename($gallery_title) . '.' . pathinfo($source->uri, PATHINFO_EXTENSION);
+  $destination = drupal_dirname(
+      $source->uri
+    ) . '/' . transliteration_clean_filename($gallery_title) . '.' . pathinfo(
+      $source->uri,
+      PATHINFO_EXTENSION
+    );
   $new_file = file_move($source, $destination, FILE_EXISTS_RENAME);
 
   if (!empty($node->_create_form)) {
@@ -79,19 +87,19 @@ function c4m_content_photo_c4m_content_statistics_info() {
   return array(
     'group' => array(
       'c4m_og_media' => array(
-        'type'        => 'photo',
+        'type' => 'photo',
         'entity_type' => 'node',
-        'bundles'     => array('photo', 'photoalbum'),
-        'singular'    => 'Media item',
-        'plural'      => 'Media items',
-        'state'       => 1,
-        'aggregate'   => NULL,
-        'weight'      => 5,
-        'feature_name'  => 'c4m_features_og_media',
+        'bundles' => array('photo', 'photoalbum'),
+        'singular' => 'Media item',
+        'plural' => 'Media items',
+        'state' => 1,
+        'aggregate' => NULL,
+        'weight' => 5,
+        'feature_name' => 'c4m_features_og_media',
         'attributes' => array(
           'class' => array('og-media'),
         ),
-        'link'        => array(
+        'link' => array(
           'path' => 'media',
         ),
       ),
@@ -134,7 +142,7 @@ function c4m_content_photo_c4m_helper_entity_label_info() {
       'article' => t('a'),
       'singular' => t('photo'),
       'plural' => t('photos'),
-      'insert action' => t('added new Photo'),
+      'insert action' => t('added a new Photo'),
       'update action' => t('updated the photo'),
       'icon' => 'fa-file-picture-o',
     ),
