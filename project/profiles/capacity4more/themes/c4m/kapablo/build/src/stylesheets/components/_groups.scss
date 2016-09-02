@@ -544,6 +544,15 @@
   }
 }
 
+.pane-og-dashboard {
+  // Same as .pane-activity-stream pane-title.
+  .pane-title {
+    margin-bottom: 10px;
+    margin-top: 0;
+  }
+  margin-bottom: 3rem;
+}
+
 .group-indications {
   float: left;
   margin: 0 0 0 18px;
