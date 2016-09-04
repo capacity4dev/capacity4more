@@ -1510,8 +1510,9 @@ function c4m_message_format_new_member_country(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $field = field_info_field('c4m_country');
   $allowed_values = list_allowed_values($field);
+  $index = $wrapper->field_related_user->c4m_country->value();
 
-  return $allowed_values[$wrapper->field_related_user->c4m_country->value()];
+  return empty($index) ? '': $allowed_values[$index];
 }
 
 /**
@@ -1546,8 +1547,9 @@ function c4m_message_format_new_member_expertise(Message $message) {
  */
 function c4m_message_format_new_member_self_description(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
+  $related_user = $wrapper->field_related_user->value();
 
-  return strip_tags($wrapper->field_related_user->c4m_body->value->value());
+  return empty($related_user->c4m_body) ? '' : strip_tags($wrapper->field_related_user->c4m_body->value->value());
 }
 
 /**
