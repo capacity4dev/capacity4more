@@ -1300,9 +1300,9 @@ function c4m_message_load_homepage_activity_stream() {
         }
         break;
 
-      case '':
       case 'showAll':
-        $groups = c4m_og_get_user_group_nodes_by_bundle('showAll');
+      default:
+        $groups = c4m_og_get_user_group_ids_by_bundle('showAll');
         break;
 
     }
