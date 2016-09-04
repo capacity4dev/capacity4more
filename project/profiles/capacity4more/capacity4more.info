@@ -167,7 +167,6 @@ dependencies[] = c4m_restful_quick_post
 dependencies[] = c4m_restful
 
 ; Overview content within groups
-dependencies[] = c4m_og_menu
 dependencies[] = c4m_og_group_menu
 dependencies[] = c4m_features_og_events
 dependencies[] = c4m_features_og_group_dashboard
