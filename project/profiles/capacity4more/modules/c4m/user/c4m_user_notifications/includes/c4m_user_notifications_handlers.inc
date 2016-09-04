@@ -440,10 +440,15 @@ function _c4m_user_notifications_notify_content_followers_of_comment($cid, $nid)
   $node = node_load($nid);
   // Flag suffix that is used at unsubscribe mechanism.
   $flag_suffix = 'comment';
-  // Additional flag, entity has (or has not) to be marked with,
-  // for user to be selected for notification.
-  // With 'flags_operation' set to 'intersect', only user that got entity
-  // marked with 'follow node' and 'follow comment' flags will be selected.
+  // When 'additional flag' is provided, users will be selected using
+  // operation defined at 'flags_operation'.
+  // When 'flags_operation' is set to 'intersect', only users marked by flag
+  // AND additional flag are returned.
+  // When 'flags_operation' is set to 'diff', only users marked by flag and
+  // AND NOT marked by additional flag are returned.
+  // With current setting, ('flags_operation' set to 'intersect'), only users
+  // that are marked with 'follow comment' AND marked with 'follow node'
+  // flags will be returned.
   $additional_flag_suffix = 'node';
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
@@ -701,10 +706,15 @@ function _c4m_user_notifications_comment_on_content($cid, $nid) {
   $node = node_load($nid);
   // Flag suffix that is used at unsubscribe mechanism.
   $flag_suffix = 'comment';
-  // Additional flag, entity has (or has not) to be marked with,
-  // for user to be selected for notification.
-  // With 'flags_operation' set to 'diff', only user that got entity
-  // marked with 'follow comment' and not 'follow node' flags will be selected.
+  // When 'additional flag' is provided, users will be selected using
+  // operation defined at 'flags_operation'.
+  // When 'flags_operation' is set to 'intersect', only users marked by flag
+  // AND additional flag are returned.
+  // When 'flags_operation' is set to 'diff', only users marked by flag and
+  // AND NOT marked by additional flag are returned.
+  // With current setting, ('flags_operation' set to 'diff'), only users that
+  // are marked with 'follow comment' AND NOT marked with 'follow node' flags
+  // will be returned.
   $additional_flag_suffix = 'node';
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().

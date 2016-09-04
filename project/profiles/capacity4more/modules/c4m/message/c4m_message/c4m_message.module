@@ -1931,6 +1931,7 @@ function c4m_message_format_comment_url(Message $message) {
   $node_url = c4m_message_format_node_url($message);
   $comment_id = $wrapper->field_comment->value(array('identifier' => TRUE));
 
+  // Url example: http://capacity4more.dev/nobelprize/wiki/prizes#comment-24.
   return $node_url . '#comment-' . $comment_id;
 }
 
