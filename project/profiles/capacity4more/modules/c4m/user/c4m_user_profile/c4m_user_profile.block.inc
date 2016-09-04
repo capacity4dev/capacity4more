@@ -200,7 +200,10 @@ function _c4m_user_profile_block_user_confirm_email() {
  */
 function _c4m_user_profile_block_user_my_profile_groups() {
   module_load_include('inc', 'c4m_features_homepage', 'plugins/content_types/my_groups/my_groups');
-  $account = menu_get_object('user');
+  if (!$account = menu_get_object('user')) {
+    return;
+  }
+
   $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($account, array('group'));
 
   $block = array();
@@ -247,10 +250,6 @@ function c4m_user_profile_get_group_type_title($type) {
     'member' => t("Groups I'm member of"),
     'pending' => t('Membership requested'),
   );
-
-  if (!isset($titles[$type])) {
-    return '';
-  }
 
   return $titles[$type];
 }
