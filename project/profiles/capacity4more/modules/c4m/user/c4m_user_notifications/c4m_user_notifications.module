@@ -48,9 +48,11 @@ function c4m_user_notifications_og_membership_insert($og_membership) {
     return;
   }
 
-  // Loading group/project to resolve it's membership type - moderated/open.
   $wrapper = entity_metadata_wrapper('node', $og_membership->gid);
-  if (!isset($wrapper->field_membership_open_request)) {
+  $group = $wrapper->value();
+  if (!isset($wrapper->field_membership_open_request) || $og_membership->etid == $group->uid) {
+    // Return early, if group membership type is not set, or if added membership
+    // is for group owner (happens only when group is created).
     return;
   }
 

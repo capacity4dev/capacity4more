@@ -444,9 +444,9 @@ function _c4m_user_notifications_notify_content_followers_of_comment($cid, $nid)
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
   // With current setting:
-  //   'flag' - follow comment,
-  //   'additional flag' - follow node,
-  //   flags_operation' - 'intersect',
+  // 'flag' - follow comment,
+  // 'additional flag' - follow node,
+  // 'flags_operation' - 'intersect',
   // only users that are marked with 'follow comment' AND also marked with
   // 'follow node' flags will be returned.
   $context = array(
@@ -707,9 +707,9 @@ function _c4m_user_notifications_comment_on_content($cid, $nid) {
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
   // With current setting:
-  //   'flag' - follow comment,
-  //   'additional flag' - follow node,
-  //   flags_operation' - 'diff',
+  // 'flag' - follow comment,
+  // 'additional flag' - follow node,
+  // 'flags_operation' - 'diff',
   // only users that are marked with 'follow comment' AND NOT marked with
   // 'follow node' flags will be returned.
   $context = array(
@@ -769,24 +769,13 @@ function _c4m_user_notifications_notify_admin_group_requested($node, $admin_id) 
 }
 
 /**
- * Implements hook_message_subscribe_get_subscribers()
+ * Implements hook_message_subscribe_get_subscribers().
  *
  * Uses designated context, thus disabling message_subscribe_get_subscribers()
  * of message_subscribe module.
  * Returns an array of structure [uid => notifier].
  *  uid - user that have flagged $entity_id, with $flag_name.
  *  notifier - [email].
- *
- * @param object $message
- *   The Message object.
- * @param array $subscribe_options
- *   The options array.
- * @param array $context
- *   Context array, that contains required parameters.
- *
- * @return array $uids
- *   Array of users that flagged the entity:
- *   $key - uid, $value - notifier type.
  */
 function c4m_user_notifications_message_subscribe_get_subscribers($message, $subscribe_options, $context) {
   // All entity types are nodes, besides 'term'.

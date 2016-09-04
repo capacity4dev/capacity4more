@@ -1512,7 +1512,7 @@ function c4m_message_format_new_member_country(Message $message) {
   $allowed_values = list_allowed_values($field);
   $index = $wrapper->field_related_user->c4m_country->value();
 
-  return empty($index) ? '': $allowed_values[$index];
+  return empty($index) ? '' : $allowed_values[$index];
 }
 
 /**
