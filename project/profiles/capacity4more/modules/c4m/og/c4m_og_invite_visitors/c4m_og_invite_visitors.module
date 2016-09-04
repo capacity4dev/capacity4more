@@ -14,12 +14,12 @@ function c4m_og_invite_visitors_menu() {
   $items = array();
   $items['group/%/%/admin/members/invite'] = array(
     'page callback' => 'drupal_get_form',
-    'title' => 'Invite members',
+    'title' => 'Invite visitors',
     'page arguments' => array('_c4m_og_invite_visitors_new_users_form', 1, 2),
     'type' => MENU_LOCAL_TASK,
     'weight' => 4,
     'access callback' => 'c4m_og_invite_visitors_user_access',
-    'access arguments' => array('invite members', 1, 2),
+    'access arguments' => array('invite visitors', 1, 2),
   );
 
   return $items;
@@ -28,14 +28,14 @@ function c4m_og_invite_visitors_menu() {
 /**
  * Implements hook_og_ui_get_group_admin().
  *
- * Adds a menu item (Invite members) to the group administration page. Links to
+ * Adds a menu item (Invite visitors) to the group administration page. Links to
  * the invite visitors form.
  */
 function c4m_og_invite_visitors_og_ui_get_group_admin($group_type, $gid) {
   $items = array();
-  if (og_user_access($group_type, $gid, 'invite members')) {
+  if (og_user_access($group_type, $gid, 'invite visitors')) {
     $items['c4m_og_invite_visitors'] = array(
-      'title' => t('Invite members'),
+      'title' => t('Invite visitors'),
       'description' => t('Create new users and add them as group members.'),
       'href' => 'admin/members/invite',
     );
@@ -83,9 +83,9 @@ function c4m_og_invite_visitors_user_access($perm, $group_type, $gid) {
  */
 function c4m_og_invite_visitors_og_permission() {
   $items = array();
-  $items['invite members'] = array(
-    'title' => t('Invite members'),
-    'description' => t('Users may invite other users to the group without approval.'),
+  $items['invite visitors'] = array(
+    'title' => t('Invite visitors'),
+    'description' => t('Users may invite visitors to the group.'),
     'default role' => array(OG_ADMINISTRATOR_ROLE),
   );
 
@@ -93,7 +93,7 @@ function c4m_og_invite_visitors_og_permission() {
 }
 
 /**
- * Main OG Invite members form.
+ * Main OG Invite visitors form.
  *
  * Defines the form structure for inviting visitors to join a group.
  */
