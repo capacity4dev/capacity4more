@@ -303,6 +303,11 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
     return FALSE;
   }
 
+  // Do not create a message if associated with a photo gallery.
+  if(!empty($entity->node_gallery_ref_1)) {
+    return FALSE;
+  }
+
   $valid_entity_types = array(
     'comment',
     'node',
