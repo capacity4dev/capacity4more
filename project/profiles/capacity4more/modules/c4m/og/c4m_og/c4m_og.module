@@ -331,6 +331,21 @@ function c4m_og_user_is_member($group_type = NULL, $gid = NULL) {
 }
 
 /**
+ * Check weather a user is banned (blocked) from a specific group.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ * @param null $account
+ *   (optional) The object of the user to check - Default is the current user.
+ *
+ * @return bool
+ *   TRUE weather the user is banned from the group.
+ */
+function c4m_og_user_is_banned($gid, $account = NULL) {
+  return og_is_member('node', $gid, 'user', $account, array(OG_STATE_BLOCKED));
+}
+
+/**
  * Fetches an og user role by its name and group bundle.
  *
  * @param string $role_name

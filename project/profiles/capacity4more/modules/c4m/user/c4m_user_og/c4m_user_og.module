@@ -824,8 +824,8 @@ function c4m_user_og_menu() {
     'type' => MENU_CALLBACK,
     'page callback' => 'c4m_user_og_unified_workflow',
     'page arguments' => array(2),
-    'access callback' => 'node_access',
-    'access arguments' => array('view', 2),
+    'access callback' => 'c4m_user_og_unified_workflow_access',
+    'access arguments' => array(2),
     'file' => 'c4m_user_og.page.inc',
   );
 
