@@ -5,8 +5,7 @@
 # Run the coder review.
 #
 # ---------------------------------------------------------------------------- #
-CODE_REVIEW=1
-TRAVIS_BUILD_DIR="."
+
 
 # Do we need to run the coder review?
 if [ "$CODE_REVIEW" != 1 ]; then
