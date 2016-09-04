@@ -505,11 +505,6 @@ function c4m_user_og_c4m_cta_block() {
     return;
   }
 
-  $access_type = c4m_og_get_access_type($group);
-  if ($access_type['type'] != 'public') {
-    return;
-  }
-
   // A blocked (banned) user should not be able to see the CTA block.
   $user_role = c4m_user_og_get_role_in_group($user, $group);
   if ($user_role == 'blocked') {
