@@ -20,7 +20,7 @@ function c4m_og_group_menu_menu_default_menu_links() {
       'attributes' => array(
         'title' => 'Configuration for Organic groups menu',
       ),
-      'identifier' => 'management_og-menu-settings:admin/config/group/og_menu',
+
     ),
     'module' => 'system',
     'hidden' => 0,
