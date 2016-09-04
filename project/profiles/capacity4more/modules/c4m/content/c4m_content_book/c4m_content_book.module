@@ -6,21 +6,3 @@
  */
 
 include_once 'c4m_content_book.features.inc';
-
-/**
- * Implements hook_form_BASE_ID_alter().
- *
- * Using hook_form_node_form_alter().
- */
-function c4m_content_book_form_node_form_alter(&$form, &$form_state, $form_id) {
-  // Get node object.
-  $node = $form['#node'];
-
-  // Get book allowed types.
-  $book_allowed_types = variable_get('book_allowed_types');
-
-  // Disable book settings if not relevant.
-  if (isset($form['book']) && !in_array($node->type, $book_allowed_types)) {
-    $form['book']['#access'] = FALSE;
-  }
-}

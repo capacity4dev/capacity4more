@@ -6,11 +6,18 @@
  */
 
 /**
- * Implements hook_form_FORM_ID_alter().
+ * Implements hook_form_BASE_FORM_ID_alter().
  *
+ * Hide Book tab for all content types.
  * Add a cancel button to all node forms.
  */
 function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
+  // Hide Book tab for all content types.
+  if (isset($form['book'])) {
+    $form['book']['#access'] = FALSE;
+  }
+
+  // Add a cancel button to all node forms.
   // Check if a cancel button should be added to node forms.
   $cancel = variable_get('c4m_content_cancel_button', FALSE);
   if (!$cancel) {
@@ -251,6 +258,10 @@ function _c4m_content_statistics_collect_data(array $list) {
       ? $info['c4m_status']
       : NULL;
 
+    $skip_access_check = isset($info['skip_access_check'])
+      ? $info['skip_access_check']
+      : NULL;
+
     $arguments = array(
       'entity_type' => $info['entity_type'],
       'bundles' => $info['bundles'],
@@ -258,6 +269,7 @@ function _c4m_content_statistics_collect_data(array $list) {
       'og_id' => $og_id,
       'topic' => $topic,
       'c4m_status' => $status,
+      'skip_access_check' => $skip_access_check,
     );
     $count = c4m_helper_entity_get_number_of_entities($arguments);
 

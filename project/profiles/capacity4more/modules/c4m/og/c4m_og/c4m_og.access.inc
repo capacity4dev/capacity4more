@@ -197,7 +197,7 @@ function c4m_og_get_email_domains($group) {
 }
 
 /**
- * Implements hook_FORM_ID_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  *
  * Adds the fields about the Group Access types & Pluggable Access.
  */
@@ -207,14 +207,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   $default_organisations = array();
   $default_access_type = 'public';
 
-  // Form changes on creation.
-  if (!$form['nid']['#value']) {
-    // Change title.
-    drupal_set_title('Request group');
-
-    // Change submit button on creation.
-    $form['actions']['submit']['#value'] = t('Request');
-  }
+  _c4m_og_alter_group_form($form, $form_state);
 
   // Organisation options.
   $organisation_field_options = array();
