@@ -440,18 +440,15 @@ function _c4m_user_notifications_notify_content_followers_of_comment($cid, $nid)
   $node = node_load($nid);
   // Flag suffix that is used at unsubscribe mechanism.
   $flag_suffix = 'comment';
-  // When 'additional flag' is provided, users will be selected using
-  // operation defined at 'flags_operation'.
-  // When 'flags_operation' is set to 'intersect', only users marked by flag
-  // AND additional flag are returned.
-  // When 'flags_operation' is set to 'diff', only users marked by flag and
-  // AND NOT marked by additional flag are returned.
-  // With current setting, ('flags_operation' set to 'intersect'), only users
-  // that are marked with 'follow comment' AND marked with 'follow node'
-  // flags will be returned.
   $additional_flag_suffix = 'node';
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
+  // With current setting:
+  //   'flag' - follow comment,
+  //   'additional flag' - follow node,
+  //   flags_operation' - 'intersect',
+  // only users that are marked with 'follow comment' AND also marked with
+  // 'follow node' flags will be returned.
   $context = array(
     'entity_type' => $flag_suffix,
     'entity_id' => $nid,
@@ -706,18 +703,15 @@ function _c4m_user_notifications_comment_on_content($cid, $nid) {
   $node = node_load($nid);
   // Flag suffix that is used at unsubscribe mechanism.
   $flag_suffix = 'comment';
-  // When 'additional flag' is provided, users will be selected using
-  // operation defined at 'flags_operation'.
-  // When 'flags_operation' is set to 'intersect', only users marked by flag
-  // AND additional flag are returned.
-  // When 'flags_operation' is set to 'diff', only users marked by flag and
-  // AND NOT marked by additional flag are returned.
-  // With current setting, ('flags_operation' set to 'diff'), only users that
-  // are marked with 'follow comment' AND NOT marked with 'follow node' flags
-  // will be returned.
   $additional_flag_suffix = 'node';
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
+  // With current setting:
+  //   'flag' - follow comment,
+  //   'additional flag' - follow node,
+  //   flags_operation' - 'diff',
+  // only users that are marked with 'follow comment' AND NOT marked with
+  // 'follow node' flags will be returned.
   $context = array(
     'entity_type' => $flag_suffix,
     'entity_id' => $nid,
@@ -775,10 +769,8 @@ function _c4m_user_notifications_notify_admin_group_requested($node, $admin_id) 
 }
 
 /**
- * Returns an array of subscribers to notify.
+ * Implements hook_message_subscribe_get_subscribers()
  *
- * Function message_subscribe_get_subscribers() implementation, which is invoked
- * by message_subscribe_send_message().
  * Uses designated context, thus disabling message_subscribe_get_subscribers()
  * of message_subscribe module.
  * Returns an array of structure [uid => notifier].
@@ -810,11 +802,17 @@ function c4m_user_notifications_message_subscribe_get_subscribers($message, $sub
 
   // If we need to filter users according to additional flag.
   if (isset($context['additional_flag_suffix']) && isset($context['flags_operation'])) {
-    // Filtering.
+    // When 'additional flag' is provided, users will be filtered using
+    // operation defined at 'flags_operation'.
+    // When 'flags_operation' is set to 'intersect', only users marked by flag
+    // AND additional flag are returned.
+    // When 'flags_operation' is set to 'diff', only users marked by flag and
+    // AND NOT marked by additional flag are returned.
     $flag_name = 'subscribe_c4m_follow_' . $context['additional_flag_suffix'];
     $filtered_users = flag_get_entity_flags($flagged_entity_type, $entity_id, $flag_name);
     // Flag operations can be 'intersect' or 'diff'.
     $function = 'array_' . $context['flags_operation'];
+    // Function is either array_intersect() or array_diff().
     $filtered_users = $function(array_keys($users), array_keys($filtered_users));
   }
 
