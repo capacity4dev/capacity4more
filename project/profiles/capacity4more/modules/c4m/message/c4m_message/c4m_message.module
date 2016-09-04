@@ -304,7 +304,7 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
   }
 
   // Do not create a message for a photo that is associated with a photo album.
-  if (!empty($entity->node_gallery_ref_1)) {
+  if ($entity->type == 'photo' && !empty($entity->node_gallery_ref_1)) {
     return FALSE;
   }
 
