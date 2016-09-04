@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_discussion.features.field_instance.inc
@@ -616,7 +617,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'settings' => array(
           'display' => 'all',
           'glue' => ', ',
-          'link' => '',
+          'link' => 1,
           'separator' => ' > ',
           'wrap' => 'none',
         ),
@@ -806,7 +807,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'settings' => array(
           'display' => 'all',
           'glue' => ', ',
-          'link' => '',
+          'link' => 1,
           'separator' => ' > ',
           'wrap' => 'none',
         ),

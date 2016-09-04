@@ -61,6 +61,7 @@
   float: right;
 }
 
+.view-items-with-dashed-separator .views-row,
 .view-c4m-overview-articles .views-row,
 .view-c4m-overview-groups .views-row,
 .view-c4m-overview-projects .views-row,
@@ -69,8 +70,9 @@
   margin-top: 2rem;
 }
 
-.view-c4m-overview-groups .views-row:last-of-type,
+.view-items-with-dashed-separator .views-row:last-of-type,
 .view-c4m-overview-articles .views-row:last-of-type,
+.view-c4m-overview-groups .views-row:last-of-type,
 .view-c4m-overview-events-landing .views-row:last-of-type,
 .view-c4m-overview-events .views-row:last-of-type,
 .view-c4m-search-nodes .views-row:last-of-type {
