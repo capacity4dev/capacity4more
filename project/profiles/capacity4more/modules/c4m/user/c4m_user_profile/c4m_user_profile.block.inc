@@ -248,5 +248,9 @@ function c4m_user_profile_get_group_type_title($type) {
     'pending' => t('Membership requested'),
   );
 
+  if (!isset($titles[$type])) {
+    return '';
+  }
+
   return $titles[$type];
 }

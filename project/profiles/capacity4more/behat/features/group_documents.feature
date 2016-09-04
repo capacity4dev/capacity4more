@@ -34,7 +34,7 @@ Feature: Group Documents
   Scenario: Check GA can edit a document's author
     Given I am logged in as user "galileo"
     When I visit the group "document" detail page "Nobel Prize ceremony"
-    And I click "Edit" under ul "tabs--primary"
+    And I click "Edit" in the "primary tabs" region
     Then I should see the text "Edit Document Nobel Prize ceremony"
     And I should see the text "Authoring information"
 
@@ -42,7 +42,7 @@ Feature: Group Documents
   Scenario: Check SA can edit a document's author
     Given I am logged in as user "survivalofthefittest"
     When I visit the group "document" detail page "Nobel Prize ceremony"
-    And I click "Edit" under ul "tabs--primary"
+    And I click "Edit" in the "primary tabs" region
     Then I should see the text "Edit Document Nobel Prize ceremony"
     And I should see the text "Authoring information"
 

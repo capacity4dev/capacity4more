@@ -50,7 +50,7 @@ Feature: Group Wiki pages
   Scenario: Check GA can edit a wiki page's author
     Given I am logged in as user "galileo"
     When I visit the group "wiki_page" detail page "Award Process"
-    And I click "Edit" under ul "tabs--primary"
+    And I click "Edit" in the "primary tabs" region
     Then I should see the text "Edit Wiki page Award Process"
     And I should see the text "Authoring information"
 
@@ -58,6 +58,6 @@ Feature: Group Wiki pages
   Scenario: Check SA can edit a wiki page's author
     Given I am logged in as user "survivalofthefittest"
     When I visit the group "wiki_page" detail page "Award Process"
-    And I click "Edit" under ul "tabs--primary"
+    And I click "Edit" in the "primary tabs" region
     Then I should see the text "Edit Wiki page Award Process"
     And I should see the text "Authoring information"

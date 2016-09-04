@@ -83,7 +83,7 @@ Feature: Group Events
   Scenario: Check GA can edit an event's author
     Given I am logged in as user "galileo"
     When I visit the group "event" detail page "Nobel Prize Issueing"
-    And I click "Edit" under ul "tabs--primary"
+    And I click "Edit" in the "primary tabs" region
     Then I should see the text "Edit Event Nobel Prize Issueing"
     And I should see the text "Authoring information"
 
@@ -91,6 +91,6 @@ Feature: Group Events
   Scenario: Check SA can edit an event's author
     Given I am logged in as user "survivalofthefittest"
     When I visit the group "event" detail page "Nobel Prize Issueing"
-    And I click "Edit" under ul "tabs--primary"
+    And I click "Edit" in the "primary tabs" region
     Then I should see the text "Edit Event Nobel Prize Issueing"
     And I should see the text "Authoring information"
