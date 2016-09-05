@@ -46,7 +46,8 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   $query
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'group')
-    ->propertyCondition('status', NODE_PUBLISHED);
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->fieldCondition('c4m_og_status', 'value', 'published');
 
   if (!empty($user_groups['node'])) {
     $query
@@ -59,7 +60,7 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
 
   $result = $query
     ->addTag('random')
-    ->range(0, 5)
+    ->range(0, 3)
     ->execute();
 
   if (empty($result['node'])) {
@@ -118,6 +119,10 @@ function c4m_features_homepage_c4m_featured_groups_get_groups() {
  */
 function c4m_features_homepage_alphabetically_render_node_list($node_ids) {
   $items = node_load_multiple(array_keys($node_ids));
+
+  // Removes groups where the logged in user has no access.
+  $groups = array_filter($groups, 'c4m_features_homepage_node_access_view_filter');
+
   uasort($items, 'c4m_features_homepage_node_sort_by_title');
 
   $rendered_nodes = '';
