@@ -121,14 +121,7 @@ function c4m_content_project_block_view($delta) {
  * Alter the Project creation form.
  */
 function c4m_content_project_form_project_node_form_alter(&$form, &$form_state) {
-  // Form changes on creation.
-  if (!$form['nid']['#value']) {
-    // Change title.
-    drupal_set_title('Request project');
-
-    // Change submit button on creation.
-    $form['actions']['submit']['#value'] = t('Request');
-  }
+  _c4m_og_alter_group_form($form, $form_state);
 
   $form['c4m_project_type']['#access'] = FALSE;
   $form['c4m_is_template']['#access'] = FALSE;
