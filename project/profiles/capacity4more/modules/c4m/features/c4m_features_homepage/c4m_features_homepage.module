@@ -121,7 +121,7 @@ function c4m_features_homepage_alphabetically_render_node_list($node_ids) {
   $items = node_load_multiple(array_keys($node_ids));
 
   // Removes groups where the logged in user has no access.
-  $groups = array_filter($groups, 'c4m_features_homepage_node_access_view_filter');
+  $items = array_filter($items, 'c4m_features_homepage_node_access_view_filter');
 
   uasort($items, 'c4m_features_homepage_node_sort_by_title');
 
