@@ -25,6 +25,10 @@ angular.module('c4mApp')
     // Getting the fields information.
     $scope.fieldSchema = {};
 
+    // Hide quickpost title field placeholder on focus.
+    $scope.titlePlaceholder = true;
+    $scope.titlePlaceholderText = 'Start a discussion, share an idea...';
+
     $scope = QuickPostService.setDefaults($scope);
 
     /**
@@ -427,5 +431,15 @@ angular.module('c4mApp')
       $scope.referenceValues = {};
       // Remove file.
       $scope.removeUploadedFile();
+    }
+
+    /**
+    * Closes quick-post form.
+    */
+    $scope.closeQuickPost = function () {
+      // Clear all form fields.
+      $scope.resetEntityForm();
+      // Closes quick-post form.
+      $scope.selectedResource = '';
     }
   });
