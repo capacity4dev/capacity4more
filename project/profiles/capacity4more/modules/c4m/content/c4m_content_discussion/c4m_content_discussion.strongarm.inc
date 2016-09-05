@@ -201,7 +201,7 @@ function c4m_content_discussion_strongarm() {
             'visible' => FALSE,
           ),
           'pinned_content' => array(
-            'weight' => '31',
+            'weight' => '30',
             'visible' => FALSE,
           ),
         ),

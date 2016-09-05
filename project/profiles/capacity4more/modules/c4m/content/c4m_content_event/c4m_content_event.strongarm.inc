@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_event.strongarm.inc
@@ -241,11 +242,11 @@ function c4m_content_event_strongarm() {
             'visible' => FALSE,
           ),
           'block_list' => array(
-            'weight' => '37',
+            'weight' => '38',
             'visible' => FALSE,
           ),
           'pinned_content' => array(
-            'weight' => '37',
+            'weight' => '36',
             'visible' => FALSE,
           ),
         ),
