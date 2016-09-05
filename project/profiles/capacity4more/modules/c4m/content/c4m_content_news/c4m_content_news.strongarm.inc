@@ -130,6 +130,9 @@ function c4m_content_news_strongarm() {
       'revision' => array(
         'custom_settings' => FALSE,
       ),
+      'pinned_content' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(

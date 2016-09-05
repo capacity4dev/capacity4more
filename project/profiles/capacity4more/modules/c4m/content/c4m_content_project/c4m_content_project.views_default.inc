@@ -31,7 +31,7 @@ function c4m_content_project_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'node';
-  $handler->display->display_options['row_options']['view_mode'] = 'block_list';
+  $handler->display->display_options['row_options']['view_mode'] = 'pinned_content';
   /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
@@ -102,7 +102,7 @@ function c4m_content_project_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'node';
-  $handler->display->display_options['row_options']['view_mode'] = 'block_list';
+  $handler->display->display_options['row_options']['view_mode'] = 'pinned_content';
   /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
@@ -171,7 +171,7 @@ function c4m_content_project_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'node';
-  $handler->display->display_options['row_options']['view_mode'] = 'block_list';
+  $handler->display->display_options['row_options']['view_mode'] = 'pinned_content';
   /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
@@ -214,7 +214,7 @@ function c4m_content_project_views_default_views() {
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
-    'news_item' => 'news_item',
+    'news' => 'news',
   );
 
   /* Display: Block */
