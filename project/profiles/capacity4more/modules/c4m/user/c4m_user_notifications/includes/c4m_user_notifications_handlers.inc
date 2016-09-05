@@ -516,15 +516,6 @@ function c4m_user_notifications_notify_admins_admin_granted($gid, $uid) {
 }
 
 /**
- * Email notification to user about user being revoked admin status.
- */
-function c4m_user_notifications_notify_user_admin_demoted($gid, $uid) {
-  _c4m_user_notify_user_admin_demoted($gid, $uid);
-}
-
-/**
- * Helper function.
- *
  * Sends mail notification, when group admin is demoted to regular member.
  *
  * @param int $gid
@@ -532,7 +523,7 @@ function c4m_user_notifications_notify_user_admin_demoted($gid, $uid) {
  * @param int $uid
  *   User id.
  */
-function _c4m_user_notify_user_admin_demoted($gid, $uid) {
+function c4m_user_notifications_notify_user_admin_demoted($gid, $uid) {
   global $user;
   $message = message_create('c4m_group_admin_demoted', array('uid' => $uid));
   // Define functions with which to resolve email template tokens.

@@ -349,7 +349,17 @@ function c4m_og_control_membership($action, $gid, $account, $membership, $timest
     drupal_set_message($message);
   }
   else {
-    $message = $membership->state == OG_STATE_ACTIVE ? t('This request was already approved') : t('This request was already rejected');
+    if ($membership->state == OG_STATE_ACTIVE) {
+      $message = t('This request was already approved');
+    }
+    elseif ($membership->state == OG_STATE_BLOCKED) {
+      $message = t('This request was already rejected');
+    }
+    else {
+      // Should never get her, as there're only 3 states for membership.
+      $message = t('Invalid membership state');
+    }
+
     drupal_set_message($message, 'warning');
   }
 
