@@ -822,7 +822,7 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
  * Helper function.
  *
  * Extracts all child taxonomy items from $items array (alters it),
- * and returns them.
+ * and returns them, as array.
  *
  * @param array $items
  *   Taxonomies array, from which we extract all children of item with
@@ -831,23 +831,29 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
  *   The ID of parent taxonomy item.
  *
  * @return array $result
- *   All child items of input parent ID.
+ *   All child items of input item with ID $parent_id.
  */
 function _c4m_content_taxonomy_extract_child_items(&$items, $parent_id) {
   $result = array();
   $remaining = array();
 
   foreach ($items as $item) {
+    // Get the parent of $item.
     $parent = taxonomy_get_parents($item['tid']);
-    if (!empty($parent) &&  key($parent) == $parent_id) {
+    if (!empty($parent) && key($parent) == $parent_id) {
+      // If item's parent found, and it's ID equals to input $parent_id,
+      // add the item into $result array.
       $result[] = $item['taxonomy_term'];
     }
     else {
+      // $remaining array holds all the items that were not extracted
+      // from $items array.
       $remaining[] = $item;
     }
   }
-
+  // Alter original $items array - subtract all the $result items.
   $items = $remaining;
+
   return $result;
 }
 
@@ -861,17 +867,22 @@ function _c4m_content_taxonomy_extract_child_items(&$items, $parent_id) {
  *   Taxonomies array, from which we extract all children of item with
  *   ID = $parent_id. $items array is altered by function.
  *
- * @return array $result
+ * @return mixed $result
  *   First taxonomy item at $items array, that got no parents.
+ *   FALSE, if all items got a parent.
  */
 function _c4m_content_taxonomy_extract_root_item(&$items) {
   foreach ($items as $key => $item) {
     $parent = taxonomy_get_parents($item['tid']);
     if (empty($parent)) {
+      // First item got no parent => subtract it from $items array,
+      // and return it's 'taxonomy_term'.
       unset($items[$key]);
+
       return $item['taxonomy_term'];
     }
   }
 
+  // All items got a parent.
   return FALSE;
 }
