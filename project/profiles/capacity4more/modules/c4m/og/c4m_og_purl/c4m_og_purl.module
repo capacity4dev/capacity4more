@@ -17,31 +17,55 @@ include_once 'c4m_og_purl.uri_info.inc';
  * Implements hook_init().
  *
  * Redirect /node/GROUP_ID path to the group dashboard /GROUP-TITLE.
+ * Denies access to global pages, if under OG context (under PURL).
  */
 function c4m_og_purl_init() {
   $item = menu_get_item();
 
-  if ($item['path'] != 'node/%') {
+  if (empty($item['path'])) {
+    return;
+  }
+
+  if ($item['path'] == 'node/%') {
     // We are not in node view.
-    return;
+    $node = $item['map'][1];
+
+    if (!og_is_group_type('node', $node->type)) {
+      // This is not a group.
+      return;
+    }
+
+    drupal_goto($node->purl);
   }
 
-  $node = $item['map'][1];
+  // Menu items prefixes, which we allow to be accessed under OG context.
+  $group_allowed_path = array(
+    'node',
+    'group',
+    'wiki',
+    'documents',
+    'discussions',
+    'media',
+    'calendar',
+    'comment',
+    'members',
+    'manage',
+  );
 
-  if (!og_is_group_type('node', $node->type)) {
-    // This is not a group.
-    return;
+  if ($context = og_context() &&
+    !_c4m_og_purl_starts_with_in_array($group_allowed_path, $item['path'])
+  ) {
+    // Under OG context, but menu item prefix is not part of allowed array.
+    drupal_access_denied();
+    drupal_exit();
   }
-
-  drupal_goto($node->purl);
 }
 
 /**
  * Implements hook_url_outbound_alter().
  *
- * Change the path of a group node to be the expected url.
- * For example when visiting /node/1 we should be redirected to /foo instead.
- * Without this hook we would be redirected to /foo/groups/foo.
+ * Prevent PURL prefix from appearing at page links, if they don't point
+ * to group content.
  */
 function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
   if (drupal_is_cli()) {
@@ -49,28 +73,39 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
     return;
   }
 
-  if (strpos($_GET['q'], 'admin/') === 0) {
-    // Admin pages.
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
     return;
   }
 
-  $item = menu_get_item();
+  // Path prefixes, which we allow to be accessed under OG context.
+  $group_allowed_path = array(
+    'node',
+    'group',
+    'wiki',
+    'documents',
+    'discussions',
+    'media',
+    'calendar',
+    'comment',
+    'members',
+    'manage',
+  );
 
-  if ($item['path'] != 'node/%') {
-    // We are not in node view.
+  if ($context = og_context() &&
+    !_c4m_og_purl_starts_with_in_array($group_allowed_path, $path)
+  ) {
+    // Under OG context, but path prefix is not specified at allowed array.
+    // Cancel the 'prefix' that was added by purl_url_outbound_alter().
+    // purl_url_outbound_alter() will always run before this hook, as
+    // PURL model weight is lower (-20) than standard (0).
+    $options['prefix'] = '';
+
     return;
   }
-
-  $node = $item['map'][1];
-
-  if (!og_is_group_type('node', $node->type)) {
-    // This is not a group.
-    return;
-  }
-
-  // Set the path alias.
-  $path = $node->purl;
-  $options['alias'] = $node->purl;
 }
 
 /**
@@ -232,4 +267,41 @@ function c4m_og_purl_field_formatter_view($entity_type, $entity, $field, $instan
   }
 
   return $result;
+}
+
+/**
+ * Return whether search string begins with  one of strings at array.
+ *
+ * @param array $strings
+ *   Array of strings.
+ * @param string $search_string
+ *   String in which search is performed.
+ *
+ * @return bool
+ *   Whether search string begins with  one of strings at array
+ */
+function _c4m_og_purl_starts_with_in_array($strings, $search_string) {
+  foreach ($strings as $string) {
+    if (_c4m_og_purl_starts_with($search_string, $string)) {
+
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Returns whether search string begins with string.
+ *
+ * @param string $search_string
+ *   String in which search is performed.
+ * @param string $string
+ *   String for which we check if it's search string prefix.
+ *
+ * @return bool
+ *   Whether search string begins with string.
+ */
+function _c4m_og_purl_starts_with($search_string, $string) {
+  return strpos($search_string, $string) === 0;
 }

@@ -47,7 +47,7 @@ function c4m_content_group_ctools_plugin_directory($module, $plugin_type) {
  * Implements hook_block_info().
  */
 function c4m_content_group_block_info() {
-  $blocks['header_name_banner'] = array(
+  $blocks['header_name_banner_group'] = array(
     'info' => t('Group header'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
@@ -292,6 +292,11 @@ function c4m_content_group_form_group_node_form_alter(&$form, &$form_state) {
     $form['revision_information']['#access'] = FALSE;
     // After a form is submitted, run a redirect function.
     $form['actions']['submit']['#submit'][] = 'c4m_content_group_submit_redirect';
+  }
+
+  // Checks if the node is being created.
+  if (is_null($form['nid']['#value'])) {
+    $form['c4m_og_status']['#access'] = FALSE;
   }
 }
 
@@ -698,12 +703,14 @@ function c4m_content_group_c4m_content_statistics_info() {
         'singular'    => 'Group',
         'plural'      => 'Groups',
         'state'       => 1,
+        'skip_access_check' => TRUE,
+        'c4m_status'  => array('published', 'archived'),
         'aggregate'   => array(),
         'weight'      => -4,
         'attributes'  => array(
           'class' => array('groups'),
         ),
-        'link' => array(
+        'link'        => array(
           'path' => 'groups',
         ),
       ),
@@ -878,9 +885,14 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
   $accounts = c4m_og_get_group_admins($node->nid);
 
   $links = array();
+  $options = array(
+    'purl'  => array(
+      'disabled' => TRUE,
+    ),
+  );
   foreach ($accounts as $account) {
     $uri = entity_uri('user', $account);
-    $links[] = l(c4m_user_name($account), $uri['path']);
+    $links[] = l(c4m_user_name($account), $uri['path'], $options);
   }
 
   $node->content['group_admins'] = array(

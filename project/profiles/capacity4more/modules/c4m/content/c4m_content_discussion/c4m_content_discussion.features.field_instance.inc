@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_discussion.features.field_instance.inc
@@ -182,6 +183,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 21,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'smart_trim',
@@ -339,6 +346,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 28,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -433,6 +446,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 23,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -538,6 +557,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 26,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -612,12 +637,15 @@ function c4m_content_discussion_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'term_reference_tree',
+        'module' => 'c4m_content_topic',
         'settings' => array(
-          'token_display_selected' => '',
-          'token_display_unselected' => '',
+          'display' => 'all',
+          'glue' => ', ',
+          'link' => 1,
+          'separator' => ' > ',
+          'wrap' => 'none',
         ),
-        'type' => 'term_reference_tree',
+        'type' => 'term_reference_checked_inline_tree',
         'weight' => 3,
       ),
       'inthe_picture_block' => array(
@@ -631,6 +659,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 27,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -726,6 +760,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 25,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -799,12 +839,15 @@ function c4m_content_discussion_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'term_reference_tree',
+        'module' => 'c4m_content_topic',
         'settings' => array(
-          'token_display_selected' => '',
-          'token_display_unselected' => '',
+          'display' => 'all',
+          'glue' => ', ',
+          'link' => 1,
+          'separator' => ' > ',
+          'wrap' => 'none',
         ),
-        'type' => 'term_reference_tree',
+        'type' => 'term_reference_checked_inline_tree',
         'weight' => 0,
       ),
       'inthe_picture_block' => array(
@@ -818,6 +861,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -910,6 +959,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 22,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1039,6 +1094,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 24,
       ),
       'teaser' => array(
         'label' => 'above',
