@@ -66,14 +66,14 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Cp\\u003EYou are no longer administrator for @group_node_type @group_node_title\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n",
+          "value" : "\\u003Cp\\u003EYou are no longer administrator for @group_node_type: @group_node_title\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n",
           "format" : "default_html",
-          "safe_value" : "\\u003Cp\\u003EYou are no longer administrator for @group_node_type @group_node_title\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003EYou are no longer administrator for @group_node_type: @group_node_title\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n"
         },
         {
-          "value" : "\\u003Cp\\u003EDear @member_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\r\\nYou are no longer administrator for the @group_node_type \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\r\\n\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003E\\r\\n[current-user:c4m_first_name] [current-user:c4m_last_name]\\r\\n\\u003Cbr\\u003E\\r\\n@group_node_type Administrator, @group_node_title\\r\\n\\u003C\\/p\\u003E",
+          "value" : "\\u003Cp\\u003EDear @member_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYour administration rights for the @group_node_type \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E have been removed.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EIf you have any questions about your new role within this  @group_node_type, please feel free to \\u003Ca href=\\u0022!event_user_message_url\\u0022\\u003Econtact me\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E@event_user_full_name\\u003Cbr \\/\\u003E\\r\\n@group_node_type Administrator, @group_node_title\\u003C\\/p\\u003E\\r\\n",
           "format" : "default_html",
-          "safe_value" : "\\u003Cp\\u003EDear @member_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\nYou are no longer administrator for the @group_node_type \\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\n\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\n[current-user:c4m_first_name] [current-user:c4m_last_name]\\u003Cbr \\/\\u003E\\u003Cbr \\/\\u003E\\u003Cbr \\/\\u003E\\n@group_node_type Administrator, @group_node_title\\n\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003EDear @member_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003EYour administration rights for the @group_node_type \\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E have been removed.\\u003C\\/p\\u003E\\n\\u003Cp\\u003EIf you have any questions about your new role within this  @group_node_type, please feel free to \\u003Ca href=\\u0022!event_user_message_url\\u0022 rel=\\u0022nofollow\\u0022\\u003Econtact me\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\n\\u003Cp\\u003E@event_user_full_name\\u003Cbr \\/\\u003E\\n@group_node_type Administrator, @group_node_title\\u003C\\/p\\u003E\\n"
         }
       ]
     },
