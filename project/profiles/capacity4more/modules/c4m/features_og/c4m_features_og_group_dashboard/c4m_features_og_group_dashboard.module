@@ -264,10 +264,6 @@ function c4m_features_og_group_dashboard_block_info() {
 function c4m_features_og_group_dashboard_block_view($delta = '') {
   $block = array();
 
-  if ($delta != 'c4m_cta_block') {
-    return $block;
-  }
-
   $block['content'] = module_invoke_all('c4m_cta_block');
 
   return $block;
