@@ -988,7 +988,7 @@ function c4m_og_get_user_group_ids_by_bundle($bundle = NULL, $account = NULL) {
     return $groups;
   }
 
-  // Apply bundle filter only for specific bundle type
+  // Apply bundle filter only for specific bundle type.
   $conditions = array();
   if ($bundle != 'showAll') {
     $conditions['type'] = $bundle;
