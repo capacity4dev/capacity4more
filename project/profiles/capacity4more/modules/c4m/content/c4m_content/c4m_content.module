@@ -733,7 +733,7 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
     $childless_children = $children;
 
     // Handling 3-rd level (grand children), if exist.
-    $arrays_sub_tree = array();
+    $sub_trees = array();
     foreach ($children as $child) {
       // For every 2-nd level item (child), fetch it's children from $items.
       $grand_children = _c4m_content_taxonomy_extract_child_items($items, $child->tid);
@@ -745,7 +745,7 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
 
         // Add array item that represents 2 level tree, where first level item
         // is a child, and 2-nd level items are grand children.
-        $arrays_sub_tree[] = array_merge(array($child), $grand_children);
+        $sub_trees[] = array_merge(array($child), $grand_children);
       }
     }
 
@@ -754,7 +754,7 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
     $arrays_tree[] = $root_array;
 
     // For every sub tree created (2-nd & 3-rd level tree).
-    foreach ($arrays_sub_tree as $sub_tree) {
+    foreach ($sub_trees as $sub_tree) {
       // Add it to to arrays tree, and store it's index, for shifting right.
       $arrays_tree[] = $sub_tree;
       $shift_right_array[] = end(array_keys($arrays_tree));
@@ -821,14 +821,14 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
 /**
  * Helper function.
  *
- * Extracts all child taxonomy items from $items array (alters it),
- * and returns them, as array.
+ * Extracts all child taxonomy items from $items, and alter $items -
+ * subtracted all items that function returns.
  *
  * @param array $items
  *   Taxonomies array, from which we extract all children of item with
- *   ID = $parent_id. $items array is altered by function.
+ *   ID == $parent_id. $items array is altered by function.
  * @param int $parent_id
- *   The ID of parent taxonomy item.
+ *   The ID of taxonomy item, which children should be extracted.
  *
  * @return array $result
  *   All child items of input item with ID $parent_id.
@@ -842,12 +842,12 @@ function _c4m_content_taxonomy_extract_child_items(&$items, $parent_id) {
     $parent = taxonomy_get_parents($item['tid']);
     if (!empty($parent) && key($parent) == $parent_id) {
       // If item's parent found, and it's ID equals to input $parent_id,
-      // add the item into $result array.
+      // add it's 'taxonomy_term' into $result array.
       $result[] = $item['taxonomy_term'];
     }
     else {
-      // $remaining array holds all the items that were not extracted
-      // from $items array.
+      // $remaining array holds all the items that are not children of
+      // item which ID == $parent_id.
       $remaining[] = $item;
     }
   }
