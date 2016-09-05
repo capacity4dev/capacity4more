@@ -515,6 +515,33 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');
+  $items['c4m_membership_request_rejected'] = entity_import('message_type', '{
+    "name" : "c4m_membership_request_rejected",
+    "description" : "c4m Membership Request Rejected",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003EYour membership request to join @group_node_title\\u0026nbsp; was rejected\\u003C\\/p\\u003E\\r\\n",
+          "format" : "default_html",
+          "safe_value" : "\\u003Cp\\u003EYour membership request to join @group_node_title\\u00a0 was rejected\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "\\u003Cp\\u003EDear colleague,\\u003C\\/p\\u003E \\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\nThank you for your interest in the group \\u003Cstrong\\u003E\\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EUnfortunately we cannot accept your membership request because @membership_reject_reason.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EThank you for your understanding.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EDon\\u0027t hesitate to contact me if your have further questions.\\u003C\\/p\\u003E \\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E,\\u003Cbr \\/\\u003E\\r\\n@group_node_type Administrator - @group_node_title\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cp\\u003EDear colleague,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\nThank you for your interest in the group \\u003Cstrong\\u003E\\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E.\\u003C\\/p\\u003E\\n\\u003Cp\\u003EUnfortunately we cannot accept your membership request because @membership_reject_reason.\\u003C\\/p\\u003E\\n\\u003Cp\\u003EThank you for your understanding.\\u003C\\/p\\u003E\\n\\u003Cp\\u003EDon\\u0027t hesitate to contact me if your have further questions.\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\n\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E,\\u003Cbr \\/\\u003E\\n@group_node_type Administrator - @group_node_title\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['c4m_new_content_published'] = entity_import('message_type', '{
     "name" : "c4m_new_content_published",
     "description" : "c4m New Content Published",
