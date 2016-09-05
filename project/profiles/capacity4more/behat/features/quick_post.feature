@@ -1,7 +1,19 @@
-#Feature: Test quick post
-#  In order to create entities from the quick post
-#  As a drupal authenticated user
-#  I need to be able to submit quick posts
+Feature: Test quick post
+  In order to create entities from the quick post
+  As a drupal authenticated user
+  I need to be able to submit quick posts
+
+  @api
+  Scenario: A visitor should not have access to the quick post field info schema endpoint.
+    Given I am an anonymous user
+    When  I am on "nobelprize/quick-post/discussions/field-schema"
+    Then  I should not have access to the page
+
+  @api
+  Scenario: A GO should have access to the quick post field info schema endpoint.
+    Given I am logged in as user "alfrednobel"
+    When  I am on "nobelprize/quick-post/discussions/field-schema"
+    Then  I should have access to the page
 
 #  @javascript
 #  Scenario: Check Quick post error validation.
