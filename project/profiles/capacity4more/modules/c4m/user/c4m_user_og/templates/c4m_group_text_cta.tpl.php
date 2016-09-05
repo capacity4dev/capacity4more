@@ -6,7 +6,14 @@
  */
 ?>
 <div class="<?php print $wrapper_class; ?>">
-  <span<?php if (isset($text_class)) print ' class="' . $text_class . '"'; ?>>
+  <?php if (isset($text_class)) { ?>
+  <span class="<?php print $text_class; ?>">
+  <?php
+  }
+  else {
+  ?>
+  <span>
+  <?php } ?>
       <i class="fa <?php print $icon; ?>"></i>
     <?php print $text; ?>
   </span>
