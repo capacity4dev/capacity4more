@@ -717,11 +717,12 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
  *   The markup of the tree.
  */
 function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) {
-  // Each item at array represents 2 level tree.
-  // First node is the root (level 1), and all others, if exist, are children.
-  $arrays_tree = array();
-  // Stores positions of threes to be shifted right, as they present
-  // second and third level at 3 level taxonomy hierarchy.
+  // Each item at array is an array, representing two level tree.
+  // First node is tree root (level 1), and all others, if exist,
+  // are children (level 2).
+  $trees = array();
+  // Stores positions of trees to be shifted right, as they present
+  // second and third level, at 3 level taxonomy hierarchy.
   $shift_right_array = array();
 
   while (!empty($items)) {
@@ -751,13 +752,13 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
 
     // Add array item for 1-st & 2-nd level tree.
     $root_array = empty($childless_children) ? array($root) : array_merge(array($root), $childless_children);
-    $arrays_tree[] = $root_array;
+    $trees[] = $root_array;
 
     // For every sub tree created (2-nd & 3-rd level tree).
     foreach ($sub_trees as $sub_tree) {
       // Add it to to arrays tree, and store it's index, for shifting right.
-      $arrays_tree[] = $sub_tree;
-      $shift_right_array[] = end(array_keys($arrays_tree));
+      $trees[] = $sub_tree;
+      $shift_right_array[] = end(array_keys($trees));
     }
   }
 
@@ -771,7 +772,7 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
   $tree_index = 0;
 
   // Loop through all the taxonomy items and add them to the tree.
-  foreach ($arrays_tree as $taxonomy_tree) {
+  foreach ($trees as $taxonomy_tree) {
     $local_tree = array();
     foreach ($taxonomy_tree as $taxonomy) {
       // If the link term was not provided, or it isn't the proper
