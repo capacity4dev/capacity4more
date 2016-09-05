@@ -5,7 +5,7 @@
  * Template for the taxonomy tree.
  */
 ?>
-<div class="item">
+<div class="item <?php print $class ?>">
   <div class="taxonomy-root"><?php print $root ?></div>
 
   <?php if (!empty($local_tree)): ?>
