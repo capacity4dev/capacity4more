@@ -182,8 +182,18 @@
     display: inline-block;
   }
 
+  .views-field-rendered-entity {
+    width: 92%;
+  }
+
   .views-field-views-bulk-operations {
     vertical-align: text-bottom;
     margin-bottom: 12px;
+    width: 8%;
+    float: left;
+  }
+
+  .field-name-c4m-ds-user-membership-type {
+    float: right;
   }
 }

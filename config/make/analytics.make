@@ -4,4 +4,4 @@ api = 2
 ; Analytics
 
 projects[piwik][subdir] = "contrib"
-projects[piwik][version] = "2.8"
+projects[piwik][version] = "2.9"

@@ -6,11 +6,31 @@
  */
 
 /**
- * Implements hook_form_FORM_ID_alter().
+ * Implements hook_form_BASE_FORM_ID_alter().
  *
+ * Hide Book tab for all content types.
  * Add a cancel button to all node forms.
  */
 function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
+  // Checks if the form's content type is being used as a message,
+  // to add a send notification option.
+  if (in_array($form_state['node']->type, c4m_message_valid_node_types())) {
+    $form['actions']['send-notification'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Send Notification'),
+      // Default to true only on new content.
+      '#value' => empty($form_state['node']->nid),
+      '#limit_validation_errors' => array(),
+      '#weight' => -1,
+    );
+  };
+
+  // Hide Book tab for all content types.
+  if (isset($form['book'])) {
+    $form['book']['#access'] = FALSE;
+  }
+
+  // Add a cancel button to all node forms.
   // Check if a cancel button should be added to node forms.
   $cancel = variable_get('c4m_content_cancel_button', FALSE);
   if (!$cancel) {
@@ -38,9 +58,11 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     );
   }
 
+  $is_unpublish = $form['actions']['draft']['#value'] == t('Unpublish');
+  $is_og_group = in_array($form['type']['#value'], array('group', 'project'));
   // Removes Unpublish button from forms.
-  if ($form['actions']['draft']['#value'] == t('Unpublish')) {
-    unset($form['actions']['draft']);
+  if ($is_unpublish && $is_og_group) {
+    $form['actions']['draft']['#access'] = FALSE;
   }
 }
 
@@ -249,6 +271,10 @@ function _c4m_content_statistics_collect_data(array $list) {
       ? $info['c4m_status']
       : NULL;
 
+    $skip_access_check = isset($info['skip_access_check'])
+      ? $info['skip_access_check']
+      : NULL;
+
     $arguments = array(
       'entity_type' => $info['entity_type'],
       'bundles' => $info['bundles'],
@@ -256,6 +282,7 @@ function _c4m_content_statistics_collect_data(array $list) {
       'og_id' => $og_id,
       'topic' => $topic,
       'c4m_status' => $status,
+      'skip_access_check' => $skip_access_check,
     );
     $count = c4m_helper_entity_get_number_of_entities($arguments);
 
@@ -320,6 +347,63 @@ function c4m_content_current_context() {
   else {
     return 'global';
   }
+}
+
+/**
+ * Helper function to generate markup for OG group image.
+ *
+ * Generates output on front page, manage group/project page, and on any
+ * group/project page for group administrator users.
+ *
+ * @param object $group
+ *   OG group.
+ *
+ * @return string
+ *   Generated markup for group/project banner image.
+ */
+function c4m_content_get_og_image_markup($group) {
+  // First establish the current group.
+  $markup = '';
+  $wrapper = entity_metadata_wrapper('node', $group);
+
+  $menu_item = menu_get_item();
+  if (drupal_is_front_page() || ($menu_item['path'] == 'manage' && og_user_access('node', $group->nid, 'administer group'))) {
+    // Add group image.
+    $file = $wrapper->c4m_banner->value();
+    if (!empty($file)) {
+      $file['style_name'] = 'banner';
+      $file['path'] = $file['uri'];
+      $file['attributes'] = array('class' => 'group-banner');
+      // If current page is the Group Management page,
+      // Add an edit link to the banner.
+      if ($menu_item['path'] == 'manage') {
+        $edit_link['element'] = array(
+          '#tag' => 'span',
+          '#attributes' => array(
+            'class' => array('edit-link'),
+          ),
+          '#value' => t('Edit'),
+        );
+        $options = array(
+          'html' => TRUE,
+          'attributes' => array(
+            'class' => array(
+              'edit-banner',
+            ),
+          ),
+        );
+        $markup .= l(theme_html_tag($edit_link) . theme_image_style($file), url('node/' . $group->nid . '/edit', array(
+          'absolute' => TRUE,
+          'fragment' => 'edit-image-banner',
+        )), $options);
+      }
+      else {
+        $markup .= theme_image_style($file);
+      }
+    }
+  }
+
+  return $markup;
 }
 
 /**
@@ -399,12 +483,12 @@ function c4m_content_field_formatter_view($entity_type, $entity, $field, $instan
  * @param float $number
  *   Number to be formatted.
  * @param int $decimals
- *   Number of decimals.
+ *   (optional) Number of decimals. Defaults to 0.
  *
  * @return string
  *   Formatted number.
  */
-function c4m_content_ec_number_format($number, $decimals) {
+function c4m_content_ec_number_format($number, $decimals = 0) {
   $decimal_separator = '.';
   $grouping_separator = '&nbsp;';
 
@@ -425,29 +509,22 @@ function c4m_content_form_node_delete_confirm_alter(&$form, &$form_state) {
 
   if ($comments) {
     // Handle sentence plural when multiple comments.
-    $text = t('comment');
-    $them = t('it');
-    if ($comments > 1) {
-      $text = t('comments');
-      $them = t('them');
-    }
+    $text = $comments > 1 ? t('comments') : t('comment');
 
     $replacements = array(
       '@comment_count' => $comments,
       '@comment_text' => $text,
-      '@them' => $them,
-      '!link' => l(t('edit it'), 'node/' . $node->nid . '/edit'),
     );
 
     $form['message'] = array(
       '#type' => 'markup',
-      '#markup' => '<p>' . t('This content has @comment_count @comment_text, are you sure you want to delete @them? You can also opt to anonymize this content, or !link.', $replacements) . '</p>',
+      '#markup' => '<p>' . t('This content has @comment_count @comment_text - by deleting this post, you will also delete the @comment_text. If you would rather preserve this content, please select the check box below to remove your name and editorial rights; the author will become anonymous, and all content will be preserved.', $replacements) . '</p>',
       '#weight' => -10,
     );
 
     $form['anonymize'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Anonymize'),
+      '#title' => t('Update the author to anonymous'),
     );
 
     // We override the default submit and we invoke it if necessary.
