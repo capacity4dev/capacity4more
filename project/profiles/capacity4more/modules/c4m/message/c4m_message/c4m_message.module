@@ -280,6 +280,25 @@ function c4m_message_format_group_owner_public_profile_url(Message $message) {
 }
 
 /**
+ * Returns the types that applicable for a message.
+ *
+ * @return array
+ *   The node types for messages.
+ */
+function c4m_message_valid_node_types() {
+  return array(
+    'discussion',
+    'event',
+    'news',
+    'photo',
+    'photoalbum',
+    'share',
+    'document',
+    'wiki_page',
+  );
+}
+
+/**
  * Delegate message CRUD to message type specific functions.
  *
  * @param string $entity_type
@@ -298,6 +317,11 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
     $entity->_skip_message = TRUE;
   }
 
+  // Do not create a message for a photo that is associated with a photo album.
+  if ($entity->type == 'photo' && !empty($entity->node_gallery_ref_1)) {
+    $entity->_skip_message = TRUE;
+  }
+
   if (!empty($entity->_skip_message)) {
     // Entity should not create a message.
     return FALSE;
@@ -310,15 +334,7 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
     'og_membership',
   );
 
-  $valid_node_types = array(
-    'discussion',
-    'event',
-    'photo',
-    'photoalbum',
-    'share',
-    'document',
-    'wiki_page',
-  );
+  $valid_node_types = c4m_message_valid_node_types();
 
   // Hide message for the type 'article' when the operation 'update' happened.
   if ($op != 'update') {
@@ -443,6 +459,33 @@ function c4m_messages_group_info(Message $message) {
  *   The Message entity.
  */
 function c4m_message_load__c4m_insert__node__discussion(Message $message) {
+  c4m_message_load_general_arguments($message);
+
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@operation'] = array(
+    'callback' => 'c4m_message_format_operation',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!icon'] = array(
+    'callback' => 'c4m_message_format_node_icon',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Delegated hook_entity_load() for node of "news" bundle.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__node__news(Message $message) {
   c4m_message_load_general_arguments($message);
 
   $message->arguments['!content'] = array(
@@ -956,7 +999,7 @@ function c4m_message__insert__comment($comment) {
  *   The non-saved message entity.
  */
 function c4m_message__update__comment($comment) {
-  $time_since = time() - variable_get('c4m_message_join_messages', '3600');
+  $time_since = time() - variable_get('c4m_message_join_messages', '36000');
 
   // Load existing message that is not older then 6 hours for the current node.
   $query = new EntityFieldQuery();
@@ -1029,7 +1072,7 @@ function c4m_message__update__node($node, $account = NULL) {
     $account = user_load($node->uid);
   }
 
-  $time_since = time() - variable_get('c4m_message_join_messages', '3600');
+  $time_since = time() - variable_get('c4m_message_join_messages', '36000');
   // Load existing message that is not older then 6 hours for the current node.
   $query = new EntityFieldQuery();
   $result = $query
