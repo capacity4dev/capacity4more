@@ -24,7 +24,10 @@ function theme_c4m_ds_submitted_by_and_on(array $field) {
   $entity = $field['entity'];
   $user = user_load($entity->uid);
   $name = c4m_user_name($user);
-  $options = array('attributes' => array('class' => array('user-name')));
+  $options = array(
+    'attributes' => array('class' => array('user-name')),
+    'purl' => array('disabled' => TRUE),
+  );
 
   // If user is not anonymous, set link on user name.
   if ($entity->uid > 0) {

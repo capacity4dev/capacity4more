@@ -115,8 +115,8 @@ function c4m_search_og_reindex_og_access_node_grants(
  * Using hook_preprocess_block().
  */
 function c4m_search_og_preprocess_block(&$vars) {
-  if ($vars['block']->bid == 'menu-c4m-og-menu') {
+  if ($vars['block']->bid == 'og_menu-og_single_menu_block') {
     $block = module_invoke('c4m_search_og', 'block_view', 'c4m_search_group_form');
-    $vars['search'] = $block['content'];
+    $vars['search_form'] = $block['content'];
   }
 }
