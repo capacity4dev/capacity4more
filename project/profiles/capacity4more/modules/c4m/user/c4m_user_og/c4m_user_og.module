@@ -536,7 +536,7 @@ function c4m_user_og_c4m_cta_block() {
   }
 
   if ($item = c4m_user_og_follow_group_cta($group)) {
-    $item['follow'] = $item;
+    $items['follow'] = $item;
   }
 
   // Add a link to the CTA block if the user is permitted to invite new members.
