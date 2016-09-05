@@ -123,7 +123,7 @@ function c4m_content_document_get_number_of_downloads($og_id = NULL) {
   $query->addTag('node_access');
 
   if ($og_id) {
-    $query->join('og_membership', 'og', 'n.nid = og.etid');
+    $query->join('og_membership', 'og', "'n.nid = og.etid AND og.entity_type = 'node''");
     $query->condition('og.gid', $og_id);
   }
 
@@ -146,6 +146,7 @@ function c4m_content_document_c4m_content_statistics_info() {
         'singular'    => 'Post',
         'plural'      => 'Posts',
         'state'       => 1,
+        'skip_access_check' => TRUE,
         'aggregate'   => array(
           'type' => 'posts',
         ),

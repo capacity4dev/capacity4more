@@ -90,7 +90,7 @@ function c4m_content_photo_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'activity_global' => array(
         'custom_settings' => TRUE,
@@ -147,7 +147,7 @@ function c4m_content_photo_strongarm() {
           ),
           'default' => array(
             'weight' => '5',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
           'full' => array(
             'weight' => '3',

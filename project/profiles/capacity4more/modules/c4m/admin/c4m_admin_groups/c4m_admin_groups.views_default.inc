@@ -582,7 +582,7 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['filters']['c4m_og_status_value']['table'] = 'field_data_c4m_og_status';
   $handler->display->display_options['filters']['c4m_og_status_value']['field'] = 'c4m_og_status_value';
   $handler->display->display_options['filters']['c4m_og_status_value']['value'] = array(
-    'requested' => 'requested',
+    'pending' => 'pending',
   );
   $handler->display->display_options['filters']['c4m_og_status_value']['group'] = 1;
 
