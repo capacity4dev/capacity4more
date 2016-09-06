@@ -424,6 +424,8 @@ angular.module('c4mApp')
     $scope.resetEntityForm = function () {
       // Clear any form validation errors.
       $scope.entityForm.$setPristine();
+      // Reset all errors.
+      $scope.errors = {};
       // Reset all the fields.
       initFormValues();
       // Empty fields info.
@@ -431,7 +433,7 @@ angular.module('c4mApp')
       $scope.referenceValues = {};
       // Remove file.
       $scope.removeUploadedFile();
-    }
+    };
 
     /**
     * Closes quick-post form.
