@@ -25,7 +25,7 @@ function c4m_features_og_media_views_default_views() {
   $handler->display->display_options['title'] = 'Media';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'c4m_og_access_og_context';
-  $handler->display->display_options['access']['feature'] = 'c4m_features_og_documents';
+  $handler->display->display_options['access']['feature'] = 'c4m_features_og_media';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['search_api_bypass_access'] = 0;
@@ -158,7 +158,7 @@ function c4m_features_og_media_views_default_views() {
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'library';
+  $handler->display->display_options['row_options']['view_mode'] = 'media';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['defaults']['header'] = FALSE;
