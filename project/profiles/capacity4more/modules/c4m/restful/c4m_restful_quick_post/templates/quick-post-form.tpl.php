@@ -10,9 +10,12 @@
       xmlns="http://www.w3.org/1999/html">
 
 <div class="form-group text" ng-class="{ 'has-error' : errors.label }">
-  <input id="label" class="form-control" name="label" ng-click="updateResource('<?php print key($show_resources) ?>', $event)" type="text" ng-model="data.label"
+  <input id="label" class="form-control" name="label" type="text"
+         ng-model="data.label"
          ng-attr-placeholder="{{ titlePlaceholder ? titlePlaceholderText : '' }}"
-         ng-focus="titlePlaceholder = false" ng-blur="titlePlaceholder = true" required>
+         ng-focus="focusQuickPostTitle('<?php print key($show_resources) ?>', $event)"
+         ng-blur="titlePlaceholder = true"
+         required>
 
   <p ng-show="errors.label"
      class="help-block"><?php print t('Title is too short.'); ?></p>
@@ -26,11 +29,17 @@
 
 <div ng-show="resources[selectedResource]" id="quick-post-fields">
 
+<div ng-if="selectedResource == 'discussions'" ng-class="{ 'has-error' : errors.discussion_type }">
+    <types field="'discussion_type'" field-schema="referenceValues" type="data.discussion_type" on-change="updateType"
+            cols="3"></types>
+    <p ng-show="errors.discussion_type" class="help-block"><?php print t('Discussion type is required.'); ?></p>
+</div>
+
 <!-- Body editor-->
 <div class="form-group" id="body-wrapper" ng-class="{ 'has-error' : errors.body }">
   <textarea ckeditor="editorOptions" name="body" class="form-control" id="body" ng-model="data.body" placeholder="Body"></textarea>
 
-  <p ng-show="errors.body" class="errors"><?php print t('Body is required.'); ?></p>
+  <p ng-show="errors.body" class="help-block"><?php print t('Body is required.'); ?></p>
 
   <div class="errors">
     <ul ng-show="serverSide.data.errors.body">

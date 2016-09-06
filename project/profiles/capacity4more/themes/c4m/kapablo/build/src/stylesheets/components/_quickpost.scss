@@ -12,6 +12,15 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  .btn-group-quickpost-info {
+    display: flex;
+    flex-wrap: wrap;
+
+    .form-group {
+      margin-right: 10px;
+    }
+  }
 }
 
   .topics-section {
@@ -106,36 +115,27 @@
         color: $color-white;
         background: rgba($color-white, 0.1);
       }
-
-    button[value="idea"] {
-      .fa:before {
-        content: "\f0eb";
-      }
-    }
-    button[value="question"] {
-      .fa:before {
-        content: "\f059";
-      }
-    }
-    button[value="info"] {
-      .fa:before {
-        content: "\f05a";
-      }
     }
 
-    button[value="debate"] {
-      .fa:before {
-        content: "\f086";
-      }
+  button[value="idea"] {
+    .fa:before {
+      content: "\f0eb";
     }
   }
-}
+  button[value="question"] {
+    .fa:before {
+      content: "\f059";
+    }
+  }
+  button[value="info"] {
+    .fa:before {
+      content: "\f05a";
+    }
+  }
 
-.btn-group-quickpost-info {
-  display: flex;
-  flex-wrap: wrap;
-
-  .form-group {
-    margin-right: 10px;
+  button[value="debate"] {
+    .fa:before {
+      content: "\f086";
+    }
   }
 }
