@@ -558,27 +558,27 @@ function c4m_user_notifications_existing_node_updated($node) {
 /**
  * Email notification to users 'subscribed' to content about new recommendation.
  *
- * @param int $entity_id
- *   Flagged entity id.
+ * @param int $nid
+ *   Flagged node id.
  */
-function c4m_user_notifications_content_recommended($entity_id) {
+function c4m_user_notifications_content_recommended($nid) {
   global $user;
   $message = message_create('c4m_notify_content_recommendation');
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_notify_content_recommendation($message);
 
   $wrapper = entity_metadata_wrapper('message', $message);
-  $wrapper->field_node->set($entity_id);
+  $wrapper->field_node->set($nid);
   $wrapper->field_executing_user->set($user->uid);
 
-  $node = node_load($entity_id);
+  $node = node_load($nid);
   // Flag suffix that is used at unsubscribe mechanism.
   $flag_suffix = 'node';
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
   $context = array(
     'entity_type' => $flag_suffix,
-    'entity_id' => $entity_id,
+    'entity_id' => $nid,
   );
 
   // Message will be saved in message_subscribe_send_message().
