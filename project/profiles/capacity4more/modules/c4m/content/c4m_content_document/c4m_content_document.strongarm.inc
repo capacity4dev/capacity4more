@@ -190,7 +190,7 @@ function c4m_content_document_strongarm() {
           ),
           'activity_group' => array(
             'weight' => '4',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
           'activity_global' => array(
             'weight' => '23',

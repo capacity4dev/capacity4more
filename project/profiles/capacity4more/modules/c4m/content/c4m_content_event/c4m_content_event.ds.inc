@@ -843,7 +843,6 @@ function c4m_content_event_ds_layout_settings_info() {
         1 => 'c4m_body',
         2 => 'c4m_ds_content_footer_stats',
         3 => 'c4m_datetime_end',
-        4 => 'flag_c4m_og_content_highlight',
       ),
     ),
     'fields' => array(

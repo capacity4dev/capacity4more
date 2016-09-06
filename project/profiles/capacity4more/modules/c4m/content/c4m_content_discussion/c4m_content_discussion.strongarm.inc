@@ -191,7 +191,7 @@ function c4m_content_discussion_strongarm() {
           ),
           'activity_group' => array(
             'weight' => '2',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
         ),
       ),

@@ -880,7 +880,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 22,
       ),
       'c4m_related' => array(
         'label' => 'above',

@@ -673,13 +673,11 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
       'ds_content' => array(
         0 => 'c4m_body',
         1 => 'c4m_ds_content_footer_stats',
-        2 => 'flag_c4m_og_content_highlight',
       ),
     ),
     'fields' => array(
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
-      'flag_c4m_og_content_highlight' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(

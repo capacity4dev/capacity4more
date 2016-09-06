@@ -19,6 +19,15 @@
   }
   
   .message {
+    &.entity-message {
+      > h2 {
+        display: inline-block;
+      }
+      > p {
+        display: inline-block;
+      }
+    }
+
     .pull-right,
     .field-item.even {
       padding: 12px 0;

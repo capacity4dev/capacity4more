@@ -142,7 +142,7 @@ function c4m_content_event_field_default_field_instances() {
           'trim_length' => 600,
         ),
         'type' => 'text_summary_or_trimmed',
-        'weight' => 2,
+        'weight' => 1,
       ),
       'block_list' => array(
         'label' => 'hidden',
@@ -291,7 +291,7 @@ function c4m_content_event_field_default_field_instances() {
           'show_remaining_days' => 0,
         ),
         'type' => 'date_default',
-        'weight' => 28,
+        'weight' => 3,
       ),
       'block_list' => array(
         'label' => 'hidden',
@@ -439,7 +439,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 34,
+        'weight' => 35,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -994,7 +994,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 27,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -1079,7 +1079,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 25,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -1220,7 +1220,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 33,
+        'weight' => 34,
       ),
       'block_list' => array(
         'label' => 'hidden',
@@ -1323,7 +1323,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 28,
+        'weight' => 29,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -1432,7 +1432,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 28,
       ),
       'block_list' => array(
         'label' => 'hidden',
@@ -1549,7 +1549,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 29,
+        'weight' => 30,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -1652,7 +1652,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 30,
+        'weight' => 31,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -1754,7 +1754,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 26,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -1859,7 +1859,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 32,
+        'weight' => 33,
       ),
       'block_list' => array(
         'label' => 'inline',
@@ -2000,7 +2000,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 31,
+        'weight' => 32,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -2083,7 +2083,6 @@ function c4m_content_event_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Link to the Event facebook page.');
   t('Additional');
   t('Agenda & Information');
   t('Comment');
@@ -2095,6 +2094,7 @@ function c4m_content_event_field_default_field_instances() {
   t('Groups');
   t('Language');
   t('Link to external Event website.');
+  t('Link to the Event facebook page.');
   t('Link to the twitter stream page');
   t('Location Address');
   t('Location Map');

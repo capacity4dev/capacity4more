@@ -228,7 +228,7 @@ function c4m_content_event_strongarm() {
           ),
           'activity_group' => array(
             'weight' => '4',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
           'block_list' => array(
             'weight' => '37',
