@@ -130,6 +130,8 @@ angular.module('c4mApp')
     };
 
     /**
+     * Helper function to manage the flow of focusing the quick post title.
+     *
      * When focusing the quick post title we should hide the placeholder from
      * it and try to update the resource.
      *
