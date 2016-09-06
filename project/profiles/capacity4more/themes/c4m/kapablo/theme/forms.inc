@@ -38,9 +38,7 @@ function kapablo_form_element_label(&$variables) {
   $element = $variables['element'];
 
   // Extract variables.
-  $output_label = '';
-  $output_element = '';
-
+  $output = '';
   $title = isset($element['#title']) ? filter_xss_admin($element['#title']) . ' ' : '';
   if ($title && ($required = !empty($element['#required']) ? theme('form_required_marker', array('element' => $element)) : '')) {
     $title .= $required;
@@ -76,17 +74,17 @@ function kapablo_form_element_label(&$variables) {
   // Checkboxes and radios must construct the label differently.
   if ($checkbox || $radio) {
     if ($display === 'before') {
-      $output_label .= '<span>' . $title . '</span>';
+      $output .= '<span>' . $title . '</span>';
     }
     elseif ($display === 'none' || $display === 'invisible') {
-      $output_label .= '<span class="element-invisible">' . $title . '</span>';
+      $output .= '<span class="element-invisible">' . $title . '</span>';
     }
     // Inject the rendered checkbox or radio element inside the label.
     if (!empty($element['#children'])) {
-      $output_element .= $element['#children'];
+      $output .= $element['#children'];
     }
     if ($display === 'after') {
-      $output_label .= '<span>' . $title . '</span>';
+      $output .= '<span>' . $title . '</span>';
     }
   }
   // Otherwise, just render the title as the label.
@@ -95,11 +93,11 @@ function kapablo_form_element_label(&$variables) {
     if ($display === 'invisible') {
       $attributes['class'][] = 'element-invisible';
     }
-    $output_label .= $title;
+    $output .= $title;
   }
 
   // The leading whitespace helps visually separate fields from inline labels.
-  return $output_element . ' <label' . drupal_attributes($attributes) . '>' . $output_label . "</label>{$help_text}\n";
+  return ' <label' . drupal_attributes($attributes) . '>' . $output . "</label>{$help_text}\n";
 }
 
 /**
