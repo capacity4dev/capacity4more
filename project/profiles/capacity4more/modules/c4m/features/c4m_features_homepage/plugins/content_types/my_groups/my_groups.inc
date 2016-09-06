@@ -132,7 +132,11 @@ function c4m_features_homepage_node_access_view_filter($node) {
 function c4m_features_homepage_get_user_groups_grouped_by_membership($account = NULL) {
   $groups = c4m_features_homepage_get_user_groups($account);
 
-  $grouped_groups = array();
+  $grouped_groups = array(
+    'owner' => array(),
+    'administrator' => array(),
+    'member' => array(),
+  );
   foreach ($groups as $group) {
     $membership = c4m_user_og_get_role_in_group($account, $group);
     $grouped_groups[$membership][$group->nid] = $group;
