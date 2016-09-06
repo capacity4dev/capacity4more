@@ -356,7 +356,7 @@ function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging
     return;
   }
 
-  c4m_user_notifications_content_recommended($flag, $entity_id, $account, $flagging);
+  c4m_user_notifications_content_recommended($entity_id);
 }
 
 /**

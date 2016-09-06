@@ -558,10 +558,10 @@ function c4m_user_notifications_existing_node_updated($node) {
 /**
  * Email notification to users 'subscribed' to content about new recommendation.
  *
- * @param int $nid
- *   Node id.
+ * @param int $entity_id
+ *   Flagged entity id.
  */
-function c4m_user_notifications_content_recommended($flag, $entity_id, $account, $flagging) {
+function c4m_user_notifications_content_recommended($entity_id) {
   global $user;
   $message = message_create('c4m_notify_content_recommendation');
   // Define functions with which to resolve email template tokens.
