@@ -349,11 +349,6 @@ function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging
     return;
   }
 
-  if (!og_context()) {
-    // If not at OG context, return early.
-    return;
-  }
-
   $node = node_load($entity_id);
   $notification_types = array('wiki_page', 'discussion', 'document', 'event');
   if (!in_array($node->type, $notification_types)) {
