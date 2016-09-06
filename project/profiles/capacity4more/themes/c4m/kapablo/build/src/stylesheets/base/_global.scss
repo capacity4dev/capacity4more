@@ -103,7 +103,7 @@ div.contextual-links-wrapper {
 .page-content {
   position: relative;
   height: 100%;
-  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .popover {
@@ -114,4 +114,12 @@ cite {
   background: #EEE;
   border: 1px solid #CCC;
   padding: 1px;
+}
+
+.what-is-this {
+  font-size: 13px;
+  color: $color-link;
+  margin-left: 10px;
+  cursor: help;
+  text-transform: none;
 }
