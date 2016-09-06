@@ -427,35 +427,38 @@
 
       @include clearfix;
     }
+  }
+}
 
-    .field-name-c4m-content-group-statistics {
-      margin-top: 25px;
+.og-context .pane-c4m-content-group .group-details,
+.node-project.view-mode-group_dashboard {
+  .field-name-c4m-content-group-statistics {
+    margin-top: 25px;
 
-      ul.statistics-list {
-        flex-wrap: wrap;
+    ul.statistics-list {
+      flex-wrap: wrap;
 
-        li {
-          border: none;
-          margin-bottom: 15px;
+      li {
+        border: none;
+        margin-bottom: 15px;
+        padding: 0;
+        text-align: left;
+        width: calc(100% * (1 / 2) - 10px - 1px);
+
+        a {
+          margin-top: 0;
           padding: 0;
-          text-align: left;
-          width: calc(100% * (1/2) - 10px - 1px);
+        }
 
-          a {
-            margin-top: 0;
-            padding: 0;
-          }
+        i {
+          clear: none;
+          display: inline-block;
+          width: 12px;
+        }
 
-          i {
-            clear: none;
-            display: inline-block;
-            width: 12px;
-          }
-
-          &::before {
-            display: inline-block;
-            width: 20px;
-          }
+        &::before {
+          display: inline-block;
+          width: 20px;
         }
       }
     }

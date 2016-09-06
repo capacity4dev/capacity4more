@@ -780,7 +780,7 @@ function c4m_content_group_ds_fields_info($entity_type) {
     'title'      => t('Group statistics'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
     // Only for group nodes.
-    'ui_limit'   => array('group|*'),
+    'ui_limit'   => array('group|*', 'project|*'),
     'file'       => $path . '/includes/c4m_content_group_statistics.theme.inc',
     'function'   => 'c4m_content_group_statistics',
   );
