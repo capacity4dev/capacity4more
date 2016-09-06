@@ -10,6 +10,27 @@
 function c4m_content_project_field_default_field_bases() {
   $field_bases = array();
 
+  // Exported field_base: 'c4m_block'.
+  $field_bases['c4m_block'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_block',
+    'indexes' => array(
+      'moddelta' => array(
+        0 => 'moddelta',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'blockreference',
+    'settings' => array(
+      'referenceable_modules' => array(),
+    ),
+    'translatable' => 0,
+    'type' => 'blockreference',
+  );
+
   // Exported field_base: 'c4m_cris_contract_number'.
   $field_bases['c4m_cris_contract_number'] = array(
     'active' => 1,
@@ -73,6 +94,31 @@ function c4m_content_project_field_default_field_bases() {
     'type' => 'text',
   );
 
+  // Exported field_base: 'c4m_is_template'.
+  $field_bases['c4m_is_template'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_is_template',
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => '',
+        1 => '',
+      ),
+      'allowed_values_function' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_boolean',
+  );
+
   // Exported field_base: 'c4m_left_column'.
   $field_bases['c4m_left_column'] = array(
     'active' => 1,
@@ -88,25 +134,34 @@ function c4m_content_project_field_default_field_bases() {
     'type' => 'paragraphs',
   );
 
-  // Exported field_base: 'c4m_partner'.
-  $field_bases['c4m_partner'] = array(
+  // Exported field_base: 'c4m_number_of_items'.
+  $field_bases['c4m_number_of_items'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_number_of_items',
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'number',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'number_integer',
+  );
+
+  // Exported field_base: 'c4m_partners'.
+  $field_bases['c4m_partners'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'c4m_partner',
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
+    'field_name' => 'c4m_partners',
+    'indexes' => array(),
     'locked' => 0,
-    'module' => 'text',
-    'settings' => array(
-      'max_length' => 255,
-    ),
+    'module' => 'paragraphs',
+    'settings' => array(),
     'translatable' => 0,
-    'type' => 'text',
+    'type' => 'paragraphs',
   );
 
   // Exported field_base: 'c4m_project_geodata'.
@@ -391,31 +446,6 @@ function c4m_content_project_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text',
-  );
-
-  // Exported field_base: 'c4m_is_template'.
-  $field_bases['c4m_is_template'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'c4m_is_template',
-    'indexes' => array(
-      'value' => array(
-        0 => 'value',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'list',
-    'settings' => array(
-      'allowed_values' => array(
-        0 => '',
-        1 => '',
-      ),
-      'allowed_values_function' => '',
-    ),
-    'translatable' => 0,
-    'type' => 'list_boolean',
   );
 
   return $field_bases;
