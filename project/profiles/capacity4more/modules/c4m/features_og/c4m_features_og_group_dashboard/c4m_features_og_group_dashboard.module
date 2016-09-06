@@ -268,3 +268,13 @@ function c4m_features_og_group_dashboard_block_view($delta = '') {
 
   return $block;
 }
+
+/**
+ * Returns an array of possible flag suffixes, used for notification.
+ *
+ * @return array
+ *   Notification flags suffixes.
+ */
+function c4m_features_og_group_dashboard_get_notification_flags_suffixes() {
+  return array('group', 'node', 'comment', 'term');
+}
