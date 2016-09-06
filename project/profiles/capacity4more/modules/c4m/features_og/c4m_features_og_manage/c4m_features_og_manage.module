@@ -628,12 +628,6 @@ function c4m_features_og_manage_project_details() {
     $details['source_funding'] = $list;
   }
 
-  // Partners.
-  $partners = $wrapper->c4m_partner->value();
-  if ($list = c4m_features_og_manage_list_simple($partners)) {
-    $details['partners'] = $list;
-  }
-
   // Implemented by.
   $implementers = $wrapper->c4m_implemented_by->value();
   if ($list = c4m_features_og_manage_list_simple($implementers)) {
@@ -829,21 +823,11 @@ function c4m_features_og_manage_form_variable_realm_edit_variables_form_alter(
   $form['variables']['#type'] = 'div';
   $form['variables']['c4m_og']['#type'] = 'div';
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['c4m_og_features_group']['#title'] = t(
-    'Enable or disable features for this group.'
+    'Enable or disable features below.'
   );
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#type'] = 'div';
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsible'] = FALSE;
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsed'] = FALSE;
-
-  // Attach CSS/JavaScript.
-  $form['variables']['#attached'] = array(
-    'js' => array(
-      drupal_get_path(
-        'module',
-        'c4m_features_og_manage'
-      ) . '/js/manage_features.js',
-    ),
-  );
 }
 
 /**
