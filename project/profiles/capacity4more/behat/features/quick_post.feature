@@ -4,6 +4,7 @@ Feature: Test quick post
   I need to be able to submit quick posts
 
   Background:
+    # The quick post is hidden on small screens.
     Given The window is maximized
 
   @api
@@ -21,8 +22,9 @@ Feature: Test quick post
   @javascript
   Scenario: Check Quick post error validation.
     Given I am logged in as user "mariecurie"
-    When  I create a discussion quick post with title "Fo" and body "Some text in the body" in "Tennis Group"
-    Then  I should see "Title is too short."
+    When  I create a discussion quick post with title "Fo" and body "" in "Tennis Group"
+    Then  I should wait to see "Title is too short."
+    And   I should see "Body is required."
 
   @javascript
   Scenario: Check Quick post "discussion" submit.

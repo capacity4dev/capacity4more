@@ -116,7 +116,7 @@ class FeatureContext extends DrupalContext {
    * @Given /^The window is maximized$/
    */
   public function theWindowIsMaximized() {
-    $this->getSession()->getDriver()->resizeWindow(1200, 600, 'current');
+    $this->getSession()->getDriver()->resizeWindow(1200, 1200, 'current');
   }
 
   /**
