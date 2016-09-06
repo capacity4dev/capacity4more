@@ -64,7 +64,7 @@ trait QuickPost {
    */
   public function iCreateADiscussionQuickPostInAdvancedFormWithTitleAndBodyIn($title, $body, $group) {
     $steps = $this->iStartNewDiscussionOnQuickPost($title, $body, $group);
-    $steps[] = new Step\When('I press the "full-from-button" button');
+    $steps[] = new Step\When('I follow "full-from-button"');
 
     return $steps;
   }
