@@ -21,15 +21,14 @@ Feature: Test quick post
   @javascript
   Scenario: Check Quick post error validation.
     Given I am logged in as user "mariecurie"
-    When  I visit the dashboard of group "Tennis Group"
-    Then  I focus on "label" element
-    Then  I should wait to see "Create a post with additional details"
-#    When  I create a discussion quick post with title "Fo" and body "Some text in the body" in "Tennis Group"
-#    Then  I should see "Title is too short."
-#    Then  I wait for text "Title is too short." to appear in ".help-block"
+    When  I create a discussion quick post with title "Fo" and body "Some text in the body" in "Tennis Group"
+    Then  I should see "Title is too short."
 
   @javascript
   Scenario: Check Quick post "discussion" submit.
     Given I am logged in as user "mariecurie"
     When  I create a discussion quick post with title "New discussion" and body "Some text in the body" in "Tennis Group"
-    Then  I should see "New discussion"
+    Then  I should wait to see "New discussion"
+    And   I should not see "Create a post with additional details by using" in the "div#quick-post-fields" element
+    When   I click "New discussion"
+    Then  I should wait to see "Idea posted by"

@@ -130,6 +130,17 @@ angular.module('c4mApp')
     };
 
     /**
+     * When focusing the quick post title we should hide the placeholder from
+     * it and try to update the resource.
+     *
+     * @see $scope.updateResource()
+     */
+    $scope.focusQuickPostTitle = function (resource, event) {
+      $scope.titlePlaceholder = false;
+      $scope.updateResource(resource, event);
+    };
+
+    /**
      * Remove taxonomy term from the data.
      *
      * Called by click on added term.

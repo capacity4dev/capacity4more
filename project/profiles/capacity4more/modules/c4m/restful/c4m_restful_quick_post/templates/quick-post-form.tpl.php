@@ -10,9 +10,12 @@
       xmlns="http://www.w3.org/1999/html">
 
 <div class="form-group text" ng-class="{ 'has-error' : errors.label }">
-  <input id="label" class="form-control" name="label" ng-click="updateResource('<?php print key($show_resources) ?>', $event)" type="text" ng-model="data.label"
+  <input id="label" class="form-control" name="label" type="text"
+         ng-model="data.label"
          ng-attr-placeholder="{{ titlePlaceholder ? titlePlaceholderText : '' }}"
-         ng-focus="titlePlaceholder = false" ng-blur="titlePlaceholder = true" required>
+         ng-focus="focusQuickPostTitle('<?php print key($show_resources) ?>', $event)"
+         ng-blur="titlePlaceholder = true"
+         required>
 
   <p ng-show="errors.label"
      class="help-block"><?php print t('Title is too short.'); ?></p>
