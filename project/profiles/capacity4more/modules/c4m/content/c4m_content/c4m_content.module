@@ -763,7 +763,8 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
     foreach ($sub_trees as $sub_tree) {
       // Add it to to arrays tree, and store it's index, for shifting right.
       $trees[] = $sub_tree;
-      $shift_right_array[] = end(array_keys($trees));
+      $trees_keys = array_keys($trees);
+      $shift_right_array[] = end($trees_keys);
     }
   }
 
@@ -810,8 +811,7 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
     );
 
     // Assign a dedicated class for trees that needs to be shifted right.
-    $shift_right = array_search($tree_index, $shift_right_array) !== FALSE;
-    if ($shift_right) {
+    if (array_search($tree_index, $shift_right_array) !== FALSE) {
       $variables['class'] = 'shift-right';
     }
     $tree .= theme('c4m_taxonomy_tree', $variables);
