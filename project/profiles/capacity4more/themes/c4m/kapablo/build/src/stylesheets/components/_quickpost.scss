@@ -12,6 +12,15 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  .btn-group-quickpost-info {
+    display: flex;
+    flex-wrap: wrap;
+
+    .form-group {
+      margin-right: 10px;
+    }
+  }
 }
 
   .topics-section {
@@ -108,14 +117,5 @@
     .fa:before {
       content: "\f086";
     }
-  }
-}
-
-.btn-group-quickpost-info {
-  display: flex;
-  flex-wrap: wrap;
-
-  .form-group {
-    margin-right: 10px;
   }
 }
