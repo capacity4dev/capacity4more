@@ -38,7 +38,9 @@ function kapablo_form_element_label(&$variables) {
   $element = $variables['element'];
 
   // Extract variables.
-  $output = '';
+  $output_label = '';
+  $output_element = '';
+
   $title = isset($element['#title']) ? filter_xss_admin($element['#title']) . ' ' : '';
   if ($title && ($required = !empty($element['#required']) ? theme('form_required_marker', array('element' => $element)) : '')) {
     $title .= $required;
@@ -48,10 +50,16 @@ function kapablo_form_element_label(&$variables) {
   $checkbox = $type && $type === 'checkbox';
   $radio = $type && $type === 'radio';
 
+  $help_text = '';
+  // Adding the "What's this?" in case of a help text.
+  if (!empty($element['#what_is_this'])) {
+    $help_text = kapablo_render_what_is_this($element['#what_is_this']);
+  }
+
   // Immediately return if the element is not a checkbox or radio and there is
   // no label to be rendered.
   if (!$checkbox && !$radio && ($display === 'none' || !$title)) {
-    return '';
+    return $help_text;
   }
 
   // Retrieve the label attributes array.
@@ -68,17 +76,17 @@ function kapablo_form_element_label(&$variables) {
   // Checkboxes and radios must construct the label differently.
   if ($checkbox || $radio) {
     if ($display === 'before') {
-      $output .= '<span>' . $title . '</span>';
+      $output_label .= '<span>' . $title . '</span>';
     }
     elseif ($display === 'none' || $display === 'invisible') {
-      $output .= '<span class="element-invisible">' . $title . '</span>';
+      $output_label .= '<span class="element-invisible">' . $title . '</span>';
     }
     // Inject the rendered checkbox or radio element inside the label.
     if (!empty($element['#children'])) {
-      $output .= $element['#children'];
+      $output_element .= $element['#children'];
     }
     if ($display === 'after') {
-      $output .= '<span>' . $title . '</span>';
+      $output_label .= '<span>' . $title . '</span>';
     }
   }
   // Otherwise, just render the title as the label.
@@ -87,9 +95,40 @@ function kapablo_form_element_label(&$variables) {
     if ($display === 'invisible') {
       $attributes['class'][] = 'element-invisible';
     }
-    $output .= $title;
+    $output_label .= $title;
   }
 
   // The leading whitespace helps visually separate fields from inline labels.
-  return ' <label' . drupal_attributes($attributes) . '>' . $output . "</label>\n";
+  return $output_element . ' <label' . drupal_attributes($attributes) . '>' . $output_label . "</label>{$help_text}\n";
+}
+
+/**
+ * Renders the "what's this?" tooltip element.
+ *
+ * @param string $description
+ *   The text that should be in the tooltip.
+ *
+ * @return string
+ *   The rendered tooltip element.
+ */
+function kapablo_render_what_is_this($description) {
+  // Strip all tags because it doesn't make any sense to use them inside the
+  // tooltip.
+  $description = strip_tags($description);
+
+  if (empty($description)) {
+    return '';
+  }
+
+  $tag['element'] = array(
+    '#tag' => 'span',
+    '#attributes' => array(
+      'class' => array('what-is-this'),
+      'data-toggle' => 'tooltip',
+      'title' => $description,
+    ),
+    '#value' => t("What's this?"),
+  );
+
+  return theme_html_tag($tag);
 }

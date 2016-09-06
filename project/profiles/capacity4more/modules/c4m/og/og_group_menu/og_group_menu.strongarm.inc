@@ -56,7 +56,7 @@ Members|members';
   $strongarm->name = 'og_menu_default_links_node_project';
   $strongarm->value = 'Home|node/[node:nid]
 Library|documents
-Discussions|discussions
+News|news
 Media|media
 Events|calendar
 Members|members';
