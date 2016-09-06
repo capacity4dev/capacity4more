@@ -41,6 +41,7 @@ trait QuickPost {
     $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
     $steps[] = new Step\When('I focus on "label" element');
     $steps[] = new Step\When('I should wait to see "Create a post with additional details"');
+    $steps[] = new Step\When('I should see "Notify members of the group about this post"');
     $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
     $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
     $steps[] = new Step\When('I press the "idea" button');
