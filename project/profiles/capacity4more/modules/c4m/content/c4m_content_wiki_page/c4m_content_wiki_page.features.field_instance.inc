@@ -142,7 +142,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
           'trim_length' => 600,
         ),
         'type' => 'text_summary_or_trimmed',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -305,7 +305,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 31,
+        'weight' => 24,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -414,7 +414,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 30,
+        'weight' => 23,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -514,7 +514,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 16,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -618,7 +618,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 29,
+        'weight' => 22,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -717,7 +717,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 0,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -822,7 +822,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 20,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -954,7 +954,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 28,
+        'weight' => 21,
       ),
       'block_list' => array(
         'label' => 'above',

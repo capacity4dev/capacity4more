@@ -102,7 +102,7 @@ function c4m_content_wiki_page_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'activity_group';
   $ds_fieldsetting->settings = array(
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(

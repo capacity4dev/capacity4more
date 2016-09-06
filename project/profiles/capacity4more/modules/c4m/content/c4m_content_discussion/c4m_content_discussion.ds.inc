@@ -103,7 +103,7 @@ function c4m_content_discussion_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'activity_group';
   $ds_fieldsetting->settings = array(
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -677,7 +677,6 @@ function c4m_content_discussion_ds_layout_settings_info() {
     'fields' => array(
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
-      'flag_c4m_og_content_highlight' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(

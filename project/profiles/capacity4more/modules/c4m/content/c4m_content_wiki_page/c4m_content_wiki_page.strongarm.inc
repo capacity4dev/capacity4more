@@ -202,7 +202,7 @@ function c4m_content_wiki_page_strongarm() {
             'visible' => FALSE,
           ),
           'activity_group' => array(
-            'weight' => '2',
+            'weight' => '10',
             'visible' => FALSE,
           ),
           'block_list' => array(

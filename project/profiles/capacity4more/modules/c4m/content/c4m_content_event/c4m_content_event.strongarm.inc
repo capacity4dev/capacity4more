@@ -207,7 +207,7 @@ function c4m_content_event_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '11',
+            'weight' => '26',
             'visible' => FALSE,
           ),
           'c4m_related' => array(
@@ -223,11 +223,11 @@ function c4m_content_event_strongarm() {
             'visible' => FALSE,
           ),
           'teaser_group' => array(
-            'weight' => '25',
+            'weight' => '24',
             'visible' => FALSE,
           ),
           'activity_group' => array(
-            'weight' => '4',
+            'weight' => '25',
             'visible' => FALSE,
           ),
           'block_list' => array(
