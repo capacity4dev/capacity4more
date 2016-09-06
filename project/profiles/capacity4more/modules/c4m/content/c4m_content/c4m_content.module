@@ -318,7 +318,11 @@ function c4m_content_theme() {
   $theme['c4m_taxonomy_tree'] = array(
     'template' => 'c4m_taxonomy_tree',
     'path' => drupal_get_path('module', 'c4m_content') . '/templates',
-    'variables' => array(),
+    'variables' => array(
+      'root' => '',
+      'local_tree' => '',
+      'class' => '',
+    ),
   );
 
   return $theme;
@@ -797,22 +801,19 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
     // to distinguish between the parent and its children because the
     // parent needs to get a different style.
     $root = array_shift($local_tree);
-    // Assign a dedicated class for trees that needs to be shifted right.
-    $shift_right = array_search($tree_index, $shift_right_array) !== FALSE;
-    if ($shift_right) {
-      $class = 'shift-right';
-    }
-    else {
-      $class = '';
-    }
 
     // Use the taxonomy tree theme to style the local tree.
     $variables = array(
       'root' => $root,
       // Join the local_tree array to a string.
       'local_tree' => implode(', ', $local_tree),
-      'class' => $class,
     );
+
+    // Assign a dedicated class for trees that needs to be shifted right.
+    $shift_right = array_search($tree_index, $shift_right_array) !== FALSE;
+    if ($shift_right) {
+      $variables['class'] = 'shift-right';
+    }
     $tree .= theme('c4m_taxonomy_tree', $variables);
 
     $tree_index++;
