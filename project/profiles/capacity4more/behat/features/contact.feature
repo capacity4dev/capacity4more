@@ -21,21 +21,16 @@ Feature: Contact
   Scenario: Check contact page as anonymous
     Given I am an anonymous user
     When I go to "contact"
-    Then I should see an enabled "#edit-name" element
-    And I should see an enabled "#edit-mail" element
-    And I should see an enabled "#edit-subject" element
-    And I should see an enabled "#edit-cid" element
-    And I should see an enabled "#edit-message" element
-    And I should see an enabled ".captcha" element
+    And I press "Send message"
+    Then I should see "Subject field is required"
+    And I should see "Message field is required."
+    And I should see "Your name field is required."
+    And I should see "Your e-mail address field is required."
 
   @api
   Scenario: Check contact page as logged in user
     Given I am logged in as user "isaacnewton"
     When I go to "contact"
-    Then I should see a disabled "#edit-name" element
-    And I should see a disabled "#edit-mail" element
-    And I should see an enabled "#edit-subject" element
-    And I should see an enabled "#edit-cid" element
-    And I should see an enabled "#edit-message" element
-    And I should see an enabled "#edit-copy" element
-    And I should see an enabled ".captcha" element
+    And I press "Send message"
+    Then I should see "Subject field is required"
+    And I should see "Message field is required."
