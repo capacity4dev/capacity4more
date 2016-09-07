@@ -3,11 +3,11 @@
 /**
  * @file
  * Template file for "c4m_features_social_actions_share".
- */
-
-/**
+ *
  * Available variables:
  *  - $json_data: JSON data
+ *
+ * @ingroup themeable
  */
 
 ?>
