@@ -6,6 +6,18 @@
  */
 
 /**
+ * Implements hook_theme().
+ */
+function c4m_features_social_theme($existing, $type, $theme, $path) {
+  return array(
+    'c4m_features_social_actions_share' => array(
+      'variables' => array('json_data' => NULL),
+      'template'  => 'theme/c4m-features-social-actions-share',
+    ),
+  );
+}
+
+/**
  * Implements hook_c4m_content_actions_info().
  */
 function c4m_features_social_c4m_content_actions_info() {
@@ -39,26 +51,22 @@ function c4m_features_social_actions_share($node) {
   $social = array_filter($social, 'c4m_features_social_share_icons_filter');
 
   $settings = array(
-    'service' => 'sbkm',
-    'popup' => FALSE,
-    'icon' => TRUE,
-    'to' => $social,
-    'counter' => array('atleast' => 1),
+    'service'   => 'sbkm',
+    'popup'     => FALSE,
+    'icon'      => TRUE,
+    'to'        => $social,
+    'counter'   => array('atleast' => 1),
     'selection' => FALSE,
   );
   $data = json_encode($settings);
-  $items = '<script type="application/json">' . $data . '</script>';
-  $items .= '
-    <div id="c4m-print">
-      <div class="share_list share_style_link share_style_icon_24">
-        <a href="#" title="Print" onclick="window.print();return false;"></a>
-      </div>
-    </div>';
 
-  $output = '<div class="social-actions-share"><h3>' . t('Share this page') . '</h3>' . $items . '</div>';
+  $output = array(
+    '#theme'     => 'c4m_features_social_actions_share',
+    '#json_data' => $data,
+  );
   drupal_add_js('//europa.eu/webtools/load.js', 'external');
 
-  return $output;
+  return render($output);
 }
 
 /**
