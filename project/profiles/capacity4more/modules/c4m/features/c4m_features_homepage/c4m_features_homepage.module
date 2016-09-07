@@ -7,6 +7,8 @@
 
 include_once 'c4m_features_homepage.features.inc';
 
+define('GROUPS_TO_BE_DISPLAYED', 3);
+
 /**
  * Implements hook_ctools_plugin_directory().
  */
@@ -17,7 +19,7 @@ function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Renders 5 suggested group for the user.
+ * Renders suggested groups for the user.
  *
  * Suggest 5 random groups for the user which he is not subscribed to.
  * When interests filter is applied : select groups which has at least one
@@ -25,7 +27,7 @@ function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
  * Interests are taken from user's profile.
  *
  * @return mixed
- *   Rendered HTML of 5 suggested groups.
+ *   Rendered HTML of suggested groups.
  */
 function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   global $user;
@@ -81,10 +83,10 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
 }
 
 /**
- * Renders 3 featured groups.
+ * Renders featured groups.
  *
  * @return mixed
- *   Rendered HTML of 3 featured groups.
+ *   Rendered HTML of featured groups.
  */
 function c4m_features_homepage_c4m_featured_groups_get_groups() {
   $query = new EntityFieldQuery();
@@ -121,7 +123,7 @@ function c4m_features_homepage_alphabetically_render_node_list($node_ids) {
 
   // Removes groups where the logged in user has no access.
   $items = array_filter($items, 'c4m_features_homepage_node_access_view_filter');
-  $items = array_slice($items, 0, 3);
+  $items = array_slice($items, 0, GROUPS_TO_BE_DISPLAYED);
 
   uasort($items, 'c4m_features_homepage_node_sort_by_title');
 
