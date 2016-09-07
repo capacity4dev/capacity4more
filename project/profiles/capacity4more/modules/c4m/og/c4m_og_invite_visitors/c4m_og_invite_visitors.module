@@ -124,20 +124,6 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group_type
     '#description' => t("Use commas or new lines to split email addresses. The new users will be created and invited as members of this group. A one time login link will be sent to the invitees\' email."),
     '#required' => TRUE,
   );
-  $form['og_invite_people']['roles'] = array(
-    '#type' => 'select',
-    '#multiple' => TRUE,
-    '#title' => t('Assign roles'),
-    '#description' => t('Choose one or more roles you would like to assign to the users. ("member" role is assigned by default)'),
-    '#options' => $og_roles,
-    '#size' => 5,
-  );
-  $form['c4m_og_invite_visitors']['state'] = array(
-    '#type' => 'select',
-    '#title' => t('Membership state'),
-    '#options' => og_group_content_states(),
-    '#description' => t('Select the state of the membership.'),
-  );
   $form['c4m_og_invite_visitors']['personal_subject'] = array(
     '#type' => 'textfield',
     '#title' => t('Subject'),
@@ -226,21 +212,13 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
     }
     else {
       // Save invitation to MySQL
-      c4m_og_invite_visitors_store_invitation($user->uid, $gid, $invitee_email);
+      $invitation = c4m_og_invite_visitors_store_invitation($user->uid, $gid, $invitee_email);
       $message = t('An email notification was sent to %address.', array('%address' => $invitee_email));
 
-
-
-
-
-
-
-
-/*
-      // Create a user and return $account object.
-      $account = _c4m_og_invite_visitors_create_user($invitee_email, $form_fields);
-      $message = t('%user has been created and an email notification was sent.', array('%user' => format_username($account)));
-*/
+      // Send the e-mail.
+      drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, array(
+        'form_fields' => $form_fields,
+      ), variable_get('site_mail', NULL));
     }
 
     // Check if user is already assigned to the group.
@@ -248,35 +226,32 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
     if ($had_account && $og_membership = og_get_membership($group_type, $gid, $entity_type, $account->uid)) {
       // Load OG membership.
       $message = t('%user is already a member of this group.', array('%user' => format_username($account)));
+
+      // Update OG memebership if necessary.
+      if ($og_membership->state != $state) {
+        $message .= t('Membership state changed from "%prev_state" to "%post_state"', array(
+          '%prev_state' => $all_states[$og_membership->state],
+          '%post_state' => $all_states[$state],
+        ));
+        $og_membership->state = $state;
+      }
+
+      // Save the OG membership.
+      $og_membership->save();
+
+      // Add OG roles to users.
+      foreach ($og_roles as $rid) {
+        og_role_grant($group_type, $gid, $account->uid, $rid);
+      }
     }
     else {
-      // Create OG membership and add user to group.
-      $og_membership = og_membership_create($group_type, $gid, $entity_type, $account->uid, $field_name, $values);
+      // Save invitation to MySQL
+      $invitation = c4m_og_invite_visitors_store_invitation($user->uid, $gid, $invitee_email);
+      $message = t('An email notification was sent to %address.', array('%address' => $invitee_email));
+
+      // @TODO Invoke the invite_user functionality.
+
     }
-
-    // Update OG memebership if necessary.
-    if ($og_membership->state != $state) {
-      $message .= t('Membership state changed from "%prev_state" to "%post_state"', array(
-        '%prev_state' => $all_states[$og_membership->state],
-        '%post_state' => $all_states[$state],
-      ));
-      $og_membership->state = $state;
-    }
-
-    // Save the OG membership.
-    $og_membership->save();
-
-    // Add OG roles to users.
-    foreach ($og_roles as $rid) {
-      og_role_grant($group_type, $gid, $account->uid, $rid);
-    }
-
-    // Offer invitee user account object in form_state.
-    $form_state['account'][] = $account;
-
-    // Invoke hook_c4m_og_invite_visitors_invited() - after a user is created
-    // and added to group.
-    module_invoke_all('c4m_og_invite_visitors_invited', $account, $og_membership);
 
     // Print the message for each user.
     drupal_set_message($message);
@@ -363,11 +338,12 @@ function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
   $replacements['[user:public-profile-url]'] = $base_url . '/users/' . c4m_og_human_to_machine_readable($replacements['[user:full_name]']);
   $replacements['[group:node_type]'] = $group->type;
   $replacements['[group:node_title]'] = $group->title;
-  $replacements['[group:accept_invite_url]'] = c4m_user_registrationpassword_confirmation_url($data['user']);
+  $replacements['[group:accept_invite_url]'] = '';//c4m_user_registrationpassword_confirmation_url($data['user']);
   $replacements['[group:dashboard_url]'] = url('<front>', $url_options);
   $replacements['[personal:subject]'] = $data['form_fields']['subject'];
   $replacements['[personal:body]'] = $data['form_fields']['body'];
   $replacements['[site:name]'] = variable_get('site_name', 'Capacity 4 More');
+  return;
 }
 
 /**
@@ -452,7 +428,7 @@ function c4m_og_invite_visitors_store_invitation($inviter_id, $group_id, $email)
   $created = $date->format('Y-m-d H:i:s');
 
   // Generate a random token.
-  $hash = $email . drupal_random_key() . preg_replace('/[^0-9]/', '', $created);
+  $hash = '?e=' . $email . '&rk=' . drupal_random_key() . '&ts=' . preg_replace('/[^0-9]/', '', $created);
   $token = password_hash($hash, PASSWORD_DEFAULT);
 
   try {
