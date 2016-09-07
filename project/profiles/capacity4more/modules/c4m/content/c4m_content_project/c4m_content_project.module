@@ -97,6 +97,11 @@ function c4m_content_project_block_info() {
     'cache' => DRUPAL_NO_CACHE,
   );
 
+  $blocks['c4m_block_project_partners'] = array(
+    'info' => t('Project: Partners'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
   return $blocks;
 }
 
@@ -121,8 +126,43 @@ function c4m_content_project_block_view($delta) {
  * Alter the Project creation form.
  */
 function c4m_content_project_form_project_node_form_alter(&$form, &$form_state) {
-  _c4m_og_alter_group_form($form, $form_state);
+  $type = '';
+  if (preg_match('/node\/add\/(project|programme)/', $_SERVER['REQUEST_URI'], $matches)) {
+    $type = $matches[1];
+    $form['c4m_project_type'][LANGUAGE_NONE]['#value'] = $type;
+  }
+  _c4m_og_alter_group_form($form, $form_state, $type);
 
+  c4m_content_project_set_number_of_items_states($form, 'c4m_left_column');
+  c4m_content_project_set_number_of_items_states($form, 'c4m_right_column');
+}
+
+/**
+ * Helper function to set the correct states for the number of items field.
+ *
+ * @param array $form
+ *   The form on which to act.
+ * @param array $element
+ *   The form element.
+ */
+function c4m_content_project_set_number_of_items_states(&$form, $element) {
+  foreach ($form[$element][LANGUAGE_NONE] as &$item) {
+    if (isset($item['#bundle']) && $item['#bundle'] == 'c4m_paragraph_system_block') {
+      $item['c4m_number_of_items']['#states'] = array(
+        'visible' => array(
+          array(
+            ':input[name="' . $element . '[und][' . $item['#delta'] . '][c4m_block][und]"]' => array('value' => 'views:c4m_project_news-block'),
+          ),
+          array(
+            ':input[name="' . $element . '[und][' . $item['#delta'] . '][c4m_block][und]"]' => array('value' => 'views:c4m_project_events-block'),
+          ),
+          array(
+            ':input[name="' . $element . '[und][' . $item['#delta'] . '][c4m_block][und]"]' => array('value' => 'views:c4m_project_highlights-block'),
+          ),
+        ),
+      );
+    }
+  }
   $form['c4m_project_type']['#access'] = FALSE;
   $form['c4m_is_template']['#access'] = FALSE;
 }
@@ -167,6 +207,157 @@ function c4m_content_project_c4m_helper_entity_metrics_info() {
       'callback' => 'c4m_content_project_get_administered_projects_count',
     ),
   );
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function c4m_content_project_field_formatter_info() {
+  return array(
+    'c4m_partner_formatter' => array(
+      'label' => t('C4M Partner'),
+      'field types' => array('image'),
+      'settings'  => array(),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function c4m_content_project_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+
+  foreach ($items as $delta => $item) {
+    // Load title and url for the paragraph.
+    $title = $entity->c4m_heading[LANGUAGE_NONE][0];
+    $url = isset($entity->c4m_link[LANGUAGE_NONE][0]) ? $entity->c4m_link[LANGUAGE_NONE][0] : FALSE;
+
+    // Create image element + link if available.
+    $source = theme('image_style', array(
+      'style_name' => 'thumbnail',
+      'path' => $item['uri'],
+      'title' => $title['safe_value'],
+    ));
+
+    if ($url) {
+      $element[] = array(
+        '#markup' => l($source, $url['display_url'], array(
+          'html' => TRUE,
+          'attributes' => array(
+            'target' => $url['attributes']['target'],
+          ),
+        )),
+      );
+    }
+    else {
+      $element[] = array('#markup' => $source);
+    }
+  }
+
+  return $element;
+}
+
+/**
+ * Alter referenceable blocks, BEFORE the autocomplete match.
+ *
+ * @see hook_blockreference_blocks_pre_alter()
+ */
+function c4m_content_project_blockreference_blocks_pre_alter(&$blocks, $context) {
+  $whitelist = module_invoke_all('c4m_content_project_blockreference_whitelist');
+
+  // Remove blocks which are not whitelisted.
+  foreach ($blocks as $id => $block) {
+    $block_string = $block->module . ':' . $block->delta;
+    if (!in_array($block_string, $whitelist) && !array_key_exists($block_string, $whitelist)) {
+      unset($blocks[$id]);
+    }
+    else {
+      if (array_key_exists($block_string, $whitelist)) {
+        $block->info = $whitelist[$block_string]['label'];
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_pc_system_component_blockreference_whitelist().
+ */
+function c4m_content_project_c4m_content_project_blockreference_whitelist() {
+  return array(
+    'c4m_content_project:c4m_block_project_partners' => array(
+      'label' => t('Project partners'),
+    ),
+    'views:c4m_project_news-block' => array(
+      'label' => t('Project news'),
+    ),
+    'views:c4m_project_events-block' => array(
+      'label' => t('Project events'),
+    ),
+    'views:c4m_project_highlights-block' => array(
+      'label' => t('Project highlights'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_ds_fields_info().
+ */
+function c4m_content_project_ds_fields_info($entity_type) {
+  // Special field to render the block reference according to type of block.
+  $fields = array(
+    'c4m_system_block_renderer' => array(
+      'title' => t('C4M System Block Renderer'),
+      'field_type' => DS_FIELD_TYPE_FUNCTION,
+      'ui_limit' => array(),
+      'function' => 'c4m_content_project_system_block_renderer',
+    ),
+  );
+  return array($entity_type => $fields);
+}
+
+/**
+ * Callback for the system block renderer field.
+ *
+ * @param string $field
+ *   The field which to render.
+ *
+ * @return array
+ *   Rendered output.
+ */
+function c4m_content_project_system_block_renderer($field) {
+  if ($paragraph_id = $field['entity']->item_id) {
+    if ($paragraphs_item = paragraphs_item_load_multiple(array($paragraph_id))) {
+      $paragraphs_item = reset($paragraphs_item);
+      $block_info = explode(':', $paragraphs_item->c4m_block[LANGUAGE_NONE][0]['moddelta']);
+
+      // If the referenced block is NOT a View.
+      if ($block_info[0] != 'views') {
+        // Simply render the block.
+        $rendered_block = c4m_helper_block_render($block_info[0], $block_info[1]);
+        return render($rendered_block);
+      }
+
+      // If a View, take into account the number of items parameter.
+      $number_of_items = isset($paragraphs_item->c4m_number_of_items) ? $paragraphs_item->c4m_number_of_items : 5;
+
+      // Get info for the View.
+      $views_info = explode('-', $block_info[1]);
+      $view = views_get_view($views_info[0]);
+
+      // Set number of items.
+      $number_of_items = $number_of_items[LANGUAGE_NONE][0]['value'];
+      $view->set_items_per_page($number_of_items);
+
+      // Render the View.
+      $output = $view->preview($views_info[1], array());
+      $view->destroy();
+
+      return $output;
+    }
+  }
+
+  return '';
 }
 
 /**
@@ -243,14 +434,39 @@ function c4m_content_project_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['c4m/project-template-clone/%node/%'] = array(
+    'access callback' => 'c4m_content_project_clone_template_access',
+    'access arguments' => array(2, 3),
+    'page callback' => 'c4m_content_project_clone_template',
+    'page arguments' => array(2),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['node/add/programme'] = array(
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
+}
+
+/**
+ * Access callback for c4m/project-template-clone/%node/%.
+ */
+function c4m_content_project_clone_template_access($node, $type) {
+  $access = TRUE;
+  $access = $access && ($type == 'project' || $type == 'programme');
+  $access = $access && !empty($node->c4m_is_template[LANGUAGE_NONE][0]['value']);
+  $access = $access && ($type == $node->c4m_project_type[LANGUAGE_NONE][0]['value']);
+  $access = $access && node_access('create', $node->type);
+  return $access;
+
 }
 
 /**
  * Form builder for choose project / programme as template form.
  */
 function c4m_content_project_choose_template_form($form, &$form_state) {
-  $node = c4m_content_project_get_project_template();
+  $node = c4m_content_project_get_node_template('project');
   $form['project'] = array(
     '#type' => 'textfield',
     '#title' => t('Project template'),
@@ -258,7 +474,7 @@ function c4m_content_project_choose_template_form($form, &$form_state) {
     '#autocomplete_path' => 'c4m/autocomplete/c4m_content_project/project',
   );
 
-  $node = c4m_content_project_get_programme_template();
+  $node = c4m_content_project_get_node_template('programme');
   $form['programme'] = array(
     '#type' => 'textfield',
     '#title' => t('Programme template'),
@@ -276,33 +492,45 @@ function c4m_content_project_choose_template_form($form, &$form_state) {
  * Submit handler for c4m_content_project_choose_template_form.
  */
 function c4m_content_project_choose_template_form_submit($form, &$form_state) {
-  if ($form_state['values']['project']) {
-    $value = $form_state['values']['project'];
+  c4m_content_project_choose_template_form_save_info($form_state, 'project');
+  c4m_content_project_choose_template_form_save_info($form_state, 'programme');
+}
+
+/**
+ * Saves the template info for the Project / Programme choose template form.
+ *
+ * @param array $form_state
+ *   Form state.
+ * @param string $project_type
+ *   Project type. 'project' | 'programme'.
+ */
+function c4m_content_project_choose_template_form_save_info(&$form_state, $project_type) {
+  if ($form_state['values'][$project_type]) {
+    $value = $form_state['values'][$project_type];
     if (preg_match('/\((\d+)\)$/', $value, $matches)) {
       $node = node_load($matches[1]);
-      if ($node->type == 'project' && $node->c4m_project_type[LANGUAGE_NONE][0]['value'] == 'project') {
-        if ($old_node = c4m_content_project_get_project_template()) {
-          $old_node->c4m_is_template[LANGUAGE_NONE][0]['value'] = 0;
-          node_save($old_node);
-        }
+      if ($node->type == 'project' && $node->c4m_project_type[LANGUAGE_NONE][0]['value'] == $project_type) {
+        c4m_content_project_unset_current_template($project_type);
         $node->c4m_is_template[LANGUAGE_NONE][0]['value'] = 1;
         node_save($node);
       }
     }
   }
-  if ($form_state['values']['programme']) {
-    $value = $form_state['values']['programme'];
-    if (preg_match('/\((\d+)\)$/', $value, $matches)) {
-      $node = node_load($matches[1]);
-      if ($node->type == 'project' && $node->c4m_project_type[LANGUAGE_NONE][0]['value'] == 'programme') {
-        if ($old_node = c4m_content_project_get_programme_template()) {
-          $old_node->c4m_is_template[LANGUAGE_NONE][0]['value'] = 0;
-          node_save($old_node);
-        }
-        $node->c4m_is_template[LANGUAGE_NONE][0]['value'] = 1;
-        node_save($node);
-      }
-    }
+  else {
+    c4m_content_project_unset_current_template($project_type);
+  }
+}
+
+/**
+ * Unset current template.
+ *
+ * @param string $project_type
+ *   Project type. 'project' | 'programme'.
+ */
+function c4m_content_project_unset_current_template($project_type) {
+  if ($old_node = c4m_content_project_get_node_template($project_type)) {
+    $old_node->c4m_is_template[LANGUAGE_NONE][0]['value'] = 0;
+    node_save($old_node);
   }
 }
 
@@ -314,16 +542,6 @@ function c4m_content_project_choose_template_form_submit($form, &$form_state) {
  */
 function c4m_content_project_get_project_template() {
   return c4m_content_project_get_node_template('project');
-}
-
-/**
- * Returns the current project template.
- *
- * @return bool|object
- *   FALSE if not found. Node object if found.
- */
-function c4m_content_project_get_programme_template() {
-  return c4m_content_project_get_node_template('programme');
 }
 
 /**
@@ -398,4 +616,93 @@ function c4m_content_project_autocomplete($type, $title = '') {
   }
 
   drupal_json_output($node_matches);
+}
+
+/**
+ * Implements hook_url_inbound_alter().
+ */
+function c4m_content_project_url_inbound_alter(&$path, $original_path, $path_language) {
+  if (!preg_match('/node\/add\/(project|programme)/', $path, $matches)) {
+    return;
+  }
+  $type = $matches[1];
+  $node = c4m_content_project_get_node_template($type);
+  if ($node) {
+    $path = 'c4m/project-template-clone/' . $node->nid . '/' . $type;
+  }
+  elseif ($type == 'programme') {
+    // There's no node/add/programme URL we have to "redirect" to
+    // node/add/project.
+    $path = 'node/add/project';
+  }
+}
+
+/**
+ * Callback for c4m/project-template-clone/%node page.
+ *
+ * Inspired from clone_node_prepopulate().
+ *
+ * @param object $original_node
+ *   Template to be cloned.
+ *
+ * @return array
+ *   The rendered node form.
+ */
+function c4m_content_project_clone_template($original_node) {
+  if (!isset($original_node->nid)) {
+    return array();
+  }
+
+  $node = _c4m_content_project_clone_template_prepare($original_node);
+  drupal_set_title($node->title);
+  // Let other modules do special fixing up.
+  $context = array('method' => 'prepopulate', 'original_node' => $original_node);
+  drupal_alter('clone_node', $node, $context);
+  // Make sure the file defining the node form is loaded.
+  $form_state = array();
+  $form_state['build_info']['args'] = array($node);
+  form_load_include($form_state, 'inc', 'node', 'node.pages');
+  return drupal_build_form($node->type . '_node_form', $form_state);
+}
+
+/**
+ * Prepares a project template to be cloned.
+ *
+ * Inspired from _clone_node_prepare().
+ */
+function _c4m_content_project_clone_template_prepare($original_node) {
+  $node = clone $original_node;
+  $account = $GLOBALS['user'];
+
+  $node->nid = NULL;
+  $node->vid = NULL;
+  $node->tnid = NULL;
+  $node->log = NULL;
+  // Also handle modules that attach a UUID to the node.
+  $node->uuid = NULL;
+  $node->vuuid = NULL;
+
+  // Anyonmymous users don't have a name.
+  // @see: drupal_anonymous_user().
+  $node->name = isset($account->name) ? $account->name : NULL;
+  $node->uid = $account->uid;
+
+  $node->created = NULL;
+  if (isset($node->book['mlid'])) {
+    $node->book['mlid'] = NULL;
+    $node->book['has_children'] = 0;
+  }
+  $node->path = NULL;
+  $node->files = array();
+  $node->title = '';
+
+  // Add an extra property as a flag.
+  $node->clone_from_original_nid = $original_node->nid;
+
+  // Unset template field.
+  $node->c4m_is_template = NULL;
+  // Unset purl.
+  $node->purl = NULL;
+
+  return $node;
 }

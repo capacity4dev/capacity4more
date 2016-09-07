@@ -84,7 +84,6 @@ function c4m_content_project_field_group_info() {
       0 => 'c4m_date_end',
       1 => 'c4m_implemented_by',
       2 => 'c4m_money',
-      3 => 'c4m_partner',
       4 => 'c4m_source_of_funding',
       5 => 'c4m_project_geodata',
       6 => 'c4m_project_stakeholders',

@@ -39,14 +39,12 @@ trait QuickPost {
   public function iCreateDiscussionQuickPost($title, $body, $group) {
     $steps = array();
     $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
-    $steps[] = new Step\When('I press the "discussions" button');
-    $steps[] = new Step\When('I press the "idea" button');
+    $steps[] = new Step\When('I focus on "label" element');
+    $steps[] = new Step\When('I should wait to see "Create a post with additional details"');
     $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
     $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
+    $steps[] = new Step\When('I press the "idea" button');
     $steps[] = new Step\When('I press the "quick-submit" button');
-    $steps[] = new Step\When('I wait');
-    // Check that the form has collapsed.
-    $steps[] = new Step\When('I should not see "Type of Discussion" in the "div#quick-post-fields" element');
 
     return $steps;
   }
