@@ -745,7 +745,11 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
 
   while (!empty($items)) {
     // Extract first root item from $items array - level 1.
-    $root = _c4m_content_taxonomy_extract_root_item($items);
+    if (!($root = _c4m_content_taxonomy_extract_root_item($items))) {
+      // We get here in case of dis-attached terms - group terms data
+      // is corrupted.
+      break;
+    }
     // Extract all roots children from $items array - level 2.
     $children = _c4m_content_taxonomy_extract_child_items($items, $root->tid);
     // Items from $children array, that don't have children of their own.
@@ -897,8 +901,8 @@ function _c4m_content_taxonomy_extract_root_item(&$items) {
   foreach ($items as $key => $item) {
     $parent = taxonomy_get_parents($item['tid']);
     if (empty($parent)) {
-      // First item got no parent => subtract it from $items array,
-      // and return it's 'taxonomy_term'.
+      // First item that got no parent => remove it from $items,
+      // and return it's term.
       unset($items[$key]);
 
       return $item['taxonomy_term'];
