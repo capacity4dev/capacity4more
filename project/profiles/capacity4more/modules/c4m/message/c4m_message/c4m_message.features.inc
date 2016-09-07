@@ -282,9 +282,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Cp\\u003EYour @group_node_type\\u0026nbsp;@group_node_title\\u0026nbsp;\\u0026nbsp;is no longer published\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n",
+          "value" : "\\u003Cp\\u003EYour @group_node_type\\u0026nbsp;@group_node_title\\u0026nbsp;is no longer published\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n",
           "format" : "default_html",
-          "safe_value" : "\\u003Cp\\u003EYour @group_node_type\\u00a0@group_node_title\\u00a0\\u00a0is no longer published\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003EYour @group_node_type\\u00a0@group_node_title\\u00a0is no longer published\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n"
         },
         {
           "value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\u0026nbsp;reverted back to Draft status.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E@event_user_full_name\\u0026nbsp;updated the status of this @group_node_type from @group_former_status to Draft.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYou can consult \\u003Ca href=\\u0022!help_section_url\\u0022 rel=\\u0022nofollow\\u0022\\u003Ethis help section\\u003C\\/a\\u003E to find out more about @group_node_type statuses and what they imply.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\nThe capacity4dev team\\u003C\\/p\\u003E\\r\\n",
