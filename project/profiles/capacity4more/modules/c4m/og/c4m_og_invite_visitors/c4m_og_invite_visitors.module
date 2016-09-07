@@ -226,31 +226,15 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
     if ($had_account && $og_membership = og_get_membership($group_type, $gid, $entity_type, $account->uid)) {
       // Load OG membership.
       $message = t('%user is already a member of this group.', array('%user' => format_username($account)));
-
-      // Update OG memebership if necessary.
-      if ($og_membership->state != $state) {
-        $message .= t('Membership state changed from "%prev_state" to "%post_state"', array(
-          '%prev_state' => $all_states[$og_membership->state],
-          '%post_state' => $all_states[$state],
-        ));
-        $og_membership->state = $state;
-      }
-
-      // Save the OG membership.
-      $og_membership->save();
-
-      // Add OG roles to users.
-      foreach ($og_roles as $rid) {
-        og_role_grant($group_type, $gid, $account->uid, $rid);
-      }
     }
     else {
       // Save invitation to MySQL
       $invitation = c4m_og_invite_visitors_store_invitation($user->uid, $gid, $invitee_email);
       $message = t('An email notification was sent to %address.', array('%address' => $invitee_email));
+      $field_name = key(og_get_group_audience_fields());
 
-      // @TODO Invoke the invite_user functionality.
-
+      // Invoke the invite_user functionality.
+      og_invite_invite($group_type, $gid, $field_name, $user->uid);
     }
 
     // Print the message for each user.
@@ -420,6 +404,17 @@ function _c4m_og_invite_visitors_create_user($invitee_email, $form_fields) {
 }
 
 /**
+ * @param $email
+ * @param $created
+ * @return bool|string
+ */
+function c4m_og_invite_visitors_generate_invitation_hash($email, $created) {
+  // Generate a random token.
+  $hash = '?e=' . $email . '&rk=' . drupal_random_key() . '&ts=' . preg_replace('/[^0-9]/', '', $created);
+  return password_hash($hash, PASSWORD_DEFAULT);
+}
+
+/**
  * Store invitation entry in the DB table c4m_og_invite_visitors
  */
 function c4m_og_invite_visitors_store_invitation($inviter_id, $group_id, $email) {
@@ -427,9 +422,7 @@ function c4m_og_invite_visitors_store_invitation($inviter_id, $group_id, $email)
   $date = new DateTime();
   $created = $date->format('Y-m-d H:i:s');
 
-  // Generate a random token.
-  $hash = '?e=' . $email . '&rk=' . drupal_random_key() . '&ts=' . preg_replace('/[^0-9]/', '', $created);
-  $token = password_hash($hash, PASSWORD_DEFAULT);
+  $token = c4m_og_invite_visitors_generate_invitation_hash($email, $created);
 
   try {
     $invId = db_insert('c4m_og_invite_visitors')
