@@ -741,7 +741,7 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
 
   // Stores positions of trees to be shifted right, as they present
   // second and third level, at 3 level taxonomy hierarchy.
-  $shift_right_array = array();
+  $shift_right_trees = array();
 
   while (!empty($items)) {
     // Extract first root item from $items array - level 1.
@@ -781,7 +781,7 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
       // Add it to to arrays tree, and store it's index, for shifting right.
       $trees[] = $sub_tree;
       $trees_keys = array_keys($trees);
-      $shift_right_array[] = end($trees_keys);
+      $shift_right_trees[] = end($trees_keys);
     }
   }
 
@@ -828,7 +828,7 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
     );
 
     // Assign a dedicated class for trees that needs to be shifted right.
-    if (array_search($tree_index, $shift_right_array) !== FALSE) {
+    if (array_search($tree_index, $shift_right_trees) !== FALSE) {
       $variables['class'] = 'shift-right';
     }
     $tree .= theme('c4m_taxonomy_tree', $variables);
