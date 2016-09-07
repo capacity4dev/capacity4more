@@ -773,8 +773,8 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
     }
 
     // Add array item for 1-st & 2-nd level tree.
-    $root_array = empty($childless_children) ? array($root) : array_merge(array($root), $childless_children);
-    $trees[] = $root_array;
+    $root = empty($childless_children) ? array($root) : array_merge(array($root), $childless_children);
+    $trees[] = $root;
 
     // For every sub tree created (2-nd & 3-rd level tree).
     foreach ($sub_trees as $sub_tree) {
