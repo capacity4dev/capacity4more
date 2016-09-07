@@ -27,6 +27,7 @@ dependencies[] = rdf
 dependencies[] = admin_menu_toolbar
 dependencies[] = admin_views
 dependencies[] = better_formats
+dependencies[] = blockreference
 dependencies[] = context
 dependencies[] = ctools
 dependencies[] = date
@@ -98,6 +99,7 @@ dependencies[] = c4m_admin_projects
 ; Helpers
 dependencies[] = c4m_helper_comment
 dependencies[] = c4m_helper_cron
+dependencies[] = c4m_helper_block
 dependencies[] = c4m_helper_date
 dependencies[] = c4m_helper_entity
 
@@ -114,6 +116,7 @@ dependencies[] = c4m_user_bar
 dependencies[] = c4m_user_og
 dependencies[] = c4m_user_profile
 dependencies[] = c4m_user_notifications
+dependencies[] = c4m_user_subscribe
 
 dependencies[] = c4m_comment
 dependencies[] = c4m_comment_delete
