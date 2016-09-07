@@ -12,7 +12,7 @@
       <h2 class="pane-title"><?php print t('My Groups') ?></h2>
       <?php print $groups; ?>
       <a class="see-more-link" href="<?php print $link; ?>">
-        <?php print t('Show all') ?>
+        <?php print t('Show more') ?>
         <i class="fa fa-chevron-right"></i>
       </a>
     </div>

@@ -397,12 +397,19 @@ function c4m_og_form_project_node_form_alter(&$form, &$form_state) {
 
 /**
  * Alters the add/edit form for group content types.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ * @param string $title
+ *   (optional) Title used for page title.
  */
-function _c4m_og_alter_group_form(&$form, &$form_state) {
+function _c4m_og_alter_group_form(&$form, &$form_state, $title = '') {
   // Form changes on creation.
   if (!$form['nid']['#value']) {
     // Change title.
-    drupal_set_title('Request ' . $form['#bundle']);
+    drupal_set_title('Request ' . $title ? $title : $form['#bundle']);
 
     // Change submit button on creation.
     $form['actions']['submit']['#value'] = t('Request');

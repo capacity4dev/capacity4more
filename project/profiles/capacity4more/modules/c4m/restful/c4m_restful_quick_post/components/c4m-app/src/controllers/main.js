@@ -130,6 +130,19 @@ angular.module('c4mApp')
     };
 
     /**
+     * Helper function to manage the flow of focusing the quick post title.
+     *
+     * When focusing the quick post title we should hide the placeholder from
+     * it and try to update the resource.
+     *
+     * @see $scope.updateResource()
+     */
+    $scope.focusQuickPostTitle = function (resource, event) {
+      $scope.titlePlaceholder = false;
+      $scope.updateResource(resource, event);
+    };
+
+    /**
      * Remove taxonomy term from the data.
      *
      * Called by click on added term.
@@ -424,6 +437,8 @@ angular.module('c4mApp')
     $scope.resetEntityForm = function () {
       // Clear any form validation errors.
       $scope.entityForm.$setPristine();
+      // Reset all errors.
+      $scope.errors = {};
       // Reset all the fields.
       initFormValues();
       // Empty fields info.
@@ -431,7 +446,7 @@ angular.module('c4mApp')
       $scope.referenceValues = {};
       // Remove file.
       $scope.removeUploadedFile();
-    }
+    };
 
     /**
     * Closes quick-post form.
