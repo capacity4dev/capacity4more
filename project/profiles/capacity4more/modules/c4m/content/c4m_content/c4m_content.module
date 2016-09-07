@@ -746,7 +746,7 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
   while (!empty($items)) {
     // Extract first root item from $items array - level 1.
     if (!($root = _c4m_content_taxonomy_extract_root_item($items))) {
-      // We get here in case of dis-attached terms - group terms data
+      // We get here in case of dis-attached terms - terms data
       // is corrupted.
       break;
     }
