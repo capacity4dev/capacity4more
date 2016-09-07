@@ -18,21 +18,8 @@ function c4m_features_og_group_dashboard_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:group:invite visitors'
-  $permissions['node:group:invite visitors'] = array(
-    'roles' => array(
-      'administrator member' => 'administrator member',
-      'member' => 'member',
-    ),
-  );
-
   // Exported og permission: 'node:project:invite any user'
   $permissions['node:project:invite any user'] = array(
-    'roles' => array(),
-  );
-
-  // Exported og permission: 'node:project:invite visitors'
-  $permissions['node:project:invite visitors'] = array(
     'roles' => array(),
   );
 

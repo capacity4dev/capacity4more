@@ -116,6 +116,7 @@ dependencies[] = c4m_user_bar
 dependencies[] = c4m_user_og
 dependencies[] = c4m_user_profile
 dependencies[] = c4m_user_notifications
+dependencies[] = c4m_user_subscribe
 
 dependencies[] = c4m_comment
 dependencies[] = c4m_comment_delete
@@ -201,6 +202,7 @@ dependencies[] = c4m_document_widget
 
 ; Organic Groups
 dependencies[] = c4m_og_purl
+dependencies[] = c4m_og_invite_users
 dependencies[] = c4m_og_invite_visitors
 
 ; Email Domains
