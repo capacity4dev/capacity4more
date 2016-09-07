@@ -197,10 +197,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 20,
+        'type' => 'hidden',
+        'weight' => 34,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -289,20 +288,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'smart_trim',
-        'settings' => array(
-          'more_link' => FALSE,
-          'more_text' => 'Read more',
-          'summary_handler' => 'full',
-          'trim_length' => 300,
-          'trim_link' => FALSE,
-          'trim_options' => array(),
-          'trim_preserve_tags' => '',
-          'trim_suffix' => '...',
-          'trim_type' => 'chars',
-        ),
-        'type' => 'smart_trim_format',
-        'weight' => 22,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 36,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -397,10 +385,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 24,
+        'type' => 'hidden',
+        'weight' => 38,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -466,7 +453,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 26,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -529,7 +516,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 25,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -597,10 +584,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 0,
+        'type' => 'hidden',
+        'weight' => 24,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -667,15 +653,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'number',
-        'settings' => array(
-          'decimal_separator' => '.',
-          'prefix_suffix' => TRUE,
-          'scale' => 0,
-          'thousand_separator' => '',
-        ),
-        'type' => 'number_integer',
-        'weight' => 0,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 23,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -743,10 +723,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 0,
+        'type' => 'hidden',
+        'weight' => 21,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -841,10 +820,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 26,
+        'type' => 'hidden',
+        'weight' => 40,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -1040,20 +1018,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'smart_trim',
-        'settings' => array(
-          'more_link' => FALSE,
-          'more_text' => 'Read more',
-          'summary_handler' => 'full',
-          'trim_length' => 300,
-          'trim_link' => FALSE,
-          'trim_options' => array(),
-          'trim_preserve_tags' => '',
-          'trim_suffix' => '...',
-          'trim_type' => 'chars',
-        ),
-        'type' => 'smart_trim_format',
-        'weight' => 23,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 37,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -1147,12 +1114,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
-        'module' => 'c4m_ds',
-        'settings' => array(
-          'text' => 'Download [file:name]',
-        ),
-        'type' => 'c4m_ds_formatter_link_and_size',
-        'weight' => 16,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 30,
       ),
       'member_overview' => array(
         'label' => 'hidden',
@@ -1226,12 +1190,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'c4m_og_purl',
-        'settings' => array(
-          'link' => 'purl_auto',
-        ),
-        'type' => 'c4m_og_purl_entityreference_link',
-        'weight' => 0,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 22,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -1303,12 +1264,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'c4m_og_purl',
-        'settings' => array(
-          'link' => 'purl_auto',
-        ),
-        'type' => 'c4m_og_purl_entityreference_link',
-        'weight' => 0,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 27,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -1380,12 +1338,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'c4m_og_purl',
-        'settings' => array(
-          'link' => 'purl_auto',
-        ),
-        'type' => 'c4m_og_purl_entityreference_link',
-        'weight' => 0,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 28,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -1457,12 +1412,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'c4m_og_purl',
-        'settings' => array(
-          'link' => 'purl_auto',
-        ),
-        'type' => 'c4m_og_purl_entityreference_link',
-        'weight' => 0,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -1563,20 +1515,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
-        'module' => 'smart_trim',
-        'settings' => array(
-          'more_link' => FALSE,
-          'more_text' => 'Read more',
-          'summary_handler' => 'full',
-          'trim_length' => 300,
-          'trim_link' => FALSE,
-          'trim_options' => array(),
-          'trim_preserve_tags' => '',
-          'trim_suffix' => '...',
-          'trim_type' => 'chars',
-        ),
-        'type' => 'smart_trim_format',
-        'weight' => 17,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 31,
       ),
       'member_overview' => array(
         'label' => 'hidden',
@@ -1671,10 +1612,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 18,
+        'type' => 'hidden',
+        'weight' => 32,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -1734,20 +1674,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'smart_trim',
-        'settings' => array(
-          'more_link' => FALSE,
-          'more_text' => 'Read more',
-          'summary_handler' => 'full',
-          'trim_length' => 300,
-          'trim_link' => FALSE,
-          'trim_options' => array(),
-          'trim_preserve_tags' => '',
-          'trim_suffix' => '...',
-          'trim_type' => 'chars',
-        ),
-        'type' => 'smart_trim_format',
-        'weight' => 0,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 20,
       ),
       'member_overview' => array(
         'label' => 'above',
