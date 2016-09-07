@@ -199,6 +199,7 @@ function _c4m_og_invite_visitors_new_users_form_validate($form, &$form_state) {
  * adds the user to the group.
  */
 function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
+  global $user;
   $group_type = $form_state['values']['group_type'];
   $gid = $form_state['values']['gid'];
   $invitee_emails = $form_state['invitee_emails'];
@@ -221,12 +222,25 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
     // Try to load the user by email and see if exists.
     if ($account = user_load_by_mail($invitee_email)) {
       $had_account = TRUE;
-      $message = t('%user is already known and has been added to the group.', array('%user' => format_username($account)));
+      $message = t('An email notification was sent to %address.', array('%address' => $invitee_email));
     }
     else {
+      // Save invitation to MySQL
+      c4m_og_invite_visitors_store_invitation($user->uid, $gid, $invitee_email);
+      $message = t('An email notification was sent to %address.', array('%address' => $invitee_email));
+
+
+
+
+
+
+
+
+/*
       // Create a user and return $account object.
       $account = _c4m_og_invite_visitors_create_user($invitee_email, $form_fields);
       $message = t('%user has been created and an email notification was sent.', array('%user' => format_username($account)));
+*/
     }
 
     // Check if user is already assigned to the group.
@@ -427,4 +441,35 @@ function _c4m_og_invite_visitors_create_user($invitee_email, $form_fields) {
   ), variable_get('site_mail', NULL));
 
   return $account;
+}
+
+/**
+ * Store invitation entry in the DB table c4m_og_invite_visitors
+ */
+function c4m_og_invite_visitors_store_invitation($inviter_id, $group_id, $email) {
+  // Format date for MySQL datetime field.
+  $date = new DateTime();
+  $created = $date->format('Y-m-d H:i:s');
+
+  // Generate a random token.
+  $hash = $email . drupal_random_key() . preg_replace('/[^0-9]/', '', $created);
+  $token = password_hash($hash, PASSWORD_DEFAULT);
+
+  try {
+    $invId = db_insert('c4m_og_invite_visitors')
+      ->fields(
+        array(
+          'inv_inviter_id' => $inviter_id,
+          'inv_group_id' => $group_id,
+          'inv_email' => $email,
+          'inv_created' => $created, // REQUEST_TIME,
+          'inv_token' => $token,
+        )
+      )
+      ->execute();
+  } catch (PDOException $e) {
+    echo 'Error: ', $e->getMessage(), "\n";
+  }
+
+  return [$hash, $invId];
 }
