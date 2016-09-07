@@ -255,9 +255,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Cp\\u003E@group_node_type\\u0026nbsp;@group_node_title was\\u0026nbsp;deleted\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n",
+          "value" : "\\u003Cp\\u003EThe @group_node_type\\u0026nbsp;@group_node_title was\\u0026nbsp;deleted\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n",
           "format" : "default_html",
-          "safe_value" : "\\u003Cp\\u003E@group_node_type\\u00a0@group_node_title was\\u00a0deleted\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003EThe @group_node_type\\u00a0@group_node_title was\\u00a0deleted\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u00a0\\u003C\\/p\\u003E\\n"
         },
         {
           "value" : "\\u003Cp\\u003EDear administrator,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E has been deleted.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E@event_user_full_name updated the status of this @group_node_type from @group_former_status to Deleted.\\u003C\\/p\\u003E\\r\\n",
