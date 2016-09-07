@@ -126,7 +126,12 @@ function c4m_content_project_block_view($delta) {
  * Alter the Project creation form.
  */
 function c4m_content_project_form_project_node_form_alter(&$form, &$form_state) {
-  _c4m_og_alter_group_form($form, $form_state);
+  $type = '';
+  if (preg_match('/node\/add\/(project|programme)/', $_SERVER['REQUEST_URI'], $matches)) {
+    $type = $matches[1];
+    $form['c4m_project_type'][LANGUAGE_NONE]['#value'] = $type;
+  }
+  _c4m_og_alter_group_form($form, $form_state, $type);
 
   c4m_content_project_set_number_of_items_states($form, 'c4m_left_column');
   c4m_content_project_set_number_of_items_states($form, 'c4m_right_column');
@@ -429,14 +434,39 @@ function c4m_content_project_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['c4m/project-template-clone/%node/%'] = array(
+    'access callback' => 'c4m_content_project_clone_template_access',
+    'access arguments' => array(2, 3),
+    'page callback' => 'c4m_content_project_clone_template',
+    'page arguments' => array(2),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['node/add/programme'] = array(
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
+}
+
+/**
+ * Access callback for c4m/project-template-clone/%node/%.
+ */
+function c4m_content_project_clone_template_access($node, $type) {
+  $access = TRUE;
+  $access = $access && ($type == 'project' || $type == 'programme');
+  $access = $access && !empty($node->c4m_is_template[LANGUAGE_NONE][0]['value']);
+  $access = $access && ($type == $node->c4m_project_type[LANGUAGE_NONE][0]['value']);
+  $access = $access && node_access('create', $node->type);
+  return $access;
+
 }
 
 /**
  * Form builder for choose project / programme as template form.
  */
 function c4m_content_project_choose_template_form($form, &$form_state) {
-  $node = c4m_content_project_get_project_template();
+  $node = c4m_content_project_get_node_template('project');
   $form['project'] = array(
     '#type' => 'textfield',
     '#title' => t('Project template'),
@@ -444,7 +474,7 @@ function c4m_content_project_choose_template_form($form, &$form_state) {
     '#autocomplete_path' => 'c4m/autocomplete/c4m_content_project/project',
   );
 
-  $node = c4m_content_project_get_programme_template();
+  $node = c4m_content_project_get_node_template('programme');
   $form['programme'] = array(
     '#type' => 'textfield',
     '#title' => t('Programme template'),
@@ -462,33 +492,45 @@ function c4m_content_project_choose_template_form($form, &$form_state) {
  * Submit handler for c4m_content_project_choose_template_form.
  */
 function c4m_content_project_choose_template_form_submit($form, &$form_state) {
-  if ($form_state['values']['project']) {
-    $value = $form_state['values']['project'];
+  c4m_content_project_choose_template_form_save_info($form_state, 'project');
+  c4m_content_project_choose_template_form_save_info($form_state, 'programme');
+}
+
+/**
+ * Saves the template info for the Project / Programme choose template form.
+ *
+ * @param array $form_state
+ *   Form state.
+ * @param string $project_type
+ *   Project type. 'project' | 'programme'.
+ */
+function c4m_content_project_choose_template_form_save_info(&$form_state, $project_type) {
+  if ($form_state['values'][$project_type]) {
+    $value = $form_state['values'][$project_type];
     if (preg_match('/\((\d+)\)$/', $value, $matches)) {
       $node = node_load($matches[1]);
-      if ($node->type == 'project' && $node->c4m_project_type[LANGUAGE_NONE][0]['value'] == 'project') {
-        if ($old_node = c4m_content_project_get_project_template()) {
-          $old_node->c4m_is_template[LANGUAGE_NONE][0]['value'] = 0;
-          node_save($old_node);
-        }
+      if ($node->type == 'project' && $node->c4m_project_type[LANGUAGE_NONE][0]['value'] == $project_type) {
+        c4m_content_project_unset_current_template($project_type);
         $node->c4m_is_template[LANGUAGE_NONE][0]['value'] = 1;
         node_save($node);
       }
     }
   }
-  if ($form_state['values']['programme']) {
-    $value = $form_state['values']['programme'];
-    if (preg_match('/\((\d+)\)$/', $value, $matches)) {
-      $node = node_load($matches[1]);
-      if ($node->type == 'project' && $node->c4m_project_type[LANGUAGE_NONE][0]['value'] == 'programme') {
-        if ($old_node = c4m_content_project_get_programme_template()) {
-          $old_node->c4m_is_template[LANGUAGE_NONE][0]['value'] = 0;
-          node_save($old_node);
-        }
-        $node->c4m_is_template[LANGUAGE_NONE][0]['value'] = 1;
-        node_save($node);
-      }
-    }
+  else {
+    c4m_content_project_unset_current_template($project_type);
+  }
+}
+
+/**
+ * Unset current template.
+ *
+ * @param string $project_type
+ *   Project type. 'project' | 'programme'.
+ */
+function c4m_content_project_unset_current_template($project_type) {
+  if ($old_node = c4m_content_project_get_node_template($project_type)) {
+    $old_node->c4m_is_template[LANGUAGE_NONE][0]['value'] = 0;
+    node_save($old_node);
   }
 }
 
@@ -500,16 +542,6 @@ function c4m_content_project_choose_template_form_submit($form, &$form_state) {
  */
 function c4m_content_project_get_project_template() {
   return c4m_content_project_get_node_template('project');
-}
-
-/**
- * Returns the current project template.
- *
- * @return bool|object
- *   FALSE if not found. Node object if found.
- */
-function c4m_content_project_get_programme_template() {
-  return c4m_content_project_get_node_template('programme');
 }
 
 /**
@@ -584,4 +616,93 @@ function c4m_content_project_autocomplete($type, $title = '') {
   }
 
   drupal_json_output($node_matches);
+}
+
+/**
+ * Implements hook_url_inbound_alter().
+ */
+function c4m_content_project_url_inbound_alter(&$path, $original_path, $path_language) {
+  if (!preg_match('/node\/add\/(project|programme)/', $path, $matches)) {
+    return;
+  }
+  $type = $matches[1];
+  $node = c4m_content_project_get_node_template($type);
+  if ($node) {
+    $path = 'c4m/project-template-clone/' . $node->nid . '/' . $type;
+  }
+  elseif ($type == 'programme') {
+    // There's no node/add/programme URL we have to "redirect" to
+    // node/add/project.
+    $path = 'node/add/project';
+  }
+}
+
+/**
+ * Callback for c4m/project-template-clone/%node page.
+ *
+ * Inspired from clone_node_prepopulate().
+ *
+ * @param object $original_node
+ *   Template to be cloned.
+ *
+ * @return array
+ *   The rendered node form.
+ */
+function c4m_content_project_clone_template($original_node) {
+  if (!isset($original_node->nid)) {
+    return array();
+  }
+
+  $node = _c4m_content_project_clone_template_prepare($original_node);
+  drupal_set_title($node->title);
+  // Let other modules do special fixing up.
+  $context = array('method' => 'prepopulate', 'original_node' => $original_node);
+  drupal_alter('clone_node', $node, $context);
+  // Make sure the file defining the node form is loaded.
+  $form_state = array();
+  $form_state['build_info']['args'] = array($node);
+  form_load_include($form_state, 'inc', 'node', 'node.pages');
+  return drupal_build_form($node->type . '_node_form', $form_state);
+}
+
+/**
+ * Prepares a project template to be cloned.
+ *
+ * Inspired from _clone_node_prepare().
+ */
+function _c4m_content_project_clone_template_prepare($original_node) {
+  $node = clone $original_node;
+  $account = $GLOBALS['user'];
+
+  $node->nid = NULL;
+  $node->vid = NULL;
+  $node->tnid = NULL;
+  $node->log = NULL;
+  // Also handle modules that attach a UUID to the node.
+  $node->uuid = NULL;
+  $node->vuuid = NULL;
+
+  // Anyonmymous users don't have a name.
+  // @see: drupal_anonymous_user().
+  $node->name = isset($account->name) ? $account->name : NULL;
+  $node->uid = $account->uid;
+
+  $node->created = NULL;
+  if (isset($node->book['mlid'])) {
+    $node->book['mlid'] = NULL;
+    $node->book['has_children'] = 0;
+  }
+  $node->path = NULL;
+  $node->files = array();
+  $node->title = '';
+
+  // Add an extra property as a flag.
+  $node->clone_from_original_nid = $original_node->nid;
+
+  // Unset template field.
+  $node->c4m_is_template = NULL;
+  // Unset purl.
+  $node->purl = NULL;
+
+  return $node;
 }
