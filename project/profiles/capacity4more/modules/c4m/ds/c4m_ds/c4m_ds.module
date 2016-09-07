@@ -74,6 +74,7 @@ function c4m_ds_ds_layout_info() {
       'header' => t('Header'),
       'left' => t('Left'),
       'right' => t('Right'),
+      'footer' => t('Footer'),
     ),
     'form' => TRUE,
     'image' => TRUE,
@@ -204,6 +205,18 @@ function c4m_ds_ds_view_modes_info() {
   );
   $ds_view_modes['block_list'] = $ds_view_mode;
 
+  // Pinned content.
+  $ds_view_mode = new stdClass();
+  // Edit this to true to make a default ds_view_mode disabled initially.
+  $ds_view_mode->disabled = FALSE;
+  $ds_view_mode->api_version = 1;
+  $ds_view_mode->view_mode = 'pinned_content';
+  $ds_view_mode->label = 'Pinned content';
+  $ds_view_mode->entities = array(
+    'node' => 'node',
+  );
+  $ds_view_modes['pinned_content'] = $ds_view_mode;
+
   // User Image.
   $ds_view_mode = new stdClass();
   $ds_view_mode->disabled = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
@@ -237,6 +250,10 @@ function c4m_ds_entity_info_alter(&$entity_info) {
   $entity_info['user']['view modes']['teaser'] = array(
     'custom settings' => TRUE,
     'label' => 'Teaser',
+  );
+  $entity_info['user']['view modes']['member_overview'] = array(
+    'custom settings' => TRUE,
+    'label' => 'Member Overview',
   );
 }
 
@@ -493,6 +510,19 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
+  $fields['node']['c4m_ds_group_notification_toggle'] = array(
+    'title' => t('Group notifications toggle'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('group|*'),
+    'file' => $path . '/includes/c4m_ds.theme.node.inc',
+    'function' => 'theme_c4m_ds_group_notification_toggle',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
   $fields['node']['c4m_ds_event_start_icon'] = array(
     'title' => t('Event Icon with date in it'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
@@ -573,6 +603,19 @@ function c4m_ds_ds_fields_info($entity_type) {
     'ui_limit' => array('*|*'),
     'file' => $path . '/includes/c4m_ds.theme.user.inc',
     'function' => 'theme_c4m_ds_user_footer_stats',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['user']['c4m_ds_user_membership_type'] = array(
+    'title' => t('User membership type'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_ds.theme.user.inc',
+    'function' => 'theme_c4m_ds_user_membership_type',
     'properties' => array(
       'formatters' => array(
         'default' => t('Default'),
@@ -707,53 +750,42 @@ function c4m_ds_ds_pre_render_alter(&$layout_render_array, $context, &$vars) {
 /**
  * Format the string with the amount of posts and comments a user has posted.
  *
- * @param array $count_posts
+ * @param array $post_count
  *    The number of posts.
- * @param array $count_comments
+ * @param array $comment_count
  *    The number of comments.
  *
  * @return null|string
  *    Formatted string with number of posts and comments.
  */
-function c4m_ds_user_activity_summary_helper(
-  $count_posts = array(),
-  $count_comments = array()
-) {
+function c4m_ds_user_activity_summary_helper($post_count = 0, $comment_count = 0) {
   $output = '';
 
-  if ($count_posts > 0 && $count_comments > 0) {
-    $output = t(
-      'Posted !posts and !comments',
-      array(
-        '!posts' => format_plural($count_posts, '1 Item', '@count Items'),
-        '!comments' => format_plural(
-          $count_comments,
-          '1 Comment',
-          '@count Comments'
-        ),
-      )
-    );
-  }
-  elseif ($count_posts > 0) {
-    $output = t(
-      'Posted !posts',
-      array(
-        '!posts' => format_plural($count_posts, '1 Item', '@count Items'),
-      )
-    );
-  }
-  elseif ($count_comments > 0) {
-    $output = t(
-      'Posted !comments',
-      array(
-        '!comments' => format_plural(
-          $count_comments,
-          '1 Comment',
-          '@count Comments'
-        ),
-      )
-    );
-  }
+  $output .= theme(
+    'c4m_ds_user_posts_count',
+    array(
+      'count' => format_plural($post_count, '1 Post', '@count Posts'),
+    )
+  );
+
+  $output .= theme(
+    'c4m_ds_entity_comments_count',
+    array(
+      'count' => format_plural($comment_count, '1 Comment', '@count Comments'),
+    )
+  );
 
   return $output;
+}
+
+/**
+ * Implements hook_node_view_alter().
+ */
+function c4m_ds_node_view_alter(&$build) {
+  // In order to avoid fatal error when rendering a node inside view mode we
+  // need this.
+  // @see https://www.drupal.org/node/1264386#comment-11211777
+  if ($build['#view_mode'] == 'activity_group') {
+    $build['#node']->content = array();
+  }
 }

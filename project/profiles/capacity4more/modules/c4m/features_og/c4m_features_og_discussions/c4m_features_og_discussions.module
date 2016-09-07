@@ -18,7 +18,7 @@ function c4m_features_og_discussions_c4m_og_feature_info() {
       'machine_name' => 'c4m_features_og_discussions',
       'weight' => 2,
       'default' => TRUE,
-      'group_types' => array('group', 'project'),
+      'group_types' => array('group'),
       'content_types' => array('discussion'),
     ),
   );

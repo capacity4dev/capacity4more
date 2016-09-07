@@ -1,3 +1,8 @@
 .view-mode-activity_group {
   @extend .view-mode-activity_global;
+  // We need div and .node for specificity.
+  div.view-mode-pinned_content &.node {
+    // Replicates activity-stream--operator margin.
+    margin-top: 1em;
+  }
 }
