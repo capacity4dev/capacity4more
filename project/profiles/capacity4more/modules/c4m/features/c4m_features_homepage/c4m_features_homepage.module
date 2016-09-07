@@ -7,7 +7,13 @@
 
 include_once 'c4m_features_homepage.features.inc';
 
-define('GROUPS_TO_BE_DISPLAYED', 3);
+/**
+ * Maximum groups to display on blocks.
+ *
+ * On the homepage we have "suggested groups" and "my groups" blocks where we
+ * should limit the amount of groups to be displayed.
+ */
+define('C4M_FEATURES_HOMEPAGE_MAX_GROUPS_PER_BLOCK', 3);
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -123,7 +129,7 @@ function c4m_features_homepage_alphabetically_render_node_list($node_ids) {
 
   // Removes groups where the logged in user has no access.
   $items = array_filter($items, 'c4m_features_homepage_node_access_view_filter');
-  $items = array_slice($items, 0, GROUPS_TO_BE_DISPLAYED);
+  $items = array_slice($items, 0, C4M_FEATURES_HOMEPAGE_MAX_GROUPS_PER_BLOCK);
 
   uasort($items, 'c4m_features_homepage_node_sort_by_title');
 
