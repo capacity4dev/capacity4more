@@ -1,18 +1,17 @@
 #!/bin/sh
 set -e
 
-#if [ -d "$TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump" ]; then
+if [ -d "$TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump" ]; then
   date
 
-#  cd $TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump
+  cd $TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump
 
-  echo 'Hello world' >> test.txt
+  NOW=$(date +"%Y%m%d-%H%M%s")
+  FILE="behat.$NOW.tar.gz"
 
-cat test.txt
+  echo "Hello worls" > text.txt
 
-  tar -czf behat.tar.gz test.txt
-
-  ls -al
+  tar -czf behat.$NOW.tar.gz text.txt
 
   # Send archive as mail attachment.
   curl -s --user 'api:key-6b112d148c86bff26881f380a1488414' \
@@ -21,6 +20,5 @@ cat test.txt
     -F to='capacity4more admin <capfourdev.amplexor@gmail.com>' \
     -F subject='Behat reporting - Error dumps' \
     -F text='Attached you can find the behat error dumps!' \
-    -F attachment=@"behat.tar.gz" \
-    -F attachment=@test.txt
-#fi
+    -F attachment=@behat.$NOW.tar.gz
+fi
