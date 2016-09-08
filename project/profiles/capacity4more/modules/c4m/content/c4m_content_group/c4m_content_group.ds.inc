@@ -18,7 +18,7 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'block_list';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '2',
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -31,7 +31,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '3',
+      'weight' => '6',
       'label' => 'inline',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -49,7 +49,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_group_members_count' => array(
-      'weight' => '4',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -60,8 +60,13 @@ function c4m_content_group_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_group_membership_type' => array(
+    'c4m_ds_group_type_icon' => array(
       'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_group_membership_type' => array(
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -83,7 +88,7 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'group_dashboard';
   $ds_fieldsetting->settings = array(
     'c4m_user_first_and_last_name' => array(
-      'weight' => '4',
+      'weight' => '5',
       'label' => 'above',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -125,13 +130,18 @@ function c4m_content_group_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'c4m_content_group_statistics' => array(
+    'c4m_ds_group_notification_toggle' => array(
       'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_content_group_statistics' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_ds_content_actions' => array(
-      'weight' => '8',
+      'weight' => '9',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -348,14 +358,18 @@ function c4m_content_group_ds_layout_settings_info() {
         0 => 'c4m_media',
       ),
       'right' => array(
-        1 => 'c4m_ds_group_membership_type',
-        2 => 'title',
-        3 => 'c4m_user_first_and_last_name',
-        4 => 'c4m_ds_group_members_count',
+        1 => 'c4m_ds_group_type_icon',
+        2 => 'c4m_og_status',
+        3 => 'c4m_ds_group_membership_type',
+        4 => 'title',
+        5 => 'c4m_user_first_and_last_name',
+        6 => 'c4m_ds_group_members_count',
       ),
     ),
     'fields' => array(
       'c4m_media' => 'left',
+      'c4m_ds_group_type_icon' => 'right',
+      'c4m_og_status' => 'right',
       'c4m_ds_group_membership_type' => 'right',
       'title' => 'right',
       'c4m_user_first_and_last_name' => 'right',
@@ -388,20 +402,22 @@ function c4m_content_group_ds_layout_settings_info() {
         0 => 'c4m_body',
         1 => 'c4m_ds_creation_date',
         2 => 'group_access_info',
-        3 => 'c4m_content_group_statistics',
-        4 => 'c4m_user_first_and_last_name',
-        5 => 'group_admins',
-        6 => 'c4m_vocab_topic',
-        7 => 'c4m_vocab_geo',
-        8 => 'c4m_ds_content_actions',
-        9 => 'c4m_ds_group_administer_link',
-        10 => 'group_extra_info',
+        3 => 'c4m_ds_group_notification_toggle',
+        4 => 'c4m_content_group_statistics',
+        5 => 'c4m_user_first_and_last_name',
+        6 => 'group_admins',
+        7 => 'c4m_vocab_topic',
+        8 => 'c4m_vocab_geo',
+        9 => 'c4m_ds_content_actions',
+        10 => 'c4m_ds_group_administer_link',
+        11 => 'group_extra_info',
       ),
     ),
     'fields' => array(
       'c4m_body' => 'ds_content',
       'c4m_ds_creation_date' => 'ds_content',
       'group_access_info' => 'ds_content',
+      'c4m_ds_group_notification_toggle' => 'ds_content',
       'c4m_content_group_statistics' => 'ds_content',
       'c4m_user_first_and_last_name' => 'ds_content',
       'group_admins' => 'ds_content',

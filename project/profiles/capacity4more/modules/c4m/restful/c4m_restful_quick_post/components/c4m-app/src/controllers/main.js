@@ -25,6 +25,10 @@ angular.module('c4mApp')
     // Getting the fields information.
     $scope.fieldSchema = {};
 
+    // Hide quickpost title field placeholder on focus.
+    $scope.titlePlaceholder = true;
+    $scope.titlePlaceholderText = 'Start a discussion, share an idea...';
+
     $scope = QuickPostService.setDefaults($scope);
 
     /**
@@ -123,6 +127,19 @@ angular.module('c4mApp')
           $scope.selectedResource = resource;
           $scope.resourceSpinner = false;
         });
+    };
+
+    /**
+     * Helper function to manage the flow of focusing the quick post title.
+     *
+     * When focusing the quick post title we should hide the placeholder from
+     * it and try to update the resource.
+     *
+     * @see $scope.updateResource()
+     */
+    $scope.focusQuickPostTitle = function (resource, event) {
+      $scope.titlePlaceholder = false;
+      $scope.updateResource(resource, event);
     };
 
     /**
@@ -420,6 +437,8 @@ angular.module('c4mApp')
     $scope.resetEntityForm = function () {
       // Clear any form validation errors.
       $scope.entityForm.$setPristine();
+      // Reset all errors.
+      $scope.errors = {};
       // Reset all the fields.
       initFormValues();
       // Empty fields info.
@@ -427,5 +446,15 @@ angular.module('c4mApp')
       $scope.referenceValues = {};
       // Remove file.
       $scope.removeUploadedFile();
+    };
+
+    /**
+    * Closes quick-post form.
+    */
+    $scope.closeQuickPost = function () {
+      // Clear all form fields.
+      $scope.resetEntityForm();
+      // Closes quick-post form.
+      $scope.selectedResource = '';
     }
   });

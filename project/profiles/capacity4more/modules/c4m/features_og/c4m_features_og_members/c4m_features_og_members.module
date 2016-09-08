@@ -20,7 +20,7 @@ function c4m_features_og_members_c4m_og_feature_info() {
       'machine_name' => 'c4m_features_og_members',
       'weight' => 6,
       'default' => TRUE,
-      'group_types' => array('group', 'project'),
+      'group_types' => array('group'),
       'content_types' => array(),
     ),
   );
