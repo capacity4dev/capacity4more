@@ -23,11 +23,12 @@ Feature: Testing user creation/manipulations.
      When I visit the leave platform page of the current user
      Then I should see "You can't leave the platform"
 
-  @api
+  @api @c
   Scenario: The user leaves the platform.
     Given I am logged in with a temporal user
      When I visit the leave platform page of the current user
       And I check the box "I no longer want my name to appear on contents I have contributed - please make all my content anonymous"
       And I fill in "edit-feedback" with "Just testing leaving the platform."
       And I press "Confirm"
-     Then I should see "Cancelling account"
+     Then I should test to see "Your account has been successfully removed from the platform"
+#     Then I should see "Cancelling account"

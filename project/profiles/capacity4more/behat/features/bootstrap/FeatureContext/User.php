@@ -55,4 +55,18 @@ trait User {
     $this->login();
   }
 
+  /**
+   * @Then /^I should test to see "([^"]*)"$/
+   */
+  public function iShouldThenSee($text) {
+    $actual = $this->getSession()->getPage()->getText();
+    $actual = preg_replace('/\s+/u', ' ', $actual);
+    print_r($actual);
+    $regex  = '/'.preg_quote($text, '/').'/ui';
+
+    if (!preg_match($regex, $actual)) {
+      $message = sprintf('The text "%s" was not found anywhere in the text of the current page.', $text);
+      throw new ResponseTextException($message, $this->session);
+    }
+  }
 }
