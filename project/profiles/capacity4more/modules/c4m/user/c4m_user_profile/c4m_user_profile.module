@@ -1082,11 +1082,20 @@ function c4m_user_profile_user_login_validate($form, &$form_state) {
       array('!password_recovery' => l(t('password recovery'), 'user/password'))
     );
   }
-  else {
+  elseif ($account->c4m_is_spammer->value()) {
+    $message = t(
+      'This account has been blocked, for more information please !contact an administrator.',
+      array('!contact' => l(t('contact'), 'contact'))
+    );
+  }
+  elseif ($account->c4m_is_deleted->value()) {
     $message = t(
       'There is a problem with your account, please !contact the site administrators.',
       array('!contact' => l(t('contact'), 'contact'))
     );
+  }
+  else {
+    $message = t('Sorry, unrecognized username or password. <a href="@password">Have you forgotten your password?</a>', array('@password' => url('user/password')));
   }
   form_set_error('name', $message);
 }
@@ -1160,7 +1169,7 @@ function c4m_user_profile_render_user_unsubscribe_hash($account = NULL) {
  * Adding the unsubscribe hash to the user profile when it is not a new profile.
  */
 function c4m_user_profile_user_presave(&$edit, $account, $category) {
-  if (!$account->is_new) {
+  if ($account->is_new) {
     return;
   }
 
