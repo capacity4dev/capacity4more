@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-if [ -d "$TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump" ]; then
+#if [ -d "$TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump" ]; then
   date
 
   cd $TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump
@@ -25,4 +25,4 @@ if [ -d "$TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump" ]
     -F subject='Behat reporting - Error dumps' \
     -F text='Attached you can find the behat error dumps!' \
     -F attachment=@behat.$NOW.tar.gz
-fi
+#fi
