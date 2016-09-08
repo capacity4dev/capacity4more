@@ -88,9 +88,10 @@ script:
 after_script:
   - date
 
-after_failure:
   # Zip dumps and mail
-  - $TRAVIS_BUILD_DIR/ci/bin/report_watchdog.sh
+  - $TRAVIS_BUILD_DIR/ci/bin/report_behat.sh
+
+after_failure:
 
   # Output watchdog entries (errors).
   - $TRAVIS_BUILD_DIR/ci/bin/report_watchdog.sh
