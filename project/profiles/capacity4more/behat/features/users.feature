@@ -30,5 +30,7 @@ Feature: Testing user creation/manipulations.
       And I check the box "I no longer want my name to appear on contents I have contributed - please make all my content anonymous"
       And I fill in "edit-feedback" with "Just testing leaving the platform."
       And I press "Confirm"
+      And I wait
+      And I wait
      Then I should test to see "Your account has been successfully removed from the platform"
 #     Then I should see "Cancelling account"
