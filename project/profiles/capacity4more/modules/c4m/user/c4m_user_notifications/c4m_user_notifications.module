@@ -221,7 +221,7 @@ function c4m_user_notifications_comment_insert($comment) {
   }
 
   $node = node_load($comment->nid);
-  $group_notification_types = _c4m_user_notifications_get_group_content_notification_types();
+  $group_notification_types = c4m_og_get_group_content_notification_types();
   if (!$node->type || !in_array($node->type, $group_notification_types)) {
     // Node comment is associated with does not require notification.
     return;
@@ -519,7 +519,7 @@ function _c4m_user_notifications_build_group_permissions($access, $membership_op
  * Triggers email notification when organic group node is updated.
  */
 function _c4m_user_notifications_process_og_alter($node, $mode) {
-  $allowed_og_types = _c4m_user_notifications_get_group_content_notification_types();
+  $allowed_og_types = c4m_og_get_group_content_notification_types();
   if (!in_array($node->type, $allowed_og_types)) {
     return;
   }
@@ -555,7 +555,7 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
     return;
   }
 
-  $allowed_og_content_types = _c4m_user_notifications_get_group_content_notification_types();
+  $allowed_og_content_types = c4m_og_get_group_content_notification_types();
   if (!in_array($node->type, $allowed_og_content_types)) {
     // Node type does not require notification.
     return;
@@ -585,13 +585,4 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
         break;
     }
   }
-}
-
-/**
- * Helper functions.
- *
- * Returns an array of group content types that require notification.
- */
-function _c4m_user_notifications_get_group_content_notification_types() {
-  return array('document', 'discussion', 'event', 'wiki_page');
 }
