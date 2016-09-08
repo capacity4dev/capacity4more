@@ -1345,6 +1345,4 @@ function c4m_user_form_alter(&$form, &$form_state, $form_id) {
 
   // Alter the title and description to mention email login option.
   $form['name']['#title'] = t('Username or e-mail address');
-  // Message format inspired from user_login().
-  $form['name']['#description'] = t('Enter your @s username or your e-mail address.', array('@s' => variable_get('site_name', 'Drupal')));
 }

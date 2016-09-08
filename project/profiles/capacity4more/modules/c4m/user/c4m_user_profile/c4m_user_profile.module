@@ -177,6 +177,15 @@ function c4m_user_profile_theme() {
     'path' => drupal_get_path('module', 'c4m_user_profile') . '/includes',
   );
 
+  $theme['c4m_user_profile_groups_top_bar'] = array(
+    'variables' => array(
+      'groups' => array(),
+      'link' => array(),
+    ),
+    'file' => 'c4m_user_profile.theme.inc',
+    'path' => drupal_get_path('module', 'c4m_user_profile') . '/includes',
+  );
+
   $theme['c4m_user_profile_my_profile_groups'] = array(
     'variables' => array(
       'groups' => NULL,
