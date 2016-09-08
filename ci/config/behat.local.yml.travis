@@ -4,8 +4,8 @@ default:
   context:
     parameters:
       debug:
-        dump_html: false
-        dump_screenshot: false
+        dump_html: true
+        dump_screenshot: true
 
   extensions:
     Behat\MinkExtension\Extension:
