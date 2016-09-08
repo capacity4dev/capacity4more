@@ -5,30 +5,6 @@
  * Code for the user blocks.
  */
 
-
-/**
- * Access callback.
- *
- * Checks if user is banned from the requested group.
- *
- * @param object $group
- *   The group object.
- *
- * @return bool
- *   Access.
- */
-function c4m_user_og_unified_workflow_access($group) {
-  if (!og_context('node', $group)) {
-    return FALSE;
-  }
-
-  if (c4m_og_user_is_banned($group->nid)) {
-    return FALSE;
-  }
-
-  return node_access('view', $group);
-}
-
 /**
  * Menu callback.
  *
