@@ -1128,52 +1128,6 @@ function c4m_user_c4m_domain_presave($entity) {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
- *
- * Using hook_form_user_login_alter().
- */
-function c4m_user_form_user_login_alter(&$form, &$form_state, $form_id) {
-  $form['#validate'][] = 'c4m_user_login_validate_spammer_check';
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- *
- * Using hook_form_user_login_block_alter().
- */
-function c4m_user_form_user_login_block_alter(&$form, &$form_state, $form_id) {
-  $form['#validate'][] = 'c4m_user_login_validate_spammer_check';
-}
-
-/**
- * User login validation function to check for a spammer user.
- *
- * In case a spammer user tries to login, a message will be shown the user
- * must contact an administrator.
- *
- * @param array $form
- *   Form array.
- * @param array $form_state
- *   Form state array.
- */
-function c4m_user_login_validate_spammer_check($form, &$form_state) {
-  if (!isset($form_state['uid']) || !is_numeric($form_state['uid'])) {
-    return;
-  }
-
-  $uid = $form_state['uid'];
-
-  if (c4m_user_is_spammer($uid)) {
-    // Clear errors.
-    form_clear_error();
-    // Clear error messages.
-    drupal_get_messages('error');
-    // Set form error.
-    form_set_error('name', t('This account has been blocked, for more information please <a href="@link">contact</a> an administrator.', array('@link' => url('contact'))));
-  }
-}
-
-/**
  * Checks if a given user is set as spammer or not.
  *
  * @param object | integer $user
