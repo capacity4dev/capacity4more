@@ -4,8 +4,10 @@ default:
   context:
     parameters:
       debug:
-        dump_html: false
-        dump_screenshot: false
+        dump_html: true
+        dump_screenshot: true
+        dump_path: 'features/dump'
+        dump_all_steps: false
 
   extensions:
     Behat\MinkExtension\Extension:
@@ -18,6 +20,6 @@ default:
       drupal:
         drupal_root: "/home/travis/build/capacity4dev/capacity4more/web"
     Lakion\Behat\MinkDebugExtension:
-      directory: "/home/travis/build/capacity4dev/capacity4more/project/profiles/capacity4more/behat/dumps"
+      directory: "/home/travis/build/capacity4dev/capacity4more/project/profiles/capacity4more/behat/features/dump"
       screenshot: true
       clean_start: true
