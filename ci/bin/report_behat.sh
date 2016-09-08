@@ -19,5 +19,5 @@ cat test.txt
     -F to='capacity4more admin <capfourdev.amplexor@gmail.com>' \
     -F subject='Behat reporting - Error dumps' \
     -F text='Attached you can find the behat error dumps!' \
-    -F attachment=behat.tar.gz
+    -F attachment=@files/behat.tar.gz
 #fi
