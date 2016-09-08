@@ -6,6 +6,7 @@ set -e
 
   cd $TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/dumps
 
+# Debug feedback.
   pwd
   ls -al
 

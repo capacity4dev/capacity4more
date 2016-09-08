@@ -31,9 +31,6 @@ before_install:
 install:
   - date
 
-  # Install some server dependencies.
-  - $TRAVIS_BUILD_DIR/ci/bin/install_server.sh
-
 #  # Update node.js to 4.x
 #  - $TRAVIS_BUILD_DIR/ci/bin/install_nodejs.sh
 #
@@ -56,7 +53,7 @@ install:
 #  - $TRAVIS_BUILD_DIR/ci/bin/install_tika.sh "1.12"
 #
 #  # Configure Behat + Install dependencies.
-#  - $TRAVIS_BUILD_DIR/ci/bin/install_behat.sh
+  - $TRAVIS_BUILD_DIR/ci/bin/install_behat.sh
 #
 #  # Run headless browser environment, only needed for javascript behat tests.
 #  - $TRAVIS_BUILD_DIR/ci/bin/install_browser.sh
