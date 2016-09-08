@@ -71,11 +71,7 @@ function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id
     global $user;
     $user = user_load($user->uid);
 
-    $user_name = $user->name;
-    // Prevents errors if using admin user, who has no first name set.
-    if (!empty($user->c4m_first_name)) {
-      $user_name = $user->c4m_first_name[LANGUAGE_NONE][0]['value'];
-    }
+    $user_name = c4m_user_name($user);
 
     $form['name']['#default_value'] = $user_name;
     $form['name']['#disabled'] = TRUE;
