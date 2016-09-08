@@ -1346,3 +1346,15 @@ function c4m_user_form_alter(&$form, &$form_state, $form_id) {
   // Alter the title and description to mention email login option.
   $form['name']['#title'] = t('Username or e-mail address');
 }
+
+/**
+ * Generates a unique URL for a user to login with their password already set.
+ *
+ * @see user_registrationpassword_confirmation_url()
+ *
+ * Remove group purl from the accept invitation URL.
+ */
+function c4m_user_registrationpassword_confirmation_url($account) {
+  $timestamp = REQUEST_TIME;
+  return url("user/registrationpassword/$account->uid/$timestamp/" . user_pass_rehash($account->pass, $timestamp, $account->name, $account->uid), array('absolute' => TRUE, 'purl' => array('disabled' => TRUE)));
+}
