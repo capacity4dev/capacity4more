@@ -510,6 +510,19 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
+  $fields['node']['c4m_ds_group_notification_toggle'] = array(
+    'title' => t('Group notifications toggle'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('group|*'),
+    'file' => $path . '/includes/c4m_ds.theme.node.inc',
+    'function' => 'theme_c4m_ds_group_notification_toggle',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
   $fields['node']['c4m_ds_event_start_icon'] = array(
     'title' => t('Event Icon with date in it'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
@@ -603,6 +616,19 @@ function c4m_ds_ds_fields_info($entity_type) {
     'ui_limit' => array('*|*'),
     'file' => $path . '/includes/c4m_ds.theme.user.inc',
     'function' => 'theme_c4m_ds_user_membership_type',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['user']['c4m_ds_user_my_groups'] = array(
+    'title' => t('My groups'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_ds.theme.user.inc',
+    'function' => 'theme_c4m_ds_user_my_groups',
     'properties' => array(
       'formatters' => array(
         'default' => t('Default'),

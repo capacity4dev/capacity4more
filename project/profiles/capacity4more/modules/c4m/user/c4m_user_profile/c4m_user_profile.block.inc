@@ -298,12 +298,23 @@ function _c4m_user_profile_block_user_confirm_email() {
  */
 function _c4m_user_profile_block_user_my_profile_groups() {
   module_load_include('inc', 'c4m_features_homepage', 'plugins/content_types/my_groups/my_groups');
-  $account = menu_get_object('user');
-  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($account, array('group'));
 
   $block = array();
   $block['subject'] = '';
   $block['content'] = '';
+
+  // Gets the user of the profile being viewed.
+  $account = menu_get_object('user');
+
+  // Prevent the block to be rendered if the block is added by mistake in a non
+  // user profile page.
+  if (is_null($account)) {
+    return $block;
+  }
+
+  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($account, array('group'));
+
+  // Prevent the block to be rendered if the user has no groups.
   if (empty($groups)) {
     return $block;
   }

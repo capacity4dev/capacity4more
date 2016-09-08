@@ -503,6 +503,11 @@ function c4m_user_og_c4m_cta_block() {
     return;
   }
 
+  // Prevent from 'project' nodes to run this logic.
+  if ($group->type != 'group') {
+    return;
+  }
+
   $items = array();
 
   if ($item = c4m_user_og_c4m_join_cta($group)) {
@@ -515,6 +520,10 @@ function c4m_user_og_c4m_cta_block() {
 
   if ($item = c4m_user_og_group_actions_cta($group)) {
     $items['actions'] = $item;
+  }
+
+  if ($item = c4m_user_og_follow_group_cta($group)) {
+    $items['follow'] = $item;
   }
 
   // Add a link to the CTA block if the user is permitted to invite new members.
@@ -747,6 +756,19 @@ function c4m_user_og_c4m_leave_group_cta($group) {
       array('absolute' => TRUE)
     ),
   );
+}
+
+/**
+ * Sets the CTA to follow or unfollow group notifications.
+ */
+function c4m_user_og_follow_group_cta($group) {
+  $item = array(
+    '#theme' => 'c4m_group_text_cta',
+    '#icon' => 'fa-bell-o',
+    '#text' => flag_create_link('subscribe_c4m_follow_group', $group->nid),
+  );
+
+  return $item;
 }
 
 /**
