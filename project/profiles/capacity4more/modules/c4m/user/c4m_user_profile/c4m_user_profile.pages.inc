@@ -137,6 +137,7 @@ function c4m_user_profile_remove_account_form_submit($form, &$form_state) {
   $gids = c4m_og_get_user_group_ids_by_bundle(NULL, $account);
 
   if (!empty($gids)) {
+    // Remove all memberships of the user.
     foreach ($gids as $gid) {
       og_ungroup('node', $gid, 'user', $account->uid);
     }

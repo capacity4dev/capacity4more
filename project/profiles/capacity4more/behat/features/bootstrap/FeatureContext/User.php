@@ -23,11 +23,10 @@ trait User {
   }
 
   /**
-   * @When /^I visit the leave platform page of "([^"]*)"$/
+   * @When /^I visit the leave platform page of the current user$/
    */
-  public function iVisitTheLeavePlatformPageOf($username) {
-    $users = user_load_multiple(array(), array('name' => $username, 'status' => '1'));
-    $account = reset($users);
+  public function iVisitTheLeavePlatformPageOfTheCurrentUser() {
+    $account = user_load_by_name($this->user->name);
 
     $steps = array();
     $steps[] = new Step\When('I visit "/user/' . $account->uid . '/leave"');
@@ -39,20 +38,20 @@ trait User {
    * @Given /^I am logged in with a temporal user$/
    */
   public function iAmLoggedInWithATemporalUser() {
-    $account = new \stdClass();
-    $account->status = TRUE;
+    $username = 'temporaluser' . REQUEST_TIME;
+    $password = 'drupal';
 
-    $edit['name'] = 'temporaluser';
-    $edit['pass'] = 'drupal';
-    $edit['mail'] = 'temporaluser@example.com';
-    $edit['status'] = 1;
-    $edit['legal_accept'] = 1;
-
-    $account = user_save($account, $edit);
+    $temporal_user = (object) array(
+      'name' => $username,
+      'pass' => $password,
+      'mail' => "{$username}@example.com",
+      'legal_accept' => 1,
+    );
+    $this->getDriver()->userCreate($temporal_user);
 
     $this->user = new \stdClass();
-    $this->user->name = 'temporaluser';
-    $this->user->pass = 'drupal';
+    $this->user->name = $username;
+    $this->user->pass = $password;
     $this->login();
   }
 
