@@ -1576,7 +1576,6 @@ function c4m_message_format_promote(Message $message) {
   return flag_create_link('c4m_og_content_highlight', $node->nid);
 }
 
-
 /**
  * Implements hook_block_info().
  */
@@ -1592,7 +1591,7 @@ function c4m_message_block_info() {
 /**
  * Implements hook_block_view().
  */
-function c4m_message_block_view($delta = '', $message) {
+function c4m_message_block_view($message, $delta = '') {
   $block = array();
 
   if ($delta != 'c4m_group_activity_actions_block') {
