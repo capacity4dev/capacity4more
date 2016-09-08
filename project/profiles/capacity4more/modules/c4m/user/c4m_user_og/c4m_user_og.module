@@ -503,6 +503,11 @@ function c4m_user_og_c4m_cta_block() {
     return;
   }
 
+  // Prevent from 'project' nodes to run this logic.
+  if ($group->type != 'group') {
+    return;
+  }
+
   $items = array();
 
   if ($item = c4m_user_og_c4m_join_cta($group)) {
