@@ -1,6 +1,17 @@
 .activity-stream {
   .activities {
     border-bottom: 1px dashed $color-gray-light;
+    position: relative;
+
+    .block-action {
+      position: absolute;
+      right: 0;
+      top: 20px;
+
+      i {
+      transform: rotate(0deg);
+      }
+    }
 
     .row {
       margin: 0;
