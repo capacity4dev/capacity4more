@@ -4,7 +4,7 @@ set -e
 #if [ -d "$TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump" ]; then
   date
 
-  cd $TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump
+#  cd $TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump
 
   NOW=$(date +"%Y%m%d-%H%M%s")
   FILE="behat.$NOW.tar.gz"
