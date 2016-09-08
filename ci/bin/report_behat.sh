@@ -4,13 +4,13 @@ set -e
 #if [ -d "$TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/dumps" ]; then
   date
 
-  cd $TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/dumps
+#  cd $TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/dumps
 
 # Debug feedback.
   pwd
   ls -al
 
-  tar -czf behat.tar.gz *
+#  tar -czf behat.tar.gz *
 
   # Send archive as mail attachment.
   curl -s --user 'api:key-6b112d148c86bff26881f380a1488414' \
