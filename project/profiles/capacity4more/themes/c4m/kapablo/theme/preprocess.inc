@@ -16,13 +16,6 @@ function kapablo_preprocess_message(&$variables) {
   }
 
   $message = $variables['message'];
-  if (strpos($message->type, 'c4m_insert__') !== 0) {
-    // Activity stream should include only log messages about new content -
-    // who's name starts with 'c4m_insert__'.
-    // We have another type - email message notifications. Here, we sort out
-    // email messages, which shouldn't be processed for activity stream.
-    return;
-  }
 
   $variables['theme_hook_suggestions'][] = 'message__activity_stream';
   $variables['theme_hook_suggestions'][] = "message__{$message->type}__activity_stream";
