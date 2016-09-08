@@ -335,7 +335,7 @@ function c4m_og_user_is_member($group_type = NULL, $gid = NULL) {
  *
  * @param int $gid
  *   The ID of the group.
- * @param null $account
+ * @param object $account
  *   (optional) The object of the user to check - Default is the current user.
  *
  * @return bool
