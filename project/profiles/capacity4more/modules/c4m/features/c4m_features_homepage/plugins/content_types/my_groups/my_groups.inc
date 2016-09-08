@@ -130,10 +130,6 @@ function c4m_features_homepage_node_access_view_filter($node) {
  *   List of groups or NULL if the user has no groups.
  */
 function c4m_features_homepage_get_user_groups_grouped_by_membership($account = NULL) {
-  if (is_null($account)) {
-    global $user;
-    $account = $user;
-  }
   $groups = c4m_features_homepage_get_user_groups($account);
 
   $grouped_groups = array(
