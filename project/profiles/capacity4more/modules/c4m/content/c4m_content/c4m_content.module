@@ -14,14 +14,14 @@
 function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
   // Checks if the form's content type is being used as a message,
   // to add a send notification option.
-  if (in_array($form_state['node']->type, c4m_message_valid_node_types())) {
-    $form['actions']['send-notification'] = array(
+  if (in_array($form_state['node']->type, c4m_og_get_group_content_notification_types())) {
+    $form['send-notification'] = array(
       '#type' => 'checkbox',
       '#title' => t('Send Notification'),
       // Default to true only on new content.
-      '#value' => empty($form_state['node']->nid),
+      '#default_value' => empty($form_state['node']->nid),
       '#limit_validation_errors' => array(),
-      '#weight' => -1,
+      '#weight' => 100,
     );
   };
 
@@ -64,6 +64,23 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
   if ($is_unpublish && $is_og_group) {
     $form['actions']['draft']['#access'] = FALSE;
   }
+}
+
+/**
+ * Implements hook_node_submit().
+ *
+ * If 'Send Notification' checkbox exists, add a parameter with value to node.
+ */
+function c4m_content_node_submit(&$node, $form, $form_state) {
+  if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
+    return;
+  }
+
+  if (!isset($form_state['values']['send-notification'])) {
+    return;
+  }
+
+  $node->c4m_send_notification = $form_state['values']['send-notification'];
 }
 
 /**

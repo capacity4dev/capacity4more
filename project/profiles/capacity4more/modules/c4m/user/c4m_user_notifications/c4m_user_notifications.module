@@ -557,9 +557,15 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
 
   $allowed_og_content_types = c4m_og_get_group_content_notification_types();
   if (!in_array($node->type, $allowed_og_content_types)) {
-    // Node type does not require notification.
+    // OG content type does not require notification.
     return;
   }
+
+  if (!$node->c4m_send_notification) {
+    // 'Send Notification' checkbox was not checked.
+    return;
+  }
+
 
   // Load current node wrapper.
   $wrapper = entity_metadata_wrapper('node', $node);
