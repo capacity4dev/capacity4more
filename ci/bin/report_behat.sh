@@ -1,6 +1,11 @@
 #!/bin/sh
 set -e
 
+# No need for special config if the profile is not installed.
+if [ $INSTALL_PROFILE -ne 1 ]; then
+ exit 0;
+fi
+
 if [ -d "$TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump" ]; then
   date
 
