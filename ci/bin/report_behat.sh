@@ -9,9 +9,13 @@ if [ -d "$TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump" ]
   NOW=$(date +"%Y%m%d-%H%M%s")
   FILE="behat.$NOW.tar.gz"
 
-  echo "Hello worls" > text.txt
+  echo "Hello world" >> text.txt
+
+  cat text.txt
 
   tar -czf behat.$NOW.tar.gz text.txt
+
+  ls -al
 
   # Send archive as mail attachment.
   curl -s --user 'api:key-6b112d148c86bff26881f380a1488414' \
