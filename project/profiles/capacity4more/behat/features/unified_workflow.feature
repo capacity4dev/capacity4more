@@ -9,7 +9,7 @@ Feature: Unified Workflow
      Then  I should see "To join the Nobel Prize group you need to register with capacity4more by filling in your details below"
 
   @api
-  Scenario: As a visitor I can request a membership of a moderated group.
+  Scenario: As a banned user I am not allowed to join the group.
     Given I am logged in with a temporal user
     When  I visit the dashboard of group "Football Talk"
     And   I click "Join this group"
