@@ -345,6 +345,16 @@ function c4m_content_theme() {
     'path' => drupal_get_path('module', 'c4m_content') . '/includes',
   );
 
+  $theme['c4m_taxonomy_tree'] = array(
+    'template' => 'c4m_taxonomy_tree',
+    'path' => drupal_get_path('module', 'c4m_content') . '/templates',
+    'variables' => array(
+      'root' => '',
+      'local_tree' => '',
+      'class' => '',
+    ),
+  );
+
   return $theme;
 }
 
@@ -727,4 +737,195 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
   $star = '<i class="fa ' . $star_class[$highlight] . ' fa-2x" aria-hidden="true"></i>';
 
   return l($star, $url, $options);
+}
+
+/**
+ * Build a tree of a hierarchical taxonomy and theme it.
+ *
+ * @param array $items
+ *   The items in the tree.
+ * @param array $link_term_to_facet
+ *   The current vocabulary machine name, for linking to facet.
+ *
+ * @return string
+ *   The markup of the tree.
+ */
+function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) {
+  // Each item at $trees is an array, representing two level tree.
+  // First node is tree root (level 1), and all others, if exist,
+  // are children (level 2).
+  $trees = array();
+
+  // Stores positions of trees to be shifted right, as they present
+  // second and third level, at 3 level taxonomy hierarchy.
+  $shift_right_trees = array();
+
+  while (!empty($items)) {
+    // Extract first root item from $items array - level 1.
+    if (!($root = _c4m_content_taxonomy_extract_root_item($items))) {
+      // We get here in case of dis-attached terms - terms data
+      // is corrupted.
+      break;
+    }
+    // Extract all roots children from $items array - level 2.
+    $children = _c4m_content_taxonomy_extract_child_items($items, $root->tid);
+    // Items from $children array, that don't have children of their own.
+    $childless_children = $children;
+
+    // Handling 3-rd level (grand children), if exist.
+    $sub_trees = array();
+    foreach ($children as $child) {
+      // For every 2-nd level item (child), fetch it's children from $items.
+      $grand_children = _c4m_content_taxonomy_extract_child_items($items, $child->tid);
+      if (!empty($grand_children)) {
+        // If grand children exist (3-rd level items), remove the child
+        // from $childless_children array.
+        $index = array_search($child, $childless_children);
+        unset($childless_children[$index]);
+
+        // Add array item that represents 2 level tree, where first level item
+        // is a child, and 2-nd level items are grand children.
+        $sub_trees[] = array_merge(array($child), $grand_children);
+      }
+    }
+
+    // Add array item for 1-st & 2-nd level tree.
+    $root = empty($childless_children) ? array($root) : array_merge(array($root), $childless_children);
+    $trees[] = $root;
+
+    // For every sub tree created (2-nd & 3-rd level tree).
+    foreach ($sub_trees as $sub_tree) {
+      // Add it to to arrays tree, and store it's index, for shifting right.
+      $trees[] = $sub_tree;
+      $trees_keys = array_keys($trees);
+      $shift_right_trees[] = end($trees_keys);
+    }
+  }
+
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  $tree = '';
+  // Counting trees we theme, as some might need to be shifted right.
+  $tree_index = 0;
+
+  // Loop through all the taxonomy items and add them to the tree.
+  foreach ($trees as $taxonomy_tree) {
+    $local_tree = array();
+    foreach ($taxonomy_tree as $taxonomy) {
+      // If the link term was not provided, or it isn't the proper
+      // one for the current vocabulary, create a default link to
+      // the taxonomy term.
+      if (empty($link_term_to_facet['vocabulary_name']) || $taxonomy->vocabulary_machine_name != $link_term_to_facet['vocabulary_name']) {
+        $link = l($taxonomy->name, "/taxonomy/term/" . $taxonomy->tid);
+      }
+      else {
+        $options['query'] = array(
+          'f[0]' => $link_term_to_facet['vocabulary_name'] . ':' . $taxonomy->tid,
+        );
+
+        $link = l($taxonomy->name, 'groups', $options);
+      }
+
+      $local_tree[] = $link;
+    }
+
+    // If it's the first item on the local tree, it's the parent. We need
+    // to distinguish between the parent and its children because the
+    // parent needs to get a different style.
+    $root = array_shift($local_tree);
+
+    // Use the taxonomy tree theme to style the local tree.
+    $variables = array(
+      'root' => $root,
+      // Join the local_tree array to a string.
+      'local_tree' => implode(', ', $local_tree),
+    );
+
+    // Assign a dedicated class for trees that needs to be shifted right.
+    if (array_search($tree_index, $shift_right_trees) !== FALSE) {
+      $variables['class'] = 'shift-right';
+    }
+    $tree .= theme('c4m_taxonomy_tree', $variables);
+
+    $tree_index++;
+  }
+
+  $tag['element'] = array(
+    '#tag'   => 'div',
+    '#value' => $tree,
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * Helper function.
+ *
+ * Extracts all child taxonomy items from $items, and alter $items -
+ * subtracted all items that function returns.
+ *
+ * @param array $items
+ *   Taxonomies array, from which we extract all children of item with
+ *   ID == $parent_id. $items array is altered by function.
+ * @param int $parent_id
+ *   The ID of taxonomy item, which children should be extracted.
+ *
+ * @return array $result
+ *   All child items of input item with ID $parent_id.
+ */
+function _c4m_content_taxonomy_extract_child_items(&$items, $parent_id) {
+  $result = array();
+  $remaining = array();
+
+  foreach ($items as $item) {
+    // Get the parent of $item.
+    $parent = taxonomy_get_parents($item['tid']);
+    if (!empty($parent) && key($parent) == $parent_id) {
+      // If item's parent found, and it's ID equals to input $parent_id,
+      // add it's 'taxonomy_term' into $result array.
+      $result[] = $item['taxonomy_term'];
+    }
+    else {
+      // $remaining array holds all the items that are not children of
+      // item which ID == $parent_id.
+      $remaining[] = $item;
+    }
+  }
+  // Alter original $items array - subtract all the $result items.
+  $items = $remaining;
+
+  return $result;
+}
+
+/**
+ * Helper function.
+ *
+ * Extracts first taxonomy item that got no parents from $items array
+ * (alters the array), and returns it.
+ *
+ * @param array $items
+ *   Taxonomies array, from which we extract all children of item with
+ *   ID = $parent_id. $items array is altered by function.
+ *
+ * @return mixed $result
+ *   First taxonomy item at $items array, that got no parents.
+ *   FALSE, if all items got a parent.
+ */
+function _c4m_content_taxonomy_extract_root_item(&$items) {
+  foreach ($items as $key => $item) {
+    $parent = taxonomy_get_parents($item['tid']);
+    if (empty($parent)) {
+      // First item that got no parent => remove it from $items,
+      // and return it's term.
+      unset($items[$key]);
+
+      return $item['taxonomy_term'];
+    }
+  }
+
+  // All items got a parent.
+  return FALSE;
 }

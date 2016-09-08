@@ -503,6 +503,11 @@ function c4m_user_og_c4m_cta_block() {
     return;
   }
 
+  // Prevent from 'project' nodes to run this logic.
+  if ($group->type != 'group') {
+    return;
+  }
+
   $items = array();
 
   if ($item = c4m_user_og_c4m_join_cta($group)) {
@@ -677,7 +682,7 @@ function c4m_user_og_c4m_join_cta($group) {
 }
 
 /**
- * Sets the Invite members link CTA.
+ * Sets the Invite a member link CTA.
  *
  * Sets the Invite a member link CTA for any group member to invite other
  * existing users or new people to join the group.
@@ -1153,5 +1158,5 @@ function c4m_user_og_invite_access($group = NULL) {
     return FALSE;
   }
 
-  return og_is_member($group->type, $group->nid, 'user', $user);
+  return og_is_member('node', $group->nid, 'user', $user);
 }
