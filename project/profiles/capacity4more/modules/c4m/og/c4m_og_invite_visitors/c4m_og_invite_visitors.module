@@ -351,7 +351,7 @@ function c4m_og_invite_visitors_form_user_register_form_alter(&$form, &$form_sta
  *
  * Setting a message to the user and redirect back to the group.
  */
-function c4m_user_og_unified_workflow_register_submit($form, &$form_state) {
+function c4m_og_invite_visitors_register_submit($form, &$form_state) {
   if (!isset($_SESSION['c4m_og_invite_visitors_gid_join']) || !$gid = $_SESSION['c4m_og_invite_visitors_gid_join']) {
     return;
   }
@@ -367,21 +367,21 @@ function c4m_user_og_unified_workflow_register_submit($form, &$form_state) {
   drupal_set_message($message);
   $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
 
-  // Void the invitation token in the database after registration completes.
-  c4m_og_invite_visitors_void_invitation($form_state['user']->uid, $gid);
+  // Void the invitation token in the database after registration completes and
+  // add the new user ID.
+  c4m_og_invite_visitors_void_invitation($form_state['user']->uid, $form_state['user']->mail, $gid);
 
   // drupal_goto has a fallback to the 'destination' so we must remove it.
   unset($_GET['destination']);
 
-  // User is registered, and the variable is now stored in the database, the
-  // session variable should be destroyed.
-  unset($_SESSION['c4m_unified_workflow_gid_join']);
+  // User is registered, the session variable should be destroyed.
+  unset($_SESSION['c4m_og_invite_visitors_gid_join']);
 }
 
 /**
  * Invalidate invitation record in MySQL.
  */
-function c4m_og_invite_visitors_void_invitation() {
+function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
   // Format date for MySQL datetime field.
   $date = new DateTime();
   $created = $date->date;
@@ -391,10 +391,12 @@ function c4m_og_invite_visitors_void_invitation() {
   try {
     $num_updated = db_update('c4m_og_invite_visitors')
       ->fields(array(
-        'inv_expired' => 1,
+        'inv_uid' => $uid,
         'inv_updated' => $created,
+        'inv_expired' => 1,
         ))
-      ->condition('inv_token', $hash, '=')
+      ->condition('inv_email', $email, '=')
+      ->condition('inv_group_id', $gid, '=')
       ->execute();
   } catch (PDOException $e) {
     echo 'Error: ', $e->getMessage(), "\n";
