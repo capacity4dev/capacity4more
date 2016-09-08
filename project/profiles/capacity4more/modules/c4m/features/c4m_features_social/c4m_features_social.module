@@ -6,6 +6,18 @@
  */
 
 /**
+ * Implements hook_theme().
+ */
+function c4m_features_social_theme($existing, $type, $theme, $path) {
+  return array(
+    'c4m_features_social_actions_share' => array(
+      'variables' => array('json_data' => NULL),
+      'template'  => 'theme/c4m-features-social-actions-share',
+    ),
+  );
+}
+
+/**
  * Implements hook_c4m_content_actions_info().
  */
 function c4m_features_social_c4m_content_actions_info() {
@@ -19,6 +31,30 @@ function c4m_features_social_c4m_content_actions_info() {
 }
 
 /**
+ * Implements hook_block_info().
+ */
+function c4m_features_social_block_info() {
+  $blocks['social_share_links'] = array(
+    'info' => t('Social share links'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_features_social_block_view($delta = '') {
+  $block = array(
+    'subject' => '',
+    'content' => c4m_features_social_actions_share(),
+  );
+
+  return $block;
+}
+
+/**
  * Callback to show the enabled social media.
  *
  * @param object $node
@@ -27,47 +63,67 @@ function c4m_features_social_c4m_content_actions_info() {
  * @return string
  *    Rendered output of the share social media.
  */
-function c4m_features_social_actions_share($node) {
-  global $language;
-  // Limit the lang to 2 chars (because of pt-pt/Portuguese.
-  $lang = substr($language->language, 0, 2);
-
+function c4m_features_social_actions_share($node = NULL) {
   // Get the social settings.
   $social = variable_get('c4m_social_share', array());
-  $social = array_filter($social, 'c4m_features_social_social_enabled');
+  $social = array_keys($social);
 
-  $items = '';
-  foreach ($social as $media => $info) {
-    if ($media == 'c4m_print') {
-      $items .= '
-        <div id="c4m-print">
-          <div class="share_list share_style_link share_style_icon_24">
-            <a href="#" title="Print" onclick="window.print();return false;"></a>
-          </div>
-        </div>';
-    }
-    else {
-      $items .= '<div id="ec-widget-share-' . $media . '" class="ec-widget-share-item">
-            <!--{"to":"' . $media . '","text":"","size":24,"lang":"' . $lang . '"}//--></div>';
-    }
-  }
+  // Print is always required and is added separately as is not supported by
+  // the EC widget.
+  unset($social['c4m_print']);
 
-  $output = '<div class="social-actions-share"><h3>' . t('Share this page') . '</h3>' . $items . '</div>';
-  drupal_add_js('//ec.europa.eu/wel/socialbookmark/share.js', 'external');
-  return $output;
+  $social = array_filter($social, 'c4m_features_social_share_icons_filter');
+
+  $settings = array(
+    'service'   => 'sbkm',
+    'popup'     => FALSE,
+    'icon'      => TRUE,
+    'to'        => $social,
+    'counter'   => array('atleast' => 1),
+    'selection' => FALSE,
+  );
+  $data = json_encode($settings);
+
+  $output = array(
+    '#theme'     => 'c4m_features_social_actions_share',
+    '#json_data' => $data,
+  );
+  drupal_add_js('//europa.eu/webtools/load.js', 'external');
+
+  return render($output);
 }
 
 /**
- * Callback for array_filter.
+ * Callback for array filter.
  *
- * Check if a social media is enabled.
+ * Allows share icons depending on the group membership type.
  *
- * @param array $media
- *    A social media array with settings.
+ * @param string $icon
+ *   The key identificator of the share icon.
  *
  * @return bool
- *    The status of the social media (TRUE or FALSE).
+ *   If the icon is allowed in the group context or not.
  */
-function c4m_features_social_social_enabled(array $media) {
-  return $media['enabled'];
+function c4m_features_social_share_icons_filter($icon) {
+  $group = c4m_og_current_group();
+
+  // If group is FALSE means we are in a normal page and we display all links.
+  if ($group === FALSE) {
+    return TRUE;
+  }
+
+  $access_type = c4m_og_get_access_type($group);
+  $access_type = $access_type['type'];
+
+  switch ($access_type) {
+    case 'public':
+      // All share icons are allowed.
+      return TRUE;
+
+    case 'restricted':
+      return in_array($icon, array('e-mail', 'yammer'));
+
+    case 'private':
+      return in_array($icon, array('e-mail'));
+  }
 }

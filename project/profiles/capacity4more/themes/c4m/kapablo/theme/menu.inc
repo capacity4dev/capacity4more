@@ -45,7 +45,7 @@ function kapablo_menu_link(&$variables) {
 
     $variables['element'] = $element;
   }
-  
+
   if (isset($variables['element']['#title']) && $variables['element']['#title'] == t('Wiki')) {
     $element = $variables['element'];
     $sub_menu_wrapper = NULL;
