@@ -88,8 +88,12 @@ script:
 after_script:
   - date
 
+after_failure:
   # Zip dumps and mail
-  - $TRAVIS_BUILD_DIR/ci/bin/report_behat.sh
+  - $TRAVIS_BUILD_DIR/ci/bin/report_watchdog.sh
+
+  # Output watchdog entries (errors).
+  - $TRAVIS_BUILD_DIR/ci/bin/report_watchdog.sh
 
 notifications:
   slack: amplexor:7ssq8h2xLhkDGyJCw6rtmfOY
