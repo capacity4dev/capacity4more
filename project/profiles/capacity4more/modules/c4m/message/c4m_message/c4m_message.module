@@ -471,11 +471,6 @@ function c4m_message_load__c4m_insert__node__discussion(Message $message) {
     'pass message' => TRUE,
   );
 
-  $message->arguments['!promote'] = array(
-    'callback' => 'c4m_message_format_promote',
-    'pass message' => TRUE,
-  );
-
   $message->arguments['!icon'] = array(
     'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
@@ -557,11 +552,6 @@ function c4m_message_load__c4m_insert__node__wiki_page(Message $message) {
     'pass message' => TRUE,
   );
 
-  $message->arguments['!promote'] = array(
-    'callback' => 'c4m_message_format_promote',
-    'pass message' => TRUE,
-  );
-
   $message->arguments['!icon'] = array(
     'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
@@ -586,11 +576,6 @@ function c4m_message_load__c4m_insert__node__document(Message $message) {
 
   $message->arguments['@operation'] = array(
     'callback' => 'c4m_message_format_operation',
-    'pass message' => TRUE,
-  );
-
-  $message->arguments['!promote'] = array(
-    'callback' => 'c4m_message_format_promote',
     'pass message' => TRUE,
   );
 
@@ -713,11 +698,6 @@ function c4m_message_load__c4m_insert__node__event(Message $message) {
 
   $message->arguments['@operation'] = array(
     'callback' => 'c4m_message_format_operation',
-    'pass message' => TRUE,
-  );
-
-  $message->arguments['!promote'] = array(
-    'callback' => 'c4m_message_format_promote',
     'pass message' => TRUE,
   );
 
@@ -1612,14 +1592,22 @@ function c4m_message_block_info() {
 /**
  * Implements hook_block_view().
  */
-function c4m_message_block_view($delta = '') {
+function c4m_message_block_view($delta = '', $message) {
   $block = array();
 
   if ($delta != 'c4m_group_activity_actions_block') {
     return $block;
   }
 
-  dpm(1);
+  $tag['element'] = array(
+    '#tag' => 'div',
+    '#value' => c4m_message_format_promote($message),
+    '#attributes' => array(
+      'class' => array('block-action'),
+    ),
+  );
+
+  $block['content'] = theme_html_tag($tag);
 
   return $block;
 }
