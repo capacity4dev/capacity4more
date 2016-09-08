@@ -34,44 +34,44 @@ install:
   # Install some server dependencies.
   - $TRAVIS_BUILD_DIR/ci/bin/install_server.sh
 
-  # Update node.js to 4.x
-  - $TRAVIS_BUILD_DIR/ci/bin/install_nodejs.sh
-
-  # Install Apache + extra PHP packages.
-  - $TRAVIS_BUILD_DIR/ci/bin/install_apache.sh
-
-  # Install drush.
-  - $TRAVIS_BUILD_DIR/ci/bin/install_drush.sh
-
-  # Install Coder for code standard reviews.
-  - $TRAVIS_BUILD_DIR/ci/bin/install_coder.sh
-
-  # Install MySQL.
-  - $TRAVIS_BUILD_DIR/ci/bin/install_mysql.sh
-
-  # Install Apache Solr, pass the name of the SOLR core.
-  - $TRAVIS_BUILD_DIR/ci/bin/install_solr.sh capacity4more
-
-  # Install Tika, pass the desired version number.
-  - $TRAVIS_BUILD_DIR/ci/bin/install_tika.sh "1.12"
-
-  # Configure Behat + Install dependencies.
-  - $TRAVIS_BUILD_DIR/ci/bin/install_behat.sh
-
-  # Run headless browser environment, only needed for javascript behat tests.
-  - $TRAVIS_BUILD_DIR/ci/bin/install_browser.sh
-
-  # Install grunt & bower
-  - $TRAVIS_BUILD_DIR/ci/bin/install_taskrunners.sh
-
-  # Install capacity4more profile.
+#  # Update node.js to 4.x
+#  - $TRAVIS_BUILD_DIR/ci/bin/install_nodejs.sh
+#
+#  # Install Apache + extra PHP packages.
+#  - $TRAVIS_BUILD_DIR/ci/bin/install_apache.sh
+#
+#  # Install drush.
+#  - $TRAVIS_BUILD_DIR/ci/bin/install_drush.sh
+#
+#  # Install Coder for code standard reviews.
+#  - $TRAVIS_BUILD_DIR/ci/bin/install_coder.sh
+#
+#  # Install MySQL.
+#  - $TRAVIS_BUILD_DIR/ci/bin/install_mysql.sh
+#
+#  # Install Apache Solr, pass the name of the SOLR core.
+#  - $TRAVIS_BUILD_DIR/ci/bin/install_solr.sh capacity4more
+#
+#  # Install Tika, pass the desired version number.
+#  - $TRAVIS_BUILD_DIR/ci/bin/install_tika.sh "1.12"
+#
+#  # Configure Behat + Install dependencies.
+#  - $TRAVIS_BUILD_DIR/ci/bin/install_behat.sh
+#
+#  # Run headless browser environment, only needed for javascript behat tests.
+#  - $TRAVIS_BUILD_DIR/ci/bin/install_browser.sh
+#
+#  # Install grunt & bower
+#  - $TRAVIS_BUILD_DIR/ci/bin/install_taskrunners.sh
+#
+#  # Install capacity4more profile.
 #  - travis_wait 35 $TRAVIS_BUILD_DIR/ci/bin/install_drupal.sh
 
 before_script:
   - date
 
-  # Index content in Solr.
-  - $TRAVIS_BUILD_DIR/ci/bin/index_drupal.sh
+#  # Index content in Solr.
+#  - $TRAVIS_BUILD_DIR/ci/bin/index_drupal.sh
 
 script:
   - date
