@@ -1595,3 +1595,31 @@ function c4m_message_format_promote(Message $message) {
 
   return flag_create_link('c4m_og_content_highlight', $node->nid);
 }
+
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_message_block_info() {
+  $blocks['c4m_group_activity_actions_block'] = array(
+    'info' => t('C4M Group Activity Actions Block'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_message_block_view($delta = '') {
+  $block = array();
+
+  if ($delta != 'c4m_group_activity_actions_block') {
+    return $block;
+  }
+
+  dpm(1);
+
+  return $block;
+}
