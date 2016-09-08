@@ -101,8 +101,6 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group_type
   og_set_breadcrumb($group_type, $gid, array(l(t('Group'), "$group_type/$gid/group")));
   $group = entity_load_single($group_type, $gid);
   $label = entity_label($group_type, $group);
-  list(, , $bundle) = entity_extract_ids($group_type, $group);
-  $og_roles = array('') + og_roles($group_type, $bundle, $gid, FALSE, FALSE);
 
   $form['group_type'] = array(
     '#type' => 'value',
@@ -189,29 +187,33 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
   $group_type = $form_state['values']['group_type'];
   $gid = $form_state['values']['gid'];
   $invitee_emails = $form_state['invitee_emails'];
-  $og_roles = $form_state['values']['roles'];
-  $state = $form_state['values']['state'];
-  $field_name = $form_state['field_name'];
   $form_fields = array(
     'subject' => $form_state['values']['personal_subject'],
     'body' => $form_state['values']['personal_message'],
   );
   $entity_type = 'user';
-  $all_states = og_group_content_states();
-
-  // Add group membership form.
-  $values = array();
 
   foreach ($invitee_emails as $invitee_email) {
-    $had_account = FALSE;
-
     // Try to load the user by email and see if exists.
     if ($account = user_load_by_mail($invitee_email)) {
-      $had_account = TRUE;
-      $message = t('An email notification was sent to %address.', array('%address' => $invitee_email));
+      // Check if user is already assigned to the group.
+      // Any "state" (active, pending,... counts as existing).
+      if ($og_membership = og_get_membership($group_type, $gid, $entity_type, $account->uid)) {
+        // Load OG membership.
+        $message = t('%user is already a member of this group.', array('%user' => format_username($account)));
+      }
+      else {
+        // Save invitation to MySQL.
+        $invitation = c4m_og_invite_visitors_store_invitation($user->uid, $gid, $invitee_email);
+        $message = t('An email notification was sent to %address.', array('%address' => $invitee_email));
+        $field_name = key(og_get_group_audience_fields());
+
+        // Invoke the invite_user functionality.
+        og_invite_invite($group_type, $gid, $field_name, $account->uid);
+      }
     }
     else {
-      // Save invitation to MySQL
+      // Save invitation to MySQL.
       $invitation = c4m_og_invite_visitors_store_invitation($user->uid, $gid, $invitee_email);
       $message = t('An email notification was sent to %address.', array('%address' => $invitee_email));
 
@@ -219,22 +221,6 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
       drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, array(
         'form_fields' => $form_fields,
       ), variable_get('site_mail', NULL));
-    }
-
-    // Check if user is already assigned to the group.
-    // Any "state" (active, pending,... counts as existing).
-    if ($had_account && $og_membership = og_get_membership($group_type, $gid, $entity_type, $account->uid)) {
-      // Load OG membership.
-      $message = t('%user is already a member of this group.', array('%user' => format_username($account)));
-    }
-    else {
-      // Save invitation to MySQL
-      $invitation = c4m_og_invite_visitors_store_invitation($user->uid, $gid, $invitee_email);
-      $message = t('An email notification was sent to %address.', array('%address' => $invitee_email));
-      $field_name = key(og_get_group_audience_fields());
-
-      // Invoke the invite_user functionality.
-      og_invite_invite($group_type, $gid, $field_name, $user->uid);
     }
 
     // Print the message for each user.
@@ -252,7 +238,6 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
 function c4m_og_invite_visitors_mail($key, &$message, $params) {
   $language = $message['language'];
   $variables = array(
-    'user' => $params['account'],
     'message' => $message,
     'form_fields' => $params['form_fields'],
   );
@@ -322,7 +307,8 @@ function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
   $replacements['[user:public-profile-url]'] = $base_url . '/users/' . c4m_og_human_to_machine_readable($replacements['[user:full_name]']);
   $replacements['[group:node_type]'] = $group->type;
   $replacements['[group:node_title]'] = $group->title;
-  $replacements['[group:accept_invite_url]'] = '';//c4m_user_registrationpassword_confirmation_url($data['user']);
+  // TODO c4m_user_registrationpassword_confirmation_url($data['user']);.
+  $replacements['[group:accept_invite_url]'] = '';
   $replacements['[group:dashboard_url]'] = url('<front>', $url_options);
   $replacements['[personal:subject]'] = $data['form_fields']['subject'];
   $replacements['[personal:body]'] = $data['form_fields']['body'];
@@ -347,82 +333,29 @@ function c4m_og_invite_visitors_drupal_goto_alter(&$path, &$options, &$http_resp
 }
 
 /**
- * Create new user and send email.
+ * Creates a token hash to safely store in MySQL.
  *
- * @param string $invitee_email
- *    Email address for the new user.
- * @param array $form_fields
- *    The invite form fields including a personal subject and message.
- *
- * @return object $account
- *    A fully loaded user account.
- */
-function _c4m_og_invite_visitors_create_user($invitee_email, $form_fields) {
-  // This will generate a random password.
-  $password = user_password(8);
-
-  // Username from email.
-  $name = explode('@', $invitee_email);
-
-  // To prepare the email address as a username, trim any potential leading
-  // and trailing spaces and replace simple illegal characters with hyphens.
-  // @see user_validate_name().
-  $name = preg_replace('/[^\x{80}-\x{F7} a-z0-9@_.\'-]/i', '-', trim($name[0]));
-
-  // Check if user name is available and append _NUM if existing.
-  if (user_load_by_name($name)) {
-    $i = 1;
-    $new_name = $name . '_' . $i;
-    while (user_load_by_name($new_name)) {
-      $i++;
-      $new_name = $name . '_' . $i;
-    }
-    $name = $new_name;
-  }
-
-  // Set up the user fields.
-  $fields = array(
-    'name' => $name,
-    'mail' => $invitee_email,
-    'pass' => $password,
-    'init' => 'email address',
-    'roles' => array(
-      DRUPAL_AUTHENTICATED_RID => 'authenticated user',
-    ),
-  );
-
-  // Create new user function.
-  $account = user_save('', $fields);
-
-  // Send the e-mail through the user module.
-  drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, array(
-    'account' => $account,
-    'form_fields' => $form_fields,
-  ), variable_get('site_mail', NULL));
-
-  return $account;
-}
-
-/**
- * @param $email
- * @param $created
- * @return bool|string
+ * The token will be saved with the invitation and used to verify the identity
+ * of the accepting user.
  */
 function c4m_og_invite_visitors_generate_invitation_hash($email, $created) {
   // Generate a random token.
-  $hash = '?e=' . $email . '&rk=' . drupal_random_key() . '&ts=' . preg_replace('/[^0-9]/', '', $created);
-  return password_hash($hash, PASSWORD_DEFAULT);
+  $token = '?e=' . $email . '&rk=' . drupal_random_key() . '&ts=' . preg_replace('/[^0-9]/', '', $created);
+  return array(
+    'hash' => password_hash($token, PASSWORD_DEFAULT),
+    'token' => $token,
+  );
 }
 
 /**
- * Store invitation entry in the DB table c4m_og_invite_visitors
+ * Store invitation entry in the DB table c4m_og_invite_visitors.
  */
 function c4m_og_invite_visitors_store_invitation($inviter_id, $group_id, $email) {
   // Format date for MySQL datetime field.
   $date = new DateTime();
-  $created = $date->format('Y-m-d H:i:s');
+  $created = $date->date;
 
-  $token = c4m_og_invite_visitors_generate_invitation_hash($email, $created);
+  $hash = c4m_og_invite_visitors_generate_invitation_hash($email, $created);
 
   try {
     $invId = db_insert('c4m_og_invite_visitors')
@@ -431,14 +364,15 @@ function c4m_og_invite_visitors_store_invitation($inviter_id, $group_id, $email)
           'inv_inviter_id' => $inviter_id,
           'inv_group_id' => $group_id,
           'inv_email' => $email,
-          'inv_created' => $created, // REQUEST_TIME,
-          'inv_token' => $token,
+          'inv_created' => $created,
+          'inv_token' => $hash['hash'],
         )
+
       )
       ->execute();
   } catch (PDOException $e) {
     echo 'Error: ', $e->getMessage(), "\n";
   }
 
-  return [$hash, $invId];
+  return [$hash['token'], $invId];
 }
