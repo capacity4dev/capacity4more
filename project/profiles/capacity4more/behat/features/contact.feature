@@ -17,7 +17,7 @@ Feature: Contact
     And I press "Save configuration"
     Then I should see "The configuration options have been saved."
 
-  @javascript @c
+  @javascript
   Scenario: As a logged in user, I can see the wysiwyg when sending the contact form to an user.
     Given I am logged in as user "alfrednobel"
     When I go to user "mariecurie" contact form
