@@ -87,8 +87,106 @@ function _c4m_user_profile_block_user_menu() {
     ),
   );
 
-  $block['content'] = render($output);
+  $user_groups_top_bar = _c4m_user_profile_my_groups_top_bar();
+
+  $block['content'] = render($output) . $user_groups_top_bar;
   return $block;
+}
+
+/**
+ * Render the top bar menu for "my groups".
+ */
+function _c4m_user_profile_my_groups_top_bar() {
+  $user_groups = array();
+  foreach (c4m_user_og_get_groups() as $group) {
+    $node_view = node_view($group, 'block_list');
+    $user_groups[] = render($node_view);
+
+    // The max groups to display on the top bar is 3 by definition.
+    if (count($user_groups) == 3) {
+      $user_groups[] = _c4m_user_profile_render_explore_all_my_groups_link();
+      break;
+    }
+  }
+
+  // The user is not yet a member of any group.
+  if (!$user_groups) {
+    return '';
+  }
+
+  $user_profile = array(
+    '#theme'  => 'c4m_user_profile_groups_top_bar',
+    '#link'   => array(
+      'url'     => 'groups',
+      'options' => array(
+        'attributes'  => array(
+          'class'         => array('fullname-picture-wrapper', 'dropdown-toggle'),
+          'data-toggle'   => array('dropdown'),
+          'data-disabled' => TRUE,
+        ),
+        'query' => array(
+          'filter' => 'groups',
+        ),
+        'html' => TRUE,
+        'purl'  => array(
+          'disabled' => TRUE,
+        ),
+      ),
+    ),
+  );
+
+  $menu = array(
+    '#theme'      => 'item_list',
+    '#items'  => $user_groups,
+    '#attributes' => array(
+      'class' => array('dropdown-menu', 'user-groups'),
+    ),
+  );
+  $menu = render($menu);
+
+  $output = array(
+    '#theme'      => 'html_tag',
+    '#tag'        => 'div',
+    '#value'      => render($user_profile) . $menu,
+    '#attributes' => array(
+      'class' => array('right-menu-section', 'userbar-userprofile', 'dropdown'),
+    ),
+  );
+
+  return render($output);
+}
+
+/**
+ * Render a link to the groups overview page, filtered to the user groups.
+ *
+ * @return string
+ *   A link to the groups page (filtered).
+ */
+function _c4m_user_profile_render_explore_all_my_groups_link() {
+  $text = t('Explore all my groups');
+  $text .= '<i class="fa fa-angle-right" aria-hidden="true"></i>';
+
+  $options = array(
+    'html' => TRUE,
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
+    'query' => array(
+      'filter' => 'groups',
+    ),
+  );
+
+  $link = l($text, '/groups', $options);
+
+  $tag['element'] = array(
+    '#tag' => 'div',
+    '#value' => $link,
+    '#attributes' => array(
+      'class' => 'c4m-explore-all-my-groups-link',
+    ),
+  );
+
+  return theme_html_tag($tag);
 }
 
 /**
@@ -200,12 +298,23 @@ function _c4m_user_profile_block_user_confirm_email() {
  */
 function _c4m_user_profile_block_user_my_profile_groups() {
   module_load_include('inc', 'c4m_features_homepage', 'plugins/content_types/my_groups/my_groups');
-  $account = menu_get_object('user');
-  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($account, array('group'));
 
   $block = array();
   $block['subject'] = '';
   $block['content'] = '';
+
+  // Gets the user of the profile being viewed.
+  $account = menu_get_object('user');
+
+  // Prevent the block to be rendered if the block is added by mistake in a non
+  // user profile page.
+  if (is_null($account)) {
+    return $block;
+  }
+
+  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($account, array('group'));
+
+  // Prevent the block to be rendered if the user has no groups.
   if (empty($groups)) {
     return $block;
   }

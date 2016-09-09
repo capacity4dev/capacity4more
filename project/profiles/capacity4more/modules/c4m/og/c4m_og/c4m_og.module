@@ -331,6 +331,21 @@ function c4m_og_user_is_member($group_type = NULL, $gid = NULL) {
 }
 
 /**
+ * Check weather a user is banned (blocked) from a specific group.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ * @param object $account
+ *   (optional) The object of the user to check - Default is the current user.
+ *
+ * @return bool
+ *   TRUE weather the user is banned from the group.
+ */
+function c4m_og_user_is_banned($gid, $account = NULL) {
+  return og_is_member('node', $gid, 'user', $account, array(OG_STATE_BLOCKED));
+}
+
+/**
  * Fetches an og user role by its name and group bundle.
  *
  * @param string $role_name
@@ -383,6 +398,39 @@ function c4m_og_module_implements_alter(&$implementations, $hook) {
     $c4m_og = $implementations['c4m_og'];
     unset($implementations['c4m_og']);
     $implementations['c4m_og'] = $c4m_og;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Alter the Project creation form.
+ */
+function c4m_og_form_project_node_form_alter(&$form, &$form_state) {
+  _c4m_og_alter_group_form($form, $form_state);
+}
+
+/**
+ * Alters the add/edit form for group content types.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ * @param string $title
+ *   (optional) Title used for page title.
+ */
+function _c4m_og_alter_group_form(&$form, &$form_state, $title = '') {
+  // Form changes on creation.
+  if (!$form['nid']['#value']) {
+    // Change title.
+    drupal_set_title('Request ' . $title ? $title : $form['#bundle']);
+
+    // Change submit button on creation.
+    $form['actions']['submit']['#value'] = t('Request');
+
+    // Remove "Save as draft" button.
+    $form['actions']['draft']['#access'] = FALSE;
   }
 }
 
@@ -806,6 +854,14 @@ function c4m_og_feature_enabled($feature) {
     return FALSE;
   }
 
+  // Check if the feature should be enabled for the current group.
+  $group = og_context();
+  if ($group_type = c4m_og_get_group_type($group)) {
+    if (!in_array($group_type, $og_feature['group_types'])) {
+      return FALSE;
+    }
+  }
+
   // Check if the feature is enabled.
   $settings = variable_get('c4m_og_features_group', array());
   if (isset($settings[$feature]) && $settings[$feature] === $feature) {
@@ -1026,12 +1082,14 @@ function c4m_og_open_group_access_activate_pending_members($node) {
   $wrapper = entity_metadata_wrapper('node', $node);
   $original_wrapper = entity_metadata_wrapper('node', $node->original);
 
-  if (isset($wrapper->field_membership_open_request) && $wrapper->field_membership_open_request->value() != C4M_OG_OPEN_GROUP) {
+  if (isset($wrapper->field_membership_open_request) &&
+    $wrapper->field_membership_open_request->value() != C4M_OG_OPEN_GROUP) {
     // Group is not "Open".
     return;
   }
 
-  if (isset($wrapper->field_membership_open_request) && $original_wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
+  if (isset($original_wrapper->field_membership_open_request) &&
+    $original_wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
     // Previous group setting was not "Moderated".
     return;
   }
@@ -1278,6 +1336,16 @@ function c4m_og_get_user_administered_groups_count($uid, $node_type) {
 }
 
 /**
+ * Returns an array of OG content types that require notification.
+ *
+ * @return array
+ *   Notification types.
+ */
+function c4m_og_get_group_content_notification_types() {
+  return array('discussion', 'document', 'event', 'wiki_page');
+}
+
+/**
  * Compares the OG type (project|group) to input.
  *
  * @param string $type
@@ -1321,4 +1389,17 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
   $nids = $results->fetchAllKeyed();
 
   return $nids;
+}
+
+/**
+ * Convert a human readable title to a machine readable name.
+ *
+ * The function replaces anything other than letters, numbers and underscores
+ * in the $title string with the $delimiter and converts capital to lowercase.
+ *
+ * @return string.
+ *   The title in machine readable form.
+ */
+function c4m_og_human_to_machine_readable($title, $delimiter = '-') {
+  return preg_replace('@[^a-z0-9_]+@', $delimiter, strtolower(trim($title)));
 }
