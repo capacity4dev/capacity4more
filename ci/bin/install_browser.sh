@@ -30,6 +30,9 @@ wget http://selenium-release.storage.googleapis.com/2.53/selenium-server-standal
 java -jar selenium-server-standalone-2.53.0.jar -p 4444 &
 sleep 5
 
+# Install MinkDebugExtension
+composer require lakion/mink-debug-extension
+
 # Run phantomJs.
 phantomjs --webdriver=8643 > ~/phantomjs.log 2>&1 &
 
