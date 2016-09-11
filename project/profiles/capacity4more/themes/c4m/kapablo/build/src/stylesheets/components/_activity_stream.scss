@@ -34,6 +34,17 @@
   }
 }
 
+.pane-og-dashboard {
+  .flag-outer {
+    display: inline-block;
+    float: right;
+
+    i {
+      transform: rotate(0deg);
+    }
+  }
+}
+
 .view-mode-activity_global {
   .row {
     margin: 0;
