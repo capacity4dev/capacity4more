@@ -293,10 +293,19 @@ function c4m_features_og_group_dashboard_preprocess(&$variables, $hook) {
     return;
   }
 
+  $item = menu_get_item();
+
+  // Check that the flag is on a page, and not on the activity_group.
+  if (empty($item['page_arguments'][0]->nid)) {
+    return;
+  }
+
   // Add Promote/Depromote text depend on the flag action.
   if ($variables['action'] == 'flag') {
     $variables['link_text'] = $variables['link_text'] . ' Promote';
-  } else {
+  }
+  else {
+    $variables['link_text'] = str_replace("<div>x</div>", "", $variables['link_text']);
     $variables['link_text'] = $variables['link_text'] . ' Depromote';
   }
 }
