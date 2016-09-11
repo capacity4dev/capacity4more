@@ -22,7 +22,66 @@ function c4m_og_invite_visitors_menu() {
     'access arguments' => array('invite visitors', 1, 2),
   );
 
+  $items['user/registration/joingroup/%node'] = array(
+    'title' => 'Join Capacity 4 More',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'c4m_og_invite_visitors_process_acceptance',
+    'page arguments' => array(3),
+    'access callback' => 'node_access',
+    'access arguments' => array('view', 3),
+  );
+
   return $items;
+}
+
+function c4m_og_invite_visitors_validate_query_string(array $vars) {
+  $query_vars = array();
+  foreach ($vars as $var) {
+    if (empty($_GET[$var])){
+      return FALSE;
+    }
+
+    $query_vars[$var] = trim($_GET[$var]);
+  }
+
+  return $query_vars;
+}
+
+function c4m_og_invite_visitors_process_acceptance($group) {
+  // No group defined. go to homepage.
+  if (!$group) {
+    drupal_goto('<front>');
+    return;
+  }
+
+  // Missing qurey string data (email, key or timestamp). Go to group dashboard.
+  if (!$query_vars = c4m_og_invite_visitors_validate_query_string(['e', 'rk', 'ts'])) {
+    drupal_goto($group->purl);
+  }
+  extract($query_vars);
+
+  // Validate token and email
+  $result = db_select('c4m_og_invite_visitors', 'oiv')
+    ->fields('oiv', array('inv_token'))
+    ->condition('inv_group_id', $group->nid)
+    ->condition('inv_email', $e)
+    ->range(0, 1)
+    ->execute()
+    ->fetchAssoc();
+
+  if ($result) {
+    drupal_set_message(t('Exists'));
+  }
+
+  // Validation failed. Go to group dashboard.
+  if (TRUE) {
+    drupal_goto($group->purl);
+  }
+
+  // All is well, go to registration form.
+  // Set group to join in session variable and redirect to /user/register.
+  $_SESSION['c4m_og_invite_visitors_gid_join'] = $group->nid;
+  drupal_goto('/user/register');
 }
 
 /**
@@ -218,7 +277,7 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
       $message = t('An email notification was sent to %address.', array('%address' => $invitee_email));
 
       // Send the e-mail.
-      drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, array(
+      drupal_mail('c4m_og_invite_users', 'invite_group_member', $invitee_email, NULL, array(
         'form_fields' => $form_fields,
       ), variable_get('site_mail', NULL));
     }
@@ -302,13 +361,12 @@ function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
       'id' => $group->nid,
     ),
   );
-
+  c4m_user_registrationpassword_confirmation_url($data['user']);
   $replacements['[user:full_name]'] = c4m_user_name($user);
   $replacements['[user:public-profile-url]'] = $base_url . '/users/' . c4m_og_human_to_machine_readable($replacements['[user:full_name]']);
   $replacements['[group:node_type]'] = $group->type;
   $replacements['[group:node_title]'] = $group->title;
-  // TODO c4m_user_registrationpassword_confirmation_url($data['user']);.
-  $replacements['[group:accept_invite_url]'] = '';
+  $replacements['[group:accept_invite_url]'] = url('user/registration/joingroup/' . $group->nid);
   $replacements['[group:dashboard_url]'] = url('<front>', $url_options);
   $replacements['[personal:subject]'] = $data['form_fields']['subject'];
   $replacements['[personal:body]'] = $data['form_fields']['body'];
