@@ -264,15 +264,20 @@ function c4m_features_og_group_dashboard_block_info() {
 function c4m_features_og_group_dashboard_block_view($delta = '') {
   $block = array();
 
-  if ($delta != 'c4m_cta_block') {
-    return $block;
-  }
-
   $block['content'] = module_invoke_all('c4m_cta_block');
 
   return $block;
 }
 
+/**
+ * Returns an array of possible flag suffixes, used for notification.
+ *
+ * @return array
+ *   Notification flags suffixes.
+ */
+function c4m_features_og_group_dashboard_get_notification_flags_suffixes() {
+  return array('group', 'node', 'comment', 'term');
+}
 
 /**
  * Implements hook_preprocess().
