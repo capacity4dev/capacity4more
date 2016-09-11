@@ -24,7 +24,10 @@ function theme_c4m_ds_submitted_by_and_on(array $field) {
   $entity = $field['entity'];
   $user = user_load($entity->uid);
   $name = c4m_user_name($user);
-  $options = array('attributes' => array('class' => array('user-name')));
+  $options = array(
+    'attributes' => array('class' => array('user-name')),
+    'purl' => array('disabled' => TRUE),
+  );
 
   // If user is not anonymous, set link on user name.
   if ($entity->uid > 0) {
@@ -778,4 +781,27 @@ function theme_c4m_ds_content_shared_to(array $field) {
       'args' => array($entity->nid),
     )
   );
+}
+
+/**
+ * Themes toggle group notifications link
+ *
+ * @param array $field
+ *  The field definition.
+ *
+ * @return \Html|void
+ *   Rendered html for field.
+ */
+function theme_c4m_ds_group_notification_toggle(array $field) {
+  global $user;
+
+  if (!($group = c4m_og_current_group())) {
+    return '';
+  }
+
+  if (!og_is_member('node', $group->nid)) {
+    return '';
+  }
+
+  return c4m_content_group_create_toggle_notification_link($user, $group);
 }
