@@ -34,51 +34,99 @@ function c4m_og_invite_visitors_menu() {
   return $items;
 }
 
+/**
+ * Checks for missing or empty query string variables.
+ */
 function c4m_og_invite_visitors_validate_query_string(array $vars) {
   $query_vars = array();
   foreach ($vars as $var) {
-    if (empty($_GET[$var])){
+    if (empty($_GET[$var])) {
       return FALSE;
     }
 
-    $query_vars[$var] = trim($_GET[$var]);
+    $query_vars[] = trim($_GET[$var]);
   }
 
   return $query_vars;
 }
 
+/**
+ * Validate the accept invitation url before displaying the registration form.
+ */
 function c4m_og_invite_visitors_process_acceptance($group) {
+  global $user;
+
   // No group defined. go to homepage.
   if (!$group) {
     drupal_goto('<front>');
-    return;
   }
 
   // Missing qurey string data (email, key or timestamp). Go to group dashboard.
-  if (!$query_vars = c4m_og_invite_visitors_validate_query_string(['e', 'rk', 'ts'])) {
+  $query_vars = c4m_og_invite_visitors_validate_query_string(array(
+    'e',
+    'rk',
+    'ts',
+  ));
+  if (!$query_vars) {
     drupal_goto($group->purl);
   }
-  extract($query_vars);
+  list($email, $random_key, $timestamp) = $query_vars;
 
-  // Validate token and email
+  // Validate token and email.
   $result = db_select('c4m_og_invite_visitors', 'oiv')
-    ->fields('oiv', array('inv_token'))
+    ->fields('oiv', array(
+      'inv_group_id',
+      'inv_email',
+      'inv_created',
+      'inv_token',
+    ))
     ->condition('inv_group_id', $group->nid)
-    ->condition('inv_email', $e)
+    ->condition('inv_email', $email)
     ->range(0, 1)
     ->execute()
     ->fetchAssoc();
 
-  if ($result) {
-    drupal_set_message(t('Exists'));
-  }
-
-  // Validation failed. Go to group dashboard.
-  if (TRUE) {
+  // No invitation matches the request. Go to group dashboard.
+  if (!$result) {
     drupal_goto($group->purl);
   }
 
-  // All is well, go to registration form.
+  // Data in the invitation does not match the requested data.
+  if ($email != $result['inv_email'] || $group->nid != $result['inv_group_id'] || $timestamp != preg_replace('/[^0-9]/', '', $result['inv_created'])) {
+    drupal_goto($group->purl);
+  }
+
+  $token = '?e=' . $email . '&rk=' . $random_key . '&ts=' . $timestamp;
+
+  // Validation failed. Go to group dashboard.
+  if (!password_verify($token, $result['inv_token'])) {
+    drupal_goto($group->purl);
+  }
+
+  // A user is already logged in.
+  if ($user->uid) {
+    // If the logged in email is the same as the invitation email, add to group.
+    // Otherwise, display an error.
+    if ($user->mail == $email) {
+      // Check if the user is a member already. Add if not.
+      if (og_is_member($group->nid)) {
+        drupal_goto($group->purl);
+      }
+      else {
+        og_group($group->nid, array(
+          "entity type" => "user",
+          "entity" => $user,
+          "membership type" => OG_MEMBERSHIP_TYPE_DEFAULT,
+        ));
+      }
+    }
+    else {
+      drupal_set_message('Another user is logged in. Please log out and try again.');
+      drupal_goto($group->purl);
+    }
+  }
+
+  // Everything is Kosher, proceed to the registration form.
   // Set group to join in session variable and redirect to /user/register.
   $_SESSION['c4m_og_invite_visitors_gid_join'] = $group->nid;
   drupal_goto('/user/register');
@@ -277,8 +325,9 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
       $message = t('An email notification was sent to %address.', array('%address' => $invitee_email));
 
       // Send the e-mail.
-      drupal_mail('c4m_og_invite_users', 'invite_group_member', $invitee_email, NULL, array(
+      drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, array(
         'form_fields' => $form_fields,
+        'invitation' => $invitation,
       ), variable_get('site_mail', NULL));
     }
 
@@ -299,6 +348,7 @@ function c4m_og_invite_visitors_mail($key, &$message, $params) {
   $variables = array(
     'message' => $message,
     'form_fields' => $params['form_fields'],
+    'invitation' => $params['invitation'],
   );
   $message['subject'] .= _c4m_og_invite_visitors_mail_text($key . '_subject', $language, $variables);
   $message['body'][] = _c4m_og_invite_visitors_mail_text($key . '_body', $language, $variables);
@@ -361,32 +411,15 @@ function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
       'id' => $group->nid,
     ),
   );
-  c4m_user_registrationpassword_confirmation_url($data['user']);
   $replacements['[user:full_name]'] = c4m_user_name($user);
   $replacements['[user:public-profile-url]'] = $base_url . '/users/' . c4m_og_human_to_machine_readable($replacements['[user:full_name]']);
   $replacements['[group:node_type]'] = $group->type;
   $replacements['[group:node_title]'] = $group->title;
-  $replacements['[group:accept_invite_url]'] = url('user/registration/joingroup/' . $group->nid);
+  $replacements['[group:accept_invite_url]'] = url('user/registration/joingroup/' . $group->nid . $data['invitation']['token']);
   $replacements['[group:dashboard_url]'] = url('<front>', $url_options);
   $replacements['[personal:subject]'] = $data['form_fields']['subject'];
   $replacements['[personal:body]'] = $data['form_fields']['body'];
   $replacements['[site:name]'] = variable_get('site_name', 'Capacity 4 More');
-}
-
-/**
- * Implements hook_drupal_goto_alter().
- *
- * When new users accepts an invitation, redirect them to edit their profile so
- * they can enter their name and choose a password.
- */
-function c4m_og_invite_visitors_drupal_goto_alter(&$path, &$options, &$http_response_code) {
-  global $user;
-
-  if ($path != 'user/' . $user->uid || !empty($user->c4m_first_name) || !empty($user->c4m_last_name)) {
-    return;
-  }
-
-  $path .= '/edit';
 }
 
 /**
@@ -418,12 +451,19 @@ function c4m_og_invite_visitors_register_submit($form, &$form_state) {
   // Removing the original message of the user_register_form.
   drupal_get_messages('status');
   $message = t('Welcome to group @group_title.', array(
-      '@group_title' => $group->title,
-    )
+    '@group_title' => $group->title,
+  )
   );
 
   drupal_set_message($message);
   $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
+
+  // Add the user to the group.
+  og_group($gid, array(
+    "entity type" => "user",
+    "entity" => $form_state['user'],
+    "membership type" => OG_MEMBERSHIP_TYPE_DEFAULT,
+  ));
 
   // Void the invitation token in the database after registration completes and
   // add the new user ID.
@@ -442,7 +482,7 @@ function c4m_og_invite_visitors_register_submit($form, &$form_state) {
 function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
   // Format date for MySQL datetime field.
   $date = new DateTime();
-  $created = $date->date;
+  $updated = $date->format('Y-m-d H:i:s');
 
   $hash = $_SESSION['c4m_og_invite_visitors_gid_join'];
 
@@ -450,19 +490,19 @@ function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
     $num_updated = db_update('c4m_og_invite_visitors')
       ->fields(array(
         'inv_uid' => $uid,
-        'inv_updated' => $created,
+        'inv_updated' => $updated,
         'inv_expired' => 1,
-        ))
+      ))
       ->condition('inv_email', $email, '=')
       ->condition('inv_group_id', $gid, '=')
       ->execute();
-  } catch (PDOException $e) {
+  }
+  catch (PDOException $e) {
     echo 'Error: ', $e->getMessage(), "\n";
   }
 
   return $num_updated;
 }
-
 
 /**
  * Creates a token hash to safely store in MySQL.
@@ -485,7 +525,7 @@ function c4m_og_invite_visitors_generate_invitation_hash($email, $created) {
 function c4m_og_invite_visitors_store_invitation($inviter_id, $group_id, $email) {
   // Format date for MySQL datetime field.
   $date = new DateTime();
-  $created = $date->date;
+  $created = $date->format('Y-m-d H:i:s');
 
   $hash = c4m_og_invite_visitors_generate_invitation_hash($email, $created);
 
@@ -497,11 +537,15 @@ function c4m_og_invite_visitors_store_invitation($inviter_id, $group_id, $email)
         'inv_email' => $email,
         'inv_created' => $created,
         'inv_token' => $hash['hash'],
-        ))
+      ))
       ->execute();
-  } catch (PDOException $e) {
+  }
+  catch (PDOException $e) {
     echo 'Error: ', $e->getMessage(), "\n";
   }
 
-  return [$hash['token'], $invId];
+  return array(
+    'token' => $hash['token'],
+    'invId' => $invId,
+  );
 }
