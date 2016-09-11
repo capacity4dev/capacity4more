@@ -69,7 +69,9 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Implements hook_node_submit().
  *
- * If 'Send Notification' checkbox exists, add a parameter with value to node.
+ * If 'Send Notification' checkbox exists, add a parameter with value  to the
+ * node in order to determine if we should send the notification on the
+ * hook_node_update / insert.
  */
 function c4m_content_node_submit(&$node, $form, $form_state) {
   if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
