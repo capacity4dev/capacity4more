@@ -542,20 +542,41 @@ function c4m_og_remove_pluggable_node_access(
 /**
  * Implements hook_og_user_access_alter().
  *
- * Allow subscribing based on field_membership_open_request value.
+ * 1. Remove group administrator, 'administer group' and 'update group'
+ * privileges, when deleting / editing OG group.
+ * This is done to prevent og_node_access() to allow group administrator from
+ * deleting / editing group, disregarding it's c4m_og_status, as administrator
+ * can't delete a Pending group.
+ * Instead, we fall back to the node_access table, where access logic is
+ * properly implemented.
+ * 2. Allow subscribing, based on field_membership_open_request value.
  */
 function c4m_og_og_user_access_alter(&$perm, $context) {
-  if ($context['string'] != 'subscribe without approval') {
-    return;
-  }
-
   if ($context['group_type'] != 'node') {
     return;
   }
+
+  // Return early, if not under OG context, with type 'group'.
   $group = $context['group'];
   if ($group->type != 'group') {
     return;
   }
+
+  $path = explode('/', current_path());
+  $path_elements = count($path);
+
+  if ($path_elements == 3 && $path[0] == 'node' && ($path[2] == 'edit' || $path[2] == 'delete')) {
+    // If under 'node/%node/edit' or 'node/%node/delete' urls
+    // (editing / deleting group), deny privileges that are verified by
+    // og_node_access().
+    $perm['administer group'] = FALSE;
+    $perm['update group'] = FALSE;
+  }
+
+  if ($context['string'] != 'subscribe without approval') {
+    return;
+  }
+
   $wrapper = entity_metadata_wrapper('node', $group);
 
   $perm['subscribe without approval'] = $wrapper->field_membership_open_request->value();

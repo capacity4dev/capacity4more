@@ -416,9 +416,11 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
       if ($account->uid == $node->uid) {
         // Group owner.
         $grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_' . $gid] = array(
+          C4M_CONTENT_GROUP_STATUS_VIEW_PENDING,
           C4M_CONTENT_GROUP_STATUS_VIEW_DRAFT,
           C4M_CONTENT_GROUP_STATUS_VIEW_PUBLISHED,
           C4M_CONTENT_GROUP_STATUS_VIEW_ARCHIVED,
+          C4M_CONTENT_GROUP_STATUS_UPDATE_PENDING,
           C4M_CONTENT_GROUP_STATUS_UPDATE_DRAFT,
           C4M_CONTENT_GROUP_STATUS_UPDATE_PUBLISHED,
           C4M_CONTENT_GROUP_STATUS_UPDATE_ARCHIVED,
