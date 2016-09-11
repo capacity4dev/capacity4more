@@ -8,9 +8,7 @@
       right: 0;
       top: 20px;
 
-      i {
-        transform: rotate(0deg);
-      }
+      @include align_flag;
     }
 
     .row {
@@ -35,13 +33,11 @@
 }
 
 .pane-og-dashboard {
-  .flag-outer {
+  .flag-c4m-og-content-highlight {
     display: inline-block;
     float: right;
 
-    i {
-      transform: rotate(0deg);
-    }
+    @include align_flag;
   }
 }
 
