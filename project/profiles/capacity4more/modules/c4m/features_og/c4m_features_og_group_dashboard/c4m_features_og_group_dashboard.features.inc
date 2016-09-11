@@ -40,7 +40,7 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
     'flag_short' => '<i class="fa fa-thumb-tack" aria-hidden="true"></i>',
     'flag_long' => '',
     'flag_message' => '',
-    'unflag_short' => '<i class="fa fa-thumb-tack" aria-hidden="true"></i>',
+    'unflag_short' => '<div>x</div><i class="fa fa-thumb-tack" aria-hidden="true"></i>',
     'unflag_long' => '',
     'unflag_message' => '',
     'unflag_denied_text' => '',
