@@ -314,7 +314,7 @@ function c4m_content_document_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'activity_global' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
           'text' => 'Download [file:name]',
@@ -323,7 +323,7 @@ function c4m_content_document_field_default_field_instances() {
         'weight' => 3,
       ),
       'activity_group' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
           'text' => 'Download [file:name]',
@@ -347,7 +347,7 @@ function c4m_content_document_field_default_field_instances() {
         'weight' => 32,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
           'text' => 'Download [file:name]',
@@ -362,7 +362,7 @@ function c4m_content_document_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
           'text' => 'Download [file:name]',
@@ -371,7 +371,7 @@ function c4m_content_document_field_default_field_instances() {
         'weight' => 4,
       ),
       'teaser_group' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
           'text' => 'Download [file:name]',
