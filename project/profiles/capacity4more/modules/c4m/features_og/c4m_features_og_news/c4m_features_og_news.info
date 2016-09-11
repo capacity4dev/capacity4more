@@ -1,5 +1,5 @@
 name = News
-description = Provides the News functionality within Groups
+description = Provides the News functionality within Projects.
 core = 7.x
 package = capacity4more - Features Group
 dependencies[] = c4m_content_news

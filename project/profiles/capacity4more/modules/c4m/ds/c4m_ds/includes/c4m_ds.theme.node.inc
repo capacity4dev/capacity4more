@@ -782,3 +782,26 @@ function theme_c4m_ds_content_shared_to(array $field) {
     )
   );
 }
+
+/**
+ * Themes toggle group notifications link
+ *
+ * @param array $field
+ *  The field definition.
+ *
+ * @return \Html|void
+ *   Rendered html for field.
+ */
+function theme_c4m_ds_group_notification_toggle(array $field) {
+  global $user;
+
+  if (!($group = c4m_og_current_group())) {
+    return '';
+  }
+
+  if (!og_is_member('node', $group->nid)) {
+    return '';
+  }
+
+  return c4m_content_group_create_toggle_notification_link($user, $group);
+}
