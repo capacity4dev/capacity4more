@@ -120,11 +120,13 @@ function c4m_og_invite_visitors_process_acceptance($group) {
         drupal_goto($group->purl);
       }
       else {
-        og_group($group->nid, array(
-          "entity type" => "user",
-          "entity" => $user,
-          "membership type" => OG_MEMBERSHIP_TYPE_DEFAULT,
-        ));
+        // Add the user to the group.
+        $values = array(
+          'entity_type' => 'user',
+          'entity' => $user,
+          'state' => OG_STATE_ACTIVE,
+        );
+        og_group('node', $group, $values);
       }
     }
     else {
@@ -466,11 +468,13 @@ function c4m_og_invite_visitors_register_submit($form, &$form_state) {
   $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
 
   // Add the user to the group.
-  og_group($gid, array(
-    "entity type" => "user",
-    "entity" => $form_state['user'],
-    "membership type" => OG_MEMBERSHIP_TYPE_DEFAULT,
-  ));
+  $values = array(
+    'entity_type' => 'user',
+    'entity' => $form_state['user'],
+    'state' => OG_STATE_ACTIVE,
+  );
+
+  og_group('node', $group, $values);
 
   // Void the invitation token in the database after registration completes and
   // add the new user ID.
