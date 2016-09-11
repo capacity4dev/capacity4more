@@ -79,6 +79,7 @@ function c4m_og_invite_visitors_process_acceptance($group) {
       'inv_email',
       'inv_created',
       'inv_token',
+      'inv_expired',
     ))
     ->condition('inv_group_id', $group->nid)
     ->condition('inv_email', $email)
@@ -100,6 +101,12 @@ function c4m_og_invite_visitors_process_acceptance($group) {
 
   // Validation failed. Go to group dashboard.
   if (!password_verify($token, $result['inv_token'])) {
+    drupal_goto($group->purl);
+  }
+
+  // An invitation that had been processed before.
+  if ($result['inv_expired']) {
+    drupal_set_message(t('This invitation link has expired.'), 'warning');
     drupal_goto($group->purl);
   }
 
