@@ -272,3 +272,26 @@ function c4m_features_og_group_dashboard_block_view($delta = '') {
 
   return $block;
 }
+
+
+/**
+ * Implements hook_preprocess().
+ *
+ * Add Promote/Depromote text to the flag, depend on the flag action.
+ */
+function c4m_features_og_group_dashboard_preprocess(&$variables, $hook) {
+  if ($variables['theme_hook_original'] != 'flag') {
+    return;
+  }
+
+  if ($variables['flag_name_css'] != 'c4m-og-content-highlight') {
+    return;
+  }
+
+  // Add Promote/Depromote text depend on the flag action.
+  if ($variables['action'] == 'flag') {
+    $variables['link_text'] = $variables['link_text'] . ' Promote';
+  } else {
+    $variables['link_text'] = $variables['link_text'] . ' Depromote';
+  }
+}
