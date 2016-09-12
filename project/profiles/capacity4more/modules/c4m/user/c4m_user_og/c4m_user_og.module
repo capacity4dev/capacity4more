@@ -51,6 +51,10 @@ function c4m_user_og_has_group_permission($permission, $group = NULL) {
  *    The user role.
  */
 function c4m_user_og_get_role_in_group($user, $group) {
+  if (user_is_anonymous()) {
+    return NULL;
+  }
+
   // Is user the owner of the group node?
   if ((int) $user->uid === (int) $group->uid) {
     return 'owner';
@@ -498,8 +502,21 @@ function c4m_user_og_theme() {
  * Implements hook_c4m_cta_block().
  */
 function c4m_user_og_c4m_cta_block() {
+  global $user;
+
   // Only add items if there is a group.
   if (!$group = c4m_og_current_group()) {
+    return;
+  }
+
+  // Prevent from 'project' nodes to run this logic.
+  if ($group->type != 'group') {
+    return;
+  }
+
+  // A blocked (banned) user should not be able to see the CTA block.
+  $user_role = c4m_user_og_get_role_in_group($user, $group);
+  if ($user_role == 'blocked') {
     return;
   }
 
@@ -677,7 +694,7 @@ function c4m_user_og_c4m_join_cta($group) {
 }
 
 /**
- * Sets the Invite members link CTA.
+ * Sets the Invite a member link CTA.
  *
  * Sets the Invite a member link CTA for any group member to invite other
  * existing users or new people to join the group.
@@ -833,12 +850,35 @@ function c4m_user_og_menu() {
     'type' => MENU_CALLBACK,
     'page callback' => 'c4m_user_og_unified_workflow',
     'page arguments' => array(2),
-    'access callback' => 'node_access',
-    'access arguments' => array('view', 2),
+    'access callback' => 'c4m_user_og_unified_workflow_access',
+    'access arguments' => array(2),
     'file' => 'c4m_user_og.page.inc',
   );
 
   return $items;
+}
+
+/**
+ * Access callback.
+ *
+ * Checks if user is banned from the requested group.
+ *
+ * @param object $group
+ *   The group object.
+ *
+ * @return bool
+ *   Access.
+ */
+function c4m_user_og_unified_workflow_access($group) {
+  if (!og_context('node', $group)) {
+    return FALSE;
+  }
+
+  if (c4m_og_user_is_banned($group->nid)) {
+    return FALSE;
+  }
+
+  return node_access('view', $group);
 }
 
 /**
@@ -1153,5 +1193,5 @@ function c4m_user_og_invite_access($group = NULL) {
     return FALSE;
   }
 
-  return og_is_member($group->type, $group->nid, 'user', $user);
+  return og_is_member('node', $group->nid, 'user', $user);
 }
