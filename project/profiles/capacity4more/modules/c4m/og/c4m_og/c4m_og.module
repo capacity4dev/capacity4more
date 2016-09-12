@@ -338,6 +338,21 @@ function c4m_og_user_is_member($group_type = NULL, $gid = NULL) {
 }
 
 /**
+ * Check weather a user is banned (blocked) from a specific group.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ * @param object $account
+ *   (optional) The object of the user to check - Default is the current user.
+ *
+ * @return bool
+ *   TRUE weather the user is banned from the group.
+ */
+function c4m_og_user_is_banned($gid, $account = NULL) {
+  return og_is_member('node', $gid, 'user', $account, array(OG_STATE_BLOCKED));
+}
+
+/**
  * Fetches an og user role by its name and group bundle.
  *
  * @param string $role_name
@@ -1447,4 +1462,17 @@ function c4m_og_edit_author_autocomplete($string = '') {
 
   // Convert to object to prevent drupal bug, see http://drupal.org/node/175361
   drupal_json_output((object) $user);
+}
+
+/**
+ * Convert a human readable title to a machine readable name.
+ *
+ * The function replaces anything other than letters, numbers and underscores
+ * in the $title string with the $delimiter and converts capital to lowercase.
+ *
+ * @return string.
+ *   The title in machine readable form.
+ */
+function c4m_og_human_to_machine_readable($title, $delimiter = '-') {
+  return preg_replace('@[^a-z0-9_]+@', $delimiter, strtolower(trim($title)));
 }
