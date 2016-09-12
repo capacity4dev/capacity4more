@@ -168,6 +168,9 @@ trait Debug {
       file_put_contents($fileName . '.png', $screenshot);
       $messages[] = sprintf('Screenshot saved to: %s', $fileName . '.png');
     }
+    elseif ($dump_screenshot) {
+      var_dump($driver);
+    }
 
     // Output the messages on screen.
     $this->printDebug(implode("\n", $messages));
