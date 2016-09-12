@@ -96,14 +96,14 @@ trait Group {
     // Open edit window for the category.
     $page = $this->getSession()->getPage();
     $editLink = $page->find('xpath', '//a[text()="' . $oldCategoryName . '"]/following::a[text()="Edit"][1]');
-    if (null === $editLink) {
+    if (NULL === $editLink) {
       throw new \Exception('The edit link for the category ' . $oldCategoryName . ' not found');
     }
     $editLink->click();
 
     // Change name of the category.
     $termName = $page->find('xpath', '//*[@id="edit-name"]');
-    if (null === $termName) {
+    if (NULL === $termName) {
       throw new \Exception('The "Term name" input not found');
     }
     $termName->setValue($newCategoryName);
@@ -119,7 +119,7 @@ trait Group {
     // Find the category in specific type.
     $page = $this->getSession()->getPage();
     $category = $page->find('xpath', '//h3[text()="' . $typeName . '"]/following::a[text()="' . $categoryName . '"]');
-    if (null === $category) {
+    if (NULL === $category) {
       throw new \Exception('The category ' . $categoryName . ' not exist in the type ' . $typeName);
     }
   }
@@ -131,14 +131,14 @@ trait Group {
     // Open edit window for the category.
     $page = $this->getSession()->getPage();
     $editLink = $page->find('xpath', '//a[text()="' . $categoryName . '"]/following::a[text()="Edit"][1]');
-    if (null === $editLink) {
+    if (NULL === $editLink) {
       throw new \Exception('The edit link for the category ' . $categoryName . ' not found');
     }
     $editLink->click();
 
     // Change type of category to new type by change radio button.
     $radioType = $page->find('xpath', '//label[contains(.,"' . $typeName . '")]/input');
-    if (null === $radioType) {
+    if (NULL === $radioType) {
       throw new \Exception('The radio button with text ' . $typeName . ' not found');
     }
     $radioType->click();
@@ -168,14 +168,14 @@ trait Group {
     // Open edit window for the category type.
     $page = $this->getSession()->getPage();
     $editLink = $page->find('xpath', '//h3[text()="' . $oldCategoryType . '"]/following::a[text()="Edit"][1]');
-    if (null === $editLink) {
+    if (NULL === $editLink) {
       throw new \Exception('The edit link for the category ' . $oldCategoryType . ' not found');
     }
     $editLink->click();
 
     // Change name of category type.
     $termName = $page->find('xpath', '//*[@id="edit-name"]');
-    if (null === $termName) {
+    if (NULL === $termName) {
       throw new \Exception('The "Term name" input not found');
     }
     $termName->setValue($newCategoryType);
@@ -191,7 +191,7 @@ trait Group {
     // Open delete window for the category.
     $page = $this->getSession()->getPage();
     $editLink = $page->find('xpath', '//h3[text()="' . $categoryType . '"]/following::a[text()="' . $category . '"]/following::a[text()="Delete"][1]');
-    if (null === $editLink) {
+    if (NULL === $editLink) {
       throw new \Exception('The delete link for the category ' . $category . ' not found');
     }
     $editLink->click();
@@ -207,7 +207,7 @@ trait Group {
     // Find the category in specific type.
     $page = $this->getSession()->getPage();
     $category = $page->find('xpath', '//h3[text()="' . $categoryType . '"]/following::a[text()="' . $category . '"]');
-    if (null !== $category) {
+    if (NULL !== $category) {
       throw new \Exception('The category ' . $category . ' exist in the type ' . $categoryType);
     }
   }
@@ -219,7 +219,7 @@ trait Group {
     // Open delete window for category type.
     $page = $this->getSession()->getPage();
     $editLink = $page->find('xpath', '//h3[text()="' . $categoryType . '"]/following::a[text()="Delete"][1]');
-    if (null === $editLink) {
+    if (NULL === $editLink) {
       throw new \Exception('The delete link for the category type ' . $categoryType . ' not found');
     }
     $editLink->click();
@@ -261,14 +261,14 @@ trait Group {
    */
   public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE, $organizations = array()) {
     $steps = array();
-    $steps[] = new Step\When('I am logged in as user "'. $username .'"');
+    $steps[] = new Step\When('I am logged in as user "' . $username . '"');
     $steps[] = new Step\When('I visit "node/add/group"');
 
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
     if ($access == 'Restricted') {
       if ($domains) {
-        $steps[] = new Step\When('I fill in "edit-restricted-by-domain" with "' . $domains .'"');
+        $steps[] = new Step\When('I fill in "edit-restricted-by-domain" with "' . $domains . '"');
       }
       if ($organizations) {
         foreach ($organizations as $organization) {
@@ -305,7 +305,7 @@ trait Group {
 
     $steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Draft"');
     $steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Published"');
-    $steps[] = new Step\When('I am logged in as user "'. $username .'"');
+    $steps[] = new Step\When('I am logged in as user "' . $username . '"');
     return $steps;
   }
 
@@ -378,7 +378,7 @@ trait Group {
   public function iShouldSeeTheGroupDetails() {
     $page = $this->getSession()->getPage();
     $el = $page->find('css', 'div.pane-c4m-content-group');
-    if ($el === null) {
+    if ($el === NULL) {
       throw new \Exception('The Group Details pane is not visible.');
     }
 
@@ -399,7 +399,7 @@ trait Group {
   public function iShouldSeeTheGroupHeaderWithBanner() {
     $page = $this->getSession()->getPage();
     $el = $page->find('css', '#block-c4m-content-group-header-name-banner-group');
-    if ($el === null) {
+    if ($el === NULL) {
       throw new \Exception('The Group Header block is not visible.');
     }
 
@@ -420,7 +420,7 @@ trait Group {
       'css',
       '.pane-c4m-overview-og-members .view-id-c4m_overview_og_members.view-display-id-block_1'
     );
-    if ($el === null) {
+    if ($el === NULL) {
       throw new \Exception('The Recent Members block is not visible.');
     }
 
@@ -430,7 +430,7 @@ trait Group {
        .pane-c4m-overview-og-members .view-id-c4m_overview_og_members.view-display-id-block_1 img.user-image'
     );
 
-    if ($subel === null) {
+    if ($subel === NULL) {
       throw new \Exception('No users found in the Recent Members block.');
     }
   }
@@ -518,7 +518,10 @@ trait Group {
     $group = $this->loadGroupByTitleAndType($group_title, 'group');
     $uri = $this->createUriWithGroupContext($group, '<front>');
 
-    $nodes = entity_load('node', FALSE, array('type' => $bundle, 'title' => $title));
+    $nodes = entity_load('node', FALSE, array(
+      'type' => $bundle,
+      'title' => $title
+    ));
     $node = reset($nodes);
     $nid = $node->nid;
 
@@ -662,7 +665,7 @@ trait Group {
 
     $steps = array();
     $steps[] = new Step\When('I fill in "name-' . $parent_id . '" with "' . $term_name . '"');
-    $steps[] = new Step\When('I press "'. $parent_id .'"');
+    $steps[] = new Step\When('I press "' . $parent_id . '"');
 
     return $steps;
   }
@@ -697,5 +700,16 @@ trait Group {
     $page = $this->getSession()->getPage();
     $el = $page->find('xpath', '//a[contains(text(),\'Order items alphabetically\') and not(ancestor::*[contains(@style,\'visibility: hidden\')])]');
     $el->click();
+  }
+
+  /**
+   * @When /^I send an invitation to "([^"]*)"$/
+   */
+  public function iSendAnInvitationTo($email) {
+    $steps = array();
+    $steps[] = new Step\When('I fill in "invitee" with "' . $email . '"');
+    $steps[] = new Step\When('I press "Invite user(s)"');
+
+    return $steps;
   }
 }

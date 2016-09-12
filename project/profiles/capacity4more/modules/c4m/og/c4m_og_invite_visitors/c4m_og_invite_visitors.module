@@ -12,9 +12,9 @@
  */
 function c4m_og_invite_visitors_menu() {
   $items = array();
-  $items['group/%/%/admin/members/invite'] = array(
+  $items['group/%/%/admin/people/invite-visitors'] = array(
+    'title' => 'Invite Visitors',
     'page callback' => 'drupal_get_form',
-    'title' => 'Invite visitors',
     'page arguments' => array('_c4m_og_invite_visitors_new_users_form', 1, 2),
     'type' => MENU_LOCAL_TASK,
     'weight' => 4,
@@ -63,9 +63,9 @@ function c4m_og_invite_visitors_process_acceptance($group) {
 
   // Missing qurey string data (email, key or timestamp). Go to group dashboard.
   $query_vars = c4m_og_invite_visitors_validate_query_string(array(
-    'e',
-    'rk',
-    'ts',
+    'email',
+    'random-key',
+    'timestamp',
   ));
   if (!$query_vars) {
     drupal_goto($group->purl);
@@ -97,7 +97,7 @@ function c4m_og_invite_visitors_process_acceptance($group) {
     drupal_goto($group->purl);
   }
 
-  $token = '?e=' . $email . '&rk=' . $random_key . '&ts=' . $timestamp;
+  $token = '?email=' . $email . '&random-key=' . $random_key . '&timestamp=' . $timestamp;
 
   // Validation failed. Go to group dashboard.
   if (!password_verify($token, $result['inv_token'])) {
@@ -116,7 +116,7 @@ function c4m_og_invite_visitors_process_acceptance($group) {
     // Otherwise, display an error.
     if ($user->mail == $email) {
       // Check if the user is a member already. Add if not.
-      if (og_is_member($group->nid)) {
+      if (og_is_member('node', $group->nid, 'user', $user)) {
         drupal_goto($group->purl);
       }
       else {
@@ -153,7 +153,7 @@ function c4m_og_invite_visitors_og_ui_get_group_admin($group_type, $gid) {
     $items['c4m_og_invite_visitors'] = array(
       'title' => t('Invite visitors'),
       'description' => t('Create new users and add them as group members.'),
-      'href' => 'admin/members/invite',
+      'href' => 'admin/people/invite-visitors',
     );
   }
 
@@ -189,7 +189,7 @@ function c4m_og_invite_visitors_user_access($perm, $group_type, $gid) {
     return FALSE;
   }
 
-  return og_is_member($group->type, $group->nid, 'user', $user);
+  return og_is_member('node', $gid, 'user', $user);
 }
 
 /**
@@ -321,7 +321,9 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
       else {
         // Save invitation to MySQL.
         $invitation = c4m_og_invite_visitors_store_invitation($user->uid, $gid, $invitee_email);
-        $message = t('An email notification was sent to %address.', array('%address' => $invitee_email));
+        $message = $invitation
+          ? t('An email notification was sent to %address.', array('%address' => $invitee_email))
+          : t('An error occurred inviting %address to the group.', array('%address' => $invitee_email));
         $field_name = key(og_get_group_audience_fields());
 
         // Invoke the invite_user functionality.
@@ -331,7 +333,9 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
     else {
       // Save invitation to MySQL.
       $invitation = c4m_og_invite_visitors_store_invitation($user->uid, $gid, $invitee_email);
-      $message = t('An email notification was sent to %address.', array('%address' => $invitee_email));
+      $message = $invitation
+        ? t('An email notification was sent to %address.', array('%address' => $invitee_email))
+        : t('An error occurred inviting %address to the group.', array('%address' => $invitee_email));
 
       // Send the e-mail.
       drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, array(
@@ -523,7 +527,7 @@ function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
  */
 function c4m_og_invite_visitors_generate_invitation_hash($email, $created) {
   // Generate a random token.
-  $token = '?e=' . $email . '&rk=' . drupal_random_key() . '&ts=' . preg_replace('/[^0-9]/', '', $created);
+  $token = '?email=' . $email . '&random-key=' . drupal_random_key() . '&timestamp=' . preg_replace('/[^0-9]/', '', $created);
   return array(
     'hash' => password_hash($token, PASSWORD_DEFAULT),
     'token' => $token,
@@ -553,6 +557,7 @@ function c4m_og_invite_visitors_store_invitation($inviter_id, $group_id, $email)
   }
   catch (PDOException $e) {
     echo 'Error: ', $e->getMessage(), "\n";
+    return FALSE;
   }
 
   return array(

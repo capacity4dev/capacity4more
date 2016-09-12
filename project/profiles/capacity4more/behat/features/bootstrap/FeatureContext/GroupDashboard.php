@@ -23,6 +23,21 @@ trait GroupDashboard {
   }
 
   /**
+   * @When /^I join the open group "([^"]*)"$/
+   */
+  public function iJoinTheOpenGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $element = $this->getSession()->getPage()->find('css', 'a[href="http://cfm.local/' . $group->purl . '/group/join/' . $group->nid . '"]');
+
+    $steps = array();
+    if ($element) {
+      $steps[] = new Step\When("I click \"Join this group\"");
+    }
+
+    return $steps;
+  }
+
+  /**
    * @Then /^I should see the group dashboard (with|without) quick post form$/
    */
   public function iShouldSeeTheGroupDashboard($quick_post_show) {
