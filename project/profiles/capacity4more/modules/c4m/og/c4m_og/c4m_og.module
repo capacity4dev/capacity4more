@@ -152,6 +152,7 @@ function c4m_og_menu() {
     'access arguments' => array(1, 2),
     'title' => 'Replace Owner',
   );
+
   $items['project/%/%/admin/owner'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_og_replace_owner_build_form', 1, 2),
@@ -160,7 +161,234 @@ function c4m_og_menu() {
     'title' => 'Replace Owner',
   );
 
+  // Menu item for approve membership request url.
+  $items['group/%/%/admin/membership-approve/%user/%og_membership/%/%'] = array(
+    'page callback' => 'c4m_og_control_membership',
+    'page arguments' => array('approve', 2, 5, 6, 7, 8),
+    'access callback' => 'c4m_og_control_membership_access',
+    'access arguments' => array(1, 2),
+  );
+
+  // Menu item for reject membership request url.
+  $items['group/%/%/admin/membership-reject/%user/%og_membership/%/%'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_og_reject_membership_request', 2, 5, 6, 7, 8),
+    'access callback' => 'c4m_og_control_membership_access',
+    'access arguments' => array(1, 2),
+  );
+
   return $items;
+}
+
+/**
+ * Function initializes form with input values, and returns confirm form.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ * @param int $gid
+ *   Group ID.
+ * @param object $account
+ *   Administrator user that performs the action.
+ * @param object $membership
+ *   OG membership on which action is performed.
+ * @param int $timestamp
+ *   Timestamp of the moment action was requested.
+ * @param string $hashed_pass
+ *   Validation for executing user.
+ *
+ * @return object
+ *   Confirm reject form.
+ */
+function c4m_og_reject_membership_request($form, &$form_state, $gid, $account, $membership, $timestamp = 0, $hashed_pass = '') {
+  $form['reject_membership_request_message'] = array(
+    '#type' => 'textarea',
+  );
+
+  // Add group membership form.
+  $form_state['membership'] = $membership;
+  field_attach_form('membership', $membership, $form, $form_state);
+  $form_state['account'] = $account;
+  field_attach_form('account', $account, $form, $form_state);
+
+  $form['gid'] = array(
+    '#type' => 'value',
+    '#value' => $gid,
+  );
+
+  $form['timestamp'] = array(
+    '#type' => 'value',
+    '#value' => $timestamp,
+  );
+
+  $form['hashed_pass'] = array(
+    '#type' => 'value',
+    '#value' => $hashed_pass,
+  );
+
+  return confirm_form($form, t('Please enter reject reason:'), 'group/node/' . $gid . '/admin/people', '', t('Reject'), t('Cancel'));
+}
+
+/**
+ * Submits reject membership request form.
+ *
+ * Gets inputs from form, and activates c4m_og_control_membership() function
+ * with action = 'reject'.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ */
+function c4m_og_reject_membership_request_submit($form, &$form_state) {
+  $membership = $form_state['membership'];
+  $account = $form_state['account'];
+  $gid = $form_state['values']['gid'];
+  $timestamp = $form_state['values']['timestamp'];
+  $hashed_pass = $form_state['values']['hashed_pass'];
+
+  c4m_og_control_membership('reject', $gid, $account, $membership, $timestamp, $hashed_pass);
+}
+
+/**
+ * Function builds and returns a link for membership request control.
+ *
+ * Includes a token for auto login.
+ *
+ * @param object $account
+ *   Account which performs the action.
+ * @param object $membership
+ *   Membership for which action is performed.
+ * @param string $action
+ *   Approve / Reject.
+ *
+ * @return string
+ *   A link for membership request control.
+ */
+function c4m_og_autologin_control_membership_link($account, $membership, $action) {
+  $timestamp = REQUEST_TIME;
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  $path = 'group/node/' . $membership->gid . '/admin/membership-' . $action . '/' . $account->uid . '/'
+    . $membership->id . '/' . $timestamp . '/' . user_pass_rehash($account->pass, $timestamp, $account->login, $account->uid);
+
+  return url($path, $options);
+}
+
+/**
+ * Forwards the page to group's People page.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ */
+function c4m_og_route_to_group_people($form, &$form_state) {
+  $gid = $form_state['values']['gid'];
+
+  drupal_goto('group/node/' . $gid . '/admin/people');
+}
+
+/**
+ * Function approves / rejects membership request, submitted by user.
+ *
+ * Verifies auto login token, and if valid, logs in the administrator and
+ * performs required state change to membership request. If not valid, forwards
+ * to login page.
+ *
+ * @param string $action
+ *   Approve / Reject.
+ * @param int $gid
+ *   Group ID.
+ * @param object $account
+ *   Administrator user that performs the action.
+ * @param object $membership
+ *   OG membership on which action is performed.
+ * @param int $timestamp
+ *   Timestamp of the moment action was requested.
+ * @param string $hashed_pass
+ *   Validation for executing user.
+ */
+function c4m_og_control_membership($action, $gid, $account, $membership, $timestamp = 0, $hashed_pass = '') {
+  global $user;
+  // Time out in seconds, until auto login token expires.
+  // 24 hours = 86400 seconds.
+  $timeout = variable_get('autologin_timeout', 86400);
+  $current = REQUEST_TIME;
+
+  // If not logged in, or logged in as different user.
+  if (user_is_anonymous() || $account->uid != $user->uid) {
+    $timestamp_valid = $timestamp <= $current && $timestamp >= $account->login;
+    $timeout_occurred = $current - $timestamp > $timeout;
+    $rehashed_pass = user_pass_rehash($account->pass, $timestamp, $account->login, $account->uid);
+
+    // Validate expiration and hashed password/login.
+    if ($timestamp_valid && !$timeout_occurred && $account->uid && $hashed_pass == $rehashed_pass) {
+      // If link data validated, perform automatic login.
+      $user = $account;
+      drupal_session_regenerate();
+    }
+    else {
+      // If not valid, forward to login page, with forwarding to membership
+      // edit page, after successful login.
+      drupal_set_message('Auto login token expired', 'warning');
+      $query = array('destination' => 'group/node/' . $gid . '/admin/people/edit-membership/' . $membership->id);
+      drupal_goto('user/login', array('query' => $query));
+    }
+  }
+
+  // Approve/Reject membership request.
+  if ($membership->state == OG_STATE_PENDING) {
+    $membership->state = $action == 'approve' ? OG_STATE_ACTIVE : OG_STATE_BLOCKED;
+    og_membership_save($membership);
+    $message = $action == 'approve' ? t('Membership approved') : t('Membership rejected');
+    drupal_set_message($message);
+  }
+  else {
+    $message = '';
+    if ($membership->state == OG_STATE_ACTIVE) {
+      $message = t('This request was already approved');
+    }
+    elseif ($membership->state == OG_STATE_BLOCKED) {
+      $message = t('This request was already rejected');
+    }
+
+    drupal_set_message($message, 'warning');
+  }
+
+  if ($action == 'approve') {
+    // For 'reject' route will be performed by form['#submit'].
+    drupal_goto('group/node/' . $gid . '/admin/people');
+  }
+}
+
+/**
+ * Menu access; Check if entity is a group.
+ */
+function c4m_og_control_membership_access($group_type, $gid) {
+  $group = entity_load_single($group_type, $gid);
+  if (!$group || !og_is_group($group_type, $group)) {
+    return FALSE;
+  }
+
+  // Extract the group's bundle.
+  list(, , $bundle) = entity_extract_ids($group_type, $group);
+  // Verify 'node' bundle has roles.
+  if (!og_roles($group_type, $bundle, $gid)) {
+    return FALSE;
+  }
+
+  $entity_info = entity_get_info($group_type);
+  if (!$group_type || !$entity_info) {
+    // Not a valid entity type.
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /**
@@ -331,6 +559,21 @@ function c4m_og_user_is_member($group_type = NULL, $gid = NULL) {
 }
 
 /**
+ * Check weather a user is banned (blocked) from a specific group.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ * @param object $account
+ *   (optional) The object of the user to check - Default is the current user.
+ *
+ * @return bool
+ *   TRUE weather the user is banned from the group.
+ */
+function c4m_og_user_is_banned($gid, $account = NULL) {
+  return og_is_member('node', $gid, 'user', $account, array(OG_STATE_BLOCKED));
+}
+
+/**
  * Fetches an og user role by its name and group bundle.
  *
  * @param string $role_name
@@ -357,22 +600,50 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
 }
 
 /**
- * Fetch all group admins.
+ * Fetch all group admins ids.
  *
  * @param int $gid
  *   The ID of the group.
+ * @param bool $verify_owner_added
+ *   Verifies that group owner id is returned, even if group owner does not
+ *   have 'administrator member' role.
  *
  * @return array
- *   An array of all group admins.
+ *   An array of all group admins ids.
  */
-function c4m_og_get_group_admins($gid) {
+function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE) {
   $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
   $admins = c4m_og_get_users_by_roles($gid, array($group_admin_role->rid));
   foreach ($admins as &$admin) {
     $admin = $admin->uid;
   }
 
-  return user_load_multiple($admins);
+  if ($verify_owner_added) {
+    $group = node_load($gid);
+    if ($group && og_is_group('node', $group)) {
+      if (!in_array($group->uid, $admins)) {
+        $admins[] = $group->uid;
+      }
+    }
+  }
+
+  return $admins;
+}
+
+/**
+ * Fetch all group admins.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ * @param bool $verify_owner_added
+ *   Verifies that group owner is returned, even if group owner does not
+ *   have 'administrator member' role.
+ *
+ * @return array
+ *   An array of all group admins.
+ */
+function c4m_og_get_group_admins($gid, $verify_owner_added = FALSE) {
+  return user_load_multiple(c4m_og_get_group_admins_ids($gid, $verify_owner_added));
 }
 
 /**
@@ -383,6 +654,39 @@ function c4m_og_module_implements_alter(&$implementations, $hook) {
     $c4m_og = $implementations['c4m_og'];
     unset($implementations['c4m_og']);
     $implementations['c4m_og'] = $c4m_og;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Alter the Project creation form.
+ */
+function c4m_og_form_project_node_form_alter(&$form, &$form_state) {
+  _c4m_og_alter_group_form($form, $form_state);
+}
+
+/**
+ * Alters the add/edit form for group content types.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ * @param string $title
+ *   (optional) Title used for page title.
+ */
+function _c4m_og_alter_group_form(&$form, &$form_state, $title = '') {
+  // Form changes on creation.
+  if (!$form['nid']['#value']) {
+    // Change title.
+    drupal_set_title('Request ' . $title ? $title : $form['#bundle']);
+
+    // Change submit button on creation.
+    $form['actions']['submit']['#value'] = t('Request');
+
+    // Remove "Save as draft" button.
+    $form['actions']['draft']['#access'] = FALSE;
   }
 }
 
@@ -806,6 +1110,14 @@ function c4m_og_feature_enabled($feature) {
     return FALSE;
   }
 
+  // Check if the feature should be enabled for the current group.
+  $group = og_context();
+  if ($group_type = c4m_og_get_group_type($group)) {
+    if (!in_array($group_type, $og_feature['group_types'])) {
+      return FALSE;
+    }
+  }
+
   // Check if the feature is enabled.
   $settings = variable_get('c4m_og_features_group', array());
   if (isset($settings[$feature]) && $settings[$feature] === $feature) {
@@ -1026,12 +1338,14 @@ function c4m_og_open_group_access_activate_pending_members($node) {
   $wrapper = entity_metadata_wrapper('node', $node);
   $original_wrapper = entity_metadata_wrapper('node', $node->original);
 
-  if (isset($wrapper->field_membership_open_request) && $wrapper->field_membership_open_request->value() != C4M_OG_OPEN_GROUP) {
+  if (isset($wrapper->field_membership_open_request) &&
+    $wrapper->field_membership_open_request->value() != C4M_OG_OPEN_GROUP) {
     // Group is not "Open".
     return;
   }
 
-  if (isset($wrapper->field_membership_open_request) && $original_wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
+  if (isset($original_wrapper->field_membership_open_request) &&
+    $original_wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
     // Previous group setting was not "Moderated".
     return;
   }
@@ -1278,6 +1592,16 @@ function c4m_og_get_user_administered_groups_count($uid, $node_type) {
 }
 
 /**
+ * Returns an array of OG content types that require notification.
+ *
+ * @return array
+ *   Notification types.
+ */
+function c4m_og_get_group_content_notification_types() {
+  return array('discussion', 'document', 'event', 'wiki_page');
+}
+
+/**
  * Compares the OG type (project|group) to input.
  *
  * @param string $type
@@ -1321,4 +1645,17 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
   $nids = $results->fetchAllKeyed();
 
   return $nids;
+}
+
+/**
+ * Convert a human readable title to a machine readable name.
+ *
+ * The function replaces anything other than letters, numbers and underscores
+ * in the $title string with the $delimiter and converts capital to lowercase.
+ *
+ * @return string.
+ *   The title in machine readable form.
+ */
+function c4m_og_human_to_machine_readable($title, $delimiter = '-') {
+  return preg_replace('@[^a-z0-9_]+@', $delimiter, strtolower(trim($title)));
 }

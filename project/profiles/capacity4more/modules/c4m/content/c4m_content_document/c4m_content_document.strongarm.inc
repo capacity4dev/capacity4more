@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_document.strongarm.inc
@@ -154,6 +155,12 @@ function c4m_content_document_strongarm() {
       'block_list' => array(
         'custom_settings' => TRUE,
       ),
+      'pinned_content' => array(
+        'custom_settings' => TRUE,
+      ),
+      'group_dashboard' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -178,6 +185,7 @@ function c4m_content_document_strongarm() {
           'activity_global' => NULL,
           'activity_group' => NULL,
           'block_list' => NULL,
+          'pinned_content' => NULL,
         ),
         'flag_c4m_og_content_highlight' => array(
           'full' => array(
@@ -206,6 +214,10 @@ function c4m_content_document_strongarm() {
           ),
           'block_list' => array(
             'weight' => '25',
+            'visible' => FALSE,
+          ),
+          'pinned_content' => array(
+            'weight' => '28',
             'visible' => FALSE,
           ),
         ),

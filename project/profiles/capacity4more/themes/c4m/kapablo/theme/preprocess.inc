@@ -16,6 +16,7 @@ function kapablo_preprocess_message(&$variables) {
   }
 
   $message = $variables['message'];
+
   $variables['theme_hook_suggestions'][] = 'message__activity_stream';
   $variables['theme_hook_suggestions'][] = "message__{$message->type}__activity_stream";
 
@@ -641,14 +642,4 @@ function kapablo_group_image_banner($background_image = FALSE) {
  */
 function kapablo_group_image_banner_background() {
   return kapablo_group_image_banner(TRUE);
-}
-
-/**
- * Implements template_preprocess_user_profile().
- */
-function kapablo_preprocess_user_profile(&$variables) {
-  $block = block_load('c4m_user_profile', 'user_my_profile_groups');
-  $renderable_blocks = _block_render_blocks(array($block));
-  $renderable_array = _block_get_renderable_array($renderable_blocks);
-  $variables['right'] = render($renderable_array);
 }

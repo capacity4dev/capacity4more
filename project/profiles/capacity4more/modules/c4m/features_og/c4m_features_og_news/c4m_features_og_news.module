@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Code for the News feature.
+ * Code for the Group News feature.
  */
 
 include_once 'c4m_features_og_news.features.inc';

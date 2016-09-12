@@ -1,0 +1,108 @@
+<?php
+
+/**
+ * @file
+ * Code for the C4M notifications subscriptions.
+ */
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Flags inserted node, if content requires notification.
+ */
+function c4m_user_subscribe_node_insert($node) {
+  if ($node->status != NODE_PUBLISHED) {
+    // Do not mark anything that is saved as draft.
+    return;
+  }
+
+  if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
+    // Inserted content does not require notification.
+    return;
+  }
+
+  flag('flag', 'subscribe_c4m_follow_node', $node->nid);
+
+  flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
+}
+
+/**
+ * Implements hook_node_update().
+ *
+ * Flags updated node, if content requires notification.
+ */
+function c4m_user_subscribe_node_update($node) {
+  if ($node->status != NODE_PUBLISHED) {
+    // Do not mark anything that is saved as draft.
+    return;
+  }
+
+  if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
+    // Inserted content does not require notification.
+    return;
+  }
+
+  flag('flag', 'subscribe_c4m_follow_node', $node->nid);
+
+  // If user has not unsubscribed from that type of notifications.
+  if (!_c4m_user_subscribe_entity_notifications_disabled($node->nid, 'comment')) {
+    flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
+  }
+}
+
+/**
+ * Implements hook_comment_insert().
+ *
+ * Flags OG content that requires notification, when commenting on existing
+ * content.
+ */
+function c4m_user_subscribe_comment_insert($comment) {
+  $node = node_load($comment->nid);
+
+  if ($node->status != NODE_PUBLISHED) {
+    // Do not mark anything for node that is saved as draft.
+    return;
+  }
+
+  if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
+    // Inserted comment is on content that does not require notification.
+    return;
+  }
+
+  // Add 'follow comment' flag.
+  flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
+}
+
+/**
+ * Helper function.
+ *
+ * Checks if user has disabled notifications for entity flagged by input flag.
+ *
+ * @param int $entity_id
+ *   Entity ID.
+ * @param string $flag_suffix
+ *   Suffix of flag that is being checked.
+ *   Possible values: "group, node, comment, term".
+ *
+ * @return bool
+ *   Whether user has disabled notifications flagged by flag, for entity.
+ */
+function _c4m_user_subscribe_entity_notifications_disabled($entity_id, $flag_suffix) {
+  global $user;
+
+  if (!in_array($flag_suffix, c4m_features_og_group_dashboard_get_notification_flags_suffixes())) {
+    // Unknown flag suffix.
+    return FALSE;
+  }
+
+  $wrapper = entity_metadata_wrapper('user', $user);
+  $field = "c4m_optout_{$flag_suffix}";
+  foreach ($wrapper->$field->value(array('identifier' => TRUE)) as $existing_id) {
+    if ($existing_id == $entity_id) {
+      // User unsubscribed from entity.
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
