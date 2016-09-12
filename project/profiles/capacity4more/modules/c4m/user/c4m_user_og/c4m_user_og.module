@@ -498,6 +498,8 @@ function c4m_user_og_theme() {
  * Implements hook_c4m_cta_block().
  */
 function c4m_user_og_c4m_cta_block() {
+  global $user;
+
   // Only add items if there is a group.
   if (!$group = c4m_og_current_group()) {
     return;
@@ -505,6 +507,12 @@ function c4m_user_og_c4m_cta_block() {
 
   // Prevent from 'project' nodes to run this logic.
   if ($group->type != 'group') {
+    return;
+  }
+
+  // A blocked (banned) user should not be able to see the CTA block.
+  $user_role = c4m_user_og_get_role_in_group($user, $group);
+  if ($user_role == 'blocked') {
     return;
   }
 
@@ -838,12 +846,35 @@ function c4m_user_og_menu() {
     'type' => MENU_CALLBACK,
     'page callback' => 'c4m_user_og_unified_workflow',
     'page arguments' => array(2),
-    'access callback' => 'node_access',
-    'access arguments' => array('view', 2),
+    'access callback' => 'c4m_user_og_unified_workflow_access',
+    'access arguments' => array(2),
     'file' => 'c4m_user_og.page.inc',
   );
 
   return $items;
+}
+
+/**
+ * Access callback.
+ *
+ * Checks if user is banned from the requested group.
+ *
+ * @param object $group
+ *   The group object.
+ *
+ * @return bool
+ *   Access.
+ */
+function c4m_user_og_unified_workflow_access($group) {
+  if (!og_context('node', $group)) {
+    return FALSE;
+  }
+
+  if (c4m_og_user_is_banned($group->nid)) {
+    return FALSE;
+  }
+
+  return node_access('view', $group);
 }
 
 /**
