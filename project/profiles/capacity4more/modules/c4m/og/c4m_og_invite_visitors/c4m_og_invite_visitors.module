@@ -51,12 +51,37 @@ function c4m_og_invite_visitors_validate_query_string(array $vars) {
 }
 
 /**
+ * Get an invitation object from MySQL by email and group ID.
+ */
+function c4m_og_invite_visitors_get_invitation($email, $gid) {
+  if (!$email || !$gid) {
+    return FALSE;
+  }
+
+  $result = db_select('c4m_og_invite_visitors', 'oiv')
+    ->fields('oiv', array(
+      'inv_group_id',
+      'inv_email',
+      'inv_created',
+      'inv_token',
+      'inv_expired',
+    ))
+    ->condition('inv_group_id', $gid)
+    ->condition('inv_email', $email)
+    ->range(0, 1)
+    ->execute()
+    ->fetchObject();
+
+  return $result;
+}
+
+/**
  * Validate the accept invitation url before displaying the registration form.
  */
 function c4m_og_invite_visitors_process_acceptance($group) {
   global $user;
 
-  // No group defined. go to homepage.
+  // No group defined. Go to homepage.
   if (!$group) {
     drupal_goto('<front>');
   }
@@ -73,39 +98,27 @@ function c4m_og_invite_visitors_process_acceptance($group) {
   list($email, $random_key, $timestamp) = $query_vars;
 
   // Validate token and email.
-  $result = db_select('c4m_og_invite_visitors', 'oiv')
-    ->fields('oiv', array(
-      'inv_group_id',
-      'inv_email',
-      'inv_created',
-      'inv_token',
-      'inv_expired',
-    ))
-    ->condition('inv_group_id', $group->nid)
-    ->condition('inv_email', $email)
-    ->range(0, 1)
-    ->execute()
-    ->fetchAssoc();
+  $invitation = c4m_og_invite_visitors_get_invitation($email, $group->nid);
 
   // No invitation matches the request. Go to group dashboard.
-  if (!$result) {
+  if (!$invitation) {
     drupal_goto($group->purl);
   }
 
   // Data in the invitation does not match the requested data.
-  if ($email != $result['inv_email'] || $group->nid != $result['inv_group_id'] || $timestamp != preg_replace('/[^0-9]/', '', $result['inv_created'])) {
+  if ($email != $invitation->inv_email || $group->nid != $invitation->inv_group_id || $timestamp != preg_replace('/[^0-9]/', '', $invitation->inv_created)) {
     drupal_goto($group->purl);
   }
 
   $token = '?email=' . $email . '&random-key=' . $random_key . '&timestamp=' . $timestamp;
 
   // Validation failed. Go to group dashboard.
-  if (!password_verify($token, $result['inv_token'])) {
+  if (!password_verify($token, $invitation->inv_token)) {
     drupal_goto($group->purl);
   }
 
   // An invitation that had been processed before.
-  if ($result['inv_expired']) {
+  if ($invitation->inv_expired) {
     drupal_set_message(t('This invitation link has expired.'), 'warning');
     drupal_goto($group->purl);
   }
