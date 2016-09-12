@@ -1,12 +1,11 @@
 {
   "require": {
-    "drupal/drupal-extension": "*",
-    "behat/behat": "*",
-    "behat/mink": "*",
+    "drupal/drupal-extension": "v1.0.9",
+    "behat/behat": "2.5.*@stable",
+    "behat/mink": "1.5.*@stable",
     "behat/mink-extension": "*",
     "behat/mink-browserkit-driver": "*",
-    "behat/mink-selenium2-driver": "*",
-    "lakion/mink-debug-extension": "*"
+    "behat/mink-selenium2-driver": "*"
   },
   "config": {
     "bin-dir": "bin/"
