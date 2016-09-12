@@ -16,6 +16,7 @@ function kapablo_preprocess_message(&$variables) {
   }
 
   $message = $variables['message'];
+
   $variables['theme_hook_suggestions'][] = 'message__activity_stream';
   $variables['theme_hook_suggestions'][] = "message__{$message->type}__activity_stream";
 
