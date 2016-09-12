@@ -12,10 +12,11 @@ function _c4m_content_project_block_c4m_block_create_project() {
   global $user;
   $markup = '';
 
+  $markup = '';
   if ($user->uid) {
     if (user_access('create project content')) {
-      $create_project = l(t('Create a project'), 'node/add/project', array('attributes' => array('class' => array('btn', 'btn-default'))));
-      $create_programme = l(t('Create a programme'), 'node/add/programme', array('attributes' => array('class' => array('btn', 'btn-default'))));
+      $create_project = '<div class="c4m-wide-gothic-btn">' . l(t('Create a project'), 'node/add/project', array('attributes' => array('class' => array('btn', 'btn-default')))) . '</div>';
+      $create_programme = '<div class="c4m-wide-gothic-btn">' . l(t('Create a programme'), 'node/add/programme', array('attributes' => array('class' => array('btn', 'btn-default')))) . '</div>';
       $markup = $create_project . $create_programme;
     }
   }
@@ -79,4 +80,20 @@ function _c4m_content_project_block_header_name_banner_project() {
     'subject' => '',
     'content' => $markup,
   );
+}
+
+/**
+ * Callback for the c4m_block_create_project block.
+ */
+function _c4m_content_project_block_c4m_block_project_partners() {
+  $block = array();
+
+  if ($group = og_context()) {
+    if ($node = node_load($group['gid'])) {
+      $block['subject'] = '';
+      $block['content'] = field_view_field('node', $node, 'c4m_partners', array('label' => 'hidden'));
+    }
+  }
+
+  return $block;
 }

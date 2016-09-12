@@ -36,6 +36,7 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
     array('group_access', 'Access'),
     array('restricted_organisations', 'Organisations'),
     array('group_status', 'Status'),
+    array('welcome_message', 'Welcome_Message'),
   );
 
   /**
@@ -46,6 +47,8 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
 
     $this->addFieldMapping(OG_ACCESS_FIELD, 'group_access')
       ->defaultValue(0);
+
+    $this->addFieldMapping('c4m_group_welcome_message', 'welcome_message');
   }
 
   /**

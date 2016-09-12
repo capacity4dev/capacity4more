@@ -21,6 +21,7 @@ files[] = includes/CreateEvents.inc
 files[] = includes/CreateFeatured.inc
 files[] = includes/CreateGroups.inc
 files[] = includes/CreateInThePicture.inc
+files[] = includes/CreateNews.inc
 files[] = includes/CreateBanners.inc
 files[] = includes/CreateOgContent.inc
 files[] = includes/CreateOgGroups.inc

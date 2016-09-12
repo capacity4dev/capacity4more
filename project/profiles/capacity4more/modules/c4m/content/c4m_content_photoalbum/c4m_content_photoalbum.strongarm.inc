@@ -151,6 +151,9 @@ function c4m_content_photoalbum_strongarm() {
       'group_dashboard' => array(
         'custom_settings' => FALSE,
       ),
+      'pinned_content' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -188,6 +191,10 @@ function c4m_content_photoalbum_strongarm() {
           ),
           'teaser_group' => array(
             'weight' => '20',
+            'visible' => FALSE,
+          ),
+          'pinned_content' => array(
+            'weight' => '8',
             'visible' => FALSE,
           ),
         ),

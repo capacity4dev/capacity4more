@@ -43,6 +43,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateDocumentComments',
     'C4mDemoContentCreateDiscussions',
     'C4mDemoContentCreateDiscussionComments',
+    'C4mDemoContentCreateNews',
     'C4mDemoContentCreateWikiPages',
     'C4mDemoContentCreateWikiPageComments',
     'C4mDemoContentCreateFeeds',
