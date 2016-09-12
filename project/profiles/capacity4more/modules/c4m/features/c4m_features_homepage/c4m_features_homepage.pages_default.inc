@@ -745,6 +745,8 @@ function c4m_features_homepage_default_page_manager_pages() {
       'video' => 'http://youtu.be/ISNcUnbQkVQ',
       'override_title' => 0,
       'override_title_text' => '',
+      'has_cta' => 1,
+      'override_title_heading' => 'h2',
     );
     $pane->cache = array();
     $pane->style = array(

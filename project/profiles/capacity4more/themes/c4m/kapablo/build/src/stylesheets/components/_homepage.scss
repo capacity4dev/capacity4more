@@ -224,3 +224,18 @@
 .loading .spinner {
   display: inline-block;
 }
+
+.video-preview-cta {
+  .cta,
+  .link {
+    width: 50%;
+  }
+
+  .cta {
+    display: inline-block;
+  }
+
+  .link {
+    display: inline;
+  }
+}
