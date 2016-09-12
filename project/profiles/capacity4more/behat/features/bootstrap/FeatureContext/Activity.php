@@ -104,15 +104,23 @@ trait Activity {
   }
 
   /**
-   * @Given /^I "([^"]*)" the "([^"]*)" content in "([^"]*)" group$/
+   * @Given /^I go to the "([^"]*)" group$/
    */
-  public function iTheContentInGroup($toPromote, $content, $group) {
-
-    $steps = array();
+  public function iGoToTheGroup($group) {
     $steps[] = new Step\When("I go to \"$group\"");
+  }
 
-//    print_r($toPromote);
-//    print_r($content);
-//    print_r($group);
+  /**
+   * @Given /^I do not see "([^"]*)" button$/
+   */
+  public function iDoNotSeeButton($button) {
+    $page = $this->getSession()->getPage();
+
+    // Get all the pin buttons on the page.
+    $promoteButtons = $page->find('xpath', '//a/i[contains(@class, "fa fa-thumb-tack")]');
+
+    if (count($promoteButtons)) {
+      throw new \Exception("A user that not allowed to see the " . $button . " buttons, sees it.");
+    }
   }
 }
