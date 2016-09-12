@@ -574,7 +574,6 @@ function c4m_og_og_user_access_alter(&$perm, $context) {
       // og_node_access().
       $perm['administer group'] = FALSE;
 
-
       $perm['update group'] = FALSE;
     }
   }
@@ -582,8 +581,6 @@ function c4m_og_og_user_access_alter(&$perm, $context) {
   if ($context['string'] != 'subscribe without approval') {
     return;
   }
-
-
 
   $perm['subscribe without approval'] = $wrapper->field_membership_open_request->value();
 }
