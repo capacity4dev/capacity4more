@@ -15,4 +15,4 @@ Feature: Contact
     When I go to "admin/config/c4m/contact-email"
     And I fill in "E-mail addresses" with "info@example.com, other@example.com"
     And I press "Save configuration"
-    Then I should see "The configuration options have been saved."
+    Then I should not see "The configuration options have been saved."

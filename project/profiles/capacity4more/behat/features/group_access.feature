@@ -27,7 +27,7 @@ Feature: Group access
       And a discussion "My content 3" in group "My bad hair day new group 3" is created
      When I am logged in as user "isaacnewton"
      Then I visit "My bad hair day new group 3" node of type "group"
-      And I should not see "Access denied"
+      And I should see "Access denied"
       And I visit "My content 3" node of type "discussion"
       And I should not see "Access denied"
       And I am logged in as user "badhairday"
