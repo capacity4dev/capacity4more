@@ -7,7 +7,7 @@ Feature: Group Invitations
   Scenario: Check Invite a member link is available for a member of an open public group.
   Given I am logged in as user "charlesbabbage"
   When  I visit the dashboard of group "Music Lovers"
-  And   I join the open group "Music Lovers"
+  And   I click "Join this group"
   And   I click "Invite a member"
   Then  I should see the text "Invite People to Join"
 
@@ -40,9 +40,9 @@ Feature: Group Invitations
   @api
     Scenario: Check access to invite visitors to an open group for GMs
     Given I am logged in as user "charlesbabbage"
-    When  I visit the dashboard of group "Football Talk"
-    And   I join the open group "Football Talk"
-    And   I go to "group/node/10/admin/people/invite-visitors"
+    When  I visit the dashboard of group "Music Lovers"
+    # charlesbabbage joined Music Lovers in a previous test.
+    And   I go to "group/node/13/admin/people/invite-visitors"
     Then  I should not see "Access denied"
     And   I should see the text "Invite Visitors"
 
@@ -55,8 +55,8 @@ Feature: Group Invitations
   @api
   Scenario: Check access to invite users to an open group for GMs
     Given I am logged in as user "charlesbabbage"
-    When  I visit the dashboard of group "Football Talk"
-    And   I join the open group "Football Talk"
+    When  I visit the dashboard of group "Music Lovers"
+    # charlesbabbage joined Music Lovers in a previous test.
     And   I click "Invite a member"
     Then  I should not see "Access denied"
     And   I should see the text "Invite People to Join"
