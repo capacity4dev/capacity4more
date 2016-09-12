@@ -51,6 +51,10 @@ function c4m_user_og_has_group_permission($permission, $group = NULL) {
  *    The user role.
  */
 function c4m_user_og_get_role_in_group($user, $group) {
+  if (user_is_anonymous()) {
+    return NULL;
+  }
+
   // Is user the owner of the group node?
   if ((int) $user->uid === (int) $group->uid) {
     return 'owner';
