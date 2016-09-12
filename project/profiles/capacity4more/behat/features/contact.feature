@@ -34,3 +34,5 @@ Feature: Contact
     And I press "Send message"
     Then I should see "Subject field is required"
     And I should see "Message field is required."
+    And I should not see "Your name field is required."
+    And I should not see "Your e-mail address field is required."
