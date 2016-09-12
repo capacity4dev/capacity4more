@@ -542,7 +542,7 @@ function c4m_og_remove_pluggable_node_access(
 /**
  * Implements hook_og_user_access_alter().
  *
- * 1. Remove group administrator, 'administer group' and 'update group'
+ * 1. For group administrator, remove 'administer group' and 'update group'
  * privileges, when deleting / editing Pending OG group.
  * This is done to prevent og_node_access() to allow group administrator from
  * deleting / editing group, disregarding it's c4m_og_status, as administrator
@@ -563,19 +563,14 @@ function c4m_og_og_user_access_alter(&$perm, $context) {
   }
 
   $wrapper = entity_metadata_wrapper('node', $group);
+  $pattern = '/^node\/\d+\/(edit|delete)(\/.*)*$/i';
 
-  $path = explode('/', current_path());
-  $path_elements = count($path);
-
-  if ($path_elements == 3 && $path[0] == 'node' && ($path[2] == 'edit' || $path[2] == 'delete')) {
-    if ($wrapper->c4m_og_status->value() == 'pending') {
-      // For Pending groups, if under 'node/%node/edit' or 'node/%node/delete'
-      // urls (editing / deleting group), deny privileges that are verified by
-      // og_node_access().
-      $perm['administer group'] = FALSE;
-
-      $perm['update group'] = FALSE;
-    }
+  if (preg_match($pattern, current_path()) && $wrapper->c4m_og_status->value() == 'pending') {
+    // For Pending groups, if under 'node/%node/edit' or 'node/%node/delete'
+    // urls (editing / deleting group), deny privileges that are verified by
+    // og_node_access().
+    $perm['administer group'] = FALSE;
+    $perm['update group'] = FALSE;
   }
 
   if ($context['string'] != 'subscribe without approval') {
