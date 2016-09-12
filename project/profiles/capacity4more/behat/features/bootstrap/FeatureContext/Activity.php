@@ -102,4 +102,17 @@ trait Activity {
 
     return $steps;
   }
+
+  /**
+   * @Given /^I "([^"]*)" the "([^"]*)" content in "([^"]*)" group$/
+   */
+  public function iTheContentInGroup($toPromote, $content, $group) {
+
+    $steps = array();
+    $steps[] = new Step\When("I go to \"$group\"");
+
+//    print_r($toPromote);
+//    print_r($content);
+//    print_r($group);
+  }
 }
