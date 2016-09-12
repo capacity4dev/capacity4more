@@ -27,9 +27,6 @@ before_install:
   - sudo apt-get update > /dev/null
   - composer self-update
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - gem install sass
-  - npm -v
-  - npm install -g grunt-cli
 
 install:
   - date
@@ -87,6 +84,15 @@ script:
 
 after_script:
   - date
+
+after_failure:
+  - date
+
+  # Zip dumps and mail
+  - $TRAVIS_BUILD_DIR/ci/bin/report_behat.sh
+
+  # Output watchdog entries (errors).
+  - $TRAVIS_BUILD_DIR/ci/bin/report_watchdog.sh
 
 notifications:
   slack: amplexor:7ssq8h2xLhkDGyJCw6rtmfOY
