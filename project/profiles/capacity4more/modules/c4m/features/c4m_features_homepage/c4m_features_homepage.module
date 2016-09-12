@@ -338,7 +338,7 @@ function c4m_features_homepage_c4m_cta_block() {
   $is_group_page = ($group = c4m_og_current_group());
   $groups = c4m_og_get_user_group_ids_by_bundle('group');
   if (drupal_is_front_page() && !user_is_anonymous() && !$is_group_page && !$groups) {
-    $items['create-project'] = c4m_features_homepage_node_creation_button_cta('group');
+    $items['create-group'] = c4m_features_homepage_node_creation_button_cta('group');
   }
 
   return $items;
