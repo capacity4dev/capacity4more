@@ -53,8 +53,13 @@ Feature: Test activity stream
     And   I update a "discussion" with title "Discussion added 8" with new title "Discussion updated 8" after "7 hours"
     Then  I should see a new message for "Discussion updated 8" in the activity stream of the group "Discussion Insert 8"
 
-  @javascript @nir
-  Scenario: A content is promoted.
+  @api
+  Scenario: Promote buttons shouldn't be displayed to users without access.
     When  I am logged in as user "isaacnewton"
     And   I go to the "nobelprize" group
+    Then  I do not see "promote" button
+
+  @api
+  Scenario: Promote buttons shouldn't be displayed to anonymous users.
+    When   I go to the "nobelprize" group
     Then  I do not see "promote" button
