@@ -71,7 +71,6 @@ function c4m_features_homepage_video_embed_content_type_render($subtype, $conf, 
     $variables['cta'] = $cta;
   }
 
-
   $block = new stdClass();
   $block->module = 'c4m_features_homepage';
   $block->title = '';
