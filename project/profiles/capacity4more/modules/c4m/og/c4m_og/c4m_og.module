@@ -1476,3 +1476,16 @@ function c4m_og_edit_author_autocomplete($string = '') {
 function c4m_og_human_to_machine_readable($title, $delimiter = '-') {
   return preg_replace('@[^a-z0-9_]+@', $delimiter, strtolower(trim($title)));
 }
+
+/**
+ * Convert a human readable title to a machine readable name.
+ *
+ * The function replaces anything other than letters, numbers and underscores
+ * in the $title string with the $delimiter and converts capital to lowercase.
+ *
+ * @return string.
+ *   The title in machine readable form.
+ */
+function c4m_og_human_to_machine_readable($title, $delimiter = '-') {
+  return preg_replace('@[^a-z0-9_]+@', $delimiter, strtolower(trim($title)));
+}
