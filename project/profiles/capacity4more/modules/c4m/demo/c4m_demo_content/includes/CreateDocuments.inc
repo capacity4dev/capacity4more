@@ -44,10 +44,6 @@ class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
 
     $this->addFieldMapping('c4m_document', 'file')
       ->separator(';');
-    $this->addFieldMapping('c4m_document:file_replace')
-      ->defaultValue(FILE_EXISTS_REPLACE);
-    $this->addFieldMapping('c4m_document:source_dir')
-      ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/files');
 
     // Can't abstract categories and tags since not all content types have them.
     $this->addFieldMapping('c4m_vocab_categories', 'categories')
@@ -102,8 +98,11 @@ class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
   public function prepareRow($row) {
     parent::prepareRow($row);
 
+    $uri = file_build_uri('documents/' . $row->file);
+    $source = drupal_get_path('module', 'c4m_demo_content') . '/files/' . $row->file;
+    $uri = file_unmanaged_copy($source, $uri, FILE_EXISTS_REPLACE);
     // Saves the file to the database.
-    $file = $this->fileUriToObject(drupal_get_path('module', 'c4m_demo_content') . '/files/' . $row->file);
+    $file = $this->fileUriToObject($uri);
 
     // Change the migration file name to the file ID - since the migration is
     // expecting an entity reference.
