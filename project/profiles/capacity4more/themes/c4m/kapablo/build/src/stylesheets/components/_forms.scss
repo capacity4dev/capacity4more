@@ -148,6 +148,14 @@
     a {
       color: $color-white;
     }
+
+    .droppable-message {
+      line-height: normal;
+      min-height: initial;
+      display: flex;
+      flex-direction: column;
+      padding-top: 15px;
+    }
   }
 
   .cfm-file-upload__title {
