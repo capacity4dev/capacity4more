@@ -526,7 +526,7 @@ function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
       ->execute();
   }
   catch (PDOException $e) {
-    echo 'Error: ', $e->getMessage(), "\n";
+    watchdog('c4m_og_invite_visitors', $e->getMessage(), NULL, WATCHDOG_ERROR);
   }
 
   return $num_updated;
@@ -569,7 +569,7 @@ function c4m_og_invite_visitors_store_invitation($inviter_id, $group_id, $email)
       ->execute();
   }
   catch (PDOException $e) {
-    echo 'Error: ', $e->getMessage(), "\n";
+    watchdog('c4m_og_invite_visitors', $e->getMessage(), NULL, WATCHDOG_ERROR);
     return FALSE;
   }
 
