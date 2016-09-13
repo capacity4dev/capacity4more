@@ -177,7 +177,150 @@ function c4m_og_menu() {
     'access arguments' => array(1, 2),
   );
 
+  // Menu item for approval of group request url.
+  $items['group/%/approve'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_og_approve_group_request', 1),
+    'access callback' => TRUE,
+    'access arguments' => array(),
+  );
+
+  // Menu item for rejection of group request url.
+  $items['group/%/reject'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_og_reject_group_request', 1),
+    'access callback' => TRUE,
+    'access arguments' => array(),
+  );
+
   return $items;
+}
+
+/**
+ * Function initializes form with input values, and returns confirm form.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ * @param int $gid
+ *   Group ID.
+ *
+ * @return object
+ *   Approve group request form.
+ */
+function c4m_og_approve_group_request($form, &$form_state, $gid) {
+  $form['message_from_admin'] = array(
+    '#type' => 'textarea',
+  );
+
+  $form['gid'] = array(
+    '#type' => 'value',
+    '#value' => $gid,
+  );
+
+  return confirm_form($form, t('Please enter your comments:'), 'node/' . $gid . '/group', '', t('Approve'), t('Cancel'));
+}
+
+/**
+ * Function initializes form with input values, and returns confirm form.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ * @param int $gid
+ *   Group ID.
+ *
+ * @return object
+ *   Approve group request form.
+ */
+function c4m_og_reject_group_request($form, &$form_state, $gid) {
+  $form['message_from_admin'] = array(
+    '#type' => 'textarea',
+  );
+
+  $form['gid'] = array(
+    '#type' => 'value',
+    '#value' => $gid,
+  );
+
+  return confirm_form($form, t('Please enter a reason:'), 'node/' . $gid . '/group', '', t('Reject'), t('Cancel'));
+}
+
+/**
+ * Submits approve group request form.
+ *
+ * Gets inputs from form, and activates c4m_og_control_group_request() function
+ * with action = 'approve'.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ */
+function c4m_og_approve_group_request_submit($form, &$form_state) {
+  $gid = $form_state['values']['gid'];
+
+  c4m_og_control_group_request('approve', $gid);
+}
+
+/**
+ * Submits reject group request form.
+ *
+ * Gets inputs from form, and activates c4m_og_control_group_request() function
+ * with action = 'reject'.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ */
+function c4m_og_reject_group_request_submit($form, &$form_state) {
+  $gid = $form_state['values']['gid'];
+
+  c4m_og_control_group_request('reject', $gid);
+}
+
+function c4m_og_control_group_request($action, $gid) {
+  // Check that group is at initial ('pending') status.
+  $wrapper = entity_metadata_wrapper('node', $gid);
+
+/*  $wrapper->c4m_og_status->set('pending');
+  $wrapper->save();
+  return;*/
+
+  if ($wrapper->c4m_og_status->value() != 'pending') {
+    switch ($wrapper->c4m_og_status->value()) {
+      case 'deleted' :
+        $message = t('Group request was already rejected');
+        break;
+      case 'draft' :
+        $message = t('Group request was already approved');
+        break;
+      default:
+        $message = t('Group request was already handled');
+        break;
+    }
+
+    drupal_set_message($message, 'warning');
+    return;
+  }
+
+  switch ($action) {
+    case 'approve':
+      $wrapper->c4m_og_status->set('draft');
+      $message = t('Group request approved');
+      break;
+    case 'reject':
+      $wrapper->c4m_og_status->set('deleted');
+      $message = t('Group request rejected');
+      break;
+  }
+
+  $wrapper->save();
+  drupal_set_message($message);
+  drupal_goto('node/' . $gid . '/group');
 }
 
 /**

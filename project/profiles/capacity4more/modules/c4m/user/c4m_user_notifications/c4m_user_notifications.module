@@ -329,6 +329,28 @@ function c4m_user_notifications_form_c4m_og_reject_membership_request_alter(&$fo
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Triggers email notification when site administrator approves group
+ * request.
+ */
+function c4m_user_notifications_form_c4m_og_approve_group_request_alter(&$form, &$form_state) {
+  // $form['#submit'][] = 'c4m_user_notifications_moderated_group_notify_user_membership_rejected';
+  // $form['#submit'][] = 'c4m_og_route_to_group_people';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Triggers email notification when site administrator rejects group
+ * request.
+ */
+function c4m_user_notifications_form_c4m_og_reject_group_request_alter(&$form, &$form_state) {
+ // $form['#submit'][] = 'c4m_user_notifications_moderated_group_notify_user_membership_rejected';
+ // $form['#submit'][] = 'c4m_og_route_to_group_people';
+}
+
+/**
  * Implements hook_flag_flag().
  *
  * Triggers email notification when recommendation flag is set.
