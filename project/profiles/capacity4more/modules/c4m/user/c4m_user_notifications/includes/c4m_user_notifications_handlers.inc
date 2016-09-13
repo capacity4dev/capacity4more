@@ -589,7 +589,7 @@ function c4m_user_notifications_content_recommended($nid) {
  * Email notification about new content at organic group.
  */
 function c4m_user_notifications_new_group_content_published($node) {
-  _c4m_user_notifications_new_content_published($node);
+  _c4m_user_notifications_notify_on_content($node, 'add');
 }
 
 /**
@@ -600,11 +600,23 @@ function c4m_user_notifications_new_group_content_published($node) {
  * @param object $node
  *   Content node that was added.
  */
-function _c4m_user_notifications_new_content_published($node) {
+function _c4m_user_notifications_notify_on_content($node, $action) {
   global $user;
-  $message = message_create('c4m_new_content_published');
+
+  switch ($action) {
+    case 'add':
+      $message_name = 'c4m_new_content_published';
+      break;
+    case 'update':
+      $message_name = 'c4m_content_updated';
+      break;
+    default:
+      return;
+  }
+
+  $message = message_create($message_name);
   // Define functions with which to resolve email template tokens.
-  c4m_message_load_tokens__c4m_new_content_published($message);
+  c4m_message_load_tokens__c4m_content_added_or_updated($message);
   // Resolve comment body field, in teaser mode, and assign value to it's token.
   $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
   $message->arguments['@node_teaser_body'] = strip_tags($body_teaser[0]['#markup']);
@@ -633,6 +645,7 @@ function _c4m_user_notifications_new_content_published($node) {
  * Email notification about existing content update at organic group.
  */
 function c4m_user_notifications_existing_group_content_updated($node) {
+  _c4m_user_notifications_notify_on_content($node, 'update');
 }
 
 /**
