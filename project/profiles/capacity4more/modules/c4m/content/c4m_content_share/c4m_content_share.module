@@ -87,6 +87,10 @@ function c4m_content_share_search_api_index_items_alter(
   SearchApiIndex $index
 ) {
   foreach ($items as $index => $item) {
+    if (!isset($item->type)) {
+      return;
+    }
+
     if ($item->type == 'share') {
       // Do stuff.
       $node = entity_metadata_wrapper('node', $item);
@@ -204,7 +208,9 @@ function c4m_content_share_node_access_records_alter(&$grants, $node) {
 
       $original_na = $query->execute()->fetchAllAssoc('nid', PDO::FETCH_ASSOC);
 
-      $grants = array((array) $original_na[$original_node->nid->value()]);
+      if (!empty($original_na) && array_key_exists($original_node->nid->value(), $original_na)) {
+        $grants = array((array) $original_na[$original_node->nid->value()]);
+      }
     }
   }
 }

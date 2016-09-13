@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * og_group_menu.features.og_features_permission.inc
+ * c4m_og_group_menu.features.og_features_permission.inc
  */
 
 /**
  * Implements hook_og_features_default_permissions().
  */
-function og_group_menu_og_features_default_permissions() {
+function c4m_og_group_menu_og_features_default_permissions() {
   $permissions = array();
 
   // Exported og permission: 'node:group:administer og menu'

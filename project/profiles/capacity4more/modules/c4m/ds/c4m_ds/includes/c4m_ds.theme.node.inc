@@ -230,7 +230,6 @@ function theme_c4m_ds_type_insert_action(array $field) {
         'id' => $group_wrapper->nid->value(),
       ),
     );
-    ;
 
     $group_url = l(
       $group_wrapper->title->value(),
