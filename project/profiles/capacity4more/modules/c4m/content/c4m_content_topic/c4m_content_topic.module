@@ -81,6 +81,7 @@ function c4m_content_topic_field_formatter_info() {
         'link' => '',
         'wrap' => 'none',
         'separator' => ' » ',
+        'exclude_top_parent' => FALSE,
       ),
     ),
     'term_reference_checked_inline_tree' => array(
@@ -152,6 +153,15 @@ function c4m_content_topic_field_formatter_settings_form(
       '#required' => TRUE,
     );
   }
+  if ($instance['display'][$view_mode]['type'] == 'term_reference_tree_children_expanded') {
+    $element['exclude_top_parent'] = array(
+      '#title' => t('Exclude top parent'),
+      '#description' => t('Do not display the top parent term'),
+      '#type' => 'checkbox',
+      '#default_value' => $settings['exclude_top_parent'],
+      '#required' => FALSE,
+    );
+  }
 
   return $element;
 }
@@ -182,6 +192,11 @@ function c4m_content_topic_field_formatter_settings_summary(
         'Glue: "@glue"',
         array('@glue' => $settings['glue'])
       );
+  }
+  if (!empty($settings['exclude_top_parent'])) {
+    if ($settings['exclude_top_parent']) {
+      $summary .= '<br />' . t('Exclude top parent');
+    }
   }
 
   return $summary;
@@ -251,6 +266,11 @@ function c4m_content_topic_field_formatter_view(
           // Remove empty elements caused by discarded items.
           $term_tree = array_filter($term_tree);
           $terms = array();
+
+          // Shift off parent if necessary.
+          if ($settings['exclude_top_parent']) {
+            array_shift($term_tree);
+          }
 
           // Get the vocabulary to create a filter on vocab facet.
           $vocab = taxonomy_vocabulary_load($item['taxonomy_term']->vid);

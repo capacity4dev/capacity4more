@@ -6,6 +6,33 @@
  */
 
 /**
+ * Implements hook_permission().
+ */
+function c4m_contact_permission() {
+  $permissions['config contact emails'] = array(
+    'title' => t('Configure contact e-mail addressess'),
+    'description' => t('Allows the user to change the recipients of the contact form.'),
+  );
+
+  return $permissions;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_contact_menu() {
+  $menu['admin/config/c4m/contact-email'] = array(
+    'title' => 'Contact e-mail addressess',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_contact_email_address_form'),
+    'access arguments' => array('config contact emails'),
+    'file' => 'c4m_contact.pages.inc',
+  );
+
+  return $menu;
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Alter the site contact form.

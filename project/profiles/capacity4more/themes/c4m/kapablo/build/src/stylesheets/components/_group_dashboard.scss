@@ -20,11 +20,34 @@
     }
   }
 
-  .taxonomy-title {
-    margin: 5px 0;
-  }
+  .field-name-c4m-vocab-topic,
+  .field-name-c4m-vocab-geo {
+    .item {
+      margin-bottom: 10px;
 
-  .taxonomy-item {
-    margin-left: 10px;
+      .shift-right {
+        margin-left: 10px;
+        margin-top: -8px;
+      }
+    }
+
+    .taxonomy-root {
+      margin: 0;
+    }
+
+    .taxonomy-tree {
+      margin-left: 10px;
+    }
+  }
+}
+
+.pane-c4m-features-og-group-dashboard-c4m-cta-block {
+  border-bottom: 1px dotted $color-gray-light;
+  margin: 1em 0;
+  padding-bottom: 1em;
+
+  i {
+    text-align: center;
+    width: 2em;
   }
 }

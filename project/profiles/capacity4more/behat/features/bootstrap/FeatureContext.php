@@ -111,4 +111,20 @@ class FeatureContext extends DrupalContext {
         : $parameters['debug']['dump_all_steps'],
     );
   }
+
+  /**
+   * @Given /^The window is maximized$/
+   */
+  public function theWindowIsMaximized() {
+    $this->getSession()->getDriver()->resizeWindow(1200, 1200, 'current');
+  }
+
+  /**
+   * @When /^I focus on "([^"]*)" element$/
+   */
+  public function iFocusOnElement($locator) {
+    $field = $this->getSession()->getPage()->findField($locator);
+    $field->focus();
+  }
+
 }

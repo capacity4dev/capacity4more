@@ -87,6 +87,10 @@ function c4m_content_share_search_api_index_items_alter(
   SearchApiIndex $index
 ) {
   foreach ($items as $index => $item) {
+    if (!isset($item->type)) {
+      return;
+    }
+
     if ($item->type == 'share') {
       // Do stuff.
       $node = entity_metadata_wrapper('node', $item);
@@ -137,6 +141,25 @@ function c4m_content_share_fields_info($bundle = NULL) {
 
   // Return all data.
   return $data;
+}
+
+/**
+ * Implements hook_ds_fields_info().
+ */
+function c4m_content_share_ds_fields_info($entity_type) {
+  $fields = array();
+
+  $path = drupal_get_path('module', 'c4m_content_share') . '/includes';
+
+  $fields['node']['c4m_content_share_original_group'] = array(
+    'title' => t('Original group'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('share|*'),
+    'file' => $path . '/c4m_content_share.theme.inc',
+    'function' => 'theme_c4m_content_share_original_group',
+  );
+
+  return $fields;
 }
 
 /**
