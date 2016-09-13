@@ -186,7 +186,7 @@ function c4m_content_article_field_formatter_view($entity_type, $entity, $field,
  * Implements hook_node_view_alter().
  *
  * Style the 'Regions & Countries' section in the right dashboard.
- * And hide the article title, because it's show before and after the banner.
+ * And hide the article title, because it shows before and after the banner.
  */
 function c4m_content_article_node_view_alter(&$build) {
   if ($build['#bundle'] != 'article') {
@@ -204,11 +204,9 @@ function c4m_content_article_node_view_alter(&$build) {
   }
 
   // Add the new markup Topics.
-//  $topics_options = array('vocabulary_name' => 'c4m_vocab_topic');
-//  $build['c4m_vocab_topic'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_topic']['#items'], $topics_options);
+  $build['c4m_vocab_topic'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_topic']['#items']);
   // Add the new markup Regions.
   $build['c4m_vocab_geo'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_geo']['#items']);
 
   return $build;
 }
-
