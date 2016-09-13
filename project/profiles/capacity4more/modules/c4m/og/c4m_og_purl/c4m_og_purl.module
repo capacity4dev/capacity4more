@@ -306,3 +306,36 @@ function _c4m_og_purl_starts_with_in_array($strings, $search_string) {
 function _c4m_og_purl_starts_with($search_string, $string) {
   return strpos($search_string, $string) === 0;
 }
+
+/**
+ * Prepares an OG Purl aware 'destination' URL query parameter.
+ *
+ * This function works on top of the drupal_get_destination() which is not
+ * aware of the OG Context / Purl.
+ *
+ * @return array
+ *   An associative array containing the key:
+ *   - destination: The path provided via the destination query string or, if
+ *     not available, the current path.
+ *
+ * @see drupal_get_destination()
+ */
+function c4m_og_purl_get_destination() {
+  $destination = &drupal_static(__FUNCTION__);
+
+  if (isset($destination)) {
+    return $destination;
+  }
+
+  $destination = drupal_get_destination();
+
+  if (isset($destination['destination'])) {
+    if ($og_context = og_context('node')) {
+      if (isset($og_context['gid']) && is_numeric($og_context['gid'])) {
+        $destination['destination'] = ltrim(url($destination['destination']), '/');
+      }
+    }
+  }
+
+  return $destination;
+}
