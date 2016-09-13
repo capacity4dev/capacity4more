@@ -1,7 +1,7 @@
 Feature: Testing the did you mean feature offered for search api that provides
   spell check for what users may search for.
 
-  @api
+  @javascript
   Scenario: Testing the did you mean feature from search api with some result.
     Given I am an anonymous user
     When I visit the site homepage
@@ -10,7 +10,7 @@ Feature: Testing the did you mean feature offered for search api that provides
     And I wait
     Then I should see "Did you mean"
 
-  @api
+  @javascript
   Scenario: Testing the did you mean feature from search api when it should not be displayed.
     Given I am an anonymous user
     When I visit the site homepage
