@@ -313,7 +313,7 @@ function theme_c4m_ds_content_footer_stats(array $field) {
     $document = $entity_wrapper->c4m_document->value();
 
     if (!empty($document)) {
-      $file_object = file_load($document['fid']);
+      $file_object = file_load($document->fid);
       $items['downloads'] = theme(
         'c4m_ds_entity_downloads_count',
         array('count' => (!empty($file_object->download_count) ? c4m_content_ec_number_format($file_object->download_count) : 0))

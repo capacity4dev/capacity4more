@@ -3123,7 +3123,7 @@ function c4m_message_preprocess_node__document(&$variables) {
   $node = $variables['node'];
   $node_wrapper = entity_metadata_wrapper('node', $node);
 
-  $document = $node_wrapper->c4m_document->value();
+  $document = (array) $node_wrapper->c4m_document->value();
   if (empty($document)) {
     // There is no file.
     $variables['download_link'] = '';

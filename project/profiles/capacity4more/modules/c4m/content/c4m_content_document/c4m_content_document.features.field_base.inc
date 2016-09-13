@@ -18,19 +18,31 @@ function c4m_content_document_field_default_field_bases() {
     'entity_types' => array(),
     'field_name' => 'c4m_document',
     'indexes' => array(
-      'fid' => array(
-        0 => 'fid',
+      'target_id' => array(
+        0 => 'target_id',
       ),
     ),
     'locked' => 0,
-    'module' => 'file',
+    'module' => 'entityreference',
     'settings' => array(
-      'display_default' => 0,
-      'display_field' => 0,
-      'uri_scheme' => 'public',
+      'handler' => 'base',
+      'handler_settings' => array(
+        'behaviors' => array(
+          'views-select-list' => array(
+            'status' => 0,
+          ),
+        ),
+        'sort' => array(
+          'type' => 'none',
+        ),
+        'target_bundles' => array(
+          'document' => 'document',
+        ),
+      ),
+      'target_type' => 'file',
     ),
     'translatable' => 0,
-    'type' => 'file',
+    'type' => 'entityreference',
   );
 
   // Exported field_base: 'c4m_document_add_to_library'.

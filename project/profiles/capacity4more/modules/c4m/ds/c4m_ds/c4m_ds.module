@@ -651,7 +651,7 @@ function c4m_ds_field_formatter_info() {
         'Displays a link that will force the browser to
         download the file.'
       ),
-      'field types' => array('file', 'image'),
+      'field types' => array('entityreference'),
       'settings' => array(
         'text' => t('Download [file:name]'),
       ),
@@ -681,7 +681,9 @@ function c4m_ds_field_formatter_view(
     $settings = $display['settings'];
     $element = array();
     foreach ($items as $delta => $item) {
-      $file = (object) $item;
+      // The item is an entity reference to a file entity.
+      $file = file_load($item['target_id']);
+
       if (file_entity_access('download', $file)) {
         $element[$delta] = array(
           '#theme' => 'c4m_ds_formatter_link_and_size',

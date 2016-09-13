@@ -27,11 +27,11 @@ function theme_c4m_content_document_icon(array $field) {
 
   $document = $object_wrapper->c4m_document->value();
   $document_type = '';
-  if (!empty($document['filemime'])) {
+  if (!empty($document->filemime)) {
     include_once DRUPAL_ROOT . '/includes/file.mimetypes.inc';
     $mapping = file_mimetype_mapping();
     // Look for the key to find the right extension, using the mimetype.
-    $key = array_search($document['filemime'], $mapping['mimetypes']);
+    $key = array_search($document->filemime, $mapping['mimetypes']);
     // Use the key of the extension to get the extension.
     $extension = array_search($key, $mapping['extensions']);
     // Use the extension to create a class.

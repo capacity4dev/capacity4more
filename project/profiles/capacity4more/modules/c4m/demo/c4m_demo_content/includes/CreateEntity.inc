@@ -485,4 +485,46 @@ abstract class C4mDemoContentCreateEntity extends Migration {
     return $unique;
   }
 
+  /**
+   * Create a file object from path.
+   *
+   * @param string $uri
+   *   Image uri path.
+   * @param bool $use_existing
+   *   Use already existing file from database.
+   *
+   * @return mixed|StdClass
+   *   The file object.
+   */
+  public function fileUriToObject($uri, $use_existing = FALSE) {
+    if ($use_existing) {
+      $query = db_select('file_managed', 'f')
+        ->fields('f', array('fid'))
+        ->condition('uri', $uri)
+        ->execute()
+        ->fetchCol();
+      if (!empty($query)) {
+        $file = file_load(array_shift($query));
+      }
+    }
+
+    if (!isset($file)) {
+      global $user;
+      $uri = file_stream_wrapper_uri_normalize($uri);
+      $file = new StdClass();
+      $file->uid = $user->uid;
+      $file->filename = basename($uri);
+      $file->uri = $uri;
+      $file->filemime = file_get_mimetype($uri);
+      // This is gagged because some uris will not support it.
+      $file->filesize = @filesize($uri);
+      $file->timestamp = REQUEST_TIME;
+      $file->status = FILE_STATUS_PERMANENT;
+      $file->is_new = TRUE;
+      // Saves the file object to the database.
+      file_save($file);
+    }
+    return $file;
+  }
+
 }
