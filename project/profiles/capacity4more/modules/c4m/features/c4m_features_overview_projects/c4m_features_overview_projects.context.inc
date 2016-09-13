@@ -56,9 +56,9 @@ function c4m_features_overview_projects_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-10',
         ),
-        'facetapi-0fu22cwdXHTX0SCpBBcEbOR77Jm1IfBp' => array(
+        'facetapi-S9qne31IKDd1jhPm8FHFcpVq9mtX65DM' => array(
           'module' => 'facetapi',
-          'delta' => '0fu22cwdXHTX0SCpBBcEbOR77Jm1IfBp',
+          'delta' => 'S9qne31IKDd1jhPm8FHFcpVq9mtX65DM',
           'region' => 'sidebar_first',
           'weight' => '-9',
         ),
