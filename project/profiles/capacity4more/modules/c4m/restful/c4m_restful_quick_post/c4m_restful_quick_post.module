@@ -203,7 +203,7 @@ function c4m_restful_quick_post_form($group_id) {
   // Global settings for the AngularJs app.
   $settings['c4m'] = array(
     'basePath' => url('', $options),
-    'purlPath' => url('', array('absolute' => TRUE)),
+    'purlPath' => url('', array('absolute' => TRUE, 'purl' => array('enabled' => TRUE))),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'activities' => $activities,
     'data' => array(
