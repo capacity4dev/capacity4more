@@ -193,6 +193,10 @@ function c4m_content_article_node_view_alter(&$build) {
     return;
   }
 
+  if ($build['#view_mode'] != 'full') {
+    return;
+  }
+
   // Remove the 'Regions' taxonomies.
   foreach ($build['c4m_vocab_geo']['#items'] as $index => $item) {
     unset($build['c4m_vocab_geo'][$index]);
