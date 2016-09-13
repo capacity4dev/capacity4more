@@ -325,18 +325,19 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
   foreach ($invitee_emails as $invitee_email) {
     // Try to load the user by email and see if exists.
     if ($account = user_load_by_mail($invitee_email)) {
+      // Check if account is active.
+      if (user_is_blocked($account->name)) {
+        $message = t('The username %user has not been activated or is blocked.', array('%user' => format_username($account)));
+      }
       // Check if user is already assigned to the group.
       // Any "state" (active, pending,... counts as existing).
-      if ($og_membership = og_get_membership($group_type, $gid, $entity_type, $account->uid)) {
+      elseif ($og_membership = og_get_membership($group_type, $gid, $entity_type, $account->uid)) {
         // Load OG membership.
         $message = t('%user is already a member of this group.', array('%user' => format_username($account)));
       }
       else {
         // Save invitation to MySQL.
-        $invitation = c4m_og_invite_visitors_store_invitation($user->uid, $gid, $invitee_email);
-        $message = $invitation
-          ? t('An email notification was sent to %address.', array('%address' => $invitee_email))
-          : t('An error occurred inviting %address to the group.', array('%address' => $invitee_email));
+        $message = t('An email notification was sent to %address.', array('%address' => $invitee_email));
         $field_name = key(og_get_group_audience_fields());
 
         // Invoke the invite_user functionality.
