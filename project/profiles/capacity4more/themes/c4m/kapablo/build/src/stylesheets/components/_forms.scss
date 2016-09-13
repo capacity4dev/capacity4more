@@ -126,6 +126,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    .droppable-controls {
+      position: relative;
+
+      .form-submit {
+        position: absolute;
+        bottom: 30px;
+        z-index: -1;
+      }
+    }
   }
 
   .cfm-file-upload {

@@ -33,5 +33,6 @@
   </div>
   <div class="droppable-controls">
     <?php print render($element['remove_button']); ?>
+    <?php print render($element['upload_button']); ?>
   </div>
 </div>
