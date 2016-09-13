@@ -72,6 +72,7 @@ function c4m_content_event_c4m_content_statistics_info() {
         'singular'    => 'Event',
         'plural'      => 'Events',
         'state'       => 1,
+        'skip_access_check' => TRUE,
         'aggregate'   => array(
           'type' => 'posts',
         ),
@@ -90,6 +91,7 @@ function c4m_content_event_c4m_content_statistics_info() {
         'singular'    => 'Event',
         'plural'      => 'Events',
         'state'       => 1,
+        'skip_access_check' => TRUE,
         'aggregate'   => NULL,
         'weight'      => 4,
         'attributes'  => array(

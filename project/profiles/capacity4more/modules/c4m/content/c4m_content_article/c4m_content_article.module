@@ -20,6 +20,7 @@ function c4m_content_article_c4m_content_statistics_info() {
         'singular'    => 'Article',
         'plural'      => 'Articles',
         'state'       => 1,
+        'skip_access_check' => TRUE,
         'aggregate'   => array(),
         'weight'      => -5,
         'attributes'  => array(

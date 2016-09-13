@@ -55,6 +55,7 @@ features[ds_layout_settings][] = node|article|teaser
 features[features_api][] = api:2
 features[field_base][] = c4m_intro_text
 features[field_base][] = c4m_related_articles
+features[field_base][] = c4m_related_articles_unlimited
 features[field_group][] = c4m_metadata|node|article|form
 features[field_group][] = group_node_actions|node|article|full
 features[field_group][] = group_node_meta|node|article|full

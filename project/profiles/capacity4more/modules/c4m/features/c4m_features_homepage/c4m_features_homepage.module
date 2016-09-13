@@ -8,6 +8,14 @@
 include_once 'c4m_features_homepage.features.inc';
 
 /**
+ * Maximum groups to display on blocks.
+ *
+ * On the homepage we have "suggested groups" and "my groups" blocks where we
+ * should limit the amount of groups to be displayed.
+ */
+define('C4M_FEATURES_HOMEPAGE_MAX_GROUPS_PER_BLOCK', 3);
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
@@ -17,7 +25,7 @@ function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Renders 5 suggested group for the user.
+ * Renders suggested groups for the user.
  *
  * Suggest 5 random groups for the user which he is not subscribed to.
  * When interests filter is applied : select groups which has at least one
@@ -25,7 +33,7 @@ function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
  * Interests are taken from user's profile.
  *
  * @return mixed
- *   Rendered HTML of 5 suggested groups.
+ *   Rendered HTML of suggested groups.
  */
 function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   global $user;
@@ -46,27 +54,20 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   $query
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'group')
-    ->propertyCondition('status', NODE_PUBLISHED);
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->fieldCondition('c4m_og_status', 'value', 'published');
 
   if (!empty($user_groups['node'])) {
     $query
       ->propertyCondition('nid', $user_groups['node'], 'NOT IN');
   }
 
-  $link_filters = array();
   if (!empty($interests)) {
     $query->fieldCondition('c4m_vocab_topic', 'tid', $interests, 'IN');
-
-    // Adds each interest to the exposed filters that will be pass to the
-    // groups page.
-    foreach ($interests as $key => $interest) {
-      $link_filters['f[' . $key . ']'] = 'c4m_vocab_topic:' . $interest;
-    }
   }
 
   $result = $query
     ->addTag('random')
-    ->range(0, 5)
     ->execute();
 
   if (empty($result['node'])) {
@@ -76,16 +77,22 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   $groups = c4m_features_homepage_alphabetically_render_node_list($result['node']);
 
   $variables['groups'] = $groups;
-  $variables['link'] = url('groups', array('absolute' => TRUE, 'query' => $link_filters));
+  $link_options = array(
+    'absolute' => TRUE,
+    'query' => array(
+      'filter' => 'interests',
+    ),
+  );
+  $variables['link'] = url('groups', $link_options);
 
   return theme('c4m_features_homepage_c4m_suggested_groups', $variables);
 }
 
 /**
- * Renders 3 featured groups.
+ * Renders featured groups.
  *
  * @return mixed
- *   Rendered HTML of 3 featured groups.
+ *   Rendered HTML of featured groups.
  */
 function c4m_features_homepage_c4m_featured_groups_get_groups() {
   $query = new EntityFieldQuery();
@@ -98,7 +105,6 @@ function c4m_features_homepage_c4m_featured_groups_get_groups() {
 
   $result = $query
     ->addTag('random')
-    ->range(0, 3)
     ->execute();
 
   if (empty($result['node'])) {
@@ -118,7 +124,13 @@ function c4m_features_homepage_c4m_featured_groups_get_groups() {
  * Loads list of nodes, sorts them and renders them as block list.
  */
 function c4m_features_homepage_alphabetically_render_node_list($node_ids) {
+  module_load_include('inc', 'c4m_features_homepage', 'plugins/content_types/my_groups/my_groups');
   $items = node_load_multiple(array_keys($node_ids));
+
+  // Removes groups where the logged in user has no access.
+  $items = array_filter($items, 'c4m_features_homepage_node_access_view_filter');
+  $items = array_slice($items, 0, C4M_FEATURES_HOMEPAGE_MAX_GROUPS_PER_BLOCK);
+
   uasort($items, 'c4m_features_homepage_node_sort_by_title');
 
   $rendered_nodes = '';
@@ -321,12 +333,22 @@ function c4m_features_homepage_newsletter_form_submit($form, &$form_state) {
 function c4m_features_homepage_c4m_cta_block() {
   $items = array();
 
-  if (drupal_is_front_page() && !user_is_anonymous()) {
+  // drupal_is_front_page was not enough. It was returning TRUE for group
+  // homepages. So now we have to check that is not a group page.
+  $is_group_page = ($group = c4m_og_current_group());
+  if (drupal_is_front_page() && !user_is_anonymous() && !$is_group_page) {
     $items['create-group'] = array(
       '#theme' => 'c4m_group_visitor_cta',
       '#button_label' => t('Create group'),
       '#button_icon' => 'fa-plus',
       '#url' => url('/node/add/group'),
+    );
+
+    $items['create-project'] = array(
+      '#theme' => 'c4m_group_visitor_cta',
+      '#button_label' => t('Create project'),
+      '#button_icon' => 'fa-plus',
+      '#url' => url('/node/add/project'),
     );
   }
 

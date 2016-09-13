@@ -142,8 +142,8 @@ function c4m_content_photoalbum_field_default_field_instances() {
           'more_link' => 0,
           'more_text' => 'Read more',
           'summary_handler' => 'trim',
-          'trim_length' => 200,
-          'trim_link' => FALSE,
+          'trim_length' => 600,
+          'trim_link' => 0,
           'trim_options' => array(
             'text' => 'text',
           ),
@@ -152,15 +152,25 @@ function c4m_content_photoalbum_field_default_field_instances() {
           'trim_type' => 'chars',
         ),
         'type' => 'smart_trim_format',
-        'weight' => 3,
+        'weight' => 2,
       ),
       'activity_group' => array(
         'label' => 'hidden',
-        'module' => 'text',
+        'module' => 'smart_trim',
         'settings' => array(
+          'more_link' => 0,
+          'more_text' => 'Read more',
+          'summary_handler' => 'full',
           'trim_length' => 600,
+          'trim_link' => 0,
+          'trim_options' => array(
+            'text' => 0,
+          ),
+          'trim_preserve_tags' => '',
+          'trim_suffix' => '...',
+          'trim_type' => 'chars',
         ),
-        'type' => 'text_summary_or_trimmed',
+        'type' => 'smart_trim_format',
         'weight' => 2,
       ),
       'c4m_related' => array(
@@ -206,6 +216,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -313,7 +329,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 28,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -329,14 +345,8 @@ function c4m_content_photoalbum_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
-        'settings' => array(
-          'display' => 'all',
-          'link' => '',
-          'separator' => ' » ',
-          'wrap' => 'none',
-        ),
-        'type' => 'term_reference_tree_children_expanded',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 23,
       ),
       'featured_block' => array(
@@ -366,6 +376,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 27,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -412,7 +428,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 17,
+        'weight' => 22,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -422,9 +438,8 @@ function c4m_content_photoalbum_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
+        'type' => 'hidden',
         'weight' => 26,
       ),
       'full' => array(
@@ -433,12 +448,18 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(
           'display' => 'all',
           'glue' => ', ',
-          'link' => '',
+          'link' => 1,
           'separator' => ' > ',
           'wrap' => 'none',
         ),
         'type' => 'term_reference_checked_inline_tree',
         'weight' => 10,
+      ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 30,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -481,7 +502,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 27,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -497,14 +518,8 @@ function c4m_content_photoalbum_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
-        'settings' => array(
-          'display' => 'all',
-          'link' => '',
-          'separator' => ' » ',
-          'wrap' => 'none',
-        ),
-        'type' => 'term_reference_tree_children_expanded',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 24,
       ),
       'featured_block' => array(
@@ -534,6 +549,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 28,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -580,7 +601,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 22,
+        'weight' => 24,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -596,14 +617,8 @@ function c4m_content_photoalbum_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
-        'settings' => array(
-          'display' => 'all',
-          'link' => '',
-          'separator' => ' » ',
-          'wrap' => 'none',
-        ),
-        'type' => 'term_reference_tree_children_expanded',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 25,
       ),
       'featured_block' => array(
@@ -618,7 +633,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(
           'display' => 'all',
           'glue' => ', ',
-          'link' => '',
+          'link' => 1,
           'separator' => ' > ',
           'wrap' => 'none',
         ),
@@ -636,6 +651,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -685,7 +706,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 26,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -701,11 +722,8 @@ function c4m_content_photoalbum_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'c4m_og_purl',
-        'settings' => array(
-          'link' => 'purl_auto',
-        ),
-        'type' => 'c4m_og_purl_entityreference_link',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 16,
       ),
       'featured_block' => array(
@@ -737,6 +755,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 25,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -821,7 +845,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 25,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -837,11 +861,8 @@ function c4m_content_photoalbum_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'c4m_og_purl',
-        'settings' => array(
-          'link' => 'purl_auto',
-        ),
-        'type' => 'c4m_og_purl_entityreference_link',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 22,
       ),
       'featured_block' => array(
@@ -870,6 +891,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 26,
       ),
       'teaser' => array(
         'label' => 'above',

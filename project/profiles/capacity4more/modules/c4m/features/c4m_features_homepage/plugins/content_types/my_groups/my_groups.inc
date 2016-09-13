@@ -20,53 +20,137 @@ $plugin = array(
  */
 function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $args, $context) {
   global $user;
-
-  $account = user_load($user->uid);
-  $first_groups = '';
-  $extra_groups = '';
-
-  // Get All user's groups (We get them sorted by id).
-  $groups = og_get_groups_by_user($account, NULL, TRUE);
-
-  if (empty($groups['node'])) {
-    return FALSE;
-  }
-
-  $nids = array_values($groups['node']);
-
-  $my_groups = node_load_multiple($nids);
-
-  usort($my_groups, 'c4m_sort_object_by_title');
-
-  // Render node views for each group,
-  // First 3 groups are displayed (first_groups), the rest are hidden and only
-  // shown when user clicks on "Show all" (extra_groups).
-  $count = 0;
-  foreach ($my_groups as $group) {
-    if ($group->type != 'group') {
-      continue;
-    }
-    $node_view = node_view($group, 'block_list');
-    if ($count < 3) {
-      $first_groups .= drupal_render($node_view);
-    }
-    else {
-      $extra_groups .= drupal_render($node_view);
-    }
-    $count++;
-  }
-
-  $variables = array(
-    'first_groups' => $first_groups,
-    'extra_groups' => $extra_groups,
-    'show_all_link' => $count > 3 ? TRUE : FALSE,
-  );
+  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($user);
 
   $block = new stdClass();
   $block->module = 'c4m_features_homepage';
   $block->title = '';
-  $block->content = $first_groups ? theme('c4m_features_homepage_my_groups', $variables) : FALSE;
+  $block->content = '';
+  if (empty($groups)) {
+    return $block;
+  }
+
+  $rendered_groups = '';
+  $count = 0;
+
+  // Render node views for each group.
+  foreach ($groups as $type => $group_list) {
+    $title = c4m_features_homepage_get_group_type_title($type);
+    $rendered_groups .= '<h4>' . $title . '</h4>';
+
+    foreach ($group_list as $group) {
+      $node_view = node_view($group, 'block_list');
+      $rendered_groups .= drupal_render($node_view);
+
+      $count++;
+      if ($count >= 5) {
+        break;
+      }
+    }
+
+    if ($count >= 5) {
+      break;
+    }
+  }
+
+  $link_options = array(
+    'query' => array(
+      'filter' => 'groups',
+    )
+  );
+  $variables = array(
+    'groups' => $rendered_groups,
+    'link' => url('groups', $link_options),
+  );
+
+  $block->content = $rendered_groups ? theme('c4m_features_homepage_my_groups', $variables) : FALSE;
   return $block;
+}
+
+/**
+ * Returns the title for the type of membership of a group.
+ *
+ * @param string $type
+ *   The group membership type.
+ *
+ * @return string
+ *   The translated title for the membership type.
+ */
+function c4m_features_homepage_get_group_type_title($type) {
+  $titles = array(
+    'owner' => t('Owner of the following groups'),
+    'administrator' => t('Administrator of the following groups'),
+    'member' => t("Member of the following groups"),
+    'pending' => t('Membership requested in the following groups'),
+  );
+
+  return $titles[$type];
+}
+
+/**
+ * Returns the list of groups of an user.
+ *
+ * @param object $account
+ *   User object. Defaults global user if NULL.
+ *
+ * @returns mixed|null
+ *   List of groups or NULL if the user has no groups.
+ */
+function c4m_features_homepage_get_user_groups($account = NULL) {
+  $groups = c4m_user_og_get_groups($account);
+
+  // Removes groups where the logged in user has no access.
+  $groups = array_filter($groups, 'c4m_features_homepage_node_access_view_filter');
+
+  usort($groups, 'c4m_sort_object_by_title');
+
+  return $groups;
+}
+
+/**
+ * Callback for array_filter that checks if the user has access to the node.
+ *
+ * @param object $node
+ *   Node object.
+ *
+ * @returns boolean
+ *   Indicates if the user has access or not.
+ */
+function c4m_features_homepage_node_access_view_filter($node) {
+  return node_access('view', $node);
+}
+
+/**
+ * Returns the list of groups of an user, grouped by the membership type.
+ *
+ * @param object $account
+ *   User object. Defaults global user if NULL.
+ *
+ * @returns mixed|null
+ *   List of groups or NULL if the user has no groups.
+ */
+function c4m_features_homepage_get_user_groups_grouped_by_membership($account = NULL) {
+  $groups = c4m_features_homepage_get_user_groups($account);
+
+  $grouped_groups = array(
+    'owner' => array(),
+    'administrator' => array(),
+    'member' => array(),
+  );
+  foreach ($groups as $group) {
+    $membership = c4m_user_og_get_role_in_group($account, $group);
+    $grouped_groups[$membership][$group->nid] = $group;
+  }
+
+  // Remove empty list of groups so the block is not rendered if there are no
+  // groups.
+  foreach ($grouped_groups as $type => $groups) {
+    if (empty($groups)) {
+      unset($grouped_groups[$type]);
+    }
+  }
+
+  return $grouped_groups;
 }
 
 /**
@@ -82,9 +166,8 @@ function c4m_features_homepage_my_groups_content_type_edit_form($form, &$form_st
 function c4m_features_homepage_my_groups_content_type_theme(&$theme, $plugin) {
   $theme['c4m_features_homepage_my_groups'] = array(
     'variables' => array(
-      'first_groups' => NULL,
-      'extra_groups' => NULL,
-      'show_all_link' => NULL,
+      'groups' => NULL,
+      'link' => NULL,
     ),
     'path' => $plugin['path'],
     'template' => 'my-groups',

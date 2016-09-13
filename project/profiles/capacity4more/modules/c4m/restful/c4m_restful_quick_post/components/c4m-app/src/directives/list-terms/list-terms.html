@@ -1,7 +1,7 @@
 <form action="#" class="search">
   <input ng-model="searchTerm" ng-change="updateSearch()" class="form-control" type="text" placeholder="Search"/>
 </form>
-<ul>
+<ul class="popover-content-list">
   <li class="checkbox" ng-repeat="item in filteredTerms">
     <label>
       <input type="checkbox" ng-name="type" title="{{item.label}}" ng-model="model[item.id]" ng-change="updateSelectedTerms(key, item)"> {{item.label}}
