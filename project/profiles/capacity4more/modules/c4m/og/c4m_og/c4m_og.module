@@ -181,19 +181,40 @@ function c4m_og_menu() {
   $items['group/%/approve'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_og_approve_group_request', 1),
-    'access callback' => TRUE,
-    'access arguments' => array(),
+    'access callback' => 'c4m_og_control_group_request_access',
+    'access arguments' => array(1),
   );
 
   // Menu item for rejection of group request url.
   $items['group/%/reject'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_og_reject_group_request', 1),
-    'access callback' => TRUE,
-    'access arguments' => array(),
+    'access callback' => 'c4m_og_control_group_request_access',
+    'access arguments' => array(1),
   );
 
   return $items;
+}
+
+/**
+ * Access to control group requests.
+ *
+ * Site administrators can access, as long as $gid is OG group.
+ *
+ * @param int $gid
+ *   Group ID.
+ *
+ * @return bool
+ *   Wither access is allowed.
+ */
+function c4m_og_control_group_request_access($gid) {
+  if (!user_access('administer group')) {
+    return FALSE;
+  }
+
+  $node = node_load($gid);
+
+  return ($node->type == 'group') || ($node->type == 'project');
 }
 
 /**
@@ -320,7 +341,6 @@ function c4m_og_control_group_request($action, $gid) {
 
   $wrapper->save();
   drupal_set_message($message);
-  drupal_goto('node/' . $gid . '/group');
 }
 
 /**
@@ -434,6 +454,20 @@ function c4m_og_route_to_group_people($form, &$form_state) {
   $gid = $form_state['values']['gid'];
 
   drupal_goto('group/node/' . $gid . '/admin/people');
+}
+
+/**
+ * Forwards the page to group's People page.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ */
+function c4m_og_route_to_group($form, &$form_state) {
+  $gid = $form_state['values']['gid'];
+
+  drupal_goto('node/' . $gid . '/group');
 }
 
 /**

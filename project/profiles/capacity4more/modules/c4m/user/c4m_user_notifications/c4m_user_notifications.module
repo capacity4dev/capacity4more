@@ -335,8 +335,8 @@ function c4m_user_notifications_form_c4m_og_reject_membership_request_alter(&$fo
  * request.
  */
 function c4m_user_notifications_form_c4m_og_approve_group_request_alter(&$form, &$form_state) {
-  // $form['#submit'][] = 'c4m_user_notifications_moderated_group_notify_user_membership_rejected';
-  // $form['#submit'][] = 'c4m_og_route_to_group_people';
+  $form['#submit'][] = 'c4m_user_notifications_notify_user_group_approved';
+  $form['#submit'][] = 'c4m_og_route_to_group';
 }
 
 /**
@@ -346,8 +346,8 @@ function c4m_user_notifications_form_c4m_og_approve_group_request_alter(&$form, 
  * request.
  */
 function c4m_user_notifications_form_c4m_og_reject_group_request_alter(&$form, &$form_state) {
- // $form['#submit'][] = 'c4m_user_notifications_moderated_group_notify_user_membership_rejected';
- // $form['#submit'][] = 'c4m_og_route_to_group_people';
+ $form['#submit'][] = 'c4m_user_notifications_notify_user_group_rejected';
+ $form['#submit'][] = 'c4m_og_route_to_group';
 }
 
 /**
