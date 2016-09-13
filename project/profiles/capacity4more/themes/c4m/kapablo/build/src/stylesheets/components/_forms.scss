@@ -122,6 +122,12 @@
     display: none;
   }
 
+  #edit-c4m-document {
+
+    .input-group {
+      display: block;
+    }
+  }
   .cfm-file-upload-wrapper {
     display: flex;
     flex-direction: column;

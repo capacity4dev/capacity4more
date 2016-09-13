@@ -130,10 +130,3 @@ function kapablo_render_what_is_this($description) {
 
   return theme_html_tag($tag);
 }
-
-/**
-  * @see theme_file_widget()
- */
-function kapablo_file_widget(&$variables) {
-  return theme_file_widget($variables);
-}
