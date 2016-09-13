@@ -99,11 +99,19 @@ function c4m_user_strongarm() {
             'visible' => FALSE,
           ),
           'block_list' => array(
-            'weight' => '24',
+            'weight' => '38',
             'visible' => FALSE,
           ),
           'user_picture' => array(
             'weight' => '11',
+            'visible' => FALSE,
+          ),
+          'teaser' => array(
+            'weight' => '38',
+            'visible' => FALSE,
+          ),
+          'member_overview' => array(
+            'weight' => '46',
             'visible' => FALSE,
           ),
         ),
@@ -133,11 +141,19 @@ function c4m_user_strongarm() {
             'visible' => FALSE,
           ),
           'block_list' => array(
-            'weight' => '20',
+            'weight' => '34',
             'visible' => FALSE,
           ),
           'user_picture' => array(
             'weight' => '0',
+            'visible' => FALSE,
+          ),
+          'teaser' => array(
+            'weight' => '34',
+            'visible' => FALSE,
+          ),
+          'member_overview' => array(
+            'weight' => '45',
             'visible' => FALSE,
           ),
         ),

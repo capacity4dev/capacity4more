@@ -24,7 +24,10 @@ function theme_c4m_ds_submitted_by_and_on(array $field) {
   $entity = $field['entity'];
   $user = user_load($entity->uid);
   $name = c4m_user_name($user);
-  $options = array('attributes' => array('class' => array('user-name')));
+  $options = array(
+    'attributes' => array('class' => array('user-name')),
+    'purl' => array('disabled' => TRUE),
+  );
 
   // If user is not anonymous, set link on user name.
   if ($entity->uid > 0) {
@@ -227,7 +230,6 @@ function theme_c4m_ds_type_insert_action(array $field) {
         'id' => $group_wrapper->nid->value(),
       ),
     );
-    ;
 
     $group_url = l(
       $group_wrapper->title->value(),
@@ -285,14 +287,14 @@ function theme_c4m_ds_content_footer_stats(array $field) {
 
   $items['recommends'] = theme(
     'c4m_ds_entity_recommends_count',
-    array('count' => (!empty($recommends) ? $recommends : 0))
+    array('count' => (!empty($recommends) ? c4m_content_ec_number_format($recommends) : 0))
   );
 
   // Only show comments if comments are enabled.
   if ($entity->comment == COMMENT_NODE_OPEN) {
     $items['comments'] = theme(
       'c4m_ds_entity_comments_count',
-      array('count' => $entity->comment_count)
+      array('count' => c4m_content_ec_number_format($entity->comment_count))
     );
   }
 
@@ -303,7 +305,7 @@ function theme_c4m_ds_content_footer_stats(array $field) {
 
   $items['views'] = theme(
     'c4m_ds_entity_views_count',
-    array('count' => $statistic['totalcount'])
+    array('count' => c4m_content_ec_number_format($statistic['totalcount']))
   );
 
   if ($field['formatter'] === 'downloads') {
@@ -314,7 +316,7 @@ function theme_c4m_ds_content_footer_stats(array $field) {
       $file_object = file_load($document['fid']);
       $items['downloads'] = theme(
         'c4m_ds_entity_downloads_count',
-        array('count' => (!empty($file_object->download_count) ? $file_object->download_count : 0))
+        array('count' => (!empty($file_object->download_count) ? c4m_content_ec_number_format($file_object->download_count) : 0))
       );
     }
   }
@@ -778,4 +780,27 @@ function theme_c4m_ds_content_shared_to(array $field) {
       'args' => array($entity->nid),
     )
   );
+}
+
+/**
+ * Themes toggle group notifications link
+ *
+ * @param array $field
+ *  The field definition.
+ *
+ * @return \Html|void
+ *   Rendered html for field.
+ */
+function theme_c4m_ds_group_notification_toggle(array $field) {
+  global $user;
+
+  if (!($group = c4m_og_current_group())) {
+    return '';
+  }
+
+  if (!og_is_member('node', $group->nid)) {
+    return '';
+  }
+
+  return c4m_content_group_create_toggle_notification_link($user, $group);
 }

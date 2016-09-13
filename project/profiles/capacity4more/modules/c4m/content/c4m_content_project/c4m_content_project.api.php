@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Hooks provided by the c4m_content_project module.
