@@ -373,6 +373,13 @@ function c4m_user_profile_alter_user_form(
   $form['c4m_is_organisation_user'][LANGUAGE_NONE]['#type'] = 'hidden';
   $form['c4m_is_invalid_email'][LANGUAGE_NONE]['#type'] = 'hidden';
 
+  // The default contact value is different on registration (general setting).
+  // On the user edit form, the default value is stored as per user and this
+  // value is already present in the form values (original contact field).
+  $contact_default_value = ($is_registration) ?
+    variable_get('contact_default_status', 1) :
+    $form['contact']['contact']['#default_value'];
+
   // Add checkbox for contact options.
   // @see contact_form_user_profile_form_alter().
   $form['contact'] = array(
@@ -380,7 +387,7 @@ function c4m_user_profile_alter_user_form(
     '#title' => t(
       'Members are allowed to contact you through your personal contact form'
     ),
-    '#default_value' => variable_get('contact_default_status', 1),
+    '#default_value' => $contact_default_value,
     '#weight' => 14,
     '#group' => 'group_public_profile',
   );
@@ -632,22 +639,12 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
       )
     );
   }
-
-  // Set contact flag.
-  if (isset($form_state['user'])) {
-    variable_set('contact_default_status', $form_state['user']->contact);
-  }
 }
 
 /**
  * Submit callback for user_register_form form.
  */
 function c4m_user_profile_form_user_profile_form_submit($form, &$form_state) {
-  // Set contact flag.
-  if (isset($form_state['user'])) {
-    variable_set('contact_default_status', $form_state['user']->contact);
-  }
-
   // Redirect to user profile after submit.
   $form_state['redirect'] = 'user/' . $form_state['user']->uid;
 }
