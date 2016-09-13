@@ -133,7 +133,6 @@ class FeatureContext extends DrupalContext {
    * @Given /^I should see the "([^"]*)" element$/
    */
   public function iShouldSeeTheElement($selector) {
-
     $element = $this->getSession()->getPage()->find('css', $selector);
 
     if (!$element) {
