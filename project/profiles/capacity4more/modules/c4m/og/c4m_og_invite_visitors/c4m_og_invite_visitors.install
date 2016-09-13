@@ -45,13 +45,11 @@ function c4m_og_invite_visitors_schema() {
       'inv_created' => array(
         'description' => 'Date and time the invitation was sent.',
         'mysql_type' => 'datetime',
-        'pgsql_type' => 'timestamp without time zone',
         'not null' => TRUE,
       ),
       'inv_updated' => array(
         'description' => 'Date and time the invitation was processed.',
         'mysql_type' => 'datetime',
-        'pgsql_type' => 'timestamp without time zone',
         'not null' => FALSE,
       ),
       'inv_token' => array(
