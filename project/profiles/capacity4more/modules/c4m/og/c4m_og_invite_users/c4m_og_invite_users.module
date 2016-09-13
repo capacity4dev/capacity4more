@@ -91,7 +91,7 @@ function c4m_og_invite_users_mail_tokens(array &$replacements, array $data, $opt
   $answer_link = url(og_invite_answer_path_by_hash($data['group']->type, $data['group']->nid, $hash, 'answer'));
   $answer_link = str_replace("/group/group/", "/group/node/", $answer_link);
 
-  $replacements['[personal:subject]'] = 'Invitation to join the ' . $data['group']->type . ' ' . $data['group']->title;
+  $replacements['[personal:subject]'] = $data['subject'];
   $replacements['[user:member]'] = c4m_user_name($data['inviter']);
 
   // Make the full name lowercase and replace anything except a-z, 1-9  with
@@ -107,4 +107,93 @@ function c4m_og_invite_users_mail_tokens(array &$replacements, array $data, $opt
   $replacements['[personal:body]'] = $data['message'];
   $replacements['[group:accept_invite_url]'] = $answer_link;
   $replacements['[site:name]'] = variable_get('site_name', 'Capacity 4 More');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add a subject field to the invitation form.
+ */
+function c4m_og_invite_users_form__og_invite_form_alter(&$form, &$form_state, $form_id) {
+  $form['subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subject'),
+    '#weight' => 10,
+  );
+
+  $form['message']['#weight'] = 20;
+  $form['#submit'][0] = 'c4m_og_invite_users_form_submit';
+}
+
+/**
+ * Invitation form submit callback.
+ */
+function c4m_og_invite_users_form_submit($form, &$form_state) {
+  $group_type = $form_state['values']['group_type'];
+  $gid = $form_state['values']['gid'];
+  $message = check_plain($form_state['values']['message']);
+  $subject = check_plain($form_state['values']['subject']);
+  $invitees = explode(',', str_replace(', ', ',', $form_state['values']['invitee']));
+
+  $entity = entity_load_single($group_type, $gid);
+  $label = entity_label($group_type, $entity);
+  $field_name = key(og_get_group_audience_fields());
+  foreach ($invitees as $invitee) {
+    if (empty($invitee)) {
+      continue;
+    }
+    list($name, $uid) = explode('||', preg_replace('#^(.*)\s\[([0-9]+)\]$#', '$1||$2', $invitee));
+
+    $result = c4m_og_invite_users_invite($group_type, $gid, $field_name, $uid, $message, $subject);
+
+    if (!empty($result)) {
+      drupal_set_message(t('<em>@user</em> has been invited to the group <em>@label</em>.', array('@user' => $name, '@label' => $label)));
+      $form_state['redirect'] = 'group/' . $group_type . '/' . $gid . '/admin/people/invite-users';
+    }
+    else {
+      drupal_set_message(t('An error happened while inviting <em>@user</em> to the group <em>@label</em>', array('@user' => $name, '@label' => $label)), 'error');
+    }
+  }
+}
+
+/**
+ * Send an invitation to an user.
+ */
+function c4m_og_invite_users_invite($group_type, $gid, $field_name, $uid, $message = '', $subject = '', $inviter = NULL) {
+  if (empty($inviter)) {
+    global $user;
+    $inviter = $user;
+  }
+  $invitee = user_load($uid);
+  $group = entity_load_single($group_type, $gid);
+  $subject = $subject ?: 'Invitation to join the ' . $group->type . ' ' . $group->title;
+
+  // Populate values array to say membership was created via invite.
+  $values = array(
+    OG_INVITE_MEMBERSHIP_FIELD => TRUE,
+    OG_MEMBERSHIP_REQUEST_FIELD => t('Invited by @name', array('@name' => format_username($inviter))),
+  );
+
+  // Add group membership form.
+  $og_membership = og_membership_create($group_type, $gid, 'user', $invitee->uid, $field_name, $values);
+  $og_membership->state = OG_STATE_PENDING;
+  $og_membership->save();
+
+  $hash = og_invite_generate_hash($og_membership);
+
+  // Send an invitation message.
+  $params = array(
+    'inviter' => $inviter,
+    'invitee' => $invitee,
+    'group_type' => $group_type,
+    'group' => $group,
+    'hash' => $hash,
+    'message' => $message,
+    'subject' => $subject,
+  );
+
+  // Send the invitation by mail.
+  drupal_mail('og_invite', 'send_invitation', $invitee->mail, $invitee->language, $params);
+
+  return TRUE;
 }
