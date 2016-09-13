@@ -7,6 +7,7 @@ Feature: Testing the did you mean feature offered for search api that provides
     When I visit the site homepage
     And I fill in "edit-keys" with "leve"
     And I press "<i class=\"fa fa-search\"></i>"
+    And I wait
     Then I should see "Did you mean"
 
   @api
@@ -15,4 +16,5 @@ Feature: Testing the did you mean feature offered for search api that provides
     When I visit the site homepage
     And I fill in "edit-keys" with "level"
     And I press "<i class=\"fa fa-search\"></i>"
+    And I wait
     Then I should not see "Did you mean"
