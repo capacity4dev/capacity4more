@@ -37,6 +37,6 @@
 <?php if(!is_null($cta)): ?>
 <div class="video-preview-cta">
   <div class="cta"> <?php print $cta; ?></div>
-  <div class="link"> <?php print l('More groups >', '/groups'); ?></div>
+  <div class="link"> <?php print l(t('More groups >'), '/groups'); ?></div>
 </div>
 <?php endif; ?>
