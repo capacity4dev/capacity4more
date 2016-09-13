@@ -1405,13 +1405,17 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
  * group. Limits possible authors to group members or anonymous user.
  */
 function c4m_og_add_content_author_options_to_power_users(&$form) {
-  // If the user is a site administrator, there is no need to do anything.
+  // Site administrator already has these options by default.
   $site_admin_role = user_role_load_by_name('administrator');
   if (user_has_role($site_admin_role->rid)) {
     return;
   }
 
-  list(, $gid) = array_values(og_context());
+  $gid = c4m_og_current_group_id();
+  // Return early if there is no group context.
+  if (!$gid) {
+    return;
+  }
 
   // Show authoring information tab to GAs and GO when editing group content.
   $form['author']['#access'] = _c4m_features_og_members_is_power_user();
@@ -1426,7 +1430,12 @@ function c4m_og_add_content_author_options_to_power_users(&$form) {
  */
 function c4m_og_form_valid_author($form, &$form_state) {
   $user = user_load_by_name($form_state['values']['name']);
-  list(, $gid) = array_values(og_context());
+  $gid = c4m_og_current_group_id();
+  // Can't validate author if there is no group context.
+  if (!$gid) {
+    form_set_error('name', 'There was an error validating the author for this group.');
+  }
+
   if ($user && !og_is_member('node', $gid, 'user', $user)) {
     form_set_error('name', $form_state['values']['name'] . ' is not an active member of this group.');
   }
@@ -1444,7 +1453,12 @@ function c4m_og_edit_author_autocomplete($string = '') {
     return;
   }
 
-  list(, $gid) = array_values(og_context());
+  $gid = c4m_og_current_group_id();
+  // Return early if there is no group context.
+  if (!$gid) {
+    return;
+  }
+
   $query = db_select('users', 'u');
   $query
     ->condition('u.status', C4M_USER_STATUS_ACTIVE, '=')
