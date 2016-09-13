@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Class to create the Project nodes.
+ * Class to create the Programme nodes.
  */
 
 /**
