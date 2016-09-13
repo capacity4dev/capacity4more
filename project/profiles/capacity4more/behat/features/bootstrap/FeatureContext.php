@@ -129,4 +129,15 @@ class FeatureContext extends DrupalContext {
     $field->focus();
   }
 
+  /**
+   * @Given /^I should see the "([^"]*)" element$/
+   */
+  public function iShouldSeeTheElement($selector) {
+
+    $element = $this->getSession()->getPage()->find('css', $selector);
+
+    if (!$element) {
+      throw new \Exception("{$selector} was not found.");
+    }
+  }
 }

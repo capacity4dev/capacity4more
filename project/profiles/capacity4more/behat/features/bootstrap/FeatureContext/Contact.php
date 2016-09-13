@@ -22,16 +22,4 @@ trait Contact {
 
     return $steps;
   }
-
-  /**
-   * @Then /^I see the wysiwyg$/
-   */
-  public function iSeeTheWysiwyg() {
-    $this->getSession()->wait(20000, "");
-
-    $this->getSession()->getDriver()->evaluateScript(
-      "jQuery('textarea.ckeditor-mod').hasClass('ckeditor-processed');"
-    );
-  }
-
 }

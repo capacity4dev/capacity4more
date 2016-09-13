@@ -22,4 +22,4 @@ Feature: Contact
     Given I am logged in as user "alfrednobel"
     When I go to user "mariecurie" contact form
     Then I should see "Contact"
-    And I see the wysiwyg
+    And I should see the "#cke_edit-c4m-contact-user-body-value" element
