@@ -56,7 +56,7 @@ function c4m_user_subscribe_node_update($node) {
  * Flags OG content that requires notification, when commenting on existing
  * content.
  */
-function c4m_user_comment_insert($comment) {
+function c4m_user_subscribe_comment_insert($comment) {
   $node = node_load($comment->nid);
 
   if ($node->status != NODE_PUBLISHED) {

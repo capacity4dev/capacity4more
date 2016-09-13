@@ -25,6 +25,27 @@ function kapablo_menu_tree__c4m_og_group_menu(array $variables) {
  *   The rendered list item.
  */
 function kapablo_menu_link(&$variables) {
+  // Discard PURL modifiers for global menus.
+  // Group menu's: menu-og-<GID> and book-toc-<GID> (wiki navigation).
+  // Discard if not in an og_context.
+  if (
+    !preg_match(
+      "/menu-og|book-toc/i",
+      $variables['element']['#original_link']['menu_name']
+    )
+    || !og_context_is_init()
+  ) {
+    $element = $variables['element'];
+    $options = array(
+      'purl' => array(
+        'disabled' => TRUE,
+      ),
+    );
+    $element['#localized_options'] = $options;
+
+    $variables['element'] = $element;
+  }
+
   if (isset($variables['element']['#title']) && $variables['element']['#title'] == t('Wiki')) {
     $element = $variables['element'];
     $sub_menu_wrapper = NULL;
