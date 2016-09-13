@@ -7,13 +7,13 @@
 
 define('C4M_CONTENT_GROUP_ACCESS_REALM', 'c4m_group_status');
 define('C4M_CONTENT_GROUP_ACCESS_REALM_ALL', 'c4m_group_status_admin');
-define('C4M_CONTENT_GROUP_STATUS_VIEW_REQUESTED', 0);
+define('C4M_CONTENT_GROUP_STATUS_VIEW_PENDING', 0);
 define('C4M_CONTENT_GROUP_STATUS_VIEW_DRAFT', 1);
 define('C4M_CONTENT_GROUP_STATUS_VIEW_PUBLISHED', 2);
 define('C4M_CONTENT_GROUP_STATUS_VIEW_ARCHIVED', 3);
 define('C4M_CONTENT_GROUP_STATUS_VIEW_REJECTED', 4);
 define('C4M_CONTENT_GROUP_STATUS_VIEW_DELETED', 5);
-define('C4M_CONTENT_GROUP_STATUS_UPDATE_REQUESTED', 6);
+define('C4M_CONTENT_GROUP_STATUS_UPDATE_PENDING', 6);
 define('C4M_CONTENT_GROUP_STATUS_UPDATE_DRAFT', 7);
 define('C4M_CONTENT_GROUP_STATUS_UPDATE_PUBLISHED', 8);
 define('C4M_CONTENT_GROUP_STATUS_UPDATE_ARCHIVED', 9);
@@ -203,13 +203,13 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
   if (user_access('administer site configuration', $account)) {
     // Site admin.
     $grants[C4M_CONTENT_GROUP_ACCESS_REALM_ALL] = array(
-      C4M_CONTENT_GROUP_STATUS_VIEW_REQUESTED,
+      C4M_CONTENT_GROUP_STATUS_VIEW_PENDING,
       C4M_CONTENT_GROUP_STATUS_VIEW_DRAFT,
       C4M_CONTENT_GROUP_STATUS_VIEW_PUBLISHED,
       C4M_CONTENT_GROUP_STATUS_VIEW_ARCHIVED,
       C4M_CONTENT_GROUP_STATUS_VIEW_REJECTED,
       C4M_CONTENT_GROUP_STATUS_VIEW_DELETED,
-      C4M_CONTENT_GROUP_STATUS_UPDATE_REQUESTED,
+      C4M_CONTENT_GROUP_STATUS_UPDATE_PENDING,
       C4M_CONTENT_GROUP_STATUS_UPDATE_DRAFT,
       C4M_CONTENT_GROUP_STATUS_UPDATE_PUBLISHED,
       C4M_CONTENT_GROUP_STATUS_UPDATE_ARCHIVED,
@@ -227,9 +227,11 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
       if ($account->uid == $node->uid) {
         // Group owner.
         $grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_' . $gid] = array(
+          C4M_CONTENT_GROUP_STATUS_VIEW_PENDING,
           C4M_CONTENT_GROUP_STATUS_VIEW_DRAFT,
           C4M_CONTENT_GROUP_STATUS_VIEW_PUBLISHED,
           C4M_CONTENT_GROUP_STATUS_VIEW_ARCHIVED,
+          C4M_CONTENT_GROUP_STATUS_UPDATE_PENDING,
           C4M_CONTENT_GROUP_STATUS_UPDATE_DRAFT,
           C4M_CONTENT_GROUP_STATUS_UPDATE_PUBLISHED,
           C4M_CONTENT_GROUP_STATUS_UPDATE_ARCHIVED,
@@ -280,13 +282,23 @@ function c4m_content_group_node_access_records($node) {
   switch ($wrapper->c4m_og_status->value()) {
     case 'pending':
       $realm_grants = array(
-        C4M_CONTENT_GROUP_ACCESS_REALM_ALL => array(
+        C4M_CONTENT_GROUP_ACCESS_REALM . '_' . $node->nid => array(
           array(
-            'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_REQUESTED,
+            'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_PENDING,
             'grant_update' => 0,
           ),
           array(
-            'gid' => C4M_CONTENT_GROUP_STATUS_UPDATE_REQUESTED,
+            'gid' => C4M_CONTENT_GROUP_STATUS_UPDATE_PENDING,
+            'grant_update' => 1,
+          ),
+        ),
+        C4M_CONTENT_GROUP_ACCESS_REALM_ALL => array(
+          array(
+            'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_PENDING,
+            'grant_update' => 0,
+          ),
+          array(
+            'gid' => C4M_CONTENT_GROUP_STATUS_UPDATE_PENDING,
             'grant_update' => 1,
           ),
         ),

@@ -1274,16 +1274,21 @@ function c4m_og_get_user_group_ids_by_bundle($bundle = NULL, $account = NULL) {
     return $groups;
   }
 
-  $conditions = array(
-    'status' => NODE_PUBLISHED,
-    'type' => $bundle,
-  );
+  // Apply bundle filter only for specific bundle type.
+  $conditions = array();
+  if ($bundle != 'showAll') {
+    $conditions['type'] = $bundle;
+  }
 
   $groups = node_load_multiple($groups, $conditions);
 
   $groups_ids = array();
   foreach ($groups as $group) {
-    $groups_ids[] = $group->nid;
+    // Check whether the group has been published, or whether the user
+    // is the group owner (applies only to 'My groups').
+    if ($group->status == NODE_PUBLISHED  || ($group->name == $account->name && $bundle == 'group')) {
+      $groups_ids[] = $group->nid;
+    }
   }
 
   return $groups_ids;
