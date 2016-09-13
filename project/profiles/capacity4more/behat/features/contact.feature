@@ -36,3 +36,24 @@ Feature: Contact
     And I should see "Message field is required."
     And I should not see "Your name field is required."
     And I should not see "Your e-mail address field is required."
+
+  @api
+  Scenario: Send the contact form as anonymous
+    Given I am an anonymous user
+    When I go to "contact"
+    And I fill in "Your name" with "Nikola Tesla"
+    And I fill in "Your e-mail address" with "tesla@edison.sucks"
+    And I fill in "Subject" with "I want a nobel prize"
+    And I fill in "Message" with "I want a nobel prize too."
+    And I press "Send message"
+    Then I should see "Your message has been sent."
+
+  @api
+  Scenario: Send the contact form as logged in user
+    Given I am logged in as user "isaacnewton"
+    When I go to "contact"
+    And I press "Send message"
+    And I fill in "Subject" with "I want a nobel prize"
+    And I fill in "Message" with "I want a nobel prize too."
+    And I press "Send message"
+    Then I should see "Your message has been sent."
