@@ -3,6 +3,29 @@
   padding: 15px;
   color: white;
 
+  .cfm-file-upload-wrapper {
+    margin-top: 15px;
+
+    .cfm-file-upload {
+      color: $color-background;
+      background-color: $color-text-alternative;
+      border-radius: 80px;
+      height: 100px;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        background-color: $color-background;
+        color: $color-text-alternative;
+
+        a {
+          color: $color-text-alternative;
+        }
+      }
+    }
+  }
+
   a {
     text-decoration: underline;
     color: $color-white;
