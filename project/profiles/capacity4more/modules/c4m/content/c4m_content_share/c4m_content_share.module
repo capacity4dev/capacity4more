@@ -87,6 +87,10 @@ function c4m_content_share_search_api_index_items_alter(
   SearchApiIndex $index
 ) {
   foreach ($items as $index => $item) {
+    if (!isset($item->type)) {
+      return;
+    }
+
     if ($item->type == 'share') {
       // Do stuff.
       $node = entity_metadata_wrapper('node', $item);

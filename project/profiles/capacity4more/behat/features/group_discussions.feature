@@ -53,6 +53,22 @@ Feature: Group Discussions
     Then  I should see "Edit discussion"
     And   I should see "Some new discussion3"
 
+  @api
+  Scenario: Check GA can edit a discussion's author
+    Given I am logged in as user "galileo"
+    When I visit the group "discussion" detail page "Medals"
+    And I click "Edit" in the "primary tabs" region
+    Then I should see the text "Edit Discussion Medals"
+    And I should see the text "Authoring information"
+
+  @api
+  Scenario: Check SA can edit a discussion's author
+    Given I am logged in as user "survivalofthefittest"
+    When I visit the group "discussion" detail page "Medals"
+    And I click "Edit" in the "primary tabs" region
+    Then I should see the text "Edit Discussion Medals"
+    And I should see the text "Authoring information"
+
   @javascript
   Scenario: Check unpublish button on node edit forms as an authenticated user
     Given I am logged in as user "alfrednobel"
