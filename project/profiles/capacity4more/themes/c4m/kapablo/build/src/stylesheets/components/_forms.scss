@@ -127,6 +127,11 @@
     flex-direction: column;
     align-items: center;
 
+    .file-upload-js-error {
+      color: $color-form-input-error;
+      text-align: center;
+    }
+
     .droppable-controls {
       position: relative;
 
