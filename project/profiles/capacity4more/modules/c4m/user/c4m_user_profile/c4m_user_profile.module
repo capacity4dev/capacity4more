@@ -1082,11 +1082,20 @@ function c4m_user_profile_user_login_validate($form, &$form_state) {
       array('!password_recovery' => l(t('password recovery'), 'user/password'))
     );
   }
-  else {
+  elseif ($account->c4m_is_spammer->value()) {
+    $message = t(
+      'This account has been blocked, for more information please !contact an administrator.',
+      array('!contact' => l(t('contact'), 'contact'))
+    );
+  }
+  elseif ($account->c4m_is_deleted->value()) {
     $message = t(
       'There is a problem with your account, please !contact the site administrators.',
       array('!contact' => l(t('contact'), 'contact'))
     );
+  }
+  else {
+    $message = t('Sorry, unrecognized username or password. <a href="@password">Have you forgotten your password?</a>', array('@password' => url('user/password')));
   }
   form_set_error('name', $message);
 }
@@ -1160,7 +1169,7 @@ function c4m_user_profile_render_user_unsubscribe_hash($account = NULL) {
  * Adding the unsubscribe hash to the user profile when it is not a new profile.
  */
 function c4m_user_profile_user_presave(&$edit, $account, $category) {
-  if (!$account->is_new) {
+  if ($account->is_new) {
     return;
   }
 
@@ -1207,6 +1216,9 @@ function c4m_user_profile_unsubscribe_user_access(
 
   // Validate entity ID.
   try {
+    if ($entity_type == 'group' || $entity_type == 'comment') {
+      $entity_type = 'node';
+    }
     $wrapper = entity_metadata_wrapper($entity_type, $entity_id);
     if (!$wrapper->value()) {
       return FALSE;
@@ -1254,8 +1266,8 @@ function c4m_user_profile_message_subscribe_get_subscribers_alter(
   &$uids,
   $values
 ) {
-  $entity_type = $values['entity_type'];
-  $entity_id = reset($values['context'][$entity_type]);
+  $entity_type = $values['context']['entity_type'];
+  $entity_id = $values['context']['entity_id'];
   $uids = c4m_user_profile_get_subscribed($entity_type, $entity_id, $uids);
 }
 
@@ -1283,22 +1295,24 @@ function c4m_user_profile_get_subscribed(
     return array();
   }
 
+  $uids_keys = array_keys($uids);
   // Using db_select instead of user_load_multiple to optimize the performance.
   $query = db_select("field_data_c4m_optout_{$entity_type}", 'o');
   $query
     ->fields('o', array('entity_id'))
-    ->condition('entity_id', $uids, 'IN')
+    ->condition('entity_id', $uids_keys, 'IN')
     ->condition("c4m_optout_{$entity_type}_target_id", $entity_id);
 
   $unsubscribers = $query->execute()->fetchAllKeyed(0, 0);
 
-  return array_filter(
-    $uids,
-    function ($uid) use ($unsubscribers) {
-      // Removing all unsubscribed users.
-      return !in_array($uid, $unsubscribers);
+  // Unset unsubscribers from $uids array.
+  foreach ($unsubscribers as $unsubscriber) {
+    if (in_array($unsubscriber, $uids_keys)) {
+      unset($uids[$unsubscriber]);
     }
-  );
+  }
+
+  return $uids;
 }
 
 /**

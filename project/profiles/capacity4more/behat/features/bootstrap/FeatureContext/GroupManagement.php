@@ -75,4 +75,37 @@ trait GroupManagement {
 
     return $steps;
   }
+
+  /**
+   * @Given /^I visit the people management of group "([^"]*)"$/
+   */
+  public function iVisitThePeopleManagementOfGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = "group/node/{$group->nid}/admin/people";
+
+    return new Given("I go to \"$uri\"");
+  }
+
+  /**
+   * @Then /^I block "([^"]*)" from "([^"]*)"$/
+   */
+  public function iBlockFrom($username, $group_title) {
+    if ($username == 'temporal_user') {
+      $username = $this->getTemporalUsername();
+    }
+
+    $steps = array();
+    $steps[] = new Step\When('I visit the people management of group "' . $group_title . '"');
+
+    // Filter the list of the people by the username.
+    $steps[] = new Step\When('I fill in "edit-uid" with "' . $username . '"');
+    $steps[] = new Step\When('I press "Apply"');
+
+    $steps[] = new Step\When('I follow "edit"');
+    $steps[] = new Step\When('I select "' . OG_STATE_BLOCKED . '" from "edit-state"');
+    $steps[] = new Step\When('I press "Update membership"');
+
+    return $steps;
+  }
+
 }

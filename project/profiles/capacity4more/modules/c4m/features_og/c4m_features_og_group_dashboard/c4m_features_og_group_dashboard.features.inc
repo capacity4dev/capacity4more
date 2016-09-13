@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_features_og_group_dashboard.features.inc

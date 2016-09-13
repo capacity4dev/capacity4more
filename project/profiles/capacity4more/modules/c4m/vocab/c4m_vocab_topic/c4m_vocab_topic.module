@@ -38,10 +38,10 @@ function c4m_vocab_topic_add_mapping(array $mapping) {
 }
 
 /**
- * Retrieve the mapping with the new terms based on the name.
+ * Retrieve the mapping with the new terms based on the source title.
  *
  * @param string $name
- *   Destination title (to be mapped).
+ *   Source title (to be mapped).
  *
  * @return array
  *   Array with the mapping (if found).
@@ -59,6 +59,35 @@ function c4m_vocab_topic_get_mapping_by_source($name) {
 
   $results = db_select('c4m_topic_mapping', 't')->fields('t')->condition(
     't.source', $name
+  )->execute()->fetchAll();
+
+  $mapping[$name] = $results;
+
+  return $results;
+}
+
+/**
+ * Retrieve the mapping with the new terms based on the destination title.
+ *
+ * @param string $name
+ *   Destination title (to be mapped).
+ *
+ * @return array
+ *   Array with the mapping (if found).
+ */
+function c4m_vocab_topic_get_mapping_by_destination($name) {
+  $mapping = &drupal_static('c4m_vocab_topic_mapping');
+
+  if (!is_array($mapping)) {
+    $mapping = array();
+  }
+
+  if (!empty($mapping[$name])) {
+    return $mapping[$name];
+  }
+
+  $results = db_select('c4m_topic_mapping', 't')->fields('t')->condition(
+    't.destination', $name
   )->execute()->fetchAll();
 
   $mapping[$name] = $results;

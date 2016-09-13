@@ -35,6 +35,28 @@ function c4m_admin_menu() {
 }
 
 /**
+ * Returns site administrators ids.
+ *
+ * @return array
+ *   Ids of site admins, or empty array, if none found.
+ */
+function c4m_admin_get_admins_ids() {
+  // Get all site administrators.
+  $admin_role = user_role_load_by_name('administrator');
+  $results = db_select('users_roles', 'r')
+    ->fields('r', array('uid'))
+    ->condition('rid', $admin_role->rid, '=')
+    ->execute()
+    ->fetchAll();
+
+  foreach ($results as &$result) {
+    $result = $result->uid;
+  }
+
+  return $results;
+}
+
+/**
  * Implements hook_permission().
  */
 function c4m_admin_permission() {
