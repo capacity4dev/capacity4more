@@ -53,13 +53,25 @@ Feature: Test activity stream
     And   I update a "discussion" with title "Discussion added 8" with new title "Discussion updated 8" after "7 hours"
     Then  I should see a new message for "Discussion updated 8" in the activity stream of the group "Discussion Insert 8"
 
-  @api
-  Scenario: Promote buttons shouldn't be displayed to users without access.
-    When  I am logged in as user "isaacnewton"
-    And   I go to the "nobelprize" group
-    Then  I do not see "promote" button
-
-  @api
+  @javascript
   Scenario: Promote buttons shouldn't be displayed to anonymous users.
-    When   I go to the "nobelprize" group
-    Then  I do not see "promote" button
+    Given  I am an anonymous user
+    When  I visit the dashboard of group "Nobel Prize"
+    Then  I should not see the ".fa-thumb-tack" element
+
+  @javascript
+  Scenario: Promote buttons shouldn't be displayed to users without access.
+    Given  I am logged in as user "isaacnewton"
+    When  I visit the dashboard of group "Nobel Prize"
+    Then  I should not see the ".fa-thumb-tack" element
+
+  @javascript
+  Scenario Outline: Promote buttons should be displayed to users with access.
+    Given  I am logged in as user "<user>"
+    When  I visit the dashboard of group "Nobel Prize"
+    Then  I should see the ".fa-thumb-tack" element
+
+    Examples:
+      | user        |
+      | alfrednobel |
+      | mariecurie  |
