@@ -45,7 +45,6 @@ class C4mDemoContentCreateBookPages extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('c4m_body', 'body');
 
-
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('C4mDemoContentCreateUsers');
   }
@@ -107,14 +106,14 @@ class C4mDemoContentCreateBookPages extends C4mDemoContentCreateEntity {
 
     if (!$parent_node) {
       $book = array(
-        'pick-book' => 'Change book (update list of parents)',
-        'bid' => 'new',
-        'has_children' => 0,
-        'options' => array(),
-        'module' => 'book',
-        'original_bid' => 0,
+        'pick-book'          => 'Change book (update list of parents)',
+        'bid'                => 'new',
+        'has_children'       => 0,
+        'options'            => array(),
+        'module'             => 'book',
+        'original_bid'       => 0,
         'parent_depth_limit' => C4M_CONTENT_WIKI_PAGE_MAX_DEPTH,
-        'weight' => '0',
+        'weight'             => '0',
       );
     }
     else {
@@ -134,7 +133,6 @@ class C4mDemoContentCreateBookPages extends C4mDemoContentCreateEntity {
     $book['weight'] = $row->weight;
 
     $entity->book = $book;
-
   }
 
   /**

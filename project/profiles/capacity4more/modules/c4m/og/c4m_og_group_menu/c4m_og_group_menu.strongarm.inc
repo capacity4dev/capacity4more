@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * og_group_menu.strongarm.inc
+ * c4m_og_group_menu.strongarm.inc
  */
 
 /**
  * Implements hook_strongarm().
  */
-function og_group_menu_strongarm() {
+function c4m_og_group_menu_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();
