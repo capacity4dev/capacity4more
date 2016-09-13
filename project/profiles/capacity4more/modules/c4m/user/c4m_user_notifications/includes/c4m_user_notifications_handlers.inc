@@ -607,9 +607,11 @@ function _c4m_user_notifications_notify_on_content($node, $action) {
     case 'add':
       $message_name = 'c4m_new_content_published';
       break;
+
     case 'update':
       $message_name = 'c4m_content_updated';
       break;
+
     default:
       return;
   }
