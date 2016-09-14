@@ -334,7 +334,7 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
         if ($account_data->c4m_is_spammer->value()) {
           $message = t('We encountered a problem inviting %address. Please <a href="@contact-page">contact the site administrator</a>.', array(
             '%address' => $invitee_email,
-            '@contact-page' => url('contact', array('purl' => array('disabled' => TRUE)))
+            '@contact-page' => url('contact', array('purl' => array('disabled' => TRUE))),
           ));
         }
         else {
