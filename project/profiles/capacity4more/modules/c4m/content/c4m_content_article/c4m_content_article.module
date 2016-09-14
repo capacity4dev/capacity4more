@@ -181,3 +181,36 @@ function c4m_content_article_field_formatter_view($entity_type, $entity, $field,
   }
   return $element;
 }
+
+/**
+ * Implements hook_node_view_alter().
+ *
+ * Style the 'Regions & Countries' section in the right dashboard.
+ * And hide the article title, because it shows before and after the banner.
+ */
+function c4m_content_article_node_view_alter(&$build) {
+  if ($build['#bundle'] != 'article') {
+    return;
+  }
+
+  if ($build['#view_mode'] != 'full') {
+    return;
+  }
+
+  // Remove the 'Regions' taxonomies.
+  foreach ($build['c4m_vocab_geo']['#items'] as $index => $item) {
+    unset($build['c4m_vocab_geo'][$index]);
+  }
+
+  // Remove the 'Topics' taxonomies.
+  foreach ($build['c4m_vocab_topic']['#items'] as $index => $item) {
+    unset($build['c4m_vocab_topic'][$index]);
+  }
+
+  // Add the new markup Topics.
+  $build['c4m_vocab_topic'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_topic']['#items']);
+  // Add the new markup Regions.
+  $build['c4m_vocab_geo'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_geo']['#items']);
+
+  return $build;
+}

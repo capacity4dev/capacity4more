@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Class to create the Project nodes.
+ * Class to create the Programme nodes.
  */
 
 /**
- * Class C4mDemoContentCreateProjects.
+ * Class C4mDemoContentCreateProgrammes.
  */
-class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
+class C4mDemoContentCreateProgrammes extends C4mDemoContentCreateOgGroups {
   public $entityType = 'node';
   public $bundle = 'project';
 
@@ -49,6 +49,8 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
   public function __construct() {
     parent::__construct();
 
+    $this->dependencies[] = 'C4mDemoContentCreateProjects';
+
     $this->addFieldMapping('c4m_source_of_funding', 'funding')
       ->separator(';');
 
@@ -65,13 +67,14 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
       ->separator(';');
 
     $this->addFieldMapping('c4m_project_type')
-      ->defaultValue('project');
+      ->defaultValue('programme');
 
     $this->addFieldMapping('c4m_is_template', 'is_template')
       ->defaultValue(0);
 
-    $this->addFieldMapping('membership_open_request')
-      ->defaultValue(C4M_OG_PRIVATE_GROUP);
+    $this->addFieldMapping(
+      'field_membership_open_request'
+    )->defaultValue(0);
   }
 
   /**
@@ -126,7 +129,7 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
   public function createStub(Migration $migration, array $source_id) {
     $node = new stdClass();
     $node->title = t('Stub for @id', array('@id' => $source_id[0]));
-    $node->body[LANGUAGE_NONE][0] = t('Stub project');
+    $node->body[LANGUAGE_NONE][0] = t('Stub programme');
     $node->type = $this->destination->getBundle();
     $node->uid = 1;
     $node->status = 0;
@@ -137,6 +140,40 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
     else {
       return FALSE;
     }
+  }
+
+  /**
+   * Create the right mapping between destination and migration source.
+   *
+   * @param string $class_name
+   *   Class name depending on the type of entity.
+   */
+  public function postConstruct($class_name) {
+    // Create a map object for tracking the relationships between source rows.
+    $key = array(
+      'id' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+    );
+    $this->map = new MigrateSQLMap(
+      $this->machineName,
+      $key,
+      MigrateDestinationEntityAPI::getKeySchema($this->entityType)
+    );
+
+    // Create a MigrateSource object.
+    $csv_path = drupal_get_path('module', 'c4m_demo_content') . '/csv';
+    $this->source = new MigrateSourceCSV(
+      $csv_path . '/' . $this->entityType . '/programme.csv',
+      $this->csvColumns,
+      array('header_rows' => 1)
+    );
+    $this->destination = new $class_name(
+      $this->bundle,
+      array('text_format' => $this->textFormat)
+    );
   }
 
 }

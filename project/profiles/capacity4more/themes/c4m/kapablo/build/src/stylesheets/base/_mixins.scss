@@ -101,3 +101,9 @@
     top: 0;
   }
 }
+
+@mixin rotate_promote_flag {
+  i {
+    transform: rotate(0deg);
+  }
+}
