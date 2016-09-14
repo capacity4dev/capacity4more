@@ -78,10 +78,10 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
  */
 function c4m_features_homepage_get_group_type_title($type) {
   $titles = array(
-    'owner' => t('Owner of the following groups'),
-    'administrator' => t('Administrator of the following groups'),
-    'member' => t("Member of the following groups"),
-    'pending' => t('Membership requested in the following groups'),
+    'owner' => t('Owner of the following Group(s)'),
+    'administrator' => t('Administrator of the following Group(s)'),
+    'member' => t("Member of the following Group(s)"),
+    'pending' => t('Membership requested in the following Group(s)'),
   );
 
   return $titles[$type];
