@@ -823,3 +823,30 @@ function c4m_user_notifications_message_subscribe_get_subscribers($message, $sub
 
   return $users;
 }
+
+function c4m_user_notifications_log_group_approved($form, $form_state) {
+  // Resolve $gid =
+
+  c4m_user_notifications_log_group_state_change('pending', 'deleted', $gid);
+}
+
+function c4m_user_notifications_log_group_rejected($form, $form_state) {
+  // Resolve $gid =
+  //
+  c4m_user_notifications_log_group_state_change('pending', 'deleted', $gid);
+}
+
+function c4m_user_notifications_log_group_state_change($from_state, $to_state, $gid) {
+  global $user;
+  $message = message_create('c4m_log_group_state_change', array('uid' => $user->uid));
+  // Define functions with which to resolve email template tokens.
+  c4m_message_load_tokens__c4m_log_group_state_change($message);
+  $message->arguments['@from_state'] = ucfirst($from_state);
+  $message->arguments['@to_state'] = ucfirst($to_state);
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group_node->set($gid);
+  $wrapper->field_executing_user->set($user->uid);
+
+  $wrapper->save();
+}
