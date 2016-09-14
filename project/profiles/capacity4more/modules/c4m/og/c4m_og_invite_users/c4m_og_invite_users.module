@@ -41,7 +41,7 @@ function c4m_og_invite_users_access($group_type, $gid) {
   }
 
   // Get request type (open/moderated).
-  $group = entity_load_single($group_type, $gid);
+  $group = node_load($gid);
   $group_request_membership_value = c4m_og_get_group_membership_request($group);
 
   return $group_request_membership_value == 'open' && og_user_access('node', $gid, 'invite any user');
@@ -127,46 +127,49 @@ function c4m_og_invite_users_form__og_invite_form_alter(&$form, &$form_state, $f
 
 /**
  * Invitation form submit callback.
+ *
+ * Loops through the list of invited users and sends an invitation to each one.
  */
 function c4m_og_invite_users_form_submit($form, &$form_state) {
-  $group_type = $form_state['values']['group_type'];
   $gid = $form_state['values']['gid'];
   $message = check_plain($form_state['values']['message']);
   $subject = check_plain($form_state['values']['subject']);
   $invitees = explode(',', str_replace(', ', ',', $form_state['values']['invitee']));
 
-  $entity = entity_load_single($group_type, $gid);
-  $label = entity_label($group_type, $entity);
+  $entity = node_load($gid);
+  $label = entity_label('node', $entity);
   $field_name = key(og_get_group_audience_fields());
   foreach ($invitees as $invitee) {
     if (empty($invitee)) {
       continue;
     }
+    // The autocomplete inputs the user as 'username [#id]'. Split name and #ID.
     list($name, $uid) = explode('||', preg_replace('#^(.*)\s\[([0-9]+)\]$#', '$1||$2', $invitee));
 
-    $result = c4m_og_invite_users_invite($group_type, $gid, $field_name, $uid, $message, $subject);
+    c4m_og_invite_users_invite($gid, $field_name, $uid, $message, $subject);
 
-    if (!empty($result)) {
-      drupal_set_message(t('<em>@user</em> has been invited to the group <em>@label</em>.', array('@user' => $name, '@label' => $label)));
-      $form_state['redirect'] = 'group/' . $group_type . '/' . $gid . '/admin/people/invite-users';
-    }
-    else {
-      drupal_set_message(t('An error happened while inviting <em>@user</em> to the group <em>@label</em>', array('@user' => $name, '@label' => $label)), 'error');
-    }
+    drupal_set_message(t('<em>@user</em> has been invited to the group <em>@label</em>.', array('@user' => $name, '@label' => $label)));
+    $form_state['redirect'] = 'group/node/' . $gid . '/admin/people/invite-users';
   }
 }
 
 /**
  * Send an invitation to an user.
+ *
+ * Saves a pending membership and sends an email to the invited user with a
+ * link to the page where he/she can choose to accept/decline the invitation.
  */
-function c4m_og_invite_users_invite($group_type, $gid, $field_name, $uid, $message = '', $subject = '', $inviter = NULL) {
-  if (empty($inviter)) {
+function c4m_og_invite_users_invite($gid, $field_name, $invitee_uid, $message = '', $subject = '', $inviter = NULL) {
+  if (!$inviter) {
     global $user;
     $inviter = $user;
   }
-  $invitee = user_load($uid);
-  $group = entity_load_single($group_type, $gid);
-  $subject = $subject ?: 'Invitation to join the ' . $group->type . ' ' . $group->title;
+  $invitee = user_load($invitee_uid);
+  $group = node_load($gid);
+  // If no subject was passed, use this default format.
+  if (!$subject) {
+    $subject = t('Invitation to join the ' . $group->type . ' ' . $group->title);
+  }
 
   // Populate values array to say membership was created via invite.
   $values = array(
@@ -175,7 +178,7 @@ function c4m_og_invite_users_invite($group_type, $gid, $field_name, $uid, $messa
   );
 
   // Add group membership form.
-  $og_membership = og_membership_create($group_type, $gid, 'user', $invitee->uid, $field_name, $values);
+  $og_membership = og_membership_create('node', $gid, 'user', $invitee->uid, $field_name, $values);
   $og_membership->state = OG_STATE_PENDING;
   $og_membership->save();
 
@@ -185,7 +188,7 @@ function c4m_og_invite_users_invite($group_type, $gid, $field_name, $uid, $messa
   $params = array(
     'inviter' => $inviter,
     'invitee' => $invitee,
-    'group_type' => $group_type,
+    'group_type' => 'node',
     'group' => $group,
     'hash' => $hash,
     'message' => $message,
