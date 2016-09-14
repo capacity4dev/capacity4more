@@ -601,8 +601,8 @@ function c4m_user_notifications_new_group_content_published($node) {
  * @param object $node
  *   Content node that was added / updated.
  * @param string $action
- *   'insert' - new content added.
- *   'update' - existing content updated.
+ *   Use 'insert' when new content is added.
+ *   Use 'update' when existing content is updated.
  */
 function _c4m_user_notifications_notify_on_content($node, $action) {
   global $user;
