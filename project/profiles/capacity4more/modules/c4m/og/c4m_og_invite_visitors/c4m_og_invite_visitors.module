@@ -19,7 +19,7 @@ function c4m_og_invite_visitors_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 4,
     'access callback' => 'c4m_og_invite_visitors_user_access',
-    'access arguments' => array('invite visitors', 1, 2),
+    'access arguments' => array(2),
   );
 
   $items['user/registration/joingroup/%node'] = array(
@@ -36,6 +36,12 @@ function c4m_og_invite_visitors_menu() {
 
 /**
  * Checks for missing or empty query string variables.
+ *
+ * @param array $vars
+ *   A list of variable names to check.
+ *
+ * @return array|bool
+ *   Trimmed values array or FALSE if any single variable is missing or empty.
  */
 function c4m_og_invite_visitors_validate_query_string(array $vars) {
   $query_vars = array();
@@ -52,6 +58,14 @@ function c4m_og_invite_visitors_validate_query_string(array $vars) {
 
 /**
  * Get an invitation object from MySQL by email and group ID.
+ *
+ * @param string $email
+ *   Invitee email address to find.
+ * @param int $gid
+ *   ID of the group we are checking for.
+ *
+ * @return bool|object
+ *   Invitation object from the DB or FALSE on failure.
  */
 function c4m_og_invite_visitors_get_invitation($email, $gid) {
   if (!$email || !$gid) {
@@ -77,6 +91,11 @@ function c4m_og_invite_visitors_get_invitation($email, $gid) {
 
 /**
  * Validate the accept invitation url before displaying the registration form.
+ *
+ * Make sure the invitation and the URL itself are legitimate.
+ *
+ * @param object $group
+ *   The group object should be loaded from the acceptance URL.
  */
 function c4m_og_invite_visitors_process_acceptance($group) {
   global $user;
@@ -178,12 +197,18 @@ function c4m_og_invite_visitors_og_ui_get_group_admin($group_type, $gid) {
  *
  * Checks by user role and og_role against group visibility (Public/Private) and
  * Membership requests setting (Open/Moderated).
+ *
+ * @param int $gid
+ *   The group #ID from the URL.
+ *
+ * @return bool
+ *   Grand/deny access for inviting visitors.
  */
-function c4m_og_invite_visitors_user_access($perm, $group_type, $gid) {
+function c4m_og_invite_visitors_user_access($gid) {
   global $user;
 
-  $group = entity_load_single($group_type, $gid);
-  if (!$group || !og_is_group($group_type, $group)) {
+  $group = node_load($gid);
+  if (!$group || !og_is_group('node', $group)) {
     return FALSE;
   }
 
@@ -359,7 +384,7 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
 
     switch ($action) {
       case 'invite_visitor':
-        // Save invitation to MySQL and invite the visitor.
+        // Saves invitation in the DB and invites the visitor.
         $invitation = c4m_og_invite_visitors_store_invitation($user->uid, $gid, $invitee_email);
         $message = $invitation
           ? t('An email notification was sent to %address.', array('%address' => $invitee_email))
@@ -400,8 +425,8 @@ function c4m_og_invite_visitors_mail($key, &$message, $params) {
     'form_fields' => $params['form_fields'],
     'invitation' => $params['invitation'],
   );
-  $message['subject'] .= _c4m_og_invite_visitors_mail_text($key . '_subject', $language, $variables);
-  $message['body'][] = _c4m_og_invite_visitors_mail_text($key . '_body', $language, $variables);
+  $message['subject'] .= _c4m_og_invite_visitors_mail_text($key . '_subject', $variables);
+  $message['body'][] = _c4m_og_invite_visitors_mail_text($key . '_body', $variables);
 }
 
 /**
@@ -409,8 +434,18 @@ function c4m_og_invite_visitors_mail($key, &$message, $params) {
  *
  * Used by c4m_og_invite_visitors_mail() and the settings forms to retrieve
  * strings.
+ *
+ * @param string $key
+ *   Email identification key.
+ * @param array $variables
+ *   Data array needed to fill in the tokens in the email template.
+ * @param bool $replace
+ *   Replace token in the email template.
+ *
+ * @return string|null
+ *   An email string or NULL.
  */
-function _c4m_og_invite_visitors_mail_text($key, $language = NULL, $variables = array(), $replace = TRUE) {
+function _c4m_og_invite_visitors_mail_text($key, $variables = array(), $replace = TRUE) {
   global $language;
 
   // Try to load the text first from variable.
@@ -529,14 +564,22 @@ function c4m_og_invite_visitors_register_submit($form, &$form_state) {
 }
 
 /**
- * Invalidate invitation record in MySQL.
+ * Invalidate invitation record in the DB.
+ *
+ * @param int $uid
+ *   User ID to add to the invitation record.
+ * @param string $email
+ *   Invitee email address to find.
+ * @param int $gid
+ *   ID of the group for which to find an invitation.
+ *
+ * @return int
+ *   Number of invitations set as expired.
  */
 function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
   // Format date for MySQL datetime field.
   $date = new DateTime();
   $updated = $date->format('Y-m-d H:i:s');
-
-  $hash = $_SESSION['c4m_og_invite_visitors_gid_join'];
 
   try {
     $num_updated = db_update('c4m_og_invite_visitors')
@@ -561,6 +604,14 @@ function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
  *
  * The token will be saved with the invitation and used to verify the identity
  * of the accepting user.
+ *
+ * @param string $email
+ *   Invitee email address.
+ * @param string $created
+ *   Formatted date and time of the request for hashing.
+ *
+ * @return array
+ *   The string token that was hashed and the hash.
  */
 function c4m_og_invite_visitors_generate_invitation_hash($email, $created) {
   // Generate a random token.
@@ -573,6 +624,17 @@ function c4m_og_invite_visitors_generate_invitation_hash($email, $created) {
 
 /**
  * Store invitation entry in the DB table c4m_og_invite_visitors.
+ *
+ * @param int $inviter_id
+ *   ID of the inviting user.
+ * @param int $group_id
+ *   ID of the group for which the invitation is created.
+ * @param string $email
+ *   Email address of the invitee.
+ *
+ * @return array|bool
+ *   The token that was hashed and stored to validate the invitation and the
+ *   invitation ID.
  */
 function c4m_og_invite_visitors_store_invitation($inviter_id, $group_id, $email) {
   // Format date for MySQL datetime field.
