@@ -29,7 +29,7 @@ function _c4m_user_bar_block_user_signup_login() {
         'user/login',
         array(
           'attributes' => array('class' => array('text-link--blue')),
-          'query' => drupal_get_destination(),
+          'query' => c4m_og_purl_get_destination(),
         )
       ),
       '!register' => l(
