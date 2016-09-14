@@ -212,6 +212,11 @@ function c4m_og_invite_visitors_user_access($gid) {
     return FALSE;
   }
 
+  // OG permission.
+  if (!og_user_access('node', $gid, 'invite visitors')) {
+    return FALSE;
+  }
+
   // SAs, GOs and GAs can invite new members.
   if (_c4m_features_og_members_is_power_user($group)) {
     return TRUE;
