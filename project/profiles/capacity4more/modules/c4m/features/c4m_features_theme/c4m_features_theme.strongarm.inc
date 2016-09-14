@@ -105,7 +105,7 @@ function c4m_features_theme_strongarm() {
     'bootstrap_cdn_custom_js_min' => 'https://cdn.jsdelivr.net/bootstrap/3.3.5/js/bootstrap.min.js',
     'bootstrap_cdn_jsdelivr_version' => '3.3.5',
     'bootstrap_cdn_jsdelivr_theme' => 'bootstrap',
-    'jquery_update_jquery_version' => '2.1',
+    'jquery_update_jquery_version' => '1.8',
   );
   $export['theme_kapablo_settings'] = $strongarm;
 
