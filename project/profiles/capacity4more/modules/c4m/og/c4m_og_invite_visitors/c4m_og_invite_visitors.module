@@ -331,8 +331,11 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
       if (!$account_data->status->value()) {
         // If blocked user is marked as a spammer, disallow the invitation. No
         // need to check c4m_is_deleted, it's tightly coupled with status.
-        if ($account_data->c4m_is_spammer->value()) {
-          $message = t('We encountered a problem inviting %address. Please <a href="">contact the site administrator</a>', array('%address' => $invitee_email));
+        if (1 || $account_data->c4m_is_spammer->value()) {
+          $message = t('We encountered a problem inviting %address. Please <a href="@contact-page">contact the site administrator</a>.', array(
+            '%address' => $invitee_email,
+            '@contact-page' => url('user/1/contact'),
+          ));
         }
         else {
           // Allow the invitation for this inactive user.
