@@ -157,7 +157,23 @@ function c4m_user_notifications_moderated_group_notify_user_membership_rejected(
  * Email notification to group owner, when group is approved.
  */
 function c4m_user_notifications_notify_user_group_approved(&$form, &$form_state) {
+  $gid = $form_state['values']['gid'];
+  $admin_comment = $form_state['values']['message_from_admin'];
+  $group = node_load($gid);
 
+  if (!($message = message_create('c4m_group_request_approved', array('uid' => $group->uid)))) {
+    // Return early, if message was not created properly.
+    return;
+  }
+
+  // Define functions with which to resolve email template tokens.
+  c4m_message_load_tokens__c4m_group_request_approved($message);
+  $message->arguments['@admin_comment'] = $admin_comment;
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group_node->set($gid);
+
+  // Message will be saved inside message_notify_send_message().
+  message_notify_send_message($wrapper->value());
 }
 
 /**
