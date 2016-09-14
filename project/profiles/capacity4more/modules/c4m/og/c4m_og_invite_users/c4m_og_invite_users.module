@@ -168,7 +168,10 @@ function c4m_og_invite_users_invite($gid, $field_name, $invitee_uid, $message = 
   $group = node_load($gid);
   // If no subject was passed, use this default format.
   if (!$subject) {
-    $subject = t('Invitation to join the ' . $group->type . ' ' . $group->title);
+    $subject = t('Invitation to join the @groupType @groupTitle', array(
+      '@groupType' => $group->type,
+      '@groupTitle' => $group->title,
+    ));
   }
 
   // Populate values array to say membership was created via invite.
