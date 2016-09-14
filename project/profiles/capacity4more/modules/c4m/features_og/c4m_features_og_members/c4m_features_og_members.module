@@ -442,6 +442,7 @@ function _c4m_features_og_members_is_power_user($group = NULL, $user = NULL) {
     $group = c4m_og_current_group();
   }
 
+  // Temporary. Remove once develop is updated.
   if (!$group) {
     return FALSE;
   }
