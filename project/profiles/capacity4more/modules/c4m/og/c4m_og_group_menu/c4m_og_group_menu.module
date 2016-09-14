@@ -2,15 +2,15 @@
 
 /**
  * @file
- * Code for the OG group menu feature.
+ * Code for the C4M OG group menu feature.
  */
 
-include_once 'og_group_menu.features.inc';
+include_once 'c4m_og_group_menu.features.inc';
 
 /**
  * Implements hook_block_view_alter().
  */
-function og_group_menu_block_view_alter(&$data, $block) {
+function c4m_og_group_menu_block_view_alter(&$data, $block) {
 
   if (!property_exists($block, 'context') || $block->context != 'c4m_context_og_menu') {
     // Not the desired context.
@@ -18,7 +18,7 @@ function og_group_menu_block_view_alter(&$data, $block) {
   }
 
   // Alter the menu <ul> wrapper to add the styling classes.
-  $data['content']['#theme_wrappers'][0] = 'menu_tree__og_group_menu';
+  $data['content']['#theme_wrappers'][0] = 'menu_tree__c4m_og_group_menu';
 
   $item = menu_get_item();
 

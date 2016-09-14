@@ -36,7 +36,7 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
   // Render node views for each group.
   foreach ($groups as $type => $group_list) {
     $title = c4m_features_homepage_get_group_type_title($type);
-    $rendered_groups .= '<h3>' . $title . '</h3>';
+    $rendered_groups .= '<h4>' . $title . '</h4>';
 
     foreach ($group_list as $group) {
       $node_view = node_view($group, 'block_list');
@@ -84,10 +84,10 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
  */
 function c4m_features_homepage_get_group_type_title($type) {
   $titles = array(
-    'owner' => t('Groups I own'),
-    'administrator' => t('Groups I manage'),
-    'member' => t("Groups I'm member of"),
-    'pending' => t('Membership requested'),
+    'owner' => t('Owner of the following groups'),
+    'administrator' => t('Administrator of the following groups'),
+    'member' => t("Member of the following groups"),
+    'pending' => t('Membership requested in the following groups'),
   );
 
   return $titles[$type];
