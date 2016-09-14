@@ -313,6 +313,7 @@ function _c4m_og_invite_visitors_new_users_form_validate($form, &$form_state) {
  */
 function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
   global $user;
+  $action = FALSE;
   $group_type = $form_state['values']['group_type'];
   $gid = $form_state['values']['gid'];
   $invitee_emails = $form_state['invitee_emails'];
@@ -325,9 +326,18 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
   foreach ($invitee_emails as $invitee_email) {
     // Try to load the user by email and see if exists.
     if ($account = user_load_by_mail($invitee_email)) {
+      $account_data = entity_metadata_wrapper('user', $account);
       // Check if account is active.
-      if (user_is_blocked($account->name)) {
-        $message = t('The username %user has not been activated or is blocked.', array('%user' => format_username($account)));
+      if (!$account_data->status->value()) {
+        // If blocked user is marked as a spammer, disallow the invitation. No
+        // need to check c4m_is_deleted, it's tightly coupled with status.
+        if ($account_data->c4m_is_spammer->value()) {
+          $message = t('We encountered a problem inviting %address. Please <a href="">contact the site administrator</a>', array('%address' => $invitee_email));
+        }
+        else {
+          // Allow the invitation for this inactive user.
+          $action = 'invite_user';
+        }
       }
       // Check if user is already assigned to the group.
       // Any "state" (active, pending,... counts as existing).
@@ -336,26 +346,36 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
         $message = t('%user is already a member of this group.', array('%user' => format_username($account)));
       }
       else {
-        // Save invitation to MySQL.
+        // Invite existing user.
+        $action = 'invite_user';
+      }
+    }
+    else {
+      $action = 'invite_visitor';
+    }
+
+    switch ($action) {
+      case 'invite_visitor':
+        // Save invitation to MySQL and invite the visitor.
+        $invitation = c4m_og_invite_visitors_store_invitation($user->uid, $gid, $invitee_email);
+        $message = $invitation
+          ? t('An email notification was sent to %address.', array('%address' => $invitee_email))
+          : t('An error occurred inviting %address to the group.', array('%address' => $invitee_email));
+
+        // Send the invitation email.
+        drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, array(
+          'form_fields' => $form_fields,
+          'invitation' => $invitation,
+        ), variable_get('site_mail', NULL));
+        break;
+
+      case 'invite_user':
         $message = t('An email notification was sent to %address.', array('%address' => $invitee_email));
         $field_name = key(og_get_group_audience_fields());
 
         // Invoke the invite_user functionality.
         og_invite_invite($group_type, $gid, $field_name, $account->uid);
-      }
-    }
-    else {
-      // Save invitation to MySQL.
-      $invitation = c4m_og_invite_visitors_store_invitation($user->uid, $gid, $invitee_email);
-      $message = $invitation
-        ? t('An email notification was sent to %address.', array('%address' => $invitee_email))
-        : t('An error occurred inviting %address to the group.', array('%address' => $invitee_email));
-
-      // Send the e-mail.
-      drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, array(
-        'form_fields' => $form_fields,
-        'invitation' => $invitation,
-      ), variable_get('site_mail', NULL));
+        break;
     }
 
     // Print the message for each user.
