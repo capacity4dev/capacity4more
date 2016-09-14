@@ -593,6 +593,25 @@ function c4m_user_notifications_new_group_content_published($node) {
 }
 
 /**
+ * Email notification about content being shared at organic group.
+ */
+function c4m_user_notifications_group_content_shared($form, $form_state) {
+  if (!($gid = $form['values']['og_group_ref'])) {
+    return;
+  }
+
+  $group = node_load($gid);
+  _c4m_user_notifications_notify_on_content($group, 'share');
+}
+
+/**
+ * Email notification about existing content update at organic group.
+ */
+function c4m_user_notifications_existing_group_content_updated($node) {
+  _c4m_user_notifications_notify_on_content($node, 'update');
+}
+
+/**
  * Helper function.
  *
  * Sends mail notification to group subscribers, when content is
@@ -603,6 +622,7 @@ function c4m_user_notifications_new_group_content_published($node) {
  * @param string $action
  *   Use 'insert' when new content is added.
  *   Use 'update' when existing content is updated.
+ *   Use 'share' when content is shared.
  */
 function _c4m_user_notifications_notify_on_content($node, $action) {
   global $user;
@@ -610,6 +630,12 @@ function _c4m_user_notifications_notify_on_content($node, $action) {
   switch ($action) {
     case 'insert':
       $message_type = 'c4m_new_content_published';
+      $event_action = 'added';
+      break;
+
+    case 'share':
+      $message_type = 'c4m_new_content_published';
+      $event_action = 'shared';
       break;
 
     case 'update':
@@ -626,6 +652,9 @@ function _c4m_user_notifications_notify_on_content($node, $action) {
   // Resolve comment body field, in teaser mode, and assign value to it's token.
   $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
   $message->arguments['@node_teaser_body'] = strip_tags($body_teaser[0]['#markup']);
+  if (isset($event_action)) {
+    $message->arguments['@event_action'] = $event_action;
+  }
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_node->set($node->nid);
@@ -645,13 +674,6 @@ function _c4m_user_notifications_notify_on_content($node, $action) {
 
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $wrapper->value(), array(), array(), $context);
-}
-
-/**
- * Email notification about existing content update at organic group.
- */
-function c4m_user_notifications_existing_group_content_updated($node) {
-  _c4m_user_notifications_notify_on_content($node, 'update');
 }
 
 /**

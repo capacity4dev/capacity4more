@@ -591,3 +591,7 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
     }
   }
 }
+
+function c4m_content_share_form_alter(&$form, $form_state) {
+  $form['#submit'][] = 'c4m_user_notifications_group_content_shared';
+}
