@@ -22,7 +22,7 @@ Feature: Group Discussions
   Scenario: Check discussions detail as an anonymous user
     Given I am an anonymous user
     When I visit the group "discussion" detail page "Nobel Foundation"
-    Then I should see the discussion detail page
+    Then I should not see the discussion detail page
 
   @api
   Scenario: Check discussions detail as group owner
@@ -35,7 +35,7 @@ Feature: Group Discussions
     Given I am logged in as user "mariecurie"
     When  I start creating "discussion" "Some new discussion1" in group "Architecture" with file field "c4m-related-document"
     And   I check the related topic checkbox
-    And   I should not see an "edit-og-group-ref-und-0-default" element
+    And   I should see an "edit-og-group-ref-und-0-default" element
     And   I press "Publish"
     Then  I should see "Some new discussion1" in the activity stream of the group "Architecture"
 
