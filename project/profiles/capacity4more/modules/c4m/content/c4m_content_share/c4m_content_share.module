@@ -17,7 +17,7 @@ function c4m_content_share_menu() {
     'title' => 'Share content to another group',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_content_share_form'),
-    'access callback' => 'c4m_og_user_is_member',
+    'access callback' => 'c4m_content_share_access',
     'file' => 'c4m_content_share.pages.inc',
     'type' => MENU_CALLBACK,
   );
@@ -192,6 +192,25 @@ function c4m_content_share_node_view($node, $view_mode, $langcode) {
 }
 
 /**
+ * Access callback checks if the current user is group member.
+ *
+ * @return void|bool
+ *   TRUE if the current user is group member, FALSE otherwise.
+ */
+function c4m_content_share_access() {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return
+    // early. The next time this access callback will be called, it will not
+    // enter here.
+    og_context_access_callback_register_path($_GET['q']);
+
+    return NULL;
+  }
+
+  return c4m_og_user_is_member();
+}
+
+/**
  * Implements hook_node_access_records_alter().
  */
 function c4m_content_share_node_access_records_alter(&$grants, $node) {
@@ -272,8 +291,8 @@ function c4m_content_share_c4m_helper_entity_label_info_alter(
 function c4m_content_share_c4m_helper_entity_metrics_info() {
   return array(
     'c4m_groups_shared_content' => array(
-      'type'     => 'shared_content',
-      'context'  => 'group',
+      'type' => 'shared_content',
+      'context' => 'group',
       'callback' => 'c4m_content_share_get_number_of_shared_content_per_group',
     ),
   );
