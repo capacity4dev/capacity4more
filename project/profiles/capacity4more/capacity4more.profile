@@ -168,11 +168,12 @@ function capacity4more_setup_set_og_permissions() {
   // Set OG_ADMINISTRATOR_ROLE permissions.
   $content_types = array(
     'wiki_page',
+  );
+
+  $permissions = array(
     'invite visitors',
     'invite any user',
   );
-
-  $permissions = array();
   foreach ($content_types as $content_type) {
     $permissions = array_merge($permissions, array(
       "create $content_type content",
