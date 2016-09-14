@@ -311,43 +311,55 @@ function c4m_og_reject_group_request_submit($form, &$form_state) {
   c4m_og_control_group_request('reject', $gid);
 }
 
+/**
+ * Changes group state to approved / rejected (per $action).
+ *
+ * @param string $action
+ *   Use 'approve' when group is approved.
+ *   Use 'reject' when group is rejected.
+ * @param int $gid
+ *   Group ID.
+ */
 function c4m_og_control_group_request($action, $gid) {
   // Check that group is at initial ('pending') status.
   $wrapper = entity_metadata_wrapper('node', $gid);
 
-/*  $wrapper->c4m_og_status->set('pending');
-  $wrapper->save();
-  return;*/
-
   if ($wrapper->c4m_og_status->value() != 'pending') {
+    // If group is not at initial ('pending') state.
     switch ($wrapper->c4m_og_status->value()) {
-      case 'deleted' :
+      case 'deleted':
         $message = t('Group request was already rejected');
         break;
-      case 'draft' :
+
+      case 'draft':
         $message = t('Group request was already approved');
         break;
+
       default:
         $message = t('Group request was already handled');
         break;
     }
 
+    // Present warning message and return.
     drupal_set_message($message, 'warning');
     return;
   }
 
+  // Change group state and set message.
   switch ($action) {
     case 'approve':
       $wrapper->c4m_og_status->set('draft');
       $message = t('Group request approved');
       break;
+
     case 'reject':
       $wrapper->c4m_og_status->set('deleted');
       $message = t('Group request rejected');
       break;
   }
 
-  $wrapper->save();
+  // Save group and present success message.
+  // $wrapper->save();
   drupal_set_message($message);
 }
 

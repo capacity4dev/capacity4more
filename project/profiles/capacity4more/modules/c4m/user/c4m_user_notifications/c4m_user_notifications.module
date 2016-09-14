@@ -347,8 +347,8 @@ function c4m_user_notifications_form_c4m_og_approve_group_request_alter(&$form, 
  * request.
  */
 function c4m_user_notifications_form_c4m_og_reject_group_request_alter(&$form, &$form_state) {
- $form['#submit'][] = 'c4m_user_notifications_log_group_rejected';
- $form['#submit'][] = 'c4m_og_route_to_group';
+  $form['#submit'][] = 'c4m_user_notifications_log_group_rejected';
+  $form['#submit'][] = 'c4m_og_route_to_group';
 }
 
 /**
