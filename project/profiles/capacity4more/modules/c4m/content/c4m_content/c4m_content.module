@@ -590,6 +590,12 @@ function c4m_content_field_extra_fields() {
     'weight' => 0,
   );
 
+  $extra_fields['node']['project']['display']['highlighted'] = array(
+    'label' => t('Highlight'),
+    'description' => t('Highlight a node will toggle its promote property.'),
+    'weight' => 0,
+  );
+
   return $extra_fields;
 }
 
@@ -667,7 +673,8 @@ function c4m_content_toggle_highlight_access($group, $node, $status) {
     }
   }
 
-  return $group->uid == $user->uid || user_access('administer site');
+  $has_access = $group->uid == $user->uid || user_access('administer site');
+  return $has_access;
 }
 
 /**
@@ -686,7 +693,7 @@ function c4m_content_toggle_highlight($group, $node, $status, $ajax = 'nojs') {
   $wrapper = entity_metadata_wrapper('node', $node);
 
   // Setting the new value.
-  $wrapper->promote->set($status);
+  $wrapper->promote->set(!$status);
   $wrapper->save();
 
   if ($ajax != 'ajax') {
@@ -723,7 +730,7 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
 
   $options = array(
     'attributes' => array(
-      'class' => 'use-ajax',
+      'class' => array('use-ajax', 'highlight-link'),
       'id' => 'highlight-content',
     ),
     'purl' => array('disabled' => TRUE),
@@ -736,9 +743,10 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
     NODE_NOT_PROMOTED => 'fa-star-o',
     NODE_PROMOTED => 'fa-star',
   );
-  $star = '<i class="fa ' . $star_class[$highlight] . ' fa-2x" aria-hidden="true"></i>';
+  $star = '<i class="fa ' . $star_class[$highlight] . '" aria-hidden="true"></i> ';
+  $link_text = $star . t('highlight');
 
-  return l($star, $url, $options);
+  return l($link_text, $url, $options);
 }
 
 /**

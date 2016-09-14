@@ -147,7 +147,14 @@ function c4m_content_project_strongarm() {
           'weight' => '0',
         ),
       ),
-      'display' => array(),
+      'display' => array(
+        'highlighted' => array(
+          'group_dashboard' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__project'] = $strongarm;
