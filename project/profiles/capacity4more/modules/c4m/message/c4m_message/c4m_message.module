@@ -1056,7 +1056,7 @@ function c4m_message_load_tokens__c4m_notify_content_recommendation(Message $mes
  * @param Message $message
  *   The Message entity.
  */
-function c4m_message_load_tokens__c4m_content_added_or_updated(Message $message) {
+function c4m_message_load_tokens__c4m_content_inserted_or_updated(Message $message) {
   $message->arguments['@user_full_name'] = array(
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
