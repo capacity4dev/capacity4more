@@ -300,12 +300,13 @@ function c4m_features_og_group_dashboard_preprocess(&$variables, $hook) {
     return;
   }
 
-  // Add Promote/Depromote text depend on the flag action.
+  // Add Promote/Demote text depend on the flag action.
   if ($variables['action'] == 'flag') {
-    $variables['link_text'] = $variables['link_text'] . ' Promote';
+    $variables['link_text'] = t('!link_text Promote', array('!link_text' => $variables['link_text']));
   }
   else {
-    $variables['link_text'] = str_replace("<div>x</div>", "", $variables['link_text']);
-    $variables['link_text'] = $variables['link_text'] . ' Depromote';
+    // Removing the hardcoded 'x' (defined in the flag link text.
+    $variables['link_text'] = str_replace('<div>x</div>', '', $variables['link_text']);
+    $variables['link_text'] = t('!link_text Demote', array('!link_text' => $variables['link_text']));
   }
 }
