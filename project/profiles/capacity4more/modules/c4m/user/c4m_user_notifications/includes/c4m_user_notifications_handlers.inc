@@ -153,6 +153,10 @@ function c4m_user_notifications_moderated_group_notify_user_membership_rejected(
   message_notify_send_message($wrapper->value());
 }
 
+function c4m_user_notifications_notify_user_group_approved(&$form, &$form_state) {
+
+}
+
 /**
  * Email notification to group admins about membership cancelation.
  */
