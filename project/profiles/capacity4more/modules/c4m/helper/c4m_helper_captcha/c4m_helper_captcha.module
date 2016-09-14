@@ -10,35 +10,97 @@
  */
 function c4m_helper_captcha_form_alter(&$form, &$form_state, $form_id) {
   $forms = module_invoke_all('c4m_captcha_form_info');
+
+  // Limit the forms to be processed with Captchalib.
   if (!in_array($form_id, $forms)) {
     return;
   }
 
-  $form['captcha_element'] = array(
-    '#type' => 'markup',
-    '#markup' => '<span class="captcha"></span><p class="captcha_error text-danger hidden">' . t('Captcha validation error') . '</p>',
-    // See _captcha_get_captcha_placement() for more advanced settings if this
-    // is not ok.
-    '#weight' => 50,
-    '#attached' => array(
-      'js' => array(
-        array(
-          'data' => '//webtools.ec.europa.eu/captcha/js/captcha.js',
-          'type' => 'external',
-        ),
-        array(
-          'data' => drupal_get_path('module', 'c4m_helper_captcha') . '/js/c4m_helper_captcha.js',
-          'type' => 'file',
-        ),
-        array(
-          'data' => array(
-            'c4m_captcha_forms' => array(
-              $form_id,
-            ),
+  // Try to load the library and check if that worked.
+  if (($library = libraries_load('captchalib')) && !empty($library['loaded'])) {
+    // Add Captcha's markup to the form.
+    $form['captcha_element'] = array(
+      '#type'   => 'markup',
+      '#markup' => captcha_get_html($use_ssl = TRUE),
+      '#weight' => 50,
+      '#attached' => array(
+        'js' => array(
+          array(
+            'data' => '//webtools.ec.europa.eu/captcha/js/captcha.js',
+            'type' => 'external',
           ),
-          'type' => 'setting',
+          array(
+            'data' => drupal_get_path('module', 'c4m_helper_captcha') . '/js/c4m_helper_captcha.js',
+            'type' => 'file',
+          ),
+          array(
+            'data' => array(
+              'c4m_captcha_forms' => array(
+                $form_id,
+              ),
+            ),
+            'type' => 'setting',
+          ),
         ),
       ),
+    );
+
+    // Add validation for the Captchalib fields.
+    $form['#validate'][] = 'c4m_helper_captcha_form_captchalib_validation_check';
+  }
+}
+
+/**
+ * Validation handler for c4m_helper_captcha_form_alter().
+ *
+ * Check.
+ */
+function c4m_helper_captcha_form_captchalib_validation_check($form, &$form_state) {
+  $captcha_failed = TRUE;
+
+  if (isset($_REQUEST['security_code']) || isset($_REQUEST['captcha_field_name'])) {
+    libraries_load('captchalib');
+
+    // Keep a clean request for the Captchalib by removing all Drupal values
+    // from the $_REQUEST-variable because only the Captchalib-variables are
+    // relevant.
+    $cleaned_request = array_diff_key($_REQUEST, $form_state['values']);
+
+    $response = captcha_check_answer($cleaned_request);
+
+    if ($response->is_valid) {
+      $captcha_failed = FALSE;
+    }
+  }
+
+  if ($captcha_failed) {
+    form_set_error('captcha_element', t("The CAPTCHA wasn't entered correctly, please try again."));
+  }
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function c4m_helper_captcha_libraries_info() {
+  $libraries['captchalib'] = array(
+    'name' => 'Captchalib',
+    'version callback' => 'c4m_helper_captcha_captchalib_version',
+    'files' => array(
+      'php' => array('captchalib.php'),
     ),
   );
+
+  return $libraries;
+}
+
+/**
+ * Captcha library version check.
+ *
+ * @return bool
+ *   Return just TRUE, we don't do a version check.
+ *
+ * @see c4m_helper_captcha_libraries_info()
+ */
+function c4m_helper_captcha_captchalib_version() {
+  return TRUE;
 }

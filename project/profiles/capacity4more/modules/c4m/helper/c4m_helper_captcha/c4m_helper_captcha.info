@@ -2,3 +2,5 @@ name = Captcha helper
 description = This module provides helper functionality around captcha.
 core = 7.x
 package = capacity4more - Helper
+
+dependencies[] = libraries
