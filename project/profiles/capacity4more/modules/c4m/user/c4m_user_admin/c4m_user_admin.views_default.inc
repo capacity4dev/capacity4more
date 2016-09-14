@@ -548,6 +548,209 @@ Last access : [access]';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['hide_admin_links'] = TRUE;
   $handler->display->display_options['defaults']['access'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Bulk operations: User */
+  $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'views_entity_user';
+  $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '0';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['row_clickable'] = 1;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['skip_batching'] = 1;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
+    'action::c4m_user_admin_activate_action' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::c4m_user_contact_action' => array(
+      'selected' => 1,
+      'postpone_processing' => 1,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::c4m_user_resend_activation_email_action' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+  );
+  /* Field: User: Uid */
+  $handler->display->display_options['fields']['uid']['id'] = 'uid';
+  $handler->display->display_options['fields']['uid']['table'] = 'users';
+  $handler->display->display_options['fields']['uid']['field'] = 'uid';
+  $handler->display->display_options['fields']['uid']['label'] = '';
+  $handler->display->display_options['fields']['uid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['uid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['uid']['link_to_user'] = FALSE;
+  /* Field: User: Name */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'users';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['label'] = '';
+  $handler->display->display_options['fields']['name']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['name']['alter']['text'] = '[c4m_first_name] [c4m_last_name]';
+  $handler->display->display_options['fields']['name']['alter']['path'] = 'user/[uid]';
+  $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['name']['link_to_user'] = FALSE;
+  /* Field: User: E-mail */
+  $handler->display->display_options['fields']['mail']['id'] = 'mail';
+  $handler->display->display_options['fields']['mail']['table'] = 'users';
+  $handler->display->display_options['fields']['mail']['field'] = 'mail';
+  $handler->display->display_options['fields']['mail']['label'] = '';
+  $handler->display->display_options['fields']['mail']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['mail']['alter']['text'] = '<a href="user/[uid]">[c4m_first_name] [c4m_last_name]</a>
+[mail]';
+  $handler->display->display_options['fields']['mail']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['mail']['link_to_user'] = '0';
+  /* Field: User: First Name */
+  $handler->display->display_options['fields']['c4m_first_name']['id'] = 'c4m_first_name';
+  $handler->display->display_options['fields']['c4m_first_name']['table'] = 'field_data_c4m_first_name';
+  $handler->display->display_options['fields']['c4m_first_name']['field'] = 'c4m_first_name';
+  $handler->display->display_options['fields']['c4m_first_name']['label'] = '';
+  $handler->display->display_options['fields']['c4m_first_name']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['c4m_first_name']['element_label_colon'] = FALSE;
+  /* Field: User: Last Name */
+  $handler->display->display_options['fields']['c4m_last_name']['id'] = 'c4m_last_name';
+  $handler->display->display_options['fields']['c4m_last_name']['table'] = 'field_data_c4m_last_name';
+  $handler->display->display_options['fields']['c4m_last_name']['field'] = 'c4m_last_name';
+  $handler->display->display_options['fields']['c4m_last_name']['label'] = '';
+  $handler->display->display_options['fields']['c4m_last_name']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['c4m_last_name']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_last_name']['alter']['text'] = '[c4m_first_name] [c4m_last_name]';
+  $handler->display->display_options['fields']['c4m_last_name']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['c4m_last_name']['alter']['path'] = 'user/[uid]';
+  $handler->display->display_options['fields']['c4m_last_name']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_last_name']['empty'] = '<a href="user/[uid]">[name]</a>';
+  /* Field: User: Link */
+  $handler->display->display_options['fields']['view_user']['id'] = 'view_user';
+  $handler->display->display_options['fields']['view_user']['table'] = 'users';
+  $handler->display->display_options['fields']['view_user']['field'] = 'view_user';
+  $handler->display->display_options['fields']['view_user']['label'] = 'Name';
+  $handler->display->display_options['fields']['view_user']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['view_user']['alter']['text'] = '[c4m_last_name]<br>
+[name]<br>
+[mail]';
+  /* Field: User: Is spammer */
+  $handler->display->display_options['fields']['c4m_is_spammer']['id'] = 'c4m_is_spammer';
+  $handler->display->display_options['fields']['c4m_is_spammer']['table'] = 'field_data_c4m_is_spammer';
+  $handler->display->display_options['fields']['c4m_is_spammer']['field'] = 'c4m_is_spammer';
+  $handler->display->display_options['fields']['c4m_is_spammer']['label'] = '';
+  $handler->display->display_options['fields']['c4m_is_spammer']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_spammer']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_spammer']['alter']['text'] = 'Yes';
+  $handler->display->display_options['fields']['c4m_is_spammer']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_is_spammer']['empty'] = 'No';
+  $handler->display->display_options['fields']['c4m_is_spammer']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_spammer']['type'] = 'list_key';
+  $handler->display->display_options['fields']['c4m_is_spammer']['settings'] = array(
+    'field_name' => '0',
+  );
+  /* Field: User: Is deleted */
+  $handler->display->display_options['fields']['c4m_is_deleted']['id'] = 'c4m_is_deleted';
+  $handler->display->display_options['fields']['c4m_is_deleted']['table'] = 'field_data_c4m_is_deleted';
+  $handler->display->display_options['fields']['c4m_is_deleted']['field'] = 'c4m_is_deleted';
+  $handler->display->display_options['fields']['c4m_is_deleted']['label'] = '';
+  $handler->display->display_options['fields']['c4m_is_deleted']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted']['alter']['text'] = 'Yes';
+  $handler->display->display_options['fields']['c4m_is_deleted']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_is_deleted']['empty'] = 'No';
+  $handler->display->display_options['fields']['c4m_is_deleted']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted']['type'] = 'list_key';
+  /* Field: User: Active */
+  $handler->display->display_options['fields']['status']['id'] = 'status';
+  $handler->display->display_options['fields']['status']['table'] = 'users';
+  $handler->display->display_options['fields']['status']['field'] = 'status';
+  $handler->display->display_options['fields']['status']['label'] = 'Status';
+  $handler->display->display_options['fields']['status']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['status']['alter']['text'] = 'Active : [status]<br>
+Is Spammer : [c4m_is_spammer]<br>
+Is Deleted : [c4m_is_deleted]<br>';
+  $handler->display->display_options['fields']['status']['not'] = 0;
+  /* Field: User: Roles */
+  $handler->display->display_options['fields']['rid']['id'] = 'rid';
+  $handler->display->display_options['fields']['rid']['table'] = 'users_roles';
+  $handler->display->display_options['fields']['rid']['field'] = 'rid';
+  $handler->display->display_options['fields']['rid']['separator'] = '<br>';
+  /* Field: User: Created date */
+  $handler->display->display_options['fields']['created']['id'] = 'created';
+  $handler->display->display_options['fields']['created']['table'] = 'users';
+  $handler->display->display_options['fields']['created']['field'] = 'created';
+  $handler->display->display_options['fields']['created']['label'] = '';
+  $handler->display->display_options['fields']['created']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['created']['date_format'] = 'short';
+  $handler->display->display_options['fields']['created']['second_date_format'] = 'c4m_long_without_time';
+  $handler->display->display_options['fields']['created']['reldate'] = '0';
+  /* Field: User: Last access */
+  $handler->display->display_options['fields']['access']['id'] = 'access';
+  $handler->display->display_options['fields']['access']['table'] = 'users';
+  $handler->display->display_options['fields']['access']['field'] = 'access';
+  $handler->display->display_options['fields']['access']['label'] = '';
+  $handler->display->display_options['fields']['access']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['access']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['access']['date_format'] = 'short';
+  $handler->display->display_options['fields']['access']['second_date_format'] = 'c4m_long_without_time';
+  $handler->display->display_options['fields']['access']['reldate'] = '0';
+  /* Field: User: Last login */
+  $handler->display->display_options['fields']['login']['id'] = 'login';
+  $handler->display->display_options['fields']['login']['table'] = 'users';
+  $handler->display->display_options['fields']['login']['field'] = 'login';
+  $handler->display->display_options['fields']['login']['label'] = '';
+  $handler->display->display_options['fields']['login']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['login']['alter']['text'] = 'Registration : [created]<br>
+Last login : [login]<br>
+Last access : [access]';
+  $handler->display->display_options['fields']['login']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['login']['date_format'] = 'short';
+  $handler->display->display_options['fields']['login']['second_date_format'] = 'c4m_long_without_time';
+  $handler->display->display_options['fields']['login']['reldate'] = '0';
+  /* Field: User: Cancel link */
+  $handler->display->display_options['fields']['cancel_node']['id'] = 'cancel_node';
+  $handler->display->display_options['fields']['cancel_node']['table'] = 'users';
+  $handler->display->display_options['fields']['cancel_node']['field'] = 'cancel_node';
+  $handler->display->display_options['fields']['cancel_node']['label'] = '';
+  $handler->display->display_options['fields']['cancel_node']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['cancel_node']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['cancel_node']['hide_alter_empty'] = FALSE;
+  $handler->display->display_options['fields']['cancel_node']['text'] = 'Cancel account / Mark as spammer';
+  /* Field: User: Activate user link */
+  $handler->display->display_options['fields']['activate_user']['id'] = 'activate_user';
+  $handler->display->display_options['fields']['activate_user']['table'] = 'users';
+  $handler->display->display_options['fields']['activate_user']['field'] = 'activate_user';
+  $handler->display->display_options['fields']['activate_user']['label'] = '';
+  $handler->display->display_options['fields']['activate_user']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['activate_user']['element_label_colon'] = FALSE;
+  /* Field: User: Reactivate user link */
+  $handler->display->display_options['fields']['reactivate_user']['id'] = 'reactivate_user';
+  $handler->display->display_options['fields']['reactivate_user']['table'] = 'users';
+  $handler->display->display_options['fields']['reactivate_user']['field'] = 'reactivate_user';
+  $handler->display->display_options['fields']['reactivate_user']['label'] = '';
+  $handler->display->display_options['fields']['reactivate_user']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['reactivate_user']['element_label_colon'] = FALSE;
+  /* Field: User: Resend activation email link */
+  $handler->display->display_options['fields']['resend_activation_email']['id'] = 'resend_activation_email';
+  $handler->display->display_options['fields']['resend_activation_email']['table'] = 'users';
+  $handler->display->display_options['fields']['resend_activation_email']['field'] = 'resend_activation_email';
+  $handler->display->display_options['fields']['resend_activation_email']['label'] = '';
+  $handler->display->display_options['fields']['resend_activation_email']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['resend_activation_email']['element_label_colon'] = FALSE;
+  /* Field: User: Edit link */
+  $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['table'] = 'users';
+  $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['label'] = 'Operations';
+  $handler->display->display_options['fields']['edit_node']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['edit_node']['alter']['text'] = '[edit_node] [activate_user] [reactivate_user] [resend_activation_email] [cancel_node]';
+  $handler->display->display_options['fields']['edit_node']['text'] = 'Edit';
   $handler->display->display_options['path'] = 'admin/people';
 
   /* Display: Data export */
