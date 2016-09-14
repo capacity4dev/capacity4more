@@ -925,7 +925,7 @@ function c4m_og_node_grants($account, $op) {
 function c4m_og_node_access_records_alter(&$grants, $node) {
   // Allow group members with the right permission to view unpublished group
   // content nodes.
-  if (empty($node->status) && og_is_group_content_type('node', $node->type)) {
+  if (og_is_group_content_type('node', $node->type)) {
     // Node is unpublished, so og_access will not deliver grants, nor will node
     // (module).
     // We allow a view grant within our realm
