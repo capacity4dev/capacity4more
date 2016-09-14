@@ -723,7 +723,7 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
     '#type' => 'item',
     '#title' => t('Group administrators'),
     '#title_display' => 'above',
-    '#markup' => implode(",", $links),
+    '#suffix' => implode(",", $links),
   );
 
   $node->content['#pre_render'][] = 'c4m_content_group_theme_topics_and_regions';
