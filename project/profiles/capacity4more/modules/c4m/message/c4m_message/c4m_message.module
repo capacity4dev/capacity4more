@@ -3208,6 +3208,7 @@ function c4m_message_load_homepage_activity_stream() {
       case 'projects':
         // Gets all the project IDs that the user belongs to.
         $groups = c4m_og_get_user_group_ids_by_bundle('project');
+        $hide_articles = 1;
         break;
 
       case 'interests':
@@ -3237,6 +3238,12 @@ function c4m_message_load_homepage_activity_stream() {
           $groups = array_merge($groups, array_keys($result['node']));
         }
         break;
+
+      case 'showAll':
+      default:
+        $groups = c4m_og_get_user_group_ids_by_bundle('showAll');
+        break;
+
     }
   }
 
@@ -3482,4 +3489,74 @@ function c4m_message_get_user_last_activity($uid) {
   else {
     return '';
   }
+}
+
+/**
+ * Return the formatted promote icon.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The action text.
+ */
+function c4m_message_format_promote(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $node = $wrapper->field_node->value();
+
+  $promoted_types = array(
+    'discussion',
+    'document',
+    'event',
+    'wiki_page',
+  );
+
+  if (!in_array($node->type, $promoted_types)) {
+    return '';
+  }
+
+  return flag_create_link('c4m_og_content_highlight', $node->nid);
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_message_block_info() {
+  $blocks['c4m_og_power_user_actions_block'] = array(
+    'info' => t('C4M Group Activity Actions Block'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_message_block_view($delta = '', $message = NULL) {
+  $block = array();
+
+  if ($delta != 'c4m_og_power_user_actions_block') {
+    return $block;
+  }
+
+  if (!$message) {
+    return $block;
+  }
+
+  if (isset($message->field_group_node) && !_c4m_features_og_members_is_power_user()) {
+    return $block;
+  }
+
+  $tag['element'] = array(
+    '#tag' => 'div',
+    '#value' => c4m_message_format_promote($message),
+    '#attributes' => array(
+      'class' => array('c4m-og-power-user-actions-block'),
+    ),
+  );
+
+  $block['content'] = theme_html_tag($tag);
+
+  return $block;
 }

@@ -18,6 +18,7 @@ define('C4M_OG_ACCESS_REALM', 'c4m_og_access');
  */
 define('C4M_OG_MODERATED_GROUP', 0);
 define('C4M_OG_OPEN_GROUP', 1);
+define('C4M_OG_PRIVATE_GROUP', 2);
 
 /**
  * Helper to get the current active group (based on og_context()).
@@ -159,6 +160,13 @@ function c4m_og_menu() {
     'access callback' => 'c4m_og_user_is_owner',
     'access arguments' => array(1, 2),
     'title' => 'Replace Owner',
+  );
+  // Auto-completes active group member's user names.
+  $items['edit-author/autocomplete/%node'] = array(
+    'page callback' => 'c4m_og_edit_author_autocomplete',
+    'access callback' => '_c4m_features_og_members_is_power_user',
+    'access arguments' => array(2),
+    'title' => 'Replace Author',
   );
 
   // Menu item for approve membership request url.
@@ -700,7 +708,7 @@ function c4m_og_user_is_owner($group_type, $gid) {
 }
 
 /**
- * Access callback checks if the current user is group member.
+ * Check if the current user is group member (or has the access of a member).
  *
  * @param string $group_type
  *   The type of the group.
@@ -712,16 +720,12 @@ function c4m_og_user_is_owner($group_type, $gid) {
  */
 function c4m_og_user_is_member($group_type = NULL, $gid = NULL) {
   if (empty($gid)) {
-    if (!og_context_is_init()) {
-      // OG context was not determined yet, so register the path and return
-      // early. The next time this access callback will be called, it will not
-      // enter here.
-      og_context_access_callback_register_path($_GET['q']);
+    $context = og_context('node');
 
-      return NULL;
+    if (!isset($context['gid'])) {
+      return FALSE;
     }
 
-    $context = og_context('node');
     $gid = $context['gid'];
     $group_type = $context['group_type'];
   }
@@ -1451,16 +1455,21 @@ function c4m_og_get_user_group_ids_by_bundle($bundle = NULL, $account = NULL) {
     return $groups;
   }
 
-  $conditions = array(
-    'status' => NODE_PUBLISHED,
-    'type' => $bundle,
-  );
+  // Apply bundle filter only for specific bundle type.
+  $conditions = array();
+  if ($bundle != 'showAll') {
+    $conditions['type'] = $bundle;
+  }
 
   $groups = node_load_multiple($groups, $conditions);
 
   $groups_ids = array();
   foreach ($groups as $group) {
-    $groups_ids[] = $group->nid;
+    // Check whether the group has been published, or whether the user
+    // is the group owner (applies only to 'My groups').
+    if ($group->status == NODE_PUBLISHED  || ($group->name == $account->name && $bundle == 'group')) {
+      $groups_ids[] = $group->nid;
+    }
   }
 
   return $groups_ids;
@@ -1822,6 +1831,86 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
   $nids = $results->fetchAllKeyed();
 
   return $nids;
+}
+
+/**
+ * Add the `Authoring information` tab to the group content editing forms.
+ *
+ * Allows group owner and administrators to change the author of content in the
+ * group. Limits possible authors to group members or anonymous user.
+ */
+function c4m_og_add_content_author_options_to_power_users(&$form) {
+  // Site administrator already has these options by default.
+  $site_admin_role = user_role_load_by_name('administrator');
+  if (user_has_role($site_admin_role->rid)) {
+    return;
+  }
+
+  $gid = c4m_og_current_group_id();
+  // Return early if there is no group context.
+  if (!$gid) {
+    return;
+  }
+
+  // Show authoring information tab to GAs and GO when editing group content.
+  $form['author']['#access'] = _c4m_features_og_members_is_power_user();
+
+  // Limit possible authors to members of the group only.
+  $form['author']['name']['#autocomplete_path'] = 'edit-author/autocomplete/' . $gid;
+  $form['#validate'][] = 'c4m_og_form_valid_author';
+}
+
+/**
+ * Added validation of the author for the group content editing forms.
+ */
+function c4m_og_form_valid_author($form, &$form_state) {
+  $user = user_load_by_name($form_state['values']['name']);
+  $gid = c4m_og_current_group_id();
+  // Can't validate author if there is no group context.
+  if (!$gid) {
+    form_set_error('name', 'There was an error validating the author for this group.');
+  }
+
+  if ($user && !og_is_member('node', $gid, 'user', $user)) {
+    form_set_error('name', $form_state['values']['name'] . ' is not an active member of this group.');
+  }
+}
+
+/**
+ * Author autocomplete callback.
+ *
+ * Returns a JSON of all active members of an OG group where the username
+ * contains the search string (for autocomplete author field).
+ */
+function c4m_og_edit_author_autocomplete($string = '') {
+  // Return early if no search string was received.
+  if (!trim($string)) {
+    return;
+  }
+
+  $gid = c4m_og_current_group_id();
+  // Return early if there is no group context.
+  if (!$gid) {
+    return;
+  }
+
+  $query = db_select('users', 'u');
+  $query
+    ->condition('u.status', C4M_USER_STATUS_ACTIVE, '=')
+    ->condition('u.name', '%' . db_like($string) . '%', 'LIKE')
+    ->fields('u', array('uid', 'name'))
+    ->fields('ogm', array('state'))
+    ->join('og_membership', 'ogm', "ogm.gid = :gid AND u.uid = ogm.etid AND ogm.entity_type = 'user'", array(':gid' => $gid));
+  $result = $query->execute();
+
+  foreach ($result as $member) {
+    if ($member->state == OG_STATE_ACTIVE) {
+      $user[$member->name] = $member->name;
+    }
+  }
+
+  // Convert to object to prevent drupal bug, see http://drupal.org/node/175361
+  drupal_json_output((object) $user);
 }
 
 /**
