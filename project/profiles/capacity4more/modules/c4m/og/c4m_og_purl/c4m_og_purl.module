@@ -39,22 +39,9 @@ function c4m_og_purl_init() {
   }
 
   // Menu items prefixes, which we allow to be accessed under OG context.
-  $group_allowed_path = array(
-    'node',
-    'group',
-    'wiki',
-    'documents',
-    'discussions',
-    'media',
-    'calendar',
-    'comment',
-    'members',
-    'manage',
-  );
+  $group_allowed_path = _c4m_og_purl_allowed_paths();
 
-  if ($context = og_context() &&
-    !_c4m_og_purl_starts_with_in_array($group_allowed_path, $item['path'])
-  ) {
+  if ($context = og_context() && !_c4m_og_purl_starts_with_in_array($group_allowed_path, $item['path'])) {
     // Under OG context, but menu item prefix is not part of allowed array.
     drupal_access_denied();
     drupal_exit();
@@ -73,6 +60,11 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
     return;
   }
 
+  // When explicitly creating a url with purl enabled.
+  if (!empty($options['purl']['enabled'])) {
+    return;
+  }
+
   if (!og_context_is_init()) {
     // OG context was not determined yet, so register the path and return early.
     // The next time this access callback will be called, it will not enter
@@ -82,7 +74,27 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
   }
 
   // Path prefixes, which we allow to be accessed under OG context.
-  $group_allowed_path = array(
+  $group_allowed_path = _c4m_og_purl_allowed_paths();
+
+  if ($context = og_context() && !_c4m_og_purl_starts_with_in_array($group_allowed_path, $path)) {
+    // Under OG context, but path prefix is not specified at allowed array.
+    // Cancel the 'prefix' that was added by purl_url_outbound_alter().
+    // purl_url_outbound_alter() will always run before this hook, as
+    // PURL model weight is lower (-20) than standard (0).
+    $options['prefix'] = '';
+
+    return;
+  }
+}
+
+/**
+ * Path prefixes, which we allow to be accessed under OG context.
+ *
+ * @return array
+ *   The allowed list.
+ */
+function _c4m_og_purl_allowed_paths() {
+  return array(
     'node',
     'group',
     'wiki',
@@ -93,19 +105,9 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
     'comment',
     'members',
     'manage',
+    'quick-post',
+    'overlay-file',
   );
-
-  if ($context = og_context() &&
-    !_c4m_og_purl_starts_with_in_array($group_allowed_path, $path)
-  ) {
-    // Under OG context, but path prefix is not specified at allowed array.
-    // Cancel the 'prefix' that was added by purl_url_outbound_alter().
-    // purl_url_outbound_alter() will always run before this hook, as
-    // PURL model weight is lower (-20) than standard (0).
-    $options['prefix'] = '';
-
-    return;
-  }
 }
 
 /**

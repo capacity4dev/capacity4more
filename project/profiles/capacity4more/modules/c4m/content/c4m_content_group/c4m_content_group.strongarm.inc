@@ -157,6 +157,16 @@ function c4m_content_group_strongarm() {
             'weight' => '0',
             'visible' => TRUE,
           ),
+          'block_list' => array(
+            'weight' => '31',
+            'visible' => FALSE,
+          ),
+        ),
+        'highlighted' => array(
+          'block_list' => array(
+            'weight' => '32',
+            'visible' => FALSE,
+          ),
         ),
       ),
     ),

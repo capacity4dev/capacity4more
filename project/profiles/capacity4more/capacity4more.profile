@@ -86,7 +86,7 @@ function capacity4more_setup_set_variables(&$install_state) {
     'theme_default' => 'kapablo',
     'admin_theme' => 'seven',
     'node_admin_theme' => 0,
-    'jquery_update_jquery_version' => '2.1',
+    'jquery_update_jquery_version' => '1.8',
     'jquery_update_jquery_admin_version' => '2.1',
     'page_manager_node_view_disabled' => FALSE,
     'page_manager_term_view_disabled' => FALSE,
