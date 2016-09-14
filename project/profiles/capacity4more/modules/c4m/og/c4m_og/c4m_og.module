@@ -359,7 +359,7 @@ function c4m_og_control_group_request($action, $gid) {
   }
 
   // Save group and present success message.
-  // $wrapper->save();
+  $wrapper->save();
   drupal_set_message($message);
 }
 
