@@ -3556,11 +3556,15 @@ function c4m_message_block_view($delta = '', $message = NULL) {
     return $block;
   }
 
-  if (!$message) {
+  if (!$wrapper = entity_metadata_wrapper('message', $message)) {
     return $block;
   }
 
-  if (isset($message->field_group_node) && !_c4m_features_og_members_is_power_user()) {
+  if (!isset($message->field_group_node) || !$wrapper->field_group_node->value()) {
+    return $block;
+  }
+
+  if (!_c4m_features_og_members_is_power_user($wrapper->field_group_node->value())) {
     return $block;
   }
 
