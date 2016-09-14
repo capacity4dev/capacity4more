@@ -70,10 +70,10 @@ Feature: Group Status
     And   the "#edit-c4m-og-status-und" element should not contain "pending"
 
   @api
-  Scenario: Check Pending group access by group owner
+  Scenario: Check group owner can access Pending group
     Given I am logged in as user "alfrednobel"
     When  I visit the dashboard of group "Pending group"
-    Then  I should see "Access denied"
+    Then  I should not see "Access denied"
 
   @api
   Scenario: Check Draft group dashboard access by group owner

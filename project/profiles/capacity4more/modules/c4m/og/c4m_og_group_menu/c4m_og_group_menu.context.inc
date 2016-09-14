@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * c4m_og_menu.context.inc
+ * c4m_og_group_menu.context.inc
  */
 
 /**
  * Implements hook_context_default_contexts().
  */
-function c4m_og_menu_context_default_contexts() {
+function c4m_og_group_menu_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();

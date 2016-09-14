@@ -122,10 +122,31 @@
     display: none;
   }
 
+  #edit-c4m-document {
+
+    .input-group {
+      display: block;
+    }
+  }
   .cfm-file-upload-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    .file-upload-js-error {
+      color: $color-form-input-error;
+      text-align: center;
+    }
+
+    .droppable-controls {
+      position: relative;
+
+      .form-submit {
+        position: absolute;
+        bottom: 30px;
+        z-index: -1;
+      }
+    }
   }
 
   .cfm-file-upload {
@@ -147,6 +168,14 @@
 
     a {
       color: $color-white;
+    }
+
+    .droppable-message {
+      line-height: normal;
+      min-height: initial;
+      display: flex;
+      flex-direction: column;
+      padding-top: 15px;
     }
   }
 

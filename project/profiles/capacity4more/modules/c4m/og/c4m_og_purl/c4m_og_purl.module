@@ -106,6 +106,7 @@ function _c4m_og_purl_allowed_paths() {
     'members',
     'manage',
     'quick-post',
+    'overlay-file',
   );
 }
 
