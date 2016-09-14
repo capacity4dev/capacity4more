@@ -139,4 +139,16 @@ class FeatureContext extends DrupalContext {
       throw new \Exception("{$selector} was not found.");
     }
   }
+
+  /**
+   * @Then /^I should not see the "([^"]*)" element$/
+   */
+  public function iShouldNotSeeTheElement($selector) {
+    $element = $this->getSession()->getPage()->find('css', $selector);
+
+    if ($element) {
+      throw new \Exception("{$selector} was found, but it should not.");
+    }
+  }
+
 }
