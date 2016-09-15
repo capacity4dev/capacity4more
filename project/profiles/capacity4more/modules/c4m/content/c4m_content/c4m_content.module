@@ -673,7 +673,8 @@ function c4m_content_toggle_highlight_access($group, $node, $status) {
     }
   }
 
-  $has_access = $group->uid == $user->uid || user_access('administer site');
+  $admin_role = user_role_load_by_name('administrator');
+  $has_access = user_has_role($admin_role->rid);
   return $has_access;
 }
 
@@ -693,6 +694,8 @@ function c4m_content_toggle_highlight($group, $node, $status, $ajax = 'nojs') {
   $wrapper = entity_metadata_wrapper('node', $node);
 
   // Setting the new value.
+  // When generating the link, we create it with the current status. So, when
+  // updating the node, we have to change it to the opposite status.
   $wrapper->promote->set(!$status);
   $wrapper->save();
 
