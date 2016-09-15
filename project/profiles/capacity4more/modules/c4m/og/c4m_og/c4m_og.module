@@ -612,7 +612,7 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
  *   Verifies that group owner id is returned, even if group owner does not
  *   have 'administrator member' role.
  * @param bool $filter_event_user
- *   Wither to filter current user ID from result, or not.
+ *   Whether to filter current user ID from result, or not.
  *
  * @return array
  *   An array of all group admins ids.
@@ -634,6 +634,7 @@ function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_
   }
 
   if ($filter_event_user) {
+    // Filter current user ID from array with admins ids.
     global $user;
 
     if (($index = array_search($user->uid, $admins)) !== FALSE) {
@@ -657,7 +658,8 @@ function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_
  *   An array of all group admins.
  */
 function c4m_og_get_group_admins($gid, $verify_owner_added = FALSE) {
-  return user_load_multiple(c4m_og_get_group_admins_ids($gid, $verify_owner_added));
+  // Do not filter current user - c4m_og_get_group_admins_ids(,,FALSE).
+  return user_load_multiple(c4m_og_get_group_admins_ids($gid, $verify_owner_added, FALSE));
 }
 
 /**

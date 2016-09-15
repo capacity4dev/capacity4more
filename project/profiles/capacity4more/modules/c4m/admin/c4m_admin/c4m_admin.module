@@ -38,7 +38,7 @@ function c4m_admin_menu() {
  * Returns site administrators ids.
  *
  * @param bool $filter_event_user
- *   Wither to filter current user ID from result, or not.
+ *   Whether to filter current user ID from result, or not.
  *
  * @return array
  *   Ids of site admins, or empty array, if none found.
@@ -57,6 +57,7 @@ function c4m_admin_get_admins_ids($filter_event_user = TRUE) {
   }
 
   if ($filter_event_user) {
+    // Filter current user ID from array with admins ids.
     global $user;
 
     if (($index = array_search($user->uid, $results)) !== FALSE) {
