@@ -208,6 +208,13 @@ function c4m_content_share_form_submit($form, &$form_state) {
   $node_wrapper->c4m_source_entity = $values['c4m_source_entity'];
   $node_wrapper->c4m_body = $values['c4m_body'];
 
+  // Add properties, so implementing modules can act on it.
+  $node->source_bundle = $original_node->getBundle();
+  $node->notification_data = array(
+    'target_gid' => $values['og_group_ref'],
+    'source_nid' => $values['c4m_source_entity'],
+  );
+
   $node_wrapper->save();
 
   $group = node_load($values['og_group_ref']);

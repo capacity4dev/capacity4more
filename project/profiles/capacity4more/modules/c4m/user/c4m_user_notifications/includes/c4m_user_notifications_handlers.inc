@@ -595,13 +595,8 @@ function c4m_user_notifications_new_group_content_published($node) {
 /**
  * Email notification about content being shared at organic group.
  */
-function c4m_user_notifications_group_content_shared($form, $form_state) {
-  if (!($gid = $form['values']['og_group_ref'])) {
-    return;
-  }
-
-  $group = node_load($gid);
-  _c4m_user_notifications_notify_on_content($group, 'share');
+function c4m_user_notifications_group_content_shared($source_node, $target_gid) {
+  _c4m_user_notifications_notify_on_content($source_node, 'share', $target_gid);
 }
 
 /**
@@ -623,8 +618,11 @@ function c4m_user_notifications_existing_group_content_updated($node) {
  *   Use 'insert' when new content is added.
  *   Use 'update' when existing content is updated.
  *   Use 'share' when content is shared.
+ * @param int $target_gid
+ *   Group ID for which notification is issued. If not passed, it's set to
+ *   gid of group node belong to.
  */
-function _c4m_user_notifications_notify_on_content($node, $action) {
+function _c4m_user_notifications_notify_on_content($node, $action, $target_gid = NULL) {
   global $user;
 
   switch ($action) {
@@ -659,7 +657,7 @@ function _c4m_user_notifications_notify_on_content($node, $action) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_node->set($node->nid);
   $node_wrapper = entity_metadata_wrapper('node', $node);
-  $gid = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
+  $gid = isset($target_gid) ? $target_gid : $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
   $wrapper->field_group_node->set($gid);
   $wrapper->field_executing_user->set($user->uid);
 

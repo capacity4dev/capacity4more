@@ -556,6 +556,16 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
   }
 
   $allowed_og_content_types = c4m_og_get_group_content_notification_types();
+
+  if ($node->type == 'share' && in_array($node->source_bundle, $allowed_og_content_types)) {
+    // If node was shared, and it's type requires notification.
+    $target_gid = $node->notification_data['target_gid'];
+    $source_node = node_load($node->notification_data['source_nid']);
+
+    c4m_user_notifications_group_content_shared($source_node, $target_gid);
+    return;
+  }
+
   if (!in_array($node->type, $allowed_og_content_types)) {
     // OG content type does not require notification.
     return;
@@ -590,13 +600,4 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
         break;
     }
   }
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- *
- * Triggers email notification when group content is shared.
- */
-function c4m_user_notifications_form_c4m_content_share_form_alter(&$form, $form_state) {
-  $form['#submit'][] = 'c4m_user_notifications_group_content_shared';
 }
