@@ -81,6 +81,7 @@ function c4m_content_discussion_c4m_content_statistics_info() {
         'singular' => 'Post',
         'plural' => 'Posts',
         'state' => 1,
+        'skip_access_check' => TRUE,
         'aggregate' => array(
           'type' => 'posts',
         ),
@@ -220,4 +221,13 @@ function c4m_content_discussion_c4m_helper_entity_label_info() {
       'icon' => 'fa-lightbulb-o',
     ),
   );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add author information to the edit discussion form.
+ */
+function c4m_content_discussion_form_discussion_node_form_alter(&$form, $form_state) {
+  c4m_og_add_content_author_options_to_power_users($form);
 }

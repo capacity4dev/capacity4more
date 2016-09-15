@@ -698,4 +698,14 @@ trait Group {
     $el = $page->find('xpath', '//a[contains(text(),\'Order items alphabetically\') and not(ancestor::*[contains(@style,\'visibility: hidden\')])]');
     $el->click();
   }
+
+  /**
+   * @Then /^I try to join the "([^"]*)" group via url$/
+   */
+  public function iTryToJoinTheGroupViaUrl($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = "group/join/{$group->nid}";
+
+    return new Given("I go to \"$uri\"");
+  }
 }

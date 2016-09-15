@@ -47,6 +47,7 @@ function c4m_search_default_search_api_index() {
               "event" : "event",
               "feed" : "feed",
               "group" : "group",
+              "news" : "news",
               "photo" : "photo",
               "photoalbum" : "photoalbum",
               "project" : "project",
