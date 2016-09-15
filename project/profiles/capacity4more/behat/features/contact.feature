@@ -53,7 +53,7 @@ Feature: Contact
     And I fill in "Subject" with "I want a nobel prize"
     And I fill in "Message" with "I want a nobel prize too."
     And I press "Send message"
-    Then I should see "Your message has been sent."
+    Then I should see "Captcha validation error"
 
   @api
   Scenario: Send the contact form as logged in user
@@ -63,4 +63,4 @@ Feature: Contact
     And I fill in "Subject" with "I want a nobel prize"
     And I fill in "Message" with "I want a nobel prize too."
     And I press "Send message"
-    Then I should see "Your message has been sent."
+    Then I should see "Captcha validation error"
