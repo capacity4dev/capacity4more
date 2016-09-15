@@ -37,10 +37,13 @@ function c4m_admin_menu() {
 /**
  * Returns site administrators ids.
  *
+ * @param bool $filter_event_user
+ *   Wither to filter current user ID from result, or not.
+ *
  * @return array
  *   Ids of site admins, or empty array, if none found.
  */
-function c4m_admin_get_admins_ids() {
+function c4m_admin_get_admins_ids($filter_event_user = TRUE) {
   // Get all site administrators.
   $admin_role = user_role_load_by_name('administrator');
   $results = db_select('users_roles', 'r')
@@ -51,6 +54,14 @@ function c4m_admin_get_admins_ids() {
 
   foreach ($results as &$result) {
     $result = $result->uid;
+  }
+
+  if ($filter_event_user) {
+    global $user;
+
+    if (($index = array_search($user->uid, $results)) !== FALSE) {
+      unset($results[$index]);
+    }
   }
 
   return $results;
