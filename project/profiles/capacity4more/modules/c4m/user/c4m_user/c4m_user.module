@@ -1380,3 +1380,25 @@ function c4m_user_registrationpassword_confirmation_url($account) {
   $timestamp = REQUEST_TIME;
   return url("user/registrationpassword/$account->uid/$timestamp/" . user_pass_rehash($account->pass, $timestamp, $account->name, $account->uid), array('absolute' => TRUE, 'purl' => array('disabled' => TRUE)));
 }
+
+/**
+ * Checks if user is site administrator.
+ *
+ * @param mixed $user
+ *   The user object. If not passed, current user is used.
+ *
+ * @return bool
+ *   Whether user is site administrator.
+ */
+function c4m_user_is_site_admin($user = NULL) {
+  if (!isset($user)) {
+    global $user;
+  }
+
+  // The user has the sitewide role 'administrator'.
+  if (in_array('administrator', $user->roles)) {
+    return TRUE;
+  }
+
+  return FALSE;
+}

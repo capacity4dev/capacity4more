@@ -186,7 +186,7 @@ function c4m_og_menu() {
   );
 
   // Menu item for approval of group request url.
-  $items['group/%/approve'] = array(
+  $items['node/%node/approve/group'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_og_approve_group_request', 1),
     'access callback' => 'c4m_og_control_group_request_access',
@@ -194,7 +194,7 @@ function c4m_og_menu() {
   );
 
   // Menu item for rejection of group request url.
-  $items['group/%/reject'] = array(
+  $items['node/%node/reject/group'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_og_reject_group_request', 1),
     'access callback' => 'c4m_og_control_group_request_access',
@@ -209,20 +209,19 @@ function c4m_og_menu() {
  *
  * Site administrators can access, as long as $gid is OG group.
  *
- * @param int $gid
- *   Group ID.
+ * @param object $node
+ *   Group node.
  *
  * @return bool
- *   Wither access is allowed.
+ *   Whether access is allowed.
  */
-function c4m_og_control_group_request_access($gid) {
-  if (!user_access('administer group')) {
+function c4m_og_control_group_request_access($node) {
+  if (!c4m_user_is_site_admin()) {
+    // Current user is not site admin.
     return FALSE;
   }
 
-  $node = node_load($gid);
-
-  return ($node->type == 'group') || ($node->type == 'project');
+  return og_is_group('node', $node);
 }
 
 /**
@@ -232,23 +231,35 @@ function c4m_og_control_group_request_access($gid) {
  *   Form array to populate.
  * @param object $form_state
  *   Form state array.
- * @param int $gid
- *   Group ID.
+ * @param object $node
+ *   Group node.
  *
  * @return object
  *   Approve group request form.
  */
-function c4m_og_approve_group_request($form, &$form_state, $gid) {
+function c4m_og_approve_group_request($form, &$form_state, $node) {
+  if (!_c4m_og_group_at_initial_state($node->nid)) {
+    // If group is not at initial state, present form with failure reason.
+    $message = _c4m_og_format_group_request_failure_reason_message($node->nid);
+    drupal_set_message($message, 'warning');
+
+    return $form;
+  }
+
   $form['message_from_admin'] = array(
     '#type' => 'textarea',
   );
 
   $form['gid'] = array(
     '#type' => 'value',
-    '#value' => $gid,
+    '#value' => $node->nid,
   );
 
-  return confirm_form($form, t('Please enter your comments:'), 'node/' . $gid . '/group', '', t('Approve'), t('Cancel'));
+  $form['#submit'][] = 'c4m_user_notifications_notify_user_group_approved';
+  $form['#submit'][] = 'c4m_user_notifications_log_group_approved';
+  $form['#submit'][] = 'c4m_og_route_to_group';
+
+  return confirm_form($form, t('Please enter your comments:'), 'node/' . $node->nid . '/group', '', t('Approve'), t('Cancel'));
 }
 
 /**
@@ -258,23 +269,34 @@ function c4m_og_approve_group_request($form, &$form_state, $gid) {
  *   Form array to populate.
  * @param object $form_state
  *   Form state array.
- * @param int $gid
- *   Group ID.
+ * @param object $node
+ *   Group node.
  *
  * @return object
  *   Approve group request form.
  */
-function c4m_og_reject_group_request($form, &$form_state, $gid) {
+function c4m_og_reject_group_request($form, &$form_state, $node) {
+  if (!_c4m_og_group_at_initial_state($node->nid)) {
+    // If group is not at initial state, present form with failure reason.
+    $message = _c4m_og_format_group_request_failure_reason_message($node->nid);
+    drupal_set_message($message, 'warning');
+
+    return $form;
+  }
+
   $form['message_from_admin'] = array(
     '#type' => 'textarea',
   );
 
   $form['gid'] = array(
     '#type' => 'value',
-    '#value' => $gid,
+    '#value' => $node->nid,
   );
 
-  return confirm_form($form, t('Please enter a reason:'), 'node/' . $gid . '/group', '', t('Reject'), t('Cancel'));
+  $form['#submit'][] = 'c4m_user_notifications_log_group_rejected';
+  $form['#submit'][] = 'c4m_og_route_to_group';
+
+  return confirm_form($form, t('Please enter a reason:'), 'node/' . $node->nid . '/group', '', t('Reject'), t('Cancel'));
 }
 
 /**
@@ -321,46 +343,98 @@ function c4m_og_reject_group_request_submit($form, &$form_state) {
  *   Group ID.
  */
 function c4m_og_control_group_request($action, $gid) {
-  // Check that group is at initial ('pending') status.
+  // Check that group is at initial ('pending') state.
   $wrapper = entity_metadata_wrapper('node', $gid);
 
-  if ($wrapper->c4m_og_status->value() != 'pending') {
-    // If group is not at initial ('pending') state.
-    switch ($wrapper->c4m_og_status->value()) {
-      case 'deleted':
-        $message = t('Group request was already rejected');
-        break;
+  if (!_c4m_og_group_at_initial_state($gid)) {
+    // If group is not at initial state, present warning message and return.
+    $message = _c4m_og_format_group_request_failure_reason_message($gid);
 
-      case 'draft':
-        $message = t('Group request was already approved');
-        break;
-
-      default:
-        $message = t('Group request was already handled');
-        break;
-    }
-
-    // Present warning message and return.
     drupal_set_message($message, 'warning');
     return;
   }
 
   // Change group state and set message.
+  $bundle = $wrapper->getBundle();
   switch ($action) {
     case 'approve':
       $wrapper->c4m_og_status->set('draft');
-      $message = t('Group request approved');
+      $message = ($bundle == 'group') ? t('Group request approved') : t('Project request approved');
       break;
 
     case 'reject':
       $wrapper->c4m_og_status->set('deleted');
-      $message = t('Group request rejected');
+      $message = ($bundle == 'group') ? t('Group request rejected') : t('Project request rejected');
       break;
   }
 
   // Save group and present success message.
   $wrapper->save();
   drupal_set_message($message);
+}
+
+/**
+ * Returns groups state.
+ *
+ * @param int $gid
+ *   Group ID.
+ *
+ * @return string
+ *   Group state.
+ */
+function _c4m_og_get_group_state($gid) {
+  // Check that group is at initial ('pending') state.
+  $wrapper = entity_metadata_wrapper('node', $gid);
+
+  return $wrapper->c4m_og_status->value();
+}
+
+/**
+ * Returns whether group is at initial ('pending') state.
+ *
+ * @param int $gid
+ *   Group ID.
+ *
+ * @return bool
+ *   Whether the group is at initial state.
+ */
+function _c4m_og_group_at_initial_state($gid) {
+  return _c4m_og_get_group_state($gid) == 'pending';
+}
+
+/**
+ * Returns a failure reason message for invalid group request.
+ *
+ * @param int $gid
+ *   Group ID.
+ *
+ * @return bool
+ *   Failure reason message if for invalid group request.
+ */
+function _c4m_og_format_group_request_failure_reason_message($gid) {
+  $state = _c4m_og_get_group_state($gid);
+
+  $wrapper = entity_metadata_wrapper('node', $gid);
+  $bundle = $wrapper->getBundle();
+
+  switch ($state) {
+    case 'deleted':
+      $message = ($bundle == 'group') ? t('Group request was already rejected') :
+        t('Project request was already rejected');
+      break;
+
+    case 'draft':
+      $message = ($bundle == 'group') ? t('Group request was already approved') :
+        t('Project request was already approved');
+      break;
+
+    default:
+      $message = ($bundle == 'group') ? t('Group request was already handled') :
+        t('Project request was already handled');
+      break;
+  }
+
+  return $message;
 }
 
 /**

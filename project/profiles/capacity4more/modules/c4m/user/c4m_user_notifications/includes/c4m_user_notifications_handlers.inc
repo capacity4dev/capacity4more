@@ -29,10 +29,8 @@ function c4m_user_notifications_moderated_group_new_membership_request($membersh
  * / owner.
  */
 function _c4m_user_notifications_moderated_group_admin_new_membership_request($membership, $admin_id) {
-  if (!($message = message_create('c4m_new_membership_request', array('uid' => $admin_id)))) {
-    // If message was not created properly, return early.
-    return;
-  }
+  $message = message_create('c4m_new_membership_request', array('uid' => $admin_id));
+  // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_new_membership_request($message);
 
   $wrapper = entity_metadata_wrapper('message', $message);
@@ -81,10 +79,7 @@ function c4m_user_notifications_moderated_group_notify_admins_membership_accepte
  */
 function _c4m_user_notifications_moderated_group_notify_admins_membership_accepted(Entity $membership, $admin_id) {
   global $user;
-  if (!($message = message_create('c4m_notify_admins_membership_approved', array('uid' => $admin_id)))) {
-    // If message was not created properly, return early.
-    return;
-  }
+  $message = message_create('c4m_notify_admins_membership_approved', array('uid' => $admin_id));
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_notify_admins_membership_accepted($message);
 
@@ -115,10 +110,7 @@ function c4m_user_notifications_open_group_notify_admins_membership_accepted($me
  * Email notification to group admin/owner about new member at open group.
  */
 function _c4m_user_notifications_open_group_notify_admin_membership_accepted($membership, $admin_id) {
-  if (!($message = message_create('c4m_new_member_joined', array('uid' => $admin_id)))) {
-    // Return early, if message was not created properly.
-    return;
-  }
+  $message = message_create('c4m_new_member_joined', array('uid' => $admin_id));
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_new_member_joined($message);
 
@@ -137,10 +129,7 @@ function _c4m_user_notifications_open_group_notify_admin_membership_accepted($me
 function c4m_user_notifications_moderated_group_notify_user_membership_rejected(&$form, &$form_state) {
   global $user;
   $membership = $form_state['membership'];
-  if (!($message = message_create('c4m_membership_request_rejected', array('uid' => $membership->etid)))) {
-    // Return early, if message was not created properly.
-    return;
-  }
+  $message = message_create('c4m_membership_request_rejected', array('uid' => $membership->etid));
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_membership_request_rejected($message);
   $message->arguments['@membership_reject_reason'] = $form_state['values']['reject_membership_request_message'];
@@ -161,10 +150,7 @@ function c4m_user_notifications_notify_user_group_approved(&$form, &$form_state)
   $admin_comment = $form_state['values']['message_from_admin'];
   $group = node_load($gid);
 
-  if (!($message = message_create('c4m_group_request_approved', array('uid' => $group->uid)))) {
-    // Return early, if message was not created properly.
-    return;
-  }
+  $message = message_create('c4m_group_request_approved', array('uid' => $group->uid));
 
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_request_approved($message);
@@ -870,7 +856,7 @@ function c4m_user_notifications_log_group_rejected($form, $form_state) {
   $gid = $form_state['values']['gid'];
   $admin_comment = $form_state['values']['message_from_admin'];
 
-  _c4m_user_notifications_log_group_state_change('pending', 'deleted', $gid, $admin_comment);
+  _c4m_user_notifications_log_group_state_change('pending', 'draft', $gid, $admin_comment);
 }
 
 /**
