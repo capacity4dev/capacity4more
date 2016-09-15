@@ -3,20 +3,16 @@ Feature: Files upload
   In order to upload a file
   I need to be able to see the file upload form
 
-  Background:
-    Given The window is maximized
-
-  @javascript
+  @api
   Scenario: Check that anonymous user can not see the file upload form
     Given I am an anonymous user
-    When  I go to "media/browser?render=media-popup&plugins="
-    Then  I should not see "Upload a new file"
-    And  I follow "Library"
+    When  I go to the media browser page
+    Then  I should not have access to the page
 
   @javascript
   Scenario Outline: Check that authenticated user sees the upload file form
     Given I am logged in as user "<user>"
-    When  I go to "media/browser?render=media-popup&plugins="
+    When  I go to the media browser page
     Then  I should see "Upload a new file"
     When  I press "Next"
     Then  I should see "Upload a new file field is required"
