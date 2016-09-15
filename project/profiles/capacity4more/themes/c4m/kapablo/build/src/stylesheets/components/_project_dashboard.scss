@@ -1,0 +1,16 @@
+.field-name-c4m-partners {
+  margin: 0 -0.6em;
+
+  > .field-items .field-item {
+    display: inline-block;
+    padding: 0 0.3em 0.5em 0.3em;
+  }
+}
+
+.system-block-title {
+  .field-name-c4m-left-column & {
+    color: $color-text-alternative;
+    font-size: 250%;
+    margin-bottom: 2rem;
+  }
+}

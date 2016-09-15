@@ -230,7 +230,7 @@ function c4m_features_og_group_dashboard_get_flagged_group_content($og_id = NULL
   $query = db_select('node', 'n');
   $query->fields('n', array('nid'));
   $query->fields('f', array('uid'));
-  $query->join('og_membership', 'og', 'n.nid = og.etid');
+  $query->join('og_membership', 'og', "n.nid = og.etid AND og.entity_type = 'node'");
   $query->join('flagging', 'f', 'n.nid = f.entity_id');
   $query->condition('og.gid', $og_id, '=');
   $query->condition('f.fid', $flag_id, '=');
@@ -264,12 +264,49 @@ function c4m_features_og_group_dashboard_block_info() {
 function c4m_features_og_group_dashboard_block_view($delta = '') {
   $block = array();
 
-  if ($delta != 'c4m_cta_block') {
-    return $block;
-  }
-
-  $block['content'] = '';
-  drupal_alter('c4m_cta_block', $block);
+  $block['content'] = module_invoke_all('c4m_cta_block');
 
   return $block;
+}
+
+/**
+ * Returns an array of possible flag suffixes, used for notification.
+ *
+ * @return array
+ *   Notification flags suffixes.
+ */
+function c4m_features_og_group_dashboard_get_notification_flags_suffixes() {
+  return array('group', 'node', 'comment', 'term');
+}
+
+/**
+ * Implements hook_preprocess().
+ *
+ * Add Promote/Depromote text to the flag, depend on the flag action.
+ */
+function c4m_features_og_group_dashboard_preprocess(&$variables, $hook) {
+  if ($variables['theme_hook_original'] != 'flag') {
+    return;
+  }
+
+  if ($variables['flag_name_css'] != 'c4m-og-content-highlight') {
+    return;
+  }
+
+  $item = menu_get_item();
+
+  // Check that the flag is on a page, and not on the activity_group.
+  if (empty($item['page_arguments'][0]->nid)) {
+    return;
+  }
+
+  // Add Promote/Demote text depend on the flag action.
+  if ($variables['action'] == 'flag') {
+    $variables['link_text'] = t('!link_text Promote', array('!link_text' => $variables['link_text']));
+  }
+  else {
+    // Removing the hardcoded 'x' (defined in the flag link text.
+    $variables['link_text'] = str_replace('<div>x</div>', '', $variables['link_text']);
+    $variables['link_text'] = t('!link_text Demote', array('!link_text' => $variables['link_text']));
+  }
 }

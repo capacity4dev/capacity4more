@@ -27,6 +27,7 @@ dependencies[] = rdf
 dependencies[] = admin_menu_toolbar
 dependencies[] = admin_views
 dependencies[] = better_formats
+dependencies[] = blockreference
 dependencies[] = context
 dependencies[] = ctools
 dependencies[] = date
@@ -53,9 +54,12 @@ dependencies[] = module_filter
 dependencies[] = og
 dependencies[] = og_access
 dependencies[] = og_context
+dependencies[] = og_context_access_callback
 dependencies[] = og_ui
 dependencies[] = og_purl
 dependencies[] = og_vocab
+dependencies[] = og_menu
+dependencies[] = og_invite
 dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = paragraphs
@@ -77,6 +81,8 @@ dependencies[] = views_content
 dependencies[] = views_bulk_operations
 dependencies[] = views_data_export
 dependencies[] = wysiwyg_filter
+dependencies[] = views_contextual_filters_or
+
 
 dependencies[] = services
 dependencies[] = user_revision
@@ -92,6 +98,7 @@ dependencies[] = c4m_admin_projects
 ; Helpers
 dependencies[] = c4m_helper_comment
 dependencies[] = c4m_helper_cron
+dependencies[] = c4m_helper_block
 dependencies[] = c4m_helper_date
 dependencies[] = c4m_helper_entity
 
@@ -108,6 +115,7 @@ dependencies[] = c4m_user_bar
 dependencies[] = c4m_user_og
 dependencies[] = c4m_user_profile
 dependencies[] = c4m_user_notifications
+dependencies[] = c4m_user_subscribe
 
 dependencies[] = c4m_comment
 dependencies[] = c4m_comment_delete
@@ -118,6 +126,7 @@ dependencies[] = c4m_content
 dependencies[] = c4m_content_article
 dependencies[] = c4m_content_book
 dependencies[] = c4m_content_discussion
+dependencies[] = c4m_content_news
 dependencies[] = c4m_content_document
 dependencies[] = c4m_content_event
 dependencies[] = c4m_content_featured
@@ -160,14 +169,16 @@ dependencies[] = c4m_restful_quick_post
 dependencies[] = c4m_restful
 
 ; Overview content within groups
-dependencies[] = c4m_og_menu
+dependencies[] = c4m_og_group_menu
 dependencies[] = c4m_features_og_events
 dependencies[] = c4m_features_og_group_dashboard
 dependencies[] = c4m_features_og_discussions
 dependencies[] = c4m_features_og_documents
+dependencies[] = c4m_features_og_media
 dependencies[] = c4m_features_og_highlights
 dependencies[] = c4m_features_og_manage
 dependencies[] = c4m_features_og_members
+dependencies[] = c4m_features_og_news
 dependencies[] = c4m_features_og_photoalbums
 dependencies[] = c4m_features_og_search
 dependencies[] = c4m_features_og_wiki
@@ -190,6 +201,7 @@ dependencies[] = c4m_document_widget
 
 ; Organic Groups
 dependencies[] = c4m_og_purl
+dependencies[] = c4m_og_invite_users
 
 ; Email Domains
 dependencies[] = c4m_domain

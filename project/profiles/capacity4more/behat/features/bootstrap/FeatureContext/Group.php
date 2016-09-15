@@ -398,7 +398,7 @@ trait Group {
    */
   public function iShouldSeeTheGroupHeaderWithBanner() {
     $page = $this->getSession()->getPage();
-    $el = $page->find('css', '#block-c4m-content-group-header-name-banner');
+    $el = $page->find('css', '#block-c4m-content-group-header-name-banner-group');
     if ($el === null) {
       throw new \Exception('The Group Header block is not visible.');
     }
@@ -697,5 +697,15 @@ trait Group {
     $page = $this->getSession()->getPage();
     $el = $page->find('xpath', '//a[contains(text(),\'Order items alphabetically\') and not(ancestor::*[contains(@style,\'visibility: hidden\')])]');
     $el->click();
+  }
+
+  /**
+   * @Then /^I try to join the "([^"]*)" group via url$/
+   */
+  public function iTryToJoinTheGroupViaUrl($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = "group/join/{$group->nid}";
+
+    return new Given("I go to \"$uri\"");
   }
 }

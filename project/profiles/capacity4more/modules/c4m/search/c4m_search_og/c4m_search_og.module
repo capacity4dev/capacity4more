@@ -108,3 +108,15 @@ function c4m_search_og_reindex_og_access_node_grants(
   // Set the progress.
   $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['total'];
 }
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Using hook_preprocess_block().
+ */
+function c4m_search_og_preprocess_block(&$vars) {
+  if (isset($vars['block']->bid) && $vars['block']->bid == 'og_menu-og_single_menu_block') {
+    $block = module_invoke('c4m_search_og', 'block_view', 'c4m_search_group_form');
+    $vars['search_form'] = $block['content'];
+  }
+}
