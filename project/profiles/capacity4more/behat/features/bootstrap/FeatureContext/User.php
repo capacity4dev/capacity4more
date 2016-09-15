@@ -45,7 +45,7 @@ trait User {
    * @Given /^I am logged in with a temporal user$/
    */
   public function iAmLoggedInWithATemporalUser() {
-    $username = 'temporaluser' . REQUEST_TIME;
+    $username = 'temporaluser' . microtime();
     $password = 'drupal';
 
     $temporal_user = (object) array(
