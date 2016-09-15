@@ -841,7 +841,7 @@ function c4m_user_notifications_log_group_approved($form, $form_state) {
   $gid = $form_state['values']['gid'];
   $admin_comment = $form_state['values']['message_from_admin'];
 
-  _c4m_user_notifications_log_group_state_change('pending', 'deleted', $gid, $admin_comment);
+  _c4m_user_notifications_log_group_state_change('pending', 'draft', $gid, $admin_comment);
 }
 
 /**
@@ -856,7 +856,7 @@ function c4m_user_notifications_log_group_rejected($form, $form_state) {
   $gid = $form_state['values']['gid'];
   $admin_comment = $form_state['values']['message_from_admin'];
 
-  _c4m_user_notifications_log_group_state_change('pending', 'draft', $gid, $admin_comment);
+  _c4m_user_notifications_log_group_state_change('pending', 'deleted', $gid, $admin_comment);
 }
 
 /**
