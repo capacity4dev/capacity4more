@@ -113,8 +113,16 @@ function _c4m_user_subscribe_entity_notifications_disabled($entity_id, $flag_suf
  * Flags the group subscription flag, so the user is subscribed to the group.
  */
 function c4m_user_subscribe_og_membership_insert(OgMembership $membership) {
-  $flag = flag_get_flag('subscribe_c4m_follow_group');
-  $flag->flag('flag', $membership->gid, NULL, TRUE);
+  c4m_user_subscribe_to_group($membership);
+}
+
+/**
+ * Implements hook_og_membership_type_insert().
+ *
+ * Flags the group subscription flag, so the user is subscribed to the group.
+ */
+function c4m_user_subscribe_og_membership_update(OgMembership $membership) {
+  c4m_user_subscribe_to_group($membership);
 }
 
 /**
@@ -124,6 +132,21 @@ function c4m_user_subscribe_og_membership_insert(OgMembership $membership) {
  * the group.
  */
 function c4m_user_subscribe_og_membership_delete(OgMembership $membership) {
-  $flag = flag_get_flag('subscribe_c4m_follow_group');
-  $flag->flag('unflag', $membership->gid, NULL, TRUE);
+  c4m_user_subscribe_to_group($membership, 'unflag');
+}
+
+/**
+ * Updates the subscription flag to a group from the membership.
+ *
+ * @param object $membership
+ *   OgMembership object containing the information of the group and the state.
+ *
+ * @param string $event
+ *   flag|unflag actions to update the subscription flag.
+ */
+function c4m_user_subscribe_to_group($membership, $event = 'flag') {
+  if ($membership->state == OG_STATE_ACTIVE) {
+    $flag = flag_get_flag('subscribe_c4m_follow_group');
+    $flag->flag($event, $membership->gid, NULL, TRUE);
+  }
 }
