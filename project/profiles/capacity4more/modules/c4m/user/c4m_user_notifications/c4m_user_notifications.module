@@ -60,6 +60,11 @@ function c4m_user_notifications_og_membership_insert($og_membership) {
 
   if ($moderated == C4M_OG_MODERATED_GROUP && $og_membership->state == OG_STATE_PENDING) {
     // Moderated group with state Pending - new membership request.
+    if (isset($og_membership->og_membership_invitation)) {
+      // It's invitation to join moderated group. Notification is not required.
+      return;
+    }
+
     c4m_user_notifications_moderated_group_new_membership_request($og_membership);
   }
   elseif ($moderated == C4M_OG_OPEN_GROUP && $og_membership->state == OG_STATE_ACTIVE) {
