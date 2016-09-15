@@ -159,21 +159,21 @@ function c4m_content_group_strongarm() {
             'visible' => TRUE,
           ),
           'teaser' => array(
-            'weight' => '0',
+            'weight' => '30',
             'visible' => FALSE,
           ),
           'block_list' => array(
-            'weight' => '35',
+            'weight' => '36',
             'visible' => FALSE,
           ),
         ),
         'highlighted' => array(
           'teaser' => array(
-            'weight' => '0',
+            'weight' => '25',
             'visible' => FALSE,
           ),
           'block_list' => array(
-            'weight' => '32',
+            'weight' => '34',
             'visible' => FALSE,
           ),
         ),

@@ -104,7 +104,7 @@ function c4m_content_group_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Icons',
-    'weight' => '4',
+    'weight' => '5',
     'children' => array(
       0 => 'c4m_ds_group_members_count',
       1 => 'c4m_ds_group_posts_count',
@@ -137,7 +137,7 @@ function c4m_content_group_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Author information',
-    'weight' => '2',
+    'weight' => '3',
     'children' => array(
       0 => 'c4m_user_first_and_last_name',
       1 => 'c4m_ds_creation_date',
@@ -173,9 +173,10 @@ function c4m_content_group_field_group_info() {
     'label' => 'Header inline',
     'weight' => '0',
     'children' => array(
-      0 => 'c4m_ds_group_type_icon',
-      1 => 'c4m_ds_group_membership_type',
-      2 => 'group_title',
+      0 => 'c4m_og_status',
+      1 => 'title',
+      2 => 'c4m_ds_group_type_icon',
+      3 => 'c4m_ds_group_membership_type',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -202,14 +203,11 @@ function c4m_content_group_field_group_info() {
   $field_group->entity_type = 'node';
   $field_group->bundle = 'group';
   $field_group->mode = 'teaser';
-  $field_group->parent_name = 'group_teaser_header_inline';
+  $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Title',
-    'weight' => '3',
-    'children' => array(
-      0 => 'c4m_og_status',
-      1 => 'title',
-    ),
+    'weight' => '6',
+    'children' => array(),
     'format_type' => 'html-element',
     'format_settings' => array(
       'label' => 'Title',
