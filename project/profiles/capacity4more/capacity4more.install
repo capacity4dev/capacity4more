@@ -248,8 +248,6 @@ function _capacity4more_install_save_default_permissions(
     'create group content',
     'edit own group content',
     'create messages',
-    'create files',
-    'view own files',
     'access media browser',
     'access overlay',
     // 'save draft',.
