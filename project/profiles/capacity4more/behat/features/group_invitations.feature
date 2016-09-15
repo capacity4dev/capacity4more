@@ -3,7 +3,7 @@ Feature: Group Invitations
   In order to invite users and visitors
   I need to be able to access the group invitation forms
 
-  @api @fail
+  @api
   Scenario: Check Invite a member link is available for a member of an open public group.
   Given I am logged in as user "charlesbabbage"
   When  I visit the dashboard of group "Music Lovers"
@@ -38,7 +38,7 @@ Feature: Group Invitations
   And   I click "Invite a member"
   Then  I should see the text "Invite People to Join"
 
-  @api @fail
+  @api
     Scenario: Check access to invite visitors to an open group for GMs
     Given I am logged in as user "charlesbabbage"
     When  I visit the dashboard of group "Music Lovers"
