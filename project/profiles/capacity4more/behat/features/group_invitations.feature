@@ -3,13 +3,14 @@ Feature: Group Invitations
   In order to invite users and visitors
   I need to be able to access the group invitation forms
 
-  @api
+  @api @fail
   Scenario: Check Invite a member link is available for a member of an open public group.
   Given I am logged in as user "charlesbabbage"
   When  I visit the dashboard of group "Music Lovers"
   And   I click "Join this group"
   And   I click "Invite a member"
-  Then  I should see the text "Invite People to Join"
+  Then  I should not see "Access denied"
+  And  I should see the text "Invite People to Join"
 
   @api
   Scenario: Check Invite a member link is not available for a member of a private group.
@@ -37,12 +38,13 @@ Feature: Group Invitations
   And   I click "Invite a member"
   Then  I should see the text "Invite People to Join"
 
-  @api
+  @api @fail
     Scenario: Check access to invite visitors to an open group for GMs
     Given I am logged in as user "charlesbabbage"
     When  I visit the dashboard of group "Music Lovers"
     # charlesbabbage joined Music Lovers in a previous test.
-    And   I go to "group/node/13/admin/people/invite-visitors"
+    And   I click "Invite a member"
+    And   I click "Invite Visitors"
     Then  I should not see "Access denied"
     And   I should see the text "Invite Visitors"
 
@@ -51,15 +53,6 @@ Feature: Group Invitations
     Given I am logged in as user "galileo"
     When  I go to "group/node/11/admin/people/invite-visitors"
     Then  I should see the text "Access denied"
-
-  @api
-  Scenario: Check access to invite users to an open group for GMs
-    Given I am logged in as user "charlesbabbage"
-    When  I visit the dashboard of group "Music Lovers"
-    # charlesbabbage joined Music Lovers in a previous test.
-    And   I click "Invite a member"
-    Then  I should not see "Access denied"
-    And   I should see the text "Invite People to Join"
 
   @api
   Scenario: Check access denied for inviting users to a private group to GMs
