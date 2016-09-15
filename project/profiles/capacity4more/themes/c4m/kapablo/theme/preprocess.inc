@@ -16,6 +16,7 @@ function kapablo_preprocess_message(&$variables) {
   }
 
   $message = $variables['message'];
+
   $variables['theme_hook_suggestions'][] = 'message__activity_stream';
   $variables['theme_hook_suggestions'][] = "message__{$message->type}__activity_stream";
 
@@ -227,11 +228,11 @@ function kapablo_preprocess_field(&$variables, $hook) {
       switch ($element['#view_mode']) {
         case 'full':
           foreach ($element['#items'] as $key => $item) {
-            $markup = c4m_content_discussion_simple_label(
+            $icon_class = c4m_content_discussion_icon_class(
               $variables['items'][$key]['#markup']
             );
 
-            $variables['items'][$key]['#markup'] = '<i class="fa ' . $markup['class'] . '"></i> ' . $markup['label'];
+            $variables['items'][$key]['#markup'] = '<i class="fa ' . $icon_class . '"></i> ' . $variables['items'][$key]['#markup'];
           }
           break;
       }
@@ -276,28 +277,16 @@ function kapablo_preprocess_field(&$variables, $hook) {
  * Implements hook_preprocess_facetapi_link_inactive().
  */
 function kapablo_preprocess_facetapi_link_inactive(&$variables) {
-  $replace = _kapablo_help_facetapi_link_replace($variables['text']);
-  if (empty($replace['class'])) {
-    return;
-  }
-
-  foreach ($replace['class'] as $class) {
-    $variables['options']['attributes']['class'][] = $class;
-  }
+  $variables['text'] = _kapablo_help_facetapi_link_add_icon($variables['text']);
+  $variables['options']['html'] = TRUE;
 }
 
 /**
  * Implements hook_preprocess_facetapi_link_active().
  */
 function kapablo_preprocess_facetapi_link_active(&$variables) {
-  $replace = _kapablo_help_facetapi_link_replace($variables['text']);
-  if (empty($replace['class'])) {
-    return;
-  }
-
-  foreach ($replace['class'] as $class) {
-    $variables['options']['attributes']['class'][] = $class;
-  }
+  $variables['text'] = _kapablo_help_facetapi_link_add_icon($variables['text']);
+  $variables['options']['html'] = TRUE;
 }
 
 /**
@@ -309,56 +298,12 @@ function kapablo_preprocess_facetapi_link_active(&$variables) {
  * @return array
  *   The replace info.
  */
-function _kapablo_help_facetapi_link_replace($text_orig) {
-  $replace = array();
-  $text = $text_orig;
-  $class = '';
-
-  switch ($text_orig) {
-    case t('Ask a Question'):
-      $text = t('Question');
-      $class = 'fl-question';
-      break;
-
-    case t('Share an Idea'):
-      $text = t('Idea');
-      $class = 'fl-idea';
-      break;
-
-    case t('Share Information'):
-      $text = t('Information');
-      $class = 'fl-info';
-      break;
-
-    case t('Start a Debate'):
-      $text = t('Debate');
-      $class = 'fl-debate';
-      break;
-
-    case t('Public'):
-      $text = t('Public');
-      $class = 'fl-public';
-      break;
-
-    case t('Private'):
-      $text = t('Private');
-      $class = 'fl-private';
-      break;
-
-    case t('Restricted'):
-      $text = t('Restricted');
-      $class = 'fl-restricted';
-      break;
+function _kapablo_help_facetapi_link_add_icon($text_orig) {
+  if ($class = c4m_content_discussion_icon_class($text_orig)) {
+    return '<i class="fa ' . $class . '"></i>' . $text_orig;
   }
 
-  if ($text_orig !== $text) {
-    $replace['text'] = $text;
-  }
-  if (!empty($class)) {
-    $replace['class'] = array($class, 'fl-icon');
-  }
-
-  return $replace;
+  return $text_orig;
 }
 
 /**
@@ -595,6 +540,28 @@ function kapablo_preprocess_image(&$variables) {
 function kapablo_preprocess_html(&$variables) {
   // Render off_canvas into top level variables.
   $variables['off_canvas'] = drupal_render($variables['page']['off_canvas']);
+}
+
+/**
+ * Pre-processes variables for the "bootstrap_panel" theme hook.
+ *
+ * In case of a bootstrap panel the title is not being rendered under the
+ * kapablo_form_element_label() and at this point the title is already
+ * rendered, hence we're adding the tooltip element explicitly.
+ *
+ * @see bootstrap_preprocess_bootstrap_panel()
+ */
+function kapablo_preprocess_bootstrap_panel(&$variables) {
+  $element = &$variables['element'];
+
+  if (isset($element['#description']) && !isset($element['#what_is_this'])) {
+    // Adding the tooltip element.
+    $element['#title'] .= kapablo_render_what_is_this($element['#description']);
+    // Removing the description anyway to prevent duplications.
+    $element['#description'] = NULL;
+  }
+
+  bootstrap_preprocess_bootstrap_panel($variables);
 }
 
 /**

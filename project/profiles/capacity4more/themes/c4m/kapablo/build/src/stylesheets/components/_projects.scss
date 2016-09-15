@@ -1,3 +1,85 @@
+.project-title {
+  margin: 20px 18px 10px;
+
+  @media (min-width: $screen-tablet) {
+    display: inline-block;
+    margin: 20px 0 10px;
+  }
+}
+
+.project-indications {
+  float: left;
+  margin: 0 0 0 18px;
+
+  .project-icon {
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    margin: 0;
+    padding: 5px;
+    border-radius: 4px;
+  }
+
+  .project-icon.as-project-notstarted {
+    border: 1px solid $color-gray;
+    color: $color-gray;
+  }
+
+  .project-icon.as-project-ongoing {
+    border: 1px solid $color-blue-light;
+    color: $color-blue-light;
+  }
+
+  .project-icon.as-project-completed {
+    border: 1px solid $color-blue;
+    color: $color-blue;
+  }
+
+  .node-icon[class*="as-project-"] {
+    margin-top: 0;
+  }
+
+  @media (min-width: $screen-tablet) {
+    float: right;
+    margin-top: 20px;
+  }
+}
+
+.project-indications--stage {
+  position: relative;
+  float: left;
+  height: 25px;
+}
+
+.project-type,
+.project-status {
+  display: inline-block;
+  margin-left: 10px;
+  float: left;
+  height: 25px;
+}
+
+.project-stage {
+  display: none;
+
+  @media (min-width: $screen-tablet) {
+    display: inline-block;
+    margin-left: 5px;
+    height: 25px;
+    border-radius: 4px;
+  }
+}
+
+.project-status {
+  @media (min-width: $screen-tablet) {
+    float: right;
+
+    display: block;
+    clear: left;
+    margin-top: 6px;
+  }
+}
+
 #block-c4m-content-project-c4m-block-create-project {
   .btn + .btn {
     // We assume here that due to design buttons will sit one below the other.

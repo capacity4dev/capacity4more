@@ -49,7 +49,7 @@ function c4m_content_group_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'More details',
-    'weight' => '33',
+    'weight' => '34',
     'children' => array(
       0 => 'c4m_user_picture',
     ),
