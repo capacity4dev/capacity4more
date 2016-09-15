@@ -65,6 +65,7 @@ function _c4m_user_profile_block_user_menu() {
         'purl'  => array(
           'disabled' => TRUE,
         ),
+        'query' => c4m_og_purl_get_destination(),
       ),
     ),
   );
@@ -312,7 +313,7 @@ function _c4m_user_profile_block_user_my_profile_groups() {
     return $block;
   }
 
-  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($account, array('group'));
+  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($account);
 
   // Prevent the block to be rendered if the user has no groups.
   if (empty($groups)) {

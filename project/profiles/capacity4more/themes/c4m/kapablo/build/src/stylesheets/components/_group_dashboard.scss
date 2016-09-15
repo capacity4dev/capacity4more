@@ -19,17 +19,12 @@
       direction: rtl;
     }
   }
+}
 
-  .field-name-c4m-vocab-topic,
-  .field-name-c4m-vocab-geo {
-    .item {
-      margin-bottom: 10px;
-
-      .shift-right {
-        margin-left: 10px;
-        margin-top: -8px;
-      }
-    }
+.field-name-c4m-vocab-topic,
+.field-name-c4m-vocab-geo {
+  .item {
+    margin-bottom: 10px;
 
     .taxonomy-root {
       margin: 0;
@@ -38,6 +33,11 @@
     .taxonomy-tree {
       margin-left: 10px;
     }
+  }
+
+  .shift-right {
+    margin-left: 10px;
+    margin-top: -8px;
   }
 }
 

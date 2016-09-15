@@ -18,6 +18,7 @@ define('C4M_OG_ACCESS_REALM', 'c4m_og_access');
  */
 define('C4M_OG_MODERATED_GROUP', 0);
 define('C4M_OG_OPEN_GROUP', 1);
+define('C4M_OG_PRIVATE_GROUP', 2);
 
 /**
  * Helper to get the current active group (based on og_context()).
@@ -152,6 +153,7 @@ function c4m_og_menu() {
     'access arguments' => array(1, 2),
     'title' => 'Replace Owner',
   );
+
   $items['project/%/%/admin/owner'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_og_replace_owner_build_form', 1, 2),
@@ -159,8 +161,242 @@ function c4m_og_menu() {
     'access arguments' => array(1, 2),
     'title' => 'Replace Owner',
   );
+  // Auto-completes active group member's user names.
+  $items['edit-author/autocomplete/%node'] = array(
+    'page callback' => 'c4m_og_edit_author_autocomplete',
+    'access callback' => '_c4m_features_og_members_is_power_user',
+    'access arguments' => array(2),
+    'title' => 'Replace Author',
+  );
+
+  // Menu item for approve membership request url.
+  $items['group/%/%/admin/membership-approve/%user/%og_membership/%/%'] = array(
+    'page callback' => 'c4m_og_control_membership',
+    'page arguments' => array('approve', 2, 5, 6, 7, 8),
+    'access callback' => 'c4m_og_control_membership_access',
+    'access arguments' => array(1, 2),
+  );
+
+  // Menu item for reject membership request url.
+  $items['group/%/%/admin/membership-reject/%user/%og_membership/%/%'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_og_reject_membership_request', 2, 5, 6, 7, 8),
+    'access callback' => 'c4m_og_control_membership_access',
+    'access arguments' => array(1, 2),
+  );
 
   return $items;
+}
+
+/**
+ * Function initializes form with input values, and returns confirm form.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ * @param int $gid
+ *   Group ID.
+ * @param object $account
+ *   Administrator user that performs the action.
+ * @param object $membership
+ *   OG membership on which action is performed.
+ * @param int $timestamp
+ *   Timestamp of the moment action was requested.
+ * @param string $hashed_pass
+ *   Validation for executing user.
+ *
+ * @return object
+ *   Confirm reject form.
+ */
+function c4m_og_reject_membership_request($form, &$form_state, $gid, $account, $membership, $timestamp = 0, $hashed_pass = '') {
+  $form['reject_membership_request_message'] = array(
+    '#type' => 'textarea',
+  );
+
+  // Add group membership form.
+  $form_state['membership'] = $membership;
+  field_attach_form('membership', $membership, $form, $form_state);
+  $form_state['account'] = $account;
+  field_attach_form('account', $account, $form, $form_state);
+
+  $form['gid'] = array(
+    '#type' => 'value',
+    '#value' => $gid,
+  );
+
+  $form['timestamp'] = array(
+    '#type' => 'value',
+    '#value' => $timestamp,
+  );
+
+  $form['hashed_pass'] = array(
+    '#type' => 'value',
+    '#value' => $hashed_pass,
+  );
+
+  return confirm_form($form, t('Please enter reject reason:'), 'group/node/' . $gid . '/admin/people', '', t('Reject'), t('Cancel'));
+}
+
+/**
+ * Submits reject membership request form.
+ *
+ * Gets inputs from form, and activates c4m_og_control_membership() function
+ * with action = 'reject'.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ */
+function c4m_og_reject_membership_request_submit($form, &$form_state) {
+  $membership = $form_state['membership'];
+  $account = $form_state['account'];
+  $gid = $form_state['values']['gid'];
+  $timestamp = $form_state['values']['timestamp'];
+  $hashed_pass = $form_state['values']['hashed_pass'];
+
+  c4m_og_control_membership('reject', $gid, $account, $membership, $timestamp, $hashed_pass);
+}
+
+/**
+ * Function builds and returns a link for membership request control.
+ *
+ * Includes a token for auto login.
+ *
+ * @param object $account
+ *   Account which performs the action.
+ * @param object $membership
+ *   Membership for which action is performed.
+ * @param string $action
+ *   Approve / Reject.
+ *
+ * @return string
+ *   A link for membership request control.
+ */
+function c4m_og_autologin_control_membership_link($account, $membership, $action) {
+  $timestamp = REQUEST_TIME;
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  $path = 'group/node/' . $membership->gid . '/admin/membership-' . $action . '/' . $account->uid . '/'
+    . $membership->id . '/' . $timestamp . '/' . user_pass_rehash($account->pass, $timestamp, $account->login, $account->uid);
+
+  return url($path, $options);
+}
+
+/**
+ * Forwards the page to group's People page.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ */
+function c4m_og_route_to_group_people($form, &$form_state) {
+  $gid = $form_state['values']['gid'];
+
+  drupal_goto('group/node/' . $gid . '/admin/people');
+}
+
+/**
+ * Function approves / rejects membership request, submitted by user.
+ *
+ * Verifies auto login token, and if valid, logs in the administrator and
+ * performs required state change to membership request. If not valid, forwards
+ * to login page.
+ *
+ * @param string $action
+ *   Approve / Reject.
+ * @param int $gid
+ *   Group ID.
+ * @param object $account
+ *   Administrator user that performs the action.
+ * @param object $membership
+ *   OG membership on which action is performed.
+ * @param int $timestamp
+ *   Timestamp of the moment action was requested.
+ * @param string $hashed_pass
+ *   Validation for executing user.
+ */
+function c4m_og_control_membership($action, $gid, $account, $membership, $timestamp = 0, $hashed_pass = '') {
+  global $user;
+  // Time out in seconds, until auto login token expires.
+  // 24 hours = 86400 seconds.
+  $timeout = variable_get('autologin_timeout', 86400);
+  $current = REQUEST_TIME;
+
+  // If not logged in, or logged in as different user.
+  if (user_is_anonymous() || $account->uid != $user->uid) {
+    $timestamp_valid = $timestamp <= $current && $timestamp >= $account->login;
+    $timeout_occurred = $current - $timestamp > $timeout;
+    $rehashed_pass = user_pass_rehash($account->pass, $timestamp, $account->login, $account->uid);
+
+    // Validate expiration and hashed password/login.
+    if ($timestamp_valid && !$timeout_occurred && $account->uid && $hashed_pass == $rehashed_pass) {
+      // If link data validated, perform automatic login.
+      $user = $account;
+      drupal_session_regenerate();
+    }
+    else {
+      // If not valid, forward to login page, with forwarding to membership
+      // edit page, after successful login.
+      drupal_set_message('Auto login token expired', 'warning');
+      $query = array('destination' => 'group/node/' . $gid . '/admin/people/edit-membership/' . $membership->id);
+      drupal_goto('user/login', array('query' => $query));
+    }
+  }
+
+  // Approve/Reject membership request.
+  if ($membership->state == OG_STATE_PENDING) {
+    $membership->state = $action == 'approve' ? OG_STATE_ACTIVE : OG_STATE_BLOCKED;
+    og_membership_save($membership);
+    $message = $action == 'approve' ? t('Membership approved') : t('Membership rejected');
+    drupal_set_message($message);
+  }
+  else {
+    $message = '';
+    if ($membership->state == OG_STATE_ACTIVE) {
+      $message = t('This request was already approved');
+    }
+    elseif ($membership->state == OG_STATE_BLOCKED) {
+      $message = t('This request was already rejected');
+    }
+
+    drupal_set_message($message, 'warning');
+  }
+
+  if ($action == 'approve') {
+    // For 'reject' route will be performed by form['#submit'].
+    drupal_goto('group/node/' . $gid . '/admin/people');
+  }
+}
+
+/**
+ * Menu access; Check if entity is a group.
+ */
+function c4m_og_control_membership_access($group_type, $gid) {
+  $group = entity_load_single($group_type, $gid);
+  if (!$group || !og_is_group($group_type, $group)) {
+    return FALSE;
+  }
+
+  // Extract the group's bundle.
+  list(, , $bundle) = entity_extract_ids($group_type, $group);
+  // Verify 'node' bundle has roles.
+  if (!og_roles($group_type, $bundle, $gid)) {
+    return FALSE;
+  }
+
+  $entity_info = entity_get_info($group_type);
+  if (!$group_type || !$entity_info) {
+    // Not a valid entity type.
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /**
@@ -295,7 +531,7 @@ function c4m_og_user_is_owner($group_type, $gid) {
 }
 
 /**
- * Access callback checks if the current user is group member.
+ * Check if the current user is group member (or has the access of a member).
  *
  * @param string $group_type
  *   The type of the group.
@@ -307,16 +543,12 @@ function c4m_og_user_is_owner($group_type, $gid) {
  */
 function c4m_og_user_is_member($group_type = NULL, $gid = NULL) {
   if (empty($gid)) {
-    if (!og_context_is_init()) {
-      // OG context was not determined yet, so register the path and return
-      // early. The next time this access callback will be called, it will not
-      // enter here.
-      og_context_access_callback_register_path($_GET['q']);
+    $context = og_context('node');
 
-      return NULL;
+    if (!isset($context['gid'])) {
+      return FALSE;
     }
 
-    $context = og_context('node');
     $gid = $context['gid'];
     $group_type = $context['group_type'];
   }
@@ -372,22 +604,50 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
 }
 
 /**
- * Fetch all group admins.
+ * Fetch all group admins ids.
  *
  * @param int $gid
  *   The ID of the group.
+ * @param bool $verify_owner_added
+ *   Verifies that group owner id is returned, even if group owner does not
+ *   have 'administrator member' role.
  *
  * @return array
- *   An array of all group admins.
+ *   An array of all group admins ids.
  */
-function c4m_og_get_group_admins($gid) {
+function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE) {
   $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
   $admins = c4m_og_get_users_by_roles($gid, array($group_admin_role->rid));
   foreach ($admins as &$admin) {
     $admin = $admin->uid;
   }
 
-  return user_load_multiple($admins);
+  if ($verify_owner_added) {
+    $group = node_load($gid);
+    if ($group && og_is_group('node', $group)) {
+      if (!in_array($group->uid, $admins)) {
+        $admins[] = $group->uid;
+      }
+    }
+  }
+
+  return $admins;
+}
+
+/**
+ * Fetch all group admins.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ * @param bool $verify_owner_added
+ *   Verifies that group owner is returned, even if group owner does not
+ *   have 'administrator member' role.
+ *
+ * @return array
+ *   An array of all group admins.
+ */
+function c4m_og_get_group_admins($gid, $verify_owner_added = FALSE) {
+  return user_load_multiple(c4m_og_get_group_admins_ids($gid, $verify_owner_added));
 }
 
 /**
@@ -1018,16 +1278,21 @@ function c4m_og_get_user_group_ids_by_bundle($bundle = NULL, $account = NULL) {
     return $groups;
   }
 
-  $conditions = array(
-    'status' => NODE_PUBLISHED,
-    'type' => $bundle,
-  );
+  // Apply bundle filter only for specific bundle type.
+  $conditions = array();
+  if ($bundle != 'showAll') {
+    $conditions['type'] = $bundle;
+  }
 
   $groups = node_load_multiple($groups, $conditions);
 
   $groups_ids = array();
   foreach ($groups as $group) {
-    $groups_ids[] = $group->nid;
+    // Check whether the group has been published, or whether the user
+    // is the group owner (applies only to 'My groups').
+    if ($group->status == NODE_PUBLISHED  || ($group->name == $account->name && $bundle == 'group')) {
+      $groups_ids[] = $group->nid;
+    }
   }
 
   return $groups_ids;
@@ -1389,6 +1654,86 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
   $nids = $results->fetchAllKeyed();
 
   return $nids;
+}
+
+/**
+ * Add the `Authoring information` tab to the group content editing forms.
+ *
+ * Allows group owner and administrators to change the author of content in the
+ * group. Limits possible authors to group members or anonymous user.
+ */
+function c4m_og_add_content_author_options_to_power_users(&$form) {
+  // Site administrator already has these options by default.
+  $site_admin_role = user_role_load_by_name('administrator');
+  if (user_has_role($site_admin_role->rid)) {
+    return;
+  }
+
+  $gid = c4m_og_current_group_id();
+  // Return early if there is no group context.
+  if (!$gid) {
+    return;
+  }
+
+  // Show authoring information tab to GAs and GO when editing group content.
+  $form['author']['#access'] = _c4m_features_og_members_is_power_user();
+
+  // Limit possible authors to members of the group only.
+  $form['author']['name']['#autocomplete_path'] = 'edit-author/autocomplete/' . $gid;
+  $form['#validate'][] = 'c4m_og_form_valid_author';
+}
+
+/**
+ * Added validation of the author for the group content editing forms.
+ */
+function c4m_og_form_valid_author($form, &$form_state) {
+  $user = user_load_by_name($form_state['values']['name']);
+  $gid = c4m_og_current_group_id();
+  // Can't validate author if there is no group context.
+  if (!$gid) {
+    form_set_error('name', 'There was an error validating the author for this group.');
+  }
+
+  if ($user && !og_is_member('node', $gid, 'user', $user)) {
+    form_set_error('name', $form_state['values']['name'] . ' is not an active member of this group.');
+  }
+}
+
+/**
+ * Author autocomplete callback.
+ *
+ * Returns a JSON of all active members of an OG group where the username
+ * contains the search string (for autocomplete author field).
+ */
+function c4m_og_edit_author_autocomplete($string = '') {
+  // Return early if no search string was received.
+  if (!trim($string)) {
+    return;
+  }
+
+  $gid = c4m_og_current_group_id();
+  // Return early if there is no group context.
+  if (!$gid) {
+    return;
+  }
+
+  $query = db_select('users', 'u');
+  $query
+    ->condition('u.status', C4M_USER_STATUS_ACTIVE, '=')
+    ->condition('u.name', '%' . db_like($string) . '%', 'LIKE')
+    ->fields('u', array('uid', 'name'))
+    ->fields('ogm', array('state'))
+    ->join('og_membership', 'ogm', "ogm.gid = :gid AND u.uid = ogm.etid AND ogm.entity_type = 'user'", array(':gid' => $gid));
+  $result = $query->execute();
+
+  foreach ($result as $member) {
+    if ($member->state == OG_STATE_ACTIVE) {
+      $user[$member->name] = $member->name;
+    }
+  }
+
+  // Convert to object to prevent drupal bug, see http://drupal.org/node/175361
+  drupal_json_output((object) $user);
 }
 
 /**

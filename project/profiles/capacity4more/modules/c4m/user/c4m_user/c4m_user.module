@@ -8,6 +8,11 @@
 include_once 'c4m_user.features.inc';
 
 /**
+ * Define active user status.
+ */
+define('C4M_USER_STATUS_ACTIVE', 1);
+
+/**
  * Define fields.
  *
  * These fields are not overridden through the interface.
@@ -1050,6 +1055,23 @@ function c4m_user_user_login(&$edit, $account) {
     // We always have destination set for the login form and this overrides in
     // drupal_goto the path set above so we have to unset the destination.
     unset($_GET['destination']);
+  }
+}
+
+/**
+ * Implements hook_user_logout().
+ */
+function c4m_user_user_logout($account) {
+  if (!empty($_GET['destination'])) {
+    global $user;
+    $user_temp = $user;
+    $user = drupal_anonymous_user();
+    $item = menu_get_item($_GET['destination']);
+    if (empty($item) || empty($item['access'])) {
+      // If anonymous user has no access, remove destination.
+      unset($_GET['destination']);
+    }
+    $user = $user_temp;
   }
 }
 

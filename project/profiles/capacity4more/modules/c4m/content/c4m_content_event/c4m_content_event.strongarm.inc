@@ -246,8 +246,8 @@ function c4m_content_event_strongarm() {
             'visible' => FALSE,
           ),
           'pinned_content' => array(
-            'weight' => '36',
-            'visible' => FALSE,
+            'weight' => '1',
+            'visible' => TRUE,
           ),
         ),
       ),
