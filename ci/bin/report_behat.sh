@@ -11,10 +11,12 @@ if [ -d "$TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump" ]
 
   cd $TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump
 
+  ls -al
+
   NOW=$(date +"%Y%m%d-%H%M%s")
   FILE="behat.$NOW.tar.gz"
 
-  tar -czf behat.$TRAVIS_BUILD_ID.$TRAVIS_BUILD_NUMBER--$NOW.tar.gz *
+  tar -czvf behat.$TRAVIS_BUILD_ID.$TRAVIS_BUILD_NUMBER--$NOW.tar.gz *
 
   # Send archive as mail attachment.
   curl -s --user "api:$MAILGUN_API" \
