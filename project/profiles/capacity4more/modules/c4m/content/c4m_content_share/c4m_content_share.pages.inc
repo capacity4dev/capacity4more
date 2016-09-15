@@ -208,8 +208,10 @@ function c4m_content_share_form_submit($form, &$form_state) {
   $node_wrapper->c4m_source_entity = $values['c4m_source_entity'];
   $node_wrapper->c4m_body = $values['c4m_body'];
 
-  // Add properties, so implementing modules can act on it.
+  // Add shared node bundle, to allow easy check if notification is required.
   $node->source_bundle = $original_node->getBundle();
+  // Add the ID of group content is shared into, and shared node ID.
+  // Added for notification purposes.
   $node->notification_data = array(
     'target_gid' => $values['og_group_ref'],
     'source_nid' => $values['c4m_source_entity'],

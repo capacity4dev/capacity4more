@@ -558,7 +558,8 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
   $allowed_og_content_types = c4m_og_get_group_content_notification_types();
 
   if ($node->type == 'share' && in_array($node->source_bundle, $allowed_og_content_types)) {
-    // If node was shared, and it's type requires notification.
+    // If shared node requires notification => content type is
+    // wiki_page / event / document / discussion.
     $target_gid = $node->notification_data['target_gid'];
     $source_node = node_load($node->notification_data['source_nid']);
 
