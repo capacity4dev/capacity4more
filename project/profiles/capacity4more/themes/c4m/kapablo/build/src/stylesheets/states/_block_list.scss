@@ -9,6 +9,24 @@
     font-size: 0.7rem;
   }
 
+  .field-name-c4m-og-status {
+    float: right;
+
+    .field-item {
+      @extend .label;
+      @extend .label-default;
+    }
+  }
+
+  .group-members-count {
+    padding-left: 10px;
+  }
+
+  .field-name-c4m-ds-group-type-icon {
+    display: inline;
+    float: left;
+  }
+
   .field-name-c4m-field-og-group {
     @extend .text-copy--muted;
 
@@ -21,6 +39,8 @@
     .group-left, .group-right {
       padding: 0;
     }
+
+    margin-bottom: .75em;
   }
 
   .content-col {
