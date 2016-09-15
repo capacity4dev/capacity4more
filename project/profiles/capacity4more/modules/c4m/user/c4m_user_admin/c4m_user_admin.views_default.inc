@@ -567,6 +567,13 @@ Last access : [access]';
       'override_label' => 0,
       'label' => '',
     ),
+    'action::views_bulk_operations_user_cancel_action' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
     'action::c4m_user_contact_action' => array(
       'selected' => 1,
       'postpone_processing' => 1,
