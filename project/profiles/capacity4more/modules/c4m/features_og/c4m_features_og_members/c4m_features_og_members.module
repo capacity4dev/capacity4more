@@ -20,7 +20,7 @@ function c4m_features_og_members_c4m_og_feature_info() {
       'machine_name' => 'c4m_features_og_members',
       'weight' => 6,
       'default' => TRUE,
-      'group_types' => array('group', 'project'),
+      'group_types' => array('group'),
       'content_types' => array(),
     ),
   );
@@ -440,6 +440,12 @@ function _c4m_features_og_members_is_power_user($group = NULL, $user = NULL) {
 
   if (!isset($group)) {
     $group = c4m_og_current_group();
+  }
+
+  // Currently we're not in a group context, and at that point the user is not
+  // an administrator.
+  if (!$group) {
+    return FALSE;
   }
 
   // The user is the group owner.

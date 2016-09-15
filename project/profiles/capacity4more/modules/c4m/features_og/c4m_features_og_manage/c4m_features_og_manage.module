@@ -568,6 +568,10 @@ function c4m_features_og_manage_project_details() {
       'node/' . $project->nid . '/edit',
       array('absolute' => TRUE)
     ),
+    'menu_link' => url(
+      'group/node/' . $project->nid . '/admin/menus',
+      array('absolute' => TRUE)
+    ),
     'owner' => c4m_user_name(user_load($project->uid)),
     'owner_edit' => url(
       'project/node/' . $project->nid . '/admin/owner',
@@ -626,12 +630,6 @@ function c4m_features_og_manage_project_details() {
   $c4m_sources_of_funding = $wrapper->c4m_source_of_funding->value();
   if ($list = c4m_features_og_manage_list_simple($c4m_sources_of_funding)) {
     $details['source_funding'] = $list;
-  }
-
-  // Partners.
-  $partners = $wrapper->c4m_partner->value();
-  if ($list = c4m_features_og_manage_list_simple($partners)) {
-    $details['partners'] = $list;
   }
 
   // Implemented by.
@@ -829,21 +827,11 @@ function c4m_features_og_manage_form_variable_realm_edit_variables_form_alter(
   $form['variables']['#type'] = 'div';
   $form['variables']['c4m_og']['#type'] = 'div';
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['c4m_og_features_group']['#title'] = t(
-    'Enable or disable features for this group.'
+    'Enable or disable features below.'
   );
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#type'] = 'div';
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsible'] = FALSE;
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsed'] = FALSE;
-
-  // Attach CSS/JavaScript.
-  $form['variables']['#attached'] = array(
-    'js' => array(
-      drupal_get_path(
-        'module',
-        'c4m_features_og_manage'
-      ) . '/js/manage_features.js',
-    ),
-  );
 }
 
 /**

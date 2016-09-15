@@ -17,6 +17,7 @@ projects[og_variables][version] = "1.0"
 projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
 projects[og_vocab][patch][] = https://www.drupal.org/files/issues/og_vocab-fix_strict_warning.patch
+projects[og_vocab][patch][] = https://www.drupal.org/files/issues/2399883-og_vocab-menuitem-7.patch
 
 projects[pluggable_node_access][subdir] = "contrib"
 projects[pluggable_node_access][version] = "1.x-dev"
@@ -32,9 +33,6 @@ projects[session_api][version] = "1.0-rc1"
 
 projects[og_invite][subdir] = "contrib"
 projects[og_invite][version] = "1.0-beta5"
-
-projects[og_invite_people][subdir] = "contrib"
-projects[og_invite_people][version] = "1.0-beta2"
 
 projects[og_context_access_callback][subdir] = "contrib"
 projects[og_context_access_callback][version] = "1.x-dev"

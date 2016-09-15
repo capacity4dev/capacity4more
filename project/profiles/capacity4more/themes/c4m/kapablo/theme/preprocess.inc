@@ -16,6 +16,7 @@ function kapablo_preprocess_message(&$variables) {
   }
 
   $message = $variables['message'];
+
   $variables['theme_hook_suggestions'][] = 'message__activity_stream';
   $variables['theme_hook_suggestions'][] = "message__{$message->type}__activity_stream";
 
@@ -539,6 +540,28 @@ function kapablo_preprocess_image(&$variables) {
 function kapablo_preprocess_html(&$variables) {
   // Render off_canvas into top level variables.
   $variables['off_canvas'] = drupal_render($variables['page']['off_canvas']);
+}
+
+/**
+ * Pre-processes variables for the "bootstrap_panel" theme hook.
+ *
+ * In case of a bootstrap panel the title is not being rendered under the
+ * kapablo_form_element_label() and at this point the title is already
+ * rendered, hence we're adding the tooltip element explicitly.
+ *
+ * @see bootstrap_preprocess_bootstrap_panel()
+ */
+function kapablo_preprocess_bootstrap_panel(&$variables) {
+  $element = &$variables['element'];
+
+  if (isset($element['#description']) && !isset($element['#what_is_this'])) {
+    // Adding the tooltip element.
+    $element['#title'] .= kapablo_render_what_is_this($element['#description']);
+    // Removing the description anyway to prevent duplications.
+    $element['#description'] = NULL;
+  }
+
+  bootstrap_preprocess_bootstrap_panel($variables);
 }
 
 /**

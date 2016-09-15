@@ -69,6 +69,14 @@ function c4m_features_og_wiki_menu_alter(&$items) {
  *   Has the user access.
  */
 function c4m_features_og_wiki_access($options = array()) {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return FALSE;
+  }
+
   $group = og_context();
 
   // Check if user has access to group context,
