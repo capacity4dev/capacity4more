@@ -965,6 +965,7 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
         5 => 'c4m_field_og_group',
         6 => 'c4m_body',
         7 => 'c4m_ds_content_footer_stats',
+        8 => 'flag_c4m_og_content_highlight',
       ),
     ),
     'fields' => array(
@@ -976,6 +977,7 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
       'c4m_field_og_group' => 'ds_content',
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
+      'flag_c4m_og_content_highlight' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(

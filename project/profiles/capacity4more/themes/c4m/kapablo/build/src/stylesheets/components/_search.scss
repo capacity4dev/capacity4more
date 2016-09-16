@@ -534,3 +534,18 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
     display: block;
   }
 }
+
+.page-search {
+  .field-name-c4m-ds-content-footer-stats,
+  .flag-outer-c4m-og-content-highlight {
+    display: inline-block;
+  }
+
+  .flag-outer-c4m-og-content-highlight {
+    margin-left: 1rem;
+
+    .fa {
+      font-size: $font-size-h3;
+    }
+  }
+}

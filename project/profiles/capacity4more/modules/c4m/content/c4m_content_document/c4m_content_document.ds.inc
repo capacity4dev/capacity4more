@@ -966,6 +966,7 @@ function c4m_content_document_ds_layout_settings_info() {
         3 => 'c4m_body',
         4 => 'c4m_document',
         5 => 'c4m_ds_content_footer_stats',
+        6 => 'flag_c4m_og_content_highlight',
       ),
     ),
     'fields' => array(
@@ -975,6 +976,7 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_body' => 'right',
       'c4m_document' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
+      'flag_c4m_og_content_highlight' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

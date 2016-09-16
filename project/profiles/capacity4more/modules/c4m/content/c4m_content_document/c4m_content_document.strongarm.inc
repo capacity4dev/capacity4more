@@ -194,7 +194,7 @@ function c4m_content_document_strongarm() {
           ),
           'teaser' => array(
             'weight' => '23',
-            'visible' => FALSE,
+            'visible' => TRUE,
           ),
           'activity_group' => array(
             'weight' => '23',
