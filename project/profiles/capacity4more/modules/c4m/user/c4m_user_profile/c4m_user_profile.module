@@ -741,18 +741,29 @@ function c4m_user_profile_subscribe_to_mailing_list($email_address, $name) {
  * Our implementation needs to fire after legal module.
  */
 function c4m_user_profile_module_implements_alter(&$implementations, $hook) {
-  if ($hook == 'form_alter' && isset($implementations['c4m_user_profile'])) {
-    $c4m_user_profile = $implementations['c4m_user_profile'];
-    unset($implementations['c4m_user_profile']);
-    $implementations['c4m_user_profile'] = $c4m_user_profile;
+  if ($hook == 'form_alter') {
+    if (isset($implementations['c4m_user_profile'])) {
+      $c4m_user_profile = $implementations['c4m_user_profile'];
+      unset($implementations['c4m_user_profile']);
+      $implementations['c4m_user_profile'] = $c4m_user_profile;
 
-    // In order to alter the login/register form on the "c4m_user_og" module we
+      // In order to alter the login/register form on the "c4m_user_og" module
+      // we have no other way but use this hook to set the order, because of the
+      // alphabetic order of the modules names.
+      if (isset($implementations['c4m_user_og'])) {
+        $c4m_user_profile = $implementations['c4m_user_og'];
+        unset($implementations['c4m_user_og']);
+        $implementations['c4m_user_og'] = $c4m_user_profile;
+      }
+    }
+
+    // In order to alter the login/register form on the "c4m_user" module we
     // have no other way but use this hook to set the order, because of the
     // alphabetic order of the modules names.
-    if (isset($implementations['c4m_user_og'])) {
-      $c4m_user_profile = $implementations['c4m_user_og'];
-      unset($implementations['c4m_user_og']);
-      $implementations['c4m_user_og'] = $c4m_user_profile;
+    if (isset($implementations['c4m_user'])) {
+      $c4m_user_profile = $implementations['c4m_user'];
+      unset($implementations['c4m_user']);
+      $implementations['c4m_user'] = $c4m_user_profile;
     }
   }
 }
@@ -1053,6 +1064,7 @@ function c4m_user_profile_form_user_login_alter(
   &$form_state,
   $form_id
 ) {
+  // If Drupal Core's "user_login_name_validate"-function is present, remove it.
   if (($key = array_search(
       'user_login_name_validate',
       $form['#validate']
@@ -1060,6 +1072,8 @@ function c4m_user_profile_form_user_login_alter(
   ) {
     unset($form['#validate'][$key]);
   }
+
+  // Add our custom "user_login_validate" instead.
   array_unshift($form['#validate'], 'c4m_user_profile_user_login_validate');
 }
 
