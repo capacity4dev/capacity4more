@@ -23,7 +23,7 @@ Feature: Testing user creation/manipulations.
      When I visit the leave platform page of the current user
      Then I should see "You can't leave the platform"
 
-  @api
+  @javascript
   Scenario: The user leaves the platform.
     Given I am logged in with a temporal user
      When I visit the leave platform page of the current user
