@@ -23,3 +23,15 @@ function c4m_features_overview_projects_c4m_search_page_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_form_alter().
+ */
+function c4m_features_overview_projects_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id != 'project_node_form') {
+    return;
+  }
+
+  // Prevent multiple maps to be added on 1 project page.
+  drupal_add_js(drupal_get_path('module', 'c4m_features_overview_projects') . '/js/prevent_double_maps.js');
+}

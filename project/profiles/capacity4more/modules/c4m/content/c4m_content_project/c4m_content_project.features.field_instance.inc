@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_project.features.field_instance.inc
@@ -857,11 +856,13 @@ function c4m_content_project_field_default_field_instances() {
     'settings' => array(
       'add_mode' => 'button',
       'allowed_bundles' => array(
+        'c4m_paragraph_map' => 'c4m_paragraph_map',
         'c4m_paragraph_partner' => -1,
         'c4m_paragraph_system_block' => 'c4m_paragraph_system_block',
         'c4m_paragraph_text' => 'c4m_paragraph_text',
       ),
       'bundle_weights' => array(
+        'c4m_paragraph_map' => 6,
         'c4m_paragraph_partner' => 4,
         'c4m_paragraph_system_block' => -6,
         'c4m_paragraph_text' => 2,
@@ -2118,11 +2119,13 @@ function c4m_content_project_field_default_field_instances() {
     'settings' => array(
       'add_mode' => 'button',
       'allowed_bundles' => array(
+        'c4m_paragraph_map' => 'c4m_paragraph_map',
         'c4m_paragraph_partner' => -1,
         'c4m_paragraph_system_block' => 'c4m_paragraph_system_block',
         'c4m_paragraph_text' => 'c4m_paragraph_text',
       ),
       'bundle_weights' => array(
+        'c4m_paragraph_map' => 6,
         'c4m_paragraph_partner' => 4,
         'c4m_paragraph_system_block' => -6,
         'c4m_paragraph_text' => 2,
