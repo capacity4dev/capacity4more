@@ -140,9 +140,9 @@ function c4m_user_subscribe_og_membership_delete(OgMembership $membership) {
  *
  * @param object $membership
  *   OgMembership object containing the information of the group and the state.
- *
  * @param string $event
- *   flag|unflag actions to update the subscription flag.
+ *   Actions to update the subscription flag.
+ *   Possible values: "flag", "unflag".
  */
 function c4m_user_subscribe_to_group($membership, $event = 'flag') {
   if ($membership->state == OG_STATE_ACTIVE) {
