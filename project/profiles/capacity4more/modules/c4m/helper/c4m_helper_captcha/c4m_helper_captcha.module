@@ -9,6 +9,12 @@
  * Implements hook_form_alter().
  */
 function c4m_helper_captcha_form_alter(&$form, &$form_state, $form_id) {
+  // The only way to test the registration form on Behat is to disable the
+  // captcha.
+  if (!variable_get('c4m_captcha_required', TRUE)) {
+    return;
+  }
+
   $forms = module_invoke_all('c4m_captcha_form_info');
   if (!in_array($form_id, $forms)) {
     return;
