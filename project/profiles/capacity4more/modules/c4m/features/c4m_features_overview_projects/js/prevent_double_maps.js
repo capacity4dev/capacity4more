@@ -11,10 +11,10 @@
       checkForMap();
 
       // When left or right "add map" buttons are clicked, check for present map.
-      $("button[name='c4m_left_column_add_more_add_more_bundle_c4m_paragraph_map']").mousedown( function() {
+      $("button[name='c4m_left_column_add_more_add_more_bundle_c4m_paragraph_map']").mousedown(function () {
         checkForMap();
       });
-      $("button[name='c4m_right_column_add_more_add_more_bundle_c4m_paragraph_map']").mousedown( function() {
+      $("button[name='c4m_right_column_add_more_add_more_bundle_c4m_paragraph_map']").mousedown(function () {
         checkForMap();
       });
     }
