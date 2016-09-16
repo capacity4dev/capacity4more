@@ -15,9 +15,12 @@
 
       var lat = settings.nexteuropa_geojson.settings.fs_default_map_center['lat'];
       var lng = settings.nexteuropa_geojson.settings.fs_default_map_center['lng'];
-      var map = L.map('geofield_geojson_map', {}).setView([lat, lng], 13);
+      var map = L.map('geofield_geojson_map', {}).setView([lat, lng], 5);
 
       $(document).ready(function() {
+
+        L.Icon.Default.imagePath = settings.nexteuropa_geojson.image_path;
+
         if (context == document) {
           // If there are vertical tabs the widget should refresh when swapping
           // between them.

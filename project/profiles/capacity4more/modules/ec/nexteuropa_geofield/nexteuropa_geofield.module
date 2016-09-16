@@ -92,6 +92,7 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
       drupal_add_js(array('nexteuropa_geojson' => array('map' => isset($value['geofield_geojson']) ? $value['geofield_geojson'] : '')), 'setting');
       drupal_add_js(array('nexteuropa_geojson' => array('settings' => $settings)), 'setting');
       drupal_add_js(array('nexteuropa_geojson' => array('cardinality' => $field['cardinality'])), 'setting');
+      drupal_add_js(array('nexteuropa_geojson' => array('image_path' => '/' . libraries_get_path('leaflet') . '/images')), 'setting');
       break;
   }
   return $element;

@@ -37,11 +37,21 @@
         }
         // Fix zoom to 16 when there is one object on the map.
         if (i == 1) {
-          map.fitBounds(drawnItems.getBounds(), {maxZoom:16});
+          setTimeout(function () {
+            map.fitBounds([
+              drawnItems.getBounds(), {maxZoom:16}
+            ]);
+          }, 100);
         }
         else {
-          map.fitBounds(drawnItems.getBounds());
+          setTimeout(function () {
+            map.fitBounds([
+              drawnItems.getBounds()
+            ]);
+          }, 100);
         }
+
+        setTimeout(map.invalidateSize.bind(map), 1);
 
         map.refresh = function(timeout){
           window.setTimeout(function(){
