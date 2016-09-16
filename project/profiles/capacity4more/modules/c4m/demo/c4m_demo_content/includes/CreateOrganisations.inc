@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Migrate class to create Organizations.
@@ -24,6 +25,7 @@ class C4mDemoContentCreateOrganisations extends C4mDemoContentCreateEntity {
     array('image', 'Icon'),
     array('domain', 'Domain'),
     array('uid', 'UID'),
+    array('organisation_type', 'Organisation_Type'),
   );
 
   /**
@@ -40,6 +42,7 @@ class C4mDemoContentCreateOrganisations extends C4mDemoContentCreateEntity {
     $this->addFieldMapping('c4m_icon:source_dir')
       ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
     $this->addFieldMapping('c4m_icon:destination_dir', 'destination');
+    $this->addFieldMapping('c4m_organisation_type', 'organisation_type');
   }
 
   /**

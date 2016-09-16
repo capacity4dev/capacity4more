@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Plugin to embed videos in panels.
@@ -41,7 +42,7 @@ function c4m_features_homepage_video_embed_content_type_render($subtype, $conf, 
   if (preg_match('/https:/i', $conf['video'])) {
     $video_id = str_replace('https://www.youtube.com/watch?v=', '', $conf['video']);
   }
-  
+
   $video_embed = '<iframe id="c4mVideo" allowfullscreen="true" width="100%" height="477" src="https://www.youtube.com/embed/' . $video_id . '?rel=0&amp;showinfo=0&amp;autoplay=0&amp;enablejsapi=1" frameborder="0"></iframe>';
 
   $video_thumb = array(

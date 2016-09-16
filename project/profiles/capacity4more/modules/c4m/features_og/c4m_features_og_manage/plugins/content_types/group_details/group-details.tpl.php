@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template for the group management dashboard.

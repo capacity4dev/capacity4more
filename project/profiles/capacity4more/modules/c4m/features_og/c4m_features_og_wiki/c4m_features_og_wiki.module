@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Wiki feature.
@@ -68,6 +69,14 @@ function c4m_features_og_wiki_menu_alter(&$items) {
  *   Has the user access.
  */
 function c4m_features_og_wiki_access($options = array()) {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return FALSE;
+  }
+
   $group = og_context();
 
   // Check if user has access to group context,
@@ -119,11 +128,15 @@ function c4m_features_og_wiki_theme() {
 }
 
 /**
- * Implements hook_block_view_MODULE_DELTA_alter().
+ * Implements hook_block_view_alter().
  *
  * No title for the group menu.
  */
-function c4m_features_og_wiki_block_view_menu_c4m_og_menu_alter(&$data, $block) {
+function c4m_features_og_wiki_block_view_alter(&$data, $block) {
+  if (!isset($block->bid) || $block->bid != 'og_menu-og_single_menu_block') {
+    return;
+  }
+
   if (!c4m_og_access('c4m_features_og_wiki')) {
     return;
   }

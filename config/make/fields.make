@@ -28,6 +28,9 @@ projects[geophp][version] = "1.7"
 projects[geofield][subdir] = "contrib"
 projects[geofield][version] = "2.3"
 
+projects[hierarchical_taxonomy][subdir] = "contrib"
+projects[hierarchical_taxonomy][version] = "1.x-dev"
+
 projects[leaflet][subdir] = "contrib"
 projects[leaflet][version] = "1.3"
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * OG Selection handler.
@@ -35,7 +36,7 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
     $match = NULL,
     $match_operator = 'CONTAINS'
   ) {
-    return parent::buildEntityFieldQuery();
+    return parent::buildEntityFieldQuery($match, $match_operator);
   }
 
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Photo Album content type feature.
@@ -37,6 +38,9 @@ function c4m_content_photoalbum_form_photoalbum_node_form_alter(&$form, &$form_i
       'c4m_content_photoalbum_add_photos_submit',
     ),
   );
+
+  // Add author information to the edit photoalbum form.
+  c4m_og_add_content_author_options_to_power_users($form);
 }
 
 /**
@@ -84,8 +88,8 @@ function c4m_content_photoalbum_c4m_helper_entity_label_info() {
       'article' => t('a'),
       'singular' => t('photo album'),
       'plural' => t('photo albums'),
-      'insert action' => t('created a new photo album'),
-      'update action' => t('updated the photo album'),
+      'insert action' => t('created a new Photo album'),
+      'update action' => t('updated the Photo album'),
       'icon' => 'fa-picture-o',
     ),
   );

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Content filter plugin.
@@ -36,7 +37,12 @@ function c4m_features_homepage_filter_content_type_render($subtype, $conf, $args
  *   The element array.
  */
 function c4m_features_homepage_filter_form_create() {
-  $options = c4m_og_get_user_group_nodes_by_bundle('group') ? array('groups' => t('My groups')) : array();
+  $options = c4m_og_get_user_group_ids_by_bundle('group') ? array('groups' => t('My groups')) : array();
+
+  if (c4m_og_get_user_group_ids_by_bundle('project')) {
+    $options['projects'] = t('My projects');
+  }
+
   $options += array(
     'interests' => t('My interests'),
     'showAll' => t('Show all'),

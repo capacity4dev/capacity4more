@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Quick Post feature.
@@ -58,15 +59,17 @@ function c4m_restful_quick_post_theme() {
  *   Access.
  */
 function c4m_restful_quick_post_get_form_fields_access($resource_name) {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return FALSE;
+  }
+
   $resources = array(
     'discussions' => array(
       'bundle' => 'discussion',
-    ),
-    'documents' => array(
-      'bundle' => 'document',
-    ),
-    'events' => array(
-      'bundle' => 'event',
     ),
   );
 
@@ -200,7 +203,7 @@ function c4m_restful_quick_post_form($group_id) {
   // Global settings for the AngularJs app.
   $settings['c4m'] = array(
     'basePath' => url('', $options),
-    'purlPath' => url('', array('absolute' => TRUE)),
+    'purlPath' => url('', array('absolute' => TRUE, 'purl' => array('enabled' => TRUE))),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'activities' => $activities,
     'data' => array(
@@ -217,16 +220,6 @@ function c4m_restful_quick_post_form($group_id) {
       'description' => t('Discussion'),
       'quick_post' => 1,
     ),
-    'documents' => array(
-      'bundle' => 'Document',
-      'description' => t('Document'),
-      'quick_post' => 1,
-    ),
-    'events' => array(
-      'bundle' => 'Event',
-      'description' => t('Event'),
-      'quick_post' => 1,
-    ),
     'wiki-page' => array(
       'bundle' => 'wiki_page',
       'description' => t('Add Wiki page'),
@@ -238,6 +231,11 @@ function c4m_restful_quick_post_form($group_id) {
       'quick_post' => 0,
     ),
   );
+
+  // Do not diaplay 'Add Wiki page' if the user isn't permitted.
+  if (!og_user_access('node', $group_id, 'create wiki_page content')) {
+    unset($resources['wiki-page']);
+  }
 
   // Don't load the quick post form or it's components for anonymous user
   // or user without permissions to post in current group.

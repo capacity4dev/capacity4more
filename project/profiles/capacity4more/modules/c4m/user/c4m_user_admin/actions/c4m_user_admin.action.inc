@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Callback & forms related to the user admin.
@@ -35,8 +36,8 @@ function _c4m_user_admin_action_info() {
  */
 function c4m_user_admin_activate_action($user) {
   $edit['status'] = 1;
-  $edit['c4m_is_spammer'] = 0;
-  $edit['c4m_is_deleted'] = 0;
+  $edit['c4m_is_spammer'][LANGUAGE_NONE][0]['value'] = 0;
+  $edit['c4m_is_deleted'][LANGUAGE_NONE][0]['value'] = 0;
   user_save($user, $edit);
 }
 

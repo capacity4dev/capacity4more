@@ -1,13 +1,14 @@
 .activity-stream {
   .activities {
-    border-top: 1px dashed $color-gray-light;
-    margin-top: 2rem;
-    padding-top: 2rem;
+    border-bottom: 1px dashed $color-gray-light;
+    position: relative;
 
-    &.first {
-      border-top: none;
-      margin-top: 0;
-      padding-top: 0;
+    .c4m-og-power-user-actions-block {
+      position: absolute;
+      right: 0;
+      top: 20px;
+
+      @include rotate_promote_flag;
     }
 
     .row {
@@ -19,26 +20,105 @@
         }
       }
     }
+
+  }
+
+  h2 {
+    margin-top: 25px;
+  }
+
+  .message-summary {
+    padding: 0;
   }
 }
 
-.view-mode-activity_global,
-.view-mode-activity_group {
+.pane-og-dashboard {
+  .flag-c4m-og-content-highlight {
+    display: inline-block;
+    float: right;
+
+    @include rotate_promote_flag;
+  }
+}
+
+.view-mode-activity_global {
   .row {
     margin: 0;
   }
+  .pull-right,
+  .field-item.even {
+    padding: 12px 0;
+  }
+  .field-name-c4m-ds-content-footer-stats {
+    color: $color-gray-darkThree;
+  }
 }
 
-.show-more-wrapper {
-  margin-top: 2rem;
+.show-more-wrapper,
+.pager-load-more {
+  margin: 1.25rem 0 3.57rem 0;
+}
+
+.show-more {
+  position: relative;
+
+  .arrow--right {
+    margin-left: 10px;
+  }
+}
+
+.show-more a,
+.pager-load-more a {
+  text-transform: uppercase;
 }
 
 .activity-stream--operator {
-  @extend .text-copy--muted;
+  @extend .text-normal;
+  color: $color-gray-darkThree;
+  font-family: $font-verdana;
 
   a {
-    @extend .text-copy--muted;
+    @extend .text-normal;
+    color: $color-gray-darkThree;
+    font-family: $font-verdana;
   }
 
   margin-bottom: 1em;
+}
+
+.activity-stream--content .view-mode-activity_global .field-name-c4m-field-og-group,
+.activity-stream--content .view-mode-activity_global .field-name-c4m-body,
+.activity-stream--content .view-mode-activity_global .field-name-c4m-content-document-icon,
+.activity-stream--content .view-mode-activity_global .field-name-c4m-document,
+.activity-stream--content .view-mode-activity_global .field-name-c4m-media,
+.activity-stream--content .view-mode-activity_global .field-name-title,
+.activity-stream--content .view-mode-activity_global .field-name-comment-body,
+.activity-stream--content .view-mode-activity_global .field-name-c4m-ds-event-start-icon,
+.activity-stream--content .node-photo.view-mode-activity_global {
+  display: none;
+
+  @media (min-width: $screen-tablet) {
+    display: block;
+  }
+}
+
+.arrow--right {
+  position: absolute;
+  top: 2px;
+
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid $color-link;
+  border-bottom: 2px solid $color-link;
+
+  @include transform-origin(center center);
+  @include rotate(45deg);
+}
+
+.pane-activity-stream {
+  .pane-title {
+    margin-bottom: 10px;
+    margin-top: 0;
+  }
 }

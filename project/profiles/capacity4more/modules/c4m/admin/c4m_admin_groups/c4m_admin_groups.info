@@ -8,6 +8,7 @@ features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[views_view][] = c4m_admin_groups
 features[views_view][] = c4m_admin_groups_export
+features[views_view][] = c4m_admin_groups_pending
 features_exclude[dependencies][ctools] = ctools
 files[] = views/c4m_admin_groups_views_handler_field.inc
 files[] = views/c4m_admin_groups_views_handler_field_group_admin.inc

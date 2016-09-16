@@ -1,0 +1,23 @@
+.row.features {
+  @include grain;
+  border-top: 1px solid $color-gray-light;
+
+  @media (min-width: $screen-tablet) {
+    border-top: 0;
+  }
+
+  .panel-separator {
+    border-bottom: 1px solid $color-gray-light;
+    margin: 0 -18px;
+
+    @media (min-width: $screen-tablet) {
+      border-bottom: none;
+      margin: 0;
+    }
+
+  }
+
+  @media (min-width: $screen-tablet) {
+    background: none;
+  }
+}

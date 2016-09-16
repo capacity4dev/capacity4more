@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Custom Display Suite function fields.
@@ -28,7 +29,7 @@ function theme_c4m_content_wiki_page_navigation(array $field) {
   $tree = menu_build_tree($book['menu_name']);
 
   if (empty($tree)) {
-    return;
+    return NULL;
   }
 
   // Remove level 0 first.
@@ -98,7 +99,12 @@ function theme_c4m_content_wiki_page_add_links(array $field) {
 
   // See if user should access these links.
   if (!$group ||
-      !og_user_access($group['group_type'], $group['gid'], 'create wiki_page content')) {
+    !og_user_access(
+      $group['group_type'],
+      $group['gid'],
+      'create wiki_page content'
+    )
+  ) {
     return;
   }
 
@@ -106,8 +112,6 @@ function theme_c4m_content_wiki_page_add_links(array $field) {
   $current_page = $book['mlid'];
   $parent_page = $book['plid'];
   $depth = $book['depth'];
-
-  $purl = url('', array('absolute' => TRUE));
 
   $options = array(
     'attributes' => array(
@@ -118,11 +122,22 @@ function theme_c4m_content_wiki_page_add_links(array $field) {
 
   // Links to add new book pages.
   $links = array(
-    l('<i class="fa fa-plus-square-o"></i> ' . t('Add page on same level'), $purl . '/node/add/wiki-page?parent=' . $parent_page, $options),
-    $depth <= 5 ? l('<i class="fa fa-plus-square-o"></i> ' . t('Add child page'), $purl . '/node/add/wiki-page?parent=' . $current_page, $options) : '',
+    l(
+      '<i class="fa fa-plus-square-o"></i> ' . t('Add page on same level'),
+      'node/add/wiki-page',
+      array_merge($options, array('query' => array('parent' => $parent_page)))
+    ),
+    $depth <= 5 ? l(
+      '<i class="fa fa-plus-square-o"></i> ' . t('Add child page'),
+      'node/add/wiki-page',
+      array_merge($options, array('query' => array('parent' => $current_page)))
+    ) : '',
   );
 
-  $markup = theme('item_list', array('items' => $links, 'attributes' => array('class' => 'add-links')));
+  $markup = theme(
+    'item_list',
+    array('items' => $links, 'attributes' => array('class' => 'add-links'))
+  );
 
   return $markup;
 }

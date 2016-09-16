@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Administration functionality.
@@ -21,5 +22,48 @@ function c4m_admin_menu() {
     'position' => 'right',
   );
 
+  $items['admin/config/c4m/disclaimer'] = array(
+    'title' => 'Disclaimer text settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_admin_manage_disclaimer_form'),
+    'access arguments' => array('administer disclaimer settings'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'c4m_admin.pages.inc',
+  );
+
   return $items;
+}
+
+/**
+ * Returns site administrators ids.
+ *
+ * @return array
+ *   Ids of site admins, or empty array, if none found.
+ */
+function c4m_admin_get_admins_ids() {
+  // Get all site administrators.
+  $admin_role = user_role_load_by_name('administrator');
+  $results = db_select('users_roles', 'r')
+    ->fields('r', array('uid'))
+    ->condition('rid', $admin_role->rid, '=')
+    ->execute()
+    ->fetchAll();
+
+  foreach ($results as &$result) {
+    $result = $result->uid;
+  }
+
+  return $results;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function c4m_admin_permission() {
+  $perms['administer disclaimer settings'] = array(
+    'title' => t('Administer disclaimer settings'),
+    'description' => t('Allows the user to modify the disclaimer text.'),
+  );
+
+  return $perms;
 }

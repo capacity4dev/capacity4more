@@ -8,10 +8,15 @@
 
 .view-id-c4m_photoalbum_item_views {
   clear: both;
+  margin-top: 2rem;
   overflow: hidden;
 
   .views-row {
     margin-bottom: 2em;
+
+    &:hover a {
+      text-decoration: underline;
+    }
 
     a {
       display: block;
@@ -23,19 +28,75 @@
   }
 }
 
+.see-more-link {
+  float: right;
+}
+
 .see-more-link, .more-link {
   text-align: right;
 }
 
 .pager-load-more {
   list-style: none;
-  text-align: right;
-  
+  text-align: center;
+  padding: 0;
+
+  li {
+    position: relative;
+  }
+
   &.pager-load-more-empty {
     display: none;
+  }
+
+  & a::after {
+    content: '';
+    margin-left: 10px;
+    @extend .arrow--right;
+
   }
 }
 
 .er--field-access {
   float: right;
+}
+
+.view-display-id-og_dashboard_promoted_block {
+  background: $color-background;
+  margin-top: 25px;
+  padding: 1em;
+
+  .node {
+    h2, .field-name-c4m-ds-content-footer-stats div {
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+.view-items-with-dashed-separator .views-row,
+.view-c4m-overview-articles .views-row,
+.view-c4m-overview-groups .views-row,
+.view-c4m-overview-projects .views-row,
+.view-c4m-overview-events-landing .views-row,
+.view-c4m-overview-events .views-row {
+  margin-top: 2rem;
+}
+
+.view-items-with-dashed-separator .views-row:last-of-type,
+.view-c4m-overview-articles .views-row:last-of-type,
+.view-c4m-overview-groups .views-row:last-of-type,
+.view-c4m-overview-events-landing .views-row:last-of-type,
+.view-c4m-overview-events .views-row:last-of-type,
+.view-c4m-search-nodes .views-row:last-of-type {
+  padding-bottom: 28px;
+  border-bottom: 1px dashed $color-gray-light;
+}
+
+.pager--wrapper {
+  border-top: none;
+  margin: 20px 0;
+  padding: 0;
+
+  text-align: center;
 }

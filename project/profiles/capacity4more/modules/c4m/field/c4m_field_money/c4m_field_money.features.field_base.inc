@@ -21,8 +21,8 @@ function c4m_field_money_field_default_field_bases() {
     'locked' => 0,
     'module' => 'money',
     'settings' => array(
-      'max' => 99999999.99,
-      'min' => -99999999.99,
+      'max' => 9999999999999.99,
+      'min' => 0,
       'precision' => 14,
       'scale' => 2,
     ),

@@ -6,7 +6,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('DrupalFormCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $modal, QuickPostService, $filter, FileUpload) {
+  .controller('DrupalFormCtrl', function ($scope, DrupalSettings, EntityResource, Request, $window, $document, $modal, QuickPostService, $filter, FileUpload) {
 
     $scope.data = DrupalSettings.getData('vocabularies');
 
@@ -34,25 +34,25 @@ angular.module('c4mApp')
     $scope.values = DrupalSettings.getData('values');
 
     // Assign all the vocabularies to $scope.model.
-    angular.forEach($scope.data, function(values, vocab) {
+    angular.forEach($scope.data, function (values, vocab) {
       $scope.model[vocab] = {};
     });
 
     // When on an edit page, Add the values of the taxonomies to the $scope.model,
     // This will unable us to show the selected values when opening an edit page.
-    angular.forEach($scope.values, function(values, vocab) {
-      angular.forEach(values, function(value, id) {
+    angular.forEach($scope.values, function (values, vocab) {
+      angular.forEach(values, function (value, id) {
         $scope.model[vocab][id] = value;
       });
     });
 
     // Creating the pop-ups according to the vocabulary that was sent to the controller.
     $scope.popups = {};
-    angular.forEach($scope.data, function(value, key) {
+    angular.forEach($scope.data, function (value, key) {
       $scope.popups[key] = 0;
     });
 
-    angular.forEach($scope.data.categories, function(item, value) {
+    angular.forEach($scope.data.categories, function (item, value) {
       item.selected = false;
     });
 
@@ -65,12 +65,12 @@ angular.module('c4mApp')
     $scope.categoriesLength = angular.isDefined($scope.filteredTerms.categories) && Object.keys($scope.filteredTerms.categories).length ? true : false;
 
     // Update the shown taxonomies upon searching.
-    $scope.updateSearch = function(vocab) {
+    $scope.updateSearch = function (vocab) {
       $scope.filteredTerms[vocab] = $filter('termsFilter')($scope.data[vocab], $scope.searchTerms[vocab]);
     };
 
     // Toggle the visibility of the popovers.
-    $scope.togglePopover = function(name, event) {
+    $scope.togglePopover = function (name, event) {
       QuickPostService.togglePopover(name, event, $scope.popups);
     };
 
@@ -82,9 +82,9 @@ angular.module('c4mApp')
     // Watch the "Tags" variable for changes,
     // Add the selected tags to the hidden tags input,
     // This way it can be saved in the Drupal Form.
-    $scope.$watch('data.tags', function() {
+    $scope.$watch('data.tags', function () {
       var tags = [];
-      angular.forEach($scope.data.tags, function(tag) {
+      angular.forEach($scope.data.tags, function (tag) {
         if (!tag.isNew) {
           tags.push(tag.text + ' (' + tag.id + ')');
         }
@@ -110,7 +110,7 @@ angular.module('c4mApp')
      * @param vocab
      *   The name of the vocab.
      */
-    $scope.updateSelectedTerms = function(key, vocab) {
+    $scope.updateSelectedTerms = function (key, vocab) {
       if ($scope.model[vocab][key]) {
         // Checkbox has been checked.
         if (vocab == 'categories') {
@@ -118,9 +118,9 @@ angular.module('c4mApp')
         }
         else {
           // Check up to 3 topics selected.
-          if (vocab == 'c4m_vocab_topic' || vocab == 'c4m_vocab_geo') {
+          if (vocab == 'c4m_vocab_topic' || vocab == 'c4m_vocab_topic_expertise' || vocab == 'c4m_vocab_geo') {
             var topicCount = 0;
-            angular.forEach($scope.model[vocab], function(element, topicKey) {
+            angular.forEach($scope.model[vocab], function (element, topicKey) {
               if (element === true && $scope.data[vocab][topicKey]) {
                 // Term is selected and it's term of the first level.
                 topicCount++;
@@ -146,7 +146,7 @@ angular.module('c4mApp')
         }
         if (key in $scope.data[vocab]) {
           // This is the 1st level term - should uncheck all 2 an 3 levels terms.
-          angular.forEach($scope.data[vocab][key].children, function(child, itemKey) {
+          angular.forEach($scope.data[vocab][key].children, function (child, itemKey) {
             var childID = child.id;
 
             // Uncheck 2 level terms.
@@ -159,7 +159,7 @@ angular.module('c4mApp')
                 angular.element('input[type=checkbox][name="' + vocab + '[und][' + childID + ']"]').prop("checked", false);
               }
               // Uncheck 3 level terms.
-              angular.forEach($scope.data[vocab][key].children[itemKey].children, function(childChild, childChildKey) {
+              angular.forEach($scope.data[vocab][key].children[itemKey].children, function (childChild, childChildKey) {
                 var childChildID = childChild.id;
                 if (childChildID in $scope.model[vocab] && $scope.model[vocab][childChildID] === true) {
                   $scope.model[vocab][childChildID] = false;
@@ -176,11 +176,11 @@ angular.module('c4mApp')
         }
         else {
           // This was the 2 or 3 level term.
-          angular.forEach($scope.data[vocab], function(term, termKey) {
-            angular.forEach($scope.data[vocab][termKey].children, function(child, childKey) {
+          angular.forEach($scope.data[vocab], function (term, termKey) {
+            angular.forEach($scope.data[vocab][termKey].children, function (child, childKey) {
               if (key == child.id) {
                 // This is the current 2 level term - should uncheck its children.
-                angular.forEach($scope.data[vocab][termKey].children[childKey].children, function(childChild, childChildKey) {
+                angular.forEach($scope.data[vocab][termKey].children[childKey].children, function (childChild, childChildKey) {
                   var childID = childChild.id;
                   if (childID in $scope.model[vocab] && $scope.model[vocab][childID] === true) {
                     $scope.model[vocab][childID] = false;
@@ -207,7 +207,7 @@ angular.module('c4mApp')
      * @param item
      *  Current category item.
      */
-    $scope.updateSelected = function(item) {
+    $scope.updateSelected = function (item) {
       item.selected = !item.selected;
     };
 
@@ -223,7 +223,7 @@ angular.module('c4mApp')
      *
      * @returns {boolean}
      */
-    $scope.termHasChildrenSelected = function(vocab, key, childKey) {
+    $scope.termHasChildrenSelected = function (vocab, key, childKey) {
       if (childKey != 'null') {
         // This is 2-level term.
         if (!$scope.data[vocab][key].children[childKey]) {
@@ -269,13 +269,13 @@ angular.module('c4mApp')
      * @param vocab
      *  The name of the vocabulary.
      */
-    $scope.removeTaxonomyValue = function(key, vocab) {
+    $scope.removeTaxonomyValue = function (key, vocab) {
       $scope.model[vocab][key] = false;
       $scope.updateSelectedTerms(key, vocab);
     };
 
     // Close all popovers on "ESC" key press.
-    $document.on('keyup', function(event) {
+    $document.on('keyup', function (event) {
       // 27 is the "ESC" button.
       if (event.which == 27) {
         $scope.closePopups();
@@ -283,11 +283,11 @@ angular.module('c4mApp')
     });
 
     // Close all popovers on click outside popup box.
-    $document.on('mousedown', function(event) {
+    $document.on('mousedown', function (event) {
       // Check if we are not clicking on the popup.
       var parents = angular.element(event.target).parents();
       var close = true;
-      angular.forEach(parents, function(parent, id) {
+      angular.forEach(parents, function (parent, id) {
         if (parent.className.indexOf('popover') != -1) {
           close = false;
         }
@@ -301,8 +301,8 @@ angular.module('c4mApp')
     /**
      * Make all popups closed.
      */
-    $scope.closePopups = function() {
-      $scope.$apply(function(scope) {
+    $scope.closePopups = function () {
+      $scope.$apply(function (scope) {
         angular.forEach($scope.popups, function (value, key) {
           this[key] = 0;
         }, $scope.popups);
@@ -317,12 +317,12 @@ angular.module('c4mApp')
      * @param fieldName
      *  Name of the current field.
      */
-    $scope.onFileSelect = function($files, fieldName) {
+    $scope.onFileSelect = function ($files, fieldName) {
       $scope.setFieldName(fieldName);
       // $files: an array of files selected, each file has name, size, and type.
       for (var i = 0; i < $files.length; i++) {
         var file = $files[i];
-        FileUpload.upload(file).then(function(data) {
+        FileUpload.upload(file).then(function (data) {
           var fileId = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
@@ -335,7 +335,7 @@ angular.module('c4mApp')
     /**
      * Opens the system's file browser.
      */
-    $scope.browseFiles = function(fieldName) {
+    $scope.browseFiles = function (fieldName) {
       angular.element('#' + fieldName).click();
     };
 
@@ -344,7 +344,7 @@ angular.module('c4mApp')
      *
      * @param fieldName
      */
-    $scope.setFieldName = function(fieldName) {
+    $scope.setFieldName = function (fieldName) {
       $scope.fieldName = fieldName;
     };
   });
