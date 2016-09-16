@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * This file specifies the command to be executed on install and uninstall.

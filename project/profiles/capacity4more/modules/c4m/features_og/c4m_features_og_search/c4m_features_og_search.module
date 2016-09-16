@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Group Search feature.
@@ -30,6 +31,7 @@ function c4m_features_og_search_c4m_search_page_info() {
  * Alter the Views page title to match current group type.
  */
 function c4m_features_og_search_views_pre_render($view) {
+  // Alter the Views page title to match current group type.
   if ($view->name == 'c4m_search_og' && $view->current_display == 'page') {
     $group_context = og_context();
     if ($group_type = c4m_og_get_group_type($group_context)) {

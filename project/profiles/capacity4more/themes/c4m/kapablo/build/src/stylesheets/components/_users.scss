@@ -40,13 +40,28 @@
   }
 }
 
+.form-item-subscribe-to-mailinglist {
+  margin-bottom: 2em;
+}
+
 #user-bar {
   background-color: $color-text-alternative;
   padding: 0.4rem 0;
 
   .userbar-userprofile {
+    display: inline-flex;
+
+    &:not(:first-child) {
+      margin-left: 10px;
+    }
+
     &.open > .item-list > .dropdown-menu {
       display: block;
+
+      .group-members-count {
+        margin: 0;
+        color: $color-white;
+      }
     }
   }
 
@@ -68,10 +83,15 @@
         }
       }
       .fullname {
-        color: $color-white;
-        display: inline-block;
-        margin-right: 0.5rem;
-        vertical-align: middle;
+        display: none;
+
+        @media (min-width: $screen-tablet) {
+          display: inline-block;
+          margin-right: 0.5rem;
+
+          color: $color-white;
+          vertical-align: middle;
+        }
       }
       .fa-chevron-down {
         color: $color-white;
@@ -82,6 +102,11 @@
         display: inline-block;
         margin-right: 0.5rem;
         text-align: center;
+      }
+
+      .fa-users {
+        margin-right: 0.5rem;
+        color: $color-white;
       }
     }
   }
@@ -96,12 +121,80 @@
 
       a {
         color: $color-white;
-        padding: 5px 25px;
         padding-right: 70px;
 
         &:hover {
           background-color: rgba(255, 255, 255, 0.1);
         }
+      }
+    }
+  }
+
+  .right-menu-section {
+    float: right;
+  }
+
+  .user-groups {
+    @include grain_dark;
+    min-width: 280px;
+    margin-top: 6.5px;
+    left: initial;
+    right: 0;
+    border: 1px solid $color-link;
+    border-radius: 2px;
+
+    @media (min-width: $screen-lg) {
+      min-width: 310px;
+    }
+
+    .content {
+      display: flex;
+      color: $color-white;
+    }
+
+    .group-left, .group-right {
+      width: auto;
+    }
+
+    .group-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+
+    .group-left {
+      margin: 0 10px;
+
+      .img-responsive {
+        min-width: 60px;
+      }
+    }
+
+    li {
+
+      &.last {
+
+        .view-mode-block_list {
+
+          .content {
+            border-bottom: none;
+          }
+        }
+
+        .c4m-explore-all-my-groups-link {
+          padding-left: 15px;
+          margin-bottom: 5px;
+
+          i {
+            float: right;
+            font-size: 20px;
+            padding-right: 10px;
+          }
+        }
+      }
+
+      a {
+        color: $color-white;
       }
     }
   }

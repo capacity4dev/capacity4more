@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Featured content type feature.
@@ -88,4 +89,13 @@ function c4m_content_featured_preprocess_node__featured(&$variables) {
   $node = $variables['node'];
   $wrapper = entity_metadata_wrapper('node', $node);
   $variables['link'] = $wrapper->c4m_link->url->value();
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_content_featured_form_featured_node_form_alter(&$form, &$form_state, $form_id) {
+  $body_language = $form['c4m_body']['#language'];
+  $form['c4m_body'][$body_language][0]['#maxlength'] = 160;
+  $form['c4m_body'][$body_language][0]['#maxlength_js'] = TRUE;
 }

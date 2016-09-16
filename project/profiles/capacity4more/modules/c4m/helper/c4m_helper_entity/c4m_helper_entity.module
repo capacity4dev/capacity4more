@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Helper functionality around $entity objects.
@@ -35,6 +36,8 @@ function c4m_helper_entity_get_entity_type_label(
     $object_wrapper = entity_metadata_wrapper('node', $entity);
     $variables['label'] = $object_wrapper->$field_name->value();
   }
+
+  $variables['label'] = ucwords($variables['label']);
 
   drupal_alter('entity_type_label', $variables);
 
@@ -83,6 +86,7 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
     'uid' => NULL,
     'topic' => NULL,
     'c4m_status' => NULL,
+    'skip_access_check' => NULL,
   );
 
   $variables = array_merge($default_variables, $variables);
@@ -94,6 +98,7 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
   $uid = $variables['uid'];
   $topic = $variables['topic'];
   $c4m_status = $variables['c4m_status'];
+  $skip_access_check = $variables['skip_access_check'];
 
   if ($entity_type) {
     switch ($entity_type) {
@@ -114,7 +119,9 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
             $query->condition('n.status', $state, '=');
           }
         }
-        $query = $query->addTag('node_access');
+        if (empty($skip_access_check)) {
+          $query = $query->addTag('node_access');
+        }
         break;
 
       case 'comment':
@@ -124,7 +131,9 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
         if (!is_null($state)) {
           $query->condition('n.status', $state, '=');
         }
-        $query = $query->addTag('node_access');
+        if (empty($skip_access_check)) {
+          $query = $query->addTag('node_access');
+        }
         break;
     }
 
@@ -132,15 +141,15 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
     if ($og_id) {
       switch ($entity_type) {
         case 'user':
-          $query->join('og_membership', 'og', 'u.uid = og.etid');
+          $query->join('og_membership', 'og', "u.uid = og.etid AND og.entity_type = 'user'");
           break;
 
         case 'node':
-          $query->join('og_membership', 'og', 'n.nid = og.etid');
+          $query->join('og_membership', 'og', "n.nid = og.etid AND og.entity_type = 'node'");
           break;
 
         case 'comment':
-          $query->join('og_membership', 'og', 'n.nid = og.etid');
+          $query->join('og_membership', 'og', "n.nid = og.etid AND og.entity_type = 'comment'");
           // Exclude the comments on disabled group content features.
           $disabled_types = c4m_og_feature_disabled_content_types();
           if (!empty($disabled_types)) {
@@ -304,9 +313,7 @@ function c4m_helper_entity_label_info($entity) {
       $data = $cache->data;
     }
     else {
-      $hook = 'c4m_helper_entity_label_info';
-      $data = module_invoke_all($hook);
-
+      $data = module_invoke_all('c4m_helper_entity_label_info');
       cache_set($cache_key, $data);
     }
   }

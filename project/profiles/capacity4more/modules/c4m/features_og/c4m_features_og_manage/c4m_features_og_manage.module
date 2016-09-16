@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Group Management feature.
@@ -117,6 +118,14 @@ function c4m_features_og_manage_menu() {
  * Access callback for manage group categories.
  */
 function c4m_features_og_manage_categories_access() {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return;
+  }
+
   // Check if in a group.
   $gid = c4m_og_current_group_id();
   if (empty($gid)) {
@@ -136,6 +145,14 @@ function c4m_features_og_manage_categories_access() {
  *   User's access to the current group.
  */
 function c4m_features_og_manage_categories_terms_access($tid) {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return FALSE;
+  }
+
   // Check if in a group.
   $group = c4m_og_current_group();
   if (empty($group)) {
@@ -172,6 +189,14 @@ function c4m_features_og_manage_categories_terms_access($tid) {
  * Access callback for manage features menu.
  */
 function c4m_features_og_manage_features_access() {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return;
+  }
+
   // Check if in a group.
   $gid = c4m_og_current_group_id();
   if (empty($gid)) {
@@ -543,6 +568,10 @@ function c4m_features_og_manage_project_details() {
       'node/' . $project->nid . '/edit',
       array('absolute' => TRUE)
     ),
+    'menu_link' => url(
+      'group/node/' . $project->nid . '/admin/menus',
+      array('absolute' => TRUE)
+    ),
     'owner' => c4m_user_name(user_load($project->uid)),
     'owner_edit' => url(
       'project/node/' . $project->nid . '/admin/owner',
@@ -557,7 +586,6 @@ function c4m_features_og_manage_project_details() {
     'total_budget' => t('No total budget'),
     'source_funding' => t('No source of funding'),
     'partners' => t('No partners'),
-    'implemented_by' => t('No implementator'),
     'cris_decision_number' => t('No CRIS Decision number'),
     'cris_contact_number' => t('No CRIS Contact number'),
     'topics' => t('No Group Topics'),
@@ -602,12 +630,6 @@ function c4m_features_og_manage_project_details() {
   $c4m_sources_of_funding = $wrapper->c4m_source_of_funding->value();
   if ($list = c4m_features_og_manage_list_simple($c4m_sources_of_funding)) {
     $details['source_funding'] = $list;
-  }
-
-  // Partners.
-  $partners = $wrapper->c4m_partner->value();
-  if ($list = c4m_features_og_manage_list_simple($partners)) {
-    $details['partners'] = $list;
   }
 
   // Implemented by.
@@ -805,21 +827,11 @@ function c4m_features_og_manage_form_variable_realm_edit_variables_form_alter(
   $form['variables']['#type'] = 'div';
   $form['variables']['c4m_og']['#type'] = 'div';
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['c4m_og_features_group']['#title'] = t(
-    'Enable or disable features for this group.'
+    'Enable or disable features below.'
   );
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#type'] = 'div';
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsible'] = FALSE;
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsed'] = FALSE;
-
-  // Attach CSS/JavaScript.
-  $form['variables']['#attached'] = array(
-    'js' => array(
-      drupal_get_path(
-        'module',
-        'c4m_features_og_manage'
-      ) . '/js/manage_features.js',
-    ),
-  );
 }
 
 /**

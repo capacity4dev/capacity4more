@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Index of all the messages.
@@ -103,5 +104,13 @@ $messages = array(
     'title' => 'User alert when a new group request has been approved.',
     'subject' => 'group_approved_user_subject',
     'body' => 'group_approved_user_body',
+  ),
+
+  // Invitations to join a group.
+  array(
+    'module' => 'c4m_og_invite_users',
+    'title' => 'User alert when he has been invited to a group.',
+    'subject' => 'group_invite_user_subject',
+    'body' => 'group_invite_user_body',
   ),
 );

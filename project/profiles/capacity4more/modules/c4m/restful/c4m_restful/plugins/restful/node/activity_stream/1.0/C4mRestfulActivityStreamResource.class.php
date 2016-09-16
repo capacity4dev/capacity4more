@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains C4mRestfulActivityStreamResource.
@@ -40,8 +41,9 @@ class C4mRestfulActivityStreamResource extends \RestfulDataProviderDbQuery imple
     if (!empty($request['html'])) {
       $message = message_load($row->mid);
       $output = $message->view($request['group_context'] ? 'activity_group' : 'activity_global');
+      $block = module_invoke('c4m_message', 'block_view', 'c4m_og_power_user_actions_block', $message);
       $return['id'] = $row->mid;
-      $return['html'] = drupal_render($output);
+      $return['html'] = drupal_render($output) . render($block['content']);
     }
 
     return $return;
@@ -65,6 +67,8 @@ class C4mRestfulActivityStreamResource extends \RestfulDataProviderDbQuery imple
 
     // Show only publish content in active stream.
     $query->condition('node.status', 1);
+
+    $query->condition('message.type', db_like('c4m_insert__') . '%', 'LIKE');
 
     if (!empty($request['topics'])) {
       // Join related to Articles tables to get V&V activities with user's

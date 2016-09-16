@@ -16,7 +16,7 @@
  * # Cleans and prepares the RESTful request object.
  */
 angular.module('c4mApp')
-  .service('Request', function($filter) {
+  .service('Request', function ($filter) {
     var Request = this;
 
     this.resourceFields = '';
@@ -31,33 +31,10 @@ angular.module('c4mApp')
      * @returns {*}
      *   The request object ready for RESTful.
      */
-    this.prepare = function(data) {
+    this.prepare = function (data) {
 
       // Copy data, We shouldn't change the variables in the scope.
       var submitData = angular.copy(data);
-
-      // Setup Date and time for events.
-      if (Request.resource == 'events') {
-        // Submitting full form without the datetime field.
-        // Assign the current date to the form.
-        // this will avoid displaying errors and will redirect the user the full form edit page
-        // which has the current date filled by default anyway.
-        if (submitData.status == 0 && !submitData.datetime) {
-          submitData.datetime = {};
-          submitData.datetime.startDate = new Date();
-          submitData.datetime.endDate = new Date();
-        }
-        // If the user didn't choose the time, Fill the current time.
-        if (!submitData.datetime.startTime || !submitData.datetime.endTime) {
-          submitData.datetime.startTime = new Date();
-          submitData.datetime.endTime = new Date();
-        }
-        // Convert to the "date" field format in the installation.
-        submitData.datetime = {
-          value: $filter('date')(submitData.datetime.startDate, 'yyyy-MM-dd') + ' ' + $filter('date')(submitData.datetime.startTime, 'HH:mm'),
-          value2: $filter('date')(submitData.datetime.endDate, 'yyyy-MM-dd') + ' ' + $filter('date')(submitData.datetime.endTime, 'HH:mm')
-        };
-      }
 
       angular.forEach(submitData, function (values, field) {
         // Get the IDs of the selected references.
@@ -117,18 +94,6 @@ angular.module('c4mApp')
     this.checkRequired = function (data, resource, resourceFields) {
       var errors = {};
       var errorData = angular.copy(data);
-
-      if (resource == 'events') {
-        // If the user didn't choose the date, Display an error.
-        if (!errorData.datetime) {
-          errors.datetime = 1
-        }
-        else {
-          if (!errorData.datetime.startDate || !errorData.datetime.endDate) {
-            errors.datetime = 1;
-          }
-        }
-      }
 
       angular.forEach(errorData, function (values, field) {
         if (field == "tags") {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * All CSS related manipulations to the theme.
@@ -19,7 +20,7 @@ function kapablo_css_alter(&$css) {
     'media'      => 'all',
     'preprocess' => FALSE,
     'group'      => CSS_THEME,
-    'browsers'   => array('!IE' => TRUE, 'IE' => 'gte IE 9'),
+    'browsers'   => array('!IE' => TRUE, 'IE' => TRUE),
     'weight'     => 4,
   );
 

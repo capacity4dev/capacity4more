@@ -49,7 +49,7 @@ function c4m_content_document_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Do more through capacity4dev',
-    'weight' => '8',
+    'weight' => '10',
     'children' => array(
       0 => 'c4m_ds_content_actions',
     ),
@@ -58,7 +58,7 @@ function c4m_content_document_field_group_info() {
       'label' => 'Do more through capacity4dev',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-node-actions field-group-html5',
+        'classes' => 'group-node-actions',
         'description' => '',
         'show_label' => '1',
         'label_element' => 'h3',
@@ -81,7 +81,7 @@ function c4m_content_document_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '9',
+    'weight' => '11',
     'children' => array(
       0 => 'c4m_vocab_date',
       1 => 'c4m_vocab_document_type',
@@ -114,12 +114,12 @@ function c4m_content_document_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Group meta',
-    'weight' => '7',
+    'weight' => '9',
     'children' => array(
       0 => 'c4m_user_picture',
       1 => 'c4m_user_first_and_last_name',
       2 => 'c4m_ds_creation_date',
-      3 => 'c4m_ds_type_insert_action',
+      3 => 'c4m_ds_entity_type_label',
     ),
     'format_type' => 'html5',
     'format_settings' => array(

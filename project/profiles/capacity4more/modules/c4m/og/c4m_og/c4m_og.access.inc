@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Functionality regarding OG access (public/restricted/private).
@@ -131,24 +132,26 @@ function c4m_og_get_restricted_info($group) {
 
   if (!array_key_exists($group->nid, $infos)) {
     $wrapper = entity_metadata_wrapper('node', $group);
-    $pluggable_node_accesses = $wrapper->pluggable_node_access->value();
-    if (!$pluggable_node_accesses) {
-      return $info;
-    }
-    $pluggable_node_accesses = is_array($pluggable_node_accesses) ? $pluggable_node_accesses : array($pluggable_node_accesses);
-    foreach ($pluggable_node_accesses as $pluggable_node_access) {
-      $data = $pluggable_node_access->data;
-      if (!is_array($data) || empty($data)) {
-        continue;
+    if (isset($wrapper->pluggable_node_access)) {
+      $pluggable_node_accesses = $wrapper->pluggable_node_access->value();
+      if (!$pluggable_node_accesses) {
+        return $info;
       }
-      switch ($pluggable_node_access->type) {
-        case 'email_domain':
-          $info['domains'] = $data;
-          break;
+      $pluggable_node_accesses = is_array($pluggable_node_accesses) ? $pluggable_node_accesses : array($pluggable_node_accesses);
+      foreach ($pluggable_node_accesses as $pluggable_node_access) {
+        $data = $pluggable_node_access->data;
+        if (!is_array($data) || empty($data)) {
+          continue;
+        }
+        switch ($pluggable_node_access->type) {
+          case 'email_domain':
+            $info['domains'] = $data;
+            break;
 
-        case 'organisation':
-          $info['organisations'] = $data;
-          break;
+          case 'organisation':
+            $info['organisations'] = $data;
+            break;
+        }
       }
     }
 
@@ -194,7 +197,7 @@ function c4m_og_get_email_domains($group) {
 }
 
 /**
- * Implements hook_FORM_ID_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  *
  * Adds the fields about the Group Access types & Pluggable Access.
  */
@@ -204,14 +207,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   $default_organisations = array();
   $default_access_type = 'public';
 
-  // Form changes on creation.
-  if (!$form['nid']['#value']) {
-    // Change title.
-    drupal_set_title('Request group');
-
-    // Change submit button on creation.
-    $form['actions']['submit']['#value'] = t('Request');
-  }
+  _c4m_og_alter_group_form($form, $form_state);
 
   // Organisation options.
   $organisation_field_options = array();
@@ -354,6 +350,11 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     ),
   );
   $form['c4m_related_group'][LANGUAGE_NONE]['#after_build'] = array('c4m_og_select2_widget_after_build');
+
+  // Disable the "delete" option for all users except SA.
+  if (!user_access('administer nodes')) {
+    $form['actions']['delete']['#access'] = FALSE;
+  }
 }
 
 /**
@@ -541,21 +542,55 @@ function c4m_og_remove_pluggable_node_access(
 /**
  * Implements hook_og_user_access_alter().
  *
- * Allow subscribing based on field_membership_open_request value.
+ * 1. For group administrator, remove 'administer group' and 'update group'
+ * privileges, when deleting / editing Pending OG group.
+ * This is done to prevent og_node_access() to allow group administrator from
+ * deleting / editing group, disregarding it's c4m_og_status, as administrator
+ * can't delete a Pending group.
+ * Instead, we fall back to the node_access table, where access logic is
+ * properly implemented.
+ * 2. Allow subscribing, based on field_membership_open_request value.
  */
 function c4m_og_og_user_access_alter(&$perm, $context) {
-  if ($context['string'] != 'subscribe without approval') {
-    return;
-  }
-
   if ($context['group_type'] != 'node') {
     return;
   }
+
+  // Return early, if not under OG context, with type 'group'.
   $group = $context['group'];
   if ($group->type != 'group') {
     return;
   }
+
   $wrapper = entity_metadata_wrapper('node', $group);
+  $pattern = '/^node\/\d+\/(edit|delete)(\/.*)*$/i';
+
+  if (preg_match($pattern, current_path()) && $wrapper->c4m_og_status->value() == 'pending') {
+    // For Pending groups, if under 'node/%node/edit' or 'node/%node/delete'
+    // urls (editing / deleting group), deny privileges that are verified by
+    // og_node_access().
+    $perm['administer group'] = FALSE;
+    $perm['update group'] = FALSE;
+  }
+
+  if ($context['string'] != 'subscribe without approval') {
+    return;
+  }
 
   $perm['subscribe without approval'] = $wrapper->field_membership_open_request->value();
+}
+
+/**
+ * Implements hook_field_access().
+ *
+ * Removing the "message to the site admin" field when editing a group.
+ */
+function c4m_og_field_access($op, $field, $entity_type, $entity, $account) {
+  if ($op == 'edit' && $field['field_name'] == 'field_message_to_site_admin') {
+    // Deny the access only if it is not the creation of the group.
+    if (!empty($entity->nid)) {
+      return FALSE;
+    }
+  }
+  return TRUE;
 }

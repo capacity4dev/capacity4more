@@ -12,6 +12,7 @@ require 'vendor/autoload.php';
 // Split FeatureContext in smaller chunks.
 require __DIR__ . '/FeatureContext/Activity.php';
 require __DIR__ . '/FeatureContext/Article.php';
+require __DIR__ . '/FeatureContext/Contact.php';
 require __DIR__ . '/FeatureContext/Debug.php';
 require __DIR__ . '/FeatureContext/Discussion.php';
 require __DIR__ . '/FeatureContext/Document.php';
@@ -56,6 +57,7 @@ class FeatureContext extends DrupalContext {
    */
   use FeatureContext\Activity;
   use FeatureContext\Article;
+  use FeatureContext\Contact;
   use FeatureContext\Debug;
   use FeatureContext\Discussion;
   use FeatureContext\Document;
@@ -111,4 +113,42 @@ class FeatureContext extends DrupalContext {
         : $parameters['debug']['dump_all_steps'],
     );
   }
+
+  /**
+   * @Given /^The window is maximized$/
+   */
+  public function theWindowIsMaximized() {
+    $this->getSession()->getDriver()->resizeWindow(1200, 1200, 'current');
+  }
+
+  /**
+   * @When /^I focus on "([^"]*)" element$/
+   */
+  public function iFocusOnElement($locator) {
+    $field = $this->getSession()->getPage()->findField($locator);
+    $field->focus();
+  }
+
+  /**
+   * @Given /^I should see the "([^"]*)" element$/
+   */
+  public function iShouldSeeTheElement($selector) {
+    $element = $this->getSession()->getPage()->find('css', $selector);
+
+    if (!$element) {
+      throw new \Exception("{$selector} was not found.");
+    }
+  }
+
+  /**
+   * @Then /^I should not see the "([^"]*)" element$/
+   */
+  public function iShouldNotSeeTheElement($selector) {
+    $element = $this->getSession()->getPage()->find('css', $selector);
+
+    if ($element) {
+      throw new \Exception("{$selector} was found, but it should not.");
+    }
+  }
+
 }

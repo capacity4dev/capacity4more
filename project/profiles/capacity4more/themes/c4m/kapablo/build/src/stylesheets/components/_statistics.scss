@@ -3,33 +3,99 @@ ul.statistics-list {
   margin: 0;
   padding: 0;
 
-  /* Graceful degradation */
-  display: table;
-  table-layout: fixed;
-
-  /* Flexbox */
-  align-content: unset;
   display: flex;
-  justify-content: space-between;
-  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
 
-  li {
-    color: $color-gray-dark;
-    text-align: left;
-
-    /* Graceful degradation */
-    display: table-cell;
-
-    /* Flexbox */
+  @media (min-width: $screen-desktop) {
     display: flex;
 
+    width: 100%;
+    table-layout: fixed;
+    flex-wrap: nowrap;
+    align-content: unset;
+    justify-content: space-between;
+  }
+
+  li {
+    display: inline-block;
+    width: calc(100% / 2);
+
+    @media (min-width: $screen-tablet) {
+      width: auto;
+    }
+
+    padding: 20px 40px;
+
+    color: $color-gray-dark;
+    text-align: center;
+
+    &::before {
+      display: block;
+
+      @media (min-width: $screen-tablet) {
+        display: inherit;
+      }
+    }
+
     &.last {
-      text-align: right;
+      @media (min-width: $screen-tablet) {
+        text-align: right;
+      }
+    }
+
+    &:not(:nth-last-of-type(-n+2)) {
+      border-bottom: 1px dashed $color-gray-light;
+
+      @media (min-width: $screen-tablet) {
+        border-bottom: none;
+      }
+    }
+
+    &:nth-of-type(odd) {
+      border-right: 1px dashed $color-gray-light;
+
+      @media (min-width: $screen-tablet) {
+        border-right: none;
+      }
     }
 
     a {
+      display: inline-block;
+      margin-top: 10px;
       color: $color-gray-dark;
-      padding-left: 1rem;
+
+      &:hover, &:active, &:focus {
+        color: $link-color;
+        text-decoration: none;
+      }
     }
+
+    i {
+      display: block;
+      clear: both;
+      margin-bottom: 5px;
+    }
+
+    @media (min-width: $screen-tablet) {
+      display: flex;
+
+      padding: 0;
+      text-align: left;
+
+      a {
+        display: inherit;
+        margin-top: 0;
+        padding-left: 1rem;
+      }
+
+      i {
+        display: inline-block;
+        clear: none;
+        line-height: inherit;
+        margin: 0 5px 0 0;
+      }
+    }
+
   }
 }

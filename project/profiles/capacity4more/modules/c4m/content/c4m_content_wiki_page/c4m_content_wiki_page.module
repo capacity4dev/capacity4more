@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Wiki page content type feature.
@@ -111,14 +112,6 @@ function c4m_content_wiki_page_node_insert($node) {
     'parent_depth_limit' => C4M_CONTENT_WIKI_PAGE_MAX_DEPTH,
     'weight'             => '0',
   );
-
-  // We want module book to run after c4m_content_wiki_page because we need
-  // all the form altering, so we do not change the weight of
-  // c4m_content_wiki_page to run before book module but this means we have to
-  // re-execute the behaviour of book_node_insert now that we made the node a
-  // book, because otherwise book will not do anything for us at node insert of
-  // an OG  group node.
-  book_node_insert($node);
 }
 
 /**
@@ -201,6 +194,9 @@ function c4m_content_wiki_page_form_wiki_page_node_form_alter(&$form, &$form_sta
       the selected book may not be available as parents if selecting them would
       exceed this limit.', array('!maxdepth' => C4M_CONTENT_WIKI_PAGE_MAX_DEPTH));
   }
+
+  // Add author information to the edit wiki page form.
+  c4m_og_add_content_author_options_to_power_users($form);
 }
 
 /**
@@ -400,6 +396,7 @@ function c4m_content_wiki_page_c4m_content_statistics_info() {
         'singular'    => 'Post',
         'plural'      => 'Posts',
         'state'       => 1,
+        'skip_access_check' => TRUE,
         'aggregate'   => array(
           'type' => 'posts',
         ),
@@ -495,9 +492,30 @@ function c4m_content_wiki_page_c4m_helper_entity_label_info() {
       'article' => t('a'),
       'singular' => t('wiki page'),
       'plural' => t('wiki pages'),
-      'insert action' => t('created a new wiki page'),
-      'update action' => t('updated the wiki page'),
+      'insert action' => t('created a new WIKI page'),
+      'update action' => t('updated the WIKI page'),
       'icon' => 'fa-wikipedia-w',
     ),
   );
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * We want module book to run after c4m_content_wiki_page because we need all
+ * the form altering, so we do not change the weight of c4m_content_wiki_page to
+ * run before book module but this means we have to re-execute the behaviour of
+ * book_node_insert now that we made the node a book, because otherwise book
+ * will not do anything for us at node insert of an OG  group node.
+ */
+function c4m_content_wiki_page_module_implements_alter(&$implementations, $hook) {
+  if ($hook != 'node_insert') {
+    return;
+  }
+  if (!isset($implementations['book'])) {
+    return;
+  }
+  $group = $implementations['book'];
+  unset($implementations['book']);
+  $implementations['book'] = $group;
 }

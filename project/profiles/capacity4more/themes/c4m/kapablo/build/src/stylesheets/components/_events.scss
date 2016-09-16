@@ -1,0 +1,47 @@
+.upcoming-events .view-mode-block_list .content {
+  padding-bottom: 1.43rem;
+}
+
+.event-date {
+  float: left;
+  margin-right: 10px;
+}
+
+.event-groups {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+
+  .label {
+    align-self: center;
+  }
+}
+
+.view-mode-block_list.node-event .field-name-c4m-field-og-group .field-item {
+  color: $color-gray-dark;
+
+  a {
+    color: $color-link;
+  }
+}
+
+.node-event {
+  &.view-mode-full .node-document.node-teaser {
+    $icon-size: 40px;
+
+    .content-col {
+      margin-left: $icon-size + 15px;
+    }
+    .icon-col {
+      width: $icon-size + 15px;
+    }
+    .node-icon {
+      height: $icon-size;
+      width: $icon-size;
+    }
+  }
+}
+
+.event-location {
+  margin-bottom: 10px;
+}

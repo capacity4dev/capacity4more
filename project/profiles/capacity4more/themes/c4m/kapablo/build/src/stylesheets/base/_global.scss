@@ -1,3 +1,12 @@
+html,
+body {
+  height: 100vh;
+
+  @media (min-width: $screen-tablet) {
+    height: auto;
+  }
+}
+
 html {
   font-size: 14px;
 }
@@ -26,15 +35,91 @@ body {
 }
 
 .label {
+
   &.label-default {
     background: none;
     border: 1px dotted $color-text;
     color: $color-text;
     font-weight: normal;
     text-transform: uppercase;
+    border-radius: 4px;
+  }
+
+  &.label-access {
+    color: $color-white;
+    border: 1px solid $color-white;
+    font-weight: normal;
+    text-transform: uppercase;
+
+    &.public {
+      background-color: $color-green;
+      border-color: $color-green;
+    }
+
+    &.private {
+      background-color: $color-red;
+      border-color: $color-red;
+    }
+
+    &.restricted {
+      background-color: $color-accent;
+      border-color: $color-accent;
+    }
+  }
+
+  &.label-stage {
+      color: $color-white;
+      border: 1px solid $color-white;
+      font-weight: normal;
+      text-transform: uppercase;
+
+    &.notstarted {
+      background-color: $color-gray;
+      border-color: $color-gray;
+    }
+
+    &.ongoing {
+      background-color: $color-blue-light;
+      border-color: $color-blue-light;
+    }
+
+    &.completed {
+      background-color: $color-blue;
+      border-color: $color-blue;
+    }
   }
 }
 
 div.contextual-links-wrapper {
   font-size: 0.9rem;
+}
+
+.page-container {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.page-content {
+  position: relative;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.popover {
+  max-width: 100%;
+}
+
+cite {
+  background: #EEE;
+  border: 1px solid #CCC;
+  padding: 1px;
+}
+
+.what-is-this {
+  font-size: 13px;
+  color: $color-link;
+  margin-left: 10px;
+  cursor: help;
+  text-transform: none;
 }

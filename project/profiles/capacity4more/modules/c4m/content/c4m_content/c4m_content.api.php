@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Hooks provided by the capacity4more Content module.
@@ -51,6 +52,8 @@
  *   - state:
  *       The status of the entity as integer (published, unpublished).
  *       Required if no callback is defined.
+ *   - skip_access_check:
+ *       If node access check should be skipped. Used for global stats mainly.
  *   - c4m_status:
  *       The C4M status of the entity (published, requested, ...).
  *       Required if no callback is defined.
@@ -74,6 +77,7 @@ function hook_c4m_content_statistics_info() {
         'singular'    => 'Post',
         'plural'      => 'Posts',
         'state'       => NULL,
+        'skip_access_check' => TRUE,
         'c4m_status'  => NULL,
         'aggregate'   => array(
           'type' => 'posts',

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * The capacity4more profile.
@@ -85,10 +86,11 @@ function capacity4more_setup_set_variables(&$install_state) {
     'theme_default' => 'kapablo',
     'admin_theme' => 'seven',
     'node_admin_theme' => 0,
-    'jquery_update_jquery_version' => '2.1',
+    'jquery_update_jquery_version' => '1.8',
     'jquery_update_jquery_admin_version' => '2.1',
     'page_manager_node_view_disabled' => FALSE,
     'page_manager_term_view_disabled' => FALSE,
+    'jquery_update_jquery_migrate_enable' => TRUE,
 
     // RESTful.
     'restful_file_upload' => TRUE,
@@ -117,7 +119,22 @@ function capacity4more_setup_set_permissions(&$install_state) {
     'delete own group content',
     'create new books',
     'add content to books',
+    'create files',
+    'view own files',
   );
+
+  $content_types = array(
+    'discussion',
+    'document',
+    'event',
+    'photo',
+    'photoalbum',
+  );
+
+  foreach ($content_types as $content_type) {
+    $permissions[] = "create $content_type content";
+  }
+
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 }
 
@@ -132,7 +149,6 @@ function capacity4more_setup_set_og_permissions() {
     'event',
     'photo',
     'photoalbum',
-    'wiki_page',
   );
 
   $permissions = array();
@@ -149,7 +165,18 @@ function capacity4more_setup_set_og_permissions() {
   og_role_grant_permissions($auth_rid, $permissions);
 
   // Set OG_ADMINISTRATOR_ROLE permissions.
+  $content_types = array(
+    'wiki_page',
+  );
+
   $permissions = array();
+  foreach ($content_types as $content_type) {
+    $permissions = array_merge($permissions, array(
+      "create $content_type content",
+      "update own $content_type content",
+      "update any $content_type content",
+    ));
+  }
 
   // OG Flag permissions.
   $og_flag_perms = array(
@@ -164,6 +191,27 @@ function capacity4more_setup_set_og_permissions() {
   $roles = og_roles('node', 'group');
   $admin_member_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
   og_role_grant_permissions($admin_member_rid, $permissions);
+
+  // Set OG_ADMINISTRATOR_ROLE permissions by project.
+  $content_types = array(
+    'document',
+    'event',
+  );
+
+  $permissions = array();
+  foreach ($content_types as $content_type) {
+    $permissions = array_merge($permissions, array(
+      "create $content_type content",
+      "update own $content_type content",
+      "update any $content_type content",
+      "delete own $content_type content",
+      "delete any $content_type content",
+    ));
+  }
+
+  $roles = og_roles('node', 'project');
+  $auth_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
+  og_role_grant_permissions($auth_rid, $permissions);
 }
 
 /**

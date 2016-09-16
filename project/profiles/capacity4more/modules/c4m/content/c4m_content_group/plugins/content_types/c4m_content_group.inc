@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Plugin to show the group details.
@@ -47,4 +48,17 @@ function c4m_content_group_details() {
   $node_view = node_view($node, 'group_dashboard');
 
   return drupal_render($node_view);
+}
+
+/**
+ * Implements hook_preprocess().
+ *
+ * Use 'group_dashboard' custom template.
+ */
+function c4m_content_group_preprocess_node(&$variables) {
+  if ($variables['view_mode'] != 'group_dashboard') {
+    return;
+  }
+
+  $variables['classes_array'][] = 'group-details';
 }

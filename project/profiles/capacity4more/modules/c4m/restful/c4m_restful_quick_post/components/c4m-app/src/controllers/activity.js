@@ -6,7 +6,18 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('ActivityCtrl', function($scope, DrupalSettings, EntityResource, $timeout, $interval, $sce) {
+  .controller('ActivityCtrl', function ($scope, DrupalSettings, EntityResource, $timeout, $interval, $sce) {
+
+    /*
+     * Init the Bootstrap tooltips.
+     */
+    $scope.bindBoostrapTooltips = function () {
+      // Delay 100ms and allow all items to be added to the DOM before
+      // initializing the tooltips.
+      $timeout(function () {
+        angular.element('[data-toggle="tooltip"]').tooltip();
+      }, 100);
+    };
 
     // Get the current group ID.
     $scope.group = DrupalSettings.getData('entity').group;
@@ -23,6 +34,9 @@ angular.module('c4mApp')
 
     // Getting the activity stream.
     $scope.existingActivities = DrupalSettings.getActivities();
+
+    // Init the bootstrap tooltips.
+    $scope.bindBoostrapTooltips();
 
     // Empty new activities.
     $scope.newActivities = [];
@@ -51,7 +65,7 @@ angular.module('c4mApp')
      *
      * The refresh rate is scope.refreshRate.
      */
-    $scope.refresh = function() {
+    $scope.refresh = function () {
       $scope.addNewActivities('newActivities');
     };
     // Start the activity stream refresh.
@@ -71,7 +85,7 @@ angular.module('c4mApp')
      *  newActivities: The "new posts" notification button will appear in the
      *                 user's activity stream.
      */
-    $scope.addNewActivities = function(type) {
+    $scope.addNewActivities = function (type) {
       if (type == 'existingActivities') {
         // Merge all the loaded activities before adding the created one.
         $scope.showNewActivities(0);
@@ -96,7 +110,7 @@ angular.module('c4mApp')
 
       // Call the update stream method.
       EntityResource.updateStream(activityStreamInfo, 'update')
-        .success(function(data, status) {
+        .success(function (data, status) {
           // Update the stream status.
           $scope.stream.status = status;
 
@@ -107,7 +121,7 @@ angular.module('c4mApp')
             }
             // Count the activities that were fetched.
             var position = 0;
-            angular.forEach(data.data, function(activity) {
+            angular.forEach(data.data, function (activity) {
               this.splice(position, 0, {
                 id: activity.id,
                 timestamp: activity.timestamp,
@@ -121,7 +135,7 @@ angular.module('c4mApp')
             $scope.stream.lastLoadedTimestamp = $scope[type][0].timestamp ? $scope[type][0].timestamp : $scope.stream.lastLoadedTimestamp;
           }
         })
-        .error(function(data, status) {
+        .error(function (data, status) {
           // Update the stream status if we get an error, This will display the error message.
           $scope.stream.status = status;
         });
@@ -137,8 +151,8 @@ angular.module('c4mApp')
      * @param position.
      *  The position in which to add the new activities.
      */
-    $scope.showNewActivities = function(position) {
-      angular.forEach($scope.newActivities, function(activity) {
+    $scope.showNewActivities = function (position) {
+      angular.forEach($scope.newActivities, function (activity) {
         this.splice(position, 0, {
           id: activity.id,
           timestamp: activity.timestamp,
@@ -155,7 +169,7 @@ angular.module('c4mApp')
      * Request the next set of activities from RESTful,
      * Adds the newly loaded activity stream to the bottom of the "existingActivities" array.
      */
-    $scope.showMoreActivities = function() {
+    $scope.showMoreActivities = function () {
       // Determine the position of the loaded activities depending on the number of the loaded page.
       var position = $scope.existingActivities.length;
 
@@ -167,10 +181,13 @@ angular.module('c4mApp')
         topics: $scope.topics
       };
 
+      // Enables to design elements on loading state - such as displaying the spinner.
+      angular.element('.activity-stream').addClass('loading');
+
       EntityResource.updateStream(activityStreamInfo, 'load')
-        .success(function(data, status) {
+        .success(function (data, status) {
           if (data.data) {
-            angular.forEach(data.data, function(activity) {
+            angular.forEach(data.data, function (activity) {
               this.splice(position, 0, {
                 id: activity.id,
                 timestamp: activity.timestamp,
@@ -187,13 +204,18 @@ angular.module('c4mApp')
             // Keep the "show more" button, only if the remaining activities to load is more than the range.
             // The "Count" variable will go down as we are filtering with the lowest activity Timestamp.
             $scope.showMoreButton = data.data.length >= $scope.range;
+
+            // Re-init the bootstrap tooltips for the added items.
+            $scope.bindBoostrapTooltips();
           }
+            // Removes loading state class.
+            angular.element('.activity-stream').removeClass('loading');
         });
     };
 
     // Listening to broadcast for changes in the activity.
     // e.g. Adding a new activity from the "main" controller.
-    $scope.$on('c4m.activity.update', function() {
+    $scope.$on('c4m.activity.update', function () {
       // Load new activity.
       $scope.addNewActivities('existingActivities');
     });
@@ -202,12 +224,12 @@ angular.module('c4mApp')
     // This will stop or resume the refresh of the activity stream.
     // In case of resuming the activity stream,
     // Wait for 10 seconds to avoid any conflicts between the normal refresh and the "create new activity" pull.
-    $scope.$on('c4m.activity.refresh', function(broadcast, action) {
+    $scope.$on('c4m.activity.refresh', function (broadcast, action) {
       if (action == 'stop') {
         $interval.cancel($scope.refreshing);
       }
       else {
-        $timeout(function() {
+        $timeout(function () {
           $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
         }, 10000);
       }

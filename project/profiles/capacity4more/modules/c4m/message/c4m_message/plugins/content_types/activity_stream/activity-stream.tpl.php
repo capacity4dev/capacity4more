@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Activity stream wrapper.
@@ -21,7 +22,11 @@
 
   <div class="show-more-wrapper" ng-if="showMoreButton">
     <p class="show-more text-center">
-      <a href="javascript://" id="load-more-button" ng-click="showMoreActivities()" class="btn btn-primary"><?php print t('show more') ?></a>
+      <span class="spinner">
+        <i class="fa fa-spin fa-spinner"></i>
+      </span>
+      <a href="javascript://" id="load-more-button" ng-click="showMoreActivities()" ><?php print t('show more') ?></a>
+      <span class="arrow--right"></span>
     </p>
   </div>
 </div>

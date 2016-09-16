@@ -1,0 +1,238 @@
+/**
+  Off-canvas menu
+**/
+
+.container--push {
+  position: relative;
+  left: 0;
+
+  z-index: 99;
+  height: 100%;
+  perspective: 1000px;
+
+  transition: transform 0.5s;
+  -webkit-transition: -webkit-transform 0.5s;
+}
+
+.container--push::after,
+.page-container.offCanvasNavigation--visible::after {
+
+  @media (max-width: $screen-tablet) {
+    position: absolute;
+    top: 0;
+
+    content: '';
+    width: 0;
+    height: 0;
+    background: rgba(110,150,159,0.2);
+    opacity: 0;
+
+    transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
+    -webkit-transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
+  }
+}
+
+.offCanvasNavigation--visible .container--push::after,
+.page-container.offCanvasNavigation--visible::after {
+
+  @media (max-width: $screen-tablet) {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+
+    transition: opacity 0.5s;
+    -webkit-transition: opacity 0.5s;
+  }
+}
+
+.offCanvasNavigation {
+  position: absolute;
+  top: 0;
+
+  visibility: hidden;
+  z-index: 100;
+  width: 225px;
+  height: 100%;
+  padding-top: 25px;
+  overflow-y: scroll;
+
+  background: $color-gray-lightTwo;
+
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+
+  @include box-shadow(inset 20px -1px 48px -27px rgba(0,0,0,0.75));
+}
+
+.offCanvasNavigation--visible {
+  .page-content {
+    overflow-x: visible;
+  }
+}
+
+.offCanvasNavigation--left {
+  left: 0;
+}
+
+.offCanvasNavigation--right {
+  right: 0;
+}
+
+.offCanvasNavigation--fullWidth {
+  width: 100%;
+}
+
+.offCanvasNavigation::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.2);
+
+  opacity: 1;
+
+  transition: opacity 0.5s;
+  -webkit-transition: opacity 0.5s;
+}
+
+// main menu inside the off-canvas
+.offCanvasNavigation ul {
+  list-style: none;
+}
+
+.offCanvasNavigation ul.menu li {
+  height: 45px;
+  border-bottom: 2px white groove;
+
+  text-transform: uppercase;
+
+  a {
+    color: $color-gray-dark;
+
+    &:hover {
+      background: none;
+    }
+  }
+
+  &.active a {
+    color: $color-blue-dark;
+  }
+}
+
+.offCanvasNavigation section + section {
+  margin-top: 45px;
+
+  a {
+    font-size: 1rem;
+    text-transform: capitalize;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.offCanvasNavigation .block-c4m-features-header a {
+  color: $color-gray-darkTwo;
+}
+
+// gray overlay on content when offCanvas is visible
+.offCanvasNavigation--visible .offCanvasNavigation::after
+{
+  width: 0;
+  height: 0;
+  opacity: 0;
+
+  -webkit-transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
+  transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
+}
+
+// Navigation effect push
+.offCanvasNavigation--visible.animation--push .container--push {
+  transform: translate3d(-225px, 0, 0);
+  -webkit-transform: translate3d(-225px, 0, 0);
+}
+
+.offCanvasNavigation.animation--push {
+  right: 0;
+  left: initial;
+
+  transform: translate3d(100%, 0, 0);
+  -webkit-transform: translate3d(100%, 0, 0);
+}
+
+.offCanvasNavigation--visible.animation--push .offCanvasNavigation.animation--push {
+  visibility: visible;
+
+  @include transition(transform 0.5s);
+}
+
+.offCanvasNavigation.animation--push::after {
+  display: none;
+}
+
+// Navigation effect slideOn (from the right)
+// specific for group (and other pages using the panels?)
+.panel-panel.right,
+.offCanvasNavigation--right {
+
+  @media (max-width: $screen-tablet) {
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    z-index: 100;
+    visibility: hidden;
+    width: 300px;
+    height: 100%;
+    padding: 25px 18px;
+    overflow-y: auto;
+    background: $color-white;
+
+    box-shadow: -8px 0 8px -8px #696868;
+
+    transition: transform 0.5s;
+    -webkit-transition: transform 0.5s;
+    transform: translate3d(100%, 0, 0);
+    -webkit-transform: translate3d(100%, 0, 0);
+  }
+}
+
+.offCanvasNavigation--left {
+  @media (max-width: $screen-tablet) {
+    @include grain;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: 100;
+    visibility: hidden;
+    width: 300px;
+    height: 100%;
+    overflow-y: auto;
+
+    box-shadow: 8px 0 8px -8px #696868;
+
+    transition: transform 0.5s;
+    -webkit-transition: transform 0.5s;
+
+    transform: translate3d(-100%, 0, 0);
+    -webkit-transform: translate3d(-100%, 0, 0);
+
+    .well {
+      background: transparent;
+    }
+  }
+}
+
+.offCanvasNavigation--visible.animation--slideOn .panel-panel.right,
+.offCanvasNavigation--visible.animation--slideOn .offCanvasNavigation--left,
+.offCanvasNavigation--visible.animation--slideOn .offCanvasNavigation--right {
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}

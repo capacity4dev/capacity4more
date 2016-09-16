@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Document content type feature.
@@ -30,6 +31,8 @@ function c4m_content_document_c4m_og_vocab_info_content() {
 function c4m_content_document_form_document_node_form_alter(&$form, $form_state) {
   // Hide field Add to library from user.
   $form['c4m_document_add_to_library']['#access'] = FALSE;
+
+  c4m_og_add_content_author_options_to_power_users($form);
 
   if (strpos(url(current_path()), 'overlay')) {
     // If this is overlay page - add our own submit handler.
@@ -122,7 +125,7 @@ function c4m_content_document_get_number_of_downloads($og_id = NULL) {
   $query->addTag('node_access');
 
   if ($og_id) {
-    $query->join('og_membership', 'og', 'n.nid = og.etid');
+    $query->join('og_membership', 'og', "'n.nid = og.etid AND og.entity_type = 'node''");
     $query->condition('og.gid', $og_id);
   }
 
@@ -145,6 +148,7 @@ function c4m_content_document_c4m_content_statistics_info() {
         'singular'    => 'Post',
         'plural'      => 'Posts',
         'state'       => 1,
+        'skip_access_check' => TRUE,
         'aggregate'   => array(
           'type' => 'posts',
         ),
@@ -254,8 +258,8 @@ function c4m_content_document_c4m_helper_entity_label_info() {
       'article' => t('a'),
       'singular' => t('document'),
       'plural' => t('documents'),
-      'insert action' => t('uploaded a new document'),
-      'update action' => t('updated the document'),
+      'insert action' => t('uploaded a new Document'),
+      'update action' => t('updated the Document'),
       'icon' => 'fa-file-o',
     ),
   );

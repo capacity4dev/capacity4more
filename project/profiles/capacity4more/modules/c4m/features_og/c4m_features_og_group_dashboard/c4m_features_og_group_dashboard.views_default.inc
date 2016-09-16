@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_features_og_group_dashboard.views_default.inc
@@ -22,7 +23,7 @@ function c4m_features_og_group_dashboard_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'OG - Highlighted content';
+  $handler->display->display_options['title'] = '<i class="fa fa-thumb-tack"></i> Pinned by group manager';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -32,14 +33,10 @@ function c4m_features_og_group_dashboard_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '1';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'teaser';
-  /* Header: Global: Text area */
-  $handler->display->display_options['header']['area']['id'] = 'area';
-  $handler->display->display_options['header']['area']['table'] = 'views';
-  $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['content'] = 'Pinned by group manager';
-  $handler->display->display_options['header']['area']['format'] = 'plain_text';
+  $handler->display->display_options['row_options']['view_mode'] = 'pinned_content';
   /* Relationship: Flags: c4m_og_content_highlight */
   $handler->display->display_options['relationships']['flag_content_rel']['id'] = 'flag_content_rel';
   $handler->display->display_options['relationships']['flag_content_rel']['table'] = 'node';
@@ -77,7 +74,6 @@ function c4m_features_og_group_dashboard_views_default_views() {
 
   /* Display: Promoted */
   $handler = $view->new_display('block', 'Promoted', 'og_dashboard_promoted_block');
-  $handler->display->display_options['defaults']['title'] = FALSE;
   $export['og_dashboard'] = $view;
 
   return $export;
