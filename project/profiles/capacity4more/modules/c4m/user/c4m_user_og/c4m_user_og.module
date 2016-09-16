@@ -50,18 +50,20 @@ function c4m_user_og_has_group_permission($permission, $group = NULL) {
  * @return string
  *    The user role.
  */
-function c4m_user_og_get_role_in_group($user, $group) {
-  if (user_is_anonymous()) {
+function c4m_user_og_get_role_in_group($account, $group) {
+  // Check manually if the user is anonymous as not always $account is the same
+  // as $user.
+  if ($account->uid === 0) {
     return NULL;
   }
 
   // Is user the owner of the group node?
-  if ((int) $user->uid === (int) $group->uid) {
+  if ((int) $account->uid === (int) $group->uid) {
     return 'owner';
   }
 
   // Has the user a membership for the given group?
-  $membership = og_get_membership('node', $group->nid, 'user', $user->uid);
+  $membership = og_get_membership('node', $group->nid, 'user', $account->uid);
   if (!$membership) {
     return NULL;
   }
@@ -82,7 +84,7 @@ function c4m_user_og_get_role_in_group($user, $group) {
     $roles
   );
   if ($admin_role) {
-    $user_roles = og_get_user_roles('node', $group->nid, $user->uid);
+    $user_roles = og_get_user_roles('node', $group->nid, $account->uid);
     if (array_search(
       C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME,
       $user_roles
