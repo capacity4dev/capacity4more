@@ -44,25 +44,27 @@ Feature: Contact
     And I should not see "Your name field is required."
     And I should not see "Your e-mail address field is required."
 
-#    @TODO: Change behavior to "skip" captcha
   @api
   Scenario: Send the contact form as anonymous
     Given I am an anonymous user
+    And I disable the captcha field
     When I go to "contact"
     And I fill in "Your name" with "Nikola Tesla"
     And I fill in "Your e-mail address" with "tesla@edison.sucks"
     And I fill in "Subject" with "I want a nobel prize"
     And I fill in "Message" with "I want a nobel prize too."
     And I press "Send message"
-    Then I should see "The CAPTCHA wasn't entered correctly, please try again."
+    And I enable the captcha field
+    Then I should see "Your message has been sent."
 
-#    @TODO: Change behavior to "skip" captcha
   @api
   Scenario: Send the contact form as logged in user
     Given I am logged in as user "isaacnewton"
+    And I disable the captcha field
     When I go to "contact"
     And I press "Send message"
     And I fill in "Subject" with "I want a nobel prize"
     And I fill in "Message" with "I want a nobel prize too."
     And I press "Send message"
-    Then I should see "The CAPTCHA wasn't entered correctly, please try again"
+    And I enable the captcha field
+    Then I should see "Your message has been sent."
