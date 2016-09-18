@@ -73,7 +73,23 @@ trait User {
     $this->user = new \stdClass();
     $this->user->name = $this->getTemporalUsername();
     $this->user->pass = 'drupal';
+    // The role property must be present on this object.
+    $this->user->role = NULL;
     $this->login();
+  }
+
+  /**
+   * @Given /^I should not be able to log in with the temporal user again$/
+   */
+  public function iShouldNotBeAbleToLogInWithTheTemporalUserAgain() {
+    try {
+      $this->iAmLoggedInWithATemporalUserAgain();
+    }
+    catch (\Exception $e) {
+      // The temporal user should not be able to log in again.
+      return;
+    }
+    throw new \Exception("Temporal user should not be able to log in.");
   }
 
   /**
