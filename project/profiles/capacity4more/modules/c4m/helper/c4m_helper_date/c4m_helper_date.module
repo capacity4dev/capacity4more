@@ -159,3 +159,35 @@ function c4m_helper_date_format_interval($interval,
   $output = $suffix ? $output . ' ' . $suffix : $output;
   return $output;
 }
+
+/**
+ * Implements hook_comment_view_alter().
+ *
+ * Alter the format of the Post Date of the comment.
+ */
+function c4m_helper_date_comment_view_alter(&$build) {
+  if (!isset($build['post_date'][0]['#markup']) || !isset($build['#comment']->created)) {
+    return;
+  }
+
+  $build['post_date'][0]['#markup'] = c4m_helper_date_format_relative_date($build['#comment']->created);
+}
+
+/**
+ * Renders a timestamp usinc4m_long_without_timeg "X time ago" format.
+ *
+ * The tooltip will display the absolute date.
+ *
+ * @param $timestamp
+ *   UNIX timestamp.
+ *
+ * @return string
+ *   An HTML element displays the relative timestamp.
+ */
+function c4m_helper_date_format_relative_date($timestamp) {
+  $format = variable_get('date_format_c4m_long_without_time', 'j F Y H:i');
+  $rel_date = c4m_helper_date_time_ago($timestamp, $format, 16070400);
+  $abs_date = format_date($timestamp, 'custom', $format);
+
+  return '<span data-toggle="tooltip" data-placement="bottom" title="' . $abs_date . '">' . $rel_date . '</span>';
+}
