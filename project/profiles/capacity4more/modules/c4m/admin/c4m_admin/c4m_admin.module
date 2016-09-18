@@ -74,7 +74,6 @@ function c4m_admin_get_admins_ids($filter_event_user = FALSE) {
  * @return array
  *   Ids of site admins, or empty array, if none found.
  */
-
 function c4m_admin_get_admins_ids_for_notification() {
   return c4m_admin_get_admins_ids(TRUE);
 }

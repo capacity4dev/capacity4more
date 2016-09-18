@@ -609,7 +609,7 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
  * @param int $gid
  *   The ID of the group.
  * @param bool $verify_owner_added
- *  Whether to return group owner id, even if group owner does not
+ *   Whether to return group owner id, even if group owner does not
  *   have 'administrator member' role.
  * @param bool $filter_event_user
  *   Whether to filter out current user ID from result, or not.
@@ -664,8 +664,8 @@ function c4m_og_get_group_admins_and_owner_ids_for_notification($gid) {
  * @param int $gid
  *   The ID of the group.
  * @param bool $verify_owner_added
- *  Whether to return group owner, even if group owner does not
- *  have 'administrator member' role.
+ *   Whether to return group owner, even if group owner does not
+ *   have 'administrator member' role.
  *
  * @return array
  *   An array of all group admins.
