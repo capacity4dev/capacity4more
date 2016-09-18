@@ -5,6 +5,8 @@
  * Views argument plugin.
  */
 
+// @codingStandardsIgnoreFile
+
 /**
  * The help pages argument default handler.
  */
