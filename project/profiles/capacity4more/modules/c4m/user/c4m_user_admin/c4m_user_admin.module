@@ -286,3 +286,19 @@ function c4m_user_admin_form_user_cancel_confirm_form_submit($form, &$form_state
   $edit['c4m_is_spammer'][LANGUAGE_NONE][0]['value'] = 1;
   user_save($account, $edit);
 }
+
+/**
+ * Implements hook_user_presave().
+ */
+function c4m_user_admin_user_presave(&$edit, $account, $category) {
+  if(!isset($account->reactivate_submit)) {
+    // If invocation was not from reactivate user, return early.
+    return;
+  }
+
+  if (!$account->reactivate_notification) {
+    // Reactivate user notification is not required. Cancel notification of
+    // user model, by forcing  $account->original->status == $account->status.
+    $account->original->status = 1;
+  }
+}
