@@ -2,7 +2,7 @@
 
 /**
  * @file
- * c4m_content_book.views.inc
+ * Views plugins.
  */
 
 /**

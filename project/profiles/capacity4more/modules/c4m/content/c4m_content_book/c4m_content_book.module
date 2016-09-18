@@ -21,8 +21,14 @@ function c4m_content_book_menu() {
   return $items;
 }
 
-function c4m_content_book_help_access($perm) {
-  return 1;
+/**
+ * Allow site administrators only to rearrange help pages.
+ *
+ * @return bool
+ *   Access allowed or denied.
+ */
+function c4m_content_book_help_access() {
+  return user_access('administer site');
 }
 
 /**
@@ -35,12 +41,4 @@ function c4m_content_book_help_rearrange_page() {
   drupal_set_title('Rearrange');
 
   return views_embed_view('c4m_help_guidance', 'help_rearrange_page');
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function c4m_content_book_form_book_node_form_alter(&$form, &$form_state, $form_id) {
-
-
 }

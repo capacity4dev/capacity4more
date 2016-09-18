@@ -68,7 +68,7 @@ function c4m_content_book_views_default_views() {
   $handler->display->display_options['arguments']['book']['table'] = 'draggableviews_book_structure';
   $handler->display->display_options['arguments']['book']['field'] = 'book';
   $handler->display->display_options['arguments']['book']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['book']['default_argument_type'] = 'node';
+  $handler->display->display_options['arguments']['book']['default_argument_type'] = 'c4m_content_book_plugin_argument_default';
   $handler->display->display_options['arguments']['book']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['book']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['book']['summary_options']['items_per_page'] = '25';
