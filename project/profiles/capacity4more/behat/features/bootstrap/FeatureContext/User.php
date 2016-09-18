@@ -48,13 +48,14 @@ trait User {
     $username = 'temporaluser' . md5(microtime());
     $password = 'drupal';
 
-    $temporal_user = (object) array(
+    $temporal_user = array(
       'name' => $username,
       'pass' => $password,
       'mail' => "{$username}@example.com",
+      'status' => 1,
       'legal_accept' => 1,
     );
-    $this->getDriver()->userCreate($temporal_user);
+    user_save(NULL, $temporal_user);
 
     $this->user = new \stdClass();
     $this->user->name = $username;

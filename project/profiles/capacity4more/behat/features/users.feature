@@ -25,9 +25,10 @@ Feature: Testing user creation/manipulations.
 
   @javascript
   Scenario: The user leaves the platform.
-    Given I am logged in with a temporal user
+    Given The window is maximized
+      And I am logged in with a temporal user
      When I visit the leave platform page of the current user
       And I check the box "I no longer want my name to appear on contents I have contributed - please make all my content anonymous"
       And I fill in "edit-feedback" with "Just testing leaving the platform."
       And I press "Confirm"
-     Then I should see "Cancelling account"
+     Then I should see "Your account has been successfully removed from the platform."
