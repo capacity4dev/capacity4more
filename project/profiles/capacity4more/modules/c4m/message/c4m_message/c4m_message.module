@@ -3490,3 +3490,77 @@ function c4m_message_get_user_last_activity($uid) {
     return '';
   }
 }
+
+/**
+ * Return the formatted promote icon.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The action text.
+ */
+function c4m_message_format_promote(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $node = $wrapper->field_node->value();
+
+  $promoted_types = array(
+    'discussion',
+    'document',
+    'event',
+    'wiki_page',
+  );
+
+  if (!in_array($node->type, $promoted_types)) {
+    return '';
+  }
+
+  return flag_create_link('c4m_og_content_highlight', $node->nid);
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_message_block_info() {
+  $blocks['c4m_og_power_user_actions_block'] = array(
+    'info' => t('C4M Group Activity Actions Block'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_message_block_view($delta = '', $message = NULL) {
+  $block = array();
+
+  if ($delta != 'c4m_og_power_user_actions_block') {
+    return $block;
+  }
+
+  if (!$wrapper = entity_metadata_wrapper('message', $message)) {
+    return $block;
+  }
+
+  if (!isset($message->field_group_node) || !$wrapper->field_group_node->value()) {
+    return $block;
+  }
+
+  if (!_c4m_features_og_members_is_power_user($wrapper->field_group_node->value())) {
+    return $block;
+  }
+
+  $tag['element'] = array(
+    '#tag' => 'div',
+    '#value' => c4m_message_format_promote($message),
+    '#attributes' => array(
+      'class' => array('c4m-og-power-user-actions-block'),
+    ),
+  );
+
+  $block['content'] = theme_html_tag($tag);
+
+  return $block;
+}

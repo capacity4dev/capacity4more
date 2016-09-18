@@ -201,8 +201,8 @@ function c4m_content_discussion_strongarm() {
             'visible' => FALSE,
           ),
           'pinned_content' => array(
-            'weight' => '30',
-            'visible' => FALSE,
+            'weight' => '1',
+            'visible' => TRUE,
           ),
         ),
       ),
