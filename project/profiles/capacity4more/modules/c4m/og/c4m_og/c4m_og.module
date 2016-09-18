@@ -1657,7 +1657,6 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
 }
 
 /**
-<<<<<<< HEAD
  * Implements hook_node_access().
  *
  * Prevents anyone besides site administrators to delete Group/Project.
