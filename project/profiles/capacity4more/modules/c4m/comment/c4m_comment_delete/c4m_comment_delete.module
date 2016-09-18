@@ -237,10 +237,10 @@ function c4m_comment_delete_form_submit($form, &$form_state) {
  */
 function c4m_comment_delete_num_replies($cid) {
   $results = db_select('comment', 'c')
-             ->fields('c')
-             ->condition('pid', $cid, '=')
-             ->execute();
-  $count   = $results->rowCount();
+    ->fields('c')
+    ->condition('pid', $cid, '=')
+    ->execute();
+  $count = $results->rowCount();
 
   return $count;
 }
@@ -250,10 +250,10 @@ function c4m_comment_delete_num_replies($cid) {
  */
 function c4m_comment_delete_move_replies($comment) {
   $parent_id = $comment->pid;
-  $results   = db_select('comment', 'c')
-               ->fields('c')
-               ->condition('pid', $comment->cid, '=')
-               ->execute();
+  $results = db_select('comment', 'c')
+    ->fields('c')
+    ->condition('pid', $comment->cid, '=')
+    ->execute();
   foreach ($results as $edit) {
     $edit->pid = $parent_id;
     comment_save($edit);

@@ -279,7 +279,7 @@ function c4m_helper_entity_entity_property_flag_count_entity_definition($type, $
  * @param array $property_info
  *   An array with other properites of the entity.
  *
- * @return integer | NULL
+ * @return int|null
  *   Returns the amount of flags for the entity or NULL if not appropriate.
  */
 function c4m_helper_entity_entity_get_properties($entity, array $options, $name, $entity_type, $property_info) {
@@ -390,7 +390,7 @@ function c4m_helper_entity_metrics_info() {
 /**
  * Load a specific metrics info.
  *
- * @return array | null
+ * @return array|null
  *   Configuration as collected through the implementations of
  *   hook_c4m_helper_entity_metrics_info() hooks.
  *
