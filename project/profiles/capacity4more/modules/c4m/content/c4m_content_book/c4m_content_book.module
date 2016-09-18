@@ -34,19 +34,7 @@ function c4m_content_book_help_access($perm) {
 function c4m_content_book_help_rearrange_page() {
   drupal_set_title('Rearrange');
 
-  // Get the node ID of the Help & Guidance book
-  $help_book_title = variable_get('help_book', 'Help & Guidance');
-  $query = new EntityFieldQuery();
-  $entities = $query->entityCondition('entity_type', 'node')
-    ->propertyCondition('type', 'book')
-    ->propertyCondition('title', $help_book_title)
-    ->propertyCondition('status', 1)
-    ->propertyOrderBy('nid')
-    ->range(0,1)
-    ->execute();
-  $nid = array_shift(array_keys($entities['node']));
-
-  return views_embed_view('c4m_help_guidance', 'help_rearrange_page', 9);
+  return views_embed_view('c4m_help_guidance', 'help_rearrange_page');
 }
 
 /**
