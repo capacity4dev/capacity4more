@@ -1657,6 +1657,20 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
 }
 
 /**
+ * Implements hook_node_access().
+ *
+ * Prevents anyone besides site administrators to delete Group/Project.
+ * Blocks access to 'node/%node/delete'.
+ */
+function c4m_og_node_access($node, $op, $account) {
+  if ($op == 'delete' && og_is_group('node', $node) && !user_access('administer nodes')) {
+    return NODE_ACCESS_DENY;
+  }
+
+  return NODE_ACCESS_IGNORE;
+}
+
+/**
  * Add the `Authoring information` tab to the group content editing forms.
  *
  * Allows group owner and administrators to change the author of content in the
