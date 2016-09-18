@@ -108,4 +108,10 @@ trait File {
     );
   }
 
+  /**
+   * @When /^I go to the media browser page$/
+   */
+  public function iGoToTheMediaBrowserPage() {
+    return new Step\When('I go to "media/browser?render=media-popup&plugins="');
+  }
 }

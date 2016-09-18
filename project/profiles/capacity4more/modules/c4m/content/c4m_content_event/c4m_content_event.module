@@ -72,6 +72,7 @@ function c4m_content_event_c4m_content_statistics_info() {
         'singular'    => 'Event',
         'plural'      => 'Events',
         'state'       => 1,
+        'skip_access_check' => TRUE,
         'aggregate'   => array(
           'type' => 'posts',
         ),
@@ -90,6 +91,7 @@ function c4m_content_event_c4m_content_statistics_info() {
         'singular'    => 'Event',
         'plural'      => 'Events',
         'state'       => 1,
+        'skip_access_check' => TRUE,
         'aggregate'   => NULL,
         'weight'      => 4,
         'attributes'  => array(
@@ -231,4 +233,13 @@ function c4m_content_event_c4m_offcanvas_trigger_label_left_alter(&$trigger_labe
     $trigger_label['label'] = t('Filter results');
     $trigger_label['icon'] = 'filter';
   }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add author information to the edit event form.
+ */
+function c4m_content_event_form_event_node_form_alter(&$form, $form_state) {
+  c4m_og_add_content_author_options_to_power_users($form);
 }

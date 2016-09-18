@@ -5,6 +5,10 @@
   .group-right, .group-footer {
     padding-right: 0;
   }
+  .group-header {
+    padding-left: 0;
+    padding-right: 0;
+  }
 
   .field-name-c4m-field-og-group, .user-name {
     @extend .text-copy--muted;

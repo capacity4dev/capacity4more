@@ -50,15 +50,31 @@ function c4m_message_mail_alter(&$message) {
   $message_entity = $message['params']['message_entity'];
 
   _c4m_message_format_welcome_to_group_from_field($message, $message_entity);
+  _c4m_message_format_new_member_joined_from_field($message, $message_entity);
+  _c4m_message_format_new_membership_request_from_field($message, $message_entity);
+  _c4m_message_format_group_archived_from_field($message, $message_entity);
+  _c4m_message_format_group_unpublished_from_field($message, $message_entity);
+  _c4m_message_format_group_published_from_field($message, $message_entity);
+  _c4m_message_format_group_republished_from_field($message, $message_entity);
+  _c4m_message_format_notify_admins_membership_approved_from_field($message, $message_entity);
+  _c4m_message_format_admin_demoted_from_field($message, $message_entity);
+  _c4m_message_format_notify_content_recommendation_from_field($message, $message_entity);
+  _c4m_message_format_group_requested_from_field($message, $message_entity);
+  _c4m_message_format_notify_subscribers_new_comment_from_field($message, $message_entity);
+  _c4m_message_format_group_access_change_from_field($message, $message_entity);
+  _c4m_message_format_new_content_published_from_field($message, $message_entity);
+  _c4m_message_format_notify_promoted_member_from_field($message, $message_entity);
+  _c4m_message_format_notify_content_followers_new_comment_from_field($message, $message_entity);
+  _c4m_message_format_group_hard_deleted_from_field($message, $message_entity);
+  _c4m_message_format_group_request_submitted_from_field($message, $message_entity);
+  _c4m_message_format_group_soft_deleted_from_field($message, $message_entity);
+  _c4m_message_format_membership_request_rejected_from_field($message, $message_entity);
 }
 
 /**
- * Formats 'c4m_welcome_to_group' message From field, per template requirement.
+ * Formats 'c4m_welcome_to_group' message From field, per MT10 template.
  */
-function _c4m_message_format_welcome_to_group_from_field(
-  &$message,
-  $message_entity
-) {
+function _c4m_message_format_welcome_to_group_from_field(&$message, $message_entity) {
   if ($message_entity->type != 'c4m_welcome_to_group') {
     // For message type other than c4m_welcome_to_group - return early.
     return;
@@ -74,6 +90,365 @@ function _c4m_message_format_welcome_to_group_from_field(
       '@name' => c4m_user_name($author),
       '@site' => variable_get('site_name'),
       '@mail' => $author->mail,
+    )
+  );
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_notify_admins_membership_approved' message From field,
+ * as defined at template MT40.
+ */
+function _c4m_message_format_notify_admins_membership_approved_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_notify_admins_membership_approved') {
+    // For message type other than c4m_notify_admins_membership_approved -
+    // return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_group_published' message From field, per MT28 template.
+ */
+function _c4m_message_format_group_published_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_group_published') {
+    // For message type other than c4m_group_published - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_new_membership_request' message From field, per MT15 template.
+ */
+function _c4m_message_format_new_membership_request_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_new_membership_request') {
+    // For message type other than c4m_new_membership_request - return early.
+    return;
+  }
+
+  $message['from'] = format_string(
+    '"The @site team"<@mail>',
+    array(
+      '@site' => variable_get('site_name'),
+      '@mail' => 'capacity4dev@ec.europa.eu',
+    )
+  );
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_new_member_joined' message From field, per requirement.
+ */
+function _c4m_message_format_new_member_joined_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_new_member_joined') {
+    // For message type other than c4m_new_member_joined - return early.
+    return;
+  }
+
+  $message['from'] = format_string(
+    '"The @site team"<@mail>',
+    array(
+      '@site' => variable_get('site_name'),
+      '@mail' => 'capacity4dev@ec.europa.eu',
+    )
+  );
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_group_archived' message From field, per MT30 template.
+ */
+function _c4m_message_format_group_archived_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_group_archived') {
+    // For message type other than c4m_group_archived - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_group_access_change' message From field, per MT34 template.
+ */
+function _c4m_message_format_group_access_change_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_group_access_change') {
+    // For message type other than c4m_group_access_change - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_group_unpublished' message From field, per MT29 template.
+ */
+function _c4m_message_format_group_unpublished_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_group_unpublished') {
+    // For message type other than c4m_group_unpublished - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_group_republished' message From field, per MT28 template.
+ */
+function _c4m_message_format_group_republished_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_group_republished') {
+    // For message type other than c4m_group_republished - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Formats 'c4m_group_admin_demoted' message From field, per MT36 template.
+ */
+function _c4m_message_format_admin_demoted_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_group_admin_demoted') {
+    // For message type other than c4m_group_admin_demoted - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_notify_content_recommendation' message From field, per MT23.
+ */
+function _c4m_message_format_notify_content_recommendation_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_notify_content_recommendation') {
+    // For message type other than c4m_notify_content_recommendation,
+    // return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_new_content_published' message From field, per MT25.
+ */
+function _c4m_message_format_new_content_published_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_new_content_published') {
+    // For message type other than c4m_new_content_published,
+    // return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_group_requested' message From field, per MT49 template.
+ */
+function _c4m_message_format_group_requested_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_group_requested') {
+    // For message type other than c4m_group_requested - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_simple_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_group_request_submitted' message From field, per MT10 template.
+ */
+function _c4m_message_format_group_request_submitted_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_group_request_submitted') {
+    // For message type other than c4m_group_request_submitted - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_simple_pattern($message, TRUE);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_notify_subscribers_new_comment' message From field, per MT22.
+ */
+function _c4m_message_format_notify_subscribers_new_comment_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_notify_subscribers_new_comment') {
+    // For message type other than c4m_notify_content_recommendation,
+    // return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_group_hard_deleted' message From field, per MT33 template.
+ */
+function _c4m_message_format_group_hard_deleted_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_group_hard_deleted') {
+    // For message type other than c4m_group_hard_deleted - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_group_soft_deleted' message From field, per MT32 template.
+ */
+function _c4m_message_format_group_soft_deleted_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_group_soft_deleted') {
+    // For message type other than c4m_group_soft_deleted - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_notify_promoted_member' message From field, per MT35 template.
+ */
+function _c4m_message_format_notify_promoted_member_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_notify_promoted_member') {
+    // For message type other than c4m_notify_promoted_member - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_notify_content_followers_new_comment' From field, per MT26.
+ */
+function _c4m_message_format_notify_content_followers_new_comment_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_notify_content_followers_new_comment') {
+    // For message type other than c4m_notify_content_recommendation,
+    // return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_membership_request_rejected' From field, per MT17.
+ */
+function _c4m_message_format_membership_request_rejected_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_membership_request_rejected') {
+    // For message type other than c4m_membership_request_rejected,
+    // return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'group change state' messages From field, per template requirement.
+ */
+function _c4m_message_format_group_status_update_set_from_field(&$message) {
+  global $user;
+
+  $message['from'] = format_string(
+    '"@name at @site"<@mail>',
+    array(
+      '@name' => c4m_user_name($user),
+      '@site' => variable_get('site_name'),
+      '@mail' => variable_get('site_mail'),
+    )
+  );
+}
+
+/**
+ * Helper function.
+ *
+ * Modifies messages 'From' field, to match pattern:
+ * "[user_name] at [site_name]"<[email]>.
+ * Example:  "Alan Turing"<alan@turing.com>.
+ *
+ * @param object $message
+ *   Message entity.
+ * @param object $account
+ *   Account to resolve [user_name] and [email] from.
+ */
+function _c4m_message_format_from_field_to_default_pattern(&$message, $account = NULL) {
+  if (!isset($account)) {
+    // If $account is not provided, global user will be used.
+    global $user;
+    $account = $user;
+  }
+
+  $mail = $account->mail;
+
+  $message['from'] = format_string(
+    '"@name at @site"<@mail>',
+    array(
+      '@name' => c4m_user_name($account),
+      '@site' => variable_get('site_name'),
+      '@mail' => $mail,
+    )
+  );
+}
+
+/**
+ * Helper function.
+ *
+ * Modifies messages 'From' field, to match pattern:
+ * "[name]"<capacity4dev@ec.europa.eu>.
+ *
+ * @param object $message
+ *   Message entity.
+ * @param bool $add_team
+ *   Whether to add 'team' into [name], or not.
+ */
+function _c4m_message_format_from_field_to_simple_pattern(&$message, $add_team = FALSE) {
+  $name = variable_get('site_name');
+
+  if ($add_team) {
+    $name = 'The ' . $name . ' team';
+  }
+
+  $message['from'] = format_string(
+    '"@name"<@mail>',
+    array(
+      '@name' => $name,
+      '@mail' => 'capacity4dev@ec.europa.eu',
     )
   );
 }
@@ -95,7 +470,6 @@ function c4m_message_entity_delete($entity, $entity_type) {
     // Not an entity related to message.
     return;
   }
-
 }
 
 /**
@@ -124,12 +498,15 @@ function c4m_message_entity_load($entities, $entity_type) {
 /**
  * Add callbacks to c4m_welcome_to_group message arguments.
  *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
  * @param Message $message
  *   The Message entity.
  */
-function c4m_message_load__c4m_welcome_to_group(Message $message) {
+function c4m_message_load_tokens__c4m_welcome_to_group(Message $message) {
   $message->arguments['@member_full_name'] = array(
-    'callback' => 'c4m_message_format_member_full_name',
+    'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
   );
 
@@ -153,11 +530,6 @@ function c4m_message_load__c4m_welcome_to_group(Message $message) {
     'pass message' => TRUE,
   );
 
-  $message->arguments['!group_dashboard_url'] = array(
-    'callback' => 'c4m_message_format_group_url',
-    'pass message' => TRUE,
-  );
-
   $message->arguments['!go_public_profile_url'] = array(
     'callback' => 'c4m_message_format_group_owner_public_profile_url',
     'pass message' => TRUE,
@@ -170,22 +542,1154 @@ function c4m_message_load__c4m_welcome_to_group(Message $message) {
 }
 
 /**
- * Resolves member full name toke.
+ * Add callbacks to c4m_new_membership_request message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_new_membership_request(Message $message) {
+  $message->arguments['@group_admin_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_full_name'] = array(
+    'callback' => 'c4m_message_format_new_member_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_organisation'] = array(
+    'callback' => 'c4m_message_format_new_member_organisation',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_organisation_type'] = array(
+    'callback' => 'c4m_message_format_new_member_organisation_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_country'] = array(
+    'callback' => 'c4m_message_format_new_member_country',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_expertise'] = array(
+    'callback' => 'c4m_message_format_new_member_expertise',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_about_me'] = array(
+    'callback' => 'c4m_message_format_new_member_self_description',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_pending_member_url'] = array(
+    'callback' => 'c4m_message_format_group_pending_member_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!new_member_public_profile_url'] = array(
+    'callback' => 'c4m_message_format_new_member_public_profile_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_request_message'] = array(
+    'callback' => 'c4m_message_format_new_member_request_message',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!membership_approve_url'] = array(
+    'callback' => 'c4m_message_format_autologin_approve_membership_link',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!membership_reject_url'] = array(
+    'callback' => 'c4m_message_format_autologin_reject_membership_link',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_new_member_joined message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_new_member_joined(Message $message) {
+
+  $message->arguments['@group_admin_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_full_name'] = array(
+    'callback' => 'c4m_message_format_new_member_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_organisation'] = array(
+    'callback' => 'c4m_message_format_new_member_organisation',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_organisation_type'] = array(
+    'callback' => 'c4m_message_format_new_member_organisation_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_country'] = array(
+    'callback' => 'c4m_message_format_new_member_country',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_expertise'] = array(
+    'callback' => 'c4m_message_format_new_member_expertise',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@new_member_about_me'] = array(
+    'callback' => 'c4m_message_format_new_member_self_description',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!new_member_public_profile_url'] = array(
+    'callback' => 'c4m_message_format_new_member_public_profile_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_group_archived message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_group_archived(Message $message) {
+  $message->arguments['@group_admin_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_former_status'] = array(
+    'callback' => 'c4m_message_format_group_former_status',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_group_unpublished message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_group_unpublished(Message $message) {
+  $message->arguments['@group_admin_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_former_status'] = array(
+    'callback' => 'c4m_message_format_group_former_status',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_group_published message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_group_published(Message $message) {
+  $message->arguments['@group_admin_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_group_republished message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_group_republished(Message $message) {
+  $message->arguments['@group_admin_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_former_status'] = array(
+    'callback' => 'c4m_message_format_group_former_status',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_notify_admins_membership_accepted message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_notify_admins_membership_accepted(Message $message) {
+  $message->arguments['@group_admin_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@related_user_full_name'] = array(
+    'callback' => 'c4m_message_format_new_member_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@related_user_organisation'] = array(
+    'callback' => 'c4m_message_format_new_member_organisation',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@related_user_organisation_type'] = array(
+    'callback' => 'c4m_message_format_new_member_organisation_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@related_user_country'] = array(
+    'callback' => 'c4m_message_format_new_member_country',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@related_user_expertise'] = array(
+    'callback' => 'c4m_message_format_new_member_expertise',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!related_user_public_profile_url'] = array(
+    'callback' => 'c4m_message_format_new_member_public_profile_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!event_user_url'] = array(
+    'callback' => 'c4m_message_format_event_user_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_log_group_admin_demoted message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_group_admin_demoted(Message $message) {
+  $message->arguments['@member_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!event_user_message_url'] = array(
+    'callback' => 'c4m_message_format_event_user_message_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_notify_content_recommendation message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_notify_content_recommendation(Message $message) {
+  $message->arguments['@user_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@content_node_title'] = array(
+    'callback' => 'c4m_message_format_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@content_type_name'] = array(
+    'callback' => 'c4m_message_format_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!content_node_url'] = array(
+    'callback' => 'c4m_message_format_node_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@content_recommend_count'] = array(
+    'callback' => 'c4m_message_format_node_recommend_count',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@node_teaser_body'] = array(
+    'callback' => 'c4m_message_format_node_body_teaser',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!user_unsubscribe_recommend_url'] = array(
+    'callback' => 'c4m_message_format_node_unsubscribe_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!event_user_url'] = array(
+    'callback' => 'c4m_message_format_event_user_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_new_content_published message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_new_content_published(Message $message) {
+  $message->arguments['@user_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@content_node_title'] = array(
+    'callback' => 'c4m_message_format_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@content_type_name'] = array(
+    'callback' => 'c4m_message_format_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!content_node_url'] = array(
+    'callback' => 'c4m_message_format_node_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!unsubscribe_group_url'] = array(
+    'callback' => 'c4m_message_format_unsubscribe_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!event_user_url'] = array(
+    'callback' => 'c4m_message_format_event_user_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_group_requested message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_group_requested(Message $message) {
+  $message->arguments['@group_owner_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_notify_subscribers_new_comment message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_notify_subscribers_new_comment(Message $message) {
+  $message->arguments['@user_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@comment_content_title'] = array(
+    'callback' => 'c4m_message_format_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@comment_content_type'] = array(
+    'callback' => 'c4m_message_format_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!comment_content_url'] = array(
+    'callback' => 'c4m_message_format_node_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@comment_teaser_body'] = array(
+    'callback' => 'c4m_message_format_comment_body_teaser',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!unsubscribe_content_comments_url'] = array(
+    'callback' => 'c4m_message_format_unsubscribe_content_comments_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!event_user_url'] = array(
+    'callback' => 'c4m_message_format_event_user_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!comment_url'] = array(
+    'callback' => 'c4m_message_format_comment_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!comment_reply_url'] = array(
+    'callback' => 'c4m_message_format_comment_reply_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_group_access_change message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_group_access_change(Message $message) {
+  $message->arguments['@group_admin_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_permissions'] = array(
+    'callback' => 'c4m_message_format_group_permissions',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_notify_promoted_member message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_notify_promoted_member(Message $message) {
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!event_user_message_url'] = array(
+    'callback' => 'c4m_message_format_event_user_message_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@member_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_notify_content_followers_new_comment message tokens.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_notify_content_followers_new_comment(Message $message) {
+  $message->arguments['@user_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@comment_content_title'] = array(
+    'callback' => 'c4m_message_format_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@comment_content_type'] = array(
+    'callback' => 'c4m_message_format_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!comment_content_url'] = array(
+    'callback' => 'c4m_message_format_node_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@comment_teaser_body'] = array(
+    'callback' => 'c4m_message_format_comment_body_teaser',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!unsubscribe_content_comments_url'] = array(
+    'callback' => 'c4m_message_format_unsubscribe_content_comments_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!event_user_url'] = array(
+    'callback' => 'c4m_message_format_event_user_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!comment_url'] = array(
+    'callback' => 'c4m_message_format_comment_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!comment_reply_url'] = array(
+    'callback' => 'c4m_message_format_comment_reply_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_group_hard_deleted message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_group_hard_deleted(Message $message) {
+  $message->arguments['@group_admin_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_group_request_submitted message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_group_request_submitted(Message $message) {
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!event_user_url'] = array(
+    'callback' => 'c4m_message_format_event_user_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@message_to_site_admins'] = array(
+    'callback' => 'c4m_message_format_group_message_to_admins',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_edit_status_url'] = array(
+    'callback' => 'c4m_message_format_group_edit_status_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_group_soft_deleted message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_group_soft_deleted(Message $message) {
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_group_hard_deleted message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_membership_request_rejected(Message $message) {
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!event_user_url'] = array(
+    'callback' => 'c4m_message_format_event_user_url',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Returns message addressee user ID.
+ *
+ * @param Message $message
+ *   The Message entity - used to retrieve required info.
+ *
+ * @return int
+ *   Returns addressee's user ID.
+ */
+function c4m_message_format_addressee_uid(Message $message) {
+  return $message->uid;
+}
+
+/**
+ * Returns the of group message refers to.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return int
+ *   Returns group ID.
+ */
+function c4m_message_format_group_gid(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  return $wrapper->field_group_node->value(array('identifier' => TRUE));
+}
+
+/**
+ * Returns addressee full name token.
  *
  * @param Message $message
  *   The Message entity.
  *
  * @return string
- *   Returns a member's full name.
+ *   Returns addressee's full name.
  */
-function c4m_message_format_member_full_name(Message $message) {
+function c4m_message_format_addressee_full_name(Message $message) {
   $user = user_load($message->uid);
 
   return c4m_user_name($user);
 }
 
 /**
- * Resolves group owner full name token.
+ * Returns new member full name token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns member's full name.
+ */
+function c4m_message_format_new_member_full_name(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $new_member = $wrapper->field_related_user->value();
+
+  return c4m_user_name($new_member);
+}
+
+/**
+ * Returns new member organisation.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns member's organisation.
+ */
+function c4m_message_format_new_member_organisation(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  return $wrapper->field_related_user->c4m_organisation->value();
+}
+
+/**
+ * Returns new member organisation type.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns member's organisation type.
+ */
+function c4m_message_format_new_member_organisation_type(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  return $wrapper->field_related_user->c4m_organisation_type->value();
+}
+
+/**
+ * Returns new member country.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns member's country.
+ */
+function c4m_message_format_new_member_country(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $field = field_info_field('c4m_country');
+  $allowed_values = list_allowed_values($field);
+  $index = $wrapper->field_related_user->c4m_country->value();
+
+  return empty($index) ? '' : $allowed_values[$index];
+}
+
+/**
+ * Returns new member expertise.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns a comma separated string of member's expertise.
+ */
+function c4m_message_format_new_member_expertise(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $expertises = $wrapper->field_related_user->c4m_vocab_topic_expertise->value();
+  $expertise_names = array();
+
+  foreach ($expertises as $expertise) {
+    $expertise_names[] = $expertise->name;
+  }
+
+  return implode(', ', $expertise_names);
+}
+
+/**
+ * Returns new member self description.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns member's self description.
+ */
+function c4m_message_format_new_member_self_description(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $related_user = $wrapper->field_related_user->value();
+
+  return empty($related_user->c4m_body) ? '' : strip_tags($wrapper->field_related_user->c4m_body->value->value());
+}
+
+/**
+ * Returns a link to new member membership management.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns a link to new member membership management.
+ */
+function c4m_message_format_group_pending_member_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $gid = $wrapper->field_group_node->value(array('identifier' => TRUE));
+  $mid = $wrapper->field_group_membership->value(array('identifier' => TRUE));
+
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  return url('group/node/' . $gid . '/admin/people/edit-membership/' . $mid, $options);
+}
+
+/**
+ * Returns a link to new member public profile.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns a link to new member public profile.
+ */
+function c4m_message_format_new_member_public_profile_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $uid = $wrapper->field_related_user->value(array('identifier' => TRUE));
+
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  return url('user/' . $uid, $options);
+}
+
+/**
+ * Returns a link to new member public profile.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns a link to new member public profile.
+ */
+function c4m_message_format_new_member_request_message(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  return $wrapper->field_group_membership->og_membership_request->value();
+}
+
+/**
+ * Returns group owner full name token.
  *
  * @param Message $message
  *   The Message entity.
@@ -201,7 +1705,7 @@ function c4m_message_format_group_owner_full_name(Message $message) {
 }
 
 /**
- * Resolves group url token.
+ * Returns group url token.
  *
  * @param Message $message
  *   The Message entity.
@@ -213,11 +1717,34 @@ function c4m_message_format_group_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $nid = $wrapper->field_group_node->value(array('identifier' => TRUE));
 
-  return url('node/' . $nid);
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  return url('node/' . $nid, $options);
 }
 
 /**
- * Resolves group title token.
+ * Returns help guidance url token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return help guidance url.
+ */
+function c4m_message_format_help_section_url(Message $message) {
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  return url('help-guidance/help-guidance', $options);
+}
+
+/**
+ * Returns group title token.
  *
  * @param Message $message
  *   The Message entity.
@@ -232,7 +1759,7 @@ function c4m_message_format_group_node_title(Message $message) {
 }
 
 /**
- * Resolves group welcome message token.
+ * Returns group welcome message token.
  *
  * @param Message $message
  *   The Message entity.
@@ -248,7 +1775,7 @@ function c4m_message_format_group_welcome_message(Message $message) {
 }
 
 /**
- * Resolves group node type token.
+ * Returns group node type token.
  *
  * @param Message $message
  *   The Message entity.
@@ -264,7 +1791,46 @@ function c4m_message_format_group_node_type(Message $message) {
 }
 
 /**
- * Resolves group owner url token.
+ * Returns group message to admin token (entered by group requester).
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return message to admin, which is entered by group requester.
+ */
+function c4m_message_format_group_message_to_admins(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  if (!isset($wrapper->field_group_node->field_message_to_site_admin)) {
+    return '';
+  }
+
+  return $wrapper->field_group_node->field_message_to_site_admin->value();
+}
+
+/**
+ * Returns group edit url token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return group edit url.
+ */
+function c4m_message_format_group_edit_status_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $nid = $wrapper->field_group_node->value(array('identifier' => TRUE));
+
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  return url('node/' . $nid . '/edit', $options);
+}
+
+/**
+ * Returns group owner url token.
  *
  * @param Message $message
  *   The Message entity.
@@ -276,7 +1842,382 @@ function c4m_message_format_group_owner_public_profile_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $author_id = $wrapper->field_group_node->author->getIdentifier();
 
-  return url('user/' . $author_id);
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  return url('user/' . $author_id, $options);
+}
+
+/**
+ * Returns the ID of user that executed the event.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return int
+ *   User ID.
+ */
+function c4m_message_format_event_user_id(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  return $wrapper->field_executing_user->value(array('identifier' => TRUE));
+}
+
+/**
+ * Returns full name of user that executed the event.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return int
+ *   User full name.
+ */
+function c4m_message_format_event_user_full_name(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  return c4m_user_name($wrapper->field_executing_user->value());
+}
+
+/**
+ * Returns a link to event user contact page.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns a link to event user contact page.
+ */
+function c4m_message_format_event_user_message_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $uid = $wrapper->field_executing_user->value(array('identifier' => TRUE));
+
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  return url('user/' . $uid . '/contact', $options);
+}
+
+/**
+ * Returns a link to event user profile.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns a link to event user public profile.
+ */
+function c4m_message_format_event_user_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $uid = $wrapper->field_executing_user->value(array('identifier' => TRUE));
+
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  return url('user/' . $uid, $options);
+}
+
+/**
+ * Returns the title of attached node.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Node title.
+ */
+function c4m_message_format_node_title(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  return $wrapper->field_node->label();
+}
+
+/**
+ * Returns the type of attached node.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Node type.
+ */
+function c4m_message_format_node_type(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $node = $wrapper->field_node->value();
+
+  return node_type_get_name($node);
+}
+
+/**
+ * Returns the path to attached node.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Node path.
+ */
+function c4m_message_format_node_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  return url('node/' . $wrapper->field_node->value(array('identifier' => TRUE)), $options);
+}
+
+/**
+ * Returns direct url to reply on comment.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Direct path to reply on comment.
+ */
+function c4m_message_format_comment_reply_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $node_id = $wrapper->field_node->value(array('identifier' => TRUE));
+  $comment_id = $wrapper->field_comment->value(array('identifier' => TRUE));
+
+  $options = array(
+    'absolute' => TRUE,
+  );
+
+  return url('comment/reply/' . $node_id . '/' . $comment_id, $options);
+}
+
+/**
+ * Returns direct url to comment.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Direct path to comment.
+ */
+function c4m_message_format_comment_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $node_url = c4m_message_format_node_url($message);
+  $comment_id = $wrapper->field_comment->value(array('identifier' => TRUE));
+
+  // Url example: http://capacity4more.dev/nobelprize/wiki/prizes#comment-24.
+  return $node_url . '#comment-' . $comment_id;
+}
+
+/**
+ * Returns number of times attached node was recommended.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return int
+ *   Number of recommendations.
+ */
+function c4m_message_format_node_recommend_count(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $node = $wrapper->field_node->value();
+
+  $property_info = array(
+    'flag_name' => 'c4m_og_content_recommend',
+  );
+  $count = c4m_helper_entity_entity_get_properties($node, array(), '', 'node', $property_info);
+
+  return empty($count) ? 0 : $count;
+}
+
+/**
+ * Returns a teaser of nodes body.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Node body teaser.
+ */
+function c4m_message_format_node_body_teaser(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $node = $wrapper->field_node->value();
+  if (empty($node->c4m_body)) {
+    return '';
+  }
+
+  $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
+
+  return strip_tags($body_teaser[0]['#markup']);
+}
+
+/**
+ * Returns a teaser of nodes body.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Node body teaser.
+ */
+function c4m_message_format_comment_body_teaser(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $comment = $wrapper->field_comment->value();
+  $body_teaser = field_view_field('comment', $comment, 'comment_body', 'teaser');
+
+  return strip_tags($body_teaser[0]['#markup']);
+}
+
+/**
+ * Returns a url that is used to unsubscribe from following flagged node.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Unsubscribe url.
+ */
+function c4m_message_format_node_unsubscribe_url(Message $message) {
+  return _c4m_message_format_unsubscribe_url($message, 'node');
+}
+
+/**
+ * Returns a url that is used to unsubscribe from following content comments.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Unsubscribe url.
+ */
+function c4m_message_format_unsubscribe_content_comments_url(Message $message) {
+  return _c4m_message_format_unsubscribe_url($message, 'comment');
+}
+
+/**
+ * Returns a url that is used to unsubscribe from following a group.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Unsubscribe url.
+ */
+function c4m_message_format_unsubscribe_group_url(Message $message) {
+  return _c4m_message_format_unsubscribe_url($message, 'group');
+}
+
+/**
+ * Helper function.
+ *
+ * Returns a url that is used to unsubscribe from following an entity that is
+ * embedded inside message.
+ *
+ * @param Message $message
+ *   The Message entity.
+ * @param string $flag_suffix
+ *   The suffix of flag that is used to track message entity.
+ *
+ * @return string
+ *   Unsubscribe url.
+ */
+function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  // Group field at message is 'field_group_node'.
+  $field_suffix = $flag_suffix == 'group' ? 'group_node' : $flag_suffix;
+  $field = "field_{$field_suffix}";
+  $nid = $wrapper->$field->value(array('identifier' => TRUE));
+  if ($flag_suffix == 'comment') {
+    // The identifier we got is actually cid. Need to get the correct one.
+    $comment = comment_load($nid);
+    $nid = $comment->nid;
+  }
+
+  $uid = $message->uid;
+  $account = user_load($uid);
+  $wrapper = entity_metadata_wrapper('user', $account);
+  $hash = $wrapper->c4m_unsubscribe_hash->value();
+
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  return url('user/' . $uid . '/unsubscribe/' . $flag_suffix . '/' . $nid . '/' . $hash, $options);
+}
+
+/**
+ * Returns a url that is used to approve membership request embedded at message.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Approve membership auto login link.
+ */
+function c4m_message_format_autologin_approve_membership_link(Message $message) {
+  return _c4m_message_format_autologin_control_membership_link($message, 'approve');
+}
+
+/**
+ * Returns a url that is used to reject membership request embedded at message.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Reject membership auto login link.
+ */
+function c4m_message_format_autologin_reject_membership_link(Message $message) {
+  return _c4m_message_format_autologin_control_membership_link($message, 'reject');
+}
+
+/**
+ * Helper function.
+ *
+ * Returns a url that is used to approve/reject membership request which is
+ * embedded inside message.
+ *
+ * @param Message $message
+ *   The Message entity.
+ * @param string $action
+ *   Approve / Reject.
+ *
+ * @return string
+ *   $action membership auto login link.
+ */
+function _c4m_message_format_autologin_control_membership_link(Message $message, $action) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $membership = $wrapper->field_group_membership->value();
+  $user = user_load($message->uid);
+
+  return c4m_og_autologin_control_membership_link($user, $membership, $action);
+}
+
+/**
+ * Returns the types that applicable for a message.
+ *
+ * @return array
+ *   The node types for messages.
+ */
+function c4m_message_valid_node_types() {
+  return array(
+    'discussion',
+    'event',
+    'news',
+    'photo',
+    'photoalbum',
+    'share',
+    'document',
+    'wiki_page',
+  );
 }
 
 /**
@@ -298,6 +2239,13 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
     $entity->_skip_message = TRUE;
   }
 
+  // Do not create a message for a photo that is associated with a photo album.
+  // Some entity types don't have the type parameter. So we need to check if
+  // it's a node first.
+  if ($entity_type == 'node' && $entity->type == 'photo' && !empty($entity->node_gallery_ref_1)) {
+    $entity->_skip_message = TRUE;
+  }
+
   if (!empty($entity->_skip_message)) {
     // Entity should not create a message.
     return FALSE;
@@ -310,15 +2258,7 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
     'og_membership',
   );
 
-  $valid_node_types = array(
-    'discussion',
-    'event',
-    'photo',
-    'photoalbum',
-    'share',
-    'document',
-    'wiki_page',
-  );
+  $valid_node_types = c4m_message_valid_node_types();
 
   // Hide message for the type 'article' when the operation 'update' happened.
   if ($op != 'update') {
@@ -443,6 +2383,33 @@ function c4m_messages_group_info(Message $message) {
  *   The Message entity.
  */
 function c4m_message_load__c4m_insert__node__discussion(Message $message) {
+  c4m_message_load_general_arguments($message);
+
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@operation'] = array(
+    'callback' => 'c4m_message_format_operation',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!icon'] = array(
+    'callback' => 'c4m_message_format_node_icon',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Delegated hook_entity_load() for node of "news" bundle.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__node__news(Message $message) {
   c4m_message_load_general_arguments($message);
 
   $message->arguments['!content'] = array(
@@ -734,7 +2701,7 @@ function c4m_message_format_photo_photoalbum(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $album_label = $wrapper->field_node->node_gallery_ref_1->label();
 
-  return $album_label ? 'to Photo album ' . $album_label : '';
+  return $album_label ? 'to the Photo album ' . $album_label : '';
 }
 
 /**
@@ -956,7 +2923,7 @@ function c4m_message__insert__comment($comment) {
  *   The non-saved message entity.
  */
 function c4m_message__update__comment($comment) {
-  $time_since = time() - variable_get('c4m_message_join_messages', '3600');
+  $time_since = time() - variable_get('c4m_message_join_messages', '36000');
 
   // Load existing message that is not older then 6 hours for the current node.
   $query = new EntityFieldQuery();
@@ -1029,7 +2996,7 @@ function c4m_message__update__node($node, $account = NULL) {
     $account = user_load($node->uid);
   }
 
-  $time_since = time() - variable_get('c4m_message_join_messages', '3600');
+  $time_since = time() - variable_get('c4m_message_join_messages', '36000');
   // Load existing message that is not older then 6 hours for the current node.
   $query = new EntityFieldQuery();
   $result = $query
@@ -1235,12 +3202,13 @@ function c4m_message_load_homepage_activity_stream() {
     switch ($filter) {
       case 'groups':
         // Gets all the group IDs that the user belongs to.
-        $groups = c4m_og_get_user_group_nodes_by_bundle('group');
+        $groups = c4m_og_get_user_group_ids_by_bundle('group');
         break;
 
       case 'projects':
         // Gets all the project IDs that the user belongs to.
-        $groups = c4m_og_get_user_group_nodes_by_bundle('project');
+        $groups = c4m_og_get_user_group_ids_by_bundle('project');
+        $hide_articles = 1;
         break;
 
       case 'interests':
@@ -1270,6 +3238,12 @@ function c4m_message_load_homepage_activity_stream() {
           $groups = array_merge($groups, array_keys($result['node']));
         }
         break;
+
+      case 'showAll':
+      default:
+        $groups = c4m_og_get_user_group_ids_by_bundle('showAll');
+        break;
+
     }
   }
 
@@ -1494,7 +3468,7 @@ function c4m_message_c4m_helper_entity_metrics_info() {
  * Returns the date & time of the last activity of an user.
  *
  * @param int $uid
- *   User id.
+ *   User ID.
  *
  * @return string
  *   Date.
@@ -1515,4 +3489,78 @@ function c4m_message_get_user_last_activity($uid) {
   else {
     return '';
   }
+}
+
+/**
+ * Return the formatted promote icon.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The action text.
+ */
+function c4m_message_format_promote(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $node = $wrapper->field_node->value();
+
+  $promoted_types = array(
+    'discussion',
+    'document',
+    'event',
+    'wiki_page',
+  );
+
+  if (!in_array($node->type, $promoted_types)) {
+    return '';
+  }
+
+  return flag_create_link('c4m_og_content_highlight', $node->nid);
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_message_block_info() {
+  $blocks['c4m_og_power_user_actions_block'] = array(
+    'info' => t('C4M Group Activity Actions Block'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_message_block_view($delta = '', $message = NULL) {
+  $block = array();
+
+  if ($delta != 'c4m_og_power_user_actions_block') {
+    return $block;
+  }
+
+  if (!$wrapper = entity_metadata_wrapper('message', $message)) {
+    return $block;
+  }
+
+  if (!isset($message->field_group_node) || !$wrapper->field_group_node->value()) {
+    return $block;
+  }
+
+  if (!_c4m_features_og_members_is_power_user($wrapper->field_group_node->value())) {
+    return $block;
+  }
+
+  $tag['element'] = array(
+    '#tag' => 'div',
+    '#value' => c4m_message_format_promote($message),
+    '#attributes' => array(
+      'class' => array('c4m-og-power-user-actions-block'),
+    ),
+  );
+
+  $block['content'] = theme_html_tag($tag);
+
+  return $block;
 }
