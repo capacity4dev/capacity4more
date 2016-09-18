@@ -54,7 +54,7 @@ function c4m_content_share_ds_field_settings_info() {
       ),
     ),
     'c4m_field_og_group' => array(
-      'weight' => '5',
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -92,10 +92,10 @@ function c4m_content_share_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_source_entity' => array(
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
+    'c4m_content_share_original_group' => array(
+      'weight' => '5',
+      'label' => 'hidden',
+      'format' => 'default',
     ),
   );
   $export['node|share|teaser'] = $ds_fieldsetting;
@@ -252,9 +252,10 @@ function c4m_content_share_ds_layout_settings_info() {
         2 => 'c4m_user_first_and_last_name',
         3 => 'c4m_ds_type_insert_action',
         4 => 'c4m_ds_creation_date',
-        5 => 'c4m_field_og_group',
-        6 => 'c4m_body',
-        7 => 'c4m_source_entity',
+        5 => 'c4m_content_share_original_group',
+        6 => 'c4m_field_og_group',
+        7 => 'c4m_body',
+        8 => 'c4m_source_entity',
       ),
     ),
     'fields' => array(
@@ -263,6 +264,7 @@ function c4m_content_share_ds_layout_settings_info() {
       'c4m_user_first_and_last_name' => 'ds_content',
       'c4m_ds_type_insert_action' => 'ds_content',
       'c4m_ds_creation_date' => 'ds_content',
+      'c4m_content_share_original_group' => 'ds_content',
       'c4m_field_og_group' => 'ds_content',
       'c4m_body' => 'ds_content',
       'c4m_source_entity' => 'ds_content',

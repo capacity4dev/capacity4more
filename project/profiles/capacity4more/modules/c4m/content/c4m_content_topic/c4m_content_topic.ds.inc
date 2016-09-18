@@ -107,7 +107,7 @@ function c4m_content_topic_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'lb' => 'Topics and Sub-Topics',
+          'lb' => 'Sub-Topics',
           'lb-el' => 'span',
           'lb-cl' => 'text-muted',
           'ow' => TRUE,
