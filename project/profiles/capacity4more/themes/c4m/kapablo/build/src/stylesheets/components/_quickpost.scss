@@ -21,6 +21,10 @@
       margin-right: 10px;
     }
   }
+
+  textarea[name=body] {
+    resize: vertical;
+  }
 }
 
   .topics-section {
