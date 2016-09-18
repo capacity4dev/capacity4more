@@ -255,6 +255,7 @@ function c4m_og_approve_group_request($form, &$form_state, $node) {
     '#value' => $node->nid,
   );
 
+  $form['#submit'][] = 'c4m_og_approve_group_request_submit';
   $form['#submit'][] = 'c4m_user_notifications_notify_user_group_approved';
   $form['#submit'][] = 'c4m_user_notifications_log_group_approved';
   $form['#submit'][] = 'c4m_og_route_to_group';
@@ -293,6 +294,7 @@ function c4m_og_reject_group_request($form, &$form_state, $node) {
     '#value' => $node->nid,
   );
 
+  $form['#submit'][] = 'c4m_og_reject_group_request_submit';
   $form['#submit'][] = 'c4m_user_notifications_log_group_rejected';
   $form['#submit'][] = 'c4m_og_route_to_group';
 
