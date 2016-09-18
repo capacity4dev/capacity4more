@@ -770,7 +770,7 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
  * @param array $elements
  *   The elements array of the node.
  *
- * @return array mixed
+ * @return array|mixed
  *   The elements array with the new topics and regions.
  */
 function c4m_content_group_theme_topics_and_regions(&$elements) {
