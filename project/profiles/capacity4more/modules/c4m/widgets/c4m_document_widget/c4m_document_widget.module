@@ -121,7 +121,7 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   // PURL options.
   $options_context = array(
     'purl' => array(
-      'disabled' => FALSE,
+      'enabled' => TRUE,
     ),
     'absolute' => TRUE,
   );
@@ -350,8 +350,8 @@ function c4m_document_widget_custom_theme() {
 function c4m_document_widget_menu() {
   $items['overlay-file/%'] = array(
     'page callback' => 'c4m_document_widget_add_document_file',
-    'access callback' => 'c4m_document_widget_check_file_access',
     'page arguments' => array(1),
+    'access callback' => 'c4m_document_widget_check_file_access',
     'access arguments' => array(1),
   );
   return $items;

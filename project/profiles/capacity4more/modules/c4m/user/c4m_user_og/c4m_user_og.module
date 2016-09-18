@@ -1125,7 +1125,7 @@ function c4m_user_og_delete_unified_workflow_entries($uid) {
  * @see user_registrationpassword_mail_tokens()
  */
 function c4m_user_og_mail_tokens(array &$replacements, array $data, $options) {
-  c4m_content_group_mail_tokens($replacements, $data, $options);
+  c4m_content_group_replace_mail_tokens($replacements, $data, $options);
   user_registrationpassword_mail_tokens($replacements, $data, $options);
 
   // Adding destination to the link in order to redirect to the group page
