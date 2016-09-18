@@ -133,4 +133,18 @@ trait Field {
     $javascript = "CKEDITOR.instances['". $element . "'].setData('" . $text . "')";
     $this->getSession()->executeScript($javascript);
   }
+
+  /**
+   * @Given /^I disable the captcha field$/
+   */
+  public function iDisableTheCaptchaField() {
+    variable_set('c4m_captcha_required', FALSE);
+  }
+
+  /**
+   * @Given /^I enable the captcha field$/
+   */
+  public function iEnableTheCaptchaField() {
+    variable_set('c4m_captcha_required', TRUE);
+  }
 }
