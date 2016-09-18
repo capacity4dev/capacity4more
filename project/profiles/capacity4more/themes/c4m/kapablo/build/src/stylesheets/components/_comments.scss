@@ -2,19 +2,53 @@
   clear: both;
   margin-top: 2em;
   overflow: hidden;
-}
 
-.comment-wrapper .comment {
-  margin: 15px 0;
-
-  .icon-col {
-    @media (max-width: $screen-tablet) {
-      width: 60px;
-    }
+  .indented {
+    margin-left: 10%;
   }
 
-  .content-col {
-    float: left;
-    margin-left: 15px;
+  .comment {
+    border-bottom: 1px solid $color-gray-light;
+    margin-top: 20px;
+    padding-bottom: 5px;
+
+    .links {
+
+      &.list-inline {
+        float: right;
+      }
+    }
+
+    .icon-col {
+      @media (max-width: $screen-tablet) {
+        width: 60px;
+      }
+    }
+
+    .content-col {
+      margin-top: 20px;
+      margin-left: 80px;
+
+      .field-name-c4m-user-first-and-last-name {
+        float: left;
+      }
+
+      .field-name-post-date {
+        float: left;
+        margin-left: 5px;
+        margin-bottom: 17px;
+        display: flex;
+
+        &:before {
+          content: '|';
+          float: left;
+          margin-right: 5px;
+        }
+      }
+
+      .field-name-comment-body {
+        clear: left;
+      }
+    }
   }
 }
