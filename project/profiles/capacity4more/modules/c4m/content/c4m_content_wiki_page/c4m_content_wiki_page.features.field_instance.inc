@@ -862,7 +862,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'field_c4m_editing_open',
-    'label' => 'Editing open to all group members',
+    'label' => 'Grant all group members access to edit this content.',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -1115,7 +1115,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
   t('Comment');
   t('Date');
   t('Documents');
-  t('Editing open to all group members');
+  t('Grant all group members access to edit this content.');
   t('Groups');
   t('Language');
   t('OG vocabulary');
