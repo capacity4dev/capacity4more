@@ -10,7 +10,7 @@
  *
  * This only works if the current page is a "views view page".
  *
- * @return string | bool
+ * @return string|bool
  *   Title of current views page.
  */
 function _c4m_views_get_current_views_page_title() {

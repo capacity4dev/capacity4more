@@ -1153,7 +1153,7 @@ function c4m_user_c4m_domain_presave($entity) {
 /**
  * Checks if a given user is set as spammer or not.
  *
- * @param object | integer $user
+ * @param object|int $user
  *   The user object or user ID.
  *
  * @return bool
