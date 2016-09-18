@@ -21,7 +21,7 @@ if [ -d "$TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump" ]
     https://api.mailgun.net/v3/sandboxf927d954c8414f9992d4118762a74eda.mailgun.org/messages \
     -F from='Mailgun Sandbox <postmaster@sandboxf927d954c8414f9992d4118762a74eda.mailgun.org>' \
     -F to='capacity4more admin <capfourdev.amplexor@gmail.com>' \
-    -F subject="Behat reporting - Error dumps (${TRAVIS_BRANCH})" \
+    -F subject="Behat reporting - Error dumps (PR #${TRAVIS_PULL_REQUEST})" \
     -F text="Attached you can find the behat error dumps for ${TRAVIS_BRANCH} on http://www.github.com/${TRAVIS_REPO_SLUG}/pull/${TRAVIS_PULL_REQUEST}" \
     -F attachment=@behat.$NOW.tar.gz
 fi
