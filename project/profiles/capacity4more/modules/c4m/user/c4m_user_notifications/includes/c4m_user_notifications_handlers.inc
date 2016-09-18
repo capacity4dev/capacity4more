@@ -462,18 +462,25 @@ function _c4m_user_notifications_notify_content_followers_of_comment($cid, $nid)
   // With current setting:
   // 'flag' - follow comment,
   // 'additional flag' - follow node,
-  // 'flags_operation' - 'intersect',
+  // 'intergroup_operation' - 'intersect',
   // only users that are marked with 'follow comment' AND also marked with
   // 'follow node' flags will be returned.
   $context = array(
     'entity_type' => $flag_suffix,
     'entity_id' => $nid,
     'additional_flag_suffix' => $additional_flag_suffix,
-    'flags_operation' => 'intersect',
+    'intergroup_operation' => 'intersect',
   );
 
+  // Group GM have no access to content revisions.
+  // In order to allow GM to receive notification mail about content update,
+  // when new revision of content is issued, instruct message_subscribe model
+  // to skip 'entity access' check.
+  $subscribe_options = array(
+    'entity access' => array(),
+  );
   // Message will be saved in message_subscribe_send_message().
-  message_subscribe_send_message('node', $node, $wrapper->value(), array(), array(), $context);
+  message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
 }
 
 /**
@@ -581,8 +588,15 @@ function c4m_user_notifications_content_recommended($nid) {
     'entity_id' => $nid,
   );
 
+  // Group GM have no access to content revisions.
+  // In order to allow GM to receive notification mail about content update,
+  // when new revision of content is issued, instruct message_subscribe model
+  // to skip 'entity access' check.
+  $subscribe_options = array(
+    'entity access' => array(),
+  );
   // Message will be saved in message_subscribe_send_message().
-  message_subscribe_send_message('node', $node, $wrapper->value(), array(), array(), $context);
+  message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
 }
 
 /**
@@ -603,14 +617,22 @@ function c4m_user_notifications_group_content_shared($source_node, $target_gid) 
  * Email notification about existing content update at organic group.
  */
 function c4m_user_notifications_existing_group_content_updated($node) {
-  _c4m_user_notifications_notify_on_content($node, 'update');
+  dpm($node);
+  if ($node->vid !== $node->original->vid) {
+    // New revision of content was published.
+    _c4m_user_notifications_notify_on_content_new_revision($node, 'group_followers');
+    _c4m_user_notifications_notify_on_content_new_revision($node, 'content_editors');
+  }
+  else {
+    _c4m_user_notifications_notify_on_content($node, 'update');
+  }
 }
 
 /**
  * Helper function.
  *
  * Sends mail notification to group subscribers, when content is
- * added or updated.
+ * added, updated or shared.
  *
  * @param object $node
  *   Content node that was added / updated.
@@ -672,6 +694,77 @@ function _c4m_user_notifications_notify_on_content($node, $action, $target_gid =
 
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $wrapper->value(), array(), array(), $context);
+}
+
+/**
+ * Helper function.
+ *
+ * Sends mail notification to group subscribers, when content is updated.
+ *
+ * @param object $node
+ *   Content node that was added / updated.
+ * @param string $users_group
+ *   Use 'group_followers' when notifying group followers about content update.
+ *   Use 'content_editors' when notifying content editors about content update.
+ */
+function _c4m_user_notifications_notify_on_content_new_revision($node, $users_group) {
+  global $user;
+
+  switch ($users_group) {
+    case 'content_editors':
+      $message_type = 'c4m_notify_editors_content_updated';
+      $flag_suffix = 'node';
+      break;
+
+    case 'group_followers':
+      $message_type = 'c4m_content_updated';
+      $flag_suffix = 'group';
+      break;
+
+    default:
+      return;
+  }
+
+  $message = message_create($message_type);
+  // Define functions with which to resolve email template tokens.
+  c4m_message_load_tokens__c4m_content_inserted_or_updated($message);
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_node->set($node->nid);
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+  $gid = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
+  $wrapper->field_group_node->set($gid);
+  $wrapper->field_executing_user->set($user->uid);
+
+  // Construct the context, with parameters that will be used by
+  // c4m_user_notifications_message_subscribe_get_subscribers().
+  $context = array(
+    'entity_type' => $flag_suffix,
+  );
+
+  if ($users_group == 'group_followers') {
+    // Resolve comment body field, in teaser mode, and assign value to it's token.
+    $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
+    $message->arguments['@node_teaser_body'] = strip_tags($body_teaser[0]['#markup']);
+
+    $context['entity_id'] = $gid;
+    $context['additional_entity_id'] = $node->nid;
+    $context['additional_flag_suffix'] = 'node';
+    $context['intergroup_operation'] = 'diff';
+  }
+  elseif ($users_group == 'content_editors') {
+    $context['entity_id'] = $node->nid;
+  }
+
+  // Group GM have no access to content revisions.
+  // In order to allow GM to receive notification mail about content update,
+  // when new revision of content is issued, instruct message_subscribe model
+  // to skip 'entity access' check.
+  $subscribe_options = array(
+    'entity access' => array(),
+  );
+  // Message will be saved in message_subscribe_send_message().
+  message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
 }
 
 /**
@@ -748,18 +841,25 @@ function _c4m_user_notifications_comment_on_content($cid, $nid) {
   // With current setting:
   // 'flag' - follow comment,
   // 'additional flag' - follow node,
-  // 'flags_operation' - 'diff',
+  // 'intergroup_operation' - 'diff',
   // only users that are marked with 'follow comment' AND NOT marked with
   // 'follow node' flags will be returned.
   $context = array(
     'entity_type' => $flag_suffix,
     'entity_id' => $nid,
     'additional_flag_suffix' => $additional_flag_suffix,
-    'flags_operation' => 'diff',
+    'intergroup_operation' => 'diff',
   );
 
+  // Group GM have no access to content revisions.
+  // In order to allow GM to receive notification mail about content update,
+  // when new revision of content is issued, instruct message_subscribe model
+  // to skip 'entity access' check.
+  $subscribe_options = array(
+    'entity access' => array(),
+  );
   // Message will be saved in message_subscribe_send_message().
-  message_subscribe_send_message('node', $node, $wrapper->value(), array(), array(), $context);
+  message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
 }
 
 /**
@@ -829,17 +929,22 @@ function c4m_user_notifications_message_subscribe_get_subscribers($message, $sub
   $filtered_users = array_keys($users);
 
   // If we need to filter users according to additional flag.
-  if (isset($context['additional_flag_suffix']) && isset($context['flags_operation'])) {
+  if (isset($context['additional_flag_suffix']) && isset($context['intergroup_operation'])) {
     // When 'additional flag' is provided, users will be filtered using
-    // operation defined at 'flags_operation'.
-    // When 'flags_operation' is set to 'intersect', only users marked by flag
-    // AND additional flag are returned.
-    // When 'flags_operation' is set to 'diff', only users marked by flag and
-    // AND NOT marked by additional flag are returned.
+    // operation defined at 'intergroup_operation'.
+    // When 'intergroup_operation' is set to 'intersect', only users that got
+    // 'entity_id' marked by flag AND 'additional_entity_id' marked by
+    // additional flag are returned.
+    // When 'intergroup_operation' is set to 'diff', only users that got
+    // 'entity_id' marked by flag AND NOT got 'additional_entity_id' marked by
+    // additional flag are returned.
+    // If 'additional_entity_id' is not provided, it's set to 'entity_id' =>
+    // both flags are set on same entity.
     $flag_name = 'subscribe_c4m_follow_' . $context['additional_flag_suffix'];
-    $filtered_users = flag_get_entity_flags($flagged_entity_type, $entity_id, $flag_name);
-    // Flag operations can be 'intersect' or 'diff'.
-    $function = 'array_' . $context['flags_operation'];
+    $additional_entity_id = isset($context['additional_entity_id']) ? $context['additional_entity_id'] : $entity_id;
+    $filtered_users = flag_get_entity_flags($flagged_entity_type, $additional_entity_id, $flag_name);
+    // Intergroup operations can be 'intersect' or 'diff'.
+    $function = 'array_' . $context['intergroup_operation'];
     // Function is either array_intersect() or array_diff().
     $filtered_users = $function(array_keys($users), array_keys($filtered_users));
   }
