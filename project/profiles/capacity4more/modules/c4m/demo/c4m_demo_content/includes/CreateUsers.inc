@@ -11,6 +11,8 @@
 class C4mDemoContentCreateUsers extends Migration {
   /**
    * Map the field and properties to the CSV header.
+   *
+   * @var array
    */
   public $csvColumns = array(
     array('id', 'ID'),
@@ -58,17 +60,17 @@ class C4mDemoContentCreateUsers extends Migration {
     $this->addFieldMapping('c4m_body', 'description');
 
     $this->addFieldMapping('c4m_media', 'picture')
-         ->separator(';');
+      ->separator(';');
     $this->addFieldMapping('c4m_media:file_replace')
-         ->defaultValue(FILE_EXISTS_REPLACE);
+      ->defaultValue(FILE_EXISTS_REPLACE);
     $this->addFieldMapping('c4m_media:source_dir')
-         ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
+      ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
     $this->addFieldMapping('c4m_media:destination_dir', 'destination');
 
     $this->addFieldMapping('roles')
-         ->defaultValue(DRUPAL_AUTHENTICATED_RID);
+      ->defaultValue(DRUPAL_AUTHENTICATED_RID);
     $this->addFieldMapping('status')
-         ->defaultValue(TRUE);
+      ->defaultValue(TRUE);
 
     $this->addFieldMapping('c4m_vocab_topic', 'topics_interest')
       ->sourceMigration('C4mDemoContentCreateTopicTerms')
