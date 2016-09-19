@@ -788,12 +788,6 @@ function c4m_user_og_c4m_leave_group_cta($group) {
     return;
   }
 
-  global $user;
-  // Group owner can't leave the group, needs to transfer ownership first.
-  if ($user->uid == $group->uid) {
-    return;
-  }
-
   $link = 'group/node/' . $group->nid . '/unsubscribe';
   return array(
     '#theme' => 'c4m_group_text_cta',
