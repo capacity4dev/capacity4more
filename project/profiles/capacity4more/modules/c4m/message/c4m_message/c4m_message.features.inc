@@ -27,7 +27,7 @@ function c4m_message_default_message_type() {
   $items = array();
   $items['c4m_content_updated'] = entity_import('message_type', '{
     "name" : "c4m_content_updated",
-    "description" : "c4m Content Updated",
+    "description" : "c4m Content Updated MT25",
     "argument_keys" : [],
     "argument" : [],
     "category" : "message_type",
@@ -216,7 +216,7 @@ function c4m_message_default_message_type() {
   }');
   $items['c4m_group_request_approved'] = entity_import('message_type', '{
     "name" : "c4m_group_request_approved",
-    "description" : "c4m Group Request Approved",
+    "description" : "c4m Group Request Approved MT12",
     "argument_keys" : [],
     "argument" : [],
     "category" : "message_type",
@@ -782,7 +782,7 @@ function c4m_message_default_message_type() {
   }');
   $items['c4m_notify_editors_content_updated'] = entity_import('message_type', '{
     "name" : "c4m_notify_editors_content_updated",
-    "description" : "c4m Notify Editors Content Updated",
+    "description" : "c4m Notify Editors Content Updated MT51",
     "argument_keys" : [],
     "argument" : [],
     "category" : "message_type",
