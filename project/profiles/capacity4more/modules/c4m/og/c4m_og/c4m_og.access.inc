@@ -351,7 +351,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   );
   $form['c4m_related_group'][LANGUAGE_NONE]['#after_build'] = array('c4m_og_select2_widget_after_build');
 
-  // Disable the "delete" option for all users except SA.
+  // Hide "Delete" button for all users except SA.
   if (!user_access('administer nodes')) {
     $form['actions']['delete']['#access'] = FALSE;
   }
@@ -542,21 +542,40 @@ function c4m_og_remove_pluggable_node_access(
 /**
  * Implements hook_og_user_access_alter().
  *
- * Allow subscribing based on field_membership_open_request value.
+ * 1. For group administrator, remove 'administer group' and 'update group'
+ * privileges, when deleting / editing Pending OG group.
+ * This is done to prevent og_node_access() to allow group administrator from
+ * deleting / editing group, disregarding it's c4m_og_status, as administrator
+ * can't delete a Pending group.
+ * Instead, we fall back to the node_access table, where access logic is
+ * properly implemented.
+ * 2. Allow subscribing, based on field_membership_open_request value.
  */
 function c4m_og_og_user_access_alter(&$perm, $context) {
-  if ($context['string'] != 'subscribe without approval') {
-    return;
-  }
-
   if ($context['group_type'] != 'node') {
     return;
   }
+
+  // Return early, if not under OG context, with type 'group'.
   $group = $context['group'];
   if ($group->type != 'group') {
     return;
   }
+
   $wrapper = entity_metadata_wrapper('node', $group);
+  $pattern = '/^node\/\d+\/(edit|delete)(\/.*)*$/i';
+
+  if (preg_match($pattern, current_path()) && $wrapper->c4m_og_status->value() == 'pending') {
+    // For Pending groups, if under 'node/%node/edit' or 'node/%node/delete'
+    // urls (editing / deleting group), deny privileges that are verified by
+    // og_node_access().
+    $perm['administer group'] = FALSE;
+    $perm['update group'] = FALSE;
+  }
+
+  if ($context['string'] != 'subscribe without approval') {
+    return;
+  }
 
   $perm['subscribe without approval'] = $wrapper->field_membership_open_request->value();
 }

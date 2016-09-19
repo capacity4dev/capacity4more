@@ -22,3 +22,10 @@ Feature: Test quick post
     And   I should not see "Create a post with additional details by using" in the "div#quick-post-fields" element
     When   I click "New discussion"
     Then  I should wait to see "Idea posted by"
+
+  @javascript
+  Scenario: Check Quick post advanced form.
+    Given I am logged in as user "alfrednobel"
+    When  I create a discussion quick post in advanced form with title "New nobel" and body "Some text in the body" in "Nobel Prize"
+    Then  I should wait to see "Edit Discussion New nobel"
+    And   I should not see "Latest activity"

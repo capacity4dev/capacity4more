@@ -65,6 +65,7 @@ function _c4m_user_profile_block_user_menu() {
         'purl'  => array(
           'disabled' => TRUE,
         ),
+        'query' => c4m_og_purl_get_destination(),
       ),
     ),
   );
@@ -298,12 +299,23 @@ function _c4m_user_profile_block_user_confirm_email() {
  */
 function _c4m_user_profile_block_user_my_profile_groups() {
   module_load_include('inc', 'c4m_features_homepage', 'plugins/content_types/my_groups/my_groups');
-  $account = menu_get_object('user');
-  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($account, array('group'));
 
   $block = array();
   $block['subject'] = '';
   $block['content'] = '';
+
+  // Gets the user of the profile being viewed.
+  $account = menu_get_object('user');
+
+  // Prevent the block to be rendered if the block is added by mistake in a non
+  // user profile page.
+  if (is_null($account)) {
+    return $block;
+  }
+
+  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($account);
+
+  // Prevent the block to be rendered if the user has no groups.
   if (empty($groups)) {
     return $block;
   }
@@ -311,8 +323,8 @@ function _c4m_user_profile_block_user_my_profile_groups() {
   $rendered_groups = '';
   // Render node views for each group.
   foreach ($groups as $type => $group_list) {
-    $title = c4m_user_profile_get_group_type_title($type);
-    $rendered_groups .= '<h3>' . $title . '</h3>';
+    $title = c4m_features_homepage_get_group_type_title($type);
+    $rendered_groups .= '<h4>' . $title . '</h4>';
 
     foreach ($group_list as $group) {
       $node_view = node_view($group, 'block_list');
@@ -327,24 +339,4 @@ function _c4m_user_profile_block_user_my_profile_groups() {
   $block['content'] = !empty($rendered_groups) ? theme('c4m_user_profile_my_profile_groups', $variables) : FALSE;
 
   return $block;
-}
-
-/**
- * Returns the title for the type of membership of a group.
- *
- * @param string $type
- *   The group membership type.
- *
- * @return string
- *   The translated title for the membership type.
- */
-function c4m_user_profile_get_group_type_title($type) {
-  $titles = array(
-    'owner' => t('Groups I own'),
-    'administrator' => t('Groups I manage'),
-    'member' => t("Groups I'm member of"),
-    'pending' => t('Membership requested'),
-  );
-
-  return $titles[$type];
 }

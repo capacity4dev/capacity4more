@@ -34,17 +34,37 @@ trait QuickPost {
   }
 
   /**
-   * @When /^I create a discussion quick post with title "([^"]*)" and body "([^"]*)" in "([^"]*)"$/
+   * Helper function to create a new discussion via the quick post form.
    */
-  public function iCreateDiscussionQuickPost($title, $body, $group) {
+  public function iStartNewDiscussionOnQuickPost($title, $body, $group) {
     $steps = array();
     $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
     $steps[] = new Step\When('I focus on "label" element');
     $steps[] = new Step\When('I should wait to see "Create a post with additional details"');
+    $steps[] = new Step\When('I should see "Notify members of the group about this post"');
     $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
     $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
     $steps[] = new Step\When('I press the "idea" button');
+
+    return $steps;
+  }
+
+  /**
+   * @When /^I create a discussion quick post with title "([^"]*)" and body "([^"]*)" in "([^"]*)"$/
+   */
+  public function iCreateDiscussionQuickPost($title, $body, $group) {
+    $steps = $this->iStartNewDiscussionOnQuickPost($title, $body, $group);
     $steps[] = new Step\When('I press the "quick-submit" button');
+
+    return $steps;
+  }
+
+  /**
+   * @When /^I create a discussion quick post in advanced form with title "([^"]*)" and body "([^"]*)" in "([^"]*)"$/
+   */
+  public function iCreateADiscussionQuickPostInAdvancedFormWithTitleAndBodyIn($title, $body, $group) {
+    $steps = $this->iStartNewDiscussionOnQuickPost($title, $body, $group);
+    $steps[] = new Step\When('I follow "full-from-button"');
 
     return $steps;
   }
