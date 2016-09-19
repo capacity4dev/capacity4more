@@ -6,8 +6,15 @@
   background: url('/profiles/capacity4more/themes/c4m/kapablo/images/grain-dark.png');
 }
 
-@mixin grey_bar {
+@mixin grey_bar_base {
   background-color: $color-background;
+  border-top: 1px solid $color-gray-light;
+  border-bottom: 1px solid $color-gray-light;
+}
+
+@mixin grey_bar {
+  @include grey_bar_base;
+  padding: 2rem 0;
 }
 
 @mixin grey_box {
@@ -92,5 +99,11 @@
     position: absolute;
     right: 0;
     top: 0;
+  }
+}
+
+@mixin rotate_promote_flag {
+  i {
+    transform: rotate(0deg);
   }
 }

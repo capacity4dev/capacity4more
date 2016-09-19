@@ -81,6 +81,7 @@ function c4m_content_topic_field_formatter_info() {
         'link' => '',
         'wrap' => 'none',
         'separator' => ' » ',
+        'exclude_top_parent' => FALSE,
       ),
     ),
     'term_reference_checked_inline_tree' => array(
@@ -92,6 +93,17 @@ function c4m_content_topic_field_formatter_info() {
         'wrap' => 'none',
         'separator' => ' > ',
         'glue' => ', ',
+      ),
+    ),
+    'term_reference_checked_inline_tree_for_views' => array(
+      'label' => t('Term reference tree - All checked terms inline (for Views)'),
+      'field types' => array('taxonomy_term_reference'),
+      'settings' => array(
+        'display' => 'all',
+        'link' => '',
+        'wrap' => 'none',
+        'separator' => ' > ',
+        'glue' => ' - ',
       ),
     ),
     'term_reference_only_parents' => array(
@@ -130,6 +142,7 @@ function c4m_content_topic_field_formatter_settings_form(
     '#type' => 'checkbox',
     '#default_value' => $settings['link'],
   );
+
   $element['separator'] = array(
     '#title' => t('Separator'),
     '#description' => t(
@@ -140,7 +153,11 @@ function c4m_content_topic_field_formatter_settings_form(
     '#default_value' => $settings['separator'],
     '#required' => FALSE,
   );
-  if ($instance['display'][$view_mode]['type'] == 'term_reference_checked_inline_tree') {
+
+  if (
+    $instance['display'][$view_mode]['type'] == 'term_reference_checked_inline_tree' ||
+    $instance['display'][$view_mode]['type'] == 'term_reference_checked_inline_tree_for_views'
+  ) {
     $element['glue'] = array(
       '#title' => t('Glue'),
       '#description' => t(
@@ -150,6 +167,15 @@ function c4m_content_topic_field_formatter_settings_form(
       '#size' => 20,
       '#default_value' => $settings['glue'],
       '#required' => TRUE,
+    );
+  }
+  if ($instance['display'][$view_mode]['type'] == 'term_reference_tree_children_expanded') {
+    $element['exclude_top_parent'] = array(
+      '#title' => t('Exclude top parent'),
+      '#description' => t('Do not display the top parent term'),
+      '#type' => 'checkbox',
+      '#default_value' => $settings['exclude_top_parent'],
+      '#required' => FALSE,
     );
   }
 
@@ -177,11 +203,17 @@ function c4m_content_topic_field_formatter_settings_summary(
         array('@separator' => $settings['separator'])
       );
   }
+
   if (!empty($settings['glue'])) {
     $summary .= '<br />' . t(
         'Glue: "@glue"',
         array('@glue' => $settings['glue'])
       );
+  }
+  if (!empty($settings['exclude_top_parent'])) {
+    if ($settings['exclude_top_parent']) {
+      $summary .= '<br />' . t('Exclude top parent');
+    }
   }
 
   return $summary;
@@ -251,6 +283,11 @@ function c4m_content_topic_field_formatter_view(
           // Remove empty elements caused by discarded items.
           $term_tree = array_filter($term_tree);
           $terms = array();
+
+          // Shift off parent if necessary.
+          if ($settings['exclude_top_parent']) {
+            array_shift($term_tree);
+          }
 
           // Get the vocabulary to create a filter on vocab facet.
           $vocab = taxonomy_vocabulary_load($item['taxonomy_term']->vid);
@@ -361,6 +398,67 @@ function c4m_content_topic_field_formatter_view(
             $variables
           ),
         );
+      }
+      break;
+
+    case 'term_reference_checked_inline_tree_for_views':
+      $terms = array();
+
+      foreach ($items as $delta => $item) {
+        if ($item['tid'] == 'autocreate') {
+          $element[$delta] = array(
+            '#markup' => check_plain($item['name']),
+          );
+        }
+        else {
+          $term = $item['taxonomy_term'];
+
+          if ($settings['link']) {
+            // Get the vocabulary to create a filter on vocab facet.
+            $vocab = taxonomy_vocabulary_load($item['taxonomy_term']->vid);
+
+            $options = array(
+              'query' => array(
+                'f' => array($vocab->machine_name . ':' . $term->tid),
+              ),
+            );
+
+            $link = array(
+              '#type' => 'link',
+              '#title' => $term->name,
+              '#href' => 'search',
+              '#options' => $options,
+            );
+            $content = drupal_render($link);
+          }
+          else {
+            $content = check_plain($term->name);
+          }
+
+          $terms[$term->tid] = array(
+            'tid' => $term->tid,
+            'content' => $content,
+            'children' => taxonomy_get_tree($term->vid, $term->tid, 1),
+          );
+        }
+      }
+
+      // Make sure there are terms before adding to $element.
+      if (count($terms)) {
+        foreach ($terms as &$term) {
+          c4more_content_topic_array_to_tree($terms, $term);
+        }
+
+        $separator = filter_xss_admin($settings['separator']);
+        $glue = filter_xss_admin($settings['glue']);
+
+        foreach ($terms as $delta => $item) {
+          $items = c4m_content_topic_tree_to_string($item, $separator, $glue);
+
+          $element[$delta] = array(
+            '#markup' => reset($items),
+          );
+        }
       }
       break;
 

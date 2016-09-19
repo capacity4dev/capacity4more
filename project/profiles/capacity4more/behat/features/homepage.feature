@@ -21,12 +21,11 @@ Feature: Test homepage content and blocks
     When I visit the site homepage
     Then I should see the site homepage
 
-    # My Groups not implemented yet.
-#  @api
-#  Scenario: Logged in user should see group owner in "My Groups" block.
-#    Given I am logged in as user "isaacnewton"
-#    When  I visit the site homepage
-#    Then  I should see "My Groups"
+  @api
+  Scenario: Logged in user should see group owner in "My Groups" block.
+    Given I am logged in as user "isaacnewton"
+    When  I visit the site homepage
+    Then  I should see "My Groups"
 
   @api
   Scenario: Anonymous user should see button to open the introduction video.
@@ -52,7 +51,7 @@ Feature: Test homepage content and blocks
     When  I visit the site homepage
     Then  I should see "My Groups"
     And   I should see "Architecture" in the "div.my-groups" element
-    And   I should see "Show all" in the "div.my-groups" element
+    And   I should see "Show more" in the "div.my-groups" element
 
   @api
   Scenario: Anonymous user can't see "Suggested Groups" block
@@ -65,6 +64,18 @@ Feature: Test homepage content and blocks
     Given I am logged in as user "president"
     When  I visit the site homepage
     Then  I should see "Suggested Groups"
+
+  @api
+  Scenario: Anonymous user should see "Featured projects" block
+    Given I am an anonymous user
+    When  I visit the site homepage
+    Then  I should see "Featured projects"
+
+  @api
+  Scenario: Logged in, member user should see "Featured projects" block
+    Given I am logged in as user "mariecurie"
+    When  I visit the site homepage
+    Then  I should see "Featured projects"
 
   @api
   Scenario: Anonymous user should see only one "Upcoming event"
