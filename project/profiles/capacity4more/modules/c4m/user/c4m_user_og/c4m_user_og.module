@@ -52,7 +52,7 @@ function c4m_user_og_has_group_permission($permission, $group = NULL) {
  */
 function c4m_user_og_get_role_in_group($account, $group) {
   // Check manually if the user is anonymous as not always $account is the same
-  // as $user.
+  // as global $user.
   if ($account->uid === 0) {
     return NULL;
   }
