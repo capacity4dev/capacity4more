@@ -618,11 +618,13 @@ function c4m_user_notifications_group_content_shared($source_node, $target_gid) 
  */
 function c4m_user_notifications_existing_group_content_updated($node) {
   if ($node->vid !== $node->original->vid) {
-    // New revision of content was published.
-    _c4m_user_notifications_notify_on_content_new_revision($node, 'group_followers');
+    // New revision of content was published => notify content editors
+    // and group followers.
     _c4m_user_notifications_notify_on_content_new_revision($node, 'content_editors');
+    _c4m_user_notifications_notify_on_content_new_revision($node, 'group_followers');
   }
   else {
+    // No revision update => => notify only group followers.
     _c4m_user_notifications_notify_on_content($node, 'update');
   }
 }
@@ -698,10 +700,11 @@ function _c4m_user_notifications_notify_on_content($node, $action, $target_gid =
 /**
  * Helper function.
  *
- * Sends mail notification to group subscribers, when content is updated.
+ * Sends mail notification to group subscribers or content author and editors,
+ * when content is updated.
  *
  * @param object $node
- *   Content node that was added / updated.
+ *   Content node that was updated.
  * @param string $users_group
  *   Use 'group_followers' when notifying group followers about content update.
  *   Use 'content_editors' when notifying content editors about content update.
@@ -747,6 +750,9 @@ function _c4m_user_notifications_notify_on_content_new_revision($node, $users_gr
     $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
     $message->arguments['@node_teaser_body'] = strip_tags($body_teaser[0]['#markup']);
 
+    // Set additional context parameters.
+    // This configuration will result in selecting subscribers that
+    // follow content node group, and do not follow content node itself.
     $context['entity_id'] = $gid;
     $context['additional_entity_id'] = $node->nid;
     $context['additional_flag_suffix'] = 'node';
