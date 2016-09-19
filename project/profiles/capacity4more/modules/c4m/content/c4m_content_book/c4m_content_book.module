@@ -38,7 +38,7 @@ function c4m_content_book_help_access() {
  *   Returns help and guidance rearrange view.
  */
 function c4m_content_book_help_rearrange_page() {
-  drupal_set_title('Rearrange');
+  drupal_set_title('Rearrange help pages');
 
-  return views_embed_view('c4m_help_guidance', 'help_rearrange_page');
+  return views_embed_view('c4m_rearrange_help_guidance');
 }

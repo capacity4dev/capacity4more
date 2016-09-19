@@ -38,5 +38,5 @@ features[variable][] = node_options_book
 features[variable][] = node_preview_book
 features[variable][] = node_submitted_book
 features[variable][] = pathauto_node_book_pattern
-features[views_view][] = c4m_help_guidance
+features[views_view][] = c4m_rearrange_help_guidance
 files[] = includes/c4m_content_book_plugin_argument_default.inc

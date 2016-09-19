@@ -11,7 +11,7 @@ function c4m_content_book_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'c4m_help_guidance';
+  $view->name = 'c4m_rearrange_help_guidance';
   $view->description = '';
   $view->tag = 'default';
   $view->base_table = 'node';
@@ -87,7 +87,7 @@ function c4m_content_book_views_default_views() {
   $handler->display->display_options['menu']['weight'] = '5';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $export['c4m_help_guidance'] = $view;
+  $export['c4m_rearrange_help_guidance'] = $view;
 
   return $export;
 }

@@ -7,6 +7,9 @@
 
 /**
  * Implements hook_views_plugins().
+ *
+ * This plugin returns the node ID of the `Help & Guidance` book as an argument
+ * to the `c4m_rearrange_help_guidance` view.
  */
 function c4m_content_book_views_plugins() {
   $plugins = array(

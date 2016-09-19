@@ -9,6 +9,10 @@
 
 /**
  * The help pages argument default handler.
+ *
+ * To allow rearranging the help pages, we want to filter the displayed content
+ * by association to the `Help & Guidance` book. This function returns the
+ * book's node ID.
  */
 class c4m_content_book_plugin_argument_default extends views_plugin_argument_default {
 
