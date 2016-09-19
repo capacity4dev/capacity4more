@@ -24,7 +24,7 @@ class c4m_content_book_plugin_argument_default extends views_plugin_argument_def
    */
   public function get_argument() {
     // Get the node ID of the Help & Guidance book.
-    $help_book_title = variable_get('help_book', 'Help & Guidance');
+    $help_book_title = variable_get('c4m_help_book_title', 'Help & Guidance');
     $query = new EntityFieldQuery();
     $entities = $query->entityCondition('entity_type', 'node')
       ->propertyCondition('type', 'book')
