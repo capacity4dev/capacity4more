@@ -149,6 +149,7 @@ function capacity4more_setup_set_og_permissions() {
     'event',
     'photo',
     'photoalbum',
+    'share',
   );
 
   $permissions = array();
@@ -196,6 +197,7 @@ function capacity4more_setup_set_og_permissions() {
   $content_types = array(
     'document',
     'event',
+    'share',
   );
 
   $permissions = array();
