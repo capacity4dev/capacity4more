@@ -472,7 +472,7 @@ function _c4m_user_notifications_notify_content_followers_of_comment($cid, $nid)
     'intergroup_operation' => 'intersect',
   );
 
-  // Group GM have no access to content revisions.
+  // Group members have no access to content revisions.
   // In order to allow GM to receive notification mail about content update,
   // when new revision of content is issued, instruct message_subscribe model
   // to skip 'entity access' check.
@@ -588,7 +588,7 @@ function c4m_user_notifications_content_recommended($nid) {
     'entity_id' => $nid,
   );
 
-  // Group GM have no access to content revisions.
+  // Group members have no access to content revisions.
   // In order to allow GM to receive notification mail about content update,
   // when new revision of content is issued, instruct message_subscribe model
   // to skip 'entity access' check.
@@ -680,7 +680,7 @@ function _c4m_user_notifications_notify_on_content($node, $action, $target_gid =
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_node->set($node->nid);
   $node_wrapper = entity_metadata_wrapper('node', $node);
-  $gid = isset($target_gid) ? $target_gid : $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
+  $gid = is_null($target_gid) ? $target_gid : $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
   $wrapper->field_group_node->set($gid);
   $wrapper->field_executing_user->set($user->uid);
 
@@ -731,12 +731,12 @@ function _c4m_user_notifications_notify_on_content_new_revision($node, $users_gr
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_content_inserted_or_updated($message);
 
-  $wrapper = entity_metadata_wrapper('message', $message);
-  $wrapper->field_node->set($node->nid);
+  $message_wrapper = entity_metadata_wrapper('message', $message);
+  $message_wrapper->field_node->set($node->nid);
   $node_wrapper = entity_metadata_wrapper('node', $node);
   $gid = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
-  $wrapper->field_group_node->set($gid);
-  $wrapper->field_executing_user->set($user->uid);
+  $message_wrapper->field_group_node->set($gid);
+  $message_wrapper->field_executing_user->set($user->uid);
 
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
@@ -745,7 +745,7 @@ function _c4m_user_notifications_notify_on_content_new_revision($node, $users_gr
   );
 
   if ($users_group == 'group_followers') {
-    // Resolve comment body field, in teaser mode, and assign value to
+    // Resolve content node body field, in teaser mode, and assign value to
     // it's token.
     $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
     $message->arguments['@node_teaser_body'] = strip_tags($body_teaser[0]['#markup']);
@@ -762,7 +762,7 @@ function _c4m_user_notifications_notify_on_content_new_revision($node, $users_gr
     $context['entity_id'] = $node->nid;
   }
 
-  // Group GM have no access to content revisions.
+  // Group members have no access to content revisions.
   // In order to allow GM to receive notification mail about content update,
   // when new revision of content is issued, instruct message_subscribe model
   // to skip 'entity access' check.
@@ -770,7 +770,7 @@ function _c4m_user_notifications_notify_on_content_new_revision($node, $users_gr
     'entity access' => array(),
   );
   // Message will be saved in message_subscribe_send_message().
-  message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
+  message_subscribe_send_message('node', $node, $message_wrapper->value(), array(), $subscribe_options, $context);
 }
 
 /**
@@ -857,7 +857,7 @@ function _c4m_user_notifications_comment_on_content($cid, $nid) {
     'intergroup_operation' => 'diff',
   );
 
-  // Group GM have no access to content revisions.
+  // Group members have no access to content revisions.
   // In order to allow GM to receive notification mail about content update,
   // when new revision of content is issued, instruct message_subscribe model
   // to skip 'entity access' check.
