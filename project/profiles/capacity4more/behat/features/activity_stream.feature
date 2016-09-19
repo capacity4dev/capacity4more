@@ -69,7 +69,7 @@ Feature: Test activity stream
   Scenario Outline: Promote buttons should be displayed to users with access.
     Given  I am logged in as user "<user>"
     When  I visit the dashboard of group "Nobel Prize"
-    Then  I should see the ".fa-thumb-tack" element
+    Then  I should see the ".fa-star-o" element
 
     Examples:
       | user        |
