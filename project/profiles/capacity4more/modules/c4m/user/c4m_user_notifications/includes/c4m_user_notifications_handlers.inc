@@ -617,7 +617,6 @@ function c4m_user_notifications_group_content_shared($source_node, $target_gid) 
  * Email notification about existing content update at organic group.
  */
 function c4m_user_notifications_existing_group_content_updated($node) {
-  dpm($node);
   if ($node->vid !== $node->original->vid) {
     // New revision of content was published.
     _c4m_user_notifications_notify_on_content_new_revision($node, 'group_followers');
@@ -743,7 +742,8 @@ function _c4m_user_notifications_notify_on_content_new_revision($node, $users_gr
   );
 
   if ($users_group == 'group_followers') {
-    // Resolve comment body field, in teaser mode, and assign value to it's token.
+    // Resolve comment body field, in teaser mode, and assign value to
+    // it's token.
     $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
     $message->arguments['@node_teaser_body'] = strip_tags($body_teaser[0]['#markup']);
 
