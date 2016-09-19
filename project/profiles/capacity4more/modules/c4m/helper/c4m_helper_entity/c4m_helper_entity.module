@@ -86,6 +86,7 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
     'uid' => NULL,
     'topic' => NULL,
     'c4m_status' => NULL,
+    'skip_access_check' => NULL,
   );
 
   $variables = array_merge($default_variables, $variables);
@@ -97,6 +98,7 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
   $uid = $variables['uid'];
   $topic = $variables['topic'];
   $c4m_status = $variables['c4m_status'];
+  $skip_access_check = $variables['skip_access_check'];
 
   if ($entity_type) {
     switch ($entity_type) {
@@ -117,7 +119,9 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
             $query->condition('n.status', $state, '=');
           }
         }
-        $query = $query->addTag('node_access');
+        if (empty($skip_access_check)) {
+          $query = $query->addTag('node_access');
+        }
         break;
 
       case 'comment':
@@ -127,7 +131,9 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
         if (!is_null($state)) {
           $query->condition('n.status', $state, '=');
         }
-        $query = $query->addTag('node_access');
+        if (empty($skip_access_check)) {
+          $query = $query->addTag('node_access');
+        }
         break;
     }
 
@@ -135,15 +141,15 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
     if ($og_id) {
       switch ($entity_type) {
         case 'user':
-          $query->join('og_membership', 'og', 'u.uid = og.etid');
+          $query->join('og_membership', 'og', "u.uid = og.etid AND og.entity_type = 'user'");
           break;
 
         case 'node':
-          $query->join('og_membership', 'og', 'n.nid = og.etid');
+          $query->join('og_membership', 'og', "n.nid = og.etid AND og.entity_type = 'node'");
           break;
 
         case 'comment':
-          $query->join('og_membership', 'og', 'n.nid = og.etid');
+          $query->join('og_membership', 'og', "n.nid = og.etid AND og.entity_type = 'comment'");
           // Exclude the comments on disabled group content features.
           $disabled_types = c4m_og_feature_disabled_content_types();
           if (!empty($disabled_types)) {
@@ -273,7 +279,7 @@ function c4m_helper_entity_entity_property_flag_count_entity_definition($type, $
  * @param array $property_info
  *   An array with other properites of the entity.
  *
- * @return integer | NULL
+ * @return int|null
  *   Returns the amount of flags for the entity or NULL if not appropriate.
  */
 function c4m_helper_entity_entity_get_properties($entity, array $options, $name, $entity_type, $property_info) {
@@ -384,7 +390,7 @@ function c4m_helper_entity_metrics_info() {
 /**
  * Load a specific metrics info.
  *
- * @return array | null
+ * @return array|null
  *   Configuration as collected through the implementations of
  *   hook_c4m_helper_entity_metrics_info() hooks.
  *

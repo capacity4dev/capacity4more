@@ -6,11 +6,31 @@
  */
 
 /**
- * Implements hook_form_FORM_ID_alter().
+ * Implements hook_form_BASE_FORM_ID_alter().
  *
+ * Hide Book tab for all content types.
  * Add a cancel button to all node forms.
  */
 function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
+  // Checks if the form's content type is being used as a message,
+  // to add a send notification option.
+  if (in_array($form_state['node']->type, c4m_og_get_group_content_notification_types())) {
+    $form['send-notification'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Send Notification'),
+      // Default to true only on new content.
+      '#default_value' => empty($form_state['node']->nid),
+      '#limit_validation_errors' => array(),
+      '#weight' => 100,
+    );
+  };
+
+  // Hide Book tab for all content types.
+  if (isset($form['book'])) {
+    $form['book']['#access'] = FALSE;
+  }
+
+  // Add a cancel button to all node forms.
   // Check if a cancel button should be added to node forms.
   $cancel = variable_get('c4m_content_cancel_button', FALSE);
   if (!$cancel) {
@@ -38,10 +58,31 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     );
   }
 
+  $is_unpublish = $form['actions']['draft']['#value'] == t('Unpublish');
+  $is_og_group = in_array($form['type']['#value'], array('group', 'project'));
   // Removes Unpublish button from forms.
-  if ($form['actions']['draft']['#value'] == t('Unpublish')) {
-    unset($form['actions']['draft']);
+  if ($is_unpublish && $is_og_group) {
+    $form['actions']['draft']['#access'] = FALSE;
   }
+}
+
+/**
+ * Implements hook_node_submit().
+ *
+ * If 'Send Notification' checkbox exists, add a parameter with value  to the
+ * node in order to determine if we should send the notification on the
+ * hook_node_update / insert.
+ */
+function c4m_content_node_submit(&$node, $form, $form_state) {
+  if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
+    return;
+  }
+
+  if (!isset($form_state['values']['send-notification'])) {
+    return;
+  }
+
+  $node->c4m_send_notification = $form_state['values']['send-notification'];
 }
 
 /**
@@ -249,6 +290,10 @@ function _c4m_content_statistics_collect_data(array $list) {
       ? $info['c4m_status']
       : NULL;
 
+    $skip_access_check = isset($info['skip_access_check'])
+      ? $info['skip_access_check']
+      : NULL;
+
     $arguments = array(
       'entity_type' => $info['entity_type'],
       'bundles' => $info['bundles'],
@@ -256,6 +301,7 @@ function _c4m_content_statistics_collect_data(array $list) {
       'og_id' => $og_id,
       'topic' => $topic,
       'c4m_status' => $status,
+      'skip_access_check' => $skip_access_check,
     );
     $count = c4m_helper_entity_get_number_of_entities($arguments);
 
@@ -301,6 +347,16 @@ function c4m_content_theme() {
     'path' => drupal_get_path('module', 'c4m_content') . '/includes',
   );
 
+  $theme['c4m_taxonomy_tree'] = array(
+    'template' => 'c4m_taxonomy_tree',
+    'path' => drupal_get_path('module', 'c4m_content') . '/templates',
+    'variables' => array(
+      'root' => '',
+      'local_tree' => '',
+      'class' => '',
+    ),
+  );
+
   return $theme;
 }
 
@@ -320,6 +376,63 @@ function c4m_content_current_context() {
   else {
     return 'global';
   }
+}
+
+/**
+ * Helper function to generate markup for OG group image.
+ *
+ * Generates output on front page, manage group/project page, and on any
+ * group/project page for group administrator users.
+ *
+ * @param object $group
+ *   OG group.
+ *
+ * @return string
+ *   Generated markup for group/project banner image.
+ */
+function c4m_content_get_og_image_markup($group) {
+  // First establish the current group.
+  $markup = '';
+  $wrapper = entity_metadata_wrapper('node', $group);
+
+  $menu_item = menu_get_item();
+  if (drupal_is_front_page() || ($menu_item['path'] == 'manage' && og_user_access('node', $group->nid, 'administer group'))) {
+    // Add group image.
+    $file = $wrapper->c4m_banner->value();
+    if (!empty($file)) {
+      $file['style_name'] = 'banner';
+      $file['path'] = $file['uri'];
+      $file['attributes'] = array('class' => 'group-banner');
+      // If current page is the Group Management page,
+      // Add an edit link to the banner.
+      if ($menu_item['path'] == 'manage') {
+        $edit_link['element'] = array(
+          '#tag' => 'span',
+          '#attributes' => array(
+            'class' => array('edit-link'),
+          ),
+          '#value' => t('Edit'),
+        );
+        $options = array(
+          'html' => TRUE,
+          'attributes' => array(
+            'class' => array(
+              'edit-banner',
+            ),
+          ),
+        );
+        $markup .= l(theme_html_tag($edit_link) . theme_image_style($file), url('node/' . $group->nid . '/edit', array(
+          'absolute' => TRUE,
+          'fragment' => 'edit-image-banner',
+        )), $options);
+      }
+      else {
+        $markup .= theme_image_style($file);
+      }
+    }
+  }
+
+  return $markup;
 }
 
 /**
@@ -348,11 +461,8 @@ function c4m_content_field_formatter_view($entity_type, $entity, $field, $instan
         $currency_object = currency_load($currency);
 
         $symbol = $currency_object->sign;
-        $decimal_separator = '.';
-        $grouping_separator = '&nbsp;';
-
         // Amount with currency-based decimal and grouping separators.
-        $amount = number_format($item['amount'], $field['settings']['scale'], $decimal_separator, $grouping_separator);
+        $amount = c4m_content_ec_number_format($item['amount'], $field['settings']['scale']);
 
         // Amount with currency-based decimal and grouping separators and a
         // currency symbol.
@@ -397,6 +507,26 @@ function c4m_content_field_formatter_view($entity_type, $entity, $field, $instan
 }
 
 /**
+ * Format a number according to EC format.
+ *
+ * @param float $number
+ *   Number to be formatted.
+ * @param int $decimals
+ *   (optional) Number of decimals. Defaults to 0.
+ *
+ * @return string
+ *   Formatted number.
+ */
+function c4m_content_ec_number_format($number, $decimals = 0) {
+  $decimal_separator = '.';
+  $grouping_separator = '&nbsp;';
+
+  // Amount with currency-based decimal and grouping separators.
+  $amount = number_format($number, $decimals, $decimal_separator, $grouping_separator);
+  return $amount;
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Overrides the default confirm node delete form to offer the possibility to
@@ -408,29 +538,22 @@ function c4m_content_form_node_delete_confirm_alter(&$form, &$form_state) {
 
   if ($comments) {
     // Handle sentence plural when multiple comments.
-    $text = t('comment');
-    $them = t('it');
-    if ($comments > 1) {
-      $text = t('comments');
-      $them = t('them');
-    }
+    $text = $comments > 1 ? t('comments') : t('comment');
 
     $replacements = array(
       '@comment_count' => $comments,
       '@comment_text' => $text,
-      '@them' => $them,
-      '!link' => l(t('edit it'), 'node/' . $node->nid . '/edit'),
     );
 
     $form['message'] = array(
       '#type' => 'markup',
-      '#markup' => '<p>' . t('This content has @comment_count @comment_text, are you sure you want to delete @them? You can also opt to anonymize this content, or !link.', $replacements) . '</p>',
+      '#markup' => '<p>' . t('This content has @comment_count @comment_text - by deleting this post, you will also delete the @comment_text. If you would rather preserve this content, please select the check box below to remove your name and editorial rights; the author will become anonymous, and all content will be preserved.', $replacements) . '</p>',
       '#weight' => -10,
     );
 
     $form['anonymize'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Anonymize'),
+      '#title' => t('Update the author to anonymous'),
     );
 
     // We override the default submit and we invoke it if necessary.
@@ -616,4 +739,195 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
   $star = '<i class="fa ' . $star_class[$highlight] . ' fa-2x" aria-hidden="true"></i>';
 
   return l($star, $url, $options);
+}
+
+/**
+ * Build a tree of a hierarchical taxonomy and theme it.
+ *
+ * @param array $items
+ *   The items in the tree.
+ * @param array $link_term_to_facet
+ *   The current vocabulary machine name, for linking to facet.
+ *
+ * @return string
+ *   The markup of the tree.
+ */
+function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) {
+  // Each item at $trees is an array, representing two level tree.
+  // First node is tree root (level 1), and all others, if exist,
+  // are children (level 2).
+  $trees = array();
+
+  // Stores positions of trees to be shifted right, as they present
+  // second and third level, at 3 level taxonomy hierarchy.
+  $shift_right_trees = array();
+
+  while (!empty($items)) {
+    // Extract first root item from $items array - level 1.
+    if (!($root = _c4m_content_taxonomy_extract_root_item($items))) {
+      // We get here in case of dis-attached terms - terms data
+      // is corrupted.
+      break;
+    }
+    // Extract all roots children from $items array - level 2.
+    $children = _c4m_content_taxonomy_extract_child_items($items, $root->tid);
+    // Items from $children array, that don't have children of their own.
+    $childless_children = $children;
+
+    // Handling 3-rd level (grand children), if exist.
+    $sub_trees = array();
+    foreach ($children as $child) {
+      // For every 2-nd level item (child), fetch it's children from $items.
+      $grand_children = _c4m_content_taxonomy_extract_child_items($items, $child->tid);
+      if (!empty($grand_children)) {
+        // If grand children exist (3-rd level items), remove the child
+        // from $childless_children array.
+        $index = array_search($child, $childless_children);
+        unset($childless_children[$index]);
+
+        // Add array item that represents 2 level tree, where first level item
+        // is a child, and 2-nd level items are grand children.
+        $sub_trees[] = array_merge(array($child), $grand_children);
+      }
+    }
+
+    // Add array item for 1-st & 2-nd level tree.
+    $root = empty($childless_children) ? array($root) : array_merge(array($root), $childless_children);
+    $trees[] = $root;
+
+    // For every sub tree created (2-nd & 3-rd level tree).
+    foreach ($sub_trees as $sub_tree) {
+      // Add it to to arrays tree, and store it's index, for shifting right.
+      $trees[] = $sub_tree;
+      $trees_keys = array_keys($trees);
+      $shift_right_trees[] = end($trees_keys);
+    }
+  }
+
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE),
+  );
+
+  $tree = '';
+  // Counting trees we theme, as some might need to be shifted right.
+  $tree_index = 0;
+
+  // Loop through all the taxonomy items and add them to the tree.
+  foreach ($trees as $taxonomy_tree) {
+    $local_tree = array();
+    foreach ($taxonomy_tree as $taxonomy) {
+      // If the link term was not provided, or it isn't the proper
+      // one for the current vocabulary, create a default link to
+      // the taxonomy term.
+      if (empty($link_term_to_facet['vocabulary_name']) || $taxonomy->vocabulary_machine_name != $link_term_to_facet['vocabulary_name']) {
+        $link = l($taxonomy->name, "/taxonomy/term/" . $taxonomy->tid);
+      }
+      else {
+        $options['query'] = array(
+          'f[0]' => $link_term_to_facet['vocabulary_name'] . ':' . $taxonomy->tid,
+        );
+
+        $link = l($taxonomy->name, 'groups', $options);
+      }
+
+      $local_tree[] = $link;
+    }
+
+    // If it's the first item on the local tree, it's the parent. We need
+    // to distinguish between the parent and its children because the
+    // parent needs to get a different style.
+    $root = array_shift($local_tree);
+
+    // Use the taxonomy tree theme to style the local tree.
+    $variables = array(
+      'root' => $root,
+      // Join the local_tree array to a string.
+      'local_tree' => implode(', ', $local_tree),
+    );
+
+    // Assign a dedicated class for trees that needs to be shifted right.
+    if (array_search($tree_index, $shift_right_trees) !== FALSE) {
+      $variables['class'] = 'shift-right';
+    }
+    $tree .= theme('c4m_taxonomy_tree', $variables);
+
+    $tree_index++;
+  }
+
+  $tag['element'] = array(
+    '#tag'   => 'div',
+    '#value' => $tree,
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * Helper function.
+ *
+ * Extracts all child taxonomy items from $items, and alter $items -
+ * subtracted all items that function returns.
+ *
+ * @param array $items
+ *   Taxonomies array, from which we extract all children of item with
+ *   ID == $parent_id. $items array is altered by function.
+ * @param int $parent_id
+ *   The ID of taxonomy item, which children should be extracted.
+ *
+ * @return array
+ *   All child items of input item with ID $parent_id.
+ */
+function _c4m_content_taxonomy_extract_child_items(&$items, $parent_id) {
+  $result = array();
+  $remaining = array();
+
+  foreach ($items as $item) {
+    // Get the parent of $item.
+    $parent = taxonomy_get_parents($item['tid']);
+    if (!empty($parent) && key($parent) == $parent_id) {
+      // If item's parent found, and it's ID equals to input $parent_id,
+      // add it's 'taxonomy_term' into $result array.
+      $result[] = $item['taxonomy_term'];
+    }
+    else {
+      // $remaining array holds all the items that are not children of
+      // item which ID == $parent_id.
+      $remaining[] = $item;
+    }
+  }
+  // Alter original $items array - subtract all the $result items.
+  $items = $remaining;
+
+  return $result;
+}
+
+/**
+ * Helper function.
+ *
+ * Extracts first taxonomy item that got no parents from $items array
+ * (alters the array), and returns it.
+ *
+ * @param array $items
+ *   Taxonomies array, from which we extract all children of item with
+ *   ID = $parent_id. $items array is altered by function.
+ *
+ * @return mixed
+ *   First taxonomy item at $items array, that got no parents.
+ *   FALSE, if all items got a parent.
+ */
+function _c4m_content_taxonomy_extract_root_item(&$items) {
+  foreach ($items as $key => $item) {
+    $parent = taxonomy_get_parents($item['tid']);
+    if (empty($parent)) {
+      // First item that got no parent => remove it from $items,
+      // and return it's term.
+      unset($items[$key]);
+
+      return $item['taxonomy_term'];
+    }
+  }
+
+  // All items got a parent.
+  return FALSE;
 }

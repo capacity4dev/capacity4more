@@ -56,7 +56,7 @@ function c4m_content_feed_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_preview_feed';
-  $strongarm->value = '1';
+  $strongarm->value = '0';
   $export['comment_preview_feed'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -168,6 +168,9 @@ function c4m_content_feed_strongarm() {
         ),
         'path' => array(
           'weight' => '1',
+        ),
+        'redirect' => array(
+          'weight' => '7',
         ),
       ),
       'display' => array(),

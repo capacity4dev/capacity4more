@@ -22,5 +22,70 @@ function c4m_admin_menu() {
     'position' => 'right',
   );
 
+  $items['admin/config/c4m/disclaimer'] = array(
+    'title' => 'Disclaimer text settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_admin_manage_disclaimer_form'),
+    'access arguments' => array('administer disclaimer settings'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'c4m_admin.pages.inc',
+  );
+
   return $items;
+}
+
+/**
+ * Returns site administrators ids.
+ *
+ * @param bool $filter_event_user
+ *   Whether to filter out current user ID from result, or not.
+ *
+ * @return array
+ *   Ids of site admins, or empty array, if none found.
+ */
+function c4m_admin_get_admins_ids($filter_event_user = FALSE) {
+  // Get all site administrators.
+  $admin_role = user_role_load_by_name('administrator');
+  $results = db_select('users_roles', 'r')
+    ->fields('r', array('uid'))
+    ->condition('rid', $admin_role->rid, '=')
+    ->execute()
+    ->fetchAll();
+
+  foreach ($results as &$result) {
+    $result = $result->uid;
+  }
+
+  if ($filter_event_user) {
+    // Filter current user ID from array with admins ids.
+    global $user;
+
+    if (($index = array_search($user->uid, $results)) !== FALSE) {
+      unset($results[$index]);
+    }
+  }
+
+  return $results;
+}
+
+/**
+ * Returns site administrators ids. Filters out current user.
+ *
+ * @return array
+ *   Ids of site admins, or empty array, if none found.
+ */
+function c4m_admin_get_admins_ids_for_notification() {
+  return c4m_admin_get_admins_ids(TRUE);
+}
+
+/**
+ * Implements hook_permission().
+ */
+function c4m_admin_permission() {
+  $perms['administer disclaimer settings'] = array(
+    'title' => t('Administer disclaimer settings'),
+    'description' => t('Allows the user to modify the disclaimer text.'),
+  );
+
+  return $perms;
 }

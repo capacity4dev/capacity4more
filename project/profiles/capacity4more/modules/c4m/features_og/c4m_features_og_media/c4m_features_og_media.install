@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Group Media feature.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_features_og_media_install() {
+  // Install this feature.
+  c4m_og_feature_install('c4m_features_og_media');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function c4m_features_og_media_uninstall() {
+  // Uninstall this feature.
+  c4m_og_feature_uninstall('c4m_features_og_media');
+}

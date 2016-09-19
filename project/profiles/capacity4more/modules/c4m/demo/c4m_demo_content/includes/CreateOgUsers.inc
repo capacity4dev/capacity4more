@@ -11,6 +11,8 @@
 class C4mDemoContentCreateOgUsers extends Migration {
   /**
    * Map the field and properties to the CSV header.
+   *
+   * @var array
    */
   public $csvColumns = array(
     array('id', 'ID'),

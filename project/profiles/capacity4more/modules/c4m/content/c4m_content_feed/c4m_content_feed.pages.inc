@@ -24,7 +24,7 @@ function c4m_content_feed_rss() {
   );
 
   $items = c4m_content_feed_topics_format_rss($feed->c4m_related_topic);
-  $items .= c4m_content_feed_articles_format_rss($feed->c4m_related_articles);
+  $items .= c4m_content_feed_articles_format_rss($feed->c4m_related_articles_unlimited);
   $items .= c4m_content_feed_groups_format_rss($feed->c4m_related_group_unlimited);
 
   $output = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";

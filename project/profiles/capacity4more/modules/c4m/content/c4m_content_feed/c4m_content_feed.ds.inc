@@ -72,6 +72,11 @@ function c4m_content_feed_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_related_articles_unlimited' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
   );
   $export['node|feed|full'] = $ds_fieldsetting;
 
@@ -203,7 +208,7 @@ function c4m_content_feed_ds_layout_settings_info() {
         1 => 'c4m_content_feed_url',
         2 => 'c4m_body',
         3 => 'c4m_related_topic',
-        4 => 'c4m_related_articles',
+        4 => 'c4m_related_articles_unlimited',
         5 => 'c4m_related_group_unlimited',
       ),
     ),
@@ -212,7 +217,7 @@ function c4m_content_feed_ds_layout_settings_info() {
       'c4m_content_feed_url' => 'ds_content',
       'c4m_body' => 'ds_content',
       'c4m_related_topic' => 'ds_content',
-      'c4m_related_articles' => 'ds_content',
+      'c4m_related_articles_unlimited' => 'ds_content',
       'c4m_related_group_unlimited' => 'ds_content',
     ),
     'classes' => array(),

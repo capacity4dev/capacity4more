@@ -568,6 +568,10 @@ function c4m_features_og_manage_project_details() {
       'node/' . $project->nid . '/edit',
       array('absolute' => TRUE)
     ),
+    'menu_link' => url(
+      'group/node/' . $project->nid . '/admin/menus',
+      array('absolute' => TRUE)
+    ),
     'owner' => c4m_user_name(user_load($project->uid)),
     'owner_edit' => url(
       'project/node/' . $project->nid . '/admin/owner',
@@ -582,7 +586,6 @@ function c4m_features_og_manage_project_details() {
     'total_budget' => t('No total budget'),
     'source_funding' => t('No source of funding'),
     'partners' => t('No partners'),
-    'implemented_by' => t('No implementator'),
     'cris_decision_number' => t('No CRIS Decision number'),
     'cris_contact_number' => t('No CRIS Contact number'),
     'topics' => t('No Group Topics'),
