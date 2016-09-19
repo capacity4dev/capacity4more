@@ -17,3 +17,21 @@ Feature: Testing user creation/manipulations.
        And I should see a "About You" field
        And I should see a "Notable Contributions" field
 
+  @api
+  Scenario: The user tries to leave the platform but still has groups.
+    Given I am logged in as user "mariecurie"
+     When I visit the leave platform page of the current user
+     Then I should see "You can't leave the platform"
+
+  @javascript
+  Scenario: The user leaves the platform.
+    Given The window is maximized
+      And I am logged in with a temporal user
+     When I visit the leave platform page of the current user
+      And I check the box "I no longer want my name to appear on contents I have contributed - please make all my content anonymous"
+      And I fill in "edit-feedback" with "Just testing leaving the platform."
+      And I press "Confirm"
+      # For some reason travis can not handle the batch operation that
+      # triggered when an account is being canceled, hence we skip the last
+      # step.
+#     Then I should not be able to log in with the temporal user again
