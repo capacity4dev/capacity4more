@@ -1631,7 +1631,17 @@ function c4m_og_get_user_administered_groups_count($uid, $node_type) {
  *   Notification types.
  */
 function c4m_og_get_group_content_notification_types() {
-  return array('discussion', 'document', 'event', 'wiki_page');
+  return array('discussion', 'document', 'event', 'wiki_page', 'news');
+}
+
+/**
+ * Returns an array of content types that require notification om comment.
+ *
+ * @return array
+ *   Notification types.
+ */
+function c4m_og_get_comment_notification_types() {
+  return array('discussion', 'document', 'event', 'wiki_page', 'news', 'article');
 }
 
 /**

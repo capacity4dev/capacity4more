@@ -212,7 +212,7 @@ function c4m_user_notifications_node_delete($node) {
 /**
  * Implements hook_comment_insert().
  *
- * Triggers email notification for comment insert.
+ * Triggers email notifications for comment insert.
  */
 function c4m_user_notifications_comment_insert($comment) {
   // Don't send notifications, if activated from CLI (dummy content migration).
@@ -221,9 +221,9 @@ function c4m_user_notifications_comment_insert($comment) {
   }
 
   $node = node_load($comment->nid);
-  $group_notification_types = c4m_og_get_group_content_notification_types();
-  if (!$node->type || !in_array($node->type, $group_notification_types)) {
-    // Node comment is associated with does not require notification.
+  $comment_notification_types = c4m_og_get_comment_notification_types();
+  if (!$node->type || !in_array($node->type, $comment_notification_types)) {
+    // Node, comment is associated with, does not require notification.
     return;
   }
 
