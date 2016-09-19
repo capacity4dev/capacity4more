@@ -13,7 +13,7 @@ function c4m_message_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'field_bundle_settings_message__c4m_content_updated';
+  $strongarm->name = 'field_bundle_settings_message__c4m_group_content_updated';
   $strongarm->value = array(
     'view_modes' => array(),
     'extra_fields' => array(
@@ -42,7 +42,7 @@ function c4m_message_strongarm() {
       ),
     ),
   );
-  $export['field_bundle_settings_message__c4m_content_updated'] = $strongarm;
+  $export['field_bundle_settings_message__c4m_group_content_updated'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -1129,7 +1129,7 @@ function c4m_message_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'field_bundle_settings_message__c4m_notify_editors_content_updated';
+  $strongarm->name = 'field_bundle_settings_message__c4m_notify_editors_group_content_updated';
   $strongarm->value = array(
     'view_modes' => array(),
     'extra_fields' => array(
@@ -1158,7 +1158,7 @@ function c4m_message_strongarm() {
       ),
     ),
   );
-  $export['field_bundle_settings_message__c4m_notify_editors_content_updated'] = $strongarm;
+  $export['field_bundle_settings_message__c4m_notify_editors_group_content_updated'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

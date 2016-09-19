@@ -11,9 +11,9 @@ function c4m_message_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance:
-  // 'message-c4m_content_updated-field_executing_user'.
-  $field_instances['message-c4m_content_updated-field_executing_user'] = array(
-    'bundle' => 'c4m_content_updated',
+  // 'message-c4m_group_content_updated-field_executing_user'.
+  $field_instances['message-c4m_group_content_updated-field_executing_user'] = array(
+    'bundle' => 'c4m_group_content_updated',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -59,9 +59,9 @@ function c4m_message_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-c4m_content_updated-field_group_node'.
-  $field_instances['message-c4m_content_updated-field_group_node'] = array(
-    'bundle' => 'c4m_content_updated',
+  // Exported field_instance: 'message-c4m_group_content_updated-field_group_node'.
+  $field_instances['message-c4m_group_content_updated-field_group_node'] = array(
+    'bundle' => 'c4m_group_content_updated',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
@@ -115,9 +115,9 @@ function c4m_message_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-c4m_content_updated-field_node'.
-  $field_instances['message-c4m_content_updated-field_node'] = array(
-    'bundle' => 'c4m_content_updated',
+  // Exported field_instance: 'message-c4m_group_content_updated-field_node'.
+  $field_instances['message-c4m_group_content_updated-field_node'] = array(
+    'bundle' => 'c4m_group_content_updated',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
@@ -4585,9 +4585,9 @@ function c4m_message_field_default_field_instances() {
   );
 
   // Exported field_instance:
-  // 'message-c4m_notify_editors_content_updated-field_executing_user'.
-  $field_instances['message-c4m_notify_editors_content_updated-field_executing_user'] = array(
-    'bundle' => 'c4m_notify_editors_content_updated',
+  // 'message-c4m_notify_editors_group_content_updated-field_executing_user'.
+  $field_instances['message-c4m_notify_editors_group_content_updated-field_executing_user'] = array(
+    'bundle' => 'c4m_notify_editors_group_content_updated',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -4634,9 +4634,9 @@ function c4m_message_field_default_field_instances() {
   );
 
   // Exported field_instance:
-  // 'message-c4m_notify_editors_content_updated-field_group_node'.
-  $field_instances['message-c4m_notify_editors_content_updated-field_group_node'] = array(
-    'bundle' => 'c4m_notify_editors_content_updated',
+  // 'message-c4m_notify_editors_group_content_updated-field_group_node'.
+  $field_instances['message-c4m_notify_editors_group_content_updated-field_group_node'] = array(
+    'bundle' => 'c4m_notify_editors_group_content_updated',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
@@ -4691,9 +4691,9 @@ function c4m_message_field_default_field_instances() {
   );
 
   // Exported field_instance:
-  // 'message-c4m_notify_editors_content_updated-field_node'.
-  $field_instances['message-c4m_notify_editors_content_updated-field_node'] = array(
-    'bundle' => 'c4m_notify_editors_content_updated',
+  // 'message-c4m_notify_editors_group_content_updated-field_node'.
+  $field_instances['message-c4m_notify_editors_group_content_updated-field_node'] = array(
+    'bundle' => 'c4m_notify_editors_group_content_updated',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,

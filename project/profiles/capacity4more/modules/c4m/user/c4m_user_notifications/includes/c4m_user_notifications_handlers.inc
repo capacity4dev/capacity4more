@@ -653,7 +653,7 @@ function _c4m_user_notifications_notify_on_content($node, $action, $target_gid =
       break;
 
     case 'update':
-      $message_type = 'c4m_content_updated';
+      $message_type = 'c4m_group_content_updated';
       break;
 
     default:
@@ -707,12 +707,12 @@ function _c4m_user_notifications_notify_on_content_new_revision($node, $users_gr
 
   switch ($users_group) {
     case 'content_editors':
-      $message_type = 'c4m_notify_editors_content_updated';
+      $message_type = 'c4m_notify_editors_group_content_updated';
       $flag_suffix = 'node';
       break;
 
     case 'group_followers':
-      $message_type = 'c4m_content_updated';
+      $message_type = 'c4m_group_content_updated';
       $flag_suffix = 'group';
       break;
 
