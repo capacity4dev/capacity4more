@@ -57,19 +57,19 @@ Feature: Test activity stream
   Scenario: Promote buttons shouldn't be displayed to anonymous users.
     Given  I am an anonymous user
     When  I visit the dashboard of group "Nobel Prize"
-    Then  I should not see the ".fa-thumb-tack" element
+    Then  I should not see the ".fa-star" element
 
   @javascript
   Scenario: Promote buttons shouldn't be displayed to users without access.
     Given  I am logged in as user "isaacnewton"
     When  I visit the dashboard of group "Nobel Prize"
-    Then  I should not see the ".fa-thumb-tack" element
+    Then  I should not see the ".fa-star" element
 
   @javascript
   Scenario Outline: Promote buttons should be displayed to users with access.
     Given  I am logged in as user "<user>"
     When  I visit the dashboard of group "Nobel Prize"
-    Then  I should see the ".fa-thumb-tack" element
+    Then  I should see the ".fa-star" element
 
     Examples:
       | user        |
