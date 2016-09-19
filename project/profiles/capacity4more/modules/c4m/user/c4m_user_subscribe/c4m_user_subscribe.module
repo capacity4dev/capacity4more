@@ -122,7 +122,7 @@ function c4m_user_subscribe_og_membership_insert(OgMembership $membership) {
 /**
  * Implements hook_og_membership_type_update().
  *
- * @see c4m_user_subscribe_og_membership_insert().
+ * @see c4m_user_subscribe_og_membership_insert()
  */
 function c4m_user_subscribe_og_membership_update(OgMembership $membership) {
   c4m_user_subscribe_og_membership_insert($membership);
