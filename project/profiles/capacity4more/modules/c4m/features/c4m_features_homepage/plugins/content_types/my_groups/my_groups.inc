@@ -62,8 +62,14 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
     'groups' => $rendered_groups,
     'link' => url('groups', $link_options),
   );
+  $output = '';
+  if ($rendered_groups) {
+    $output .= theme('c4m_features_homepage_my_groups', $variables);
+    $renderable_array = c4m_features_homepage_node_creation_button_cta('group');
+    $output .= render($renderable_array);
+  }
 
-  $block->content = $rendered_groups ? theme('c4m_features_homepage_my_groups', $variables) : FALSE;
+  $block->content = $output;
   return $block;
 }
 

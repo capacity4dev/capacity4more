@@ -869,18 +869,20 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
 }
 
 /**
- * Fetch all group admins ids.
+ * Returns all group admins ids.
  *
  * @param int $gid
  *   The ID of the group.
  * @param bool $verify_owner_added
- *   Verifies that group owner id is returned, even if group owner does not
+ *   Whether to return group owner id, even if group owner does not
  *   have 'administrator member' role.
+ * @param bool $filter_event_user
+ *   Whether to filter out current user ID from result, or not.
  *
  * @return array
  *   An array of all group admins ids.
  */
-function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE) {
+function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_event_user = FALSE) {
   $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
   $admins = c4m_og_get_users_by_roles($gid, array($group_admin_role->rid));
   foreach ($admins as &$admin) {
@@ -896,16 +898,38 @@ function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE) {
     }
   }
 
+  if ($filter_event_user) {
+    // Filter current user ID from array with admins ids.
+    global $user;
+
+    if (($index = array_search($user->uid, $admins)) !== FALSE) {
+      unset($admins[$index]);
+    }
+  }
+
   return $admins;
 }
 
 /**
- * Fetch all group admins.
+ * Returns the ids of group owner and group admins. Filters out current user.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ *
+ * @return array
+ *   An array of all group admins ids.
+ */
+function c4m_og_get_group_admins_and_owner_ids_for_notification($gid) {
+  return c4m_og_get_group_admins_ids($gid, TRUE, TRUE);
+}
+
+/**
+ * Returns all group admins.
  *
  * @param int $gid
  *   The ID of the group.
  * @param bool $verify_owner_added
- *   Verifies that group owner is returned, even if group owner does not
+ *   Whether to return group owner, even if group owner does not
  *   have 'administrator member' role.
  *
  * @return array
@@ -1919,6 +1943,20 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
   $nids = $results->fetchAllKeyed();
 
   return $nids;
+}
+
+/**
+ * Implements hook_node_access().
+ *
+ * Prevents anyone besides site administrators to delete Group/Project.
+ * Blocks access to 'node/%node/delete'.
+ */
+function c4m_og_node_access($node, $op, $account) {
+  if ($op == 'delete' && og_is_group('node', $node) && !user_access('administer nodes')) {
+    return NODE_ACCESS_DENY;
+  }
+
+  return NODE_ACCESS_IGNORE;
 }
 
 /**

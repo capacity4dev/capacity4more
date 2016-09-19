@@ -32,7 +32,7 @@ function c4m_content_news_c4m_helper_entity_label_info() {
       'article' => t('a'),
       'singular' => t('news'),
       'plural' => t('news'),
-      'insert action' => t('create news'),
+      'insert action' => t('created news'),
       'update action' => t('updated the news'),
       'icon' => 'fa-comments',
     ),

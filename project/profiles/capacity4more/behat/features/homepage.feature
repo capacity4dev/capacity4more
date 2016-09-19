@@ -66,6 +66,18 @@ Feature: Test homepage content and blocks
     Then  I should see "Suggested Groups"
 
   @api
+  Scenario: Anonymous user should see "Featured projects" block
+    Given I am an anonymous user
+    When  I visit the site homepage
+    Then  I should see "Featured projects"
+
+  @api
+  Scenario: Logged in, member user should see "Featured projects" block
+    Given I am logged in as user "mariecurie"
+    When  I visit the site homepage
+    Then  I should see "Featured projects"
+
+  @api
   Scenario: Anonymous user should see only one "Upcoming event"
     Given I am an anonymous user
     When  I visit the site homepage

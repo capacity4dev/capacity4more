@@ -16,3 +16,5 @@ features[path_breadcrumbs][] = groups
 features[views_view][] = c4m_er_groups
 features[views_view][] = c4m_overview_groups
 features_exclude[dependencies][views] = views
+files[] = views/handlers/c4m_overview_groups_handler_members_count.inc
+files[] = views/handlers/c4m_overview_groups_handler_title_no_purl.inc
