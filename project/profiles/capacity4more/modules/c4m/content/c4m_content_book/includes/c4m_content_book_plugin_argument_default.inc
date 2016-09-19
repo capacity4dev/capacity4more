@@ -38,9 +38,8 @@ class c4m_content_book_plugin_argument_default extends views_plugin_argument_def
     // friendly error message and return early -which will cause Drupal to
     // display `The requested page could not be found`.
     if (!isset($result['node'])) {
-      drupal_set_message(t('Unable to retrieve the help pages. Please !contact-page.', array(
-        '!contact-page' => l(t('contact the site administrator'), 'contact', array('purl' => array('disabled' => TRUE))),
-      )), 'error');
+      $contact_page = l(t('contact the site administrator'), 'contact', array('purl' => array('disabled' => TRUE)));
+      drupal_set_message(t('Unable to retrieve the help pages. Please !contact-page.', array('!contact-page' => $contact_page,)), 'error');
 
       return;
     }
