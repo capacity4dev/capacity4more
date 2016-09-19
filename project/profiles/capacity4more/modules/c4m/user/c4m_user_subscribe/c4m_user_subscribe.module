@@ -117,7 +117,7 @@ function c4m_user_subscribe_og_membership_insert(OgMembership $membership) {
 }
 
 /**
- * Implements hook_og_membership_type_insert().
+ * Implements hook_og_membership_type_update().
  *
  * Flags the group subscription flag, so the user is subscribed to the group.
  */
