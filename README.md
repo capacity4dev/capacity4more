@@ -155,7 +155,11 @@ $ ./bin/behat --tags=@api
 $ cd /PATH/TO/project/profiles/capacity4more/behat
 $ ./bin/behat --tags=@javascript
 ```
-
+#### Running Coder Tests
+In order to run Coder's sniffing tests, run the following command from the project's root directory:
+```
+$ CODE_REVIEW=1 TRAVIS_BUILD_DIR='.' ./ci/bin/run_coder.sh
+```
 
 ## Powered by [druleton][link-druleton]
 
