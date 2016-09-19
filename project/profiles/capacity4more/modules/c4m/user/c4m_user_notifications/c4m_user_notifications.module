@@ -116,13 +116,25 @@ function c4m_user_notifications_og_membership_update($og_membership) {
         // Membership acceptance notification to user, for open and moderated
         // group is the same (template MT13).
         c4m_user_notifications_notify_user_membership_accepted($og_membership);
-        c4m_user_notifications_moderated_group_notify_admins_membership_accepted($og_membership);
+
+        if (!isset($og_membership->og_membership_invitation)) {
+          // Notify admins only if it's not an invitation to group.
+          // When user is invited, and approves the request through link
+          // at mail, there's no need to notify admins.
+          c4m_user_notifications_moderated_group_notify_admins_membership_accepted($og_membership);
+        }
       }
       elseif ($moderated == C4M_OG_OPEN_GROUP) {
         // Membership acceptance notification to user, for open and moderated
         // group is the same (template MT13).
         c4m_user_notifications_notify_user_membership_accepted($og_membership);
-        c4m_user_notifications_open_group_notify_admins_membership_accepted($og_membership);
+
+        if (!isset($og_membership->og_membership_invitation)) {
+          // Notify admins only if it's not an invitation to group.
+          // When user is invited, and approves the request through link
+          // at mail, there's no need to notify admins.
+          c4m_user_notifications_open_group_notify_admins_membership_accepted($og_membership);
+        }
       }
       break;
   }
