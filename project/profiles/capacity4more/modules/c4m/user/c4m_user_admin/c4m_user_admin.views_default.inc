@@ -559,6 +559,7 @@ Last access : [access]';
   $handler->display->display_options['style_options']['permanent_file'] = 1;
   $handler->display->display_options['style_options']['file_path'] = 'private://export/users.csv';
   $handler->display->display_options['style_options']['parent_sort'] = 0;
+  $handler->display->display_options['style_options']['separator'] = '|';
   $handler->display->display_options['style_options']['quote'] = 1;
   $handler->display->display_options['style_options']['trim'] = 0;
   $handler->display->display_options['style_options']['replace_newlines'] = 0;
