@@ -1271,7 +1271,7 @@ function c4m_og_feature_uninstall($feature) {
  *    (optional) The user object to fetch group memberships for. Defaults to the
  *   acting user.
  *
- * @return array $groups
+ * @return array
  *    Returns array of group nodes IDs of specific node type.
  */
 function c4m_og_get_user_group_ids_by_bundle($bundle = NULL, $account = NULL) {
@@ -1648,7 +1648,7 @@ function c4m_og_is_of_group_type($type) {
  * @param string|array $node_type
  *   Node type or types.
  *
- * @return array.
+ * @return array
  *   Keyed array of Node IDs and titles.
  */
 function c4m_og_get_user_owned_groups($uid, $node_type) {
@@ -1661,6 +1661,20 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
   $nids = $results->fetchAllKeyed();
 
   return $nids;
+}
+
+/**
+ * Implements hook_node_access().
+ *
+ * Prevents anyone besides site administrators to delete Group/Project.
+ * Blocks access to 'node/%node/delete'.
+ */
+function c4m_og_node_access($node, $op, $account) {
+  if ($op == 'delete' && og_is_group('node', $node) && !user_access('administer nodes')) {
+    return NODE_ACCESS_DENY;
+  }
+
+  return NODE_ACCESS_IGNORE;
 }
 
 /**
@@ -1749,7 +1763,7 @@ function c4m_og_edit_author_autocomplete($string = '') {
  * The function replaces anything other than letters, numbers and underscores
  * in the $title string with the $delimiter and converts capital to lowercase.
  *
- * @return string.
+ * @return string
  *   The title in machine readable form.
  */
 function c4m_og_human_to_machine_readable($title, $delimiter = '-') {
