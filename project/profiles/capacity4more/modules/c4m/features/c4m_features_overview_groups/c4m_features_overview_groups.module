@@ -33,3 +33,12 @@ function c4m_features_overview_groups_views_pre_build(&$view) {
   }
   unset($view->filter['author']);
 }
+
+/**
+ * Implements hook_views_data_alter().
+ *
+ * Custom handler for the title field. Handles "Disable PURL" option.
+ */
+function c4m_features_overview_groups_views_data_alter(&$data) {
+  $data['node']['title']['field']['handler'] = 'c4m_overview_groups_handler_title_no_purl';
+}
