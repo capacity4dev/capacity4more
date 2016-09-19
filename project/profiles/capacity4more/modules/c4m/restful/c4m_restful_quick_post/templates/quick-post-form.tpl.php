@@ -37,7 +37,9 @@
 
 <!-- Body editor-->
 <div class="form-group" id="body-wrapper" ng-class="{ 'has-error' : errors.body }">
-  <span class="body-attachment-link"><a href="http://cfm.local/media/browser"><i class="fa fa-paperclip"></i></a></span>
+<!--  <span class="body-attachment-link"><a href="http://cfm.local/media/browser"><i class="fa fa-paperclip"></i></a></span>-->
+  <input type="file" name="document-file" id="c4m-related-document" class="document_file" ng-file-select="onFileSelect($files, 'c4m-related-document')">
+  <span class="body-attachment-link"><a href="javascript://" ng-click="browseFiles('c4m-related-document')" class=""><i class="fa fa-paperclip"></i></a></span>
   <textarea ckeditor="editorOptions" name="body" class="form-control" id="body" ng-model="data.body" placeholder="Body"></textarea>
 
   <p ng-show="errors.body" class="help-block"><?php print t('Body is required.'); ?></p>

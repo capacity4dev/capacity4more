@@ -37,6 +37,9 @@
       }
     }
 
+    .document_file {
+      display: none;
+    }
     textarea[name=body] {
       resize: vertical;
     }
