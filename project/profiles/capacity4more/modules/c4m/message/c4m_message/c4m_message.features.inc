@@ -25,6 +25,33 @@ function c4m_message_views_api($module = NULL, $api = NULL) {
  */
 function c4m_message_default_message_type() {
   $items = array();
+  $items['c4m_content_updated'] = entity_import('message_type', '{
+    "name" : "c4m_content_updated",
+    "description" : "c4m Content Updated",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003E@content_type_name @content_node_title\\u0026nbsp;from @group_node_title got updated\\u003C\\/p\\u003E\\r\\n",
+          "format" : "default_html",
+          "safe_value" : "\\u003Cp\\u003E@content_type_name @content_node_title\\u00a0from @group_node_title got updated\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E updated the following @content_type_name: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cem\\u003E@node_teaser_body \\u003C\\/em\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!content_node_url\\u0022\\u003ERead more...\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYou\\u0027re receiving this e-mail because you\\u0027re subscribed to \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\u0026nbsp;- if you no longer wish to receive notifications from this @group_node_type, please \\u003Ca href=\\u0022!unsubscribe_group_url\\u0022\\u003Eunsubscribe.\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E updated the following @content_type_name: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Cem\\u003E@node_teaser_body \\u003C\\/em\\u003E\\u003Cbr \\/\\u003E\\n\\u003Ca href=\\u0022!content_node_url\\u0022\\u003ERead more...\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003EYou\\u0027re receiving this e-mail because you\\u0027re subscribed to \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\u0026nbsp;- if you no longer wish to receive notifications from this @group_node_type, please \\u003Ca href=\\u0022!unsubscribe_group_url\\u0022\\u003Eunsubscribe.\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['c4m_group_access_change'] = entity_import('message_type', '{
     "name" : "c4m_group_access_change",
     "description" : "c4m Group Access Change",
@@ -182,6 +209,33 @@ function c4m_message_default_message_type() {
           "value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E was published once again.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E@event_user_full_name\\u0026nbsp;updated the status of this @group_node_type from @group_former_status to Published.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYou can consult \\u003Ca href=\\u0022!help_section_url\\u0022 rel=\\u0022nofollow\\u0022\\u003Ethis help section\\u003C\\/a\\u003E to find out more about @group_node_type statuses and what they imply.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\nThe capacity4dev team\\u003C\\/p\\u003E\\r\\n",
           "format" : "full_html",
           "safe_value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\n\\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E was published once again.\\u003C\\/p\\u003E\\n\\u003Cp\\u003E@event_user_full_name\\u0026nbsp;updated the status of this @group_node_type from @group_former_status to Published.\\u003C\\/p\\u003E\\n\\u003Cp\\u003EYou can consult \\u003Ca href=\\u0022!help_section_url\\u0022 rel=\\u0022nofollow\\u0022\\u003Ethis help section\\u003C\\/a\\u003E to find out more about @group_node_type statuses and what they imply.\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\nThe capacity4dev team\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_group_request_approved'] = entity_import('message_type', '{
+    "name" : "c4m_group_request_approved",
+    "description" : "c4m Group Request Approved",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003EYour @group_node_type\\u0026nbsp;request for @group_node_title\\u0026nbsp;was approved.\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cp\\u003EYour @group_node_type\\u0026nbsp;request for @group_node_title\\u0026nbsp;was approved.\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "\\u003Cp\\u003EDear @member_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\nWe\\u0027re pleased to let you know your @group_node_type: \\u003Cstrong\\u003E@group_node_title\\u003C\\/strong\\u003E was approved and is currently saved in draft status.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Cem\\u003E@admin_comment \\u003C\\/em\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYou can access your new \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_type here\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EAs the owner, we encourage you to read \\u003Ca href=\\u0022!help_section_url\\u0022\\u003Ethis short guide\\u003C\\/a\\u003E. Here you\\u2019ll find tips and advice to make the most of your @group_node_type. Once you\\u0027re ready to go live, don\\u0027t forget to update the status of your @group_node_type to share it with the rest of the community.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EWe hope you\\u2019ll enjoy using [site:name] and we\\u2019d like to remind you that we are available to provide \\u003Ca href=\\u0022@site_contact_link\\u0022\\u003Ehelp and support\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EThe [site:name] team\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cp\\u003EDear @member_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\nWe\\u0027re pleased to let you know your @group_node_type: \\u003Cstrong\\u003E@group_node_title\\u003C\\/strong\\u003E was approved and is currently saved in draft status.\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\n\\u003Cem\\u003E@admin_comment \\u003C\\/em\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003EYou can access your new \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_type here\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\n\\u003Cp\\u003EAs the owner, we encourage you to read \\u003Ca href=\\u0022!help_section_url\\u0022\\u003Ethis short guide\\u003C\\/a\\u003E. Here you\\u2019ll find tips and advice to make the most of your @group_node_type. Once you\\u0027re ready to go live, don\\u0027t forget to update the status of your @group_node_type to share it with the rest of the community.\\u003C\\/p\\u003E\\n\\u003Cp\\u003EWe hope you\\u2019ll enjoy using [site:name] and we\\u2019d like to remind you that we are available to provide \\u003Ca href=\\u0022@site_contact_link\\u0022\\u003Ehelp and support\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\n\\u003Cp\\u003EThe [site:name] team\\u003C\\/p\\u003E\\n"
         }
       ]
     },
@@ -515,6 +569,28 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');
+  $items['c4m_log_group_state_change'] = entity_import('message_type', '{
+    "name" : "c4m_log_group_state_change",
+    "description" : "c4m Log Group State Change",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "@event_user_full_name changed state of @group_node_type @group_node_title from @from_state to @to_state.\\r\\nComment: @admin_comment",
+          "format" : "mail",
+          "safe_value" : "@event_user_full_name changed state of @group_node_type @group_node_title from @from_state to @to_state.\\nComment: @admin_comment"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['c4m_membership_request_rejected'] = entity_import('message_type', '{
     "name" : "c4m_membership_request_rejected",
     "description" : "c4m Membership Request Rejected",
@@ -561,9 +637,9 @@ function c4m_message_default_message_type() {
           "safe_value" : "\\u003Cp\\u003ENew @content_type_name from @group_node_title\\u003C\\/p\\u003E\\n"
         },
         {
-          "value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E added the following @content_type_name: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cem\\u003E@node_teaser_body \\u003C\\/em\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!content_node_url\\u0022\\u003ERead more...\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYou\\u0027re receiving this e-mail because you\\u0027re subscribed to \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\u0026nbsp;- if you no longer wish to receive notifications from this @group_node_type, please \\u003Ca href=\\u0022!unsubscribe_group_url\\u0022\\u003Eunsubscribe.\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n",
+          "value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E @event_action\\u0026nbsp;the following @content_type_name: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cem\\u003E@node_teaser_body \\u003C\\/em\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!content_node_url\\u0022\\u003ERead more...\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYou\\u0027re receiving this e-mail because you\\u0027re subscribed to \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\u0026nbsp;- if you no longer wish to receive notifications from this @group_node_type, please \\u003Ca href=\\u0022!unsubscribe_group_url\\u0022\\u003Eunsubscribe.\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n",
           "format" : "full_html",
-          "safe_value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E added the following @content_type_name: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Cem\\u003E@node_teaser_body \\u003C\\/em\\u003E\\u003Cbr \\/\\u003E\\n\\u003Ca href=\\u0022!content_node_url\\u0022\\u003ERead more...\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003EYou\\u0027re receiving this e-mail because you\\u0027re subscribed to \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\u0026nbsp;- if you no longer wish to receive notifications from this @group_node_type, please \\u003Ca href=\\u0022!unsubscribe_group_url\\u0022\\u003Eunsubscribe.\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E @event_action\\u0026nbsp;the following @content_type_name: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Cem\\u003E@node_teaser_body \\u003C\\/em\\u003E\\u003Cbr \\/\\u003E\\n\\u003Ca href=\\u0022!content_node_url\\u0022\\u003ERead more...\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003EYou\\u0027re receiving this e-mail because you\\u0027re subscribed to \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\u0026nbsp;- if you no longer wish to receive notifications from this @group_node_type, please \\u003Ca href=\\u0022!unsubscribe_group_url\\u0022\\u003Eunsubscribe.\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
         }
       ]
     },
@@ -615,9 +691,9 @@ function c4m_message_default_message_type() {
           "safe_value" : "\\u003Cp\\u003EA new member requested to join @group_node_title\\u00a0\\u003C\\/p\\u003E\\n"
         },
         {
-          "value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\nA new member requested to join \\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E at [site:name].\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!group_pending_member_url\\u0022 rel=\\u0022nofollow\\u0022\\u003EManage this request\\u003C\\/a\\u003E\\u003Cbr \\/\\u003E\\r\\nPlease find their details below:\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cstrong\\u003E@new_member_full_name\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E@new_member_organisation, @new_member_organisation_type\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EBased in @new_member_country\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EExpertise: @new_member_expertise\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EAbout: @new_member_about_me\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EMessage from this member:\\u003Cbr \\/\\u003E\\r\\n\\u003Cem\\u003E@new_member_request_message\\u003C\\/em\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EView this member\\u0027s \\u003Ca href=\\u0022!new_member_public_profile_url\\u0022 rel=\\u0022nofollow\\u0022\\u003Eprofile\\u003C\\/a\\u003E at [site:name].\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!membership_approve_url\\u0022\\u003EApprove\\u003C\\/a\\u003E - \\u003Ca href=\\u0022!membership_reject_url\\u0022\\u003EReject\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n",
+          "value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\nA new member requested to join \\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E at [site:name].\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!group_pending_member_url\\u0022 rel=\\u0022nofollow\\u0022\\u003EManage this request\\u003C\\/a\\u003E\\u003Cbr \\/\\u003E\\r\\nPlease find their details below:\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cstrong\\u003E@new_member_full_name\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E@new_member_organisation, @new_member_organisation_type\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EBased in @new_member_country\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EExpertise: @new_member_expertise\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EAbout: @new_member_about_me\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EMessage from this member:\\u003Cbr \\/\\u003E\\r\\n\\u003Cem\\u003E@new_member_request_message\\u003C\\/em\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EView this member\\u0027s \\u003Ca href=\\u0022!new_member_public_profile_url\\u0022 rel=\\u0022nofollow\\u0022\\u003Eprofile\\u003C\\/a\\u003E at [site:name].\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!membership_approve_url\\u0022\\u003EApprove\\u003C\\/a\\u003E - \\u003Ca href=\\u0022!membership_reject_url\\u0022\\u003EReject\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n",
           "format" : "full_html",
-          "safe_value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\nA new member requested to join \\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E at [site:name].\\u003Cbr \\/\\u003E\\n\\u003Ca href=\\u0022!group_pending_member_url\\u0022 rel=\\u0022nofollow\\u0022\\u003EManage this request\\u003C\\/a\\u003E\\u003Cbr \\/\\u003E\\nPlease find their details below:\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Cstrong\\u003E@new_member_full_name\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\n\\u003Cp\\u003E@new_member_organisation, @new_member_organisation_type\\u003C\\/p\\u003E\\n\\u003Cp\\u003EBased in @new_member_country\\u003C\\/p\\u003E\\n\\u003Cp\\u003EExpertise: @new_member_expertise\\u003C\\/p\\u003E\\n\\u003Cp\\u003EAbout: @new_member_about_me\\u003C\\/p\\u003E\\n\\u003Cp\\u003EMessage from this member:\\u003Cbr \\/\\u003E\\n\\u003Cem\\u003E@new_member_request_message\\u003C\\/em\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003EView this member\\u0027s \\u003Ca href=\\u0022!new_member_public_profile_url\\u0022 rel=\\u0022nofollow\\u0022\\u003Eprofile\\u003C\\/a\\u003E at [site:name].\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!membership_approve_url\\u0022\\u003EApprove\\u003C\\/a\\u003E - \\u003Ca href=\\u0022!membership_reject_url\\u0022\\u003EReject\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\nA new member requested to join \\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E at [site:name].\\u003Cbr \\/\\u003E\\n\\u003Ca href=\\u0022!group_pending_member_url\\u0022 rel=\\u0022nofollow\\u0022\\u003EManage this request\\u003C\\/a\\u003E\\u003Cbr \\/\\u003E\\nPlease find their details below:\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Cstrong\\u003E@new_member_full_name\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E@new_member_organisation, @new_member_organisation_type\\u003C\\/p\\u003E\\n\\u003Cp\\u003EBased in @new_member_country\\u003C\\/p\\u003E\\n\\u003Cp\\u003EExpertise: @new_member_expertise\\u003C\\/p\\u003E\\n\\u003Cp\\u003EAbout: @new_member_about_me\\u003C\\/p\\u003E\\n\\u003Cp\\u003EMessage from this member:\\u003Cbr \\/\\u003E\\n\\u003Cem\\u003E@new_member_request_message\\u003C\\/em\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003EView this member\\u0027s \\u003Ca href=\\u0022!new_member_public_profile_url\\u0022 rel=\\u0022nofollow\\u0022\\u003Eprofile\\u003C\\/a\\u003E at [site:name].\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!membership_approve_url\\u0022\\u003EApprove\\u003C\\/a\\u003E - \\u003Ca href=\\u0022!membership_reject_url\\u0022\\u003EReject\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
         }
       ]
     },
@@ -699,6 +775,33 @@ function c4m_message_default_message_type() {
           "value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E recommended your @content_type_name: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cem\\u003E@node_teaser_body \\u003C\\/em\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!content_node_url\\u0022\\u003ERead more...\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003ETotal recommendations: @content_recommend_count\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYou\\u0027re receiving this e-mail because another member recommended your post - if you no longer wish to receive notifications when your content is recommended, please \\u003Ca href=\\u0022!user_unsubscribe_recommend_url\\u0022\\u003Eunsubscribe.\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n",
           "format" : "full_html",
           "safe_value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E recommended your @content_type_name: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Cem\\u003E@node_teaser_body \\u003C\\/em\\u003E\\u003Cbr \\/\\u003E\\n\\u003Ca href=\\u0022!content_node_url\\u0022\\u003ERead more...\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003ETotal recommendations: @content_recommend_count\\u003C\\/p\\u003E\\n\\u003Cp\\u003EYou\\u0027re receiving this e-mail because another member recommended your post - if you no longer wish to receive notifications when your content is recommended, please \\u003Ca href=\\u0022!user_unsubscribe_recommend_url\\u0022\\u003Eunsubscribe.\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_notify_editors_content_updated'] = entity_import('message_type', '{
+    "name" : "c4m_notify_editors_content_updated",
+    "description" : "c4m Notify Editors Content Updated",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003EYour @content_type_name @content_node_title was updated\\u003C\\/p\\u003E\\r\\n",
+          "format" : "default_html",
+          "safe_value" : "\\u003Cp\\u003EYour @content_type_name @content_node_title was updated\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E edited the following @content_type_name: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\r\\nTake a look at the latest changes by accessing this @content_type_name\\r\\n\\u003Cbr\\u003E\\r\\n\\u003Ca href=\\u0022!content_node_url\\u0022\\u003ERead more...\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYou\\u0027re receiving this e-mail because you\\u0027re subscribed to the  @content_type_name \\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u0026nbsp;- if you no longer wish to receive notifications from this  @content_type_name, please \\u003Ca href=\\u0022!unsubscribe_content_url\\u0022\\u003Eunsubscribe.\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E edited the following @content_type_name: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\nTake a look at the latest changes by accessing this @content_type_name\\u003Cbr \\/\\u003E\\n\\u003Cbr\\u003E\\u003Cbr \\/\\u003E\\n\\u003Ca href=\\u0022!content_node_url\\u0022\\u003ERead more...\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003EYou\\u0027re receiving this e-mail because you\\u0027re subscribed to the  @content_type_name \\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u0026nbsp;- if you no longer wish to receive notifications from this  @content_type_name, please \\u003Ca href=\\u0022!unsubscribe_content_url\\u0022\\u003Eunsubscribe.\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
         }
       ]
     },
