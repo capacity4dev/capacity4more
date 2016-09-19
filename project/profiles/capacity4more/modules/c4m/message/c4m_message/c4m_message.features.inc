@@ -25,8 +25,8 @@ function c4m_message_views_api($module = NULL, $api = NULL) {
  */
 function c4m_message_default_message_type() {
   $items = array();
-  $items['c4m_content_updated'] = entity_import('message_type', '{
-    "name" : "c4m_content_updated",
+  $items['c4m_group_content_updated'] = entity_import('message_type', '{
+    "name" : "c4m_group_content_updated",
     "description" : "c4m Content Updated",
     "argument_keys" : [],
     "argument" : [],
@@ -780,8 +780,8 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');
-  $items['c4m_notify_editors_content_updated'] = entity_import('message_type', '{
-    "name" : "c4m_notify_editors_content_updated",
+  $items['c4m_notify_editors_group_content_updated'] = entity_import('message_type', '{
+    "name" : "c4m_notify_editors_group_content_updated",
     "description" : "c4m Notify Editors Content Updated",
     "argument_keys" : [],
     "argument" : [],
