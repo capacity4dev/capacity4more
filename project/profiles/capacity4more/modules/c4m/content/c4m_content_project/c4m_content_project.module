@@ -164,6 +164,12 @@ function c4m_content_project_set_number_of_items_states(&$form, $element) {
     }
   }
   $form['c4m_project_type']['#access'] = FALSE;
+
+  // There's no node ID at form => form is for new project creation.
+  // Hide status field, for it to get default value of Pending, once created.
+  if (is_null($form['nid']['#value'])) {
+    $form['c4m_og_status']['#access'] = FALSE;
+  }
   $form['c4m_is_template']['#access'] = FALSE;
 }
 

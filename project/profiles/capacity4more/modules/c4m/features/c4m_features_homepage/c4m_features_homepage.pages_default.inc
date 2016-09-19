@@ -633,6 +633,52 @@ function c4m_features_homepage_default_page_manager_pages() {
     $display->content['new-025d7439-1f37-4150-b314-a4172d78ae92'] = $pane;
     $display->panels['right'][3] = 'new-025d7439-1f37-4150-b314-a4172d78ae92';
     $pane = new stdClass();
+    $pane->pid = 'new-6c330b80-7e65-4003-bf30-4f31188d01b9';
+    $pane->panel = 'right';
+    $pane->type = 'c4m_featured_groups';
+    $pane->subtype = 'c4m_featured_groups';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $pane->uuid = '6c330b80-7e65-4003-bf30-4f31188d01b9';
+    $display->content['new-6c330b80-7e65-4003-bf30-4f31188d01b9'] = $pane;
+    $display->panels['right'][2] = 'new-6c330b80-7e65-4003-bf30-4f31188d01b9';
+    $pane = new stdClass();
+    $pane->pid = 'new-21833ed8-d9c8-4bd3-a4fd-b3127b5351a1';
+    $pane->panel = 'right';
+    $pane->type = 'c4m_featured_projects';
+    $pane->subtype = 'c4m_featured_projects';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $pane->locks = array();
+    $pane->uuid = '21833ed8-d9c8-4bd3-a4fd-b3127b5351a1';
+    $display->content['new-21833ed8-d9c8-4bd3-a4fd-b3127b5351a1'] = $pane;
+    $display->panels['right'][3] = 'new-21833ed8-d9c8-4bd3-a4fd-b3127b5351a1';
+    $pane = new stdClass();
     $pane->pid = 'new-afc6317f-416b-4682-b8f9-cf0330924740';
     $pane->panel = 'top';
     $pane->type = 'voices_views_carousel';
@@ -818,6 +864,7 @@ function c4m_features_homepage_default_page_manager_pages() {
       'video' => 'http://youtu.be/ISNcUnbQkVQ',
       'override_title' => 0,
       'override_title_text' => '',
+      'override_title_heading' => 'h2',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -877,6 +924,29 @@ function c4m_features_homepage_default_page_manager_pages() {
     $display->content['new-6fa5e4f2-1bfd-49a1-904c-c52cb184d024'] = $pane;
     $display->panels['right'][3] = 'new-6fa5e4f2-1bfd-49a1-904c-c52cb184d024';
     $pane = new stdClass();
+    $pane->pid = 'new-6efd1847-4a18-474e-9197-741d9c7be07e';
+    $pane->panel = 'right';
+    $pane->type = 'c4m_featured_projects';
+    $pane->subtype = 'c4m_featured_projects';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $pane->locks = array();
+    $pane->uuid = '6efd1847-4a18-474e-9197-741d9c7be07e';
+    $display->content['new-6efd1847-4a18-474e-9197-741d9c7be07e'] = $pane;
+    $display->panels['right'][4] = 'new-6efd1847-4a18-474e-9197-741d9c7be07e';
+    $pane = new stdClass();
     $pane->pid = 'new-3e93b788-7d5d-472b-93b7-c120c0b9f8a8';
     $pane->panel = 'right';
     $pane->type = 'my_groups';
@@ -893,11 +963,11 @@ function c4m_features_homepage_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 4;
+    $pane->position = 5;
     $pane->locks = array();
     $pane->uuid = '3e93b788-7d5d-472b-93b7-c120c0b9f8a8';
     $display->content['new-3e93b788-7d5d-472b-93b7-c120c0b9f8a8'] = $pane;
-    $display->panels['right'][4] = 'new-3e93b788-7d5d-472b-93b7-c120c0b9f8a8';
+    $display->panels['right'][5] = 'new-3e93b788-7d5d-472b-93b7-c120c0b9f8a8';
     $pane = new stdClass();
     $pane->pid = 'new-5be4e32c-b632-48f9-81af-3ecb57a2eaf7';
     $pane->panel = 'right';
@@ -915,11 +985,11 @@ function c4m_features_homepage_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 5;
+    $pane->position = 6;
     $pane->locks = array();
     $pane->uuid = '5be4e32c-b632-48f9-81af-3ecb57a2eaf7';
     $display->content['new-5be4e32c-b632-48f9-81af-3ecb57a2eaf7'] = $pane;
-    $display->panels['right'][5] = 'new-5be4e32c-b632-48f9-81af-3ecb57a2eaf7';
+    $display->panels['right'][6] = 'new-5be4e32c-b632-48f9-81af-3ecb57a2eaf7';
     $pane = new stdClass();
     $pane->pid = 'new-58845eeb-9f44-44de-8439-b1027a7a67da';
     $pane->panel = 'right';
@@ -938,11 +1008,11 @@ function c4m_features_homepage_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 6;
+    $pane->position = 7;
     $pane->locks = array();
     $pane->uuid = '58845eeb-9f44-44de-8439-b1027a7a67da';
     $display->content['new-58845eeb-9f44-44de-8439-b1027a7a67da'] = $pane;
-    $display->panels['right'][6] = 'new-58845eeb-9f44-44de-8439-b1027a7a67da';
+    $display->panels['right'][7] = 'new-58845eeb-9f44-44de-8439-b1027a7a67da';
     $pane = new stdClass();
     $pane->pid = 'new-f61cbf35-3227-4724-bc91-c08f74fd7d45';
     $pane->panel = 'right';
@@ -961,11 +1031,11 @@ function c4m_features_homepage_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 7;
+    $pane->position = 8;
     $pane->locks = array();
     $pane->uuid = 'f61cbf35-3227-4724-bc91-c08f74fd7d45';
     $display->content['new-f61cbf35-3227-4724-bc91-c08f74fd7d45'] = $pane;
-    $display->panels['right'][7] = 'new-f61cbf35-3227-4724-bc91-c08f74fd7d45';
+    $display->panels['right'][8] = 'new-f61cbf35-3227-4724-bc91-c08f74fd7d45';
     $pane = new stdClass();
     $pane->pid = 'new-225dc4fb-702b-464d-94a7-55028265236b';
     $pane->panel = 'top';
