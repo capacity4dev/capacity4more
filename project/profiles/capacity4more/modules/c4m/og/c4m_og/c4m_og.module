@@ -455,7 +455,7 @@ function c4m_og_replace_owner_build_form($form, $form_state, $entity_type, $etid
     );
   }
   else {
-    $link = l(t('Visit the members overview page'), 'members');
+    $link = l(t('Visit the members admin page'), 'group/node/' . $etid . '/admin/people');
     $message = t('The group does not have any site admin to be the new owner. !link', array('!link' => $link));
     drupal_set_message($message, 'warning');
   }
@@ -534,7 +534,7 @@ function c4m_og_user_is_owner($group_type, $gid) {
   }
 
   // Make sure the current user is the group manager.
-  return user_access('administer groups', $user) || $user->uid == $group->uid;
+  return $user->uid == $group->uid;
 }
 
 /**
