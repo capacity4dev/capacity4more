@@ -71,9 +71,9 @@ function c4m_user_admin_user_activate_form_submit($form, &$form_state) {
  */
 function c4m_user_admin_user_reactivate_form_submit($form, &$form_state) {
   // Points that user is reactivated.
-  $form_state['user']->reactivate_submit = 1;
+  $form_state['user']->reactivate_submit = TRUE;
   // Points if reactivate notification is required, or not.
-  $form_state['user']->reactivate_notification = $form_state['values']['c4m_notify_user'] ? 1 : 0;
+  $form_state['user']->reactivate_notification = $form_state['values']['c4m_notify_user'];
 
   c4m_user_admin_user_activate_form_submit($form, $form_state);
 }
