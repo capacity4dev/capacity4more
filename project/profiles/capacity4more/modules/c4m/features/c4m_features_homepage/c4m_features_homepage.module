@@ -95,11 +95,46 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
  *   Rendered HTML of featured groups.
  */
 function c4m_features_homepage_c4m_featured_groups_get_groups() {
+  $groups = c4m_features_homepage_c4m_get_featured_og_groups('group');
+
+  $variables = array(
+    'groups' => $groups,
+  );
+
+  return theme('c4m_features_homepage_c4m_featured_groups', $variables);
+}
+
+/**
+ * Renders 3 featured projects.
+ *
+ * @return mixed
+ *   Rendered HTML of 3 featured projects.
+ */
+function c4m_features_homepage_c4m_featured_projects_get_projects() {
+  $projects = c4m_features_homepage_c4m_get_featured_og_groups('project');
+
+  $variables = array(
+    'projects' => $projects,
+  );
+
+  return theme('c4m_features_homepage_c4m_featured_projects', $variables);
+}
+
+/**
+ * Gets the list of featured OG.
+ *
+ * @param string $type
+ *   The type of the OG. Can be 'group' or 'project'.
+ *
+ * @return mixed
+ *   NULL | List of nodes of OG.
+ */
+function c4m_features_homepage_c4m_get_featured_og_groups($type) {
   $query = new EntityFieldQuery();
 
   $query
     ->entityCondition('entity_type', 'node')
-    ->entityCondition('bundle', 'group')
+    ->entityCondition('bundle', $type)
     ->propertyCondition('status', NODE_PUBLISHED)
     ->propertyCondition('promote', NODE_PROMOTED);
 
@@ -111,13 +146,7 @@ function c4m_features_homepage_c4m_featured_groups_get_groups() {
     return;
   }
 
-  $groups = c4m_features_homepage_alphabetically_render_node_list($result['node']);
-
-  $variables = array(
-    'groups' => $groups,
-  );
-
-  return theme('c4m_features_homepage_c4m_featured_groups', $variables);
+  return c4m_features_homepage_alphabetically_render_node_list($result['node']);
 }
 
 /**
