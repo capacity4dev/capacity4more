@@ -143,47 +143,26 @@ function c4m_content_feed_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 3,
+      'weight' => 2,
     ),
   );
 
-  // Exported field_instance: 'node-feed-c4m_related_articles'.
-  $field_instances['node-feed-c4m_related_articles'] = array(
+  // Exported field_instance: 'node-feed-c4m_related_articles_unlimited'.
+  $field_instances['node-feed-c4m_related_articles_unlimited'] = array(
     'bundle' => 'feed',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_global' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'activity_group' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'c4m_related' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
       'default' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 22,
-      ),
-      'featured_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 24,
       ),
       'full' => array(
         'label' => 'above',
@@ -193,37 +172,9 @@ function c4m_content_feed_field_default_field_instances() {
           'view_mode' => 'teaser',
         ),
         'type' => 'entityreference_entity_view',
-        'weight' => 4,
-      ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'library' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'rss' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'links' => 0,
-          'view_mode' => 'rss',
-        ),
-        'type' => 'entityreference_entity_view',
-        'weight' => 2,
+        'weight' => 5,
       ),
       'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 21,
-      ),
-      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -232,8 +183,8 @@ function c4m_content_feed_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'c4m_related_articles',
-    'label' => 'Related Articles',
+    'field_name' => 'c4m_related_articles_unlimited',
+    'label' => 'Related Voices & Views',
     'required' => 0,
     'settings' => array(
       'behaviors' => array(
@@ -252,7 +203,7 @@ function c4m_content_feed_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 5,
+      'weight' => 4,
     ),
   );
 
@@ -302,7 +253,7 @@ function c4m_content_feed_field_default_field_instances() {
           'view_mode' => 'c4m_teaser_list',
         ),
         'type' => 'entityreference_entity_view',
-        'weight' => 5,
+        'weight' => 6,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -470,7 +421,7 @@ function c4m_content_feed_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 4,
+      'weight' => 3,
     ),
   );
 
@@ -478,9 +429,9 @@ function c4m_content_feed_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Comment');
   t('Description');
-  t('Related Articles');
   t('Related Groups');
   t('Related Topics');
+  t('Related Voices & Views');
 
   return $field_instances;
 }

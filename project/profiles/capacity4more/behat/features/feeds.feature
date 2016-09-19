@@ -21,8 +21,8 @@ Feature: Feeds
     And   I should see a "Title" field
     And   I should see a "Description" field
     And   I should see a "Related Topics" field
-    And   I should see a "Articles" field
-    And   I should see a "Groups" field
+    And   I should see a "Related Voices & Views" field
+    And   I should see a "Related Groups" field
 
   @api
   Scenario: As an administrator I should be able to create a feed.
@@ -30,7 +30,7 @@ Feature: Feeds
     When  I visit "/node/add/feed"
     And   I fill in "Title" with "An RSS feed"
     And   I fill in "Description" with "This is the description of the feed."
-    And   I fill in "edit-c4m-related-articles-und-0-target-id" with "Electricity for Water"
+    And   I fill in "edit-c4m-related-articles-unlimited-und-0-target-id" with "Electricity for Water"
     And   I fill in "edit-c4m-related-group-unlimited-und-0-target-id" with "Nobel Prize"
     And   I press "Publish"
     Then  I should see "Feed An RSS feed has been created"
