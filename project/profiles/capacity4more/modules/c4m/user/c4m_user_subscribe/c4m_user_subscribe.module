@@ -110,7 +110,8 @@ function _c4m_user_subscribe_entity_notifications_disabled($entity_id, $flag_suf
 /**
  * Implements hook_og_membership_type_insert().
  *
- * Flags the group subscription flag, so the user is subscribed to the group.
+ * Flags the group subscription flag, so the user is subscribed to the group if
+ * the user membership is active.
  */
 function c4m_user_subscribe_og_membership_insert(OgMembership $membership) {
   if ($membership->state == OG_STATE_ACTIVE) {
@@ -121,7 +122,7 @@ function c4m_user_subscribe_og_membership_insert(OgMembership $membership) {
 /**
  * Implements hook_og_membership_type_update().
  *
- * Flags the group subscription flag, so the user is subscribed to the group.
+ * @see c4m_user_subscribe_og_membership_insert().
  */
 function c4m_user_subscribe_og_membership_update(OgMembership $membership) {
   c4m_user_subscribe_og_membership_insert($membership);
