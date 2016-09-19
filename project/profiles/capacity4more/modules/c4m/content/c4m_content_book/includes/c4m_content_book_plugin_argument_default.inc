@@ -34,9 +34,9 @@ class c4m_content_book_plugin_argument_default extends views_plugin_argument_def
       ->range(0, 1)
       ->execute();
 
-    // If the 'Help & Guidance' book ID could not be determined, add a human
+    // If the `Help & Guidance` book ID could not be determined, add a human
     // friendly error message and return early -which will cause Drupal to
-    // display 'The requested page could not be found'.
+    // display `The requested page could not be found`.
     if (!isset($result['node'])) {
       drupal_set_message(t('Unable to retrieve the help pages. Please !contact-page.', array(
         '!contact-page' => l(t('contact the site administrator'), 'contact', array('purl' => array('disabled' => TRUE))),
