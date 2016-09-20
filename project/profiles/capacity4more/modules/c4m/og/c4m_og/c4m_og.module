@@ -1641,7 +1641,10 @@ function c4m_og_get_group_content_notification_types() {
  *   Notification types.
  */
 function c4m_og_get_comment_notification_types() {
-  return array('discussion', 'document', 'event', 'wiki_page', 'news', 'article');
+  $comment_notification_types = c4m_og_get_group_content_notification_types();
+  $comment_notification_types[] = 'article';
+
+  return $comment_notification_types;
 }
 
 /**
