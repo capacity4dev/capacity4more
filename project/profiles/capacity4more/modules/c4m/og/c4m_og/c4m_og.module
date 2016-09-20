@@ -256,7 +256,7 @@ function c4m_og_approve_group_request($form, &$form_state, $node) {
   );
 
   $form['#submit'][] = 'c4m_og_approve_group_request_submit';
-  $form['#submit'][] = 'c4m_user_notifications_notify_user_group_approved';
+  $form['#submit'][] = 'c4m_og_notify_user_group_approved';
   $form['#submit'][] = 'c4m_user_notifications_log_group_approved';
   $form['#submit'][] = 'c4m_og_route_to_group';
 
@@ -345,9 +345,6 @@ function c4m_og_reject_group_request_submit($form, &$form_state) {
  *   Group ID.
  */
 function c4m_og_control_group_request($action, $gid) {
-  // Check that group is at initial ('pending') state.
-  $wrapper = entity_metadata_wrapper('node', $gid);
-
   // If group is not at initial state => request was already handled.
   if (!_c4m_og_group_at_initial_state($gid)) {
     $message = _c4m_og_format_group_request_failure_reason_message($gid);
@@ -361,21 +358,43 @@ function c4m_og_control_group_request($action, $gid) {
     'reject' => 'deleted',
   );
 
-  $message_action = array (
+  $message_action = array(
     'approve' => 'approved',
     'reject' => 'rejected',
   );
 
+  $group = node_load($gid);
+  $wrapper = entity_metadata_wrapper('node', $group);
+
+  // Property instructs c4m_user_notification model to abort sending
+  // 'group approved' notification, since is sent by
+  // c4m_og_notify_user_group_approved().
+  $group->abort_notification = TRUE;
   $wrapper->c4m_og_status->set($group_state[$action]);
+
   // Save group and present success message.
   $wrapper->save();
-
   $message = t('@bundle request @action', array(
     '@bundle' => ucfirst($wrapper->getBundle()),
     '@action' => $message_action[$action],
   ));
 
   drupal_set_message($message);
+}
+
+/**
+ * Invokes notification about approved group.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ */
+function c4m_og_notify_user_group_approved(&$form, &$form_state) {
+  $gid = $form_state['values']['gid'];
+  $admin_comment = $form_state['values']['message_from_admin'];
+
+  c4m_user_notifications_notify_user_group_approved($gid, $admin_comment);
 }
 
 /**
@@ -421,11 +440,11 @@ function _c4m_og_format_group_request_failure_reason_message($gid) {
 
   $wrapper = entity_metadata_wrapper('node', $gid);
 
-  $message_states = array (
+  $message_states = array(
     'draft' => 'approved',
     'deleted' => 'rejected',
   );
-  $message_action = in_array($state, $message_states) ? $message_states[$state] : 'handled';
+  $message_action = in_array($state, array_keys($message_states)) ? $message_states[$state] : 'handled';
 
   return t('@bundle request was already @action', array(
     '@bundle' => ucfirst($wrapper->getBundle()),
