@@ -291,10 +291,12 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group) {
     '#description' => t('Add a personal message to the invitation email.'),
   );
 
-  $form['actions'] = array('#type' => 'actions');
-  $form['actions']['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Invite user(s)'),
+  $form['actions'] = array(
+    '#type' => 'actions',
+    'submit' => array(
+      '#type' => 'submit',
+      '#value' => t('Invite user(s)'),
+    ),
   );
 
   return $form;
@@ -337,31 +339,28 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
   );
 
   foreach ($invitee_emails as $invitee_email) {
-
-    // Try to load the user by email and see if exists.
-    if ($account = user_load_by_mail($invitee_email)) {
-
-      // Determine if we should invite this registered user.
-      $action = c4m_og_visitors_determine_action($account, $gid);
-    }
-    else {
+    // Determine if we should invite this registered user.
+    $action = c4m_og_invite_visitors_determine_user_action($invitee_email, $gid);
+    if (!$action) {
       $action['type'] = 'invite_visitor';
     }
 
     switch ($action['type']) {
+      case 'error':
+        // User is marked as a spammer or already a group member. Do not invite.
+        return;
+        break;
+
       case 'invite_visitor':
-        $action['message'] = c4m_og_invite_visitors_action_invite_visitors($user->uid, $gid, $invitee_email, $form_fields);
+        c4m_og_invite_visitors_action_invite_visitors($user->uid, $gid, $invitee_email, $form_fields);
         break;
 
       case 'invite_user':
         // Invoke the invite_user functionality.
-        og_invite_invite('node', $gid, OG_AUDIENCE_FIELD, $account->uid);
-        $action['message'] = t('An email notification was sent to %address.', array('%address' => $invitee_email));
+        og_invite_invite('node', $gid, OG_AUDIENCE_FIELD, $action['uid']);
+        drupal_set_message(t('An email notification was sent to %address.', array('%address' => $invitee_email)));
         break;
     }
-
-    // Print the message for each user.
-    drupal_set_message($action['message']);
   }
 }
 
@@ -379,28 +378,41 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
  * @return array
  *   The type of action (invite_user/FALSE) and the error message if FALSE.
  */
-function c4m_og_visitors_determine_action($account, $gid) {
-  $action = array('type' => FALSE, 'message' => NULL);
+function c4m_og_invite_visitors_determine_user_action($invitee_email, $gid) {
+  // Try to load the user by email or return early.
+  if ($account = user_load_by_mail($invitee_email)) {
+    return FALSE;
+  }
+
+  $action = array(
+    'type' => FALSE,
+    'uid' => NULL,
+  );
   $wrapper = entity_metadata_wrapper('user', $account);
 
-  // Check if user is already assigned to the group.
-  // Any "state" (active, pending,... counts as existing).
+  // Do not invite a user who is already a member of the group.
   if ($og_membership = og_get_membership('node', $gid, 'user', $account->uid)) {
-    $action['message'] = t('%user is already a member of this group.', array('%user' => format_username($account)));
+    drupal_set_message(t('%user is already a member of this group.', array('%user' => format_username($account))), 'error');
+    $action['type'] = 'error';
+
     return $action;
   }
 
-  // If the user is marked as a spammer, disallow the invitation.
+  // Do not invite a user who is marked as a spammer.
   if ($wrapper->c4m_is_spammer->value()) {
-    $action['message'] = t('We encountered a problem inviting %address. Please <a href="@contact-page">contact the site administrator</a>.', array(
+    $message = t('We encountered a problem inviting %address. Please <a href="@contact-page">contact the site administrator</a>.', array(
       '%address' => $wrapper->mail->value(),
       '@contact-page' => url('contact', array('purl' => array('disabled' => TRUE))),
     ));
+    drupal_set_message($message, 'error');
+    $action['type'] = 'error';
+
     return $action;
   }
 
   // Proceed and invite the user.
   $action['type'] = 'invite_user';
+  $action['uid'] = $account->uid;
 
   return $action;
 }
@@ -424,16 +436,20 @@ function c4m_og_invite_visitors_action_invite_visitors($inviter_uid, $gid, $invi
   // Saves invitation in the DB and invites the visitor.
   $invitation = c4m_og_invite_visitors_store_invitation($inviter_uid, $gid, $invitee_email);
 
+  // An error saving the invitation to the DB.
+  if(!$invitation) {
+    drupal_set_message(t('An error occurred inviting %address to the group.', array('%address' => $invitee_email)), 'error');
+
+    return FALSE;
+  }
+
   // Send the invitation email.
   drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, array(
     'form_fields' => $form_fields,
     'invitation' => $invitation,
   ), variable_get('site_mail', NULL));
 
-  return $invitation
-    ? t('An email notification was sent to %address.', array('%address' => $invitee_email))
-    : t('An error occurred inviting %address to the group.', array('%address' => $invitee_email));
-
+  drupal_set_message(t('An email notification was sent to %address.', array('%address' => $invitee_email)));
 }
 
 /**

@@ -48,13 +48,13 @@ Feature: Group Invitations
     Then  I should not see "Access denied"
     And   I should see the text "Invite Visitors"
 
-  @api @mmm
+  @api
     Scenario: Check access denied for inviting visitors to a private group to GMs
     Given I am logged in as user "galileo"
     When  I try to invite visitors to "Tennis Group" group
     Then  I should see the text "Access denied"
 
-  @api @mmm
+  @api
   Scenario: Check access denied for inviting users to a private group to GMs
     Given I am logged in as user "galileo"
     When  I try to invite users to "Tennis Group" group
