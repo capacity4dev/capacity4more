@@ -553,6 +553,8 @@ Last access : [access]';
   /* Display: Data export */
   $handler = $view->new_display('views_data_export', 'Data export', 'views_data_export');
   $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '0';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
   $handler->display->display_options['style_options']['provide_file'] = 1;
   $handler->display->display_options['style_options']['filename'] = 'users.csv';

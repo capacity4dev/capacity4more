@@ -1018,8 +1018,8 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
           'This email address is already in use. Please activate your account, or !resend_activation.',
           array(
             '!resend_activation' => l(
-              t('log in'),
-              'user/' . $other_user->uid . '/resend-activation-email'
+              t('re-send the activation mail'),
+              'user/' . $other_user->uid->value() . '/resend-activation-email'
             ),
           )
         ),
