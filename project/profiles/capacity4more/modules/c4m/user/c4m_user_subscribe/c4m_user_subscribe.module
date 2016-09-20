@@ -16,14 +16,19 @@ function c4m_user_subscribe_node_insert($node) {
     return;
   }
 
+  if (!in_array($node->type, c4m_og_get_comment_notification_types())) {
+    // Inserted content does not require notification.
+    return;
+  }
+
+  flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
+
   if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
     // Inserted content does not require notification.
     return;
   }
 
   flag('flag', 'subscribe_c4m_follow_node', $node->nid);
-
-  flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
 }
 
 /**
@@ -37,17 +42,22 @@ function c4m_user_subscribe_node_update($node) {
     return;
   }
 
+  if (!in_array($node->type, c4m_og_get_comment_notification_types())) {
+    // Inserted content does not require notification.
+    return;
+  }
+
+  // If user has not unsubscribed from that type of notifications.
+  if (!_c4m_user_subscribe_entity_notifications_disabled($node->nid, 'comment')) {
+    flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
+  }
+
   if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
     // Inserted content does not require notification.
     return;
   }
 
   flag('flag', 'subscribe_c4m_follow_node', $node->nid);
-
-  // If user has not unsubscribed from that type of notifications.
-  if (!_c4m_user_subscribe_entity_notifications_disabled($node->nid, 'comment')) {
-    flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
-  }
 }
 
 /**
@@ -64,7 +74,7 @@ function c4m_user_subscribe_comment_insert($comment) {
     return;
   }
 
-  if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
+  if (!in_array($node->type, c4m_og_get_comment_notification_types())) {
     // Inserted comment is on content that does not require notification.
     return;
   }
