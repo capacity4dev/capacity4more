@@ -19,6 +19,15 @@
  *   Has access to the given permission.
  */
 function c4m_user_og_has_group_permission($permission, $group = NULL) {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return
+    // early. The next time this access callback will be called, it will not
+    // enter here.
+    og_context_access_callback_register_path($_GET['q']);
+
+    return NULL;
+  }
+
   if (is_null($group) || is_object($group)) {
     $group = c4m_og_current_group();
   }
