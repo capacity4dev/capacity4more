@@ -21,5 +21,8 @@ function c4m_features_overview_groups_ctools_plugin_api($module = NULL, $api = N
  * Implements hook_views_api().
  */
 function c4m_features_overview_groups_views_api($module = NULL, $api = NULL) {
-  return array("api" => "3.0");
+  return array(
+    "api" => "3.0",
+    "path" => drupal_get_path('module', 'c4m_features_overview_groups') . '/views',
+  );
 }

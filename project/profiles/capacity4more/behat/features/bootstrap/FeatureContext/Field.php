@@ -65,7 +65,11 @@ trait Field {
       case 'Articles':
         $locator = '.region-content .field-name-c4m-related-articles';
         break;
+      case 'Related Voices & Views':
+        $locator = '.region-content .field-name-c4m-related-articles-unlimited';
+        break;
       case 'Groups':
+      case 'Related Groups':
         $locator = '.region-content .field-name-c4m-related-group-unlimited, .region-content .field-name-c4m-related-group';
         break;
       case 'External Contributors':
