@@ -42,7 +42,7 @@ function c4m_user_og_has_group_permission($permission, $group = NULL) {
  * - blocked : the user is blocked or his membership request was rejected.
  * - pending : the membership was requested and waiting for approval.
  *
- * @param object $user
+ * @param object $account
  *   The user for who we are collecting his role.
  * @param object $group
  *   The group where we are trying to determine the users role for.
