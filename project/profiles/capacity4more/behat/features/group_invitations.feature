@@ -48,16 +48,16 @@ Feature: Group Invitations
     Then  I should not see "Access denied"
     And   I should see the text "Invite Visitors"
 
-  @api
+  @api @mmm
     Scenario: Check access denied for inviting visitors to a private group to GMs
     Given I am logged in as user "galileo"
-    When  I go to "group/node/11/admin/people/invite-visitors"
+    When  I try to invite visitors to group "Tennis Group"
     Then  I should see the text "Access denied"
 
-  @api
+  @api @mmm
   Scenario: Check access denied for inviting users to a private group to GMs
     Given I am logged in as user "galileo"
-    When  I go to "group/node/11/admin/people/invite-users"
+    When  I try to invite users to group "Tennis Group"
     Then  I should see the text "Access denied"
 
   @api
@@ -70,7 +70,7 @@ Feature: Group Invitations
     Then  I should see the text "Invalid email emailexample.com"
 
   @api
-  Scenario: Check that sending an invitation to a visitor saves the information to MySQL
+  Scenario: Check that sending an invitation to a visitor saves the information to DB
     Given I am logged in as user "galileo"
     When  I visit the dashboard of group "Music Lovers"
     And   I click "Invite a member"

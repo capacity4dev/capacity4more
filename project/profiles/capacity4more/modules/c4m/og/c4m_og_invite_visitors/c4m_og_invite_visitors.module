@@ -12,23 +12,23 @@
  */
 function c4m_og_invite_visitors_menu() {
   $items = array();
-  $items['group/%/%/admin/people/invite-visitors'] = array(
+  $items['group/%node/admin/people/invite-visitors'] = array(
     'title' => 'Invite Visitors',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('_c4m_og_invite_visitors_new_users_form', 1, 2),
+    'page arguments' => array('_c4m_og_invite_visitors_new_users_form', 1),
     'type' => MENU_LOCAL_TASK,
     'weight' => 4,
     'access callback' => 'c4m_og_invite_visitors_user_access',
-    'access arguments' => array(2),
+    'access arguments' => array(1),
   );
 
-  $items['user/registration/joingroup/%node'] = array(
+  $items['user/registration/join-group/%node/%'] = array(
     'title' => 'Join Capacity 4 More',
     'type' => MENU_CALLBACK,
     'page callback' => 'c4m_og_invite_visitors_process_acceptance',
     'page arguments' => array(3),
     'access callback' => 'node_access',
-    'access arguments' => array('view', 3),
+    'access arguments' => array('view', 3, 4),
   );
 
   return $items;
@@ -204,16 +204,9 @@ function c4m_og_invite_visitors_og_ui_get_group_admin($group_type, $gid) {
  * @return bool
  *   Grand/deny access for inviting visitors.
  */
-function c4m_og_invite_visitors_user_access($gid) {
-  global $user;
-
-  $group = node_load($gid);
-  if (!$group || !og_is_group('node', $group)) {
-    return FALSE;
-  }
-
+function c4m_og_invite_visitors_user_access($group) {
   // OG permission.
-  if (!og_user_access('node', $gid, 'invite visitors')) {
+  if (!og_user_access('node', $group->nid, 'invite visitors')) {
     return FALSE;
   }
 
@@ -227,12 +220,13 @@ function c4m_og_invite_visitors_user_access($gid) {
   // Get access type (public/private).
   $access_type = c4m_og_get_access_type($group);
 
-  // For private or moderated groups, return false. Else check for member.
+  // Non power users are not allowed to invite visitors to a private / moderated
+  // group.
   if ($access_type['type'] == 'private' || $membership_request_value == 'moderated') {
     return FALSE;
   }
 
-  return og_is_member('node', $gid, 'user', $user);
+  return og_is_member('node', $group->nid);
 }
 
 /**
@@ -255,20 +249,30 @@ function c4m_og_invite_visitors_og_permission() {
  * Main OG Invite visitors form.
  *
  * Defines the form structure for inviting visitors to join a group.
+ *
+ * @param $form
+ *   Form object.
+ * @param $form_state
+ *   Form state object.
+ * @param $group
+ *   Group object.
+ *
+ * @return object
+ *   Newly created form object.
+ *
  */
-function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group_type, $gid) {
-  og_set_breadcrumb($group_type, $gid, array(l(t('Group'), "$group_type/$gid/group")));
-  $group = entity_load_single($group_type, $gid);
-  $label = entity_label($group_type, $group);
+function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group) {
+  og_set_breadcrumb('node', $group->nid, array(l(t('Group'), "node/" .   $group->nid . "/group")));
+  $label = entity_label('node', $group);
 
   $form['group_type'] = array(
     '#type' => 'value',
-    '#value' => $group_type,
+    '#value' => 'node',
   );
 
   $form['gid'] = array(
     '#type' => 'value',
-    '#value' => $gid,
+    '#value' => $group->nid,
   );
 
   $form['c4m_og_invite_visitors'] = array(
@@ -294,7 +298,7 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $group_type
 
   // Get the name of the group-audience type field = The name of the field
   // holding the group ID the OG membership is associated with.
-  $field_names = og_get_group_audience_fields('user', 'user', $group_type);
+  $field_names = og_get_group_audience_fields('user', 'user', 'node');
   $field_name = key($field_names);
 
   // There is only a single field name, so just pass it as a value.
