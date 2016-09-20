@@ -178,7 +178,7 @@ function c4m_helper_date_comment_view_alter(&$build) {
  *
  * The tooltip will display the absolute date.
  *
- * @param $timestamp
+ * @param int $timestamp
  *   UNIX timestamp.
  *
  * @return string
