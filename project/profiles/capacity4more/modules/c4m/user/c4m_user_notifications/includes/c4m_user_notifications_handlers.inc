@@ -465,13 +465,7 @@ function _c4m_user_notifications_notify_content_followers_of_comment($cid, $nid)
     'intergroup_operation' => 'intersect',
   );
 
-  // Group members have no access to content revisions.
-  // In order to allow GM to receive notification mail about content update,
-  // when new revision of content is issued, instruct message_subscribe model
-  // to skip 'entity access' check.
-  $subscribe_options = array(
-    'entity access' => array(),
-  );
+  $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
 }
@@ -581,13 +575,7 @@ function c4m_user_notifications_content_recommended($nid) {
     'entity_id' => $nid,
   );
 
-  // Group members have no access to content revisions.
-  // In order to allow GM to receive notification mail about content update,
-  // when new revision of content is issued, instruct message_subscribe model
-  // to skip 'entity access' check.
-  $subscribe_options = array(
-    'entity access' => array(),
-  );
+  $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
 }
@@ -693,8 +681,8 @@ function _c4m_user_notifications_notify_on_content($node, $action, $target_gid =
 /**
  * Helper function.
  *
- * Sends mail notification to group subscribers or content author and editors,
- * when content is updated.
+ * When content is updated, sends mail notification to two groups of users:
+ * group subscribers & content author and editors.
  *
  * @param object $node
  *   Content node that was updated.
@@ -755,13 +743,7 @@ function _c4m_user_notifications_notify_on_content_new_revision($node, $users_gr
     $context['entity_id'] = $node->nid;
   }
 
-  // Group members have no access to content revisions.
-  // In order to allow GM to receive notification mail about content update,
-  // when new revision of content is issued, instruct message_subscribe model
-  // to skip 'entity access' check.
-  $subscribe_options = array(
-    'entity access' => array(),
-  );
+  $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $message_wrapper->value(), array(), $subscribe_options, $context);
 }
@@ -850,13 +832,7 @@ function _c4m_user_notifications_comment_on_content($cid, $nid) {
     'intergroup_operation' => 'diff',
   );
 
-  // Group members have no access to content revisions.
-  // In order to allow GM to receive notification mail about content update,
-  // when new revision of content is issued, instruct message_subscribe model
-  // to skip 'entity access' check.
-  $subscribe_options = array(
-    'entity access' => array(),
-  );
+  $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
 }
@@ -961,4 +937,20 @@ function c4m_user_notifications_message_subscribe_get_subscribers($message, $sub
   }
 
   return $users;
+}
+
+/**
+ * Helper function.
+ *
+ * Returns options which allow group members to receive email notification
+ * about new content revisions.
+ *
+ * @return array
+ *   Subscribe options, so that message_subscribe model will skip
+ *   'entity access' check.
+ */
+function _c4m_user_notifications_get_skip_entity_access_options() {
+  return array(
+    'entity access' => array(),
+  );
 }

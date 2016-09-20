@@ -564,6 +564,8 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
     $source_node = node_load($node->notification_data['source_nid']);
 
     c4m_user_notifications_group_content_shared($source_node, $target_gid);
+
+    // No need to continue, as notification on shared content was issued.
     return;
   }
 
