@@ -28,9 +28,13 @@ function c4m_features_overview_groups_c4m_search_page_info() {
  * Implements hook_views_pre_build().
  */
 function c4m_features_overview_groups_views_pre_build(&$view) {
+  // Filter should be active only for anonymous users.
   if ($view->name != 'c4m_overview_groups' || $view->current_display != 'page' || user_is_anonymous()) {
     return;
   }
+
+  // We remove the filter for authenticated users.
+  // (They can see groups with anonymous authors).
   unset($view->filter['author']);
 }
 
