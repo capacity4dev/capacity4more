@@ -449,7 +449,7 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
         if ($group_former_status == 'published') {
           c4m_user_notifications_group_status_set_unpublished($node, $group_former_status);
         }
-        elseif ($group_former_status == 'pending' && !isset($node->abort_group_approved_notification)) {
+        elseif ($group_former_status == 'pending' && empty($node->abort_group_approved_notification)) {
           c4m_user_notifications_notify_user_group_approved($node->nid);
         }
         break;

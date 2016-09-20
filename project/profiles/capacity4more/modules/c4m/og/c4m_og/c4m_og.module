@@ -437,18 +437,11 @@ function _c4m_og_group_at_initial_state($gid) {
  */
 function _c4m_og_format_group_request_failure_reason_message($gid) {
   $state = _c4m_og_get_group_state($gid);
-
   $wrapper = entity_metadata_wrapper('node', $gid);
-
-  $message_states = array(
-    'draft' => 'approved',
-    'deleted' => 'rejected',
-  );
-  $message_action = in_array($state, array_keys($message_states)) ? $message_states[$state] : 'handled';
 
   return t('@bundle request was already @action', array(
     '@bundle' => ucfirst($wrapper->getBundle()),
-    '@action' => $message_action,
+    '@action' => ($state == 'deleted') ? ' rejected' : 'approved',
   ));
 }
 
