@@ -50,7 +50,6 @@ features[ds_layout_settings][] = node|group|token
 features[features_api][] = api:2
 features[field_base][] = c4m_group_welcome_message
 features[field_base][] = c4m_related_group
-features[field_base][] = c4m_related_group_unlimited
 features[field_base][] = field_membership_open_request
 features[field_base][] = field_message_to_site_admin
 features[field_base][] = group_access

@@ -528,10 +528,13 @@ function c4m_user_profile_form_user_profile_form_alter(
   $form['c4m_is_spammer']['#access'] = FALSE;
   // Hide status field.
   $form['account']['status']['#access'] = FALSE;
-  // Hide OG related fields.
-  $form['og_user_node']['#access'] = FALSE;
   // Remove Terms and conditions fieldset.
   $form['legal']['#access'] = FALSE;
+
+  // Hide OG related fields for non-admin users.
+  if (!in_array('administrator', $user->roles)) {
+    $form['og_user_node']['#access'] = FALSE;
+  }
 
   // Introduce simple Cancel button (goes to user profile)
   $form['actions']['cancel']['#access'] = FALSE;
@@ -628,16 +631,22 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
   }
 
   // Process subscription to mailing list.
-  if (empty($form_state['values']['subscribe_to_mailinglist'])) {
-    return;
-  }
-  $email = $form_state['values']['mail'];
-  if (!c4m_user_profile_subscribe_to_mailing_list($email, $name)) {
-    drupal_set_message(
-      t(
-        "We couldn't subscribe you to the mailing list. Please try again later."
-      )
-    );
+  if (!empty($form_state['values']['subscribe_to_mailinglist'])) {
+    $email = $form_state['values']['mail'];
+    if (c4m_user_profile_subscribe_to_mailing_list($email, $name)) {
+      drupal_set_message(
+        t(
+          "Successfully subscribed to the newsletter."
+        )
+      );
+    }
+    else {
+      drupal_set_message(
+        t(
+          "We couldn't subscribe you to the mailing list. Please try again later."
+        )
+      );
+    }
   }
 }
 

@@ -34,3 +34,7 @@
     </div>
   </div>
 </div>
+<div class="video-preview-cta">
+  <div class="cta"> <?php print $cta; ?></div>
+  <div class="link"> <?php print l(t('More groups >'), '/groups'); ?></div>
+</div>
