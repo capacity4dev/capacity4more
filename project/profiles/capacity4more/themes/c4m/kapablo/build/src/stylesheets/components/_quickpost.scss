@@ -27,18 +27,19 @@
 
     .body-attachment-link {
       position: absolute;
-      top: 0;
+      top: 22px;
       right: 7px;
 
-      a {
+      label {
         color: $color-text-alternative;
-        text-shadow: 1px 1px 1px $color-gray;
+        text-shadow: 1px 1px 1px $color-gray-light;
         font-size: 1.5em;
+        cursor: pointer;
       }
     }
 
     .document_file {
-      display: none;
+      visibility: hidden;
     }
     textarea[name=body] {
       resize: vertical;
