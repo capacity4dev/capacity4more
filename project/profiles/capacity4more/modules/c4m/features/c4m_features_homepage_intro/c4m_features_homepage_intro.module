@@ -130,7 +130,7 @@ function c4m_features_homepage_intro_theme() {
  * @param string $youtube_video_url
  *   The YouTube video URL.
  *
- * @return string | boolean
+ * @return string|bool
  *   Returns the video ID or FALSE if it's not a match.
  */
 function c4m_features_homepage_intro_extract_youtube_video_id($youtube_video_url) {

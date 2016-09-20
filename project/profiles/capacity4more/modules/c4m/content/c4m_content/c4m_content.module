@@ -875,7 +875,7 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
  * @param int $parent_id
  *   The ID of taxonomy item, which children should be extracted.
  *
- * @return array $result
+ * @return array
  *   All child items of input item with ID $parent_id.
  */
 function _c4m_content_taxonomy_extract_child_items(&$items, $parent_id) {
@@ -912,7 +912,7 @@ function _c4m_content_taxonomy_extract_child_items(&$items, $parent_id) {
  *   Taxonomies array, from which we extract all children of item with
  *   ID = $parent_id. $items array is altered by function.
  *
- * @return mixed $result
+ * @return mixed
  *   First taxonomy item at $items array, that got no parents.
  *   FALSE, if all items got a parent.
  */

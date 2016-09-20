@@ -65,7 +65,11 @@ trait Field {
       case 'Articles':
         $locator = '.region-content .field-name-c4m-related-articles';
         break;
+      case 'Related Voices & Views':
+        $locator = '.region-content .field-name-c4m-related-articles-unlimited';
+        break;
       case 'Groups':
+      case 'Related Groups':
         $locator = '.region-content .field-name-c4m-related-group-unlimited, .region-content .field-name-c4m-related-group';
         break;
       case 'External Contributors':
@@ -132,5 +136,19 @@ trait Field {
     // We have to enter the value directly to the scope.
     $javascript = "CKEDITOR.instances['". $element . "'].setData('" . $text . "')";
     $this->getSession()->executeScript($javascript);
+  }
+
+  /**
+   * @Given /^I disable the captcha field$/
+   */
+  public function iDisableTheCaptchaField() {
+    variable_set('c4m_captcha_required', FALSE);
+  }
+
+  /**
+   * @Given /^I enable the captcha field$/
+   */
+  public function iEnableTheCaptchaField() {
+    variable_set('c4m_captcha_required', TRUE);
   }
 }

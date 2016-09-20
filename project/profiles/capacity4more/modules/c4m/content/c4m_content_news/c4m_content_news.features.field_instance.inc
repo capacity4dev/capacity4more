@@ -163,7 +163,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 22,
       ),
       'teaser' => array(
         'label' => 'hidden',

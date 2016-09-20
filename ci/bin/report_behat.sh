@@ -23,7 +23,8 @@ if [ -d "$TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump" ]
     $MAILGUN_MESSAGES_URL \
     -F from=$MAILGUN_FROM \
     -F to=$MAILGUN_TO \
-    -F subject="Behat reporting - Error dumps for build $TRAVIS_BUILD_ID / $TRAVIS_BUILD_NUMBER" \
-    -F text="Attached you can find the behat error dumps for build $TRAVIS_BUILD_ID / $TRAVIS_BUILD_NUMBER!" \
+    -F subject="Behat reporting - Error dumps (PR #${TRAVIS_PULL_REQUEST})" \
+    -F text="Attached you can find the behat error dumps for ${TRAVIS_BRANCH} on http://www.github.com/${TRAVIS_REPO_SLUG}/pull/${TRAVIS_PULL_REQUEST}" \
     -F attachment=@$FILE
 fi
+
