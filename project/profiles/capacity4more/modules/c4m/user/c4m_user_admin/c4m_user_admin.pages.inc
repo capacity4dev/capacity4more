@@ -95,9 +95,10 @@ function c4m_user_admin_resend_activation_email_form($form, &$form_state, $accou
     '@first_name' => $account->c4m_first_name->value(),
     '@last_name' => $account->c4m_last_name->value(),
   ));
+
   return confirm_form($form,
     $question,
-    '',
+    "user/login",
     '',
     t('Resend activation email'), t('Cancel'));
 }
@@ -111,6 +112,8 @@ function c4m_user_admin_resend_activation_email_form_submit($form, &$form_state)
   $account = $form_state['user'];
   module_load_include('inc', 'c4m_user_admin', 'actions/c4m_user_admin.action');
   c4m_user_admin_resend_activation_email_action($account);
+
+  $form_state['redirect'] = 'user/login';
 }
 
 /**
