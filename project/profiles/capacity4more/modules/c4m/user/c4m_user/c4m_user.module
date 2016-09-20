@@ -1392,14 +1392,11 @@ function c4m_user_registrationpassword_confirmation_url($account) {
  *   Whether user is site administrator.
  */
 function c4m_user_is_site_admin($user = NULL) {
-  if (!isset($user)) {
+  if (is_null($user)) {
     global $user;
   }
 
-  // The user has the sitewide role 'administrator'.
-  if (in_array('administrator', $user->roles)) {
-    return TRUE;
-  }
+  $site_admin_role = user_role_load_by_name('administrator');
 
-  return FALSE;
+  return user_has_role($site_admin_role->rid, $user);
 }

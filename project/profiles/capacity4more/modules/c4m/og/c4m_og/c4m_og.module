@@ -186,7 +186,7 @@ function c4m_og_menu() {
   );
 
   // Menu item for approval of group request url.
-  $items['node/%node/approve/group'] = array(
+  $items['node/%node/approve-group'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_og_approve_group_request', 1),
     'access callback' => 'c4m_og_control_group_request_access',
@@ -194,7 +194,7 @@ function c4m_og_menu() {
   );
 
   // Menu item for rejection of group request url.
-  $items['node/%node/reject/group'] = array(
+  $items['node/%node/reject-group'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_og_reject_group_request', 1),
     'access callback' => 'c4m_og_control_group_request_access',
@@ -207,7 +207,7 @@ function c4m_og_menu() {
 /**
  * Access to control group requests.
  *
- * Site administrators can access, as long as $gid is OG group.
+ * Site administrators can access, as long as $node is OG group.
  *
  * @param object $node
  *   Group node.
@@ -235,7 +235,7 @@ function c4m_og_control_group_request_access($node) {
  *   Group node.
  *
  * @return object
- *   Approve group request form.
+ *   Approve group form.
  */
 function c4m_og_approve_group_request($form, &$form_state, $node) {
   if (!_c4m_og_group_at_initial_state($node->nid)) {
@@ -348,30 +348,33 @@ function c4m_og_control_group_request($action, $gid) {
   // Check that group is at initial ('pending') state.
   $wrapper = entity_metadata_wrapper('node', $gid);
 
+  // If group is not at initial state => request was already handled.
   if (!_c4m_og_group_at_initial_state($gid)) {
-    // If group is not at initial state, present warning message and return.
     $message = _c4m_og_format_group_request_failure_reason_message($gid);
 
     drupal_set_message($message, 'warning');
     return;
   }
 
-  // Change group state and set message.
-  $bundle = $wrapper->getBundle();
-  switch ($action) {
-    case 'approve':
-      $wrapper->c4m_og_status->set('draft');
-      $message = ($bundle == 'group') ? t('Group request approved') : t('Project request approved');
-      break;
+  $group_state = array(
+    'approve' => 'draft',
+    'reject' => 'deleted',
+  );
 
-    case 'reject':
-      $wrapper->c4m_og_status->set('deleted');
-      $message = ($bundle == 'group') ? t('Group request rejected') : t('Project request rejected');
-      break;
-  }
+  $message_action = array (
+    'approve' => 'approved',
+    'reject' => 'rejected',
+  );
 
+  $wrapper->c4m_og_status->set($group_state[$action]);
   // Save group and present success message.
   $wrapper->save();
+
+  $message = t('@bundle request @action', array(
+    '@bundle' => ucfirst($wrapper->getBundle()),
+    '@action' => $message_action[$action],
+  ));
+
   drupal_set_message($message);
 }
 
@@ -417,26 +420,17 @@ function _c4m_og_format_group_request_failure_reason_message($gid) {
   $state = _c4m_og_get_group_state($gid);
 
   $wrapper = entity_metadata_wrapper('node', $gid);
-  $bundle = $wrapper->getBundle();
 
-  switch ($state) {
-    case 'deleted':
-      $message = ($bundle == 'group') ? t('Group request was already rejected') :
-        t('Project request was already rejected');
-      break;
+  $message_states = array (
+    'draft' => 'approved',
+    'deleted' => 'rejected',
+  );
+  $message_action = in_array($state, $message_states) ? $message_states[$state] : 'handled';
 
-    case 'draft':
-      $message = ($bundle == 'group') ? t('Group request was already approved') :
-        t('Project request was already approved');
-      break;
-
-    default:
-      $message = ($bundle == 'group') ? t('Group request was already handled') :
-        t('Project request was already handled');
-      break;
-  }
-
-  return $message;
+  return t('@bundle request was already @action', array(
+    '@bundle' => ucfirst($wrapper->getBundle()),
+    '@action' => $message_action,
+  ));
 }
 
 /**
@@ -553,7 +547,7 @@ function c4m_og_route_to_group_people($form, &$form_state) {
 }
 
 /**
- * Forwards the page to group's People page.
+ * Forwards the page to group admin page.
  *
  * @param object $form
  *   Form array to populate.
