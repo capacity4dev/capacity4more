@@ -2331,11 +2331,7 @@ function c4m_message_load_general_arguments(Message $message) {
  *   The formatted date.
  */
 function c4m_message_format_date_for_message(Message $message) {
-  $format = variable_get('date_format_c4m_long_without_time', 'j F Y H:i');
-  $rel_date = c4m_helper_date_time_ago($message->timestamp, $format, 16070400);
-  $abs_date = format_date($message->timestamp, 'custom', $format);
-
-  return '<span data-toggle="tooltip" data-placement="bottom" title="' . $abs_date . '">' . $rel_date . '</span>';
+  return c4m_helper_date_format_relative_date($message->timestamp);
 }
 
 /**
