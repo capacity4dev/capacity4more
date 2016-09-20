@@ -6,8 +6,10 @@
 
 namespace FeatureContext;
 
+use Behat\Behat\Context\Step;
 
 trait User {
+
   /**
    * Hold the username of the last temporal user that has been created.
    *
@@ -28,19 +30,32 @@ trait User {
   }
 
   /**
+   * @When /^I visit the leave platform page of the current user$/
+   */
+  public function iVisitTheLeavePlatformPageOfTheCurrentUser() {
+    $account = user_load_by_name($this->user->name);
+
+    $steps = array();
+    $steps[] = new Step\When('I visit "/user/' . $account->uid . '/leave"');
+
+    return $steps;
+  }
+
+  /**
    * @Given /^I am logged in with a temporal user$/
    */
   public function iAmLoggedInWithATemporalUser() {
-    $username = 'temporaluser' . REQUEST_TIME;
+    $username = 'temporaluser' . md5(microtime());
     $password = 'drupal';
 
-    $temporal_user = (object) array(
+    $temporal_user = array(
       'name' => $username,
       'pass' => $password,
       'mail' => "{$username}@example.com",
+      'status' => 1,
       'legal_accept' => 1,
     );
-    $this->getDriver()->userCreate($temporal_user);
+    user_save(NULL, $temporal_user);
 
     $this->user = new \stdClass();
     $this->user->name = $username;
@@ -58,7 +73,23 @@ trait User {
     $this->user = new \stdClass();
     $this->user->name = $this->getTemporalUsername();
     $this->user->pass = 'drupal';
+    // The role property must be present on this object.
+    $this->user->role = NULL;
     $this->login();
+  }
+
+  /**
+   * @Given /^I should not be able to log in with the temporal user again$/
+   */
+  public function iShouldNotBeAbleToLogInWithTheTemporalUserAgain() {
+    try {
+      $this->iAmLoggedInWithATemporalUserAgain();
+    }
+    catch (\Exception $e) {
+      // The temporal user should not be able to log in again.
+      return;
+    }
+    throw new \Exception("Temporal user should not be able to log in.");
   }
 
   /**
