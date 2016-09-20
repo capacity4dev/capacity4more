@@ -51,7 +51,10 @@ function c4m_user_og_has_group_permission($permission, $group = NULL) {
  *    The user role.
  */
 function c4m_user_og_get_role_in_group($user, $group) {
-  if (user_is_anonymous()) {
+  // Group has no owner, return early to prevent showing an "Owner" label for
+  // all anonymous visitors (since their uid is 0, they falsely match the group
+  // owner id).
+  if (empty($group->uid)) {
     return NULL;
   }
 
@@ -788,12 +791,6 @@ function c4m_user_og_c4m_leave_group_cta($group) {
     return;
   }
 
-  global $user;
-  // Group owner can't leave the group, needs to transfer ownership first.
-  if ($user->uid == $group->uid) {
-    return;
-  }
-
   $link = 'group/node/' . $group->nid . '/unsubscribe';
   return array(
     '#theme' => 'c4m_group_text_cta',
@@ -1077,6 +1074,16 @@ function c4m_user_og_mail_alter(&$message) {
   $variables = array(
     'group' => $group,
     'user' => $user,
+  );
+
+  $site_name = variable_get('site_name');
+  $message['subject'] = "Activate your " . $site_name . " account\n";
+  $message['from'] = format_string(
+    '"The @site team"<@mail>',
+    array(
+      '@site' => $site_name,
+      '@mail' => 'capacity4dev@ec.europa.eu',
+    )
   );
 
   $message['body'] = array(

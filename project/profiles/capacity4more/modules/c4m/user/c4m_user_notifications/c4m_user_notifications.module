@@ -40,7 +40,7 @@ function c4m_user_notifications_og_membership_trigger_access($og_membership) {
  * Implements hook_og_membership_insert().
  *
  * Triggers email notification on new membership request for moderated groups,
- * and 'new member joined' notification to user and group owner and admins for
+ * and 'new member joined' notification to user, and group owner and admins, for
  * open group.
  */
 function c4m_user_notifications_og_membership_insert($og_membership) {
@@ -60,6 +60,13 @@ function c4m_user_notifications_og_membership_insert($og_membership) {
 
   if ($moderated == C4M_OG_MODERATED_GROUP && $og_membership->state == OG_STATE_PENDING) {
     // Moderated group with state Pending - new membership request.
+    if (isset($og_membership->og_membership_invitation)) {
+      // It's invitation to join moderated group. og_invite module added
+      // membership request, and sent a message to user for approval.
+      // No need to notify group admins on this.
+      return;
+    }
+
     c4m_user_notifications_moderated_group_new_membership_request($og_membership);
   }
   elseif ($moderated == C4M_OG_OPEN_GROUP && $og_membership->state == OG_STATE_ACTIVE) {
@@ -109,13 +116,25 @@ function c4m_user_notifications_og_membership_update($og_membership) {
         // Membership acceptance notification to user, for open and moderated
         // group is the same (template MT13).
         c4m_user_notifications_notify_user_membership_accepted($og_membership);
-        c4m_user_notifications_moderated_group_notify_admins_membership_accepted($og_membership);
+
+        if (!isset($og_membership->og_membership_invitation)) {
+          // Notify admins only if it's not an invitation to group.
+          // When user is invited, and approves the request through link
+          // at mail, there's no need to notify admins.
+          c4m_user_notifications_moderated_group_notify_admins_membership_accepted($og_membership);
+        }
       }
       elseif ($moderated == C4M_OG_OPEN_GROUP) {
         // Membership acceptance notification to user, for open and moderated
         // group is the same (template MT13).
         c4m_user_notifications_notify_user_membership_accepted($og_membership);
-        c4m_user_notifications_open_group_notify_admins_membership_accepted($og_membership);
+
+        if (!isset($og_membership->og_membership_invitation)) {
+          // Notify admins only if it's not an invitation to group.
+          // When user is invited, and approves the request through link
+          // at mail, there's no need to notify admins.
+          c4m_user_notifications_open_group_notify_admins_membership_accepted($og_membership);
+        }
       }
       break;
   }
@@ -212,7 +231,7 @@ function c4m_user_notifications_node_delete($node) {
 /**
  * Implements hook_comment_insert().
  *
- * Triggers email notification for comment insert.
+ * Triggers email notifications for comment insert.
  */
 function c4m_user_notifications_comment_insert($comment) {
   // Don't send notifications, if activated from CLI (dummy content migration).
@@ -221,9 +240,9 @@ function c4m_user_notifications_comment_insert($comment) {
   }
 
   $node = node_load($comment->nid);
-  $group_notification_types = c4m_og_get_group_content_notification_types();
-  if (!$node->type || !in_array($node->type, $group_notification_types)) {
-    // Node comment is associated with does not require notification.
+  $comment_notification_types = c4m_og_get_comment_notification_types();
+  if (!$node->type || !in_array($node->type, $comment_notification_types)) {
+    // Node, comment is associated with, does not require notification.
     return;
   }
 

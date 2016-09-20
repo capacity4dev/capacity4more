@@ -52,6 +52,8 @@ function c4m_user_admin_resend_activation_email_action($account) {
   if (!$account_wrapper->status->value() && !$account_wrapper->c4m_is_spammer->value() && !$account_wrapper->c4m_is_deleted->value()) {
     $params['account'] = $account;
     drupal_mail('user_registrationpassword', 'register', $account->mail, user_preferred_language($account), $params);
+
+    drupal_set_message(t('Activation mail was sent.'));
   }
   else {
     drupal_set_message(t('Account of @first_name @last_name is either active or deleted or marked as spammer.', array(
