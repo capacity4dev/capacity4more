@@ -72,14 +72,16 @@ function c4m_og_invite_visitors_get_invitation($email, $gid) {
     return FALSE;
   }
 
+  $invite_db_fields = array(
+    'inv_group_id',
+    'inv_email',
+    'inv_created',
+    'inv_token',
+    'inv_expired',
+  );
+
   $result = db_select('c4m_og_invite_visitors', 'oiv')
-    ->fields('oiv', array(
-      'inv_group_id',
-      'inv_email',
-      'inv_created',
-      'inv_token',
-      'inv_expired',
-    ))
+    ->fields('oiv', $invite_db_fields)
     ->condition('inv_group_id', $gid)
     ->condition('inv_email', $email)
     ->range(0, 1)
@@ -460,18 +462,17 @@ function c4m_og_invite_visitors_action_invite_visitors($inviter_uid, $gid, $invi
  * the email identification $key.
  */
 function c4m_og_invite_visitors_mail($key, &$message, $params) {
-  $language = $message['language'];
   $variables = array(
     'message' => $message,
     'form_fields' => $params['form_fields'],
     'invitation' => $params['invitation'],
   );
-  $message['subject'] .= _c4m_og_invite_visitors_mail_text($key . '_subject', $variables);
-  $message['body'][] = _c4m_og_invite_visitors_mail_text($key . '_body', $variables);
+  $message['subject'] .= _c4m_og_invite_visitors_get_email_template($key . '_subject', $variables);
+  $message['body'][] = _c4m_og_invite_visitors_get_email_template($key . '_body', $variables);
 }
 
 /**
- * Returns a mail string for a variable name.
+ * Returns a mail template for a variable name.
  *
  * Used by c4m_og_invite_visitors_mail() and the settings forms to retrieve
  * strings.
@@ -486,7 +487,7 @@ function c4m_og_invite_visitors_mail($key, &$message, $params) {
  * @return string|null
  *   An email string or NULL.
  */
-function _c4m_og_invite_visitors_mail_text($key, $variables = array(), $replace = TRUE) {
+function _c4m_og_invite_visitors_get_email_template($key, $variables = array(), $replace = TRUE) {
   global $language;
 
   // Try to load the text first from variable.
