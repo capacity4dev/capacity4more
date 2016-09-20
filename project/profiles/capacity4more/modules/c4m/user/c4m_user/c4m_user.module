@@ -290,7 +290,8 @@ function c4m_user_get_initials($name) {
 function c4m_user_name($user) {
   $wrapper = entity_metadata_wrapper('user', $user);
 
-  if ($user->uid == 0) {
+  // When an user is created, this function is called without uid.
+  if (!isset($user->uid) || $user->uid == 0) {
     return t('Anonymous');
   }
 
@@ -1059,6 +1060,23 @@ function c4m_user_user_login(&$edit, $account) {
 }
 
 /**
+ * Implements hook_user_logout().
+ */
+function c4m_user_user_logout($account) {
+  if (!empty($_GET['destination'])) {
+    global $user;
+    $user_temp = $user;
+    $user = drupal_anonymous_user();
+    $item = menu_get_item($_GET['destination']);
+    if (empty($item) || empty($item['access'])) {
+      // If anonymous user has no access, remove destination.
+      unset($_GET['destination']);
+    }
+    $user = $user_temp;
+  }
+}
+
+/**
  * Implements hook_cron().
  */
 function c4m_user_cron() {
@@ -1135,7 +1153,7 @@ function c4m_user_c4m_domain_presave($entity) {
 /**
  * Checks if a given user is set as spammer or not.
  *
- * @param object | integer $user
+ * @param object|int $user
  *   The user object or user ID.
  *
  * @return bool
