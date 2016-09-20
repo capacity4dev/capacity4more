@@ -568,6 +568,10 @@ function c4m_features_og_manage_project_details() {
       'node/' . $project->nid . '/edit',
       array('absolute' => TRUE)
     ),
+    'menu_link' => url(
+      'group/node/' . $project->nid . '/admin/menus',
+      array('absolute' => TRUE)
+    ),
     'owner' => c4m_user_name(user_load($project->uid)),
     'owner_edit' => url(
       'project/node/' . $project->nid . '/admin/owner',

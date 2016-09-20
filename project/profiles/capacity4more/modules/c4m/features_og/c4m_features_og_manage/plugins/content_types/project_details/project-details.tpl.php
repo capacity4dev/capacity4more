@@ -106,5 +106,11 @@
         </div>
       <?php endforeach; ?>
     </div>
+    <div class="project-navigation">
+      <div class="title">
+        <h2><?php print t('Project Navigation') ?></h2>
+        <a href="<?php print $details['menu_link']; ?>"><?php print t('Edit') ?></a>
+      </div>
+    </div>
   </div>
 </div>

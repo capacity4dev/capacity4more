@@ -119,6 +119,8 @@ function capacity4more_setup_set_permissions(&$install_state) {
     'delete own group content',
     'create new books',
     'add content to books',
+    'create files',
+    'view own files',
   );
 
   $content_types = array(
