@@ -13,16 +13,16 @@ function _c4m_ds_field_twitter_widget($field) {
   $entity = entity_metadata_wrapper('paragraphs_item', $entity);
 
   $settings = array(
-    "service" => "smk",
-    "type" => "search",
-    "display_user" => TRUE,
-    "display_user_pic" => TRUE,
-    "auto_expand_photo" => FALSE,
-    "from" => "EU_Commission",
-    "result_type" => "mixed",
-    "rts_display_original" => TRUE,
-    "tweet_about_btn" => TRUE,
-    "tweet_more_btn" => TRUE,
+    'service'              => 'smk',
+    'type'                 => 'search',
+    'display_user'         => TRUE,
+    'display_user_pic'     => TRUE,
+    'auto_expand_photo'    => FALSE,
+    'from'                 => 'EU_Commission',
+    'result_type'          => 'mixed',
+    'rts_display_original' => TRUE,
+    'tweet_about_btn'      => TRUE,
+    'tweet_more_btn'       => TRUE,
   );
 
   if ($entity->c4m_twitter_username->value()) {

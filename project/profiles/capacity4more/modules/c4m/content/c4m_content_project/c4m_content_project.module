@@ -312,26 +312,27 @@ function c4m_content_project_c4m_content_project_blockreference_whitelist() {
 function c4m_content_project_ds_fields_info($entity_type) {
   $fields = array();
 
-  // Special field to render the block reference according to type of block.
-  $fields = array(
-    'c4m_system_block_renderer' => array(
+  $path = drupal_get_path('module', 'c4m_content_project');
+
+  if ($entity_type == 'node') {
+    // Special field to render the block reference according to type of block.
+    $fields['c4m_system_block_renderer'] = array(
       'title' => t('C4M System Block Renderer'),
       'field_type' => DS_FIELD_TYPE_FUNCTION,
       'ui_limit' => array(),
       'function' => 'c4m_content_project_system_block_renderer',
-    ),
-  );
-
-  $path = drupal_get_path('module', 'c4m_content_project');
-
-  // Twitter widget.
-  $fields['paragraphs_item']['c4m_ds_field_twitter_widget'] = array(
-    'title' => t('Twitter widget'),
-    'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit' => array('*|*'),
-    'file' => $path . '/c4m_content_project.ds_fields.inc',
-    'function' => '_c4m_ds_field_twitter_widget',
-  );
+    );
+  }
+  elseif ($entity_type == 'paragraphs_item') {
+    // Twitter widget.
+    $fields['c4m_ds_field_twitter_widget'] = array(
+      'title' => t('Twitter widget'),
+      'field_type' => DS_FIELD_TYPE_FUNCTION,
+      'ui_limit' => array('c4m_paragraph_twitter|*'),
+      'file' => $path . '/c4m_content_project.ds_fields.inc',
+      'function' => '_c4m_ds_field_twitter_widget',
+    );
+  }
 
   return array($entity_type => $fields);
 }
