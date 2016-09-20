@@ -16,6 +16,7 @@ function c4m_content_book_menu() {
     'page arguments' => array('c4m_content_book_help_and_guidance_settings_form'),
     'access arguments' => array('administer site configuration'),
     'title' => 'Help & Guidance Settings',
+    'description' => 'Manage the Help & guidance book',
     'type' => MENU_NORMAL_ITEM,
   );
 
@@ -39,6 +40,12 @@ function c4m_content_book_help_and_guidance_settings_form($form, &$form_state) {
     '#title' => t('Main Help & Guidance book'),
     '#default_value' => $node ? "{$node->title} ({$node->nid})" : '',
     '#autocomplete_path' => 'c4m/autocomplete/c4m_content_book_help_and_guidance',
+  );
+
+  $form['rearrange_link'] = array(
+    '#type' => 'link',
+    '#title' => 'Rearrange the help & guidance book',
+    '#href' => 'help-guidance/rearrange',
   );
 
   $form['actions']['#type'] = 'actions';
