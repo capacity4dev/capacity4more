@@ -111,7 +111,7 @@ function c4m_user_strongarm() {
             'visible' => FALSE,
           ),
           'member_overview' => array(
-            'weight' => '46',
+            'weight' => '48',
             'visible' => FALSE,
           ),
         ),
@@ -153,7 +153,7 @@ function c4m_user_strongarm() {
             'visible' => FALSE,
           ),
           'member_overview' => array(
-            'weight' => '45',
+            'weight' => '46',
             'visible' => FALSE,
           ),
         ),
