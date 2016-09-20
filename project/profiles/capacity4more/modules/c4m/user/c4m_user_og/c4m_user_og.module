@@ -51,7 +51,10 @@ function c4m_user_og_has_group_permission($permission, $group = NULL) {
  *    The user role.
  */
 function c4m_user_og_get_role_in_group($user, $group) {
-  if (user_is_anonymous()) {
+  // Group has no owner, return early to prevent showing an "Owner" label for
+  // all anonymous visitors (since their uid is 0, they falsely match the group
+  // owner id).
+  if (empty($group->uid)) {
     return NULL;
   }
 
