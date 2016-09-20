@@ -605,7 +605,7 @@ function c4m_user_notifications_existing_group_content_updated($node) {
     _c4m_user_notifications_notify_on_content_new_revision($node, 'group_followers');
   }
   else {
-    // No revision update => => notify only group followers.
+    // No revision update => notify only group followers.
     _c4m_user_notifications_notify_on_content($node, 'update');
   }
 }
@@ -661,7 +661,7 @@ function _c4m_user_notifications_notify_on_content($node, $action, $target_gid =
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_node->set($node->nid);
   $node_wrapper = entity_metadata_wrapper('node', $node);
-  $gid = is_null($target_gid) ? $target_gid : $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
+  $gid = !is_null($target_gid) ? $target_gid : $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
   $wrapper->field_group_node->set($gid);
   $wrapper->field_executing_user->set($user->uid);
 
