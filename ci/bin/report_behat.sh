@@ -14,9 +14,9 @@ if [ -d "$TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump" ]
   ls -al
 
   NOW=$(date +"%Y%m%d-%H%M%s")
-  FILE="behat.$NOW.tar.gz"
+  FILE="behat.{$TRAVIS_BUILD_ID}.{$TRAVIS_BUILD_NUMBER}--{$NOW}.tar.gz"
 
-  tar -czvf behat.$TRAVIS_BUILD_ID.$TRAVIS_BUILD_NUMBER--$NOW.tar.gz *
+  tar -czvf $FILE *
 
   # Send archive as mail attachment.
   curl -s --user "api:$MAILGUN_API" \
@@ -27,4 +27,3 @@ if [ -d "$TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat/features/dump" ]
     -F text="Attached you can find the behat error dumps for ${TRAVIS_BRANCH} on http://www.github.com/${TRAVIS_REPO_SLUG}/pull/${TRAVIS_PULL_REQUEST}" \
     -F attachment=@$FILE
 fi
-
