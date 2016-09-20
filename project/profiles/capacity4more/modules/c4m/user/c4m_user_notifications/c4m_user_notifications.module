@@ -406,8 +406,7 @@ function _c4m_user_notifications_process_general_triggers_insert($node) {
  */
 function _c4m_user_notifications_process_general_triggers_update($node) {
   if ($node->status != NODE_PUBLISHED) {
-    // Return early, if node is not published, or abort notification
-    // property is set.
+    // Return early, if node is not published.
     return;
   }
 
@@ -444,12 +443,13 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
         break;
 
       // 'published' -> 'draft' => Unpublished.
-      // 'pending' -> 'draft' => Group approved.
+      // 'pending' -> 'draft' => Group approved notification, when abort
+      // property is not set.
       case 'draft':
         if ($group_former_status == 'published') {
           c4m_user_notifications_group_status_set_unpublished($node, $group_former_status);
         }
-        elseif ($group_former_status == 'pending' && !isset($node->abort_notification)) {
+        elseif ($group_former_status == 'pending' && !isset($node->abort_group_approved_notification)) {
           c4m_user_notifications_notify_user_group_approved($node->nid);
         }
         break;

@@ -369,7 +369,7 @@ function c4m_og_control_group_request($action, $gid) {
   // Property instructs c4m_user_notification model to abort sending
   // 'group approved' notification, since is sent by
   // c4m_og_notify_user_group_approved().
-  $group->abort_notification = TRUE;
+  $group->abort_group_approved_notification = TRUE;
   $wrapper->c4m_og_status->set($group_state[$action]);
 
   // Save group and present success message.
