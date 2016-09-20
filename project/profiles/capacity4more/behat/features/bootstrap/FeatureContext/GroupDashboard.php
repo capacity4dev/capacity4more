@@ -23,7 +23,7 @@ trait GroupDashboard {
   }
 
   /**
-   * @When /^I try to invite (users|visitors) to group "([^"]*)"$/
+   * @When /^I try to invite (users|visitors) to "([^"]*)" group$/
    */
   public function iTryToInviteToGroup($who, $title) {
     $group = $this->loadGroupByTitleAndType($title, 'group');
