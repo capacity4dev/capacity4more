@@ -1635,10 +1635,10 @@ function c4m_og_get_group_content_notification_types() {
 }
 
 /**
- * Returns an array of content types that require notification om comment.
+ * Returns an array of content types that require notification on comment.
  *
  * @return array
- *   Notification types.
+ *   Types that require notifications for comments.
  */
 function c4m_og_get_comment_notification_types() {
   $comment_notification_types = c4m_og_get_group_content_notification_types();
