@@ -214,6 +214,33 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');
+  $items['c4m_group_request_approved'] = entity_import('message_type', '{
+    "name" : "c4m_group_request_approved",
+    "description" : "c4m Group Request Approved MT12",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003EYour @group_node_type\\u0026nbsp;request for @group_node_title\\u0026nbsp;was approved.\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cp\\u003EYour @group_node_type\\u0026nbsp;request for @group_node_title\\u0026nbsp;was approved.\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "\\u003Cp\\u003EDear @member_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\nWe\\u0027re pleased to let you know your @group_node_type: \\u003Cstrong\\u003E@group_node_title\\u003C\\/strong\\u003E was approved and is currently saved in draft status.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Cem\\u003E@admin_comment \\u003C\\/em\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYou can access your new \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_type here\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EAs the owner, we encourage you to read \\u003Ca href=\\u0022!help_section_url\\u0022\\u003Ethis short guide\\u003C\\/a\\u003E. Here you\\u2019ll find tips and advice to make the most of your @group_node_type. Once you\\u0027re ready to go live, don\\u0027t forget to update the status of your @group_node_type to share it with the rest of the community.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EWe hope you\\u2019ll enjoy using [site:name] and we\\u2019d like to remind you that we are available to provide \\u003Ca href=\\u0022@site_contact_link\\u0022\\u003Ehelp and support\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EThe [site:name] team\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cp\\u003EDear @member_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\nWe\\u0027re pleased to let you know your @group_node_type: \\u003Cstrong\\u003E@group_node_title\\u003C\\/strong\\u003E was approved and is currently saved in draft status.\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\n\\u003Cem\\u003E@admin_comment \\u003C\\/em\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003EYou can access your new \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_type here\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\n\\u003Cp\\u003EAs the owner, we encourage you to read \\u003Ca href=\\u0022!help_section_url\\u0022\\u003Ethis short guide\\u003C\\/a\\u003E. Here you\\u2019ll find tips and advice to make the most of your @group_node_type. Once you\\u0027re ready to go live, don\\u0027t forget to update the status of your @group_node_type to share it with the rest of the community.\\u003C\\/p\\u003E\\n\\u003Cp\\u003EWe hope you\\u2019ll enjoy using [site:name] and we\\u2019d like to remind you that we are available to provide \\u003Ca href=\\u0022@site_contact_link\\u0022\\u003Ehelp and support\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\n\\u003Cp\\u003EThe [site:name] team\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['c4m_group_request_submitted'] = entity_import('message_type', '{
     "name" : "c4m_group_request_submitted",
     "description" : "c4m Group Request Submitted",
@@ -537,6 +564,28 @@ function c4m_message_default_message_type() {
           "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation | !date\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
           "format" : "full_html",
           "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_log_group_state_change'] = entity_import('message_type', '{
+    "name" : "c4m_log_group_state_change",
+    "description" : "c4m Log Group State Change",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "@event_user_full_name changed state of @group_node_type @group_node_title from @from_state to @to_state.\\r\\nComment: @admin_comment",
+          "format" : "mail",
+          "safe_value" : "@event_user_full_name changed state of @group_node_type @group_node_title from @from_state to @to_state.\\nComment: @admin_comment"
         }
       ]
     },
