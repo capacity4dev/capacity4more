@@ -186,6 +186,11 @@ function c4m_user_notifications_node_insert($node) {
     return;
   }
 
+  // Node belongs to Anonymous user => no notification required.
+  if ($node->uid == 0) {
+    return;
+  }
+
   _c4m_user_notifications_process_general_triggers_insert($node);
   _c4m_user_notifications_process_og_alter($node, 'insert');
   _c4m_user_notifications_process_og_content_alter($node, 'insert');
@@ -199,6 +204,11 @@ function c4m_user_notifications_node_insert($node) {
 function c4m_user_notifications_node_update($node) {
   // Don't send notifications, if activated from CLI (dummy content migration).
   if (drupal_is_cli()) {
+    return;
+  }
+
+  // Node belongs to Anonymous user => no notification required.
+  if ($node->uid == 0) {
     return;
   }
 
@@ -571,12 +581,6 @@ function _c4m_user_notifications_process_og_alter($node, $mode) {
  */
 function _c4m_user_notifications_process_og_content_alter($node, $mode) {
   if ($node->status != NODE_PUBLISHED) {
-    return;
-  }
-
-  // Node belongs to Anonymous user - happens when user leaves platform, and
-  // all his content is linked to Anonymous user.
-  if ($node->uid == 0) {
     return;
   }
 
