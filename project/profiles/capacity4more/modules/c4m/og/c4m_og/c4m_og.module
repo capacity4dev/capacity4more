@@ -430,28 +430,35 @@ function c4m_og_replace_owner_build_form($form, $form_state, $entity_type, $etid
     $admins[$admin->uid] = c4m_user_name($admin);
   }
 
-  $form['new_owner'] = array(
-    '#type' => 'select',
-    '#required' => TRUE,
-    '#options' => $admins,
-    '#title' => t('Select new owner'),
-    '#description' => t('Select the name of the member you wish to be the new owner.'),
-  );
+  if (!empty($admins)) {
+    $form['new_owner'] = array(
+      '#type' => 'select',
+      '#required' => TRUE,
+      '#options' => $admins,
+      '#title' => t('Select new owner'),
+      '#description' => t('Select the name of the group admin you wish to be the new owner.'),
+    );
 
-  $form['group'] = array(
-    '#type' => 'value',
-    '#value' => $etid,
-  );
+    $form['group'] = array(
+      '#type' => 'value',
+      '#value' => $etid,
+    );
 
-  $form['type'] = array(
-    '#type' => 'value',
-    '#value' => $entity_type,
-  );
+    $form['type'] = array(
+      '#type' => 'value',
+      '#value' => $entity_type,
+    );
 
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Replace'),
-  );
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Replace'),
+    );
+  }
+  else {
+    $link = l(t('Visit the members admin page'), 'group/node/' . $etid . '/admin/people');
+    $message = t('The group does not have any site admin to be the new owner. !link', array('!link' => $link));
+    drupal_set_message($message, 'warning');
+  }
 
   return $form;
 }
@@ -527,7 +534,7 @@ function c4m_og_user_is_owner($group_type, $gid) {
   }
 
   // Make sure the current user is the group manager.
-  return user_access('administer groups', $user) || $user->uid == $group->uid;
+  return $user->uid == $group->uid;
 }
 
 /**
