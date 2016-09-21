@@ -6,3 +6,142 @@
  */
 
 include_once 'c4m_content_book.features.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_content_book_menu() {
+  $items['admin/config/c4m/help_and_guidance'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_content_book_help_and_guidance_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'title' => 'Help & Guidance Settings',
+    'description' => 'Manage the Help & guidance book',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['c4m/autocomplete/c4m_content_book_help_and_guidance'] = array(
+    'title' => 'Autocomplete for help & guidance',
+    'page callback' => 'c4m_content_book_help_and_guidance_autocomplete',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Form builder for choosing the main "Help & guidance" book.
+ */
+function c4m_content_book_help_and_guidance_settings_form($form, &$form_state) {
+  $node = c4m_content_book_get_main_help_and_guidance();
+  $form['main_book'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Main Help & Guidance book'),
+    '#default_value' => $node ? "{$node->title} ({$node->nid})" : '',
+    '#autocomplete_path' => 'c4m/autocomplete/c4m_content_book_help_and_guidance',
+  );
+
+  $form['rearrange_link'] = array(
+    '#type' => 'link',
+    '#title' => 'Rearrange the help & guidance book',
+    '#href' => 'help-guidance/rearrange',
+  );
+
+  $form['actions']['#type'] = 'actions';
+  $form['actions']['submit'] = array('#type' => 'submit', '#value' => t('Save'));
+
+  return $form;
+}
+
+/**
+ * Validate handler for c4m_content_book_help_and_guidance_settings_form.
+ */
+function c4m_content_book_help_and_guidance_settings_form_validate($form, &$form_state) {
+  $value = $form_state['values']['main_book'];
+  if (!$value) {
+    form_set_error('main_book', t('Must select a main Help & Guidance book.'));
+    return;
+  }
+
+  preg_match('/\((\d+)\)$/', $value, $matches);
+  if (empty($matches[1])) {
+    form_set_error('main_book', t('Please select a valid option from the autocomplete.'));
+    return;
+  }
+
+  $node = node_load($matches[1]);
+  if (!$node || $node->type != 'book') {
+    form_set_error('main_book', t('An error trying to load the chosen book, try choosing again.'));
+    return;
+  }
+
+  $form_state['main_book'] = $node;
+}
+
+/**
+ * Submit handler for c4m_content_book_help_and_guidance_settings_form.
+ */
+function c4m_content_book_help_and_guidance_settings_form_submit($form, &$form_state) {
+  $node = $form_state['main_book'];
+  variable_set('c4m_help_and_guidance_main_book', $node->nid);
+
+  $link = l($node->title, 'node/' . $node->nid);
+  drupal_set_message(t('!link is now the main Help & Guidance book.', array('!link' => $link)));
+}
+
+/**
+ * Returns the current main help and guidance book node.
+ *
+ * @return bool|mixed
+ *   The help and guidance main book node, or FALSE if not set.
+ */
+function c4m_content_book_get_main_help_and_guidance() {
+  if ($nid = variable_get('c4m_help_and_guidance_main_book', FALSE)) {
+    return node_load($nid);
+  }
+
+  return FALSE;
+}
+
+/**
+ * Page callback for help and guidance autocomplete.
+ *
+ * @param string $title
+ *   The search string.
+ */
+function c4m_content_book_help_and_guidance_autocomplete($title = '') {
+  $title = trim($title);
+  if (!$title) {
+    return;
+  }
+
+  $node_matches = array();
+  if (!empty($title)) {
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'book')
+      // Select rows that match by title.
+      ->propertyCondition('title', '%' . db_like($title) . '%', 'LIKE')
+      ->range(0, 10)
+      ->execute();
+
+    if (isset($result['node'])) {
+      $nids = array_keys($result['node']);
+      $nodes = node_load_multiple($nids);
+
+      foreach ($nodes as $node) {
+        $name = "{$node->title} ({$node->nid})";
+        $n = $name;
+        // Titles containing commas or quotes must be wrapped in quotes.
+        if (strpos($name, ',') !== FALSE || strpos($name, '"') !== FALSE) {
+          $n = '"' . str_replace('"', '""', $name) . '"';
+        }
+        $node_matches[$n] = check_plain($name);
+      }
+    }
+  }
+
+  drupal_json_output($node_matches);
+}

@@ -17,6 +17,11 @@ function c4m_content_article_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'comment_node_article';
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
+    'links' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'post_date' => array(
       'weight' => '2',
       'label' => 'hidden',
@@ -413,6 +418,7 @@ function c4m_content_article_ds_layout_settings_info() {
         1 => 'c4m_user_first_and_last_name',
         2 => 'post_date',
         3 => 'comment_body',
+        4 => 'links',
       ),
     ),
     'fields' => array(
@@ -420,6 +426,7 @@ function c4m_content_article_ds_layout_settings_info() {
       'c4m_user_first_and_last_name' => 'right',
       'post_date' => 'right',
       'comment_body' => 'right',
+      'links' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -581,8 +588,7 @@ function c4m_content_article_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'header' => array(
-        0 => 'c4m_banner',
-        2 => 'title',
+        1 => 'c4m_banner',
       ),
       'right' => array(
         1 => 'c4m_vocab_topic',
@@ -595,9 +601,6 @@ function c4m_content_article_ds_layout_settings_info() {
         16 => 'group_node_meta',
         17 => 'c4m_ds_content_shared_to',
         18 => 'c4m_ds_content_actions',
-      ),
-      'header' => array(
-        1 => 'c4m_banner',
       ),
       'left' => array(
         5 => 'c4m_ds_content_status',
@@ -612,12 +615,10 @@ function c4m_content_article_ds_layout_settings_info() {
     'fields' => array(
       'c4m_vocab_topic' => 'right',
       'c4m_banner' => 'header',
-      'c4m_vocab_topic' => 'right',
       'title' => 'header',
       'c4m_vocab_geo' => 'right',
       'c4m_ds_content_status' => 'left',
       'c4m_related_group' => 'right',
-      'c4m_ds_content_status' => 'left',
       'c4m_ds_creation_date' => 'left',
       'c4m_related_articles' => 'right',
       'c4m_ds_content_footer_stats' => 'left',
