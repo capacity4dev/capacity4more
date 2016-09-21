@@ -754,7 +754,7 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
     NODE_PROMOTED => 'fa-star',
   );
   $star = '<i class="fa ' . $star_class[$highlight] . '" aria-hidden="true"></i> ';
-  $link_text = $star . t('highlight');
+  $link_text = $star . '<span class="highlight-link-text">' . t('highlight') . '</span>';
 
   return l($link_text, $url, $options);
 }

@@ -862,3 +862,21 @@
     box-shadow: none;
   }
 }
+
+.view-mode-teaser {
+  .field-name-c4m-ds-content-footer-stats,
+  .form-type-item {
+    display: inline-block;
+    .fa {
+      font-size: $font-size-h3;
+    }
+  }
+
+  .highlight-link {
+    margin-left: 1rem;
+  }
+
+  .highlight-link-text {
+    display: none;
+  }
+}
