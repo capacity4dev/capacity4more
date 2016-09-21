@@ -441,6 +441,7 @@ function _c4m_og_format_group_request_failure_reason_message($gid) {
 
   return t('@bundle request was already @action', array(
     '@bundle' => ucfirst($wrapper->getBundle()),
+    // State is other than 'deleted' => group was approved.
     '@action' => ($state == 'deleted') ? ' rejected' : 'approved',
   ));
 }
