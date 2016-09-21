@@ -182,7 +182,7 @@ function c4m_content_discussion_strongarm() {
           ),
           'teaser' => array(
             'weight' => '21',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
           'activity_global' => array(
             'weight' => '20',

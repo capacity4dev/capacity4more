@@ -184,7 +184,7 @@ function c4m_content_wiki_page_strongarm() {
           ),
           'teaser' => array(
             'weight' => '30',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
           'teaser_group' => array(
             'weight' => '30',
