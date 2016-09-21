@@ -444,7 +444,13 @@ function c4m_features_og_manage_list_taxonomy($group, &$details) {
   $details['terms_count'] = $terms_count;
 
   // Get features settings.
-  $details['features_available'] = c4m_og_feature_info();
+  // Filter out features not applicable to the current group type.
+  foreach ($available_features = c4m_og_feature_info() as $key => $value) {
+    if (!in_array($group->type, $value['group_types'])) {
+      unset($available_features[$key]);
+    }
+  }
+  $details['features_available'] = $available_features;
   $details['features_manage_link'] = l(
     t('Edit'),
     url('manage/features', array('absolute' => TRUE))
@@ -832,6 +838,39 @@ function c4m_features_og_manage_form_variable_realm_edit_variables_form_alter(
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#type'] = 'div';
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsible'] = FALSE;
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsed'] = FALSE;
+
+  // Remove features not applicable for the active group.
+  foreach ($form['variables']['c4m_og']['c4m_og_features_[group_type]']['c4m_og_features_group']['#options'] as $key => $value) {
+    if (!c4m_og_feature_available($key)) {
+      unset($form['variables']['c4m_og']['c4m_og_features_[group_type]']['c4m_og_features_group']['#options'][$key]);
+    }
+  }
+
+  // Extra submit handler to jump back to the manage dashboard for the group.
+  $form['#submit'][] = 'c4m_features_og_manage_variable_realm_edit_submit';
+
+  // Remove unnecessary buttons.
+  unset($form['variables']['c4m_og']['save_c4m_og']);
+  unset($form['variables']['c4m_og']['reset_c4m_og']);
+}
+
+/**
+ * Make sure our form_alter is called last.
+ */
+function c4m_features_og_manage_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter') {
+    $group = $implementations['c4m_features_og_manage'];
+    unset($implementations['c4m_features_og_manage']);
+    $implementations['c4m_features_og_manage'] = $group;
+  }
+}
+
+/**
+ * Extra submit handler for variable realm form.
+ */
+function c4m_features_og_manage_variable_realm_edit_submit($form, &$form_state) {
+  // Back to the manage dashboard for the group.
+  $_GET['destination'] = 'manage';
 }
 
 /**

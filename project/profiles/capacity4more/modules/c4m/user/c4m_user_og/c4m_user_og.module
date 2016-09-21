@@ -530,11 +530,6 @@ function c4m_user_og_c4m_cta_block() {
     return;
   }
 
-  // Prevent from 'project' nodes to run this logic.
-  if ($group->type != 'group') {
-    return;
-  }
-
   // A blocked (banned) user should not be able to see the CTA block.
   $user_role = c4m_user_og_get_role_in_group($user, $group);
   if ($user_role == 'blocked') {
@@ -551,17 +546,17 @@ function c4m_user_og_c4m_cta_block() {
     $items['actions'] = $item;
   }
 
-  if ($item = c4m_user_og_c4m_join_cta($group)) {
-    $items['join'] = $item;
-  }
-
-  if ($item = c4m_user_og_follow_group_cta($group)) {
-    $items['follow'] = $item;
-  }
-
-  // Add a link to the CTA block if the user is permitted to invite new members.
-  if (!user_is_anonymous() && c4m_user_og_invite_access($group)) {
-    $items['invite'] = c4m_user_og_c4m_invite_cta($group);
+  if ($group->type == 'group') {
+    if ($item = c4m_user_og_c4m_join_cta($group)) {
+      $items['join'] = $item;
+    }
+    if ($item = c4m_user_og_follow_group_cta($group)) {
+      $items['follow'] = $item;
+    }
+    // Add a link to the CTA block if the user is permitted to invite new members.
+    if (!user_is_anonymous() && c4m_user_og_invite_access($group)) {
+      $items['invite'] = c4m_user_og_c4m_invite_cta($group);
+    }
   }
 
   return $items;
@@ -692,11 +687,11 @@ function c4m_user_og_group_management_cta($group) {
   $items = array();
 
   if (_c4m_features_og_members_is_power_user($group)) {
-    $items['#title'] = t("You're the manager of this group");
+    $items['#title'] = t("You're the manager of this !group_type", array('!group_type' => $group->type));
     $items['#links'][] = array(
       '#theme' => 'c4m_group_text_cta',
       '#icon' => 'fa-cogs',
-      '#text' => l(t('Manage group'), 'manage'),
+      '#text' => l(t("Manage !group_type", array('!group_type' => $group->type)), 'manage'),
     );
   }
 
