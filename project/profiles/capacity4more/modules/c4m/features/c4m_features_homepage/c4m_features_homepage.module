@@ -36,6 +36,34 @@ function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
  *   Rendered HTML of suggested groups.
  */
 function c4m_features_homepage_c4m_suggested_groups_get_groups() {
+  return c4m_features_homepage_get_suggested_items('group');
+}
+
+/**
+ * Renders suggested projects for the user.
+ *
+ * Suggest 5 random projects for the user which he is not subscribed to.
+ * When interests filter is applied : select projects which has at least one
+ * common topic of interest with the user.
+ * Interests are taken from user's profile.
+ *
+ * @return mixed
+ *   Rendered HTML of suggested projects.
+ */
+function c4m_features_homepage_c4m_suggested_projects_get_projects() {
+  return c4m_features_homepage_get_suggested_items('project');
+}
+
+/**
+ * Renders suggested OG nodes for the user.
+ *
+ * @param string $bundle
+ *   Can be project or group.
+ *
+ * @return mixed
+ *   Rendered Html of suggested OG nodes.
+ */
+function c4m_features_homepage_get_suggested_items($bundle) {
   global $user;
   $account = user_load($user->uid);
 
@@ -53,7 +81,7 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
 
   $query
     ->entityCondition('entity_type', 'node')
-    ->entityCondition('bundle', 'group')
+    ->entityCondition('bundle', $bundle)
     ->propertyCondition('status', NODE_PUBLISHED)
     ->fieldCondition('c4m_og_status', 'value', 'published');
 
@@ -74,9 +102,9 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
     return;
   }
 
-  $groups = c4m_features_homepage_alphabetically_render_node_list($result['node']);
+  $suggested_items = c4m_features_homepage_alphabetically_render_node_list($result['node']);
 
-  $variables['groups'] = $groups;
+  $variables['groups'] = $suggested_items;
   $link_options = array(
     'absolute' => TRUE,
     'query' => array(
