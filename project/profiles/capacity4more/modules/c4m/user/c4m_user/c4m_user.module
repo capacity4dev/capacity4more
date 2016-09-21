@@ -290,7 +290,8 @@ function c4m_user_get_initials($name) {
 function c4m_user_name($user) {
   $wrapper = entity_metadata_wrapper('user', $user);
 
-  if ($user->uid == 0) {
+  // When an user is created, this function is called without uid.
+  if (!isset($user->uid) || $user->uid == 0) {
     return t('Anonymous');
   }
 
@@ -1152,7 +1153,7 @@ function c4m_user_c4m_domain_presave($entity) {
 /**
  * Checks if a given user is set as spammer or not.
  *
- * @param object | integer $user
+ * @param object|int $user
  *   The user object or user ID.
  *
  * @return bool
