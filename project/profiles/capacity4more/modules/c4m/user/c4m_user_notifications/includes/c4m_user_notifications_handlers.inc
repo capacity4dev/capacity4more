@@ -170,7 +170,7 @@ function c4m_user_notifications_notify_user_membership_canceled($entity) {
  * Status changed from 'draft' to 'published'.
  */
 function c4m_user_notifications_group_status_set_published($node) {
-  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->gid);
+  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->nid);
 
   foreach ($group_admins_ids as $admin_id) {
     _c4m_user_notifications_to_admin_group_status_set_published($node, $admin_id);
@@ -201,7 +201,7 @@ function _c4m_user_notifications_to_admin_group_status_set_published($node, $adm
  * Email notification about organic group status change to 'republished'.
  */
 function c4m_user_notifications_group_status_set_republished($node, $group_former_status) {
-  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->gid);
+  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->nid);
 
   foreach ($group_admins_ids as $admin_id) {
     _c4m_user_notifications_to_admin_group_status_set_republished($node, $admin_id, $group_former_status);
@@ -233,7 +233,7 @@ function _c4m_user_notifications_to_admin_group_status_set_republished($node, $a
  * Email notification about organic group status change to 'unpublished'.
  */
 function c4m_user_notifications_group_status_set_unpublished($node, $group_former_status) {
-  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->gid);
+  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->nid);
 
   foreach ($group_admins_ids as $admin_id) {
     _c4m_user_notifications_to_admin_group_status_set_unpublished($node, $admin_id, $group_former_status);
@@ -266,7 +266,7 @@ function _c4m_user_notifications_to_admin_group_status_set_unpublished($node, $a
  * Email notification about organic group status change to 'archived'.
  */
 function c4m_user_notifications_group_status_set_archived($node, $group_former_status) {
-  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->gid);
+  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->nid);
 
   foreach ($group_admins_ids as $admin_id) {
     _c4m_user_notifications_to_admin_group_status_set_archived($node, $admin_id, $group_former_status);
@@ -339,7 +339,7 @@ function _c4m_user_notifications_to_site_admin_group_soft_deleted($node, $admin_
  *   Status of OG group, before it was updated.
  */
 function c4m_user_notifications_group_hard_deleted($node, $group_former_status) {
-  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->gid);
+  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->nid);
 
   foreach ($group_admins_ids as $admin_id) {
     _c4m_user_notifications_to_admin_group_hard_deleted($node, $admin_id, $group_former_status);
@@ -371,7 +371,7 @@ function _c4m_user_notifications_to_admin_group_hard_deleted($node, $admin_id, $
  * Email notification about organic group access change.
  */
 function c4m_user_notifications_group_permissions_changed($node, $permissions) {
-  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->gid);
+  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->nid);
 
   foreach ($group_admins_ids as $admin_id) {
     _c4m_user_notifications_to_admin_group_permissions_changed($node, $admin_id, $permissions);
