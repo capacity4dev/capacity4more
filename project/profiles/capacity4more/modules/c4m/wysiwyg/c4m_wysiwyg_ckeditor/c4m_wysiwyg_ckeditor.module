@@ -54,3 +54,20 @@ function c4m_wysiwyg_ckeditor_ckeditor_plugin() {
 
   return $plugins;
 }
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Hide the URL settings in the popup.
+ */
+function c4m_wysiwyg_ckeditor_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id !== 'file_entity_add_upload') {
+    return;
+  }
+
+  // Don't present the redirects options on a file upload.
+  if (isset($form['redirect'])) {
+    unset($form['redirect']);
+  }
+}
+
