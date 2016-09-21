@@ -561,6 +561,29 @@ trait Group {
     );
   }
 
+  /**
+   * @Then /^I should be allowed to delete a group "([^"]*)"$/
+   */
+  public function iShouldBeAllowedToDeleteAGroup($group_title) {
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+
+    return array(
+      new Step\When('I go to "/node/' . $group->nid . '/delete"'),
+      new Step\Then('I should get a "200" HTTP response'),
+    );
+  }
+
+  /**
+   * @Then /^I should not be allowed to delete a group "([^"]*)"$/
+   */
+  public function iShouldNotBeAllowedToDeleteAGroup($group_title) {
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+
+    return array(
+      new Step\When('I go to "/node/' . $group->nid . '/delete"'),
+      new Step\Then('I should get a "403" HTTP response'),
+    );
+  }
 
   /**
    * @Given /^The group "([^"]*)" status is changed by admin to "([^"]*)"$/

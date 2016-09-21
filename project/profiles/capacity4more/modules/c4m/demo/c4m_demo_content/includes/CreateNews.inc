@@ -54,10 +54,10 @@ class C4mDemoContentCreateNews extends C4mDemoContentCreateOgContent {
       ->arguments(array('source_type' => 'tid'));
 
     $this->addFieldMapping('c4m_vocab_date', 'date_entries')
-         ->arguments(array('source_type' => 'tid'));
+      ->arguments(array('source_type' => 'tid'));
 
     $this->addFieldMapping('c4m_vocab_language', 'lang_entries')
-         ->arguments(array('source_type' => 'tid'));
+      ->arguments(array('source_type' => 'tid'));
   }
 
   /**
