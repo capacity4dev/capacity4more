@@ -36,7 +36,24 @@ function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
  *   Rendered HTML of suggested groups.
  */
 function c4m_features_homepage_c4m_suggested_groups_get_groups() {
-  return c4m_features_homepage_get_suggested_items('group');
+  $groups = c4m_features_homepage_get_suggested_items('group');
+
+  $output = '';
+
+  if (!is_null($groups)) {
+    $variables['groups'] = $groups;
+    $link_options = array(
+      'absolute' => TRUE,
+      'query' => array(
+        'filter' => 'interests',
+      ),
+    );
+    $variables['link'] = url('groups', $link_options);
+
+    $output = theme('c4m_features_homepage_c4m_suggested_groups', $variables);
+  }
+
+  return $output;
 }
 
 /**
@@ -51,7 +68,23 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
  *   Rendered HTML of suggested projects.
  */
 function c4m_features_homepage_c4m_suggested_projects_get_projects() {
-  return c4m_features_homepage_get_suggested_items('project');
+  $projects = c4m_features_homepage_get_suggested_items('project');
+  $output = '';
+
+  if (!is_null($projects)) {
+    $variables['projects'] = $projects;
+    $link_options = array(
+      'absolute' => TRUE,
+      'query' => array(
+        'filter' => 'interests',
+      ),
+    );
+    $variables['link'] = url('projects', $link_options);
+
+    $output = theme('c4m_features_homepage_c4m_suggested_projects', $variables);
+  }
+
+  return $output;
 }
 
 /**
@@ -102,18 +135,7 @@ function c4m_features_homepage_get_suggested_items($bundle) {
     return;
   }
 
-  $suggested_items = c4m_features_homepage_alphabetically_render_node_list($result['node']);
-
-  $variables['groups'] = $suggested_items;
-  $link_options = array(
-    'absolute' => TRUE,
-    'query' => array(
-      'filter' => 'interests',
-    ),
-  );
-  $variables['link'] = url('groups', $link_options);
-
-  return theme('c4m_features_homepage_c4m_suggested_groups', $variables);
+  return c4m_features_homepage_alphabetically_render_node_list($result['node']);
 }
 
 /**
