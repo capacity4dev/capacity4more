@@ -27,9 +27,7 @@ trait GroupDashboard {
    */
   public function iTryToInviteToGroup($who, $title) {
     $group = $this->loadGroupByTitleAndType($title, 'group');
-    $uri = $this->createUriWithGroupContext($group, '<front>');
-    $type = ($who == 'users') ? 'node/':'';
-    $uri .= '/group/' . $type . $group->nid . '/admin/people/invite-' . $who;
+    $uri = 'group/node/'. $group->nid .'/admin/people/invite-' . $who;
 
     return new Given("I go to \"$uri\"");
   }

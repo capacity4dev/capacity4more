@@ -48,7 +48,8 @@ function c4m_og_invite_visitors_menu() {
 function c4m_og_invite_visitors_process_acceptance_access($group, $token) {
   // No group loaded. Go to homepage.
   if (!$group) {
-    drupal_goto('<front>');
+
+    return FALSE;
   }
 
   // Retrieve the invitation object from the DB.
@@ -57,13 +58,15 @@ function c4m_og_invite_visitors_process_acceptance_access($group, $token) {
   // Invitation with the requested token could not be found. Go to dashboard.
   if (!$invitation) {
     drupal_set_message('The requested group invitation was not found.', 'error');
-    drupal_goto($group->purl);
+
+    return FALSE;
   }
 
   // The invitation has been used before. Go to dashboard.
   if ($invitation->inv_expired) {
     drupal_set_message('The requested group invitation has expired.', 'error');
-    drupal_goto($group->purl);
+
+    return FALSE;
   }
 
   return TRUE;
@@ -81,21 +84,24 @@ function c4m_og_invite_visitors_process_acceptance_access($group, $token) {
  *   Invitation object from the DB or FALSE on failure.
  */
 function c4m_og_invite_visitors_get_invitation($gid, $token) {
-  $invite_db_fields = array(
-    'inv_id',
-    'inv_email',
-    'inv_expired',
-  );
+  $result = &drupal_static(__FUNCTION__);
+  if (!isset($result['invitation'])) {
+    $invite_db_fields = array(
+      'inv_id',
+      'inv_email',
+      'inv_expired',
+    );
 
-  $result = db_select('c4m_og_invite_visitors', 'inv')
-    ->fields('inv', $invite_db_fields)
-    ->condition('inv_group_id', $gid)
-    ->condition('inv_token', $token)
-    ->range(0, 1)
-    ->execute()
-    ->fetchObject();
+    $result['invitation'] = db_select('c4m_og_invite_visitors', 'inv')
+      ->fields('inv', $invite_db_fields)
+      ->condition('inv_group_id', $gid)
+      ->condition('inv_token', $token)
+      ->range(0, 1)
+      ->execute()
+      ->fetchObject();
+  }
 
-  return $result;
+  return $result['invitation'];
 }
 
 /**
@@ -379,6 +385,8 @@ function c4m_og_invite_visitors_determine_user_action($invitee_email, $gid) {
 
   // Proceed and invite the user.
   $action['type'] = 'invite_user';
+
+  // To invite an existing user we need his/her user ID.
   $action['uid'] = $account->uid;
 
   return $action;
