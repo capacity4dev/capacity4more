@@ -584,17 +584,24 @@ function c4m_content_custom_node_delete_confirm($form, &$form_state) {
  * Adding a 'Highlighted' field.
  */
 function c4m_content_field_extra_fields() {
-  $extra_fields['node']['group']['display']['highlighted'] = array(
-    'label' => t('Highlight'),
-    'description' => t('Highlight a node will toggle its promote property.'),
-    'weight' => 0,
+  $highlightable_content_types = array(
+    'group',
+    'project',
+    'discussion',
+    'document',
+    'event',
+    'wiki_page',
   );
 
-  $extra_fields['node']['project']['display']['highlighted'] = array(
-    'label' => t('Highlight'),
-    'description' => t('Highlight a node will toggle its promote property.'),
-    'weight' => 0,
-  );
+  $extra_fields = array();
+
+  foreach ($highlightable_content_types as $type) {
+    $extra_fields['node'][$type]['display']['highlighted'] = array(
+      'label' => t('Highlight'),
+      'description' => t('Highlight a node will toggle its promote property.'),
+      'weight' => 0,
+    );
+  }
 
   return $extra_fields;
 }
