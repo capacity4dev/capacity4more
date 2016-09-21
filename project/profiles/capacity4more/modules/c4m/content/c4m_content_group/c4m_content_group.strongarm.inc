@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_group.strongarm.inc
@@ -150,21 +151,29 @@ function c4m_content_group_strongarm() {
       'display' => array(
         'group_admins' => array(
           'group_dashboard' => array(
-            'weight' => '6',
+            'weight' => '5',
             'visible' => TRUE,
           ),
           'default' => array(
             'weight' => '0',
             'visible' => TRUE,
           ),
+          'teaser' => array(
+            'weight' => '30',
+            'visible' => FALSE,
+          ),
           'block_list' => array(
-            'weight' => '31',
+            'weight' => '36',
             'visible' => FALSE,
           ),
         ),
         'highlighted' => array(
+          'teaser' => array(
+            'weight' => '25',
+            'visible' => FALSE,
+          ),
           'block_list' => array(
-            'weight' => '32',
+            'weight' => '34',
             'visible' => FALSE,
           ),
         ),

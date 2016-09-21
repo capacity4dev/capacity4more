@@ -88,4 +88,19 @@
       margin-left: 0.5em;
     }
   }
+
+  &.node-group {
+    .field-name-c4m-og-status {
+      float: right;
+      margin-top: 1em;
+    }
+
+    .group-status {
+      position: initial;
+    }
+
+    h3 {
+      display: inline;
+    }
+  }
 }
