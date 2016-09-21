@@ -48,6 +48,7 @@ Feature: Group dashboard
     And   I click "Join this group"
     And   I click "Invite a member"
     Then  I should see the text "Invite People to Join"
+    And   I should not see the text "Manage all group memberships"
 
   @api
   Scenario: Check Invite a member link is not available for a member of a private group.
@@ -67,6 +68,7 @@ Feature: Group dashboard
     When  I visit the dashboard of group "Tennis Group"
     And   I click "Invite a member"
     Then  I should see the text "Invite People to Join"
+    And   I should see the text "Manage all group memberships"
 
   @api
   Scenario: Check Invite a member link is available for a site administrator who is a non-member of a private group.
@@ -74,3 +76,4 @@ Feature: Group dashboard
     When  I visit the dashboard of group "Architecture"
     And   I click "Invite a member"
     Then  I should see the text "Invite People to Join"
+    And   I should see the text "Manage all group memberships"
