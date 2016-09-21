@@ -44,7 +44,7 @@ function c4m_og_invite_users_menu_alter(&$items) {
  * @return bool|\OgMembership
  *   The membership object of FALSE on failure,
  */
-function c4m_og_invite__users_get_membership_from_hash($hash) {
+function c4m_og_invite_users_get_membership_from_hash($hash) {
   $result = FALSE;
 
   $select = db_select('og_membership', 'ogm')
@@ -75,10 +75,12 @@ function c4m_og_invite__users_get_membership_from_hash($hash) {
 function c4m_og_invite_users_answer_access($hash) {
   global $user;
 
-  $membership = c4m_og_invite__users_get_membership_from_hash($hash);
+  $membership = c4m_og_invite_users_get_membership_from_hash($hash);
 
   // Could not get the membership based on the hash. Cannot proceed.
   if (!$membership) {
+    drupal_set_message('The requested group invitation was not found or has expired.', 'error');
+
     return FALSE;
   }
 
