@@ -568,6 +568,7 @@ Last access : [access]';
   $handler->display->display_options['style_options']['newline_token'] = '1';
   $handler->display->display_options['style_options']['header'] = 1;
   $handler->display->display_options['style_options']['keep_html'] = 0;
+  $handler->display->display_options['style_options']['encoding'] = 'utf8_decode';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: User: Uid */
   $handler->display->display_options['fields']['uid']['id'] = 'uid';
@@ -595,12 +596,9 @@ Last access : [access]';
   $handler->display->display_options['fields']['c4m_last_name']['table'] = 'field_data_c4m_last_name';
   $handler->display->display_options['fields']['c4m_last_name']['field'] = 'c4m_last_name';
   $handler->display->display_options['fields']['c4m_last_name']['label'] = 'Last name';
-  $handler->display->display_options['fields']['c4m_last_name']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['c4m_last_name']['alter']['text'] = '[c4m_first_name] [c4m_last_name]';
-  $handler->display->display_options['fields']['c4m_last_name']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['c4m_last_name']['alter']['path'] = 'user/[uid]';
   $handler->display->display_options['fields']['c4m_last_name']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['c4m_last_name']['empty'] = '<a href="user/[uid]">[name]</a>';
+  $handler->display->display_options['fields']['c4m_last_name']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['c4m_last_name']['hide_alter_empty'] = FALSE;
   /* Field: User: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
@@ -615,19 +613,42 @@ Last access : [access]';
   $handler->display->display_options['fields']['c4m_is_ldap_user']['table'] = 'field_data_c4m_is_ldap_user';
   $handler->display->display_options['fields']['c4m_is_ldap_user']['field'] = 'c4m_is_ldap_user';
   $handler->display->display_options['fields']['c4m_is_ldap_user']['label'] = 'LDAP Validated';
+  $handler->display->display_options['fields']['c4m_is_ldap_user']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['c4m_is_ldap_user']['settings'] = array(
     'thousand_separator' => '',
-    'prefix_suffix' => 1,
+    'prefix_suffix' => 0,
   );
   /* Field: User: Active */
   $handler->display->display_options['fields']['status']['id'] = 'status';
   $handler->display->display_options['fields']['status']['table'] = 'users';
   $handler->display->display_options['fields']['status']['field'] = 'status';
-  $handler->display->display_options['fields']['status']['label'] = 'Status';
   $handler->display->display_options['fields']['status']['alter']['text'] = 'Active : [status]<br>
 Is Spammer : [c4m_is_spammer]<br>
 Is Deleted : [c4m_is_deleted]<br>';
+  $handler->display->display_options['fields']['status']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['status']['not'] = 0;
+  /* Field: User: Is spammer */
+  $handler->display->display_options['fields']['c4m_is_spammer']['id'] = 'c4m_is_spammer';
+  $handler->display->display_options['fields']['c4m_is_spammer']['table'] = 'field_data_c4m_is_spammer';
+  $handler->display->display_options['fields']['c4m_is_spammer']['field'] = 'c4m_is_spammer';
+  $handler->display->display_options['fields']['c4m_is_spammer']['label'] = 'Spammer';
+  $handler->display->display_options['fields']['c4m_is_spammer']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_spammer']['alter']['text'] = 'Yes';
+  $handler->display->display_options['fields']['c4m_is_spammer']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_is_spammer']['empty'] = 'No';
+  $handler->display->display_options['fields']['c4m_is_spammer']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_spammer']['type'] = 'list_key';
+  /* Field: User: Is deleted */
+  $handler->display->display_options['fields']['c4m_is_deleted']['id'] = 'c4m_is_deleted';
+  $handler->display->display_options['fields']['c4m_is_deleted']['table'] = 'field_data_c4m_is_deleted';
+  $handler->display->display_options['fields']['c4m_is_deleted']['field'] = 'c4m_is_deleted';
+  $handler->display->display_options['fields']['c4m_is_deleted']['label'] = 'Deleted';
+  $handler->display->display_options['fields']['c4m_is_deleted']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted']['alter']['text'] = 'Yes';
+  $handler->display->display_options['fields']['c4m_is_deleted']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_is_deleted']['empty'] = 'No';
+  $handler->display->display_options['fields']['c4m_is_deleted']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted']['type'] = 'list_key';
   /* Field: User: Created date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'users';
