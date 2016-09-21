@@ -24,7 +24,10 @@ function theme_c4m_ds_submitted_by_and_on(array $field) {
   $entity = $field['entity'];
   $user = user_load($entity->uid);
   $name = c4m_user_name($user);
-  $options = array('attributes' => array('class' => array('user-name')));
+  $options = array(
+    'attributes' => array('class' => array('user-name')),
+    'purl' => array('disabled' => TRUE),
+  );
 
   // If user is not anonymous, set link on user name.
   if ($entity->uid > 0) {
@@ -227,7 +230,6 @@ function theme_c4m_ds_type_insert_action(array $field) {
         'id' => $group_wrapper->nid->value(),
       ),
     );
-    ;
 
     $group_url = l(
       $group_wrapper->title->value(),
@@ -266,6 +268,8 @@ function theme_c4m_ds_type_insert_action(array $field) {
 /**
  * Get all entity stats in one field.
  *
+ * This is just a simple function, not a theme hook implementation.
+ *
  * @param array $field
  *   The field info.
  *
@@ -288,8 +292,16 @@ function theme_c4m_ds_content_footer_stats(array $field) {
     array('count' => (!empty($recommends) ? c4m_content_ec_number_format($recommends) : 0))
   );
 
-  // Only show comments if comments are enabled.
-  if ($entity->comment == COMMENT_NODE_OPEN) {
+  // Only show comments if comments counter is relevant to be shown.
+  //
+  // Only show if:
+  //  - comments are not hidden
+  //  AND
+  //  - comments are not closed and the amount of comments is bigger than 0
+  if (
+    $entity->comment == COMMENT_NODE_OPEN ||
+    ($entity->comment == COMMENT_NODE_CLOSED && $entity->comment_count > 0)
+  ) {
     $items['comments'] = theme(
       'c4m_ds_entity_comments_count',
       array('count' => c4m_content_ec_number_format($entity->comment_count))
@@ -778,4 +790,27 @@ function theme_c4m_ds_content_shared_to(array $field) {
       'args' => array($entity->nid),
     )
   );
+}
+
+/**
+ * Themes toggle group notifications link
+ *
+ * @param array $field
+ *  The field definition.
+ *
+ * @return \Html|void
+ *   Rendered html for field.
+ */
+function theme_c4m_ds_group_notification_toggle(array $field) {
+  global $user;
+
+  if (!($group = c4m_og_current_group())) {
+    return '';
+  }
+
+  if (!og_is_member('node', $group->nid)) {
+    return '';
+  }
+
+  return c4m_content_group_create_toggle_notification_link($user, $group);
 }

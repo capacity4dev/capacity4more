@@ -122,11 +122,21 @@ function _c4m_content_group_block_c4m_block_create_group() {
 
   if ($user->uid) {
     if (user_access('create group content')) {
-      $markup = l(
+      $btn = l(
         t('Create a group'),
         'node/add/group',
         array('attributes' => array('class' => array('btn', 'btn-default')))
       );
+
+      $tag['element'] = array(
+        '#tag' => 'div',
+        '#value' => $btn,
+        '#attributes' => array(
+          'class' => 'c4m-wide-gothic-btn',
+        ),
+      );
+
+      $markup = theme_html_tag($tag);
     }
   }
   else {

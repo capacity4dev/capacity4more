@@ -1,0 +1,3 @@
+ID,Title,Body,Documents,Group,Group Type,Topic,Geo,Date,Language,UID,promote
+news_1,News example,"<p>This is just a news example.</p><p>It contains a couple paragraphs.</p>",doc_1,project_1,project,t_wind|t_water,Sweden,Before 1990,English,user_8,
+news_2,What Is Your DNA Doing For You Right Now?,"<p>Ever since its structure was unraveled in the early Fifties, DNA has been considered the mastermind of the cell. Sitting in splendid isolation in the cell’s nucleus, DNA encodes all of life.</p>",doc_1|doc_2,project_2,project,t_earth,Cook Islands|Vanuatu|Wallis and Futuna Islands,2006|2007|2008,English,user_2,

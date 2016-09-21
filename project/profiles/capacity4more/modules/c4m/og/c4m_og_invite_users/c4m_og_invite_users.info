@@ -1,0 +1,4 @@
+name = C4M OG Invite Users
+description = Invite existing users to a group or project.
+core = 7.x
+dependencies[] = og

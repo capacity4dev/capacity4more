@@ -199,7 +199,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 20,
+        'weight' => 34,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -290,7 +290,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 22,
+        'weight' => 36,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -387,7 +387,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 38,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -453,7 +453,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 26,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -516,7 +516,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 25,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -586,7 +586,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 24,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -655,7 +655,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 23,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -725,7 +725,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 21,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -822,7 +822,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 40,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -1020,7 +1020,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 37,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -1116,7 +1116,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 16,
+        'weight' => 30,
       ),
       'member_overview' => array(
         'label' => 'hidden',
@@ -1192,7 +1192,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 22,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -1266,7 +1266,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 27,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -1340,7 +1340,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 28,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -1414,7 +1414,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 29,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -1517,7 +1517,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 17,
+        'weight' => 31,
       ),
       'member_overview' => array(
         'label' => 'hidden',
@@ -1614,7 +1614,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 32,
       ),
       'member_overview' => array(
         'label' => 'above',
@@ -1676,7 +1676,7 @@ function c4m_user_profile_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 20,
       ),
       'member_overview' => array(
         'label' => 'above',

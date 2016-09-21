@@ -71,6 +71,9 @@ function c4m_content_photo_node_presave($node) {
  * @see c4m_content_photo_node_presave()
  */
 function c4m_content_photo_form_photo_node_form_alter(&$form, $form_state) {
+  // Add author information to the edit discussion form.
+  c4m_og_add_content_author_options_to_power_users($form);
+
   $node = &$form['#node'];
   if (!empty($node->nid)) {
     return;
