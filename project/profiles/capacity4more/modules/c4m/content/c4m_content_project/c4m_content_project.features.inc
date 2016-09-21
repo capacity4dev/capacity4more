@@ -52,6 +52,11 @@ function c4m_content_project_node_info() {
  */
 function c4m_content_project_paragraphs_info() {
   $items = array(
+    'c4m_paragraph_map' => array(
+      'name' => 'Map',
+      'bundle' => 'c4m_paragraph_map',
+      'locked' => '1',
+    ),
     'c4m_paragraph_partner' => array(
       'name' => 'Partner',
       'bundle' => 'c4m_paragraph_partner',

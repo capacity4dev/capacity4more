@@ -2550,6 +2550,136 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'paragraphs_item-c4m_paragraph_map-c4m_heading'.
+  $field_instances['paragraphs_item-c4m_paragraph_map-c4m_heading'] = array(
+    'bundle' => 'c4m_paragraph_map',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'c4m_heading',
+    'label' => 'Title',
+    'required' => 0,
+    'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'default_html' => 'default_html',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'mail' => 'mail',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'default_html' => array(
+              'weight' => 0,
+            ),
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'mail' => array(
+              'weight' => 0,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'maxlength_js' => 0,
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 0,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'paragraphs_item-c4m_paragraph_map-field_c4m_free_map'.
+  $field_instances['paragraphs_item-c4m_paragraph_map-field_c4m_free_map'] = array(
+    'bundle' => 'c4m_paragraph_map',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'nexteuropa_geofield',
+        'settings' => array(),
+        'type' => 'geofield_geojson_map_format',
+        'weight' => 1,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'field_c4m_free_map',
+    'label' => 'Map',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'nexteuropa_geofield',
+      'settings' => array(
+        'fs_default_map_center' => array(
+          'lat' => 47.75316,
+          'lng' => 4.34878,
+        ),
+        'fs_objects' => array(
+          'fs_prepopulate' => array(
+            'description_populate' => 'title_field',
+            'name_populate' => 'title_field',
+          ),
+          'objects' => array(
+            'marker' => 'marker',
+            'polygon' => 'polygon',
+            'polyline' => 0,
+            'rectangle' => 'rectangle',
+          ),
+          'objects_amount' => 10,
+        ),
+      ),
+      'type' => 'geofield_widget_map',
+      'weight' => 1,
+    ),
+  );
+
   // Exported field_instance:
   // 'paragraphs_item-c4m_paragraph_partner-c4m_heading'.
   $field_instances['paragraphs_item-c4m_paragraph_partner-c4m_heading'] = array(
@@ -3060,6 +3190,7 @@ function c4m_content_project_field_default_field_instances() {
   t('Implemented by');
   t('Is template');
   t('Left column content');
+  t('Map');
   t('Names of the funding organisations & companies.');
   t('Names of the implementing organisations & companies.');
   t('Names of the partners (stakeholders) organisations & companies.');

@@ -86,3 +86,10 @@
     margin-top: 1rem;
   }
 }
+
+.field-name-field-c4m-free-map {
+  .leaflet-top, .leaflet-bottom {
+    // Make sure Leaflet map controls do not float above Drupal Overlay.
+    z-index: 500;
+  }
+}
