@@ -615,6 +615,7 @@ function c4m_og_invite_visitors_store_invitation($inviter_id, $group_id, $email)
         'inv_inviter_id' => $inviter_id,
         'inv_group_id' => $group_id,
         'inv_email' => $email,
+        'inv_created' => REQUEST_TIME,
         'inv_token' => $token,
       ))
       ->execute();
