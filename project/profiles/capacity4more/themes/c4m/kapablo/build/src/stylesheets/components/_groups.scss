@@ -896,3 +896,18 @@
     margin-top: 0px;
   }
 }
+
+.view-c4m-overview-og-highlights {
+  .field-name-title,
+  .form-type-item {
+    display: inline-block;
+  }
+
+  .form-type-item {
+    float: right;
+  }
+
+  .highlight-link-text {
+    display: none;
+  }
+}
