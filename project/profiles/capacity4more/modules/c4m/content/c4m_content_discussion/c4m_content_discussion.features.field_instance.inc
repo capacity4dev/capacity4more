@@ -171,6 +171,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 4,
       ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 31,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -334,6 +340,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'list_default',
         'weight' => 0,
       ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 23,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -434,6 +446,12 @@ function c4m_content_discussion_field_default_field_instances() {
         ),
         'type' => 'entityreference_entity_view',
         'weight' => 5,
+      ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 24,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -545,6 +563,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'term_reference_tree',
         'weight' => 1,
       ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 22,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -648,6 +672,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'term_reference_checked_inline_tree',
         'weight' => 3,
       ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 21,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -747,6 +777,12 @@ function c4m_content_discussion_field_default_field_instances() {
         ),
         'type' => 'term_reference_tree',
         'weight' => 2,
+      ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 19,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -850,6 +886,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'term_reference_checked_inline_tree',
         'weight' => 0,
       ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 20,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -947,6 +989,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 23,
+      ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 25,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1082,6 +1130,12 @@ function c4m_content_discussion_field_default_field_instances() {
         ),
         'type' => 'og_vocab',
         'weight' => 4,
+      ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 26,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

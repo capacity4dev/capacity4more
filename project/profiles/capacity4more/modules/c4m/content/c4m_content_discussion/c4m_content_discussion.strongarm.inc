@@ -204,6 +204,10 @@ function c4m_content_discussion_strongarm() {
             'weight' => '1',
             'visible' => TRUE,
           ),
+          'highlight_block' => array(
+            'weight' => '2',
+            'visible' => FALSE,
+          ),
         ),
         'highlighted' => array(
           'full' => array(
@@ -212,6 +216,10 @@ function c4m_content_discussion_strongarm() {
           ),
           'teaser' => array(
             'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'highlight_block' => array(
+            'weight' => '1',
             'visible' => TRUE,
           ),
         ),

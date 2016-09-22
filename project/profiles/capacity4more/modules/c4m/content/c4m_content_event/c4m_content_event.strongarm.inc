@@ -249,6 +249,10 @@ function c4m_content_event_strongarm() {
             'weight' => '1',
             'visible' => TRUE,
           ),
+          'highlight_block' => array(
+            'weight' => '24',
+            'visible' => FALSE,
+          ),
         ),
         'highlighted' => array(
           'full' => array(
@@ -257,6 +261,10 @@ function c4m_content_event_strongarm() {
           ),
           'teaser' => array(
             'weight' => '11',
+            'visible' => TRUE,
+          ),
+          'highlight_block' => array(
+            'weight' => '1',
             'visible' => TRUE,
           ),
         ),

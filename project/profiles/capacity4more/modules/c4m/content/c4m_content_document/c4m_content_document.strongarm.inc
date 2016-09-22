@@ -220,6 +220,10 @@ function c4m_content_document_strongarm() {
             'weight' => '1',
             'visible' => TRUE,
           ),
+          'highlight_block' => array(
+            'weight' => '1',
+            'visible' => FALSE,
+          ),
         ),
         'highlighted' => array(
           'full' => array(
@@ -228,6 +232,10 @@ function c4m_content_document_strongarm() {
           ),
           'teaser' => array(
             'weight' => '6',
+            'visible' => TRUE,
+          ),
+          'highlight_block' => array(
+            'weight' => '0',
             'visible' => TRUE,
           ),
         ),

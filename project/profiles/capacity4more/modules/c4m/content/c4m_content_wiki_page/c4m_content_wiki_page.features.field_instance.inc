@@ -177,6 +177,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 9,
       ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 9,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -348,6 +354,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'type' => 'entityreference_entity_view',
         'weight' => 10,
       ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -463,6 +475,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'type' => 'term_reference_tree',
         'weight' => 2,
       ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 8,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -572,6 +590,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'type' => 'term_reference_checked_inline_tree',
         'weight' => 4,
       ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -678,6 +702,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         ),
         'type' => 'term_reference_tree',
         'weight' => 3,
+      ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -787,6 +817,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'type' => 'term_reference_checked_inline_tree',
         'weight' => 0,
       ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -890,6 +926,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 28,
+      ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1031,6 +1073,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         ),
         'type' => 'og_vocab',
         'weight' => 12,
+      ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

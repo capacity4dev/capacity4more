@@ -193,6 +193,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 5,
       ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 11,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -375,6 +381,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'c4m_ds_formatter_link_and_size',
         'weight' => 7,
       ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 8,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -507,6 +519,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 24,
       ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 9,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -621,6 +639,12 @@ function c4m_content_document_field_default_field_instances() {
         ),
         'type' => 'term_reference_tree',
         'weight' => 3,
+      ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 10,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -737,6 +761,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'term_reference_checked_inline_tree',
         'weight' => 1,
       ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -852,6 +882,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'term_reference_checked_inline_tree',
         'weight' => 2,
       ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -963,6 +999,12 @@ function c4m_content_document_field_default_field_instances() {
         ),
         'type' => 'term_reference_tree',
         'weight' => 4,
+      ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1078,6 +1120,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'term_reference_checked_inline_tree',
         'weight' => 0,
       ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1187,6 +1235,12 @@ function c4m_content_document_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 25,
+      ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1333,6 +1387,12 @@ function c4m_content_document_field_default_field_instances() {
           'concatenate' => FALSE,
         ),
         'type' => 'og_vocab',
+        'weight' => 5,
+      ),
+      'highlight_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 5,
       ),
       'inthe_picture_block' => array(

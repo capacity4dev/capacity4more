@@ -202,6 +202,10 @@ function c4m_content_wiki_page_strongarm() {
             'weight' => '1',
             'visible' => TRUE,
           ),
+          'highlight_block' => array(
+            'weight' => '1',
+            'visible' => FALSE,
+          ),
         ),
         'highlighted' => array(
           'full' => array(
@@ -210,6 +214,10 @@ function c4m_content_wiki_page_strongarm() {
           ),
           'teaser' => array(
             'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'highlight_block' => array(
+            'weight' => '0',
             'visible' => TRUE,
           ),
         ),
