@@ -942,3 +942,25 @@ function _c4m_content_taxonomy_extract_root_item(&$items) {
   // All items got a parent.
   return FALSE;
 }
+
+/**
+ * Manages access to 'create group content' form.
+ *
+ * @param string $type
+ *   Group content type.
+ */
+function c4m_content_create_group_content_access($type) {
+  if (!$context = og_context()) {
+/*    drupal_set_message(t('Group content type "@type" must be associated with group', array(
+      '@type' => $type,
+    )), 'warning');
+    drupal_goto();*/
+    drupal_access_denied();
+    drupal_exit();
+  }
+
+  if (!og_is_member('node', $context['gid'])) {
+    drupal_access_denied();
+    drupal_exit();
+  }
+}
