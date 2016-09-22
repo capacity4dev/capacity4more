@@ -31,6 +31,32 @@ function c4m_og_invite_users_menu_alter(&$items) {
   $items['group/%/%/admin/people/invite-users/autocomplete']['access callback'] = 'c4m_og_invite_users_access';
   $items['group/%/%/admin/people/invite-users/answer/%']['access callback'] = 'c4m_og_invite_users_answer_access';
   $items['group/%/%/admin/people/invite-users/answer/%']['access arguments'] = array(7);
+  $items['group/%/%/admin/people/invite-users/answer/%']['page callback'] = '_c4m_og_invite_users_answer';
+  $items['group/%/%/admin/people/invite-users/answer/%']['page arguments'] = array(2, 7);
+}
+
+/**
+ * Log in the invited user and load the answer-invitation form.
+ *
+ * @param int $gid
+ *   Group ID of the invitation.
+ * @param string $hash
+ *   Invitation hash to verify the invitee identity.
+ *
+ * @return array
+ *   The answer-invitation form array.
+ */
+function _c4m_og_invite_users_answer($gid, $hash) {
+  if (!user_is_logged_in()) {
+    $membership = c4m_og_invite_users_get_membership_from_hash($hash);
+
+    // Log in the invited user.
+    $account = array('uid' => $membership->etid);
+    user_login_submit(array(), $account);
+  }
+
+  // Load the answer form.
+  return _og_invite_answer('node', $gid, $hash);
 }
 
 /**
@@ -45,8 +71,13 @@ function c4m_og_invite_users_menu_alter(&$items) {
  *   The membership object of FALSE on failure,
  */
 function c4m_og_invite_users_get_membership_from_hash($hash) {
-  $result = FALSE;
+  $result = &drupal_static(__FUNCTION__ . $hash, array());
 
+  if (isset($result['ogm'])) {
+    return $result['ogm'];
+  }
+
+  $result['ogm'] = FALSE;
   $select = db_select('og_membership', 'ogm')
     ->fields('ogm', array('id'))
     ->where('SHA1(CONCAT(state, group_type, gid, entity_type, etid, created)) = :hash', array(':hash' => $hash))
@@ -54,17 +85,17 @@ function c4m_og_invite_users_get_membership_from_hash($hash) {
   $ogmid = $select->execute()->fetchField();
 
   if (!empty($ogmid)) {
-    $result = og_membership_load($ogmid);
+    $result['ogm'] = og_membership_load($ogmid);
   }
 
-  return $result;
+  return $result['ogm'];
 }
 
 /**
  * For answering a group invitation, check the right user is logged in.
  *
- * Deny access if another user is logged in. Auto-login if no user is currently
- * logged in.
+ * Deny access if another user is logged in or if the invitation could not be
+ * loaded.
  *
  * @param string $hash
  *   The invitation hash, used to load the membership.
@@ -84,24 +115,17 @@ function c4m_og_invite_users_answer_access($hash) {
     return FALSE;
   }
 
-  // A user is logged in.
   if (user_is_logged_in()) {
 
-    // A different user is logged in.
+    // A different user is logged in. Cannot proceed.
     if ($membership->etid != $user->uid) {
       drupal_set_message('Another user is logged in. Please log out and try again.', 'error');
 
       return FALSE;
     }
-
-    return TRUE;
   }
 
-  // No user logged in. Log in the invited user.
-  $account = array('uid' => $membership->etid);
-  user_login_submit(array(), $account);
-
-  return user_is_logged_in();
+  return TRUE;
 }
 
 /**
