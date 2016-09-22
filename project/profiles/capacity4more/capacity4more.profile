@@ -129,6 +129,7 @@ function capacity4more_setup_set_permissions(&$install_state) {
     'event',
     'photo',
     'photoalbum',
+    'news',
   );
 
   foreach ($content_types as $content_type) {
@@ -149,6 +150,7 @@ function capacity4more_setup_set_og_permissions() {
     'event',
     'photo',
     'photoalbum',
+    'news',
   );
 
   $permissions = array(
@@ -202,6 +204,7 @@ function capacity4more_setup_set_og_permissions() {
   $content_types = array(
     'document',
     'event',
+    'news',
   );
 
   $permissions = array();
