@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_admin_projects.views_default.inc
@@ -47,7 +46,7 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = 'Group Title';
+  $handler->display->display_options['fields']['title']['label'] = 'Project Title';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
@@ -59,7 +58,7 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['fields']['path']['label'] = 'URL';
   $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['path']['absolute'] = TRUE;
-  /* Field: Content: Project type */
+  /* Field: Content: Type */
   $handler->display->display_options['fields']['c4m_project_type']['id'] = 'c4m_project_type';
   $handler->display->display_options['fields']['c4m_project_type']['table'] = 'field_data_c4m_project_type';
   $handler->display->display_options['fields']['c4m_project_type']['field'] = 'c4m_project_type';
@@ -70,7 +69,7 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['fields']['c4m_og_status']['id'] = 'c4m_og_status';
   $handler->display->display_options['fields']['c4m_og_status']['table'] = 'field_data_c4m_og_status';
   $handler->display->display_options['fields']['c4m_og_status']['field'] = 'c4m_og_status';
-  $handler->display->display_options['fields']['c4m_og_status']['label'] = 'Group Status';
+  $handler->display->display_options['fields']['c4m_og_status']['label'] = 'Project Status';
   $handler->display->display_options['fields']['c4m_og_status']['element_label_colon'] = FALSE;
   /* Field: Content: Post date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
@@ -108,12 +107,6 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['fields']['c4m_source_of_funding']['field'] = 'c4m_source_of_funding';
   $handler->display->display_options['fields']['c4m_source_of_funding']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['c4m_source_of_funding']['delta_offset'] = '0';
-  /* Field: Content: Partners */
-  $handler->display->display_options['fields']['c4m_partner']['id'] = 'c4m_partner';
-  $handler->display->display_options['fields']['c4m_partner']['table'] = 'field_data_c4m_partner';
-  $handler->display->display_options['fields']['c4m_partner']['field'] = 'c4m_partner';
-  $handler->display->display_options['fields']['c4m_partner']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['c4m_partner']['delta_offset'] = '0';
   /* Field: Content: Implemented by */
   $handler->display->display_options['fields']['c4m_implemented_by']['id'] = 'c4m_implemented_by';
   $handler->display->display_options['fields']['c4m_implemented_by']['table'] = 'field_data_c4m_implemented_by';
