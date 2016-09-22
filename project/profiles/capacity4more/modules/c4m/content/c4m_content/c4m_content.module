@@ -950,16 +950,17 @@ function _c4m_content_taxonomy_extract_root_item(&$items) {
  *   Group content type.
  */
 function c4m_content_create_group_content_access($type) {
+  // If not under og context, return early.
   if (!$context = og_context()) {
-/*    drupal_set_message(t('Group content type "@type" must be associated with group', array(
-      '@type' => $type,
-    )), 'warning');
-    drupal_goto();*/
     drupal_access_denied();
     drupal_exit();
   }
 
-  if (!og_is_member('node', $context['gid'])) {
+  // Resolve OG group type.
+  $group_type = c4m_og_get_group_type($context);
+
+  // For type 'group' allow access only to it's members.
+  if ($group_type == 'group' && !og_is_member('node', $context['gid'])) {
     drupal_access_denied();
     drupal_exit();
   }
