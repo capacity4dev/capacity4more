@@ -401,6 +401,24 @@ function c4m_content_project_c4m_offcanvas_trigger_label_left_alter(&$trigger_la
  * Implements hook_c4m_cta_block().
  */
 function c4m_content_project_c4m_cta_block() {
+  global $user;
+
+  // Only add items if there is an OG group.
+  if (!$group = c4m_og_current_group()) {
+    return;
+  }
+
+  // Prevent from 'group' nodes to run this logic.
+  if ($group->type != 'project') {
+    return;
+  }
+
+  // A blocked (banned) user should not be able to see the CTA block.
+  $user_role = c4m_user_og_get_role_in_group($user, $group);
+  if ($user_role == 'blocked') {
+    return;
+  }
+
   $items = array();
 
   if (!drupal_is_front_page() || user_is_anonymous()) {
@@ -413,6 +431,10 @@ function c4m_content_project_c4m_cta_block() {
     '#button_icon' => 'fa-plus',
     '#url' => url('/node/add/programme'),
   );
+
+  if ($item = c4m_user_og_follow_group_cta($group)) {
+    $items['follow'] = $item;
+  }
 
   return $items;
 }

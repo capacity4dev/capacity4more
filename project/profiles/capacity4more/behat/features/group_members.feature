@@ -14,3 +14,9 @@ Feature: Group Members overview
     Given I am logged in as user "alfrednobel"
     When I visit the members list overview of group "Nobel Prize"
     Then I should see the group members list overview
+
+  @api
+  Scenario: Check that the cogwheel appears if the user has enough permissions
+    Given I am logged in as user "alfrednobel"
+    When I visit the members list overview of group "Nobel Prize"
+    Then I should see the ".fa-cog" element
