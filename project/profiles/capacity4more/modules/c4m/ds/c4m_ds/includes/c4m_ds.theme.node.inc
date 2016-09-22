@@ -814,3 +814,41 @@ function theme_c4m_ds_group_notification_toggle(array $field) {
 
   return c4m_content_group_create_toggle_notification_link($user, $group);
 }
+
+/**
+ * DS function field.
+ *
+ * Render project type icon.
+ *
+ * @param array $field
+ *   The field that needs to be rendered.
+ *
+ * @return mixed
+ *   The rendered field.
+ */
+function theme_c4m_ds_project_type_icon(array $field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+
+  $entity = entity_metadata_wrapper('node', $field['entity']);
+  $project_type = $entity->c4m_project_type->value();
+
+  if (empty($project_type)) {
+    $project_type = 'project';
+  }
+
+  $tag['element'] = array(
+    '#tag' => 'span',
+    '#attributes' => array(
+      'class' => array(
+        'project-icon',
+        'project-type-' . $project_type,
+        'node-icon',
+      ),
+    ),
+    '#value' => '',
+  );
+
+  return theme_html_tag($tag);
+}
