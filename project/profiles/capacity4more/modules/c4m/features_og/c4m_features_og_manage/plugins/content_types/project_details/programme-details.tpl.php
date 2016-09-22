@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Template for the project management dashboard.
+ * Template for the programme management dashboard.
  */
 ?>
 
@@ -10,7 +10,7 @@
   <div class="col-md-12 project-management-wrapper">
     <div class="project-administration">
       <div class="title">
-        <h2><?php print t('Project administration') ?></h2>
+        <h2><?php print t('Programme administration') ?></h2>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Owner') ?> (<a href="<?php print $details['owner_edit']; ?>"><?php print t('Edit') ?></a>)</div>
@@ -23,19 +23,19 @@
     </div>
     <div class="project-details">
       <div class="title">
-        <h2><?php print t('Project details') ?></h2>
+        <h2><?php print t('Programme details') ?></h2>
         <a href="<?php print $details['edit_link'] ?>#edit-details"><?php print t('Edit') ?></a>
       </div>
       <div class="row">
-        <div class="col-md-3"><?php print t('Project name') ?></div>
+        <div class="col-md-3"><?php print t('Programme name') ?></div>
         <div class="col-md-9"><?php print $details['title'] ?></div>
       </div>
       <div class="row">
-        <div class="col-md-3"><?php print t('Project path') ?></div>
+        <div class="col-md-3"><?php print t('Programme path') ?></div>
         <div class="col-md-9"><?php print $details['purl'] ?></div>
       </div>
       <div class="row">
-        <div class="col-md-3"><?php print t('Project description') ?></div>
+        <div class="col-md-3"><?php print t('Programme description') ?></div>
         <div class="col-md-9"><?php print $details['description']['safe_value'] ?></div>
       </div>
       <div class="row">
@@ -63,11 +63,11 @@
         <div class="col-md-9"><?php print $details['cris_contract_number'] ?></div>
       </div>
       <div class="row">
-        <div class="col-md-3"><?php print t('Project topics') ?></div>
+        <div class="col-md-3"><?php print t('Programme topics') ?></div>
         <div class="col-md-9"><?php print $details['topics'] ?></div>
       </div>
       <div class="row">
-        <div class="col-md-3"><?php print t('Project regions & countries') ?></div>
+        <div class="col-md-3"><?php print t('Programme regions & countries') ?></div>
         <div class="col-md-9"><?php print $details['locations'] ?></div>
       </div>
     </div>
@@ -108,7 +108,7 @@
     </div>
     <div class="project-navigation">
       <div class="title">
-        <h2><?php print t('Project Navigation') ?></h2>
+        <h2><?php print t('Programme Navigation') ?></h2>
         <a href="<?php print $details['menu_link']; ?>"><?php print t('Edit') ?></a>
       </div>
     </div>
