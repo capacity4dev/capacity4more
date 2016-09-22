@@ -204,7 +204,7 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '2',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -284,7 +284,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_group_membership_type' => array(
-      'weight' => '3',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -453,37 +453,39 @@ function c4m_content_group_ds_layout_settings_info() {
     'regions' => array(
       'header' => array(
         0 => 'group_teaser_header_inline',
-        2 => 'c4m_ds_group_type_icon',
-        4 => 'title',
-        7 => 'c4m_ds_group_membership_type',
+        1 => 'c4m_ds_group_type_icon',
+        3 => 'c4m_ds_group_membership_type',
+        6 => 'c4m_og_status',
+        10 => 'title',
       ),
       'left' => array(
-        1 => 'c4m_media',
+        2 => 'c4m_media',
       ),
       'right' => array(
-        3 => 'group_teaser_author_information',
-        5 => 'c4m_body',
-        6 => 'c4m_ds_group_access_info',
+        4 => 'group_teaser_author_information',
+        5 => 'c4m_ds_group_access_info',
+        7 => 'c4m_body',
         8 => 'group_iconbar_comments_views',
         9 => 'c4m_user_first_and_last_name',
-        10 => 'c4m_ds_creation_date',
         11 => 'c4m_ds_group_members_count',
-        12 => 'c4m_ds_group_posts_count',
+        12 => 'c4m_ds_creation_date',
+        13 => 'c4m_ds_group_posts_count',
       ),
     ),
     'fields' => array(
       'group_teaser_header_inline' => 'header',
-      'c4m_media' => 'left',
       'c4m_ds_group_type_icon' => 'header',
-      'group_teaser_author_information' => 'right',
-      'title' => 'header',
-      'c4m_body' => 'right',
-      'c4m_ds_group_access_info' => 'right',
+      'c4m_media' => 'left',
       'c4m_ds_group_membership_type' => 'header',
+      'group_teaser_author_information' => 'right',
+      'c4m_ds_group_access_info' => 'right',
+      'c4m_og_status' => 'header',
+      'c4m_body' => 'right',
       'group_iconbar_comments_views' => 'right',
       'c4m_user_first_and_last_name' => 'right',
-      'c4m_ds_creation_date' => 'right',
+      'title' => 'header',
       'c4m_ds_group_members_count' => 'right',
+      'c4m_ds_creation_date' => 'right',
       'c4m_ds_group_posts_count' => 'right',
     ),
     'classes' => array(),
