@@ -27,7 +27,7 @@ function theme_c4m_user_profile_picture_fullname(array $variables) {
   $picture    = $user_wrapper->c4m_media->value();
   if (empty($picture)) {
     // If there is no image, we render initials.
-    $picture = c4m_user_initials_themed($user, FALSE);
+    $picture = c4m_user_get_themed_initials(c4m_user_get_user_initials($user));
   }
   else {
     $picture = array(
@@ -93,4 +93,41 @@ function theme_c4m_user_profile_menu(array $variables) {
   );
 
   return render($output);
+}
+
+/**
+ * Theme function for user groups top bar menu.
+ *
+ * @param array $variables
+ *    Array with theme variables.
+ *
+ * @return string
+ *    The rendered output.
+ */
+function theme_c4m_user_profile_groups_top_bar(array $variables) {
+  $menu_title = array(
+    '#theme' => 'html_tag',
+    '#tag' => 'div',
+    '#value' => t('My Groups'),
+    '#attributes' => array(
+      'class' => array('fullname'),
+    ),
+  );
+  // Adding the icon before the title of the menu, leaving it outside of the
+  // title so it won't be hidden on mobile screens.
+  $menu_title = '<i class="fa fa-users"></i>' . render($menu_title);
+
+  $menu = array(
+    '#theme'      => 'html_tag',
+    '#tag'        => 'div',
+    '#value'      => $menu_title . '<i class="fa fa-chevron-down"></i>',
+    '#attributes' => array(
+      'class' => array('fullname-picture'),
+    ),
+  );
+  $menu = render($menu);
+
+  $output = l($menu, $variables['link']['url'], $variables['link']['options']);
+
+  return $output;
 }

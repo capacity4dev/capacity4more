@@ -39,7 +39,9 @@ print $layout_attributes; ?> class="<?php print $classes; ?>">
 <?php print $right; ?>
 </<?php print $right_wrapper; ?>>
 </div>
-
+<<?php print $footer_wrapper; ?>>
+<?php print $footer; ?>
+</<?php print $footer_wrapper; ?>>
 </<?php print $layout_wrapper ?>>
 
 

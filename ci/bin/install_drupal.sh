@@ -24,9 +24,9 @@ cp $TRAVIS_BUILD_DIR/ci/config/config.sh.travis config/config.sh
 ./bin/install -y --dummy-content --no-login --no-backup --env=ci
 
 # Disable the dblog module to prevent overuse of the mysql server.
-echo "Disable dblog module to avoid extra stress on MySQL server"
-cd $TRAVIS_BUILD_DIR/web
-drush -y dis dblog
+#echo "Disable dblog module to avoid extra stress on MySQL server"
+#cd $TRAVIS_BUILD_DIR/web
+#drush -y dis dblog
 
 # Stay Calm and Clear the Cache!
 echo "Clear all caches"

@@ -4,30 +4,17 @@
 
 .event-date {
   float: left;
-}
-
-.event-title {
-  float: left;
-  margin-left: 35px;
-
-  @include clearfix;
+  margin-right: 10px;
 }
 
 .event-groups {
-  position: relative;
-
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
   margin-top: 20px;
-  width: 100%;
-}
 
-.view-mode-block_list.node-event .field-name-c4m-field-og-group {
-  position: absolute;
-  float: left;
-
-  top: 50%;
-  transform: translate(0,-50%);
-  -webkit-transform: translate(0,-50%);
+  .label {
+    align-self: center;
+  }
 }
 
 .view-mode-block_list.node-event .field-name-c4m-field-og-group .field-item {

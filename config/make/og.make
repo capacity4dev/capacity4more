@@ -6,6 +6,7 @@ api = 2
 projects[og][version] = "2.9"
 projects[og][subdir] = "contrib"
 projects[og][patch][] = "https://www.drupal.org/files/issues/access_check_when_getting_groups.patch"
+projects[og][patch][] = "https://www.drupal.org/files/issues/og-fix_return_value_of_og_get_groups_by_user-2569471-3.patch"
 
 projects[og_purl][subdir] = "contrib"
 projects[og_purl][version] = "1.x-dev"
@@ -17,6 +18,7 @@ projects[og_variables][version] = "1.0"
 projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
 projects[og_vocab][patch][] = https://www.drupal.org/files/issues/og_vocab-fix_strict_warning.patch
+projects[og_vocab][patch][] = https://www.drupal.org/files/issues/2399883-og_vocab-menuitem-7.patch
 
 projects[pluggable_node_access][subdir] = "contrib"
 projects[pluggable_node_access][version] = "1.x-dev"
@@ -29,6 +31,9 @@ projects[purl][patch][] = https://www.drupal.org/files/808956-14-purl-menu-behav
 
 projects[session_api][subdir] = "contrib"
 projects[session_api][version] = "1.0-rc1"
+
+projects[og_invite][subdir] = "contrib"
+projects[og_invite][version] = "1.0-beta5"
 
 projects[og_context_access_callback][subdir] = "contrib"
 projects[og_context_access_callback][version] = "1.x-dev"

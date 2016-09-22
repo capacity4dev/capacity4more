@@ -95,7 +95,7 @@ function theme_c4m_user_activity_comments(array $field) {
 
   $user = $field['entity'];
 
-  // Count published posts of user.
+  // Count published comments of user.
   $count = c4m_user_count_comments($user->uid);
   return format_plural($count, '1 Comment', '@count Comments');
 }
@@ -118,11 +118,11 @@ function theme_c4m_user_picture(array $field) {
 
   // Check if image needs to be linked to user profile.
   if (FALSE !== strpos($field['formatter'], 'linked_', 0) && $user->uid > 0) {
-    $linked = TRUE;
+    $link = 'node/' . $user->uid;
     $style = substr($field['formatter'], 7);
   }
   else {
-    $linked = FALSE;
+    $link = '';
     $style = $field['formatter'];
   }
 
@@ -132,7 +132,7 @@ function theme_c4m_user_picture(array $field) {
 
   if (empty($file)) {
     // If there is no image, we render initials.
-    $output = c4m_user_initials_themed($user, $linked);
+    $output = c4m_user_get_themed_initials(c4m_user_get_user_initials($user), $link);
   }
   else {
     $file['style_name'] = empty($style) ? 'media_thumbnail' : $style;
@@ -141,8 +141,11 @@ function theme_c4m_user_picture(array $field) {
 
     // Only link user picture if user is active.
     if ($user->status) {
-      $output = l(theme_image_style($file), 'user/' . $user->uid,
-        array('html' => 'TRUE'));
+      $options = array(
+        'purl' => array('disabled' => TRUE),
+        'html' => 'TRUE',
+      );
+      $output = l(theme_image_style($file), 'user/' . $user->uid, $options);
     }
     else {
       $output = theme_image_style($file);
@@ -180,7 +183,8 @@ function theme_c4m_user_first_and_last_name(array $field) {
     if ($user->status && in_array($field['formatter'], array(
       'linked_user', 'linked_user_with_icon',
     ))) {
-      $name = l($name, 'user/' . $user->uid);
+      $options = array('purl' => array('disabled' => TRUE));
+      $name = l($name, 'user/' . $user->uid, $options);
     }
 
     $output .= $name;

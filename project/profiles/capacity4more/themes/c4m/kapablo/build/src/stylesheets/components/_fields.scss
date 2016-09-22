@@ -107,6 +107,9 @@
 }
 
 .group-node-meta {
+  // Clearfix.
+  overflow: hidden;
+
   .field-name-c4m-user-picture {
     display: inline-block;
     float: left;

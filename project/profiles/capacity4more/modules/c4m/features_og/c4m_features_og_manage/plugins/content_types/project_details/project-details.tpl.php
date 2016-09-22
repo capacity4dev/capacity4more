@@ -55,10 +55,6 @@
         <div class="col-md-9"><?php print $details['partners'] ?></div>
       </div>
       <div class="row">
-        <div class="col-md-3"><?php print t('Implemented by') ?></div>
-        <div class="col-md-9"><?php print $details['implemented_by'] ?></div>
-      </div>
-      <div class="row">
         <div class="col-md-3"><?php print t('CRIS Decision number') ?></div>
         <div class="col-md-9"><?php print $details['cris_decision_number'] ?></div>
       </div>
@@ -109,6 +105,12 @@
           <div class="col-md-9"><?php print empty($details['features_enabled'][$feature['machine_name']]) ? t('Disabled') : '<strong>' . t('Enabled') . '</strong>'; ?></div>
         </div>
       <?php endforeach; ?>
+    </div>
+    <div class="project-navigation">
+      <div class="title">
+        <h2><?php print t('Project Navigation') ?></h2>
+        <a href="<?php print $details['menu_link']; ?>"><?php print t('Edit') ?></a>
+      </div>
     </div>
   </div>
 </div>

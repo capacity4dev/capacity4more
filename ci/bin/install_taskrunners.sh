@@ -13,8 +13,12 @@ if [ $INSTALL_PROFILE -ne 1 ]; then
  exit 0;
 fi
 
+gem install sass
 
-# Update npm
+# Output node version.
+npm -v
+
+# Update npm.
 npm install -g npm@2
 
 # Install Grunt.

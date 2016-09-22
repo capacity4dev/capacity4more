@@ -115,7 +115,7 @@ class C4mMoodleRedirectController extends stdClass {
   /**
    * Returns the organisation of the user object.
    *
-   * @return string | bool
+   * @return string|bool
    *   The user's organisation or FALSE if none can be found.
    */
   private function getUserOrganisation() {

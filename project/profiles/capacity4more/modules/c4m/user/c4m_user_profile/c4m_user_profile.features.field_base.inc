@@ -327,6 +327,46 @@ function c4m_user_profile_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
+  // Exported field_base: 'c4m_is_deleted_anonymous'.
+  $field_bases['c4m_is_deleted_anonymous'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_is_deleted_anonymous',
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => '',
+        1 => '',
+      ),
+      'allowed_values_function' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_boolean',
+  );
+
+  // Exported field_base: 'c4m_is_deleted_by_uid'.
+  $field_bases['c4m_is_deleted_by_uid'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_is_deleted_by_uid',
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'number',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'number_integer',
+  );
+
   // Exported field_base: 'c4m_is_invalid_email'.
   $field_bases['c4m_is_invalid_email'] = array(
     'active' => 1,
@@ -485,26 +525,13 @@ function c4m_user_profile_field_default_field_bases() {
           'type' => 'none',
         ),
         'target_bundles' => array(
-          'comment_node_article' => 'comment_node_article',
-          'comment_node_banner' => 'comment_node_banner',
-          'comment_node_book' => 'comment_node_book',
-          'comment_node_discussion' => 'comment_node_discussion',
-          'comment_node_document' => 'comment_node_document',
-          'comment_node_event' => 'comment_node_event',
-          'comment_node_featured' => 'comment_node_featured',
-          'comment_node_feed' => 'comment_node_feed',
-          'comment_node_group' => 'comment_node_group',
-          'comment_node_inthe_picture' => 'comment_node_inthe_picture',
-          'comment_node_organisation' => 'comment_node_organisation',
-          'comment_node_page_element' => 'comment_node_page_element',
-          'comment_node_photo' => 'comment_node_photo',
-          'comment_node_photoalbum' => 'comment_node_photoalbum',
-          'comment_node_project' => 'comment_node_project',
-          'comment_node_topic' => 'comment_node_topic',
-          'comment_node_wiki_page' => 'comment_node_wiki_page',
+          'discussion' => 'discussion',
+          'document' => 'document',
+          'event' => 'event',
+          'wiki_page' => 'wiki_page',
         ),
       ),
-      'target_type' => 'comment',
+      'target_type' => 'node',
     ),
     'translatable' => 0,
     'type' => 'entityreference',
@@ -537,6 +564,7 @@ function c4m_user_profile_field_default_field_bases() {
         ),
         'target_bundles' => array(
           'group' => 'group',
+          'project' => 'project',
         ),
       ),
       'target_type' => 'node',
@@ -571,21 +599,9 @@ function c4m_user_profile_field_default_field_bases() {
           'type' => 'none',
         ),
         'target_bundles' => array(
-          'article' => 'article',
-          'banner' => 'banner',
-          'book' => 'book',
           'discussion' => 'discussion',
           'document' => 'document',
           'event' => 'event',
-          'featured' => 'featured',
-          'feed' => 'feed',
-          'inthe_picture' => 'inthe_picture',
-          'organisation' => 'organisation',
-          'page_element' => 'page_element',
-          'photo' => 'photo',
-          'photoalbum' => 'photoalbum',
-          'project' => 'project',
-          'topic' => 'topic',
           'wiki_page' => 'wiki_page',
         ),
       ),

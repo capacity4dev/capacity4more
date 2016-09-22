@@ -151,6 +151,9 @@ function c4m_content_photoalbum_strongarm() {
       'group_dashboard' => array(
         'custom_settings' => FALSE,
       ),
+      'pinned_content' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -171,7 +174,7 @@ function c4m_content_photoalbum_strongarm() {
             'visible' => FALSE,
           ),
           'activity_global' => array(
-            'weight' => '19',
+            'weight' => '23',
             'visible' => FALSE,
           ),
           'default' => array(
@@ -188,6 +191,10 @@ function c4m_content_photoalbum_strongarm() {
           ),
           'teaser_group' => array(
             'weight' => '20',
+            'visible' => FALSE,
+          ),
+          'pinned_content' => array(
+            'weight' => '8',
             'visible' => FALSE,
           ),
         ),
