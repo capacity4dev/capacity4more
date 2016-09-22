@@ -157,9 +157,12 @@ function c4m_content_wiki_page_form_node_form_alter(&$form, &$form_state, $form_
 /**
  * Implements hook_form_FORM_ID_alter().
  *
+ * Verifies user has access to the form.
  * Prevent the creation of more than 6 levels in a book, including level 0.
  */
 function c4m_content_wiki_page_form_wiki_page_node_form_alter(&$form, &$form_state, $form_id) {
+  c4m_content_create_group_content_access('wiki page');
+
   $node = $form['#node'];
   // If the form is being processed during the Ajax callback of our book bid
   // dropdown, then $form_state will hold the value that was selected.
