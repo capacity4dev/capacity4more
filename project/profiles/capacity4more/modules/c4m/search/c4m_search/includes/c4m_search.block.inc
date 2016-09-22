@@ -49,6 +49,8 @@ function _c4m_search_block_facetapi_view_alter(&$data, $block) {
     '2qrTnbxWr0rI2lmcQR6mBDryPwkuS1PH' => t('Type'),
     // Event type.
     'ajPbeoCHay77liOuYn2HrFBMw0VZUgCz' => t('Type'),
+    // Project Stage.
+    'OK4Vyc0ny8QpANDSYVhonW7ExFGaGeb5' => t('Stage'),
   );
 
   // Check if we have an override for the block delta.

@@ -74,6 +74,12 @@ function c4m_features_overview_projects_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-7',
         ),
+        'facetapi-OK4Vyc0ny8QpANDSYVhonW7ExFGaGeb5' => array(
+          'module' => 'facetapi',
+          'delta' => 'OK4Vyc0ny8QpANDSYVhonW7ExFGaGeb5',
+          'region' => 'sidebar_first',
+          'weight' => '-6',
+        ),
       ),
     ),
   );
