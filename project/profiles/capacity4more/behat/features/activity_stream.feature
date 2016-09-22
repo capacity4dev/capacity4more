@@ -66,10 +66,11 @@ Feature: Test activity stream
     Then  I should not see the ".fa-thumb-tack" element
 
   @javascript
-  Scenario Outline: Promote buttons should be displayed to users with access.
+  Scenario Outline: Promote and highlight buttons should be displayed to users with access.
     Given  I am logged in as user "<user>"
     When  I visit the dashboard of group "Nobel Prize"
     Then  I should see the ".fa-star-o" element
+    And  I should see the ".fa-thumb-tack" element
 
     Examples:
       | user        |
