@@ -1068,7 +1068,7 @@ function c4m_user_user_logout($account) {
     $user_temp = $user;
     $user = drupal_anonymous_user();
     $item = menu_get_item($_GET['destination']);
-    if (empty($item) || empty($item['access'])) {
+    if (!empty($item) && empty($item['access'])) {
       // If anonymous user has no access, remove destination.
       unset($_GET['destination']);
     }
