@@ -733,7 +733,7 @@ function c4m_user_menu_alter(&$items) {
 }
 
 /**
- * Implementation of hook_views_access_callbacks().
+ * Implements hook_views_access_callbacks().
  */
 function c4m_user_views_access_callbacks() {
   return array(
@@ -744,12 +744,11 @@ function c4m_user_views_access_callbacks() {
 /**
  * Prevent from users to see other users content on "my content" page.
  *
- * @param null $uid
+ * @param int $uid
  *   The argument of the user ID from the url.
  *
  * @return bool
  *   TRUE if the logged in user try to see his own content.
- *
  */
 function c4m_user_my_content_access($uid = NULL) {
   global $user;
