@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Install & Update hooks.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_content_news_install() {
+  // Set the pathauto for the content type trough the install hook.
+  // It can then be overridden without interfere the feature settings.
+  variable_set('pathauto_node_news_pattern', 'news/[node:title]');
+}

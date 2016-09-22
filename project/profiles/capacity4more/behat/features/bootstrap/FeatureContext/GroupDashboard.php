@@ -47,7 +47,7 @@ trait GroupDashboard {
    */
   public function groupMenuItemShouldBeActive($label) {
     $page = $this->getSession()->getPage();
-    $el = $page->find('css', '#block-menu-c4m-og-menu a.active');
+    $el = $page->find('css', '#block-og-menu-og-single-menu-block li.active');
     if ($el === null) {
       throw new \Exception('The group menu has no active items.');
     }

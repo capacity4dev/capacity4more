@@ -92,3 +92,137 @@
 .panel-title {
   text-transform: uppercase;
 }
+
+// ========================================================================== //
+// Event Form
+// ========================================================================== //
+.node-form {
+  .control-label {
+    clear: both;
+    display: block;
+  }
+
+  .form-control:not(textarea) {
+    color: $color-gray-dark;
+    font-style: italic;
+    background-color: #EBEAE4;
+    border: 0;
+    border-radius: 20px;
+
+    &:focus {
+      box-shadow: 0 0 8px rgba(0, 0, 0, .6);
+    }
+  }
+
+  .document_file {
+    display: none;
+  }
+
+  .hidden-input {
+    display: none;
+  }
+
+  #edit-c4m-document {
+
+    .input-group {
+      display: block;
+    }
+  }
+  .cfm-file-upload-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .file-upload-js-error {
+      color: $color-form-input-error;
+      text-align: center;
+    }
+
+    .droppable-controls {
+      position: relative;
+
+      .form-submit {
+        position: absolute;
+        bottom: 30px;
+        z-index: -1;
+      }
+    }
+  }
+
+  .cfm-file-upload {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial;
+    color: white;
+    border-radius: 90px;
+    background-color: $color-text-alternative;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $color-link;
+    }
+
+    a {
+      color: $color-white;
+    }
+
+    .droppable-message {
+      line-height: normal;
+      min-height: initial;
+      display: flex;
+      flex-direction: column;
+      padding-top: 15px;
+    }
+  }
+
+  .cfm-file-upload__title {
+    margin: 10px 0 0;
+    text-transform: uppercase;
+  }
+
+  .cfm-file-upload__hand {
+    font-size: 26px;
+  }
+
+  // Specific radio buttons margin reset for the event form
+  .form-item-c4m-event-type-und {
+
+    .form-type-radio {
+      margin: 0;
+    }
+  }
+}
+
+#views-form-c4m-overview-og-members-page {
+
+  .vbo-fieldset-select-all {
+    width: 250px;
+    text-align: left;
+    padding-top: 20px;
+    padding-bottom: 10px;
+  }
+
+  .views-field-rendered-entity,
+  .views-field-views-bulk-operations {
+    display: inline-block;
+  }
+
+  .views-field-rendered-entity {
+    width: 92%;
+  }
+
+  .views-field-views-bulk-operations {
+    vertical-align: text-bottom;
+    margin-bottom: 12px;
+    width: 8%;
+    float: left;
+  }
+
+  .field-name-c4m-ds-user-membership-type {
+    float: right;
+  }
+}

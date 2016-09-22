@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * @file
+ * Code for the News content type feature.
+ */
+
+include_once 'c4m_content_news.features.inc';
+
+/**
+ * Implements hook_c4m_og_vocab_info_content().
+ */
+function c4m_content_news_c4m_og_vocab_info_content() {
+  return array(
+    'news' => array(
+      'entity_type' => 'node',
+      'bundle' => 'news',
+      'vocabularies' => array(
+        'c4m_vocab_category',
+        'c4m_vocab_tag',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_news_c4m_helper_entity_label_info() {
+  return array(
+    'news' => array(
+      'article' => t('a'),
+      'singular' => t('news'),
+      'plural' => t('news'),
+      'insert action' => t('created news'),
+      'update action' => t('updated the news'),
+      'icon' => 'fa-comments',
+    ),
+  );
+}

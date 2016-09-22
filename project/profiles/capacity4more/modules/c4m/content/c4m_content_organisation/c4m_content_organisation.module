@@ -295,6 +295,21 @@ function c4m_content_organisation_get_organisation_by_email($email) {
 }
 
 /**
+ * Implements hook_node_view().
+ */
+function c4m_content_organisation_node_view($node, $view_mode, $langcode) {
+  if ($view_mode !== 'full') {
+    return;
+  }
+
+  if ($node->type !== 'organisation') {
+    return;
+  }
+
+  drupal_goto('<front>');
+}
+
+/**
  * Get icon for the given organisation entity.
  *
  * @param object $organisation

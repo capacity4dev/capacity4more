@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_event.features.field_instance.inc
@@ -148,7 +149,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 28,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -188,6 +189,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 28,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -195,7 +202,7 @@ function c4m_content_event_field_default_field_instances() {
           'trim_length' => 600,
         ),
         'type' => 'text_summary_or_trimmed',
-        'weight' => 10,
+        'weight' => 9,
       ),
       'teaser_group' => array(
         'label' => 'hidden',
@@ -280,16 +287,24 @@ function c4m_content_event_field_default_field_instances() {
         'weight' => 33,
       ),
       'activity_group' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'label' => 'hidden',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'short',
+          'fromto' => 'both',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+          'show_remaining_days' => 0,
+        ),
+        'type' => 'date_default',
         'weight' => 28,
       ),
       'block_list' => array(
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 25,
       ),
       'c4m_related' => array(
         'label' => 'hidden',
@@ -343,6 +358,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'inline',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 27,
+      ),
       'teaser' => array(
         'label' => 'inline',
         'module' => 'date',
@@ -352,10 +373,10 @@ function c4m_content_event_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
-          'show_remaining_days' => FALSE,
+          'show_remaining_days' => 0,
         ),
         'type' => 'date_default',
-        'weight' => 8,
+        'weight' => 7,
       ),
       'teaser_group' => array(
         'label' => 'inline',
@@ -437,7 +458,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 32,
+        'weight' => 33,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -479,11 +500,17 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 34,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 33,
+        'weight' => 34,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -547,7 +574,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 34,
+        'weight' => 35,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -589,11 +616,17 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 35,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 32,
+        'weight' => 33,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -683,8 +716,9 @@ function c4m_content_event_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
+        'module' => 'list',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'list_default',
         'weight' => 0,
       ),
       'inthe_picture_block' => array(
@@ -699,11 +733,17 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 39,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 30,
+        'weight' => 31,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -739,7 +779,7 @@ function c4m_content_event_field_default_field_instances() {
     'bundle' => 'event',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => ' Link to the Event facebook page.',
+    'description' => 'Link to the Event facebook page.',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -757,7 +797,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 29,
+        'weight' => 30,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -796,11 +836,17 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 30,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 31,
+        'weight' => 32,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -874,7 +920,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 28,
+        'weight' => 29,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -913,11 +959,17 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 35,
+        'weight' => 36,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -991,7 +1043,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 22,
+        'weight' => 23,
       ),
       'default' => array(
         'label' => 'above',
@@ -1011,11 +1063,17 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 29,
       ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 40,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 28,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -1076,7 +1134,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 24,
       ),
       'default' => array(
         'label' => 'above',
@@ -1143,11 +1201,17 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'geofield_leaflet',
         'weight' => 3,
       ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 41,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 27,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -1217,7 +1281,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 27,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -1256,12 +1320,18 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 26,
+      ),
       'teaser' => array(
         'label' => 'inline',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 7,
+        'weight' => 6,
       ),
       'teaser_group' => array(
         'label' => 'inline',
@@ -1320,7 +1390,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 36,
+        'weight' => 37,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -1362,11 +1432,17 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 37,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 38,
+        'weight' => 39,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -1429,7 +1505,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 30,
+        'weight' => 31,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -1468,11 +1544,17 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 31,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 37,
+        'weight' => 38,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -1546,7 +1628,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 35,
+        'weight' => 36,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -1591,11 +1673,17 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
-      'teaser' => array(
+      'pinned_content' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 36,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 37,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -1649,7 +1737,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 33,
+        'weight' => 34,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -1671,12 +1759,15 @@ function c4m_content_event_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'term_reference_tree',
+        'module' => 'c4m_content_topic',
         'settings' => array(
-          'token_display_selected' => '',
-          'token_display_unselected' => '',
+          'display' => 'all',
+          'glue' => ', ',
+          'link' => 1,
+          'separator' => ' > ',
+          'wrap' => 'none',
         ),
-        'type' => 'term_reference_tree',
+        'type' => 'term_reference_checked_inline_tree',
         'weight' => 1,
       ),
       'inthe_picture_block' => array(
@@ -1691,11 +1782,17 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 33,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 34,
+        'weight' => 35,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -1748,7 +1845,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 26,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -1793,11 +1890,17 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 25,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 29,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -1853,7 +1956,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 38,
+        'weight' => 39,
       ),
       'c4m_related' => array(
         'label' => 'inline',
@@ -1894,11 +1997,20 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
-      'teaser' => array(
+      'pinned_content' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 29,
+        'weight' => 38,
+      ),
+      'teaser' => array(
+        'label' => 'inline',
+        'module' => 'c4m_og_purl',
+        'settings' => array(
+          'link' => 'purl_auto',
+        ),
+        'type' => 'c4m_og_purl_entityreference_link',
+        'weight' => 2,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -1991,7 +2103,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 31,
+        'weight' => 32,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -2032,11 +2144,17 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 32,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 28,
+        'weight' => 30,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -2068,7 +2186,6 @@ function c4m_content_event_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t(' Link to the Event facebook page.');
   t('Additional');
   t('Agenda & Information');
   t('Comment');
@@ -2080,6 +2197,7 @@ function c4m_content_event_field_default_field_instances() {
   t('Groups');
   t('Language');
   t('Link to external Event website.');
+  t('Link to the Event facebook page.');
   t('Link to the twitter stream page');
   t('Location Address');
   t('Location Map');

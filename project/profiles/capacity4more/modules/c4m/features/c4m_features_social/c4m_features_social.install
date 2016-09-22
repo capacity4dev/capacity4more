@@ -36,7 +36,7 @@ function c4m_features_social_share_settings() {
     'yammer'  => array(
       'enabled' => FALSE,
     ),
-    'email_link'  => array(
+    'e-mail'  => array(
       'enabled' => TRUE,
     ),
     'c4m_print'  => array(
@@ -44,5 +44,17 @@ function c4m_features_social_share_settings() {
     ),
   );
 
+  variable_set('c4m_social_share', $settings);
+}
+
+/**
+ * Implements hook_update_7001().
+ *
+ * Replaces the settings keys with the correct EC service key.
+ */
+function c4m_features_social_update_7001() {
+  $settings = variable_set('c4m_social_share', array());
+  $settings['e-mail'] = $settings['email_link'];
+  unset($settings['email_link']);
   variable_set('c4m_social_share', $settings);
 }

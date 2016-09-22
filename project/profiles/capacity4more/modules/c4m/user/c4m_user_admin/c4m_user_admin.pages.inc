@@ -28,6 +28,32 @@ function c4m_user_admin_user_activate_form($form, &$form_state, $account) {
 }
 
 /**
+ * Form constructor for the reactivate user form.
+ *
+ * @see c4m_user_admin_user_reactivate_form_submit()
+ *
+ * @ingroup forms
+ */
+function c4m_user_admin_user_reactivate_form($form, &$form_state, $account) {
+  $form_state['user'] = $account;
+
+  $question = t('Are you sure you want to reactivate the account of @full_name?', array(
+    '@full_name' => c4m_user_name($account),
+  ));
+  $confirm_form = confirm_form($form,
+    $question,
+    '',
+    '',
+    t('Submit'), t('Cancel'));
+  $confirm_form['c4m_notify_user'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Send reactivate notification.'),
+    '#default_value' => FALSE,
+  );
+  return $confirm_form;
+}
+
+/**
  * Form submission handler for c4m_user_admin_user_activate_form().
  *
  * @see c4m_user_admin_user_activate_form()
@@ -36,6 +62,20 @@ function c4m_user_admin_user_activate_form_submit($form, &$form_state) {
   $account = $form_state['user'];
   module_load_include('inc', 'c4m_user_admin', 'actions/c4m_user_admin.action');
   c4m_user_admin_activate_action($account);
+}
+
+/**
+ * Form submission handler for c4m_user_admin_user_activate_form().
+ *
+ * @see c4m_user_admin_user_activate_form()
+ */
+function c4m_user_admin_user_reactivate_form_submit($form, &$form_state) {
+  // Points that user is reactivated.
+  $form_state['user']->reactivate_submit = TRUE;
+  // Points if reactivate notification is required, or not.
+  $form_state['user']->reactivate_notification = $form_state['values']['c4m_notify_user'];
+
+  c4m_user_admin_user_activate_form_submit($form, $form_state);
 }
 
 /**
@@ -53,9 +93,10 @@ function c4m_user_admin_resend_activation_email_form($form, &$form_state, $accou
     '@first_name' => $account->c4m_first_name->value(),
     '@last_name' => $account->c4m_last_name->value(),
   ));
+
   return confirm_form($form,
     $question,
-    '',
+    "user/login",
     '',
     t('Resend activation email'), t('Cancel'));
 }
@@ -69,6 +110,8 @@ function c4m_user_admin_resend_activation_email_form_submit($form, &$form_state)
   $account = $form_state['user'];
   module_load_include('inc', 'c4m_user_admin', 'actions/c4m_user_admin.action');
   c4m_user_admin_resend_activation_email_action($account);
+
+  $form_state['redirect'] = 'user/login';
 }
 
 /**
