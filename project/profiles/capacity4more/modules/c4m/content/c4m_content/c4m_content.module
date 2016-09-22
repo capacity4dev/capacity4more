@@ -960,7 +960,7 @@ function c4m_content_create_group_content_access($type) {
   $group_type = c4m_og_get_group_type($context);
 
   // For type 'group' allow access only to it's members.
-  if ($group_type == 'group' && !og_is_member('node', $context['gid'])) {
+  if ($group_type == 'group' && !og_is_member('node', $context['gid']) && !c4m_user_is_site_admin()) {
     drupal_access_denied();
     drupal_exit();
   }
