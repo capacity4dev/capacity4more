@@ -335,7 +335,7 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   drupal_add_js($bower_path . '/filesize/lib/filesize.min.js');
 
   // Load our custom app.
-  $app_path = $bower_path . '/c4m-app/dist';
+  $app_path = drupal_get_path('module', 'c4m_restful_quick_post') . '/components/c4m-app/dist';
   drupal_add_js($app_path . '/c4m-app.js');
 
   // URL options.
