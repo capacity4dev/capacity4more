@@ -205,6 +205,23 @@ function c4m_og_menu() {
 }
 
 /**
+ * Implements hook_menu_alter().
+ */
+function c4m_og_menu_alter(&$items) {
+  // Adding a member should be allow to SA only (CFM-1292).
+  $items['group/%/%/admin/people/add-user']['access callback'] = 'c4m_og_add_member_to_group_access';
+}
+
+/**
+ * Access callback; Adding a member to a group is allowed for SA only.
+ *
+ * @see og_ui_user_access_group()
+ */
+function c4m_og_add_member_to_group_access($perm, $group_type, $gid) {
+  return c4m_user_is_site_admin() && og_ui_user_access_group($perm, $group_type, $gid);
+}
+
+/**
  * Access to control group requests.
  *
  * Site administrators can access, as long as $node is OG group.
