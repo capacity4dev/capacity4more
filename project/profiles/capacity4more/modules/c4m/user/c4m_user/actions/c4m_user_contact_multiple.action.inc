@@ -28,6 +28,7 @@ function c4m_user_contact_multiple_action_info() {
       'label' => t('Contact'),
       'configurable' => TRUE,
       'triggers' => array('any'),
+      'behavior' => array('views_property'),
     ),
   );
 }
@@ -85,6 +86,7 @@ function c4m_user_contact_multiple_action_form(array $context, $form_state) {
     '#title' => t('Subject'),
     '#description' => t('Enter mail subject.'),
     '#size' => 10,
+    '#required' => TRUE,
   );
 
   $form['c4m_contact_multiple_body'] = array(
@@ -92,6 +94,7 @@ function c4m_user_contact_multiple_action_form(array $context, $form_state) {
     '#description' => t('Enter mail body.'),
     '#type' => 'text_format',
     '#format' => 'filtered_html',
+    '#required' => TRUE,
   );
 
   $form['c4m_contact_multiple_self_copy'] = array(
@@ -101,24 +104,6 @@ function c4m_user_contact_multiple_action_form(array $context, $form_state) {
   );
 
   return $form;
-}
-
-/**
- * Action form validate function, for contact_multiple form.
- *
- * Verifies that email subject and body are not empty.
- */
-function c4m_user_contact_multiple_action_validate($form, $form_state) {
-  $subject = $form_state['values']['c4m_contact_multiple_subject'];
-  $body = $form_state['values']['c4m_contact_multiple_body']['value'];
-
-  if (empty($subject)) {
-    form_error($form['c4m_contact_multiple_subject'], 'The subject of the mail can\'t be empty.');
-  }
-
-  if (empty($body)) {
-    form_error($form['c4m_contact_multiple_body'], 'The body of the mail can\'t be empty.');
-  }
 }
 
 /**
