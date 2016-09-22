@@ -47,20 +47,24 @@ Feature: Contact
   @api
   Scenario: Send the contact form as anonymous
     Given I am an anonymous user
+    And I disable the captcha field
     When I go to "contact"
     And I fill in "Your name" with "Nikola Tesla"
     And I fill in "Your e-mail address" with "tesla@edison.sucks"
     And I fill in "Subject" with "I want a nobel prize"
     And I fill in "Message" with "I want a nobel prize too."
     And I press "Send message"
+    And I enable the captcha field
     Then I should see "Your message has been sent."
 
   @api
   Scenario: Send the contact form as logged in user
     Given I am logged in as user "isaacnewton"
+    And I disable the captcha field
     When I go to "contact"
     And I press "Send message"
     And I fill in "Subject" with "I want a nobel prize"
     And I fill in "Message" with "I want a nobel prize too."
     And I press "Send message"
+    And I enable the captcha field
     Then I should see "Your message has been sent."

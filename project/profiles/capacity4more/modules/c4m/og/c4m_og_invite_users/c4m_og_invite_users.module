@@ -6,6 +6,20 @@
  */
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Adding a link to the people overview page for admins.
+ */
+function c4m_og_invite_users_form__og_invite_form_alter(&$form, &$form_state, $form_id) {
+  $form['manage_group_people'] = array(
+    '#type' => 'link',
+    '#href' => str_replace('/invite-users', '', $_GET['q']),
+    '#title' => 'Manage all group memberships',
+    '#access' => _c4m_features_og_members_is_power_user(),
+  );
+}
+
+/**
  * Implements hook_menu_alter().
  *
  * Define a custom access function that checks if the user is allowed to invite

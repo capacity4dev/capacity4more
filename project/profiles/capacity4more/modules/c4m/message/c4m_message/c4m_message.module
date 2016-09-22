@@ -63,12 +63,29 @@ function c4m_message_mail_alter(&$message) {
   _c4m_message_format_notify_subscribers_new_comment_from_field($message, $message_entity);
   _c4m_message_format_group_access_change_from_field($message, $message_entity);
   _c4m_message_format_new_content_published_from_field($message, $message_entity);
+  _c4m_message_format_group_content_updated_from_field($message, $message_entity);
+  _c4m_message_format_notify_editors_group_content_updated_from_field($message, $message_entity);
   _c4m_message_format_notify_promoted_member_from_field($message, $message_entity);
   _c4m_message_format_notify_content_followers_new_comment_from_field($message, $message_entity);
   _c4m_message_format_group_hard_deleted_from_field($message, $message_entity);
   _c4m_message_format_group_request_submitted_from_field($message, $message_entity);
   _c4m_message_format_group_soft_deleted_from_field($message, $message_entity);
   _c4m_message_format_membership_request_rejected_from_field($message, $message_entity);
+  _c4m_message_format_group_request_approved_from_field($message, $message_entity);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_group_request_approved' message From field, per MT12 template.
+ */
+function _c4m_message_format_group_request_approved_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_group_request_approved') {
+    // For message type other than c4m_group_archived - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_simple_pattern($message, TRUE);
 }
 
 /**
@@ -135,13 +152,7 @@ function _c4m_message_format_new_membership_request_from_field(&$message, $messa
     return;
   }
 
-  $message['from'] = format_string(
-    '"The @site team"<@mail>',
-    array(
-      '@site' => variable_get('site_name'),
-      '@mail' => 'capacity4dev@ec.europa.eu',
-    )
-  );
+  _c4m_message_format_from_field_to_simple_pattern($message, TRUE);
 }
 
 /**
@@ -155,13 +166,7 @@ function _c4m_message_format_new_member_joined_from_field(&$message, $message_en
     return;
   }
 
-  $message['from'] = format_string(
-    '"The @site team"<@mail>',
-    array(
-      '@site' => variable_get('site_name'),
-      '@mail' => 'capacity4dev@ec.europa.eu',
-    )
-  );
+  _c4m_message_format_from_field_to_simple_pattern($message, TRUE);
 }
 
 /**
@@ -254,6 +259,37 @@ function _c4m_message_format_notify_content_recommendation_from_field(&$message,
  */
 function _c4m_message_format_new_content_published_from_field(&$message, $message_entity) {
   if ($message_entity->type != 'c4m_new_content_published') {
+    // For message type other than c4m_new_content_published,
+    // return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_group_content_updated' message From field, per MT25.
+ */
+function _c4m_message_format_group_content_updated_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_group_content_updated') {
+    // For message type other than c4m_new_content_published,
+    // return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_default_pattern($message);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_notify_editors_group_content_updated' message From field,
+ * per MT51.
+ */
+function _c4m_message_format_notify_editors_group_content_updated_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_notify_editors_group_content_updated') {
     // For message type other than c4m_new_content_published,
     // return early.
     return;
@@ -493,6 +529,73 @@ function c4m_message_entity_load($entities, $entity_type) {
       $func($entity);
     }
   }
+}
+
+/**
+ * Add callbacks to c4m_log_group_state_change message arguments.
+ *
+ * For each token at message template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_log_group_state_change(Message $message) {
+  $message->arguments['@event_user_full_name'] = array(
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_group_request_approved message arguments.
+ *
+ * For each token at message template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_group_request_approved(Message $message) {
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@member_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!help_section_url'] = array(
+    'callback' => 'c4m_message_format_help_section_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@site_contact_link'] = array(
+    'callback' => 'c4m_message_format_site_contact_link',
+    'pass message' => TRUE,
+  );
 }
 
 /**
@@ -1040,7 +1143,7 @@ function c4m_message_load_tokens__c4m_notify_content_recommendation(Message $mes
  * @param Message $message
  *   The Message entity.
  */
-function c4m_message_load_tokens__c4m_new_content_published(Message $message) {
+function c4m_message_load_tokens__c4m_content_inserted_or_updated(Message $message) {
   $message->arguments['@user_full_name'] = array(
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
@@ -1088,6 +1191,11 @@ function c4m_message_load_tokens__c4m_new_content_published(Message $message) {
 
   $message->arguments['!event_user_url'] = array(
     'callback' => 'c4m_message_format_event_user_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!unsubscribe_content_url'] = array(
+    'callback' => 'c4m_message_format_unsubscribe_content_url',
     'pass message' => TRUE,
   );
 }
@@ -1572,7 +1680,7 @@ function c4m_message_format_new_member_organisation(Message $message) {
 function c4m_message_format_new_member_organisation_type(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  return $wrapper->field_related_user->c4m_organisation_type->value();
+  return $wrapper->field_related_user->c4m_organisation_type->label();
 }
 
 /**
@@ -1744,6 +1852,19 @@ function c4m_message_format_help_section_url(Message $message) {
 }
 
 /**
+ * Returns site contact link token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Site contact link.
+ */
+function c4m_message_format_site_contact_link(Message $message) {
+  return 'mailto:capacity4dev@ec.europa.eu';
+}
+
+/**
  * Returns group title token.
  *
  * @param Message $message
@@ -1826,7 +1947,7 @@ function c4m_message_format_group_edit_status_url(Message $message) {
     'purl' => array('disabled' => TRUE),
   );
 
-  return url('node/' . $nid . '/edit', $options);
+  return url('node/' . $nid . '/edit#edit-c4m-og-status', $options);
 }
 
 /**
@@ -2083,7 +2204,7 @@ function c4m_message_format_comment_body_teaser(Message $message) {
  * @return string
  *   Unsubscribe url.
  */
-function c4m_message_format_node_unsubscribe_url(Message $message) {
+function c4m_message_format_unsubscribe_content_url(Message $message) {
   return _c4m_message_format_unsubscribe_url($message, 'node');
 }
 
@@ -2242,7 +2363,7 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
   // Do not create a message for a photo that is associated with a photo album.
   // Some entity types don't have the type parameter. So we need to check if
   // it's a node first.
-  if ($entity_type == 'node' && $entity->type == 'photo' && !empty($entity->node_gallery_ref_1)) {
+  if ($entity_type == 'node' && $entity->type == 'photo' && !empty($entity->node_gallery_ref_1[LANGUAGE_NONE])) {
     $entity->_skip_message = TRUE;
   }
 
@@ -2331,11 +2452,7 @@ function c4m_message_load_general_arguments(Message $message) {
  *   The formatted date.
  */
 function c4m_message_format_date_for_message(Message $message) {
-  $format = variable_get('date_format_c4m_long_without_time', 'j F Y H:i');
-  $rel_date = c4m_helper_date_time_ago($message->timestamp, $format, 16070400);
-  $abs_date = format_date($message->timestamp, 'custom', $format);
-
-  return '<span data-toggle="tooltip" data-placement="bottom" title="' . $abs_date . '">' . $rel_date . '</span>';
+  return c4m_helper_date_format_relative_date($message->timestamp);
 }
 
 /**
