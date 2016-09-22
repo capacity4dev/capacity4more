@@ -259,13 +259,18 @@ function kapablo_preprocess_field(&$variables, $hook) {
         $node = $element['#object'];
         $galleries = node_gallery_api_get_relationships(NULL, $node->nid);
 
+        $album_title = '';
+        $album_separator = '';
         if (!empty($galleries)) {
           $gallery = array_pop($galleries);
           $album = node_load($gallery->ngid);
+          $album_title = $album->title;
+          $album_separator = '&nbsp;&gt;&nbsp;';
         }
 
+        $link_to_photo = l($node->title, 'node/' . $node->nid);
         foreach ($element['#items'] as $key => $item) {
-          $variables['items'][$key]['#markup'] = '<h1 class="text--inline">' . $album->title . '</h1><h2 class="text--inline">&nbsp;&gt; ' . $node->title . '</h2>';
+          $variables['items'][$key]['#markup'] = '<h1 class="text--inline">' . $album_title . '</h1><h3 class="text--inline">' . $album_separator . $link_to_photo . '</h3>';
         }
       }
 
