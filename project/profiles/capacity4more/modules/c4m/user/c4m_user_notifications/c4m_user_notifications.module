@@ -186,6 +186,11 @@ function c4m_user_notifications_node_insert($node) {
     return;
   }
 
+  // Node belongs to Anonymous user => no notification required.
+  if ($node->uid == 0) {
+    return;
+  }
+
   _c4m_user_notifications_process_general_triggers_insert($node);
   _c4m_user_notifications_process_og_alter($node, 'insert');
   _c4m_user_notifications_process_og_content_alter($node, 'insert');
@@ -199,6 +204,11 @@ function c4m_user_notifications_node_insert($node) {
 function c4m_user_notifications_node_update($node) {
   // Don't send notifications, if activated from CLI (dummy content migration).
   if (drupal_is_cli()) {
+    return;
+  }
+
+  // Node belongs to Anonymous user => no notification required.
+  if ($node->uid == 0) {
     return;
   }
 
@@ -425,7 +435,7 @@ function _c4m_user_notifications_process_general_triggers_insert($node) {
  */
 function _c4m_user_notifications_process_general_triggers_update($node) {
   if ($node->status != NODE_PUBLISHED) {
-    // Return early, if node is not published (Status = Pending).
+    // Return early, if node is not published.
     return;
   }
 
@@ -462,9 +472,14 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
         break;
 
       // 'published' -> 'draft' => Unpublished.
+      // 'pending' -> 'draft' => Group approved notification, when abort
+      // property is not set.
       case 'draft':
         if ($group_former_status == 'published') {
           c4m_user_notifications_group_status_set_unpublished($node, $group_former_status);
+        }
+        elseif ($group_former_status == 'pending' && empty($node->abort_group_approved_notification)) {
+          c4m_user_notifications_notify_user_group_approved($node->nid);
         }
         break;
 
@@ -576,7 +591,7 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
 
   $allowed_og_content_types = c4m_og_get_group_content_notification_types();
 
-  if ($node->type == 'share' && in_array($node->source_bundle, $allowed_og_content_types)) {
+  if ($node->type == 'share' && !empty($node->source_bundle) && in_array($node->source_bundle, $allowed_og_content_types)) {
     // If shared node requires notification => content type is
     // wiki_page / event / document / discussion.
     $target_gid = $node->notification_data['target_gid'];
@@ -593,8 +608,8 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
     return;
   }
 
-  if (!$node->c4m_send_notification) {
-    // 'Send Notification' checkbox was not checked.
+  if (!empty($node->c4m_send_notification) && !$node->c4m_send_notification) {
+    // 'Send Notification' checkbox was set, but not checked.
     return;
   }
 
@@ -604,7 +619,7 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
     return;
   }
 
-  // If node is published.
+  // If node's group is published.
   if ($wrapper->{OG_AUDIENCE_FIELD}->c4m_og_status->value() == 'published') {
     switch ($mode) {
       case 'insert':

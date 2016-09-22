@@ -1272,12 +1272,15 @@ function c4m_user_profile_unsubscribe_user($account, $entity_type, $entity_id) {
   ) as $existing_id) {
     if ($existing_id == $entity_id) {
       // User already unsubscribed from entity.
-      return;
+      drupal_set_message(t('Already unsubscribed'), 'warning');
+      drupal_goto();
     }
   }
 
   $wrapper->{$field}[] = $entity_id;
   $wrapper->save();
+  drupal_set_message(t('Successfully unsubscribed'));
+  drupal_goto();
 }
 
 /**

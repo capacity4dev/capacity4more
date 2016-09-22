@@ -175,6 +175,10 @@ function c4m_content_group_strongarm() {
             'weight' => '0',
             'visible' => FALSE,
           ),
+          'group_dashboard' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
         ),
       ),
     ),

@@ -113,4 +113,10 @@ $messages = array(
     'subject' => 'group_invite_user_subject',
     'body' => 'group_invite_user_body',
   ),
+  array(
+    'module' => 'c4m_og_invite_users',
+    'title' => 'Visitor alert when he has been invited to a group.',
+    'subject' => 'invite_group_member_subject',
+    'body' => 'invite_group_member_body',
+  ),
 );
