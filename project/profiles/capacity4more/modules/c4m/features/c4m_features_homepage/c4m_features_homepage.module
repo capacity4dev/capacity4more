@@ -25,6 +25,37 @@ function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
+ * Checks if the user can see the featured content blocks.
+ *
+ * @param string $bundle
+ *   Can be project or group.
+ *
+ * @return bool
+ *   TRUE|FALSE.
+ */
+function c4m_features_homepage_has_featured_content($bundle) {
+  if (user_is_anonymous()) {
+    return TRUE;
+  }
+
+  $query = drupal_get_query_parameters();
+  $filter = !empty($query['filter']) ? $query['filter'] : FALSE;
+
+  // If there is no filter, the default is showAll.
+  if (!$filter || $filter == 'showAll') {
+    return TRUE;
+  }
+
+  $suggested_content = c4m_features_homepage_get_suggested_items($bundle)
+
+  if ($filter == 'interests' && is_null($suggested_content)) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**
  * Renders suggested groups for the user.
  *
  * Suggest 5 random groups for the user which he is not subscribed to.
@@ -97,6 +128,10 @@ function c4m_features_homepage_c4m_suggested_projects_get_projects() {
  *   Rendered Html of suggested OG nodes.
  */
 function c4m_features_homepage_get_suggested_items($bundle) {
+  if (user_is_anonymous()) {
+    return;
+  }
+
   global $user;
   $account = user_load($user->uid);
 
@@ -147,6 +182,10 @@ function c4m_features_homepage_get_suggested_items($bundle) {
 function c4m_features_homepage_c4m_featured_groups_get_groups() {
   $groups = c4m_features_homepage_c4m_get_featured_og_groups('group');
 
+  if (is_null($groups)) {
+    return;
+  }
+
   $variables = array(
     'groups' => $groups,
   );
@@ -162,6 +201,10 @@ function c4m_features_homepage_c4m_featured_groups_get_groups() {
  */
 function c4m_features_homepage_c4m_featured_projects_get_projects() {
   $projects = c4m_features_homepage_c4m_get_featured_og_groups('project');
+
+  if (is_null($groups)) {
+    return;
+  }
 
   $variables = array(
     'projects' => $projects,
@@ -180,6 +223,11 @@ function c4m_features_homepage_c4m_featured_projects_get_projects() {
  *   NULL | List of nodes of OG.
  */
 function c4m_features_homepage_c4m_get_featured_og_groups($type) {
+  // Checks if the block needs to be displayed.
+  if (!c4m_features_homepage_has_featured_content($type)) {
+    return;
+  }
+
   $query = new EntityFieldQuery();
 
   $query
