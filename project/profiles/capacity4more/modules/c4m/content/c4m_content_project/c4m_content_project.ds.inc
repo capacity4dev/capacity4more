@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_project.ds.inc
@@ -128,6 +129,26 @@ function c4m_content_project_ds_field_settings_info() {
     ),
   );
   $export['paragraphs_item|c4m_paragraph_text|default'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'paragraphs_item|c4m_paragraph_twitter|default';
+  $ds_fieldsetting->entity_type = 'paragraphs_item';
+  $ds_fieldsetting->bundle = 'c4m_paragraph_twitter';
+  $ds_fieldsetting->view_mode = 'default';
+  $ds_fieldsetting->settings = array(
+    'c4m_ds_field_twitter_widget' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+  );
+  $export['paragraphs_item|c4m_paragraph_twitter|default'] = $ds_fieldsetting;
 
   return $export;
 }
@@ -323,6 +344,35 @@ function c4m_content_project_ds_layout_settings_info() {
     'layout_disable_css' => FALSE,
   );
   $export['paragraphs_item|c4m_paragraph_text|default'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'paragraphs_item|c4m_paragraph_twitter|default';
+  $ds_layout->entity_type = 'paragraphs_item';
+  $ds_layout->bundle = 'c4m_paragraph_twitter';
+  $ds_layout->view_mode = 'default';
+  $ds_layout->layout = 'ds_reset';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'c4m_ds_field_twitter_widget',
+      ),
+    ),
+    'fields' => array(
+      'c4m_ds_field_twitter_widget' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => TRUE,
+    'layout_link_attribute' => FALSE,
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['paragraphs_item|c4m_paragraph_twitter|default'] = $ds_layout;
 
   return $export;
 }
