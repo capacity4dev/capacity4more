@@ -127,6 +127,9 @@ function c4m_user_contact_multiple_action_submit($form, $form_state) {
     drupal_set_message('Copy message sent.');
   }
 
+  // We can not use $form_state['redirect'] as VBO ignores it.
+  $_GET['destination'] = url('members');
+
   return array(
     'subject' => $subject,
     'body' => $body,
