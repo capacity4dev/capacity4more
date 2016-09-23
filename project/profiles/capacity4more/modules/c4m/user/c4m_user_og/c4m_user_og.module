@@ -19,6 +19,15 @@
  *   Has access to the given permission.
  */
 function c4m_user_og_has_group_permission($permission, $group = NULL) {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return
+    // early. The next time this access callback will be called, it will not
+    // enter here.
+    og_context_access_callback_register_path($_GET['q']);
+
+    return NULL;
+  }
+
   if (is_null($group) || is_object($group)) {
     $group = c4m_og_current_group();
   }
@@ -803,6 +812,10 @@ function c4m_user_og_c4m_leave_group_cta($group) {
  * Sets the CTA to follow or unfollow group notifications.
  */
 function c4m_user_og_follow_group_cta($group) {
+  if (!og_is_member('node', $group->nid)) {
+    return FALSE;
+  }
+
   $item = array(
     '#theme' => 'c4m_group_text_cta',
     '#icon' => 'fa-bell-o',
@@ -839,11 +852,11 @@ function c4m_user_og_unsubscription_custom_callback($group_type, $gid) {
     "You can't leave the group if you are the owner. <a href=\"@link\">Transfer the ownership first.</a>",
     array('@link' => url('group/node/' . $gid . '/admin/owner'))
   );
-  drupal_set_message($message);
+  drupal_set_message($message, 'warning');
 
   $group = node_load($gid);
   $url = entity_uri($group_type, $group);
-  drupal_goto($url['path'], $url['options']);
+  drupal_goto($url['path']);
 }
 
 /**
