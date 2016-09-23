@@ -860,11 +860,13 @@ function c4m_content_project_field_default_field_instances() {
         'c4m_paragraph_partner' => -1,
         'c4m_paragraph_system_block' => 'c4m_paragraph_system_block',
         'c4m_paragraph_text' => 'c4m_paragraph_text',
+        'c4m_paragraph_twitter' => 'c4m_paragraph_twitter',
       ),
       'bundle_weights' => array(
-        'c4m_paragraph_partner' => 4,
-        'c4m_paragraph_system_block' => -6,
-        'c4m_paragraph_text' => 2,
+        'c4m_paragraph_partner' => -5,
+        'c4m_paragraph_system_block' => -8,
+        'c4m_paragraph_text' => -7,
+        'c4m_paragraph_twitter' => -6,
       ),
       'default_edit_mode' => 'preview',
       'title' => 'Component',
@@ -2121,11 +2123,13 @@ function c4m_content_project_field_default_field_instances() {
         'c4m_paragraph_partner' => -1,
         'c4m_paragraph_system_block' => 'c4m_paragraph_system_block',
         'c4m_paragraph_text' => 'c4m_paragraph_text',
+        'c4m_paragraph_twitter' => 'c4m_paragraph_twitter',
       ),
       'bundle_weights' => array(
-        'c4m_paragraph_partner' => 4,
-        'c4m_paragraph_system_block' => -6,
-        'c4m_paragraph_text' => 2,
+        'c4m_paragraph_partner' => -5,
+        'c4m_paragraph_system_block' => -8,
+        'c4m_paragraph_text' => -7,
+        'c4m_paragraph_twitter' => -6,
       ),
       'default_edit_mode' => 'preview',
       'title' => 'Component',
@@ -3038,6 +3042,235 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance:
+  // 'paragraphs_item-c4m_paragraph_twitter-c4m_twitter_hashtag'.
+  $field_instances['paragraphs_item-c4m_paragraph_twitter-c4m_twitter_hashtag'] = array(
+    'bundle' => 'c4m_paragraph_twitter',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_plain',
+        'weight' => 1,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'c4m_twitter_hashtag',
+    'label' => 'Twitter hashtag',
+    'required' => 0,
+    'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'default_html' => 'default_html',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'mail' => 'mail',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'default_html' => array(
+              'weight' => 0,
+            ),
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'mail' => array(
+              'weight' => 0,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'maxlength_js' => 0,
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 2,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'paragraphs_item-c4m_paragraph_twitter-c4m_twitter_keywords'.
+  $field_instances['paragraphs_item-c4m_paragraph_twitter-c4m_twitter_keywords'] = array(
+    'bundle' => 'c4m_paragraph_twitter',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_plain',
+        'weight' => 2,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'c4m_twitter_keywords',
+    'label' => 'Twitter keywords',
+    'required' => 0,
+    'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'default_html' => 'default_html',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'mail' => 'mail',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'default_html' => array(
+              'weight' => 0,
+            ),
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'mail' => array(
+              'weight' => 0,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'maxlength_js' => 0,
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 3,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'paragraphs_item-c4m_paragraph_twitter-c4m_twitter_username'.
+  $field_instances['paragraphs_item-c4m_paragraph_twitter-c4m_twitter_username'] = array(
+    'bundle' => 'c4m_paragraph_twitter',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_plain',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'c4m_twitter_username',
+    'label' => 'Twitter username',
+    'required' => 0,
+    'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'default_html' => 'default_html',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'mail' => 'mail',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'default_html' => array(
+              'weight' => 0,
+            ),
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'mail' => array(
+              'weight' => 0,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'maxlength_js' => 0,
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 1,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('A picture to use on the Project dashboard and Project listings');
@@ -3074,6 +3307,9 @@ function c4m_content_project_field_default_field_instances() {
   t('Title');
   t('Topics');
   t('Total budget');
+  t('Twitter hashtag');
+  t('Twitter keywords');
+  t('Twitter username');
   t('Type');
   t('URL');
   t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
