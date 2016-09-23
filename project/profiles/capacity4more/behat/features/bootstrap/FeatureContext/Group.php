@@ -561,6 +561,29 @@ trait Group {
     );
   }
 
+  /**
+   * @Then /^I should be allowed to delete a group "([^"]*)"$/
+   */
+  public function iShouldBeAllowedToDeleteAGroup($group_title) {
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+
+    return array(
+      new Step\When('I go to "/node/' . $group->nid . '/delete"'),
+      new Step\Then('I should get a "200" HTTP response'),
+    );
+  }
+
+  /**
+   * @Then /^I should not be allowed to delete a group "([^"]*)"$/
+   */
+  public function iShouldNotBeAllowedToDeleteAGroup($group_title) {
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+
+    return array(
+      new Step\When('I go to "/node/' . $group->nid . '/delete"'),
+      new Step\Then('I should get a "403" HTTP response'),
+    );
+  }
 
   /**
    * @Given /^The group "([^"]*)" status is changed by admin to "([^"]*)"$/
@@ -707,5 +730,16 @@ trait Group {
     $uri = "group/join/{$group->nid}";
 
     return new Given("I go to \"$uri\"");
+  }
+
+  /**
+   * @When /^I send an invitation to "([^"]*)"$/
+   */
+  public function iSendAnInvitationTo($email) {
+    $steps = array();
+    $steps[] = new Step\When('I fill in "invitee" with "' . $email . '"');
+    $steps[] = new Step\When('I press "Invite user(s)"');
+
+    return $steps;
   }
 }

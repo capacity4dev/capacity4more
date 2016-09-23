@@ -66,6 +66,18 @@ Feature: Test homepage content and blocks
     Then  I should see "Suggested Groups"
 
   @api
+  Scenario: Anonymous user should see "Featured projects" block
+    Given I am an anonymous user
+    When  I visit the site homepage
+    Then  I should see "Featured projects"
+
+  @api
+  Scenario: Logged in, member user should see "Featured projects" block
+    Given I am logged in as user "mariecurie"
+    When  I visit the site homepage
+    Then  I should see "Featured projects"
+
+  @api
   Scenario: Anonymous user should see only one "Upcoming event"
     Given I am an anonymous user
     When  I visit the site homepage
@@ -130,6 +142,14 @@ Feature: Test homepage content and blocks
     And   I should not see "posted an Article" in the "div.activity-stream" element
 
   @javascript
+  Scenario: Logged in user can't see article activities when My Projects filter is chosen.
+    Given I am logged in as user "mariecurie"
+    When  I visit the site homepage
+    And   I select the radio button "My projects" with the id "edit-homepage-filter-projects"
+    And   I should wait not to see "created a new Article" in the "div.activity-stream" element
+    And   I should not see "updated the Article" in the "div.activity-stream" element
+
+  @javascript
   Scenario: Logged in, non member user can't see My group filter and restricted
   group activities
     Given I am logged in as user "president"
@@ -140,14 +160,14 @@ Feature: Test homepage content and blocks
     And   I load more activities
     And   I should see "posted" in the "div.activity-stream" element
 
-  @javascript
+  @javascript @wip
   Scenario: Logged in, non member user should see only activities from groups of
   interests when filter is set to My interests
     Given I am logged in as user "president"
     When  I visit the site homepage
     And   I select the radio button "My interests" with the id "edit-homepage-filter-interests"
     Then  I should wait not to see "Lusail City" in the "div.activity-stream" element
-    And   I load more activities
+    And   I load all activities
     And   I should see "Article" in the "div.activity-stream" element
 
   @javascript

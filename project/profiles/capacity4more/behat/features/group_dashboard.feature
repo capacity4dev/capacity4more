@@ -48,6 +48,7 @@ Feature: Group dashboard
     And   I click "Join this group"
     And   I click "Invite a member"
     Then  I should see the text "Invite People to Join"
+    And   I should not see the text "Manage all group memberships"
 
   @api
   Scenario: Check Invite a member link is not available for a member of a private group.
@@ -62,11 +63,19 @@ Feature: Group dashboard
     Then  I should not see the link "Invite a member"
 
   @api
+  Scenario: Check notifications toggle link is not available for a non-member of a group.
+    Given I am logged in as user "president"
+    When  I visit the dashboard of group "Movie Popcorn Corner"
+    Then  I should not see the link "Enable notifications"
+    And   I should not see the link "Disable notifications"
+
+  @api
   Scenario: Check Invite a member link is available for an administrator of a private group.
     Given I am logged in as user "alfrednobel"
     When  I visit the dashboard of group "Tennis Group"
     And   I click "Invite a member"
     Then  I should see the text "Invite People to Join"
+    And   I should see the text "Manage all group memberships"
 
   @api
   Scenario: Check Invite a member link is available for a site administrator who is a non-member of a private group.
@@ -74,3 +83,4 @@ Feature: Group dashboard
     When  I visit the dashboard of group "Architecture"
     And   I click "Invite a member"
     Then  I should see the text "Invite People to Join"
+    And   I should see the text "Manage all group memberships"

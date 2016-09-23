@@ -14,6 +14,8 @@ abstract class C4mDemoContentCreateEntity extends Migration {
    *
    * If the entity-type is "taxonomy_term", determine of the term should
    * be assigned to a vocabulary owned by OG-vocab.
+   *
+   * @var array
    */
   public $ogVocab = FALSE;
 

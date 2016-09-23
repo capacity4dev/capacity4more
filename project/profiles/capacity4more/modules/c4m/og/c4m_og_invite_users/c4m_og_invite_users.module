@@ -15,6 +15,103 @@ function c4m_og_invite_users_menu_alter(&$items) {
   $items['group/%/%/admin/people/invite-users']['access callback'] = 'c4m_og_invite_users_access';
   $items['group/%/%/admin/people/invite-users/%user']['access callback'] = 'c4m_og_invite_users_access';
   $items['group/%/%/admin/people/invite-users/autocomplete']['access callback'] = 'c4m_og_invite_users_access';
+  $items['group/%/%/admin/people/invite-users/answer/%']['access callback'] = 'c4m_og_invite_users_answer_access';
+  $items['group/%/%/admin/people/invite-users/answer/%']['access arguments'] = array(7);
+  $items['group/%/%/admin/people/invite-users/answer/%']['page callback'] = '_c4m_og_invite_users_answer';
+  $items['group/%/%/admin/people/invite-users/answer/%']['page arguments'] = array(2, 7);
+}
+
+/**
+ * Log in the invited user and load the answer-invitation form.
+ *
+ * @param int $gid
+ *   Group ID of the invitation.
+ * @param string $hash
+ *   Invitation hash to verify the invitee identity.
+ *
+ * @return array
+ *   The answer-invitation form array.
+ */
+function _c4m_og_invite_users_answer($gid, $hash) {
+  if (!user_is_logged_in()) {
+    $membership = c4m_og_invite_users_get_membership_from_hash($hash);
+
+    // Log in the invited user.
+    $account = array('uid' => $membership->etid);
+    user_login_submit(array(), $account);
+  }
+
+  // Load the answer form.
+  return _og_invite_answer('node', $gid, $hash);
+}
+
+/**
+ * Load a group membership based on an invitation token only.
+ *
+ * Does not require the user to be logged in.
+ *
+ * @param string $hash
+ *   The invitation hash.
+ *
+ * @return bool|\OgMembership
+ *   The membership object of FALSE on failure,
+ */
+function c4m_og_invite_users_get_membership_from_hash($hash) {
+  $result = &drupal_static(__FUNCTION__ . $hash, array());
+
+  if (isset($result['ogm'])) {
+    return $result['ogm'];
+  }
+
+  $result['ogm'] = FALSE;
+  $select = db_select('og_membership', 'ogm')
+    ->fields('ogm', array('id'))
+    ->where('SHA1(CONCAT(state, group_type, gid, entity_type, etid, created)) = :hash', array(':hash' => $hash))
+    ->condition('entity_type', 'user');
+  $ogmid = $select->execute()->fetchField();
+
+  if (!empty($ogmid)) {
+    $result['ogm'] = og_membership_load($ogmid);
+  }
+
+  return $result['ogm'];
+}
+
+/**
+ * For answering a group invitation, check the right user is logged in.
+ *
+ * Deny access if another user is logged in or if the invitation could not be
+ * loaded.
+ *
+ * @param string $hash
+ *   The invitation hash, used to load the membership.
+ *
+ * @return bool
+ *   Allow or forbid the user to answer the invitation.
+ */
+function c4m_og_invite_users_answer_access($hash) {
+  global $user;
+
+  $membership = c4m_og_invite_users_get_membership_from_hash($hash);
+
+  // Could not get the membership based on the hash. Cannot proceed.
+  if (!$membership) {
+    drupal_set_message('The requested group invitation was not found or has expired.', 'error');
+
+    return FALSE;
+  }
+
+  if (user_is_logged_in()) {
+
+    // A different user is logged in. Cannot proceed.
+    if ($membership->etid != $user->uid) {
+      drupal_set_message('Another user is logged in. Please log out and try again.', 'error');
+
+      return FALSE;
+    }
+  }
+
+  return TRUE;
 }
 
 /**
@@ -41,7 +138,7 @@ function c4m_og_invite_users_access($group_type, $gid) {
   }
 
   // Get request type (open/moderated).
-  $group = entity_load_single($group_type, $gid);
+  $group = node_load($gid);
   $group_request_membership_value = c4m_og_get_group_membership_request($group);
 
   return $group_request_membership_value == 'open' && og_user_access('node', $gid, 'invite any user');
@@ -91,7 +188,7 @@ function c4m_og_invite_users_mail_tokens(array &$replacements, array $data, $opt
   $answer_link = url(og_invite_answer_path_by_hash($data['group']->type, $data['group']->nid, $hash, 'answer'));
   $answer_link = str_replace("/group/group/", "/group/node/", $answer_link);
 
-  $replacements['[personal:subject]'] = 'Invitation to join the ' . $data['group']->type . ' ' . $data['group']->title;
+  $replacements['[personal:subject]'] = $data['subject'];
   $replacements['[user:member]'] = c4m_user_name($data['inviter']);
 
   // Make the full name lowercase and replace anything except a-z, 1-9  with
@@ -107,4 +204,109 @@ function c4m_og_invite_users_mail_tokens(array &$replacements, array $data, $opt
   $replacements['[personal:body]'] = $data['message'];
   $replacements['[group:accept_invite_url]'] = $answer_link;
   $replacements['[site:name]'] = variable_get('site_name', 'Capacity 4 More');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Adding a link to the people overview page for admins.
+ * Add a subject field to the invitation form.
+ */
+function c4m_og_invite_users_form__og_invite_form_alter(&$form, &$form_state, $form_id) {
+  $form['manage_group_people'] = array(
+    '#type' => 'link',
+    '#href' => str_replace('/invite-users', '', $_GET['q']),
+    '#title' => 'Manage all group memberships',
+    '#access' => _c4m_features_og_members_is_power_user(),
+  );
+
+  $form['subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subject'),
+    '#weight' => 10,
+  );
+  // Adding some space between the mange group people link and the subject.
+  drupal_add_css('.form-item-subject { margin-top: 40px !important; }', 'inline');
+
+  $form['message']['#weight'] = 20;
+  $form['#submit'][0] = 'c4m_og_invite_users_form_submit';
+}
+
+/**
+ * Invitation form submit callback.
+ *
+ * Loops through the list of invited users and sends an invitation to each one.
+ */
+function c4m_og_invite_users_form_submit($form, &$form_state) {
+  $gid = $form_state['values']['gid'];
+  $message = check_plain($form_state['values']['message']);
+  $subject = check_plain($form_state['values']['subject']);
+  $invitees = explode(',', str_replace(', ', ',', $form_state['values']['invitee']));
+
+  $entity = node_load($gid);
+  $label = entity_label('node', $entity);
+  $field_name = key(og_get_group_audience_fields());
+  foreach ($invitees as $invitee) {
+    if (empty($invitee)) {
+      continue;
+    }
+    // The autocomplete inputs the user as 'username [#id]'. Split name and #ID.
+    list($name, $uid) = explode('||', preg_replace('#^(.*)\s\[([0-9]+)\]$#', '$1||$2', $invitee));
+
+    c4m_og_invite_users_invite($gid, $field_name, $uid, $message, $subject);
+
+    drupal_set_message(t('<em>@user</em> has been invited to the group <em>@label</em>.', array('@user' => $name, '@label' => $label)));
+    $form_state['redirect'] = 'group/node/' . $gid . '/admin/people/invite-users';
+  }
+}
+
+/**
+ * Send an invitation to an user.
+ *
+ * Saves a pending membership and sends an email to the invited user with a
+ * link to the page where he/she can choose to accept/decline the invitation.
+ */
+function c4m_og_invite_users_invite($gid, $field_name, $invitee_uid, $message = '', $subject = '', $inviter = NULL) {
+  if (!$inviter) {
+    global $user;
+    $inviter = $user;
+  }
+  $invitee = user_load($invitee_uid);
+  $group = node_load($gid);
+  // If no subject was passed, use this default format.
+  if (!$subject) {
+    $subject = t('Invitation to join the @groupType @groupTitle', array(
+      '@groupType' => $group->type,
+      '@groupTitle' => $group->title,
+    ));
+  }
+
+  // Populate values array to say membership was created via invite.
+  $values = array(
+    OG_INVITE_MEMBERSHIP_FIELD => TRUE,
+    OG_MEMBERSHIP_REQUEST_FIELD => t('Invited by @name', array('@name' => format_username($inviter))),
+  );
+
+  // Add group membership form.
+  $og_membership = og_membership_create('node', $gid, 'user', $invitee->uid, $field_name, $values);
+  $og_membership->state = OG_STATE_PENDING;
+  $og_membership->save();
+
+  $hash = og_invite_generate_hash($og_membership);
+
+  // Send an invitation message.
+  $params = array(
+    'inviter' => $inviter,
+    'invitee' => $invitee,
+    'group_type' => 'node',
+    'group' => $group,
+    'hash' => $hash,
+    'message' => $message,
+    'subject' => $subject,
+  );
+
+  // Send the invitation by mail.
+  drupal_mail('og_invite', 'send_invitation', $invitee->mail, $invitee->language, $params);
+
+  return TRUE;
 }

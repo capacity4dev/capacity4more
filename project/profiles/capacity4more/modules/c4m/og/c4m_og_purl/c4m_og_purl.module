@@ -27,6 +27,9 @@ function c4m_og_purl_init() {
   }
 
   if ($item['path'] == 'node/%') {
+    if (!isset($item['map'][1])) {
+      return;
+    }
     // We are not in node view.
     $node = $item['map'][1];
 
