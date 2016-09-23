@@ -38,11 +38,11 @@ function c4m_features_overview_projects_context_default_contexts() {
           'region' => 'content_above',
           'weight' => '-9',
         ),
-        'c4m_search_filter-search_filter_interests' => array(
+        'c4m_search_filter-search_filter_projects_overview' => array(
           'module' => 'c4m_search_filter',
-          'delta' => 'search_filter_interests',
+          'delta' => 'search_filter_projects_overview',
           'region' => 'content_above',
-          'weight' => '-7',
+          'weight' => '-8',
         ),
         'c4m_content_project-c4m_block_create_project' => array(
           'module' => 'c4m_content_project',
@@ -77,6 +77,12 @@ function c4m_features_overview_projects_context_default_contexts() {
         'facetapi-JQeEQzhfJJBhHcXpX4531H7GTXL1viNU' => array(
           'module' => 'facetapi',
           'delta' => 'JQeEQzhfJJBhHcXpX4531H7GTXL1viNU',
+          'region' => 'sidebar_first',
+          'weight' => '-6',
+        ),
+        'facetapi-OK4Vyc0ny8QpANDSYVhonW7ExFGaGeb5' => array(
+          'module' => 'facetapi',
+          'delta' => 'OK4Vyc0ny8QpANDSYVhonW7ExFGaGeb5',
           'region' => 'sidebar_first',
           'weight' => '-6',
         ),
