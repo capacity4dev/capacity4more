@@ -56,23 +56,29 @@ function c4m_features_overview_projects_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-10',
         ),
-        'facetapi-0fu22cwdXHTX0SCpBBcEbOR77Jm1IfBp' => array(
+        'facetapi-S9qne31IKDd1jhPm8FHFcpVq9mtX65DM' => array(
           'module' => 'facetapi',
-          'delta' => '0fu22cwdXHTX0SCpBBcEbOR77Jm1IfBp',
+          'delta' => 'S9qne31IKDd1jhPm8FHFcpVq9mtX65DM',
           'region' => 'sidebar_first',
           'weight' => '-9',
+        ),
+        'facetapi-OK4Vyc0ny8QpANDSYVhonW7ExFGaGeb5' => array(
+          'module' => 'facetapi',
+          'delta' => 'OK4Vyc0ny8QpANDSYVhonW7ExFGaGeb5',
+          'region' => 'sidebar_first',
+          'weight' => '-8',
         ),
         'facetapi-SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E' => array(
           'module' => 'facetapi',
           'delta' => 'SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E',
           'region' => 'sidebar_first',
-          'weight' => '-8',
+          'weight' => '-7',
         ),
         'facetapi-JQeEQzhfJJBhHcXpX4531H7GTXL1viNU' => array(
           'module' => 'facetapi',
           'delta' => 'JQeEQzhfJJBhHcXpX4531H7GTXL1viNU',
           'region' => 'sidebar_first',
-          'weight' => '-7',
+          'weight' => '-6',
         ),
       ),
     ),
