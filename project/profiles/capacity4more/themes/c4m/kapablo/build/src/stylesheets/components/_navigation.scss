@@ -64,6 +64,12 @@
   @include box-shadow(inset 20px -1px 48px -27px rgba(0,0,0,0.75));
 }
 
+.offCanvasNavigation--visible {
+  .page-content {
+    overflow-x: visible;
+  }
+}
+
 .offCanvasNavigation--left {
   left: 0;
 }

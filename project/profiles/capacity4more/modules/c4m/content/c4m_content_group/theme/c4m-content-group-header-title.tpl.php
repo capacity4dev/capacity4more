@@ -15,60 +15,63 @@
 <?php endif; ?>
 
 <div class="group-indications">
-
   <div class="group-indications--access">
     <?php if ($group_access): ?>
       <i class="top-buffer group-icon group-<?php print $group_access; ?> node-icon as-group-<?php print $group_access; ?>"></i>
       <span class="top-buffer indication label label-access <?php print $group_access; ?> group-access">
-    <?php print $group_access; ?>
-  </span>
+        <?php print $group_access; ?>
+      </span>
     <?php endif; ?>
 
-
-    <?php if ($organisations): ?>
-      <?php if ($organisation_icons): ?>
-        <div class="restricted-organisation-icons">
-          <?php foreach ($organisation_icons as $organisation_icon) : ?>
+    <?php if (count($organisations) || count($emails)): ?>
+      <div class="restricted-organisation-icons">
+        <?php if ($organisation_icons): ?>
+          <?php foreach ($organisation_icons as $organisation_icon): ?>
             <span class="restricted-organisation-icon">
-            <?php print $organisation_icon; ?>
-          </span>
+              <?php print $organisation_icon; ?>
+            </span>
           <?php endforeach; ?>
+        <?php endif; ?>
 
-          <?php if ($organisation_ellipsis): ?>
-            <span class="group-organisation--more" data-toggle="collapse" data-target="#group-organisations" >
-                <span></span>
-                <span></span>
-                <span></span>
+        <?php if (count($emails) || count($organisations) > 3): ?>
+          <span class="group-organisation--more" data-toggle="collapse" data-target="#group-organisations">
+            <span></span>
+            <span></span>
+            <span></span>
           </span>
-          <?php endif; ?>
-        </div>
-      <?php endif; ?>
+        <?php endif; ?>
+      </div>
 
       <div class="restricted-extra-wrapper collapse" id="group-organisations">
-      <span class="extra-wrapper-close" data-toggle="collapse" data-target="#group-organisations">
-        <span class="extra-wrapper-close-background"></span>
-        <span class="extra-wrapper-close-bullet"></span>
-        <span class="extra-wrapper-close-bullet"></span>
-        <span class="extra-wrapper-close-bullet"></span>
-      </span>
+        <span class="extra-wrapper-close" data-toggle="collapse" data-target="#group-organisations">
+          <span class="extra-wrapper-close-background"></span>
+          <span class="extra-wrapper-close-bullet"></span>
+          <span class="extra-wrapper-close-bullet"></span>
+          <span class="extra-wrapper-close-bullet"></span>
+        </span>
 
-        <div class="restricted-organisations">
-          <ul>
-            <?php foreach ($organisations as $organisation) : ?>
-              <li><?php print $organisation; ?></li>
-            <?php endforeach; ?>
-          </ul>
-        </div>
-        <div class="restricted-emails">
-          <ul>
-            <?php foreach ($emails as $email) : ?>
-              <li><?php print $email; ?></li>
-            <?php endforeach; ?>
-          </ul>
-        </div>
+        <?php if (count($organisations)): ?>
+          <div class="restricted-organisations">
+            <ul>
+              <?php foreach ($organisations as $organisation): ?>
+                <li><?php print $organisation; ?></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        <?php endif; ?>
+        <?php if (count($emails)): ?>
+          <div class="restricted-emails">
+            <ul>
+              <?php foreach ($emails as $email): ?>
+                <li><?php print $email; ?></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        <?php endif; ?>
       </div>
     <?php endif; ?>
   </div>
+
   <?php if ($group_type): ?>
     <span class="top-buffer indication label label-default group-type"><?php print $group_type; ?></span><?php
   endif; ?><?php if ($group_status): ?><span class="top-buffer indication label label-default group-status"><?php print $group_status; ?></span>

@@ -103,7 +103,7 @@ function c4m_user_profile_remove_account_form($form, $form_state, $account) {
 
   $form['anonymize'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Do you want to anonymize your content?'),
+    '#title' => t('I no longer want my name to appear on contents I have contributed - please make all my content anonymous.'),
   );
 
   $form['feedback'] = array(
@@ -123,7 +123,7 @@ function c4m_user_profile_remove_account_form($form, $form_state, $account) {
  */
 function c4m_user_profile_remove_account_form_submit($form, &$form_state) {
   $values = $form_state['values'];
-  $account = $form['#account'];
+  $account = $values['_account'];
   $account->c4m_is_deleted[LANGUAGE_NONE][]['#value'] = 1;
 
   if ($values['anonymize']) {
@@ -133,9 +133,14 @@ function c4m_user_profile_remove_account_form_submit($form, &$form_state) {
     // to the anonymous user.
     $values['user_cancel_method'] = 'user_block_reassign';
   }
-  $gids = c4m_og_get_user_group_nodes_by_bundle(NULL, $account);
-  foreach ($gids as $gid) {
-    og_ungroup('node', $gid, 'user', $account->uid);
+
+  $gids = c4m_og_get_user_group_ids_by_bundle(NULL, $account);
+
+  if (!empty($gids)) {
+    // Remove all memberships of the user.
+    foreach ($gids as $gid) {
+      og_ungroup('node', $gid, 'user', $account->uid);
+    }
   }
 
   user_save($account);

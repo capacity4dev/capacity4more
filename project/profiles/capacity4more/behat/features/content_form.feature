@@ -12,3 +12,9 @@ Feature: Content Forms
     Given I am logged in as user "alfrednobel"
      When I visit the page "node/add/event" in the group "Nobel Prize"
      Then I should see "Save as draft" in the "#edit-draft" element
+
+  @api
+  Scenario: Check unpublish button on node edit forms as an authenticated user
+    Given I am logged in as user "alfrednobel"
+    When  I start editing "Nobel Prize" node
+    Then  I should not see "Unpublish" in the "#edit-actions" element

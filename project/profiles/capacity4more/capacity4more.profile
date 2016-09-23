@@ -86,7 +86,7 @@ function capacity4more_setup_set_variables(&$install_state) {
     'theme_default' => 'kapablo',
     'admin_theme' => 'seven',
     'node_admin_theme' => 0,
-    'jquery_update_jquery_version' => '2.1',
+    'jquery_update_jquery_version' => '1.8',
     'jquery_update_jquery_admin_version' => '2.1',
     'page_manager_node_view_disabled' => FALSE,
     'page_manager_term_view_disabled' => FALSE,
@@ -119,6 +119,8 @@ function capacity4more_setup_set_permissions(&$install_state) {
     'delete own group content',
     'create new books',
     'add content to books',
+    'create files',
+    'view own files',
   );
 
   $content_types = array(
@@ -149,7 +151,10 @@ function capacity4more_setup_set_og_permissions() {
     'photoalbum',
   );
 
-  $permissions = array();
+  $permissions = array(
+    'invite visitors',
+    'invite any user',
+  );
   foreach ($content_types as $content_type) {
     $permissions = array_merge($permissions, array(
       "create $content_type content",
@@ -167,7 +172,10 @@ function capacity4more_setup_set_og_permissions() {
     'wiki_page',
   );
 
-  $permissions = array();
+  $permissions = array(
+    'invite visitors',
+    'invite any user',
+  );
   foreach ($content_types as $content_type) {
     $permissions = array_merge($permissions, array(
       "create $content_type content",

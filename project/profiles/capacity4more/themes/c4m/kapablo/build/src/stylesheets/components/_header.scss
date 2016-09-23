@@ -100,9 +100,13 @@
   }
 }
 
-#c4m-search-redirect-form input {
-  padding-right: 3rem;
-  width: 100%;
+#c4m-search-redirect-form {
+  margin-bottom: 1em;
+
+  input {
+    padding-right: 3rem;
+    width: 100%;
+  }
 }
 
 #c4m-search-form, #c4m-search-redirect-form, #c4m-search-redirect-form--2 {
@@ -138,8 +142,9 @@
 
   ol {
     background: none;
-    margin: 0 0 0 6rem;
-    padding: 1rem;
+    margin: 1rem 0;
+    padding: 0;
+
 
     li {
       @extend .text-small;
@@ -261,7 +266,6 @@
   }
 }
 
-
 .header-actions {
   float: right;
 
@@ -298,8 +302,8 @@
   top: 50%;
   left: 50%;
 
-  transform: translate(-50%,-50%);
-  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
 }
 
 .header-actions--search {

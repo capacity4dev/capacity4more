@@ -736,6 +736,7 @@ function c4m_content_topic_field_default_field_instances() {
         'module' => 'c4m_content_topic',
         'settings' => array(
           'display' => 'all',
+          'exclude_top_parent' => 1,
           'link' => 1,
           'separator' => ' - ',
           'wrap' => 'none',
