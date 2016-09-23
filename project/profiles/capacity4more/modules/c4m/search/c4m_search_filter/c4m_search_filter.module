@@ -99,6 +99,33 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
       $query->filter($filter);
       break;
 
+    case 'projects':
+      // Get projects.
+      $groups = og_get_groups_by_user();
+      if (isset($groups['node'])) {
+        $groups = $groups['node'];
+      }
+      else {
+        return;
+      }
+
+      // Create filter.
+      $filter = $query->createFilter('OR');
+
+      // Filter on projects.
+      foreach ($groups as $group) {
+        if (0 === strpos(current_path(), 'projects', 0)) {
+          $filter->condition('nid', $group);
+        }
+        else {
+          $filter->condition('og_group_ref', $group);
+        }
+      }
+
+      // Apply filter.
+      $query->filter($filter);
+      break;
+
     case 'interests':
       // Get user object.
       $user_wrapper = entity_metadata_wrapper('user', $user->uid);
