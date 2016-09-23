@@ -8,7 +8,7 @@
 /**
  * Callback for Twitter widget.
  */
-function _c4m_ds_field_twitter_widget($field) {
+function _c4m_content_project_field_twitter_ds_widget($field) {
   $entity = $field['entity'];
   $entity = entity_metadata_wrapper('paragraphs_item', $entity);
 

@@ -30,6 +30,7 @@ features[ds_field_settings][] = node|project|block_list
 features[ds_field_settings][] = paragraphs_item|c4m_paragraph_map|default
 features[ds_field_settings][] = paragraphs_item|c4m_paragraph_system_block|default
 features[ds_field_settings][] = paragraphs_item|c4m_paragraph_text|default
+features[ds_field_settings][] = paragraphs_item|c4m_paragraph_twitter|default
 features[ds_layout_settings][] = node|project|block_list
 features[ds_layout_settings][] = node|project|group_dashboard
 features[ds_layout_settings][] = paragraphs_item|c4m_paragraph_map|default

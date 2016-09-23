@@ -130,6 +130,26 @@ function c4m_content_project_ds_field_settings_info() {
   );
   $export['paragraphs_item|c4m_paragraph_text|default'] = $ds_fieldsetting;
 
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'paragraphs_item|c4m_paragraph_twitter|default';
+  $ds_fieldsetting->entity_type = 'paragraphs_item';
+  $ds_fieldsetting->bundle = 'c4m_paragraph_twitter';
+  $ds_fieldsetting->view_mode = 'default';
+  $ds_fieldsetting->settings = array(
+    'c4m_ds_field_twitter_widget' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+  );
+  $export['paragraphs_item|c4m_paragraph_twitter|default'] = $ds_fieldsetting;
+
   return $export;
 }
 

@@ -360,9 +360,9 @@ function c4m_content_project_ds_fields_info($entity_type) {
     $fields['c4m_ds_field_twitter_widget'] = array(
       'title' => t('Twitter widget'),
       'field_type' => DS_FIELD_TYPE_FUNCTION,
-      'ui_limit' => array('*|*'),
+      'ui_limit' => array('c4m_paragraph_twitter|*'),
       'file' => $path . '/c4m_content_project.ds_fields.inc',
-      'function' => '_c4m_ds_field_twitter_widget',
+      'function' => '_c4m_content_project_field_twitter_ds_widget',
     );
   }
 
