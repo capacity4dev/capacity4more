@@ -2,26 +2,26 @@
 
 /**
  * @file
- * C4M Admin Groups administration pages functionality.
+ * C4M Admin Projects administration pages functionality.
  */
 
 /**
- * Page callback for /admin/c4m/groups/export.
+ * Page callback for /admin/c4m/projects/export.
  */
-function c4m_admin_groups_groups_export_page() {
+function c4m_admin_projects_projects_export_page() {
   $output = '';
 
   // Get views view settings.
-  $view = views_get_view('c4m_admin_groups_export');
-  $view_display = $view->display['groups_export'];
+  $view = views_get_view('c4m_admin_projects_export');
+  $view_display = $view->display['projects_export'];
   $view_display_options = $view_display->display_options;
 
   // Permanent file path (if the file can be found).
   $permanent_file_path = $view_display_options['style_options']['file_path'];
   if (file_exists($permanent_file_path)) {
-    $date = _c4m_admin_groups_get_group_report_last_generated_date();
+    $date = _c4m_admin_projects_get_project_report_last_generated_date();
 
-    $output .= t('<p>Groups export file was last generated on @date.</p>', array('@date' => $date));
+    $output .= t('<p>Projects export file was last generated on @date.</p>', array('@date' => $date));
 
     $permanent_file_path = file_create_url($permanent_file_path);
     $output .= l(t('Download report'), $permanent_file_path, array('attributes' => array('id' => 'edit-cancel')));
@@ -34,13 +34,13 @@ function c4m_admin_groups_groups_export_page() {
 }
 
 /**
- * Returns the time & date when the groups export file was last generated.
+ * Returns the time & date when the projects export file was last generated.
  *
  * @return string
  *   Date & time.
  */
-function _c4m_admin_groups_get_group_report_last_generated_date() {
-  $timestamp = db_query("SELECT time_stamp FROM views_data_export WHERE view_name = 'c4m_admin_groups_export' AND view_display_id = 'groups_export' ORDER BY time_stamp DESC LIMIT 0, 1")->fetchCol();
+function _c4m_admin_projects_get_project_report_last_generated_date() {
+  $timestamp = db_query("SELECT time_stamp FROM views_data_export WHERE view_name = 'c4m_admin_projects_export' AND view_display_id = 'projects_export' ORDER BY time_stamp DESC LIMIT 0, 1")->fetchCol();
   if (!$timestamp) {
     return t('Never');
   }

@@ -70,6 +70,11 @@ function c4m_content_project_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'c4m_paragraph_system_block';
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
+    'c4m_system_block_renderer' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_heading' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -225,12 +230,12 @@ function c4m_content_project_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'c4m_heading',
-        1 => 'c4m_block',
+        1 => 'c4m_system_block_renderer',
       ),
     ),
     'fields' => array(
       'c4m_heading' => 'ds_content',
-      'c4m_block' => 'ds_content',
+      'c4m_system_block_renderer' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
