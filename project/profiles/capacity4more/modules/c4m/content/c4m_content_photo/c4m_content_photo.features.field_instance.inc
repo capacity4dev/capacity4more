@@ -105,15 +105,36 @@ function c4m_content_photo_field_default_field_instances() {
     'display' => array(
       'activity_global' => array(
         'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
+        'module' => 'smart_trim',
+        'settings' => array(
+          'more_link' => FALSE,
+          'more_text' => 'Read more',
+          'summary_handler' => 'full',
+          'trim_length' => 300,
+          'trim_link' => FALSE,
+          'trim_options' => array(),
+          'trim_preserve_tags' => '',
+          'trim_suffix' => '...',
+          'trim_type' => 'chars',
+        ),
+        'type' => 'smart_trim_format',
         'weight' => 27,
       ),
       'activity_group' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'label' => 'hidden',
+        'module' => 'smart_trim',
+        'settings' => array(
+          'more_link' => FALSE,
+          'more_text' => 'Read more',
+          'summary_handler' => 'full',
+          'trim_length' => 300,
+          'trim_link' => FALSE,
+          'trim_options' => array(),
+          'trim_preserve_tags' => '',
+          'trim_suffix' => '...',
+          'trim_type' => 'chars',
+        ),
+        'type' => 'smart_trim_format',
         'weight' => 22,
       ),
       'c4m_related' => array(
@@ -153,6 +174,12 @@ function c4m_content_photo_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -287,6 +314,12 @@ function c4m_content_photo_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
+      ),
       'teaser' => array(
         'label' => 'above',
         'module' => 'c4m_field_media',
@@ -408,6 +441,12 @@ function c4m_content_photo_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 18,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -497,6 +536,12 @@ function c4m_content_photo_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 26,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -595,6 +640,12 @@ function c4m_content_photo_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'inline',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -617,6 +668,7 @@ function c4m_content_photo_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'node_gallery_ref_1',
     'label' => 'Galleries',
+    'required' => FALSE,
     'settings' => array(
       'behaviors' => array(
         'prepopulate' => array(
@@ -689,6 +741,12 @@ function c4m_content_photo_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 27,
       ),
       'teaser' => array(
         'label' => 'above',

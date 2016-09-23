@@ -57,5 +57,5 @@ Feature: Group access
     When I visit "node/add/group"
     Then I should not see an ".field-name-c4m-related-projects" element
     And I should not see an ".field-name-c4m-related-group" element
-    And I should not see an ".field-name-c4m-og-status" element
+    And I should not see an ".node-form .field-name-c4m-og-status" element
     And I should not see an ".tabbable.tabs-left.vertical-tabs" element

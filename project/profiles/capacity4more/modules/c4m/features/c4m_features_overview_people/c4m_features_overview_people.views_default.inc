@@ -143,7 +143,7 @@ function c4m_features_overview_people_views_default_views() {
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
   $handler->display->display_options['header']['result']['field'] = 'result';
-  $handler->display->display_options['header']['result']['content'] = '@total members';
+  $handler->display->display_options['header']['result']['content'] = '<span class="total-items">@total members</span>';
   /* Field: User: Rendered User */
   $handler->display->display_options['fields']['rendered_entity']['id'] = 'rendered_entity';
   $handler->display->display_options['fields']['rendered_entity']['table'] = 'views_entity_user';

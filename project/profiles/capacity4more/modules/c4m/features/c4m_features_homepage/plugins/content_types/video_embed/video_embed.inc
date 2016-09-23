@@ -57,11 +57,15 @@ function c4m_features_homepage_video_embed_content_type_render($subtype, $conf, 
   $path = drupal_get_path('module', 'c4m_features_homepage_intro');
   drupal_add_js($path . '/js/video_overlay.js');
 
+  $renderable_cta = c4m_features_homepage_node_creation_button_cta('group');
+  $cta = drupal_render($renderable_cta);
+
   $variables = array(
     'video_thumbnail' => theme('image', $video_thumb),
     'video_title' => $video_title,
     'video_description' => $video_description,
     'video_embed' => $video_embed,
+    'cta' => $cta,
   );
 
   $block = new stdClass();
@@ -100,6 +104,7 @@ function c4m_features_homepage_video_embed_content_type_edit_form($form, &$form_
     '#required' => 1,
     '#description' => t('Provide the "Share" url of the video you want to embed.'),
   );
+
   return $form;
 }
 
@@ -122,6 +127,7 @@ function c4m_features_homepage_video_embed_content_type_theme(&$theme, $plugin) 
       'video_title' => NULL,
       'video_description' => NULL,
       'video_embed' => NULL,
+      'cta' => NULL,
     ),
     'path' => $plugin['path'],
     'template' => 'video-embed',

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_wiki_page.strongarm.inc
@@ -9,24 +10,6 @@
  */
 function c4m_content_wiki_page_strongarm() {
   $export = array();
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'book_allowed_types';
-  $strongarm->value = array(
-    0 => 'group',
-    1 => 'project',
-    2 => 'wiki_page',
-  );
-  $export['book_allowed_types'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'book_child_type';
-  $strongarm->value = 'wiki_page';
-  $export['book_child_type'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -166,6 +149,12 @@ function c4m_content_wiki_page_strongarm() {
       'block_list' => array(
         'custom_settings' => TRUE,
       ),
+      'pinned_content' => array(
+        'custom_settings' => TRUE,
+      ),
+      'group_dashboard' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -208,6 +197,10 @@ function c4m_content_wiki_page_strongarm() {
           'block_list' => array(
             'weight' => '10',
             'visible' => FALSE,
+          ),
+          'pinned_content' => array(
+            'weight' => '1',
+            'visible' => TRUE,
           ),
         ),
       ),
