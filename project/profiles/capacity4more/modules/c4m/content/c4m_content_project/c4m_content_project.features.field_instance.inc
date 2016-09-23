@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_project.features.field_instance.inc
@@ -522,7 +523,7 @@ function c4m_content_project_field_default_field_instances() {
   $field_instances['node-project-c4m_date_end'] = array(
     'bundle' => 'project',
     'deleted' => 0,
-    'description' => 'Start + End date of the Project.',
+    'description' => 'Start + End date.',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -653,7 +654,7 @@ function c4m_content_project_field_default_field_instances() {
     'bundle' => 'project',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Names of organisations & companies who implement the project.',
+    'description' => 'Names of the implementing organisations & companies.',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -1465,7 +1466,7 @@ function c4m_content_project_field_default_field_instances() {
     'bundle' => 'project',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Names of the partners (stakeholders) organisations & companies.',
     'display' => array(
       'block_list' => array(
         'label' => 'above',
@@ -1563,7 +1564,7 @@ function c4m_content_project_field_default_field_instances() {
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_project_geodata',
-    'label' => 'Project geodata',
+    'label' => 'Geodata',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -1638,7 +1639,7 @@ function c4m_content_project_field_default_field_instances() {
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_project_stage',
-    'label' => 'Project stage',
+    'label' => 'Stage',
     'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -1688,7 +1689,7 @@ function c4m_content_project_field_default_field_instances() {
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_project_stakeholders',
-    'label' => 'Project stakeholders',
+    'label' => 'Stakeholders',
     'required' => 0,
     'settings' => array(
       'better_formats' => array(
@@ -1773,7 +1774,7 @@ function c4m_content_project_field_default_field_instances() {
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_project_tag_line',
-    'label' => 'Project tag line',
+    'label' => 'Tag line',
     'required' => 0,
     'settings' => array(
       'better_formats' => array(
@@ -1862,7 +1863,7 @@ function c4m_content_project_field_default_field_instances() {
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_project_type',
-    'label' => 'Project type',
+    'label' => 'Type',
     'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -1912,7 +1913,7 @@ function c4m_content_project_field_default_field_instances() {
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_project_url',
-    'label' => 'Project url',
+    'label' => 'URL',
     'required' => 0,
     'settings' => array(
       'absolute_url' => 1,
@@ -2039,7 +2040,7 @@ function c4m_content_project_field_default_field_instances() {
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_related_projects',
-    'label' => 'Related Projects',
+    'label' => 'Related Initiatives',
     'required' => 0,
     'settings' => array(
       'behaviors' => array(
@@ -2133,7 +2134,7 @@ function c4m_content_project_field_default_field_instances() {
     'bundle' => 'project',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Names of organisations & companies who fund the Project.',
+    'description' => 'Names of the funding organisations & companies.',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -3049,30 +3050,30 @@ function c4m_content_project_field_default_field_instances() {
   t('Description');
   t('Description about the Project.');
   t('Duration');
+  t('Geodata');
   t('Group');
   t('Image');
   t('Implemented by');
   t('Is template');
   t('Left column content');
-  t('Names of organisations & companies who fund the Project.');
-  t('Names of organisations & companies who implement the project.');
+  t('Names of the funding organisations & companies.');
+  t('Names of the implementing organisations & companies.');
+  t('Names of the partners (stakeholders) organisations & companies.');
   t('Number of items');
   t('Partners');
-  t('Project geodata');
-  t('Project stage');
-  t('Project stakeholders');
-  t('Project tag line');
-  t('Project type');
-  t('Project url');
   t('Regions & Countries');
-  t('Related Projects');
+  t('Related Initiatives');
   t('Right column content');
   t('Source of funding');
-  t('Start + End date of the Project.');
+  t('Stage');
+  t('Stakeholders');
+  t('Start + End date.');
   t('Status');
+  t('Tag line');
   t('Title');
   t('Topics');
   t('Total budget');
+  t('Type');
   t('URL');
   t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
 

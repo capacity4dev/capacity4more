@@ -33,59 +33,60 @@ angular.module('c4mApp')
       // We nee the url in the action because of the "overlay" module.
       event.preventDefault();
       DrupalSettings.getFieldSchema('documents')
-        .success(function (data) {
+        .then(function (data) {
           $scope.fieldSchema = data.c4m.field_schema;
           $scope.data.entity = data.c4m.data.entity;
-        });
-      var resourceFields = $scope.fieldSchema.resources['documents'];
-      var submitData = Request.cleanFields(data, resourceFields);
 
-      angular.forEach(resourceFields, function (data, field) {
-        // Don't change the group field Or resource object.
-        if (field == 'resources' || field == 'group' || field == "tags") {
-          return;
-        }
-        var allowedValues = field == "categories" ? data.form_element.allowed_values.categories : data.form_element.allowed_values;
-        if (angular.isObject(allowedValues) && Object.keys(allowedValues).length) {
-          submitData[field] = {};
-        }
+          var resourceFields = $scope.fieldSchema.resources['documents'];
+          var submitData = Request.cleanFields(data, resourceFields);
 
-        var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
-        angular.forEach(textFields, function (field) {
-          if (!field) {
-            submitData[field] = field == 'tags' ? [] : '';
-          }
-        });
-      });
-      submitData.document = fileId;
-      submitData.group = DrupalSettings.getData('groupID');
-      submitData.add_to_library = addToLibrary ? 1 : 0;
+          angular.forEach(resourceFields, function (data, field) {
+            // Don't change the group field Or resource object.
+            if (field == 'resources' || field == 'group' || field == "tags") {
+              return;
+            }
+            var allowedValues = field == "categories" ? data.form_element.allowed_values.categories : data.form_element.allowed_values;
+            if (angular.isObject(allowedValues) && Object.keys(allowedValues).length) {
+              submitData[field] = {};
+            }
 
-      EntityResource.createEntity(submitData, 'documents', resourceFields)
-        .success(function (data, status) {
-          var nid = data.data[0].id;
+            var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
+            angular.forEach(textFields, function (field) {
+              if (!field) {
+                submitData[field] = field == 'tags' ? [] : '';
+              }
+            });
+          });
+          submitData.document = fileId;
+          submitData.group = DrupalSettings.getData('groupID');
+          submitData.add_to_library = addToLibrary ? 1 : 0;
 
-          var item = '(' + nid + ')';
+          EntityResource.createEntity(submitData, 'documents', resourceFields)
+            .success(function (data, status) {
+              var nid = data.data[0].id;
 
-          // Add the value we get in the hidden inputs in the parent page.
-          var value = jQuery('#edit-' + $scope.fieldName + '-und', parent.window.document).val();
-          var nids = jQuery('#input-' + $scope.fieldName, parent.window.document).val();
-          if (value.indexOf(item) == -1) {
-            value = value ? value + ', ' + item : item;
-            nids = nids ? nids + ',' + nid : nid;
-          }
+              var item = '(' + nid + ')';
 
-          jQuery('#edit-' + $scope.fieldName + '-und', parent.window.document).val(value);
-          jQuery('#input-' + $scope.fieldName, parent.window.document).val(nids).trigger('click');
+              // Add the value we get in the hidden inputs in the parent page.
+              var value = jQuery('#edit-' + $scope.fieldName + '-und', parent.window.document).val();
+              var nids = jQuery('#input-' + $scope.fieldName, parent.window.document).val();
+              if (value.indexOf(item) == -1) {
+                value = value ? value + ', ' + item : item;
+                nids = nids ? nids + ',' + nid : nid;
+              }
 
-          if (!addToLibrary) {
-            // Save document and go to the parent page.
-            parent.Drupal.overlay.close();
-          }
-          else {
-            // Save document and go to its edit page to add more data.
-            parent.Drupal.overlay.open(DrupalSettings.getData('purl') + '/overlay-node/' + nid + '/edit' + '?render=overlay');
-          }
+              jQuery('#edit-' + $scope.fieldName + '-und', parent.window.document).val(value);
+              jQuery('#input-' + $scope.fieldName, parent.window.document).val(nids).trigger('click');
+
+              if (!addToLibrary) {
+                // Save document and go to the parent page.
+                parent.Drupal.overlay.close();
+              }
+              else {
+                // Save document and go to its edit page to add more data.
+                parent.Drupal.overlay.open(DrupalSettings.getData('purl') + '/overlay-node/' + nid + '/edit' + '?render=overlay');
+              }
+            });
         });
     };
 

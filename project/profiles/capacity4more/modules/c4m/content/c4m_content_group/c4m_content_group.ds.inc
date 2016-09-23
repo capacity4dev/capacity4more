@@ -18,7 +18,7 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'block_list';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '2',
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -31,7 +31,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '3',
+      'weight' => '6',
       'label' => 'inline',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -49,7 +49,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_group_members_count' => array(
-      'weight' => '4',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -60,8 +60,13 @@ function c4m_content_group_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_group_membership_type' => array(
+    'c4m_ds_group_type_icon' => array(
       'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_group_membership_type' => array(
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -199,7 +204,7 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '2',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -279,7 +284,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_group_membership_type' => array(
-      'weight' => '3',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -353,14 +358,18 @@ function c4m_content_group_ds_layout_settings_info() {
         0 => 'c4m_media',
       ),
       'right' => array(
-        1 => 'c4m_ds_group_membership_type',
-        2 => 'title',
-        3 => 'c4m_user_first_and_last_name',
-        4 => 'c4m_ds_group_members_count',
+        1 => 'c4m_ds_group_type_icon',
+        2 => 'c4m_og_status',
+        3 => 'c4m_ds_group_membership_type',
+        4 => 'title',
+        5 => 'c4m_user_first_and_last_name',
+        6 => 'c4m_ds_group_members_count',
       ),
     ),
     'fields' => array(
       'c4m_media' => 'left',
+      'c4m_ds_group_type_icon' => 'right',
+      'c4m_og_status' => 'right',
       'c4m_ds_group_membership_type' => 'right',
       'title' => 'right',
       'c4m_user_first_and_last_name' => 'right',
@@ -391,21 +400,23 @@ function c4m_content_group_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'c4m_body',
-        1 => 'c4m_ds_creation_date',
-        2 => 'group_access_info',
-        3 => 'c4m_ds_group_notification_toggle',
-        4 => 'c4m_content_group_statistics',
-        5 => 'c4m_user_first_and_last_name',
-        6 => 'group_admins',
-        7 => 'c4m_vocab_topic',
-        8 => 'c4m_vocab_geo',
-        9 => 'c4m_ds_content_actions',
-        10 => 'c4m_ds_group_administer_link',
-        11 => 'group_extra_info',
+        1 => 'highlighted',
+        2 => 'c4m_ds_creation_date',
+        3 => 'group_access_info',
+        4 => 'c4m_ds_group_notification_toggle',
+        5 => 'c4m_content_group_statistics',
+        6 => 'c4m_user_first_and_last_name',
+        7 => 'group_admins',
+        8 => 'c4m_vocab_topic',
+        9 => 'c4m_vocab_geo',
+        10 => 'c4m_ds_content_actions',
+        11 => 'c4m_ds_group_administer_link',
+        12 => 'group_extra_info',
       ),
     ),
     'fields' => array(
       'c4m_body' => 'ds_content',
+      'highlighted' => 'ds_content',
       'c4m_ds_creation_date' => 'ds_content',
       'group_access_info' => 'ds_content',
       'c4m_ds_group_notification_toggle' => 'ds_content',
@@ -442,37 +453,39 @@ function c4m_content_group_ds_layout_settings_info() {
     'regions' => array(
       'header' => array(
         0 => 'group_teaser_header_inline',
-        2 => 'c4m_ds_group_type_icon',
-        4 => 'title',
-        7 => 'c4m_ds_group_membership_type',
+        1 => 'c4m_ds_group_type_icon',
+        3 => 'c4m_ds_group_membership_type',
+        6 => 'c4m_og_status',
+        10 => 'title',
       ),
       'left' => array(
-        1 => 'c4m_media',
+        2 => 'c4m_media',
       ),
       'right' => array(
-        3 => 'group_teaser_author_information',
-        5 => 'c4m_body',
-        6 => 'c4m_ds_group_access_info',
+        4 => 'group_teaser_author_information',
+        5 => 'c4m_ds_group_access_info',
+        7 => 'c4m_body',
         8 => 'group_iconbar_comments_views',
         9 => 'c4m_user_first_and_last_name',
-        10 => 'c4m_ds_creation_date',
         11 => 'c4m_ds_group_members_count',
-        12 => 'c4m_ds_group_posts_count',
+        12 => 'c4m_ds_creation_date',
+        13 => 'c4m_ds_group_posts_count',
       ),
     ),
     'fields' => array(
       'group_teaser_header_inline' => 'header',
-      'c4m_media' => 'left',
       'c4m_ds_group_type_icon' => 'header',
-      'group_teaser_author_information' => 'right',
-      'title' => 'header',
-      'c4m_body' => 'right',
-      'c4m_ds_group_access_info' => 'right',
+      'c4m_media' => 'left',
       'c4m_ds_group_membership_type' => 'header',
+      'group_teaser_author_information' => 'right',
+      'c4m_ds_group_access_info' => 'right',
+      'c4m_og_status' => 'header',
+      'c4m_body' => 'right',
       'group_iconbar_comments_views' => 'right',
       'c4m_user_first_and_last_name' => 'right',
-      'c4m_ds_creation_date' => 'right',
+      'title' => 'header',
       'c4m_ds_group_members_count' => 'right',
+      'c4m_ds_creation_date' => 'right',
       'c4m_ds_group_posts_count' => 'right',
     ),
     'classes' => array(),

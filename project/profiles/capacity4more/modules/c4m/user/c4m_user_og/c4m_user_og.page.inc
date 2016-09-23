@@ -14,10 +14,6 @@
  *   The group object.
  */
 function c4m_user_og_unified_workflow($group) {
-  if (!og_context('node', $group)) {
-    drupal_access_denied();
-  }
-
   // Unset the destination, otherwise the drupal goto will use it as the
   // preferred url.
   unset($_GET['destination']);

@@ -405,10 +405,11 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['c4m_vocab_topic']['field'] = 'c4m_vocab_topic';
   $handler->display->display_options['fields']['c4m_vocab_topic']['label'] = 'Related Topics';
   $handler->display->display_options['fields']['c4m_vocab_topic']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['c4m_vocab_topic']['type'] = 'term_reference_tree_children_expanded';
+  $handler->display->display_options['fields']['c4m_vocab_topic']['type'] = 'term_reference_checked_inline_tree_for_views';
   $handler->display->display_options['fields']['c4m_vocab_topic']['settings'] = array(
     'link' => 0,
-    'separator' => ' » ',
+    'separator' => ' > ',
+    'glue' => ' - ',
   );
   $handler->display->display_options['fields']['c4m_vocab_topic']['delta_offset'] = '0';
   /* Field: Field: Regions & Countries */
@@ -417,6 +418,13 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['c4m_vocab_geo']['field'] = 'c4m_vocab_geo';
   $handler->display->display_options['fields']['c4m_vocab_geo']['label'] = 'Related Regions / Countries';
   $handler->display->display_options['fields']['c4m_vocab_geo']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_vocab_geo']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['c4m_vocab_geo']['type'] = 'term_reference_checked_inline_tree_for_views';
+  $handler->display->display_options['fields']['c4m_vocab_geo']['settings'] = array(
+    'link' => 0,
+    'separator' => ' > ',
+    'glue' => ' - ',
+  );
   $handler->display->display_options['fields']['c4m_vocab_geo']['delta_offset'] = '0';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';

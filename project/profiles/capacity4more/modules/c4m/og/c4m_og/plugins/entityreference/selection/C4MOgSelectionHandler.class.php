@@ -45,8 +45,7 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     $match = NULL,
     $match_operator = 'CONTAINS'
   ) {
-    parent::buildEntityFieldQuery();
-
+    // Code similar from parent::buildEntityFieldQuery().
     global $user;
 
     $handler = EntityReference_SelectionHandler_Generic::getInstance(

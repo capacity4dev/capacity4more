@@ -208,7 +208,7 @@
         return;
       }
 
-      if (!settings.c4m.jumpToTitle) {
+      if (settings.c4m && !settings.c4m.jumpToTitle) {
         return;
       }
 

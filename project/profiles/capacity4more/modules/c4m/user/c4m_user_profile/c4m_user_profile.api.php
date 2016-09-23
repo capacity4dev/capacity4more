@@ -24,3 +24,15 @@ function hook_c4m_user_profile_validate_email_alter(&$data) {
     '#weight' => -6,
   );
 }
+
+/**
+ * Alter the validation messages from the email validation.
+ *
+ * @param array $messages
+ *   Contains the validation messages.
+ */
+function hook_c4m_user_profile_validate_email_validation_messages_alter(&$messages) {
+  foreach ($messages as $key => $message) {
+    // Do something with the messages.
+  }
+}

@@ -1,6 +1,15 @@
 .activity-stream {
   .activities {
     border-bottom: 1px dashed $color-gray-light;
+    position: relative;
+
+    .c4m-og-power-user-actions-block {
+      position: absolute;
+      right: 0;
+      top: 20px;
+
+      @include rotate_promote_flag;
+    }
 
     .row {
       margin: 0;
@@ -17,9 +26,18 @@
   h2 {
     margin-top: 25px;
   }
-  
+
   .message-summary {
     padding: 0;
+  }
+}
+
+.pane-og-dashboard {
+  .flag-c4m-og-content-highlight {
+    display: inline-block;
+    float: right;
+
+    @include rotate_promote_flag;
   }
 }
 

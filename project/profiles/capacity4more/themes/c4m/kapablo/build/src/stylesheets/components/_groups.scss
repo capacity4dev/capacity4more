@@ -4,7 +4,7 @@
 }
 
 .user-group .group-members-count {
-  margin-top: 20px;
+  clear: left;
   color: $color-gray-dark;
 }
 
@@ -833,6 +833,31 @@
 
 .group-node-organiser > div {
   margin-top: 10px;
+}
+
+.c4m-group-cta,
+.c4m-group-visitor-cta {
+  border-bottom: 1px dashed $color-gray-darkThree;
+  color: $color-gray-darkThree;
+  margin: 10px 0;
+  padding: 10px 0;
+
+  .c4m-group-text-cta {
+    width: 50%;
+    display: inline;
+  }
+}
+
+.c4m-group-visitor-cta {
+  text-align: center;
+
+  a.btn {
+    color: $color-white;
+    background-color: $color-text-alternative;
+    margin: 10px 0;
+    white-space: normal;
+    width: 100%;
+  }
 }
 
 .c4m-group-invite-cta {
