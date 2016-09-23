@@ -77,6 +77,7 @@ function c4m_content_project_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'lb-col' => TRUE,
           'lbw' => 1,
           'lbw-el' => 'h3',
           'lbw-cl' => 'label-above',
@@ -96,6 +97,7 @@ function c4m_content_project_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'lb-col' => TRUE,
           'lbw' => 1,
           'lbw-el' => 'h3',
           'lbw-cl' => 'label-above',
@@ -112,6 +114,7 @@ function c4m_content_project_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'lb-col' => TRUE,
           'lbw' => 1,
           'lbw-el' => 'h3',
           'lbw-cl' => 'label-above',
@@ -128,6 +131,7 @@ function c4m_content_project_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'lb-col' => TRUE,
           'lbw' => 1,
           'lbw-el' => 'h3',
           'lbw-cl' => 'label-above',
@@ -144,6 +148,7 @@ function c4m_content_project_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'lb-col' => TRUE,
           'lbw' => 1,
           'lbw-el' => 'h3',
           'lbw-cl' => 'label-above',
@@ -160,6 +165,7 @@ function c4m_content_project_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'lb-col' => TRUE,
           'lbw' => 1,
           'lbw-el' => 'h3',
           'lbw-cl' => 'label-above',
@@ -176,6 +182,7 @@ function c4m_content_project_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'lb-col' => TRUE,
           'lbw' => 1,
           'lbw-el' => 'h3',
           'lbw-cl' => 'label-above',
@@ -192,6 +199,7 @@ function c4m_content_project_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'lb-col' => TRUE,
           'lbw' => 1,
           'lbw-el' => 'h3',
           'lbw-cl' => 'label-above',
@@ -208,6 +216,7 @@ function c4m_content_project_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'lb-col' => TRUE,
           'lbw' => 1,
           'lbw-el' => 'h3',
           'lbw-cl' => 'label-above',
