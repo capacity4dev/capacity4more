@@ -50,10 +50,16 @@ function c4m_content_inthe_picture_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'c4m_media',
+        1 => 'group_c4m_header_meta',
+        2 => 'c4m_heading',
+        3 => 'c4m_body',
       ),
     ),
     'fields' => array(
       'c4m_media' => 'ds_content',
+      'group_c4m_header_meta' => 'ds_content',
+      'c4m_heading' => 'ds_content',
+      'c4m_body' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
