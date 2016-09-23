@@ -834,17 +834,13 @@ function theme_c4m_ds_project_type_icon(array $field) {
   $entity = entity_metadata_wrapper('node', $field['entity']);
   $project_type = $entity->c4m_project_type->value();
 
-  if (empty($project_type)) {
-    $project_type = 'project';
-  }
-
   $tag['element'] = array(
-    '#tag' => 'span',
+    '#tag' => 'i',
     '#attributes' => array(
       'class' => array(
-        'project-icon',
+        'fa',
+        ($project_type == 'programme') ? 'fa-puzzle-piece' : 'fa-flag-checkered',
         'project-type-' . $project_type,
-        'node-icon',
       ),
     ),
     '#value' => '',
