@@ -3446,9 +3446,7 @@ function c4m_content_project_field_default_field_instances() {
   t('Twitter username');
   t('Type');
   t('URL');
-  t(
-    'You can select up to 3 Topics and unlimited subtopics within these Topics.'
-  );
+  t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
 
   return $field_instances;
 }

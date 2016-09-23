@@ -449,21 +449,6 @@ function c4m_content_project_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_c4m_free_map'.
-  $field_bases['field_c4m_free_map'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_c4m_free_map',
-    'indexes' => array(),
-    'locked' => 0,
-    'module' => 'nexteuropa_geofield',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'geofield_geojson',
-  );
-
   // Exported field_base: 'c4m_twitter_hashtag'.
   $field_bases['c4m_twitter_hashtag'] = array(
     'active' => 1,
@@ -525,6 +510,21 @@ function c4m_content_project_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text',
+  );
+
+  // Exported field_base: 'field_c4m_free_map'.
+  $field_bases['field_c4m_free_map'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_c4m_free_map',
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'nexteuropa_geofield',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'geofield_geojson',
   );
 
   return $field_bases;
