@@ -53,19 +53,19 @@ Feature: Test activity stream
     And   I update a "discussion" with title "Discussion added 8" with new title "Discussion updated 8" after "7 hours"
     Then  I should see a new message for "Discussion updated 8" in the activity stream of the group "Discussion Insert 8"
 
-  @javascript
+  @api
   Scenario: Promote buttons shouldn't be displayed to anonymous users.
     Given  I am an anonymous user
     When  I visit the dashboard of group "Nobel Prize"
     Then  I should not see the ".fa-star" element
 
-  @javascript
+  @api
   Scenario: Promote buttons shouldn't be displayed to users without access.
     Given  I am logged in as user "isaacnewton"
     When  I visit the dashboard of group "Nobel Prize"
     Then  I should not see the ".fa-star" element
 
-  @javascript
+  @api
   Scenario Outline: Promote and highlight buttons should be displayed to users with access.
     Given  I am logged in as user "<user>"
     When  I visit the dashboard of group "Nobel Prize"
