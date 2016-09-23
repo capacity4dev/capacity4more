@@ -92,11 +92,14 @@ function c4m_content_project_ds_field_settings_info() {
     ),
     'c4m_ds_content_actions' => array(
       'weight' => '6',
-      'label' => 'hidden',
+      'label' => 'above',
       'format' => 'default',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'lb' => 'Do more through capacity4dev',
+          'lb-el' => 'span',
+          'lb-def-at' => TRUE,
           'lb-col' => TRUE,
           'lbw' => 1,
           'lbw-el' => 'h3',
