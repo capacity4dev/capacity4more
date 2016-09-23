@@ -184,11 +184,6 @@ function c4m_content_project_ds_layout_settings_info() {
       ),
     ),
     'fields' => array(
-      'highlighted' => 'ds_content',
-      'c4m_related_group' => 'ds_content',
-      'c4m_body' => 'ds_content',
-      'c4m_media' => 'ds_content',
-      'c4m_banner' => 'ds_content',
       'c4m_date_end' => 'ds_content',
       'c4m_source_of_funding' => 'ds_content',
       'c4m_money' => 'ds_content',
