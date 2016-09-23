@@ -10,17 +10,30 @@
  */
 function c4m_search_filter_block_info() {
   $blocks['search_filter'] = array(
-    'info' => t('Search Filter: groups & interests'),
+    'info' => t('Search Filter: all'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
+
   $blocks['search_filter_groups'] = array(
     'info' => t('Search Filter: groups'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
+
+  $blocks['search_filter_groups_overview'] = array(
+    'info' => t('Search Filter: groups overview'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
   $blocks['search_filter_interests'] = array(
     'info' => t('Search Filter: interests'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
+
+  $blocks['search_filter_projects_overview'] = array(
+    'info' => t('Search Filter: projects overview'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
   return $blocks;
 }
 
