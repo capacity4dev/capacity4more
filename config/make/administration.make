@@ -21,6 +21,9 @@ projects[module_filter][version] = "2.0"
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta2"
 
+projects[blockreference][subdir] = "contrib"
+projects[blockreference][version] = "2.3"
+
 projects[context][subdir] = "contrib"
 projects[context][version] = "3.7"
 
@@ -115,3 +118,8 @@ libraries[plupload][download][type]= "get"
 libraries[plupload][download][url] = "https://github.com/moxiecode/plupload/archive/v2.1.8.zip"
 libraries[plupload][directory_name] = "plupload"
 libraries[plupload][destination] = "libraries"
+
+libraries[leaflet_draw][download][type]= "get"
+libraries[leaflet_draw][download][url] = "https://github.com/Leaflet/Leaflet.draw/archive/master.zip"
+libraries[leaflet_draw][directory_name] = "Leaflet.draw"
+libraries[leaflet_draw][destination] = "libraries"

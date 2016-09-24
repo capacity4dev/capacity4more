@@ -33,6 +33,28 @@ function c4m_contact_menu() {
 }
 
 /**
+ * Implements hook_c4m_captcha_form_info().
+ *
+ * Adds the captcha to the contact site form.
+ */
+function c4m_contact_c4m_captcha_form_info() {
+  return array(
+    'contact_site_form',
+  );
+}
+
+/**
+ * Implements hook_mail_alter().
+ *
+ * Alters the contact mail to replace the recipient with the custom list.
+ */
+function c4m_contact_mail_alter(&$message) {
+  if ($message['id'] == 'contact_page_mail') {
+    $message['to'] = variable_get('c4m_contact_email_addresses', variable_get('site_mail'));
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Alter the site contact form.
@@ -43,6 +65,19 @@ function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id
 
   if (empty($contact_settings)) {
     return;
+  }
+
+  if (!user_is_anonymous()) {
+    global $user;
+    $user = user_load($user->uid);
+
+    $user_name = c4m_user_name($user);
+
+    $form['name']['#default_value'] = $user_name;
+    $form['name']['#disabled'] = TRUE;
+
+    $form['mail']['#default_value'] = $user->mail;
+    $form['mail']['#disabled'] = TRUE;
   }
 
   // Add intro text to form.

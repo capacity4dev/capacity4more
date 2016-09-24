@@ -81,3 +81,19 @@ function _c4m_content_project_block_header_name_banner_project() {
     'content' => $markup,
   );
 }
+
+/**
+ * Callback for the c4m_block_create_project block.
+ */
+function _c4m_content_project_block_c4m_block_project_partners() {
+  $block = array();
+
+  if ($group = og_context()) {
+    if ($node = node_load($group['gid'])) {
+      $block['subject'] = '';
+      $block['content'] = field_view_field('node', $node, 'c4m_partners', array('label' => 'hidden'));
+    }
+  }
+
+  return $block;
+}

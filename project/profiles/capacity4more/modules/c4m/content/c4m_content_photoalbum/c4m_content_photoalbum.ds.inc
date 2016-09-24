@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_photoalbum.ds.inc
@@ -697,16 +696,6 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
   $ds_layout->view_mode = 'default';
   $ds_layout->layout = 'c4m_ds_8_4_fluid';
   $ds_layout->settings = array(
-    'classes' => array(),
-    'wrappers' => array(
-      'ds_content' => 'div',
-    ),
-    'layout_wrapper' => 'div',
-    'layout_attributes' => '',
-    'layout_attributes_merge' => 1,
-    'layout_link_attribute' => '',
-    'layout_link_custom' => '',
-    'layout_disable_css' => FALSE,
     'regions' => array(
       'left' => array(
         0 => 'title',
@@ -719,6 +708,19 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
       'node_gallery_view' => 'left',
       'c4m_body' => 'left',
     ),
+    'classes' => array(),
+    'wrappers' => array(
+      'header' => 'div',
+      'left' => 'div',
+      'right' => 'div',
+      'footer' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
   );
   $export['node|photoalbum|default'] = $ds_layout;
 

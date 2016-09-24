@@ -1,5 +1,5 @@
-ID,Title,Body,Icon,Domain,UID
-organisation_1,EU,European Union,EU.png,"0|ada.gv.at,adetef.finances.gouv.fr,0|aecid.es,0|afd.fr",user_1
-organisation_2,EC/EEAS,European Commission / European External Action Service,EC.jpg,"0|ec.europa.eu,0|echofield.eu,0|eeas.europa.eu,0|ext.eeas.europa.eu,0|ext.jrc.ec.europa.eu,0|jrc.ec.europa.eu",user_1
-organisation_3,Gizra,Gizra Internet Solutions,gizra.png,"1|gizra.com",user_1
-organisation_4,Amplexor,Pure Content Management,amplexor.png,"1|amplexor.com,1|amplexor.be,1|emc2.com",user_1
+ID,Title,Body,Icon,Domain,UID,Organisation_Type
+organisation_1,EU,European Union,EU.png,"0|ada.gv.at,adetef.finances.gouv.fr,0|aecid.es,0|afd.fr",user_1,european_institutions
+organisation_2,EC/EEAS,European Commission / European External Action Service,EC.jpg,"0|ec.europa.eu,0|echofield.eu,0|eeas.europa.eu,0|ext.eeas.europa.eu,0|ext.jrc.ec.europa.eu,0|jrc.ec.europa.eu",user_1,government
+organisation_3,Gizra,Gizra Internet Solutions,gizra.png,"1|gizra.com",user_1,private_sector
+organisation_4,Amplexor,Pure Content Management,amplexor.png,"1|amplexor.com,1|amplexor.be,1|emc2.com",user_1,private_sector

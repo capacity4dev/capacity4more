@@ -150,10 +150,32 @@ function c4m_content_group_strongarm() {
       'display' => array(
         'group_admins' => array(
           'group_dashboard' => array(
-            'weight' => '5',
+            'weight' => '6',
             'visible' => TRUE,
           ),
           'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'block_list' => array(
+            'weight' => '31',
+            'visible' => FALSE,
+          ),
+          'teaser' => array(
+            'weight' => '0',
+            'visible' => FALSE,
+          ),
+        ),
+        'highlighted' => array(
+          'block_list' => array(
+            'weight' => '32',
+            'visible' => FALSE,
+          ),
+          'teaser' => array(
+            'weight' => '0',
+            'visible' => FALSE,
+          ),
+          'group_dashboard' => array(
             'weight' => '0',
             'visible' => TRUE,
           ),

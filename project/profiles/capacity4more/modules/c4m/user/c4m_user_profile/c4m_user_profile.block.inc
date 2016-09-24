@@ -65,6 +65,7 @@ function _c4m_user_profile_block_user_menu() {
         'purl'  => array(
           'disabled' => TRUE,
         ),
+        'query' => c4m_og_purl_get_destination(),
       ),
     ),
   );
@@ -88,8 +89,9 @@ function _c4m_user_profile_block_user_menu() {
   );
 
   $user_groups_top_bar = _c4m_user_profile_my_groups_top_bar();
+  $user_projects_top_bar = _c4m_user_profile_my_projects_top_bar();
 
-  $block['content'] = render($output) . $user_groups_top_bar;
+  $block['content'] = render($output) . $user_projects_top_bar . $user_groups_top_bar;
   return $block;
 }
 
@@ -114,7 +116,7 @@ function _c4m_user_profile_my_groups_top_bar() {
     return '';
   }
 
-  $user_profile = array(
+  $groups_top_bar = array(
     '#theme'  => 'c4m_user_profile_groups_top_bar',
     '#link'   => array(
       'url'     => 'groups',
@@ -147,7 +149,70 @@ function _c4m_user_profile_my_groups_top_bar() {
   $output = array(
     '#theme'      => 'html_tag',
     '#tag'        => 'div',
-    '#value'      => render($user_profile) . $menu,
+    '#value'      => render($groups_top_bar) . $menu,
+    '#attributes' => array(
+      'class' => array('right-menu-section', 'userbar-userprofile', 'dropdown'),
+    ),
+  );
+
+  return render($output);
+}
+
+/**
+ * Render the top bar menu for "my projects".
+ */
+function _c4m_user_profile_my_projects_top_bar() {
+  $user_projects = array();
+  foreach (c4m_user_og_get_groups($account = NULL, $bundle = 'project') as $project) {
+    $node_view = node_view($project, 'block_list');
+    $user_projects[] = render($node_view);
+
+    // The max projects to display on the top bar is 3 by definition.
+    if (count($user_projects) == 3) {
+      $user_projects[] = _c4m_user_profile_render_explore_all_my_projects_link();
+      break;
+    }
+  }
+
+  // The user is not yet a member of any project.
+  if (!$user_projects) {
+    return '';
+  }
+
+  $projects_top_bar = array(
+    '#theme'  => 'c4m_user_profile_projects_top_bar',
+    '#link'   => array(
+      'url'     => 'projects',
+      'options' => array(
+        'attributes'  => array(
+          'class'         => array('fullname-picture-wrapper', 'dropdown-toggle'),
+          'data-toggle'   => array('dropdown'),
+          'data-disabled' => TRUE,
+        ),
+        'query' => array(
+          'filter' => 'projects',
+        ),
+        'html' => TRUE,
+        'purl'  => array(
+          'disabled' => TRUE,
+        ),
+      ),
+    ),
+  );
+
+  $menu = array(
+    '#theme'      => 'item_list',
+    '#items'  => $user_projects,
+    '#attributes' => array(
+      'class' => array('dropdown-menu', 'user-projects'),
+    ),
+  );
+  $menu = render($menu);
+
+  $output = array(
+    '#theme'      => 'html_tag',
+    '#tag'        => 'div',
+    '#value'      => render($projects_top_bar) . $menu,
     '#attributes' => array(
       'class' => array('right-menu-section', 'userbar-userprofile', 'dropdown'),
     ),
@@ -183,6 +248,39 @@ function _c4m_user_profile_render_explore_all_my_groups_link() {
     '#value' => $link,
     '#attributes' => array(
       'class' => 'c4m-explore-all-my-groups-link',
+    ),
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * Render a link to the projects overview page, filtered to the user groups.
+ *
+ * @return string
+ *   A link to the projects page (filtered).
+ */
+function _c4m_user_profile_render_explore_all_my_projects_link() {
+  $text = t('Explore all my projects');
+  $text .= '<i class="fa fa-angle-right" aria-hidden="true"></i>';
+
+  $options = array(
+    'html' => TRUE,
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
+    'query' => array(
+      'filter' => 'projects',
+    ),
+  );
+
+  $link = l($text, '/projects', $options);
+
+  $tag['element'] = array(
+    '#tag' => 'div',
+    '#value' => $link,
+    '#attributes' => array(
+      'class' => 'c4m-explore-all-my-projects-link',
     ),
   );
 
@@ -298,12 +396,23 @@ function _c4m_user_profile_block_user_confirm_email() {
  */
 function _c4m_user_profile_block_user_my_profile_groups() {
   module_load_include('inc', 'c4m_features_homepage', 'plugins/content_types/my_groups/my_groups');
-  $account = menu_get_object('user');
-  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($account, array('group'));
 
   $block = array();
   $block['subject'] = '';
   $block['content'] = '';
+
+  // Gets the user of the profile being viewed.
+  $account = menu_get_object('user');
+
+  // Prevent the block to be rendered if the block is added by mistake in a non
+  // user profile page.
+  if (is_null($account)) {
+    return $block;
+  }
+
+  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($account);
+
+  // Prevent the block to be rendered if the user has no groups.
   if (empty($groups)) {
     return $block;
   }
@@ -311,8 +420,8 @@ function _c4m_user_profile_block_user_my_profile_groups() {
   $rendered_groups = '';
   // Render node views for each group.
   foreach ($groups as $type => $group_list) {
-    $title = c4m_user_profile_get_group_type_title($type);
-    $rendered_groups .= '<h3>' . $title . '</h3>';
+    $title = c4m_features_homepage_get_group_type_title($type);
+    $rendered_groups .= '<h4>' . $title . '</h4>';
 
     foreach ($group_list as $group) {
       $node_view = node_view($group, 'block_list');
@@ -327,24 +436,4 @@ function _c4m_user_profile_block_user_my_profile_groups() {
   $block['content'] = !empty($rendered_groups) ? theme('c4m_user_profile_my_profile_groups', $variables) : FALSE;
 
   return $block;
-}
-
-/**
- * Returns the title for the type of membership of a group.
- *
- * @param string $type
- *   The group membership type.
- *
- * @return string
- *   The translated title for the membership type.
- */
-function c4m_user_profile_get_group_type_title($type) {
-  $titles = array(
-    'owner' => t('Groups I own'),
-    'administrator' => t('Groups I manage'),
-    'member' => t("Groups I'm member of"),
-    'pending' => t('Membership requested'),
-  );
-
-  return $titles[$type];
 }

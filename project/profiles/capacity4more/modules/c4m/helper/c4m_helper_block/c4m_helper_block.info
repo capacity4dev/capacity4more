@@ -1,0 +1,4 @@
+name = Block Helper
+description = This module provides helper functionality around blocks.
+core = 7.x
+package = capacity4more - Helper

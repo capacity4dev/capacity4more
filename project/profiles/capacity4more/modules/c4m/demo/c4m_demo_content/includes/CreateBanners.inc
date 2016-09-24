@@ -29,8 +29,6 @@ class C4mDemoContentCreateBanners extends C4mDemoContentCreateOgContent {
   public function __construct() {
     parent::__construct();
 
-    $this->dependencies[] = 'C4mDemoContentCreatePhotoalbums';
-
     $this->addFieldMapping('c4m_banner', 'image');
     $this->addFieldMapping('c4m_banner:file_replace')
       ->defaultValue(FILE_EXISTS_REPLACE);

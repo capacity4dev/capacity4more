@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Helper functionality for blocks.
+ */
+
+/**
+ * Returns the render-able array for a block.
+ *
+ * @param string $module
+ *   The block's module.
+ * @param string $delta
+ *   The block's delta.
+ *
+ * @return array
+ *   Renderable array.
+ */
+function c4m_helper_block_render($module, $delta) {
+  $block = block_load($module, $delta);
+  $render_array = _block_get_renderable_array(_block_render_blocks(array($block)));
+  return $render_array;
+}

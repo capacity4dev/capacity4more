@@ -217,8 +217,8 @@ function c4m_content_document_strongarm() {
             'visible' => FALSE,
           ),
           'pinned_content' => array(
-            'weight' => '28',
-            'visible' => FALSE,
+            'weight' => '1',
+            'visible' => TRUE,
           ),
         ),
       ),
