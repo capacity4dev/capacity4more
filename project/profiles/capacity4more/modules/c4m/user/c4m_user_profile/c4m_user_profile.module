@@ -186,6 +186,15 @@ function c4m_user_profile_theme() {
     'path' => drupal_get_path('module', 'c4m_user_profile') . '/includes',
   );
 
+  $theme['c4m_user_profile_projects_top_bar'] = array(
+    'variables' => array(
+      'projects' => array(),
+      'link' => array(),
+    ),
+    'file' => 'c4m_user_profile.theme.inc',
+    'path' => drupal_get_path('module', 'c4m_user_profile') . '/includes',
+  );
+
   $theme['c4m_user_profile_my_profile_groups'] = array(
     'variables' => array(
       'groups' => NULL,
@@ -373,6 +382,13 @@ function c4m_user_profile_alter_user_form(
   $form['c4m_is_organisation_user'][LANGUAGE_NONE]['#type'] = 'hidden';
   $form['c4m_is_invalid_email'][LANGUAGE_NONE]['#type'] = 'hidden';
 
+  // The default contact value is different on registration (general setting).
+  // On the user edit form, the default value is stored as per user and this
+  // value is already present in the form values (original contact field).
+  $contact_default_value = ($is_registration) ?
+    variable_get('contact_default_status', 1) :
+    $form['contact']['contact']['#default_value'];
+
   // Add checkbox for contact options.
   // @see contact_form_user_profile_form_alter().
   $form['contact'] = array(
@@ -380,7 +396,7 @@ function c4m_user_profile_alter_user_form(
     '#title' => t(
       'Members are allowed to contact you through your personal contact form'
     ),
-    '#default_value' => variable_get('contact_default_status', 1),
+    '#default_value' => $contact_default_value,
     '#weight' => 14,
     '#group' => 'group_public_profile',
   );
@@ -641,22 +657,12 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
       );
     }
   }
-
-  // Set contact flag.
-  if (isset($form_state['user'])) {
-    variable_set('contact_default_status', $form_state['user']->contact);
-  }
 }
 
 /**
  * Submit callback for user_register_form form.
  */
 function c4m_user_profile_form_user_profile_form_submit($form, &$form_state) {
-  // Set contact flag.
-  if (isset($form_state['user'])) {
-    variable_set('contact_default_status', $form_state['user']->contact);
-  }
-
   // Redirect to user profile after submit.
   $form_state['redirect'] = 'user/' . $form_state['user']->uid;
 }
@@ -852,6 +858,7 @@ function c4m_user_profile_element_validate_mail(
   $data['validation_messages'] = &$validation_messages;
 
   drupal_alter('c4m_user_profile_validate_email', $data);
+  drupal_alter('c4m_user_profile_validate_email_validation_messages', $data['validation_messages']);
   uasort($validation_messages, 'element_sort');
 
   if ($validation_messages) {
@@ -942,7 +949,7 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
     $data['alter_form'] && $data['form']['c4m_is_organisation_user'][LANGUAGE_NONE]['#value'] = 1;
 
     if ($data['minimum_error_level'] <= C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE) {
-      $data['validation_messages'][] = $is_ldap_user ? array(
+      $data['validation_messages'][] = array(
         'message' => t(
           '<p>You are recognized as member of !logo - %name<br />If you do not want to be associated with this organization, please !use_another_email.</p>',
           array(
@@ -967,7 +974,7 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
         ),
         'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE,
         '#weight' => 4,
-      ) : array();
+      );
     }
   }
 
@@ -983,6 +990,24 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
     if ($organisation_type) {
       $data['form']['c4m_organisation_type'][LANGUAGE_NONE]['#attributes']['disabled'] = 'disabled';
       $data['form']['c4m_organisation_type'][LANGUAGE_NONE]['#value'] = $organisation_type;
+    }
+  }
+
+  // Search for error messages.
+  $has_errors = FALSE;
+  foreach ($data['validation_messages'] as $key => $message) {
+    if (isset($message['type']) && $message['type'] == C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR) {
+      $has_errors = TRUE;
+      break;
+    }
+  }
+
+  // Only keep the error messages if there're.
+  if ($has_errors) {
+    foreach ($data['validation_messages'] as $key => $message) {
+      if (isset($message['type']) && $message['type'] != C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR) {
+        unset($data['validation_messages'][$key]);
+      }
     }
   }
 
@@ -1050,6 +1075,29 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
         'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
         '#weight' => 2,
       );
+    }
+  }
+}
+
+/**
+ * Implements hook_c4m_user_profile_validate_email_validation_messages_alter().
+ */
+function c4m_user_profile_c4m_user_profile_validate_email_validation_messages_alter(&$messages) {
+  // Search for error messages.
+  $has_errors = FALSE;
+  foreach ($messages as $key => $message) {
+    if (isset($message['type']) && $message['type'] == C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR) {
+      $has_errors = TRUE;
+      break;
+    }
+  }
+
+  // Only keep the error messages if there're.
+  if ($has_errors) {
+    foreach ($messages as $key => $message) {
+      if (isset($message['type']) && $message['type'] != C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR) {
+        unset($messages[$key]);
+      }
     }
   }
 }

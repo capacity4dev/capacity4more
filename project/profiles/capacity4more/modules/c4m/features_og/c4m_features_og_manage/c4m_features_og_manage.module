@@ -564,6 +564,7 @@ function c4m_features_og_manage_project_details() {
   $options = array('purl' => $purl, 'absolute' => TRUE);
 
   $details = array(
+    'type' => NULL,
     'edit_link' => url(
       'node/' . $project->nid . '/edit',
       array('absolute' => TRUE)
@@ -593,6 +594,11 @@ function c4m_features_og_manage_project_details() {
     'related_groups' => t('No Related Groups'),
     'related_projects' => t('No Related Projects'),
   );
+
+  // Type: Project or Programme.
+  if ($type = $wrapper->c4m_project_type->value()) {
+    $details['type'] = $type;
+  }
 
   // List of related topics.
   $topics = $wrapper->c4m_vocab_topic->value();

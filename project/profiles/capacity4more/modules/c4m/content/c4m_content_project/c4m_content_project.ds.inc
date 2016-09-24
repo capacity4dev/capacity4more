@@ -18,7 +18,7 @@ function c4m_content_project_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'block_list';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -31,7 +31,7 @@ function c4m_content_project_ds_field_settings_info() {
       ),
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'inline',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -47,6 +47,11 @@ function c4m_content_project_ds_field_settings_info() {
           'ow-def-at' => FALSE,
         ),
       ),
+    ),
+    'c4m_ds_project_type_icon' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
     ),
     'c4m_media' => array(
       'formatter_settings' => array(
@@ -65,6 +70,11 @@ function c4m_content_project_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'c4m_paragraph_system_block';
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
+    'c4m_system_block_renderer' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_heading' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -127,12 +137,14 @@ function c4m_content_project_ds_layout_settings_info() {
         0 => 'c4m_media',
       ),
       'right' => array(
-        1 => 'title',
-        2 => 'c4m_user_first_and_last_name',
+        1 => 'c4m_ds_project_type_icon',
+        2 => 'title',
+        3 => 'c4m_user_first_and_last_name',
       ),
     ),
     'fields' => array(
       'c4m_media' => 'left',
+      'c4m_ds_project_type_icon' => 'right',
       'title' => 'right',
       'c4m_user_first_and_last_name' => 'right',
     ),
@@ -218,12 +230,12 @@ function c4m_content_project_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'c4m_heading',
-        1 => 'c4m_block',
+        1 => 'c4m_system_block_renderer',
       ),
     ),
     'fields' => array(
       'c4m_heading' => 'ds_content',
-      'c4m_block' => 'ds_content',
+      'c4m_system_block_renderer' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
