@@ -570,7 +570,7 @@ function c4m_features_og_manage_project_details() {
       array('absolute' => TRUE)
     ),
     'menu_link' => url(
-      'group/node/' . $project->nid . '/admin/menus',
+      'group/node/' . $project->nid . '/admin/menus/menu-og-' . $project->nid,
       array('absolute' => TRUE)
     ),
     'owner' => c4m_user_name(user_load($project->uid)),
