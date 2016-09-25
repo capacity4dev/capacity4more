@@ -250,9 +250,22 @@ function c4m_user_notifications_comment_insert($comment) {
   }
 
   $node = node_load($comment->nid);
-  $comment_notification_types = c4m_og_get_comment_notification_types();
+
+  if ($node->status != NODE_PUBLISHED) {
+    // Do not notify, if content is not published.
+    return;
+  }
+
+  $comment_notification_types = c4m_og_get_extended_content_notification_types();
   if (!$node->type || !in_array($node->type, $comment_notification_types)) {
     // Node, comment is associated with, does not require notification.
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $group_state = $wrapper->{OG_AUDIENCE_FIELD}->c4m_og_status;
+  if (!empty($group_state) && $group_state->value() != 'published') {
+    // Do not notify if it's group content, and it's group is not published.
     return;
   }
 
@@ -379,14 +392,8 @@ function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging
   }
 
   $node = node_load($entity_id);
-  $notification_types = array(
-    'article',
-    'discussion',
-    'document',
-    'event',
-    'news',
-    'wiki_page',
-  );
+  $notification_types = c4m_og_get_extended_content_notification_types();
+
   if (!in_array($node->type, $notification_types)) {
     // If recommended content does not required notification, return early.
     return;
