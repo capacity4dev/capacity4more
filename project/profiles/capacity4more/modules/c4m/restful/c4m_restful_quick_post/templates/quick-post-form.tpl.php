@@ -7,7 +7,7 @@
 ?>
 <form name="entityForm"
       ng-submit="submitForm(data, selectedResource, 'quick_post')"
-      xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+      xmlns="http://www.w3.org/1999/html">
 
 <div class="form-group text" ng-class="{ 'has-error' : errors.label }">
   <input id="label" class="form-control" name="label" type="text"
@@ -37,11 +37,28 @@
 
 <!-- Body editor-->
 <div class="form-group" id="body-wrapper" ng-class="{ 'has-error' : errors.body }">
-  <input type="file" name="document-file" id="c4m-related-document" class="document_file">
-  <span class="body-attachment-link"><label for="c4m-related-document"><i class="fa fa-paperclip"></i></label></span>
+
+  <div ng-hide="serverSide.file">
+    <input type="file" name="document-file" id="c4m-related-document" class="document_file" ng-file-select="onFileSelect($files)">
+    <span class="body-attachment-link"><label for="c4m-related-document"><i class="fa fa-paperclip"></i></label></span>
+  </div>
+
   <textarea ckeditor="editorOptions" name="body" class="form-control" id="body" ng-model="data.body" placeholder="Body"></textarea>
-  <span class="c4m-related-document_display"></span>
   <p ng-show="errors.body" class="help-block"><?php print t('Body is required.'); ?></p>
+
+  <div class="cfm-file-upload-wrapper form-group input-wrapper file-wrapper" ng-class="{ 'has-error' : errors.document }">
+
+    <div ng-show="serverSide.file.status == 200">
+      <span ng-click="removeUploadedFile()" class="remove-attachment">[x]</span>
+        <?php print t('Uploaded attachment "{{ serverSide.file.data.data[0].label }}"') ?>
+    </div>
+
+    <div class="has-error" ng-show="serverSide.data.imageError">
+      <ul class="help-block">
+        <li><?php print t('An error occurred while trying to upload the attachment.') ?></li>
+      </ul>
+    </div>
+  </div>
 
   <div class="errors">
     <ul ng-show="serverSide.data.errors.body">

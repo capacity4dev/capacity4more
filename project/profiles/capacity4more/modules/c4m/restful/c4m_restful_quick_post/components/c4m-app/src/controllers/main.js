@@ -401,6 +401,9 @@ angular.module('c4mApp')
      *  The file.
      */
     $scope.onFileSelect = function ($files) {
+      // Reset the image error message.
+      $scope.serverSide.data.imageError = false;
+
       // $files: an array of files selected, each file has name, size, and type.
       for (var i = 0; i < $files.length; i++) {
         var file = $files[i];
@@ -408,6 +411,9 @@ angular.module('c4mApp')
           $scope.data.document = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
+        },
+        function (errors) {
+          $scope.serverSide.data.imageError = errors;
         });
       }
     };
