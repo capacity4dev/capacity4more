@@ -263,9 +263,9 @@ function c4m_user_notifications_comment_insert($comment) {
   }
 
   $wrapper = entity_metadata_wrapper('node', $node);
-  $group_state = $wrapper->{OG_AUDIENCE_FIELD}->c4m_og_status;
-  if (!empty($group_state) && $group_state->value() != 'published') {
-    // Do not notify if it's group content, and it's group is not published.
+  if (!empty($wrapper->{OG_AUDIENCE_FIELD}) && $wrapper->{OG_AUDIENCE_FIELD}->c4m_og_status->value() != 'published') {
+    // Do not notify if it's group content, and it's group state
+    // is not published.
     return;
   }
 
