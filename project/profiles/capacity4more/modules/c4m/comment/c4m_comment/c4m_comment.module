@@ -191,3 +191,23 @@ function c4m_comment_c4m_helper_entity_label_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_user_cancel().
+ *
+ * Since we use a different method, we should cover the anonymize content for
+ * comments manually as well.
+ */
+function c4m_comment_user_cancel($edit, $account, $method) {
+  if ($method != 'user_block_reassign') {
+    return;
+  }
+
+  $comments = comment_load_multiple(array(), array('uid' => $account->uid));
+  foreach ($comments as $comment) {
+    $comment->uid = 0;
+    // The comment instance saves the original username as well.
+    $comment->name = t('Anonymous');
+    comment_save($comment);
+  }
+}
