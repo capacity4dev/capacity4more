@@ -149,9 +149,13 @@ function capacity4more_setup_set_og_permissions() {
     'event',
     'photo',
     'photoalbum',
+    'share',
   );
 
-  $permissions = array();
+  $permissions = array(
+    'invite visitors',
+    'invite any user',
+  );
   foreach ($content_types as $content_type) {
     $permissions = array_merge($permissions, array(
       "create $content_type content",
@@ -169,7 +173,10 @@ function capacity4more_setup_set_og_permissions() {
     'wiki_page',
   );
 
-  $permissions = array();
+  $permissions = array(
+    'invite visitors',
+    'invite any user',
+  );
   foreach ($content_types as $content_type) {
     $permissions = array_merge($permissions, array(
       "create $content_type content",
@@ -182,7 +189,6 @@ function capacity4more_setup_set_og_permissions() {
   $og_flag_perms = array(
     'c4m_og_content_promote',
     'c4m_og_content_depromote',
-
     'c4m_og_content_recommend',
     'c4m_og_content_unrecommend',
   );
@@ -192,10 +198,29 @@ function capacity4more_setup_set_og_permissions() {
   $admin_member_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
   og_role_grant_permissions($admin_member_rid, $permissions);
 
+  // Set OG_AUTHENTICATED_ROLE permissions by project.
+  $content_types = array(
+    'share',
+  );
+
+  $permissions = array();
+  foreach ($content_types as $content_type) {
+    $permissions = array_merge($permissions, array(
+      "create $content_type content",
+      "update own $content_type content",
+      "delete own $content_type content",
+    ));
+  }
+
+  $roles = og_roles('node', 'project');
+  $auth_rid = array_search(OG_AUTHENTICATED_ROLE, $roles);
+  og_role_grant_permissions($auth_rid, $permissions);
+
   // Set OG_ADMINISTRATOR_ROLE permissions by project.
   $content_types = array(
     'document',
     'event',
+    'share',
   );
 
   $permissions = array();

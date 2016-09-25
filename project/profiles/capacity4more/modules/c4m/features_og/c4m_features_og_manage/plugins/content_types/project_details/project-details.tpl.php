@@ -81,7 +81,7 @@
         <div class="col-md-9"><?php print $details['related_groups'] ?></div>
       </div>
       <div class="row">
-        <div class="col-md-3"><?php print t('Related Projects') ?></div>
+        <div class="col-md-3"><?php print t('Related Initiatives') ?></div>
         <div class="col-md-9"><?php print $details['related_projects'] ?></div>
       </div>
     </div>

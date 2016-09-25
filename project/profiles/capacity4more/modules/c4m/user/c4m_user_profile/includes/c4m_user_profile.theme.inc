@@ -131,3 +131,40 @@ function theme_c4m_user_profile_groups_top_bar(array $variables) {
 
   return $output;
 }
+
+/**
+ * Theme function for user projects top bar menu.
+ *
+ * @param array $variables
+ *    Array with theme variables.
+ *
+ * @return string
+ *    The rendered output.
+ */
+function theme_c4m_user_profile_projects_top_bar(array $variables) {
+  $menu_title = array(
+    '#theme' => 'html_tag',
+    '#tag' => 'div',
+    '#value' => t('My Projects'),
+    '#attributes' => array(
+      'class' => array('fullname'),
+    ),
+  );
+  // Adding the icon before the title of the menu, leaving it outside of the
+  // title so it won't be hidden on mobile screens.
+  $menu_title = '<i class="fa fa-flag-checkered"></i>' . render($menu_title);
+
+  $menu = array(
+    '#theme'      => 'html_tag',
+    '#tag'        => 'div',
+    '#value'      => $menu_title . '<i class="fa fa-chevron-down"></i>',
+    '#attributes' => array(
+      'class' => array('fullname-picture'),
+    ),
+  );
+  $menu = render($menu);
+
+  $output = l($menu, $variables['link']['url'], $variables['link']['options']);
+
+  return $output;
+}
