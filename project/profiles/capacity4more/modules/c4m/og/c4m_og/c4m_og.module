@@ -2037,6 +2037,12 @@ function c4m_og_node_access($node, $op, $account) {
     return NODE_ACCESS_DENY;
   }
 
+  if ($op == 'update' && is_object($node) && $node->type == 'wiki_page') {
+    if (empty($node->field_edit_by_members)) {
+      return NODE_ACCESS_DENY;
+    }
+  }
+
   // Grant access to group content by the same access to the group.
   if (is_object($node) && og_is_group_content_type('node', $node->type)) {
 
