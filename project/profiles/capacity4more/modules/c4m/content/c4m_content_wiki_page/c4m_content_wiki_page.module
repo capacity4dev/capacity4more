@@ -519,3 +519,63 @@ function c4m_content_wiki_page_module_implements_alter(&$implementations, $hook)
   unset($implementations['book']);
   $implementations['book'] = $group;
 }
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_content_wiki_page_menu() {
+  $items = array();
+
+  $items['wiki-page/%node/grant'] = array(
+    'page callback' => 'c4m_content_wiki_page_grant_edit_by_all_members',
+    'page arguments' => array(1),
+    'access callback' => 'c4m_content_wiki_page_grant_edit_by_all_members_access',
+    'access arguments' => array(1),
+  );
+
+  return $items;
+}
+
+/**
+ * Check current user has access to grant wiki page permission.
+ *
+ * SA, GO and GA can grant wiki page permission to be edited by all group
+ * members.
+ *
+ * @param object $node
+ *   The node object.
+ *
+ * @return bool
+ *   Whether user has access, or not.
+ */
+function c4m_content_wiki_page_grant_edit_by_all_members_access($node) {
+  if ($node->type != 'wiki_page') {
+    return FALSE;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $group = $wrapper->{OG_AUDIENCE_FIELD}->value();
+
+  // SAs, GOs and GAs can grant 'edit by all members' permissions to wiki.
+  return _c4m_features_og_members_is_power_user($group);
+}
+
+/**
+ * Grants  edited by all group members permission to wiki page.
+ *
+ * @param object $node
+ *   The node object.
+ */
+function c4m_content_wiki_page_grant_edit_by_all_members($node) {
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  if ($wrapper->c4m_edit_by_members->value()) {
+    drupal_set_message(t('Wiki already got permissions'), 'warning');
+  }
+  else {
+    $wrapper->c4m_edit_by_members->set(TRUE);
+    drupal_set_message(t('Wiki permissions granted'));
+  }
+
+  drupal_goto('node/' . $node->nid . '/view');
+}
