@@ -325,6 +325,11 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
     @extend .facetapi-link;
   }
 
+  .facetapi-link--programme::before {
+    content: "\f12e";
+    @extend .facetapi-link;
+  }
+
   .facetapi-link--project::before {
     content: "\f11e";
     @extend .facetapi-link;

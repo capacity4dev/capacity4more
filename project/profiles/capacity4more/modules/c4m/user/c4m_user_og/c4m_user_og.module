@@ -812,6 +812,10 @@ function c4m_user_og_c4m_leave_group_cta($group) {
  * Sets the CTA to follow or unfollow group notifications.
  */
 function c4m_user_og_follow_group_cta($group) {
+  if (!og_is_member('node', $group->nid)) {
+    return FALSE;
+  }
+
   $item = array(
     '#theme' => 'c4m_group_text_cta',
     '#icon' => 'fa-bell-o',
