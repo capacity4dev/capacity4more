@@ -733,6 +733,30 @@ function c4m_user_menu_alter(&$items) {
 }
 
 /**
+ * Implements hook_views_access_callbacks().
+ */
+function c4m_user_views_access_callbacks() {
+  return array(
+    'c4m_user_my_content_access' => t('My content access'),
+  );
+}
+
+/**
+ * Prevent from users to see other users content on "my content" page.
+ *
+ * @param int $uid
+ *   The argument of the user ID from the url.
+ *
+ * @return bool
+ *   TRUE if the logged in user try to see his own content.
+ */
+function c4m_user_my_content_access($uid = NULL) {
+  global $user;
+
+  return user_is_logged_in() && $uid == $user->uid;
+}
+
+/**
  * User contact form access function.
  *
  * Validates that user is logged in, and that account id entered at url exists.
@@ -1068,7 +1092,7 @@ function c4m_user_user_logout($account) {
     $user_temp = $user;
     $user = drupal_anonymous_user();
     $item = menu_get_item($_GET['destination']);
-    if (empty($item) || empty($item['access'])) {
+    if (!empty($item) && empty($item['access'])) {
       // If anonymous user has no access, remove destination.
       unset($_GET['destination']);
     }

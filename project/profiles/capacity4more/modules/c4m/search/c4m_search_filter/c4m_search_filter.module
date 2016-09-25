@@ -10,17 +10,30 @@
  */
 function c4m_search_filter_block_info() {
   $blocks['search_filter'] = array(
-    'info' => t('Search Filter: groups & interests'),
+    'info' => t('Search Filter: all'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
+
   $blocks['search_filter_groups'] = array(
     'info' => t('Search Filter: groups'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
+
+  $blocks['search_filter_groups_overview'] = array(
+    'info' => t('Search Filter: groups overview'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
   $blocks['search_filter_interests'] = array(
     'info' => t('Search Filter: interests'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
+
+  $blocks['search_filter_projects_overview'] = array(
+    'info' => t('Search Filter: projects overview'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
   return $blocks;
 }
 
@@ -75,6 +88,33 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
       // Filter on groups.
       foreach ($groups as $group) {
         if (0 === strpos(current_path(), 'groups', 0)) {
+          $filter->condition('nid', $group);
+        }
+        else {
+          $filter->condition('og_group_ref', $group);
+        }
+      }
+
+      // Apply filter.
+      $query->filter($filter);
+      break;
+
+    case 'projects':
+      // Get projects.
+      $groups = og_get_groups_by_user();
+      if (isset($groups['node'])) {
+        $groups = $groups['node'];
+      }
+      else {
+        return;
+      }
+
+      // Create filter.
+      $filter = $query->createFilter('OR');
+
+      // Filter on projects.
+      foreach ($groups as $group) {
+        if (0 === strpos(current_path(), 'projects', 0)) {
           $filter->condition('nid', $group);
         }
         else {
