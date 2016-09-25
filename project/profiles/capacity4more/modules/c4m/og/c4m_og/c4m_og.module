@@ -2010,6 +2010,23 @@ function c4m_og_get_group_of_content($node) {
 }
 
 /**
+ * Gets the state of a given group.
+ *
+ * Assuming the given group is a node with the type 'group'.
+ *
+ * @param object $group
+ *   The object of the group.
+ *
+ * @return string
+ *   The state of the group.
+ */
+function c4m_og_get_group_status($group) {
+  $wrapper = entity_metadata_wrapper('node', $group);
+
+  return $wrapper->c4m_og_status->value();
+}
+
+/**
  * Implements hook_node_access().
  *
  * Prevents anyone besides site administrators to delete Group/Project.
@@ -2027,6 +2044,11 @@ function c4m_og_node_access($node, $op, $account) {
     if (!$group = c4m_og_get_group_of_content($node)) {
       return NODE_ACCESS_IGNORE;
     }
+
+    if (c4m_og_get_group_status($group) != 'pending') {
+      return NODE_ACCESS_IGNORE;
+    }
+
     $group_access = node_access($group, $op, $account);
 
     return $group_access ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
