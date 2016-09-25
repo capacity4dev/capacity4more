@@ -191,6 +191,11 @@ function c4m_user_notifications_node_insert($node) {
     return;
   }
 
+  if ($node->status != NODE_PUBLISHED) {
+    // Return early, if node is not published.
+    return;
+  }
+
   _c4m_user_notifications_process_general_triggers_insert($node);
   _c4m_user_notifications_process_og_alter($node, 'insert');
   _c4m_user_notifications_process_og_content_alter($node, 'insert');
@@ -209,6 +214,11 @@ function c4m_user_notifications_node_update($node) {
 
   // Node belongs to Anonymous user => no notification required.
   if ($node->uid == 0) {
+    return;
+  }
+
+  if ($node->status != NODE_PUBLISHED) {
+    // Return early, if node is not published.
     return;
   }
 
@@ -418,11 +428,6 @@ function c4m_user_notifications_cron() {
  *   Notifies group requester that the group is waiting for review by admin.
  */
 function _c4m_user_notifications_process_general_triggers_insert($node) {
-  if ($node->status != NODE_PUBLISHED) {
-    // Return early, if node is not published.
-    return;
-  }
-
   if (!og_is_group('node', $node)) {
     // Return early, if node type is not group/project.
     return;
@@ -441,11 +446,6 @@ function _c4m_user_notifications_process_general_triggers_insert($node) {
  *   Owner - group owner changes.
  */
 function _c4m_user_notifications_process_general_triggers_update($node) {
-  if ($node->status != NODE_PUBLISHED) {
-    // Return early, if node is not published.
-    return;
-  }
-
   if (!og_is_group('node', $node)) {
     // Return early, if node type is not group/project.
     return;
@@ -592,10 +592,6 @@ function _c4m_user_notifications_process_og_alter($node, $mode) {
  * Per subscribe_c4m_follow_group flag.
  */
 function _c4m_user_notifications_process_og_content_alter($node, $mode) {
-  if ($node->status != NODE_PUBLISHED) {
-    return;
-  }
-
   $allowed_og_content_types = c4m_og_get_group_content_notification_types();
 
   if ($node->type == 'share' && !empty($node->source_bundle) && in_array($node->source_bundle, $allowed_og_content_types)) {
