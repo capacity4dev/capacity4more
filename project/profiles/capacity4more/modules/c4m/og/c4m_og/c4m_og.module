@@ -1990,6 +1990,26 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
 }
 
 /**
+ * Gets the group node of the given node.
+ *
+ * @param object $node
+ *   A node we wish to get its group node.
+ *
+ * @return bool|mixed
+ *   The object of the group, FALSE if no results found.
+ */
+function c4m_og_get_group_of_content($node) {
+  $result = og_get_entity_groups('node', $node);
+  if (empty($result['node'])) {
+    return FALSE;
+  }
+
+  $gid = reset($result['node']);
+
+  return node_load($gid);
+}
+
+/**
  * Implements hook_node_access().
  *
  * Prevents anyone besides site administrators to delete Group/Project.
@@ -1998,6 +2018,18 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
 function c4m_og_node_access($node, $op, $account) {
   if ($op == 'delete' && og_is_group('node', $node) && !user_access('administer nodes')) {
     return NODE_ACCESS_DENY;
+  }
+
+  // Grant access to group content by the same access to the group.
+  if (is_object($node) && og_is_group_content_type('node', $node->type)) {
+
+    // Couldn't resolve the group of the content.
+    if (!$group = c4m_og_get_group_of_content($node)) {
+      return NODE_ACCESS_IGNORE;
+    }
+    $group_access = node_access($group, $op, $account);
+
+    return $group_access ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
 
   return NODE_ACCESS_IGNORE;
