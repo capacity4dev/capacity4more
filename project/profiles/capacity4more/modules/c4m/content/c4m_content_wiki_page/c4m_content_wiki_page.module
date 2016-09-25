@@ -561,7 +561,7 @@ function c4m_content_wiki_page_grant_edit_by_all_members_access($node) {
 }
 
 /**
- * Grants  edited by all group members permission to wiki page.
+ * Grants 'edit by all group members' permission to wiki page.
  *
  * @param object $node
  *   The node object.
