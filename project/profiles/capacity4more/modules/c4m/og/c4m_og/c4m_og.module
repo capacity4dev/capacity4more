@@ -2038,7 +2038,8 @@ function c4m_og_node_access($node, $op, $account) {
   }
 
   if ($op == 'update' && is_object($node) && $node->type == 'wiki_page') {
-    if (empty($node->field_edit_by_members)) {
+    $wrapper = entity_metadata_wrapper('node', $node);
+    if (!$wrapper->c4m_edit_by_members->value()) {
       return NODE_ACCESS_DENY;
     }
   }
