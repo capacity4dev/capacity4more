@@ -122,7 +122,6 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
   $form['wiki_select'] = array(
     '#title' => t('Wiki Page'),
     '#type' => 'select',
-    '#description' => 'Select Wiki Pages.',
     '#options' => $form['wiki_options']['#value'],
     '#weight' => -1,
   );
