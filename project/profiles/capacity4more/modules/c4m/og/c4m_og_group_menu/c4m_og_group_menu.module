@@ -95,3 +95,42 @@ function c4m_og_group_menu_page_access() {
 
   return og_menu_access('node', $gid);
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_state, $form_id) {
+  // dpm($form);
+
+  $gid = og_menu_get_context();
+  $group = node_load($gid);
+  if (!$group || $group->type != 'project') {
+    return FALSE;
+  }
+
+  $group = node_load(17); // Remove this
+  $wiki_pages = book_get_flat_menu($group->book);
+  array_shift($wiki_pages);
+
+  $wiki_details = array('' => t('--- SELECT ---'));
+  foreach($wiki_pages as $wiki_page) {
+    $wiki_details[$wiki_page['link_path']] = $wiki_page['link_title'];
+  }
+
+  $form['wiki_options'] = array(
+    '#type' => 'value',
+    '#value' => $wiki_details,
+  );
+
+  $form['wiki_select'] = array(
+    '#title' => t('Wiki Page'),
+    '#type' => 'select',
+    '#description' => 'Select Wiki Pages.',
+    '#options' => $form['wiki_options']['#value'],
+    '#weight' => -1,
+  );
+
+  $form['link_title']['#weight'] = -3;
+  $form['link_path']['#weight'] = -2;
+  $form['link_path']['#required'] = FALSE;
+}
