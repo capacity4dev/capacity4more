@@ -10,7 +10,7 @@ set -e
 
 # Install Drush.
 cd $TRAVIS_BUILD_DIR
-composer global require drush/drush 8.1.3
+composer global require drush/drush 8.*
 phpenv rehash
 
 # Create the Drush alias.
