@@ -186,7 +186,7 @@ function c4m_content_wiki_page_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '30',
+            'weight' => '33',
             'visible' => FALSE,
           ),
           'teaser_group' => array(
@@ -203,6 +203,16 @@ function c4m_content_wiki_page_strongarm() {
           ),
           'pinned_content' => array(
             'weight' => '1',
+            'visible' => TRUE,
+          ),
+        ),
+        'highlighted' => array(
+          'full' => array(
+            'weight' => '5',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '8',
             'visible' => TRUE,
           ),
         ),
