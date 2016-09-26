@@ -91,5 +91,6 @@ function c4m_og_purl_alter_uri_info_purl_dashboard(array &$uri_info) {
   $uri_info['options']['purl'] = array(
     'provider' => 'og_purl|node',
     'id' => $gid,
+    'enabled' => TRUE,
   );
 }
