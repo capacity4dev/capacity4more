@@ -100,15 +100,12 @@ function c4m_og_group_menu_page_access() {
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_state, $form_id) {
-  // dpm($form);
-
   $gid = og_menu_get_context();
   $group = node_load($gid);
   if (!$group || $group->type != 'project') {
     return FALSE;
   }
 
-  $group = node_load(17); // Remove this
   $wiki_pages = book_get_flat_menu($group->book);
   array_shift($wiki_pages);
 
@@ -132,5 +129,6 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
 
   $form['link_title']['#weight'] = -3;
   $form['link_path']['#weight'] = -2;
-  $form['link_path']['#required'] = FALSE;
+
+  drupal_add_js(drupal_get_path('module', 'c4m_og_group_menu') . '/js/wiki-select.js');
 }
