@@ -151,7 +151,6 @@ function capacity4more_setup_set_og_permissions() {
     'photo',
     'photoalbum',
     'share',
-    'news',
   );
 
   $permissions = array(
