@@ -158,6 +158,10 @@ function c4m_features_og_group_dashboard_action_promote($node) {
  *    Rendered output of the promote link.
  */
 function c4m_features_og_group_dashboard_action_recommend($node) {
+  if (empty($node->nid)) {
+    return '';
+  }
+
   $flag_link = flag_create_link('c4m_og_content_recommend', $node->nid);
   if (!$flag_link) {
     return '';
