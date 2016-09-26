@@ -111,6 +111,12 @@ function c4m_user_profile_tokens(
 
         case 'url-with-name':
           $name = c4m_user_name($account);
+
+          $wrapper = entity_metadata_wrapper('user', $account);
+          if (!$account->status && $wrapper->c4m_is_deleted_anonymous->value()) {
+            $name = t('Anonymous');
+          }
+
           $replacements[$original] = !empty($account->uid) && $account->status ? l(
             $name,
             "user/$account->uid",
