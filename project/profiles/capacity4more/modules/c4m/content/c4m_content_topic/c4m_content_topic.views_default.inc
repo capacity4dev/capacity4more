@@ -166,6 +166,22 @@ function c4m_content_topic_views_default_views() {
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['relationship'] = 'field_node_target_id';
   $handler->display->display_options['filters']['status']['value'] = '1';
+  /* Filter criterion: Message: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'message';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'c4m_insert__comment' => 'c4m_insert__comment',
+    'c4m_insert__node__article' => 'c4m_insert__node__article',
+    'c4m_insert__node__discussion' => 'c4m_insert__node__discussion',
+    'c4m_insert__node__document' => 'c4m_insert__node__document',
+    'c4m_insert__node__event' => 'c4m_insert__node__event',
+    'c4m_insert__node__news' => 'c4m_insert__node__news',
+    'c4m_insert__node__photo' => 'c4m_insert__node__photo',
+    'c4m_insert__node__photoalbum' => 'c4m_insert__node__photoalbum',
+    'c4m_insert__node__share' => 'c4m_insert__node__share',
+    'c4m_insert__node__wiki_page' => 'c4m_insert__node__wiki_page',
+  );
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');

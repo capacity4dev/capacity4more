@@ -218,7 +218,7 @@ function c4m_content_event_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '26',
+            'weight' => '28',
             'visible' => FALSE,
           ),
           'c4m_related' => array(
@@ -246,8 +246,18 @@ function c4m_content_event_strongarm() {
             'visible' => FALSE,
           ),
           'pinned_content' => array(
-            'weight' => '36',
-            'visible' => FALSE,
+            'weight' => '1',
+            'visible' => TRUE,
+          ),
+        ),
+        'highlighted' => array(
+          'full' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '11',
+            'visible' => TRUE,
           ),
         ),
       ),
@@ -275,6 +285,7 @@ function c4m_content_event_strongarm() {
   $strongarm->name = 'node_options_event';
   $strongarm->value = array(
     0 => 'status',
+    1 => 'revision',
   );
   $export['node_options_event'] = $strongarm;
 

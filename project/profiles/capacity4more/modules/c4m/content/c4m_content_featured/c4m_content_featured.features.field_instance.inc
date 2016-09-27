@@ -115,6 +115,36 @@ function c4m_content_featured_field_default_field_instances() {
     'label' => 'Body',
     'required' => 0,
     'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'default_html' => 'default_html',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'mail' => 0,
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 1,
+        'default_order_toggle' => 1,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'default_html' => array(
+              'weight' => -48,
+            ),
+            'filtered_html' => array(
+              'weight' => -49,
+            ),
+            'full_html' => array(
+              'weight' => -50,
+            ),
+            'mail' => array(
+              'weight' => -46,
+            ),
+            'plain_text' => array(
+              'weight' => -47,
+            ),
+          ),
+        ),
+      ),
       'display_summary' => 0,
       'summary_display' => 'default',
       'text_processing' => 1,
@@ -124,7 +154,13 @@ function c4m_content_featured_field_default_field_instances() {
       'active' => 1,
       'module' => 'text',
       'settings' => array(
-        'rows' => 20,
+        'maxlength_js' => 160,
+        'maxlength_js_enforce' => 1,
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'maxlength_js_label_summary' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'maxlength_js_summary' => '',
+        'maxlength_js_truncate_html' => 1,
+        'rows' => 5,
         'summary_display' => 'default',
         'summary_rows' => 5,
       ),

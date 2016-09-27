@@ -11,7 +11,7 @@
  * Add bootstrap classes to the menu to style it as a horizontal menu
  * (default bootstrap).
  */
-function kapablo_menu_tree__og_group_menu(array $variables) {
+function kapablo_menu_tree__c4m_og_group_menu(array $variables) {
   return '<ul class="menu nav navbar-nav og-menu" role="tablist">' . $variables['tree'] . '</ul>';
 }
 

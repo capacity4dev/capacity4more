@@ -636,6 +636,19 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
+  $fields['node']['c4m_ds_project_type_icon'] = array(
+    'title' => t('Project type icon'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('project|*'),
+    'file' => $path . '/includes/c4m_ds.theme.node.inc',
+    'function' => 'theme_c4m_ds_project_type_icon',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
   return $fields;
 }
 

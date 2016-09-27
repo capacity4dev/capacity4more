@@ -193,7 +193,7 @@ function c4m_content_document_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '23',
+            'weight' => '26',
             'visible' => FALSE,
           ),
           'activity_group' => array(
@@ -217,8 +217,18 @@ function c4m_content_document_strongarm() {
             'visible' => FALSE,
           ),
           'pinned_content' => array(
-            'weight' => '28',
-            'visible' => FALSE,
+            'weight' => '1',
+            'visible' => TRUE,
+          ),
+        ),
+        'highlighted' => array(
+          'full' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '6',
+            'visible' => TRUE,
           ),
         ),
       ),

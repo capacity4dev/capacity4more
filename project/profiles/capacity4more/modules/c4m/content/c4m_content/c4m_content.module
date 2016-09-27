@@ -584,13 +584,34 @@ function c4m_content_custom_node_delete_confirm($form, &$form_state) {
  * Adding a 'Highlighted' field.
  */
 function c4m_content_field_extra_fields() {
-  $extra_fields['node']['group']['display']['highlighted'] = array(
-    'label' => t('Highlight'),
-    'description' => t('Highlight a node will toggle its promote property.'),
-    'weight' => 0,
-  );
+  $extra_fields = array();
+
+  foreach (c4m_content_highlightable_node_types() as $type) {
+    $extra_fields['node'][$type]['display']['highlighted'] = array(
+      'label' => t('Highlight'),
+      'description' => t('Highlight a node will toggle its promote property.'),
+      'weight' => 0,
+    );
+  }
 
   return $extra_fields;
+}
+
+/**
+ * Returns the list of content types that can be highlighted.
+ *
+ * @return array
+ *   The node types that can be highlighted.
+ */
+function c4m_content_highlightable_node_types() {
+  return array(
+    'group',
+    'project',
+    'discussion',
+    'document',
+    'event',
+    'wiki_page',
+  );
 }
 
 /**
@@ -667,7 +688,9 @@ function c4m_content_toggle_highlight_access($group, $node, $status) {
     }
   }
 
-  return $group->uid == $user->uid || user_access('administer site');
+  $admin_role = user_role_load_by_name('administrator');
+  $has_access = user_has_role($admin_role->rid);
+  return $has_access;
 }
 
 /**
@@ -686,7 +709,9 @@ function c4m_content_toggle_highlight($group, $node, $status, $ajax = 'nojs') {
   $wrapper = entity_metadata_wrapper('node', $node);
 
   // Setting the new value.
-  $wrapper->promote->set($status);
+  // When generating the link, we create it with the current status. So, when
+  // updating the node, we have to change it to the opposite status.
+  $wrapper->promote->set(!$status);
   $wrapper->save();
 
   if ($ajax != 'ajax') {
@@ -723,7 +748,7 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
 
   $options = array(
     'attributes' => array(
-      'class' => 'use-ajax',
+      'class' => array('use-ajax', 'highlight-link'),
       'id' => 'highlight-content',
     ),
     'purl' => array('disabled' => TRUE),
@@ -736,9 +761,10 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
     NODE_NOT_PROMOTED => 'fa-star-o',
     NODE_PROMOTED => 'fa-star',
   );
-  $star = '<i class="fa ' . $star_class[$highlight] . ' fa-2x" aria-hidden="true"></i>';
+  $star = '<i class="fa ' . $star_class[$highlight] . '" aria-hidden="true"></i> ';
+  $link_text = $star . '<span class="highlight-link-text">' . t('Highlight') . '</span>';
 
-  return l($star, $url, $options);
+  return l($link_text, $url, $options);
 }
 
 /**
@@ -875,7 +901,7 @@ function c4m_content_taxonomy_build_tree($items, $link_term_to_facet = array()) 
  * @param int $parent_id
  *   The ID of taxonomy item, which children should be extracted.
  *
- * @return array $result
+ * @return array
  *   All child items of input item with ID $parent_id.
  */
 function _c4m_content_taxonomy_extract_child_items(&$items, $parent_id) {
@@ -912,7 +938,7 @@ function _c4m_content_taxonomy_extract_child_items(&$items, $parent_id) {
  *   Taxonomies array, from which we extract all children of item with
  *   ID = $parent_id. $items array is altered by function.
  *
- * @return mixed $result
+ * @return mixed
  *   First taxonomy item at $items array, that got no parents.
  *   FALSE, if all items got a parent.
  */

@@ -88,6 +88,11 @@ function c4m_user_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_features_og_members_admin_actions' => array(
+      'weight' => '8',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_features_og_members_since' => array(
       'weight' => '5',
       'label' => 'inline',
@@ -273,6 +278,7 @@ function c4m_user_ds_layout_settings_info() {
         5 => 'c4m_features_og_members_since',
         6 => 'c4m_features_og_members_activity_summary',
         7 => 'c4m_user_contact_link',
+        8 => 'c4m_features_og_members_admin_actions',
       ),
     ),
     'fields' => array(
@@ -284,6 +290,7 @@ function c4m_user_ds_layout_settings_info() {
       'c4m_features_og_members_since' => 'right',
       'c4m_features_og_members_activity_summary' => 'right',
       'c4m_user_contact_link' => 'right',
+      'c4m_features_og_members_admin_actions' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
