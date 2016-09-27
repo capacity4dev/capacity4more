@@ -113,27 +113,27 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
   }
 
   $tree = menu_build_tree($group->book['menu_name']);
+  // Resolve pages under the node of the menu tree.
   $top_pages = array_shift($tree)['below'];
 
-  $wiki_titles = array('' => t('--- SELECT ---'));
-  $wiki_levels = array('' => array (
-    'class' => 'option-level1',
-  ));
+  // Default select option.
+  $wiki_details = array('' => t('--- SELECT ---'));
 
-  foreach($top_pages as $top_page) {
-    _c4m_og_group_menu_build_wiki_tree($top_page,$wiki_titles, $wiki_levels, 1);
+  // Generate page details for each page at tree.
+  foreach ($top_pages as $top_page) {
+    _c4m_og_group_menu_process_page($top_page, $wiki_details);
   }
 
+  // Add select element to form.
   $form['wiki_select'] = array(
     '#title' => t('Wiki Page'),
     '#type' => 'select',
-    '#options' => $wiki_titles,
-    '#option_attributes' => $wiki_levels,
+    '#options' => $wiki_details,
     '#weight' => -1,
   );
 
   // If path provided, set selected Wiki Page as a default value.
-  if (in_array($form['link_path']['#default_value'], array_keys($wiki_titles))) {
+  if (in_array($form['link_path']['#default_value'], array_keys($wiki_details))) {
     $form['wiki_select']['#default_value'] = $form['link_path']['#default_value'];
   }
 
@@ -143,18 +143,24 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
   drupal_add_js(drupal_get_path('module', 'c4m_og_group_menu') . '/js/wiki-select.js');
 }
 
-
-function _c4m_og_group_menu_build_wiki_tree($page, &$wiki_titles, &$wiki_levels, $level) {
+/**
+ * Recursive function.
+ *
+ * Generates 'options' input, for 'Wiki Page' select element.
+ *
+ * @param array $page
+ *   Details of current page, and pages bellow it.
+ * @param array $wiki_details
+ *   Contains details (lint => title) of all wiki pages.
+ */
+function _c4m_og_group_menu_process_page($page, &$wiki_details) {
+  // Add details of current page to wiki details.
   $page_link  = $page['link'];
-  $wiki_titles[$page_link['link_path']] = $page_link['link_title'];
-  $wiki_levels[$page_link['link_path']] = array (
-    'class' => 'option-level' . $level,
-  );
+  $wiki_details[$page_link['link_path']] = $page_link['link_title'];
 
+  // For each page on level below, generate the details.
   $below_pages = $page['below'];
-  $next_level = $level + 1;
-  foreach($below_pages as $below_page) {
-    _c4m_og_group_menu_build_wiki_tree($below_page, $wiki_titles, $wiki_levels, $next_level);
+  foreach ($below_pages as $below_page) {
+    _c4m_og_group_menu_process_page($below_page, $wiki_details);
   }
 }
-
