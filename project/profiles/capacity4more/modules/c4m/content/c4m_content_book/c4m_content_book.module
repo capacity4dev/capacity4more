@@ -145,3 +145,48 @@ function c4m_content_book_help_and_guidance_autocomplete($title = '') {
 
   drupal_json_output($node_matches);
 }
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_content_book_block_info() {
+  $blocks = array();
+  $blocks['help_book_navigation'] = array(
+    'info' => t('Help pages navigation'),
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_content_book_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'help_book_navigation':
+      $block['subject'] = '';
+      $block['content'] = _c4m_content_book_help_book_navigation_content();
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Get the titles of the help book.
+ *
+ * @return string
+ *   Rendered help pages navigation.
+ */
+function _c4m_content_book_help_book_navigation_content() {
+  if (!$book_node = c4m_content_book_get_main_help_and_guidance()) {
+    return NULL;
+  }
+  $tree = menu_tree_all_data($book_node->book['menu_name'], $book_node->book);
+  $data = array_shift($tree);
+  $block['content'] = ($data['below']) ? menu_tree_output($data['below']) : '';
+
+  return $block;
+}
