@@ -103,7 +103,13 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
   $gid = og_menu_get_context();
   $group = node_load($gid);
   if (!$group || $group->type != 'project') {
-    return FALSE;
+    return;
+  }
+
+  // The select element of the wiki pages should not be displayed on a default
+  // menu link.
+  if ($form['link_path']['#type'] == 'value') {
+    return;
   }
 
   $wiki_pages = book_get_flat_menu($group->book);
@@ -125,6 +131,11 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
     '#options' => $form['wiki_options']['#value'],
     '#weight' => -1,
   );
+
+  // If path provided, set selected Wiki Page as a default value.
+  if (in_array($form['link_path']['#default_value'], array_keys($wiki_details))) {
+    $form['wiki_select']['#default_value'] = $form['link_path']['#default_value'];
+  }
 
   $form['link_title']['#weight'] = -3;
   $form['link_path']['#weight'] = -2;
