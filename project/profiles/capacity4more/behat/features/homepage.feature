@@ -26,6 +26,7 @@ Feature: Test homepage content and blocks
     Given I am logged in as user "isaacnewton"
     When  I visit the site homepage
     Then  I should see "My Groups"
+    And   I should see "My Projects"
 
   @api
   Scenario: Anonymous user should see button to open the introduction video.
@@ -38,18 +39,21 @@ Feature: Test homepage content and blocks
     Given I am an anonymous user
     When  I visit the site homepage
     Then  I should not see "My Groups"
+    And   I should not see "My Projects"
 
   @api
   Scenario: Logged in, non member user can't see "My Groups" block
     Given I am logged in as user "president"
     When  I visit the site homepage
     Then  I should not see "My Groups"
+    And   I should not see "My Projects"
 
   @api
   Scenario: Logged in, member user should see "My Groups" block
     Given I am logged in as user "mariecurie"
     When  I visit the site homepage
     Then  I should see "My Groups"
+    And   I should see "My Projects"
     And   I should see "Architecture" in the "div.my-groups" element
     And   I should see "Show more" in the "div.my-groups" element
 
