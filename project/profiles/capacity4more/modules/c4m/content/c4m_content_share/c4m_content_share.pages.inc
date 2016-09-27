@@ -188,13 +188,13 @@ function c4m_content_share_form_submit($form, &$form_state) {
 
   node_object_prepare($node);
 
-  /*
-  // If this is a book page, we need an extra step.
   $original_node = entity_metadata_wrapper(
   'node',
   $values['c4m_source_entity']
   );
 
+  /*
+  // If this is a book page, we need an extra step.
   if ($original_node->getBundle() === 'wiki_page') {
   $bid = c4m_content_wiki_page_get_bid_by_nid($values['og_group_ref']);
   $book = $node->book;
