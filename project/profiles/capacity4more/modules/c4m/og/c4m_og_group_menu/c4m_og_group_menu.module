@@ -112,17 +112,24 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
     return;
   }
 
-  $wiki_pages = book_get_flat_menu($group->book);
-  array_shift($wiki_pages);
+  $tree = menu_build_tree($group->book['menu_name']);
+  $top_pages = array_shift($tree)['below'];
 
-  $wiki_details = array('' => t('--- SELECT ---'));
-  foreach($wiki_pages as $wiki_page) {
-    $wiki_details[$wiki_page['link_path']] = $wiki_page['link_title'];
+  dpm($top_pages);
+
+  $wiki_titles = array('' => t('--- SELECT ---'));
+  $wiki_levels = array('' => 1);
+
+  foreach($top_pages as $top_page) {
+    recursion($top_page,$wiki_titles, $wiki_levels, 1);
   }
+
+  dpm($wiki_titles);
+  dpm($wiki_levels);
 
   $form['wiki_options'] = array(
     '#type' => 'value',
-    '#value' => $wiki_details,
+    '#value' => $wiki_titles,
   );
 
   $form['wiki_select'] = array(
@@ -133,7 +140,7 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
   );
 
   // If path provided, set selected Wiki Page as a default value.
-  if (in_array($form['link_path']['#default_value'], array_keys($wiki_details))) {
+  if (in_array($form['link_path']['#default_value'], array_keys($wiki_titles))) {
     $form['wiki_select']['#default_value'] = $form['link_path']['#default_value'];
   }
 
@@ -142,3 +149,17 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
 
   drupal_add_js(drupal_get_path('module', 'c4m_og_group_menu') . '/js/wiki-select.js');
 }
+
+
+function recursion($page, &$wiki_titles, &$wiki_levels, $level) {
+  $page_link  = $page['link'];
+  $wiki_titles[$page_link['link_path']] = $page_link['link_title'];
+  $wiki_levels[$page_link['link_path']] = $level;
+
+  $below_pages = $page['below'];
+  $next_level = $level + 1;
+  foreach($below_pages as $below_page) {
+    recursion($below_page, $wiki_titles, $wiki_levels, $next_level);
+  }
+}
+
