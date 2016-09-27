@@ -88,6 +88,8 @@ function c4m_content_project_ds_field_settings_info() {
   );
   $export['paragraphs_item|c4m_paragraph_map|default'] = $ds_fieldsetting;
 
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|project|group_dashboard';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'project';
