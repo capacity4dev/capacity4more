@@ -30,7 +30,7 @@ function c4m_content_document_c4m_og_vocab_info_content() {
  * Adds our own submit handler as the last one.
  */
 function c4m_content_document_form_document_node_form_alter(&$form, $form_state) {
-  c4m_content_create_group_content_access('document');
+  c4m_content_create_group_content_access();
   // Hide field Add to library from user.
   $form['c4m_document_add_to_library']['#access'] = FALSE;
 

@@ -30,7 +30,7 @@ function c4m_content_photoalbum_c4m_og_vocab_info_content() {
  * Adds an `Add Photos` button to the `Create Photo album` form.
  */
 function c4m_content_photoalbum_form_photoalbum_node_form_alter(&$form, &$form_instance, $form_id) {
-  c4m_content_create_group_content_access('photo album');
+  c4m_content_create_group_content_access();
 
   $form['actions']['add_photos'] = array(
     '#type' => 'submit',

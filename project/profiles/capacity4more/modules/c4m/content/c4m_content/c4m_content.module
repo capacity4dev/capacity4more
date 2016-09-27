@@ -946,10 +946,12 @@ function _c4m_content_taxonomy_extract_root_item(&$items) {
 /**
  * Manages access to 'create group content' form.
  *
+ * For OG type 'group', allows access for group members and power users.
+ *
  * @param string $type
  *   Group content type.
  */
-function c4m_content_create_group_content_access($type) {
+function c4m_content_create_group_content_access() {
   // If not under og context, return early.
   if (!$context = og_context()) {
     drupal_access_denied();
