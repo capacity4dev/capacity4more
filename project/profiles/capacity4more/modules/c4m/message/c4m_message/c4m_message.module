@@ -3113,20 +3113,27 @@ function c4m_message__update__node($node, $account = NULL) {
     $account = user_load($node->uid);
   }
 
-  $time_since = time() - variable_get('c4m_message_join_messages', '36000');
-  // Load existing message that is not older then 6 hours for the current node.
-  $query = new EntityFieldQuery();
-  $result = $query
-    ->entityCondition('entity_type', 'message')
-    ->propertyCondition('type', 'c4m_insert__node__' . $node->type)
-    ->propertyCondition('timestamp', $time_since, '>')
-    ->fieldCondition('field_node', 'target_id', $node->nid)
-    ->propertyOrderBy('timestamp', 'desc')
-    ->range(0, 1)
-    ->execute();
+  // If the "Send notification" on the form is checked then we should by pass
+  // the threshold since the user explicitly wants to send a notification
+  // (meaning creating a new message).
+  $send_notification_bypass = !empty($node->c4m_send_notification);
+
+  if (!$send_notification_bypass) {
+    $time_since = time() - variable_get('c4m_message_join_messages', '36000');
+    // Load existing message that is not older then 6 hours for the current node.
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'message')
+      ->propertyCondition('type', 'c4m_insert__node__' . $node->type)
+      ->propertyCondition('timestamp', $time_since, '>')
+      ->fieldCondition('field_node', 'target_id', $node->nid)
+      ->propertyOrderBy('timestamp', 'desc')
+      ->range(0, 1)
+      ->execute();
+  }
 
   $message = NULL;
-  if (!empty($result['message'])) {
+  if (!$send_notification_bypass && !empty($result['message'])) {
     $id = key($result['message']);
     $message = message_load($id);
     $wrapper = entity_metadata_wrapper('message', $message);
