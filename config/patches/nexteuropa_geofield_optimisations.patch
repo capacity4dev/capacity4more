@@ -1,0 +1,59 @@
+diff --git a/project/profiles/capacity4more/modules/ec/nexteuropa_geofield/js/nexteuropa_geofield.edit.js b/project/profiles/capacity4more/modules/ec/nexteuropa_geofield/js/nexteuropa_geofield.edit.js
+index 2e6a28f..bcb64ce 100755
+--- a/project/profiles/capacity4more/modules/ec/nexteuropa_geofield/js/nexteuropa_geofield.edit.js
++++ b/project/profiles/capacity4more/modules/ec/nexteuropa_geofield/js/nexteuropa_geofield.edit.js
+@@ -15,9 +15,12 @@
+ 
+       var lat = settings.nexteuropa_geojson.settings.fs_default_map_center['lat'];
+       var lng = settings.nexteuropa_geojson.settings.fs_default_map_center['lng'];
+-      var map = L.map('geofield_geojson_map', {}).setView([lat, lng], 13);
++      var map = L.map('geofield_geojson_map', {}).setView([lat, lng], 5);
+ 
+       $(document).ready(function() {
++
++        L.Icon.Default.imagePath = settings.nexteuropa_geojson.image_path;
++
+         if (context == document) {
+           // If there are vertical tabs the widget should refresh when swapping
+           // between them.
+diff --git a/project/profiles/capacity4more/modules/ec/nexteuropa_geofield/js/nexteuropa_geofield.view.js b/project/profiles/capacity4more/modules/ec/nexteuropa_geofield/js/nexteuropa_geofield.view.js
+index 6ae33cd..4972544 100755
+--- a/project/profiles/capacity4more/modules/ec/nexteuropa_geofield/js/nexteuropa_geofield.view.js
++++ b/project/profiles/capacity4more/modules/ec/nexteuropa_geofield/js/nexteuropa_geofield.view.js
+@@ -37,12 +37,22 @@
+         }
+         // Fix zoom to 16 when there is one object on the map.
+         if (i == 1) {
+-          map.fitBounds(drawnItems.getBounds(), {maxZoom:16});
++          setTimeout(function () {
++            map.fitBounds([
++              drawnItems.getBounds(), {maxZoom:16}
++            ]);
++          }, 100);
+         }
+         else {
+-          map.fitBounds(drawnItems.getBounds());
++          setTimeout(function () {
++            map.fitBounds([
++              drawnItems.getBounds()
++            ]);
++          }, 100);
+         }
+ 
++        setTimeout(map.invalidateSize.bind(map), 1);
++
+         map.refresh = function(timeout){
+           window.setTimeout(function(){
+             app.map.invalidateSize();
+diff --git a/project/profiles/capacity4more/modules/ec/nexteuropa_geofield/nexteuropa_geofield.module b/project/profiles/capacity4more/modules/ec/nexteuropa_geofield/nexteuropa_geofield.module
+index 8cdd371..7887748 100755
+--- a/project/profiles/capacity4more/modules/ec/nexteuropa_geofield/nexteuropa_geofield.module
++++ b/project/profiles/capacity4more/modules/ec/nexteuropa_geofield/nexteuropa_geofield.module
+@@ -92,6 +92,7 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
+       drupal_add_js(array('nexteuropa_geojson' => array('map' => isset($value['geofield_geojson']) ? $value['geofield_geojson'] : '')), 'setting');
+       drupal_add_js(array('nexteuropa_geojson' => array('settings' => $settings)), 'setting');
+       drupal_add_js(array('nexteuropa_geojson' => array('cardinality' => $field['cardinality'])), 'setting');
++      drupal_add_js(array('nexteuropa_geojson' => array('image_path' => '/' . libraries_get_path('leaflet') . '/images')), 'setting');
+       break;
+   }
+   return $element;
