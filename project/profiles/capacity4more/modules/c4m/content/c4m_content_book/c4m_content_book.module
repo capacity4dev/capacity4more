@@ -184,9 +184,64 @@ function _c4m_content_book_help_book_navigation_content() {
   if (!$book_node = c4m_content_book_get_main_help_and_guidance()) {
     return NULL;
   }
-  $tree = menu_tree_all_data($book_node->book['menu_name'], $book_node->book);
-  $data = array_shift($tree);
-  $block['content'] = ($data['below']) ? menu_tree_output($data['below']) : '';
 
-  return $block;
+  // We have to replicate some code because we cannot just
+  // call theme('book_navigation', array('book_link' => ...)) because
+  // we want to remove level 0 from the tree.
+  $tree = menu_build_tree($book_node->book['menu_name']);
+
+  if (empty($tree)) {
+    return NULL;
+  }
+
+  // Remove level 0 first.
+  $tree = $tree[key($tree)]['below'];
+  $tree = menu_tree_output($tree);
+
+  // Fix the theme hook suggestions.
+  // Do this so we end up in OUR theme overrides.
+  $file = DRUPAL_ROOT . '/' . drupal_get_path('theme', 'bootstrap') .
+    '/templates/book/book-navigation.vars.php';
+  if (file_exists($file)) {
+    require_once $file;
+    _bootstrap_book_fix_theme_hooks($book_node->book['nid'], $tree);
+  }
+
+  // Return the rendered output.
+  $markup = drupal_render($tree);
+  // We need to clear the menu build tree cache for this menu or the building
+  // of book navigation will fail as it will have nids for node objects.
+  drupal_static_reset('_menu_build_tree');
+
+  $current_page = $book_node->book['mlid'];
+  $parent_page = $book_node->book['plid'];
+  $depth = $book_node->book['depth'];
+
+  $options = array(
+    'attributes' => array(
+      'class' => 'add-more',
+    ),
+    'html' => TRUE,
+  );
+
+  // Links to add new book pages.
+  $links = array(
+    l(
+      '<i class="fa fa-plus-square-o"></i> ' . t('Add page on same level'),
+      'node/add/book',
+      array_merge($options, array('query' => array('parent' => $parent_page)))
+    ),
+    $depth <= 5 ? l(
+      '<i class="fa fa-plus-square-o"></i> ' . t('Add child page'),
+      'node/add/book',
+      array_merge($options, array('query' => array('parent' => $current_page)))
+    ) : '',
+  );
+
+  $markup .= theme(
+    'item_list',
+    array('items' => $links, 'attributes' => array('class' => 'add-links'))
+  );
+
+  return $markup;
 }
