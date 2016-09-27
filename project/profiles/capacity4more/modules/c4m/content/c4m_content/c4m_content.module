@@ -584,19 +584,34 @@ function c4m_content_custom_node_delete_confirm($form, &$form_state) {
  * Adding a 'Highlighted' field.
  */
 function c4m_content_field_extra_fields() {
-  $extra_fields['node']['group']['display']['highlighted'] = array(
-    'label' => t('Highlight'),
-    'description' => t('Highlight a node will toggle its promote property.'),
-    'weight' => 0,
-  );
+  $extra_fields = array();
 
-  $extra_fields['node']['project']['display']['highlighted'] = array(
-    'label' => t('Highlight'),
-    'description' => t('Highlight a node will toggle its promote property.'),
-    'weight' => 0,
-  );
+  foreach (c4m_content_highlightable_node_types() as $type) {
+    $extra_fields['node'][$type]['display']['highlighted'] = array(
+      'label' => t('Highlight'),
+      'description' => t('Highlight a node will toggle its promote property.'),
+      'weight' => 0,
+    );
+  }
 
   return $extra_fields;
+}
+
+/**
+ * Returns the list of content types that can be highlighted.
+ *
+ * @return array
+ *   The node types that can be highlighted.
+ */
+function c4m_content_highlightable_node_types() {
+  return array(
+    'group',
+    'project',
+    'discussion',
+    'document',
+    'event',
+    'wiki_page',
+  );
 }
 
 /**
@@ -747,7 +762,7 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
     NODE_PROMOTED => 'fa-star',
   );
   $star = '<i class="fa ' . $star_class[$highlight] . '" aria-hidden="true"></i> ';
-  $link_text = $star . t('highlight');
+  $link_text = $star . '<span class="highlight-link-text">' . t('Highlight') . '</span>';
 
   return l($link_text, $url, $options);
 }
