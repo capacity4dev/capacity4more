@@ -115,27 +115,20 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
   $tree = menu_build_tree($group->book['menu_name']);
   $top_pages = array_shift($tree)['below'];
 
-  dpm($top_pages);
-
   $wiki_titles = array('' => t('--- SELECT ---'));
-  $wiki_levels = array('' => 1);
+  $wiki_levels = array('' => array (
+    'class' => 'option-level1',
+  ));
 
   foreach($top_pages as $top_page) {
-    recursion($top_page,$wiki_titles, $wiki_levels, 1);
+    _c4m_og_group_menu_build_wiki_tree($top_page,$wiki_titles, $wiki_levels, 1);
   }
-
-  dpm($wiki_titles);
-  dpm($wiki_levels);
-
-  $form['wiki_options'] = array(
-    '#type' => 'value',
-    '#value' => $wiki_titles,
-  );
 
   $form['wiki_select'] = array(
     '#title' => t('Wiki Page'),
     '#type' => 'select',
-    '#options' => $form['wiki_options']['#value'],
+    '#options' => $wiki_titles,
+    '#option_attributes' => $wiki_levels,
     '#weight' => -1,
   );
 
@@ -151,15 +144,17 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
 }
 
 
-function recursion($page, &$wiki_titles, &$wiki_levels, $level) {
+function _c4m_og_group_menu_build_wiki_tree($page, &$wiki_titles, &$wiki_levels, $level) {
   $page_link  = $page['link'];
   $wiki_titles[$page_link['link_path']] = $page_link['link_title'];
-  $wiki_levels[$page_link['link_path']] = $level;
+  $wiki_levels[$page_link['link_path']] = array (
+    'class' => 'option-level' . $level,
+  );
 
   $below_pages = $page['below'];
   $next_level = $level + 1;
   foreach($below_pages as $below_page) {
-    recursion($below_page, $wiki_titles, $wiki_levels, $next_level);
+    _c4m_og_group_menu_build_wiki_tree($below_page, $wiki_titles, $wiki_levels, $next_level);
   }
 }
 
