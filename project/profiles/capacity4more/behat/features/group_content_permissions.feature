@@ -74,18 +74,6 @@ Feature: Test creation of the content permissions.
     Then  I should not have access to the page
 
   @api
-  Scenario: Group non member should not have access to group 'create wiki-page' form.
-    Given I am logged in as user "badhairday"
-    When  I go to "movie-corner/node/add/wiki-page"
-    Then  I should not have access to the page
-
-  @api
-  Scenario: Group member should not have access to group 'create wiki-page' form.
-    Given I am logged in as user "isaacnewton"
-    When  I go to "movie-corner/node/add/wiki-page"
-    Then  I should not have access to the page
-
-  @api
   Scenario: Group owner should not have access to group 'create wiki-page' form.
     Given I am logged in as user "alfrednobel"
     When  I go to "nobelprize/node/add/wiki-page"
