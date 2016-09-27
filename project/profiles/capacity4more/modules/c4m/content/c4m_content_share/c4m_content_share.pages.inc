@@ -145,7 +145,7 @@ function c4m_content_share_form_validate($form, &$form_state) {
   $group_ref = $form_state['input']['og_group_ref'][LANGUAGE_NONE][0];
 
   $default = $group_ref['default'];
-  $admin = $group_ref['admin'];
+  $admin = isset($group_ref['admin']) ? $group_ref['admin'] : NULL;
 
   if ((empty($default) || $default === '_none') && (empty($admin) || empty($admin[0]['target_id']))) {
     form_set_error('og_group_ref', t('You need a group reference'));
