@@ -26,6 +26,7 @@ projects[blockreference][version] = "2.3"
 
 projects[context][subdir] = "contrib"
 projects[context][version] = "3.7"
+projects[context][patch][] = https://www.drupal.org/files/issues/context-2742913-5.patch
 
 projects[context_block_disable][subdir] = "contrib"
 projects[context_block_disable][version] = "2.1"
