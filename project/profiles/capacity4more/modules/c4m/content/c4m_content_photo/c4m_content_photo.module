@@ -64,6 +64,30 @@ function c4m_content_photo_node_presave($node) {
 }
 
 /**
+ * Determine if a photo was uploaded as part of a creation of a photo album.
+ *
+ * @param object $node
+ *   The photo object.
+ *
+ * @return bool
+ *   TRUE whether a photo was uploaded as part of the creation of the photo
+ *   album, otherwise returns FALSE.
+ */
+function c4m_content_photo_is_part_of_photo_album_creation($node) {
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  if ($node->type != 'photo' || !$wrapper->node_gallery_ref_1->getIdentifier()) {
+    // Photo is not part of an album.
+    return FALSE;
+  }
+
+  $delta = $wrapper->created->value() - $wrapper->node_gallery_ref_1->created->value();
+  $allowed_threshold = 60 * variable_get('c4m_photo_part_of_photo_album_threshold', 30);
+
+  return $delta <= $allowed_threshold;
+}
+
+/**
  * Implements form_FORM_ID_alter().
  *
  * Indicate a node is being created via the regular node form.
