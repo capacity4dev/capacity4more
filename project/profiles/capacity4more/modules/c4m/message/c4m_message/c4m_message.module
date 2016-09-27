@@ -3042,7 +3042,8 @@ function c4m_message__insert__comment($comment) {
 function c4m_message__update__comment($comment) {
   $time_since = time() - variable_get('c4m_message_join_messages', '36000');
 
-  // Load existing message that is not older then 6 hours for the current node.
+  // Load existing message that is not older than the threshold for the current
+  // node.
   $query = new EntityFieldQuery();
   $result = $query
     ->entityCondition('entity_type', 'message')
@@ -3121,7 +3122,8 @@ function c4m_message__update__node($node, $account = NULL) {
   // If we use the bypass we can spare the hit to the DB.
   if (!$send_notification_bypass) {
     $time_since = time() - variable_get('c4m_message_join_messages', '36000');
-    // Load existing message that is not older then 6 hours for the current node.
+    // Load existing message that is not older than the threshold for the
+    // current node.
     $query = new EntityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'message')
@@ -3141,13 +3143,13 @@ function c4m_message__update__node($node, $account = NULL) {
 
     if ($message->uid == $user->uid) {
       if ($wrapper->field_operation->value() == 'update') {
-        // When an existing item is updated within 6 hours after the PREVIOUS
-        // UPDATE by the SAME user who did the last update.
+        // When an existing item is updated within the threshold time after the
+        // PREVIOUS UPDATE by the SAME user who did the last update.
         $message->timestamp = $node->timestamp;
       }
       else {
-        // When an existing item is updated within 6 hours after the initial
-        // insert by the SAME user.
+        // When an existing item is updated within the threshold time after the
+        // initial insert by the SAME user.
         return FALSE;
       }
     }
@@ -3165,7 +3167,7 @@ function c4m_message__update__node($node, $account = NULL) {
     }
   }
   else {
-    // More than 6 hours last - need to create a new message.
+    // More than the threshold - need to create a new message.
     $values = array(
       'uid' => $account->uid,
       'timestamp' => $node->timestamp,
