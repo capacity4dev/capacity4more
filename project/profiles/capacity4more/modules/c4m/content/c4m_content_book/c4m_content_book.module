@@ -184,7 +184,7 @@ function _c4m_content_book_help_book_navigation_content() {
   if (!$book_node = c4m_content_book_get_main_help_and_guidance()) {
     return NULL;
   }
-
+  $markup = '<h3>Help & Guidance</h3>';
   // We have to replicate some code because we cannot just
   // call theme('book_navigation', array('book_link' => ...)) because
   // we want to remove level 0 from the tree.
@@ -208,10 +208,15 @@ function _c4m_content_book_help_book_navigation_content() {
   }
 
   // Return the rendered output.
-  $markup = drupal_render($tree);
+  $markup .= drupal_render($tree);
   // We need to clear the menu build tree cache for this menu or the building
   // of book navigation will fail as it will have nids for node objects.
   drupal_static_reset('_menu_build_tree');
+
+  // See if user should access these links.
+  if (!c4m_user_is_site_admin()) {
+    return $markup;
+  }
 
   $current_page_object = menu_get_object();
   $current_page = $current_page_object->book['mlid'];
