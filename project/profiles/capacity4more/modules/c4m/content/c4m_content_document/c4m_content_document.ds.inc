@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_document.ds.inc
@@ -573,7 +572,7 @@ function c4m_content_document_ds_field_settings_info() {
       'format' => 'default',
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '7',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -976,7 +975,6 @@ function c4m_content_document_ds_layout_settings_info() {
         3 => 'c4m_body',
         4 => 'c4m_document',
         5 => 'c4m_ds_content_footer_stats',
-        6 => 'highlighted',
       ),
     ),
     'fields' => array(
@@ -986,7 +984,6 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_body' => 'right',
       'c4m_document' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
-      'highlighted' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -1019,6 +1016,8 @@ function c4m_content_document_ds_layout_settings_info() {
         2 => 'c4m_body',
         3 => 'c4m_document',
         4 => 'c4m_ds_content_footer_stats',
+        5 => 'highlighted',
+        6 => 'promoted',
       ),
     ),
     'fields' => array(
@@ -1027,6 +1026,8 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_body' => 'right',
       'c4m_document' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
+      'highlighted' => 'right',
+      'promoted' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
