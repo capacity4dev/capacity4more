@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_discussion.ds.inc
@@ -914,7 +913,6 @@ function c4m_content_discussion_ds_layout_settings_info() {
         5 => 'c4m_field_og_group',
         6 => 'c4m_body',
         7 => 'c4m_ds_content_footer_stats',
-        8 => 'highlighted',
       ),
     ),
     'fields' => array(
@@ -926,7 +924,6 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'c4m_field_og_group' => 'ds_content',
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
-      'highlighted' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -958,6 +955,8 @@ function c4m_content_discussion_ds_layout_settings_info() {
         4 => 'c4m_ds_creation_date',
         5 => 'c4m_body',
         6 => 'c4m_ds_content_footer_stats',
+        7 => 'highlighted',
+        8 => 'promoted',
       ),
     ),
     'fields' => array(
@@ -968,6 +967,8 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'c4m_ds_creation_date' => 'ds_content',
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
+      'highlighted' => 'ds_content',
+      'promoted' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
