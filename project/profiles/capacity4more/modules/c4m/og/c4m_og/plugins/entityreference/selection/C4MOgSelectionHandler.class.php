@@ -56,10 +56,6 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     );
     $query = $handler->buildEntityFieldQuery($match, $match_operator);
 
-    if (!$this->entity) {
-      return $query;
-    }
-
     // FIXME: http://drupal.org/node/1325628.
     unset($query->tags['node_access']);
 
@@ -130,6 +126,11 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     }
 
     $group = og_context();
+
+    if (!$group) {
+      return $query;
+    }
+
     $node_type = $this->instance['bundle'];
 
     // When trying to add related projects as a power user I should be able to
