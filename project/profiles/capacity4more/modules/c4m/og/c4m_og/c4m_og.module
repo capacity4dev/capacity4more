@@ -2047,10 +2047,6 @@ function c4m_og_node_access($node, $op, $account) {
       return NODE_ACCESS_IGNORE;
     }
 
-    if (c4m_og_get_group_status($group) != 'pending') {
-      return NODE_ACCESS_IGNORE;
-    }
-
     $group_access = node_access($group, $op, $account);
 
     return $group_access ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
