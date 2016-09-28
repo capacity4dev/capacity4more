@@ -1181,7 +1181,6 @@ function c4m_content_event_ds_layout_settings_info() {
         8 => 'c4m_field_location_city_country',
         9 => 'c4m_body',
         10 => 'c4m_ds_content_footer_stats',
-        11 => 'highlighted',
       ),
     ),
     'fields' => array(
@@ -1196,7 +1195,6 @@ function c4m_content_event_ds_layout_settings_info() {
       'c4m_field_location_city_country' => 'right',
       'c4m_body' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
-      'highlighted' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -1239,6 +1237,8 @@ function c4m_content_event_ds_layout_settings_info() {
       'footer' => array(
         9 => 'c4m_body',
         10 => 'c4m_ds_content_footer_stats',
+        11 => 'highlighted',
+        12 => 'promoted',
       ),
     ),
     'fields' => array(
@@ -1253,6 +1253,8 @@ function c4m_content_event_ds_layout_settings_info() {
       'c4m_field_location_city_country' => 'right',
       'c4m_body' => 'footer',
       'c4m_ds_content_footer_stats' => 'footer',
+      'highlighted' => 'footer',
+      'promoted' => 'footer',
     ),
     'classes' => array(),
     'wrappers' => array(
