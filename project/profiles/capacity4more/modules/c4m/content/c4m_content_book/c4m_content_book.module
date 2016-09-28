@@ -254,21 +254,6 @@ function _c4m_content_book_help_book_navigation_content() {
  * new help pages.
  */
 function c4m_content_book_node_presave($node) {
-  $node->path['alias'] = 'help-guidance/' . c4m_content_book_clean_url($node->title);
+  $node->path['alias'] = 'help-guidance/' . c4m_og_human_to_machine_readable($node->title);
   $node->path['pathauto'] = 0;
-}
-
-/**
- * Helper clean url generator.
- *
- * @param string $str
- *   The string to be cleaned.
- * @param string $delimiter
- *   The resulting URL delimiter.
- *
- * @return string
- *   Clean string for a URL.
- */
-function c4m_content_book_clean_url($str, $delimiter = '-') {
-  return preg_replace('/[^a-z0-9-]/', $delimiter, strtolower(trim($str)));
 }
