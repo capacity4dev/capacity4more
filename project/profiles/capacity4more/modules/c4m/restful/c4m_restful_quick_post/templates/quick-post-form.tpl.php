@@ -5,7 +5,7 @@
  * Template to render the Quick post forms.
  */
 ?>
-<form name="entityForm"
+<form name="entityForm" ng-controller="QuickPostFormCtrl"
       ng-submit="submitForm(data, selectedResource, 'quick_post')"
       xmlns="http://www.w3.org/1999/html">
 
@@ -39,7 +39,8 @@
 <div class="form-group" id="body-wrapper" ng-class="{ 'has-error' : errors.body }">
 
   <div ng-hide="serverSide.file">
-    <input type="file" name="document-file" id="c4m-related-document" class="document_file" ng-file-select="onFileSelect($files)">
+    <input type="file" name="document-file" id="c4m-related-document" class="document_file" ng-file-select="onFileSelect($files, 'c4m-related-document')">
+    <a href="javascript://" ng-click="browseFiles('c4m-related-document')"></a>
     <span class="body-attachment-link"><label for="c4m-related-document"><i class="fa fa-paperclip"></i></label></span>
   </div>
 
@@ -47,11 +48,6 @@
   <p ng-show="errors.body" class="help-block"><?php print t('Body is required.'); ?></p>
 
   <div class="cfm-file-upload-wrapper form-group input-wrapper file-wrapper" ng-class="{ 'has-error' : errors.document }">
-
-    <div ng-show="serverSide.file.status == 200">
-      <span ng-click="removeUploadedFile()" class="remove-attachment">[x]</span>
-        <?php print t('Uploaded attachment "{{ serverSide.file.data.data[0].label }}"') ?>
-    </div>
 
     <div class="has-error" ng-show="serverSide.data.imageError">
       <ul class="help-block">

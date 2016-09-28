@@ -13,8 +13,10 @@ angular.module('c4mApp')
     $scope.model = {};
 
     // Need to get current field name.
-    var element = jQuery('.active-library-link', parent.window.document);
-    $scope.fieldName = element.attr('id').replace('link-', '');
+    //var element = jQuery('.active-library-link', parent.window.document);
+    //$scope.fieldName = element.attr('id').replace('link-', '');
+
+    $scope.fieldName = 'c4m-related-document';
 
     /**
      * Create document node.
