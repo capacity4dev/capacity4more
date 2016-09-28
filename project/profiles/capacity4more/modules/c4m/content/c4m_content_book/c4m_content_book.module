@@ -215,8 +215,8 @@ function _c4m_content_book_help_book_navigation_content() {
 
   $current_page_object = menu_get_object();
   $current_page = $current_page_object->book['mlid'];
-  $parent_page = $book_node->book['mlid'];
-  $depth = $book_node->book['depth'];
+  $parent_page = $current_page_object->book['plid'];
+  $depth = $current_page_object->book['depth'];
 
   $options = array(
     'attributes' => array(
@@ -250,8 +250,8 @@ function _c4m_content_book_help_book_navigation_content() {
 /**
  * Implements hook_node_presave().
  *
- * Correct the autopath alias and add the `help-guidance/` prefix to the new
- * page path.
+ * Correct the autopath alias and add the `help-guidance/` prefix to the path of
+ * new help pages.
  */
 function c4m_content_book_node_presave($node) {
   $node->path['alias'] = 'help-guidance/' . c4m_content_book_clean_url($node->title);
@@ -270,5 +270,5 @@ function c4m_content_book_node_presave($node) {
  *   Clean string for a URL.
  */
 function c4m_content_book_clean_url($str, $delimiter = '-') {
-  return preg_replace('/[^a-z0-9-]/', $delimiter, strtolower($str));
+  return preg_replace('/[^a-z0-9-]/', $delimiter, strtolower(trim($str)));
 }
