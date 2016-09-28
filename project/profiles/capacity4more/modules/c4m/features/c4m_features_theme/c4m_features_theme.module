@@ -23,6 +23,13 @@ function c4m_features_theme_bootstrap_colorize_text_alter(&$texts) {
  * Moving the '#description' variable (for the help-text).
  */
 function c4m_features_theme_form_alter(&$form, &$form_state, $form_id) {
+  $item = menu_get_item();
+  preg_match('/^admin\/.*$/', $item['path'], $matches);
+  // Disable the switch under admin pages.
+  if (!empty($matches[0])) {
+    return;
+  }
+
   _c4m_features_theme_set_what_is_this($form);
 }
 
