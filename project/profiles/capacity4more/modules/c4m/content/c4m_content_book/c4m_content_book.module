@@ -188,7 +188,7 @@ function _c4m_content_book_help_book_navigation_content() {
   // We have to replicate some code because we cannot just
   // call theme('book_navigation', array('book_link' => ...)) because
   // we want to remove level 0 from the tree.
-  $tree = menu_build_tree($book_node->book['menu_name']);
+  $tree = menu_tree_all_data($book_node->book['menu_name']);
 
   if (empty($tree)) {
     return NULL;
@@ -214,7 +214,14 @@ function _c4m_content_book_help_book_navigation_content() {
   drupal_static_reset('_menu_build_tree');
 
   $current_page = $book_node->book['mlid'];
-  $parent_page = $book_node->book['plid'];
+  $page_title = drupal_get_title();
+  foreach ($tree as $index => $item) {
+    if (isset($item['#title']) && $item['#title'] == $page_title) {
+      $current_page = $index;
+    }
+  }
+
+  $parent_page = $book_node->book['mlid'];
   $depth = $book_node->book['depth'];
 
   $options = array(
