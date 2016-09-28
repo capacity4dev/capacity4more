@@ -10,6 +10,31 @@
 function c4m_content_photo_field_default_field_bases() {
   $field_bases = array();
 
+  // Exported field_base: 'c4m_created_with_photo_album'.
+  $field_bases['c4m_created_with_photo_album'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_created_with_photo_album',
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => '',
+        1 => '',
+      ),
+      'allowed_values_function' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_boolean',
+  );
+
   // Exported field_base: 'node_gallery_ref_1'.
   $field_bases['node_gallery_ref_1'] = array(
     'active' => 1,

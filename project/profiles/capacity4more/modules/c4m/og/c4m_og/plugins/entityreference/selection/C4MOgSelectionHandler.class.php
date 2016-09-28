@@ -127,7 +127,16 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
 
     $group = og_context();
     $node_type = $this->instance['bundle'];
-    if (!og_user_access($group_type, $group['gid'], "create $node_type content")) {
+
+    // When trying to add related projects as a power user I should be able to
+    // have the permission.
+    $power_user_bypass = FALSE;
+    $item = menu_get_item();
+    if ($item['path'] == 'entityreference/autocomplete/single/%/%/%' && og_is_group($this->entity_type, $this->entity)) {
+      $power_user_bypass = _c4m_features_og_members_is_power_user($this->entity, $account);
+    }
+
+    if (!$power_user_bypass && !og_user_access($group_type, $group['gid'], "create $node_type content")) {
       // User does not have permission, falsify the query.
       $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
       return $query;

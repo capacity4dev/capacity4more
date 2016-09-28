@@ -41,6 +41,11 @@ function c4m_content_photo_node_presave($node) {
     return;
   }
 
+  // Determine whether a photo has been created while creating its photo album.
+  if (c4m_content_photo_is_part_of_photo_album_creation($node)) {
+    $wrapper->c4m_created_with_photo_album->set(1);
+  }
+
   $source = file_load($wrapper->c4m_media->value()['fid']);
   $gallery_title = $wrapper->node_gallery_ref_1->label();
   $destination = drupal_dirname(
@@ -64,15 +69,101 @@ function c4m_content_photo_node_presave($node) {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function c4m_content_photo_menu() {
+  $items['admin/config/c4m/photo'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_content_photo_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'title' => 'Photo Settings',
+    'description' => 'Manage the Photo type',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Gets the allowed threshold time between a photo and a photo album creation.
+ *
+ * In order to determine if a photo was uploaded as part of the creation of a
+ * photo album, we set a threshold.
+ *
+ * @return int
+ *   The allowed threshold time.
+ */
+function c4m_content_photo_get_photo_allowed_threshold_time() {
+  return intval(variable_get('c4m_photo_part_of_photo_album_threshold', 30));
+}
+
+/**
+ * Form builder for the photo type settings.
+ */
+function c4m_content_photo_admin_settings_form($form, &$form_state) {
+  $form['c4m_photo_part_of_photo_album_threshold'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Allowed threshold time between photo and photo album creation (in minutes)'),
+    '#description' => t('In order to determine if a photo was uploaded as part of the creation of a photo album, we set a threshold.'),
+    '#default_value' => c4m_content_photo_get_photo_allowed_threshold_time(),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Validate handler for c4m_content_photo_admin_settings_form.
+ */
+function c4m_content_photo_admin_settings_form_validate($form, $form_state) {
+  $threshold_value = $form_state['values']['c4m_photo_part_of_photo_album_threshold'];
+  if (empty($threshold_value)) {
+    form_set_error('c4m_photo_part_of_photo_album_threshold', t('Threshold time can not be empty.'));
+  }
+  if (intval($threshold_value) <= 0) {
+    form_set_error('c4m_photo_part_of_photo_album_threshold', t('Threshold time must be a valid integer greater than 0.'));
+  }
+}
+
+/**
+ * Determine if a photo was uploaded as part of a creation of a photo album.
+ *
+ * @param object $node
+ *   The photo object.
+ *
+ * @return bool
+ *   TRUE whether a photo was uploaded as part of the creation of the photo
+ *   album, otherwise returns FALSE.
+ */
+function c4m_content_photo_is_part_of_photo_album_creation($node) {
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  if ($node->type != 'photo' || !$wrapper->node_gallery_ref_1->getIdentifier()) {
+    // Photo is not part of an album.
+    return FALSE;
+  }
+
+  $delta = $wrapper->created->value() - $wrapper->node_gallery_ref_1->created->value();
+  $allowed_threshold = 60 * c4m_content_photo_get_photo_allowed_threshold_time();
+
+  return $delta <= $allowed_threshold;
+}
+
+/**
  * Implements form_FORM_ID_alter().
  *
+ * Verifies user has access to the form.
  * Indicate a node is being created via the regular node form.
  *
  * @see c4m_content_photo_node_presave()
  */
 function c4m_content_photo_form_photo_node_form_alter(&$form, $form_state) {
+  c4m_content_create_group_content_access();
   // Add author information to the edit discussion form.
   c4m_og_add_content_author_options_to_power_users($form);
+
+  // The "c4m_created_with_photo_album" is being set automatically when
+  // creating a new photo and any user should not be able to change this data.
+  $form['c4m_created_with_photo_album']['#access'] = FALSE;
 
   $node = &$form['#node'];
   if (!empty($node->nid)) {
