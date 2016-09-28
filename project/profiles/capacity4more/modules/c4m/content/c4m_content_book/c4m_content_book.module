@@ -218,6 +218,7 @@ function _c4m_content_book_help_book_navigation_content() {
   foreach ($tree as $index => $item) {
     if (isset($item['#title']) && $item['#title'] == $page_title) {
       $current_page = $index;
+      break;
     }
   }
 
@@ -251,4 +252,30 @@ function _c4m_content_book_help_book_navigation_content() {
   );
 
   return $markup;
+}
+
+/**
+ * Implements hook_node_presave().
+ *
+ * Correct the autopath alias and add the `help-guidance/` prefix to the new
+ * page path.
+ */
+function c4m_content_book_node_presave($node) {
+  $node->path['alias'] = 'help-guidance/' . c4m_content_book_clean_url($node->title);
+  $node->path['pathauto'] = 0;
+}
+
+/**
+ * Helper clean url generator.
+ *
+ * @param string $str
+ *   The string to be cleaned.
+ * @param string $delimiter
+ *   The resulting URL delimiter.
+ *
+ * @return string
+ *   Clean string for a URL.
+ */
+function c4m_content_book_clean_url($str, $delimiter = '-') {
+  return preg_replace('/[^a-z0-9-]/', $delimiter, strtolower($str));
 }
