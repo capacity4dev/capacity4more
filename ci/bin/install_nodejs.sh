@@ -8,5 +8,7 @@ set -e
 # ---------------------------------------------------------------------------- #
 
 curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+sudo apt-get install build-essential
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt-get install -y g++-4.9
 sudo apt-get install -y nodejs
