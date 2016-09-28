@@ -11,12 +11,7 @@
  * Flags inserted node, if content requires notification.
  */
 function c4m_user_subscribe_node_insert($node) {
-  if ($node->status != NODE_PUBLISHED) {
-    // Do not mark anything that is saved as draft.
-    return;
-  }
-
-  if (!in_array($node->type, c4m_og_get_comment_notification_types())) {
+  if (!in_array($node->type, c4m_og_get_extended_content_notification_types())) {
     // Inserted content does not require notification.
     return;
   }
@@ -37,12 +32,7 @@ function c4m_user_subscribe_node_insert($node) {
  * Flags updated node, if content requires notification.
  */
 function c4m_user_subscribe_node_update($node) {
-  if ($node->status != NODE_PUBLISHED) {
-    // Do not mark anything that is saved as draft.
-    return;
-  }
-
-  if (!in_array($node->type, c4m_og_get_comment_notification_types())) {
+  if (!in_array($node->type, c4m_og_get_extended_content_notification_types())) {
     // Inserted content does not require notification.
     return;
   }
@@ -69,12 +59,7 @@ function c4m_user_subscribe_node_update($node) {
 function c4m_user_subscribe_comment_insert($comment) {
   $node = node_load($comment->nid);
 
-  if ($node->status != NODE_PUBLISHED) {
-    // Do not mark anything for node that is saved as draft.
-    return;
-  }
-
-  if (!in_array($node->type, c4m_og_get_comment_notification_types())) {
+  if (!in_array($node->type, c4m_og_get_extended_content_notification_types())) {
     // Inserted comment is on content that does not require notification.
     return;
   }
