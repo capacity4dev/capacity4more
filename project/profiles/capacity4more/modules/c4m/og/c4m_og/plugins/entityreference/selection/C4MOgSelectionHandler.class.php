@@ -56,6 +56,10 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     );
     $query = $handler->buildEntityFieldQuery($match, $match_operator);
 
+    if (!$this->entity) {
+      return $query;
+    }
+
     // FIXME: http://drupal.org/node/1325628.
     unset($query->tags['node_access']);
 
