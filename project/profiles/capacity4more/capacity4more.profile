@@ -121,6 +121,7 @@ function capacity4more_setup_set_permissions(&$install_state) {
     'add content to books',
     'create files',
     'view own files',
+    'edit own photo content',
   );
 
   $content_types = array(

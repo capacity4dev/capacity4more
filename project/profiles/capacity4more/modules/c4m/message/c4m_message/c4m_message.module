@@ -2363,8 +2363,9 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
   // Do not create a message for a photo that is associated with a photo album.
   // Some entity types don't have the type parameter. So we need to check if
   // it's a node first.
-  if ($entity_type == 'node' && c4m_content_photo_is_part_of_photo_album_creation($entity)) {
-    $entity->_skip_message = TRUE;
+  if ($entity_type == 'node' && $entity->type == 'photo') {
+    $wrapper = entity_metadata_wrapper('node', $entity);
+    $entity->_skip_message = $wrapper->c4m_created_with_photo_album->value();
   }
 
   if (!empty($entity->_skip_message)) {
