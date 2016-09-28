@@ -213,15 +213,8 @@ function _c4m_content_book_help_book_navigation_content() {
   // of book navigation will fail as it will have nids for node objects.
   drupal_static_reset('_menu_build_tree');
 
-  $current_page = $book_node->book['mlid'];
-  $page_title = drupal_get_title();
-  foreach ($tree as $index => $item) {
-    if (isset($item['#title']) && $item['#title'] == $page_title) {
-      $current_page = $index;
-      break;
-    }
-  }
-
+  $current_page_object = menu_get_object();
+  $current_page = $current_page_object->book['mlid'];
   $parent_page = $book_node->book['mlid'];
   $depth = $book_node->book['depth'];
 
