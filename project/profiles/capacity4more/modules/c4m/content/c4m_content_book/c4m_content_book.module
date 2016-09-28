@@ -184,7 +184,7 @@ function _c4m_content_book_help_book_navigation_content() {
   if (!$book_node = c4m_content_book_get_main_help_and_guidance()) {
     return NULL;
   }
-  $markup = '<h3>Help & Guidance</h3>';
+  $markup = '<div class="c4m-sidebar-book-navigation"><h3>Help & Guidance</h3></div>';
   // We have to replicate some code because we cannot just
   // call theme('book_navigation', array('book_link' => ...)) because
   // we want to remove level 0 from the tree.
