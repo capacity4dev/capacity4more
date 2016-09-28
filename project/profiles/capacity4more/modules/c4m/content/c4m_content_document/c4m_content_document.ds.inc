@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_document.ds.inc
@@ -37,6 +36,11 @@ function c4m_content_document_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'comment_node_document';
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
+    'links' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'post_date' => array(
       'weight' => '2',
       'label' => 'hidden',
@@ -296,7 +300,7 @@ function c4m_content_document_ds_field_settings_info() {
       'format' => 'default',
     ),
     'c4m_ds_content_actions' => array(
-      'weight' => '9',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -534,7 +538,7 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_field_og_group' => array(
-      'weight' => '5',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -543,7 +547,7 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '8',
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -568,7 +572,7 @@ function c4m_content_document_ds_field_settings_info() {
       'format' => 'default',
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '7',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -663,6 +667,7 @@ function c4m_content_document_ds_layout_settings_info() {
         1 => 'c4m_user_first_and_last_name',
         2 => 'post_date',
         3 => 'comment_body',
+        4 => 'links',
       ),
     ),
     'fields' => array(
@@ -670,6 +675,7 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_user_first_and_last_name' => 'right',
       'post_date' => 'right',
       'comment_body' => 'right',
+      'links' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -838,54 +844,56 @@ function c4m_content_document_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'right' => array(
-        0 => 'c4m_vocab_topic',
+        0 => 'highlighted',
         1 => 'c4m_ds_entity_type_label',
-        3 => 'c4m_user_picture',
-        4 => 'c4m_vocab_document_type',
-        5 => 'c4m_vocab_geo',
-        7 => 'c4m_user_first_and_last_name',
-        8 => 'c4m_ds_creation_date',
-        9 => 'c4m_vocab_date',
-        11 => 'c4m_vocab_language',
-        14 => 'og_vocabulary',
-        18 => 'group_node_meta',
-        19 => 'c4m_ds_content_actions',
-        20 => 'group_node_actions',
-        21 => 'group_node_details',
-        22 => 'c4m_ds_content_shared_to',
+        2 => 'c4m_vocab_topic',
+        3 => 'c4m_ds_content_actions',
+        5 => 'c4m_user_picture',
+        6 => 'c4m_vocab_document_type',
+        7 => 'c4m_vocab_geo',
+        8 => 'c4m_user_first_and_last_name',
+        10 => 'c4m_ds_creation_date',
+        11 => 'c4m_vocab_date',
+        13 => 'c4m_vocab_language',
+        15 => 'og_vocabulary',
+        20 => 'group_node_meta',
+        21 => 'group_node_actions',
+        22 => 'group_node_details',
+        23 => 'c4m_ds_content_shared_to',
       ),
       'left' => array(
-        2 => 'c4m_ds_content_type_label',
-        6 => 'c4m_ds_content_status',
-        10 => 'title',
-        12 => 'c4m_ds_content_footer_stats',
-        13 => 'c4m_body',
-        15 => 'c4m_content_document_icon',
-        16 => 'c4m_document',
-        17 => 'comments',
+        4 => 'c4m_ds_content_type_label',
+        9 => 'c4m_ds_content_status',
+        12 => 'title',
+        14 => 'c4m_ds_content_footer_stats',
+        16 => 'c4m_body',
+        17 => 'c4m_content_document_icon',
+        18 => 'c4m_document',
+        19 => 'comments',
       ),
     ),
     'fields' => array(
-      'c4m_vocab_topic' => 'right',
+      'highlighted' => 'right',
       'c4m_ds_entity_type_label' => 'right',
+      'c4m_vocab_topic' => 'right',
+      'c4m_ds_content_actions' => 'right',
       'c4m_ds_content_type_label' => 'left',
       'c4m_user_picture' => 'right',
       'c4m_vocab_document_type' => 'right',
       'c4m_vocab_geo' => 'right',
-      'c4m_ds_content_status' => 'left',
       'c4m_user_first_and_last_name' => 'right',
+      'c4m_ds_content_status' => 'left',
       'c4m_ds_creation_date' => 'right',
       'c4m_vocab_date' => 'right',
       'title' => 'left',
       'c4m_vocab_language' => 'right',
       'c4m_ds_content_footer_stats' => 'left',
-      'c4m_body' => 'left',
       'og_vocabulary' => 'right',
+      'c4m_body' => 'left',
       'c4m_content_document_icon' => 'left',
       'c4m_document' => 'left',
       'comments' => 'left',
       'group_node_meta' => 'right',
-      'c4m_ds_content_actions' => 'right',
       'group_node_actions' => 'right',
       'group_node_details' => 'right',
       'c4m_ds_content_shared_to' => 'right',
@@ -895,6 +903,7 @@ function c4m_content_document_ds_layout_settings_info() {
       'header' => 'div',
       'left' => 'div',
       'right' => 'div',
+      'footer' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
@@ -1007,6 +1016,8 @@ function c4m_content_document_ds_layout_settings_info() {
         2 => 'c4m_body',
         3 => 'c4m_document',
         4 => 'c4m_ds_content_footer_stats',
+        5 => 'highlighted',
+        6 => 'promoted',
       ),
     ),
     'fields' => array(
@@ -1015,6 +1026,8 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_body' => 'right',
       'c4m_document' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
+      'highlighted' => 'right',
+      'promoted' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

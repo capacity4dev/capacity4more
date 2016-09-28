@@ -38,9 +38,9 @@ function c4m_features_overview_groups_context_default_contexts() {
           'region' => 'content_above',
           'weight' => '-10',
         ),
-        'c4m_search_filter-search_filter' => array(
+        'c4m_search_filter-search_filter_groups_overview' => array(
           'module' => 'c4m_search_filter',
-          'delta' => 'search_filter',
+          'delta' => 'search_filter_groups_overview',
           'region' => 'content_above',
           'weight' => '-9',
         ),

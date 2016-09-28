@@ -259,13 +259,18 @@ function kapablo_preprocess_field(&$variables, $hook) {
         $node = $element['#object'];
         $galleries = node_gallery_api_get_relationships(NULL, $node->nid);
 
+        $album_title = '';
+        $album_separator = '';
         if (!empty($galleries)) {
           $gallery = array_pop($galleries);
           $album = node_load($gallery->ngid);
+          $album_title = $album->title;
+          $album_separator = '&nbsp;&gt;&nbsp;';
         }
 
+        $link_to_photo = l($node->title, 'node/' . $node->nid);
         foreach ($element['#items'] as $key => $item) {
-          $variables['items'][$key]['#markup'] = '<h1 class="text--inline">' . $album->title . '</h1><h2 class="text--inline">&nbsp;&gt; ' . $node->title . '</h2>';
+          $variables['items'][$key]['#markup'] = '<h1 class="text--inline">' . $album_title . '</h1><h3 class="text--inline">' . $album_separator . $link_to_photo . '</h3>';
         }
       }
 
@@ -304,43 +309,6 @@ function _kapablo_help_facetapi_link_add_icon($text_orig) {
   }
 
   return $text_orig;
-}
-
-/**
- * Implements hook_preprocess_views_view().
- *
- * Set  parameters for the custom template of the
- * c4m_overview_inthe_picture_blocks view.
- *
- * @see views-view--c4m-overview-inthe-picture-blocks--block.tpl.php
- */
-function kapablo_preprocess_views_view(&$vars) {
-  switch ($vars['name']) {
-    case 'c4m_overview_inthe_picture_blocks':
-      $items = $vars['view']->result;
-      $carousels = array();
-      foreach ($items as $node) {
-        $wrapper = entity_metadata_wrapper('node', $node->nid);
-        $banner = $wrapper->c4m_media->value();
-        $link = $wrapper->c4m_link->value();
-        $body = $wrapper->c4m_body->value();
-        $carousels[] = array(
-          'id' => $wrapper->getIdentifier(),
-          'title' => $wrapper->c4m_heading->value(),
-          'text' => $body['value'],
-          'image' => file_create_url($banner['uri']),
-          'alias' => $link['url'],
-        );
-      }
-
-      // Pass info via Drupal.settings.
-      $settings['c4m'] = array(
-        'carousels' => $carousels,
-      );
-      drupal_add_js($settings, 'setting');
-
-      break;
-  }
 }
 
 /**

@@ -70,14 +70,12 @@ function c4m_user_admin_user_activate_form_submit($form, &$form_state) {
  * @see c4m_user_admin_user_activate_form()
  */
 function c4m_user_admin_user_reactivate_form_submit($form, &$form_state) {
-  c4m_user_admin_user_activate_form_submit($form, $form_state);
+  // Points that user is reactivated.
+  $form_state['user']->reactivate_submit = TRUE;
+  // Points if reactivate notification is required, or not.
+  $form_state['user']->reactivate_notification = $form_state['values']['c4m_notify_user'];
 
-  if ($form_state['values']['c4m_notify_user']) {
-    // Send reactivate notification.
-    $account = $form_state['user'];
-    $params['account'] = $account;
-    drupal_mail('user_registrationpassword', 'register', $account->mail, user_preferred_language($account), $params);
-  }
+  c4m_user_admin_user_activate_form_submit($form, $form_state);
 }
 
 /**
@@ -95,9 +93,10 @@ function c4m_user_admin_resend_activation_email_form($form, &$form_state, $accou
     '@first_name' => $account->c4m_first_name->value(),
     '@last_name' => $account->c4m_last_name->value(),
   ));
+
   return confirm_form($form,
     $question,
-    '',
+    "user/login",
     '',
     t('Resend activation email'), t('Cancel'));
 }
@@ -111,6 +110,8 @@ function c4m_user_admin_resend_activation_email_form_submit($form, &$form_state)
   $account = $form_state['user'];
   module_load_include('inc', 'c4m_user_admin', 'actions/c4m_user_admin.action');
   c4m_user_admin_resend_activation_email_action($account);
+
+  $form_state['redirect'] = 'user/login';
 }
 
 /**

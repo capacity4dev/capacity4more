@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_wiki_page.ds.inc
@@ -37,6 +36,11 @@ function c4m_content_wiki_page_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'comment_node_wiki_page';
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
+    'links' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'post_date' => array(
       'weight' => '2',
       'label' => 'hidden',
@@ -259,7 +263,7 @@ function c4m_content_wiki_page_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_content_actions' => array(
-      'weight' => '4',
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -684,6 +688,7 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
         1 => 'c4m_user_first_and_last_name',
         2 => 'post_date',
         3 => 'comment_body',
+        4 => 'links',
       ),
     ),
     'fields' => array(
@@ -691,6 +696,7 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
       'c4m_user_first_and_last_name' => 'right',
       'post_date' => 'right',
       'comment_body' => 'right',
+      'links' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -840,45 +846,47 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
-        0 => 'c4m_content_wiki_page_navigation',
-        1 => 'c4m_content_wiki_page_collapse',
+        0 => 'c4m_content_wiki_page_collapse',
+        1 => 'c4m_content_wiki_page_navigation',
         2 => 'c4m_vocab_topic',
         3 => 'c4m_content_wiki_page_add_links',
         4 => 'group_pages',
-        5 => 'c4m_vocab_date',
-        6 => 'group_node_actions',
+        5 => 'group_node_actions',
+        6 => 'c4m_vocab_date',
         7 => 'group_details',
         8 => 'c4m_vocab_language',
-        9 => 'c4m_ds_content_shared_to',
-        10 => 'c4m_ds_content_actions',
-        11 => 'c4m_vocab_geo',
-        20 => 'og_vocabulary',
+        9 => 'c4m_vocab_geo',
+        10 => 'c4m_ds_content_shared_to',
+        12 => 'highlighted',
+        13 => 'c4m_ds_content_actions',
+        21 => 'og_vocabulary',
       ),
       'right' => array(
-        12 => 'c4m_ds_content_status',
-        13 => 'title',
-        14 => 'c4m_ds_submitted_by_and_on',
-        15 => 'c4m_ds_content_footer_stats',
-        16 => 'c4m_body',
-        17 => 'c4m_related_document',
-        18 => 'book_navigation',
-        19 => 'comments',
+        11 => 'c4m_ds_content_status',
+        14 => 'title',
+        15 => 'c4m_ds_submitted_by_and_on',
+        16 => 'c4m_ds_content_footer_stats',
+        17 => 'c4m_body',
+        18 => 'c4m_related_document',
+        19 => 'book_navigation',
+        20 => 'comments',
       ),
     ),
     'fields' => array(
-      'c4m_content_wiki_page_navigation' => 'left',
       'c4m_content_wiki_page_collapse' => 'left',
+      'c4m_content_wiki_page_navigation' => 'left',
       'c4m_vocab_topic' => 'left',
       'c4m_content_wiki_page_add_links' => 'left',
       'group_pages' => 'left',
-      'c4m_vocab_date' => 'left',
       'group_node_actions' => 'left',
+      'c4m_vocab_date' => 'left',
       'group_details' => 'left',
       'c4m_vocab_language' => 'left',
-      'c4m_ds_content_shared_to' => 'left',
-      'c4m_ds_content_actions' => 'left',
       'c4m_vocab_geo' => 'left',
+      'c4m_ds_content_shared_to' => 'left',
       'c4m_ds_content_status' => 'right',
+      'highlighted' => 'left',
+      'c4m_ds_content_actions' => 'left',
       'title' => 'right',
       'c4m_ds_submitted_by_and_on' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
@@ -1007,6 +1015,8 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
         4 => 'c4m_ds_creation_date',
         5 => 'c4m_body',
         6 => 'c4m_ds_content_footer_stats',
+        7 => 'highlighted',
+        8 => 'promoted',
       ),
     ),
     'fields' => array(
@@ -1017,6 +1027,8 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
       'c4m_ds_creation_date' => 'ds_content',
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
+      'highlighted' => 'ds_content',
+      'promoted' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
