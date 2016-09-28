@@ -64,6 +64,24 @@ function c4m_content_photo_node_presave($node) {
 }
 
 /**
+ * Implements hook_node_insert().
+ *
+ * Determine whether a photo has been added while creating its photo album.
+ */
+function c4m_content_photo_node_insert($node) {
+  if ($node->type != 'photo') {
+    return;
+  }
+
+  if (!c4m_content_photo_is_part_of_photo_album_creation($node)) {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $wrapper->c4m_created_with_photo_album->set(TRUE);
+  $wrapper->save();
+}
+/**
  * Implements hook_menu().
  */
 function c4m_content_photo_menu() {
