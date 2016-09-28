@@ -98,19 +98,19 @@ Feature: Group Events
   @javascript
   Scenario: Promote buttons shouldn't be displayed to anonymous users.
     Given  I am an anonymous user
-    When I visit the events overview of group "Nobel Prize"
+    When I visit the events landing page of group "Nobel Prize"
     Then  I should not see the ".fa-thumb-tack" element
 
   @javascript
   Scenario: Promote buttons shouldn't be displayed to users without access.
     Given  I am logged in as user "isaacnewton"
-    When I visit the events overview of group "Nobel Prize"
+    When I visit the events landing page of group "Nobel Prize"
     Then  I should not see the ".fa-thumb-tack" element
 
   @javascript
   Scenario Outline: Promote and highlight buttons should be displayed to users with access.
     Given  I am logged in as user "<user>"
-    When I visit the events overview of group "Nobel Prize"
+    When I visit the events landing page of group "Nobel Prize"
     Then  I should see the ".fa-star-o" element
     And   I should see the ".fa-thumb-tack" element
 
