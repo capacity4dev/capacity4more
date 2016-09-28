@@ -90,6 +90,13 @@ function c4m_features_overview_projects_views_default_views() {
     1 => 0,
     3 => 0,
   );
+  /* Filter criterion: Indexed Node: Is template */
+  $handler->display->display_options['filters']['c4m_is_template']['id'] = 'c4m_is_template';
+  $handler->display->display_options['filters']['c4m_is_template']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['c4m_is_template']['field'] = 'c4m_is_template';
+  $handler->display->display_options['filters']['c4m_is_template']['value'] = array(
+    0 => '0',
+  );
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');

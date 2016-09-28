@@ -124,10 +124,11 @@ function c4m_user_profile_remove_account_form($form, $form_state, $account) {
 function c4m_user_profile_remove_account_form_submit($form, &$form_state) {
   $values = $form_state['values'];
   $account = $values['_account'];
-  $account->c4m_is_deleted[LANGUAGE_NONE][]['#value'] = 1;
+  $wrapper = entity_metadata_wrapper('user', $account);
+  $wrapper->c4m_is_deleted->set(TRUE);
 
   if ($values['anonymize']) {
-    $account->c4m_is_deleted_anonymous[LANGUAGE_NONE][]['#value'] = 1;
+    $wrapper->c4m_is_deleted_anonymous->set(TRUE);
 
     // This cancel method will reassign all the content of the user
     // to the anonymous user.

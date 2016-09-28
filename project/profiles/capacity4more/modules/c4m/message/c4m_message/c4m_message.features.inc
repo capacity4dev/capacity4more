@@ -214,6 +214,33 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');
+  $items['c4m_group_request_approved'] = entity_import('message_type', '{
+    "name" : "c4m_group_request_approved",
+    "description" : "c4m Group Request Approved MT12",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003EYour @group_node_type\\u0026nbsp;request for @group_node_title\\u0026nbsp;was approved.\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cp\\u003EYour @group_node_type\\u0026nbsp;request for @group_node_title\\u0026nbsp;was approved.\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "\\u003Cp\\u003EDear @member_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\nWe\\u0027re pleased to let you know your @group_node_type: \\u003Cstrong\\u003E@group_node_title\\u003C\\/strong\\u003E was approved and is currently saved in draft status.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Cem\\u003E@admin_comment \\u003C\\/em\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYou can access your new \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_type here\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EAs the owner, we encourage you to read \\u003Ca href=\\u0022!help_section_url\\u0022\\u003Ethis short guide\\u003C\\/a\\u003E. Here you\\u2019ll find tips and advice to make the most of your @group_node_type. Once you\\u0027re ready to go live, don\\u0027t forget to update the status of your @group_node_type to share it with the rest of the community.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EWe hope you\\u2019ll enjoy using [site:name] and we\\u2019d like to remind you that we are available to provide \\u003Ca href=\\u0022@site_contact_link\\u0022\\u003Ehelp and support\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EThe [site:name] team\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cp\\u003EDear @member_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\nWe\\u0027re pleased to let you know your @group_node_type: \\u003Cstrong\\u003E@group_node_title\\u003C\\/strong\\u003E was approved and is currently saved in draft status.\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\n\\u003Cem\\u003E@admin_comment \\u003C\\/em\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003EYou can access your new \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_type here\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\n\\u003Cp\\u003EAs the owner, we encourage you to read \\u003Ca href=\\u0022!help_section_url\\u0022\\u003Ethis short guide\\u003C\\/a\\u003E. Here you\\u2019ll find tips and advice to make the most of your @group_node_type. Once you\\u0027re ready to go live, don\\u0027t forget to update the status of your @group_node_type to share it with the rest of the community.\\u003C\\/p\\u003E\\n\\u003Cp\\u003EWe hope you\\u2019ll enjoy using [site:name] and we\\u2019d like to remind you that we are available to provide \\u003Ca href=\\u0022@site_contact_link\\u0022\\u003Ehelp and support\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\n\\u003Cp\\u003EThe [site:name] team\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['c4m_group_request_submitted'] = entity_import('message_type', '{
     "name" : "c4m_group_request_submitted",
     "description" : "c4m Group Request Submitted",
@@ -542,6 +569,28 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');
+  $items['c4m_log_group_state_change'] = entity_import('message_type', '{
+    "name" : "c4m_log_group_state_change",
+    "description" : "c4m Log Group State Change",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "@event_user_full_name changed state of @group_node_type @group_node_title from @from_state to @to_state.\\r\\nComment: @admin_comment",
+          "format" : "mail",
+          "safe_value" : "@event_user_full_name changed state of @group_node_type @group_node_title from @from_state to @to_state.\\nComment: @admin_comment"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['c4m_membership_request_rejected'] = entity_import('message_type', '{
     "name" : "c4m_membership_request_rejected",
     "description" : "c4m Membership Request Rejected",
@@ -642,9 +691,9 @@ function c4m_message_default_message_type() {
           "safe_value" : "\\u003Cp\\u003EA new member requested to join @group_node_title\\u00a0\\u003C\\/p\\u003E\\n"
         },
         {
-          "value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\nA new member requested to join \\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E at [site:name].\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!group_pending_member_url\\u0022 rel=\\u0022nofollow\\u0022\\u003EManage this request\\u003C\\/a\\u003E\\u003Cbr \\/\\u003E\\r\\nPlease find their details below:\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cstrong\\u003E@new_member_full_name\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E@new_member_organisation, @new_member_organisation_type\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EBased in @new_member_country\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EExpertise: @new_member_expertise\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EAbout: @new_member_about_me\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EMessage from this member:\\u003Cbr \\/\\u003E\\r\\n\\u003Cem\\u003E@new_member_request_message\\u003C\\/em\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EView this member\\u0027s \\u003Ca href=\\u0022!new_member_public_profile_url\\u0022 rel=\\u0022nofollow\\u0022\\u003Eprofile\\u003C\\/a\\u003E at [site:name].\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!membership_approve_url\\u0022\\u003EApprove\\u003C\\/a\\u003E - \\u003Ca href=\\u0022!membership_reject_url\\u0022\\u003EReject\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n",
+          "value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\nA new member requested to join \\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E at [site:name].\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!group_pending_member_url\\u0022 rel=\\u0022nofollow\\u0022\\u003EManage this request\\u003C\\/a\\u003E\\u003Cbr \\/\\u003E\\r\\nPlease find their details below:\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cstrong\\u003E@new_member_full_name\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E@new_member_organisation, @new_member_organisation_type\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EBased in @new_member_country\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EExpertise: @new_member_expertise\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EAbout: @new_member_about_me\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EMessage from this member:\\u003Cbr \\/\\u003E\\r\\n\\u003Cem\\u003E@new_member_request_message\\u003C\\/em\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EView this member\\u0027s \\u003Ca href=\\u0022!new_member_public_profile_url\\u0022 rel=\\u0022nofollow\\u0022\\u003Eprofile\\u003C\\/a\\u003E at [site:name].\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!membership_approve_url\\u0022\\u003EApprove\\u003C\\/a\\u003E - \\u003Ca href=\\u0022!membership_reject_url\\u0022\\u003EReject\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n",
           "format" : "full_html",
-          "safe_value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\nA new member requested to join \\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E at [site:name].\\u003Cbr \\/\\u003E\\n\\u003Ca href=\\u0022!group_pending_member_url\\u0022 rel=\\u0022nofollow\\u0022\\u003EManage this request\\u003C\\/a\\u003E\\u003Cbr \\/\\u003E\\nPlease find their details below:\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Cstrong\\u003E@new_member_full_name\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\n\\u003Cp\\u003E@new_member_organisation, @new_member_organisation_type\\u003C\\/p\\u003E\\n\\u003Cp\\u003EBased in @new_member_country\\u003C\\/p\\u003E\\n\\u003Cp\\u003EExpertise: @new_member_expertise\\u003C\\/p\\u003E\\n\\u003Cp\\u003EAbout: @new_member_about_me\\u003C\\/p\\u003E\\n\\u003Cp\\u003EMessage from this member:\\u003Cbr \\/\\u003E\\n\\u003Cem\\u003E@new_member_request_message\\u003C\\/em\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003EView this member\\u0027s \\u003Ca href=\\u0022!new_member_public_profile_url\\u0022 rel=\\u0022nofollow\\u0022\\u003Eprofile\\u003C\\/a\\u003E at [site:name].\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!membership_approve_url\\u0022\\u003EApprove\\u003C\\/a\\u003E - \\u003Ca href=\\u0022!membership_reject_url\\u0022\\u003EReject\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003EDear @group_admin_full_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\nA new member requested to join \\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E at [site:name].\\u003Cbr \\/\\u003E\\n\\u003Ca href=\\u0022!group_pending_member_url\\u0022 rel=\\u0022nofollow\\u0022\\u003EManage this request\\u003C\\/a\\u003E\\u003Cbr \\/\\u003E\\nPlease find their details below:\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Cstrong\\u003E@new_member_full_name\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E@new_member_organisation, @new_member_organisation_type\\u003C\\/p\\u003E\\n\\u003Cp\\u003EBased in @new_member_country\\u003C\\/p\\u003E\\n\\u003Cp\\u003EExpertise: @new_member_expertise\\u003C\\/p\\u003E\\n\\u003Cp\\u003EAbout: @new_member_about_me\\u003C\\/p\\u003E\\n\\u003Cp\\u003EMessage from this member:\\u003Cbr \\/\\u003E\\n\\u003Cem\\u003E@new_member_request_message\\u003C\\/em\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003EView this member\\u0027s \\u003Ca href=\\u0022!new_member_public_profile_url\\u0022 rel=\\u0022nofollow\\u0022\\u003Eprofile\\u003C\\/a\\u003E at [site:name].\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!membership_approve_url\\u0022\\u003EApprove\\u003C\\/a\\u003E - \\u003Ca href=\\u0022!membership_reject_url\\u0022\\u003EReject\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
         }
       ]
     },

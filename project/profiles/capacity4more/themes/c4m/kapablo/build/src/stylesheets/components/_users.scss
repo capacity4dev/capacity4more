@@ -104,7 +104,7 @@
         text-align: center;
       }
 
-      .fa-users {
+      .fa-users, .fa-flag-checkered {
         margin-right: 0.5rem;
         color: $color-white;
       }
@@ -134,7 +134,8 @@
     float: right;
   }
 
-  .user-groups {
+  .user-groups,
+  .user-projects {
     @include grain_dark;
     min-width: 280px;
     margin-top: 6.5px;
@@ -181,7 +182,8 @@
           }
         }
 
-        .c4m-explore-all-my-groups-link {
+        .c4m-explore-all-my-groups-link,
+        .c4m-explore-all-my-projects-link {
           padding-left: 15px;
           margin-bottom: 5px;
 
