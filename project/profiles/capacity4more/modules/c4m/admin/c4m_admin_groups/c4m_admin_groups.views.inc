@@ -18,6 +18,15 @@ function c4m_admin_groups_views_data() {
     ),
   );
 
+  $data['node']['group_approve'] = array(
+    'title' => t('Group approve link'),
+    'help' => t('Approval link for a group.'),
+    'field' => array(
+      'handler' => 'c4m_admin_groups_views_handler_field_group_approve_link',
+      'group' => 'Content',
+    ),
+  );
+
   $data['node']['group_domains'] = array(
     'title' => t('Group domains'),
     'help' => t('Domains of a group.'),
@@ -50,6 +59,15 @@ function c4m_admin_groups_views_data() {
     'help' => t('Organisations of a group.'),
     'field' => array(
       'handler' => 'c4m_admin_groups_views_handler_field_group_organisations',
+      'group' => 'Content',
+    ),
+  );
+
+  $data['node']['group_reject'] = array(
+    'title' => t('Group reject link'),
+    'help' => t('Reject link for a group.'),
+    'field' => array(
+      'handler' => 'c4m_admin_groups_views_handler_field_group_reject_link',
       'group' => 'Content',
     ),
   );
