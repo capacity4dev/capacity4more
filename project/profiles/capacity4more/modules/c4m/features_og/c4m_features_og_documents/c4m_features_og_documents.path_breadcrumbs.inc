@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_features_og_documents.path_breadcrumbs.inc
