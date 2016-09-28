@@ -42,7 +42,7 @@ function c4m_content_photo_node_presave($node) {
   }
 
   // Determine whether a photo has been created while creating its photo album.
-  if (!c4m_content_photo_is_part_of_photo_album_creation($node)) {
+  if (c4m_content_photo_is_part_of_photo_album_creation($node)) {
     $wrapper->c4m_created_with_photo_album->set(1);
   }
 
