@@ -54,6 +54,31 @@ Feature: Group Documents
     Then I should see the text "Edit Document Nobel Prize ceremony"
     And I should see the text "Authoring information"
 
+  @javascript
+  Scenario: Promote buttons shouldn't be displayed to anonymous users.
+    Given  I am an anonymous user
+    When I visit the documents overview of group "Nobel Prize"
+    Then  I should not see the ".fa-thumb-tack" element
+
+  @javascript
+  Scenario: Promote buttons shouldn't be displayed to users without access.
+    Given  I am logged in as user "isaacnewton"
+    When I visit the documents overview of group "Nobel Prize"
+    Then  I should not see the ".fa-thumb-tack" element
+
+  @javascript
+  Scenario Outline: Promote and highlight buttons should be displayed to users with access.
+    Given  I am logged in as user "<user>"
+    When I visit the documents overview of group "Nobel Prize"
+    Then  I should see the ".fa-star-o" element
+    And   I should see the ".fa-thumb-tack" element
+
+    Examples:
+      | user        |
+      | alfrednobel |
+      | mariecurie  |
+
+
 #  Tests are commented because file uploading is not working.
 #  @javascript @wip
 #  Scenario: Check group reference field is filled from context and hidden

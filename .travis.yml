@@ -17,6 +17,9 @@ env:
 php:
   - '5.6'
 
+node_js:
+  - '4'
+
 mysql:
   database: drupal
   username: root
@@ -32,7 +35,7 @@ install:
   - date
 
   # Update node.js to 4.x
-  - $TRAVIS_BUILD_DIR/ci/bin/install_nodejs.sh
+  #- $TRAVIS_BUILD_DIR/ci/bin/install_nodejs.sh
 
   # Install Apache + extra PHP packages.
   - $TRAVIS_BUILD_DIR/ci/bin/install_apache.sh
