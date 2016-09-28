@@ -285,6 +285,7 @@ function c4m_document_widget_theme() {
     'variables' => array(
       'file_id' => NULL,
       'file' => NULL,
+      'ctrl' => NULL,
     ),
   );
 
@@ -354,6 +355,13 @@ function c4m_document_widget_menu() {
     'access callback' => 'c4m_document_widget_check_file_access',
     'access arguments' => array(1),
   );
+
+  $items['overlay-file/%/quick'] = array(
+    'page callback' => 'c4m_document_widget_add_document_file',
+    'page arguments' => array(1, TRUE),
+    'access callback' => TRUE,
+  );
+
   return $items;
 }
 
@@ -404,13 +412,14 @@ function c4m_document_widget_check_file_access($file_id) {
  * @return string
  *    Return formatted html of the overlay-file page.
  */
-function c4m_document_widget_add_document_file($file_id) {
+function c4m_document_widget_add_document_file($file_id, $is_quick_post = FALSE) {
   $file = file_load($file_id);
   // Get file view.
   $file_view = file_view($file, 'c4m_preview');
   $variables = array(
     'file_id' => $file_id,
     'file' => drupal_render($file_view),
+    'ctrl' => $is_quick_post ? 'DocumentQuickPostCtrl' : 'DocumentCtrl',
   );
 
   // Get group context or use the default one.

@@ -217,8 +217,12 @@ function c4m_restful_quick_post_form($group_id) {
     'data' => array(
       'request' => $request,
       'purl' => url('', $purl_options),
+      'group' => $group_id,
       'entity' => array(
         'group' => $group_id,
+      ),
+      'relatedDocuments' => array(
+        'c4m-related-document' => array (),
       ),
     ),
   );
