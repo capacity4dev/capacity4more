@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_project.ds.inc
@@ -63,30 +62,6 @@ function c4m_content_project_ds_field_settings_info() {
     ),
   );
   $export['node|project|block_list'] = $ds_fieldsetting;
-
-  $ds_fieldsetting = new stdClass();
-  $ds_fieldsetting->api_version = 1;
-  $ds_fieldsetting->id = 'paragraphs_item|c4m_paragraph_map|default';
-  $ds_fieldsetting->entity_type = 'paragraphs_item';
-  $ds_fieldsetting->bundle = 'c4m_paragraph_map';
-  $ds_fieldsetting->view_mode = 'default';
-  $ds_fieldsetting->settings = array(
-    'c4m_heading' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'fi' => TRUE,
-          'fi-el' => 'h2',
-          'fi-cl' => 'map-title',
-          'fi-at' => '',
-          'fi-def-at' => FALSE,
-          'fi-odd-even' => FALSE,
-          'fi-first-last' => FALSE,
-        ),
-      ),
-    ),
-  );
-  $export['paragraphs_item|c4m_paragraph_map|default'] = $ds_fieldsetting;
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
@@ -254,7 +229,6 @@ function c4m_content_project_ds_field_settings_info() {
           'ow-def-cl' => TRUE,
           'ow-at' => '',
           'ow-def-at' => TRUE,
-
         ),
       ),
     ),
@@ -263,16 +237,35 @@ function c4m_content_project_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'paragraphs_item|c4m_paragraph_map|default';
+  $ds_fieldsetting->entity_type = 'paragraphs_item';
+  $ds_fieldsetting->bundle = 'c4m_paragraph_map';
+  $ds_fieldsetting->view_mode = 'default';
+  $ds_fieldsetting->settings = array(
+    'c4m_heading' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'fi' => TRUE,
+          'fi-el' => 'h2',
+          'fi-cl' => 'map-title',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
+      ),
+    ),
+  );
+  $export['paragraphs_item|c4m_paragraph_map|default'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'paragraphs_item|c4m_paragraph_system_block|default';
   $ds_fieldsetting->entity_type = 'paragraphs_item';
   $ds_fieldsetting->bundle = 'c4m_paragraph_system_block';
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
-    'c4m_system_block_renderer' => array(
-      'weight' => '1',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'c4m_heading' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -467,12 +460,12 @@ function c4m_content_project_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'c4m_heading',
-        1 => 'c4m_system_block_renderer',
+        1 => 'c4m_block',
       ),
     ),
     'fields' => array(
       'c4m_heading' => 'ds_content',
-      'c4m_system_block_renderer' => 'ds_content',
+      'c4m_block' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
