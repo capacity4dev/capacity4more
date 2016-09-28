@@ -52,3 +52,51 @@ Feature: Group Discussions
     And   I start editing "discussion" "Some new discussion3" in group "Tennis Group"
     Then  I should see "Edit discussion"
     And   I should see "Some new discussion3"
+
+  @api
+  Scenario: Check GA can edit a discussion's author
+    Given I am logged in as user "galileo"
+    When I visit the group "discussion" detail page "Medals"
+    And I click "Edit" in the "primary tabs" region
+    Then I should see the text "Edit Discussion Medals"
+    And I should see the text "Authoring information"
+
+  @api
+  Scenario: Check SA can edit a discussion's author
+    Given I am logged in as user "survivalofthefittest"
+    When I visit the group "discussion" detail page "Medals"
+    And I click "Edit" in the "primary tabs" region
+    Then I should see the text "Edit Discussion Medals"
+    And I should see the text "Authoring information"
+
+  @javascript
+  Scenario: Check unpublish button on node edit forms as an authenticated user
+    Given I am logged in as user "alfrednobel"
+    And   a discussion "Edit this discussion" in group "NobelPrize" is created
+    When  I start editing "discussion" "Edit this discussion" in group "Nobel Prize"
+    Then  I should see "Unpublish" in the "#edit-draft" element
+
+  @javascript
+  Scenario: Promote buttons shouldn't be displayed to anonymous users.
+    Given  I am an anonymous user
+    When I visit the discussions overview of group "Nobel Prize"
+    Then  I should not see the ".fa-thumb-tack" element
+
+  @javascript
+  Scenario: Promote buttons shouldn't be displayed to users without access.
+    Given  I am logged in as user "isaacnewton"
+    When I visit the discussions overview of group "Nobel Prize"
+    Then  I should not see the ".fa-thumb-tack" element
+
+  @javascript
+  Scenario Outline: Promote and highlight buttons should be displayed to users with access.
+    Given  I am logged in as user "<user>"
+    When I visit the discussions overview of group "Nobel Prize"
+    Then  I should see the ".fa-star-o" element
+    And   I should see the ".fa-thumb-tack" element
+
+    Examples:
+      | user        |
+      | alfrednobel |
+      | mariecurie  |
+

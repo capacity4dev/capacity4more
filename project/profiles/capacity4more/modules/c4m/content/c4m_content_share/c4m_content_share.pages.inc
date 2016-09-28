@@ -145,7 +145,7 @@ function c4m_content_share_form_validate($form, &$form_state) {
   $group_ref = $form_state['input']['og_group_ref'][LANGUAGE_NONE][0];
 
   $default = $group_ref['default'];
-  $admin = $group_ref['admin'];
+  $admin = isset($group_ref['admin']) ? $group_ref['admin'] : NULL;
 
   if ((empty($default) || $default === '_none') && (empty($admin) || empty($admin[0]['target_id']))) {
     form_set_error('og_group_ref', t('You need a group reference'));
@@ -188,25 +188,36 @@ function c4m_content_share_form_submit($form, &$form_state) {
 
   node_object_prepare($node);
 
-  // If this is a book page, we need an extra step.
   $original_node = entity_metadata_wrapper(
-    'node',
-    $values['c4m_source_entity']
+  'node',
+  $values['c4m_source_entity']
   );
 
+  /*
+  // If this is a book page, we need an extra step.
   if ($original_node->getBundle() === 'wiki_page') {
-    $bid = c4m_content_wiki_page_get_bid_by_nid($values['og_group_ref']);
-    $book = $node->book;
-    $book['bid'] = $bid;
-    $book['original_bid'] = $bid;
-    $node->book = $book;
+  $bid = c4m_content_wiki_page_get_bid_by_nid($values['og_group_ref']);
+  $book = $node->book;
+  $book['bid'] = $bid;
+  $book['original_bid'] = $bid;
+  $node->book = $book;
   }
+   */
 
   $node_wrapper = entity_metadata_wrapper('node', $node);
 
   $node_wrapper->og_group_ref = $values['og_group_ref'];
   $node_wrapper->c4m_source_entity = $values['c4m_source_entity'];
   $node_wrapper->c4m_body = $values['c4m_body'];
+
+  // Add shared node bundle, to allow easy check if notification is required.
+  $node->source_bundle = $original_node->getBundle();
+  // Add the ID of group content is shared into, and shared node ID.
+  // Added for notification purposes.
+  $node->notification_data = array(
+    'target_gid' => $values['og_group_ref'],
+    'source_nid' => $values['c4m_source_entity'],
+  );
 
   $node_wrapper->save();
 

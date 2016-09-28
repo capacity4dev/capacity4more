@@ -154,6 +154,12 @@ function c4m_content_document_strongarm() {
       'block_list' => array(
         'custom_settings' => TRUE,
       ),
+      'pinned_content' => array(
+        'custom_settings' => TRUE,
+      ),
+      'group_dashboard' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -178,6 +184,7 @@ function c4m_content_document_strongarm() {
           'activity_global' => NULL,
           'activity_group' => NULL,
           'block_list' => NULL,
+          'pinned_content' => NULL,
         ),
         'flag_c4m_og_content_highlight' => array(
           'full' => array(
@@ -185,7 +192,7 @@ function c4m_content_document_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '23',
+            'weight' => '26',
             'visible' => FALSE,
           ),
           'activity_group' => array(
@@ -201,12 +208,40 @@ function c4m_content_document_strongarm() {
             'visible' => FALSE,
           ),
           'teaser_group' => array(
-            'weight' => '26',
+            'weight' => '30',
             'visible' => FALSE,
           ),
           'block_list' => array(
             'weight' => '25',
             'visible' => FALSE,
+          ),
+          'pinned_content' => array(
+            'weight' => '1',
+            'visible' => TRUE,
+          ),
+        ),
+        'highlighted' => array(
+          'full' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '6',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '5',
+            'visible' => TRUE,
+          ),
+        ),
+        'promoted' => array(
+          'teaser' => array(
+            'weight' => '0',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '6',
+            'visible' => TRUE,
           ),
         ),
       ),

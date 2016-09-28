@@ -49,6 +49,11 @@ function c4m_user_profile_block_info() {
     'cache' => DRUPAL_NO_CACHE,
   );
 
+  $blocks['user_my_profile_groups'] = array(
+    'info' => t('My groups'),
+    'cache' => DRUPAL_CACHE_PER_USER,
+  );
+
   return $blocks;
 }
 
@@ -106,6 +111,12 @@ function c4m_user_profile_tokens(
 
         case 'url-with-name':
           $name = c4m_user_name($account);
+
+          $wrapper = entity_metadata_wrapper('user', $account);
+          if (!$account->status && $wrapper->c4m_is_deleted_anonymous->value()) {
+            $name = t('Anonymous');
+          }
+
           $replacements[$original] = !empty($account->uid) && $account->status ? l(
             $name,
             "user/$account->uid",
@@ -170,6 +181,32 @@ function c4m_user_profile_theme() {
     ),
     'file' => 'c4m_user_profile.theme.inc',
     'path' => drupal_get_path('module', 'c4m_user_profile') . '/includes',
+  );
+
+  $theme['c4m_user_profile_groups_top_bar'] = array(
+    'variables' => array(
+      'groups' => array(),
+      'link' => array(),
+    ),
+    'file' => 'c4m_user_profile.theme.inc',
+    'path' => drupal_get_path('module', 'c4m_user_profile') . '/includes',
+  );
+
+  $theme['c4m_user_profile_projects_top_bar'] = array(
+    'variables' => array(
+      'projects' => array(),
+      'link' => array(),
+    ),
+    'file' => 'c4m_user_profile.theme.inc',
+    'path' => drupal_get_path('module', 'c4m_user_profile') . '/includes',
+  );
+
+  $theme['c4m_user_profile_my_profile_groups'] = array(
+    'variables' => array(
+      'groups' => NULL,
+    ),
+    'path' => drupal_get_path('module', 'c4m_user_profile') . '/templates',
+    'template' => 'my-profile-groups',
   );
 
   return $theme;
@@ -351,6 +388,13 @@ function c4m_user_profile_alter_user_form(
   $form['c4m_is_organisation_user'][LANGUAGE_NONE]['#type'] = 'hidden';
   $form['c4m_is_invalid_email'][LANGUAGE_NONE]['#type'] = 'hidden';
 
+  // The default contact value is different on registration (general setting).
+  // On the user edit form, the default value is stored as per user and this
+  // value is already present in the form values (original contact field).
+  $contact_default_value = ($is_registration) ?
+    variable_get('contact_default_status', 1) :
+    $form['contact']['contact']['#default_value'];
+
   // Add checkbox for contact options.
   // @see contact_form_user_profile_form_alter().
   $form['contact'] = array(
@@ -358,7 +402,7 @@ function c4m_user_profile_alter_user_form(
     '#title' => t(
       'Members are allowed to contact you through your personal contact form'
     ),
-    '#default_value' => variable_get('contact_default_status', 1),
+    '#default_value' => $contact_default_value,
     '#weight' => 14,
     '#group' => 'group_public_profile',
   );
@@ -499,10 +543,13 @@ function c4m_user_profile_form_user_profile_form_alter(
   $form['c4m_is_spammer']['#access'] = FALSE;
   // Hide status field.
   $form['account']['status']['#access'] = FALSE;
-  // Hide OG related fields.
-  $form['og_user_node']['#access'] = FALSE;
   // Remove Terms and conditions fieldset.
   $form['legal']['#access'] = FALSE;
+
+  // Hide OG related fields for non-admin users.
+  if (!in_array('administrator', $user->roles)) {
+    $form['og_user_node']['#access'] = FALSE;
+  }
 
   // Introduce simple Cancel button (goes to user profile)
   $form['actions']['cancel']['#access'] = FALSE;
@@ -599,21 +646,22 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
   }
 
   // Process subscription to mailing list.
-  if (empty($form_state['values']['subscribe_to_mailinglist'])) {
-    return;
-  }
-  $email = $form_state['values']['mail'];
-  if (!c4m_user_profile_subscribe_to_mailing_list($email, $name)) {
-    drupal_set_message(
-      t(
-        "We couldn't subscribe you to the mailing list. Please try again later."
-      )
-    );
-  }
-
-  // Set contact flag.
-  if (isset($form_state['user'])) {
-    variable_set('contact_default_status', $form_state['user']->contact);
+  if (!empty($form_state['values']['subscribe_to_mailinglist'])) {
+    $email = $form_state['values']['mail'];
+    if (c4m_user_profile_subscribe_to_mailing_list($email, $name)) {
+      drupal_set_message(
+        t(
+          "Successfully subscribed to the newsletter."
+        )
+      );
+    }
+    else {
+      drupal_set_message(
+        t(
+          "We couldn't subscribe you to the mailing list. Please try again later."
+        )
+      );
+    }
   }
 }
 
@@ -621,11 +669,6 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
  * Submit callback for user_register_form form.
  */
 function c4m_user_profile_form_user_profile_form_submit($form, &$form_state) {
-  // Set contact flag.
-  if (isset($form_state['user'])) {
-    variable_set('contact_default_status', $form_state['user']->contact);
-  }
-
   // Redirect to user profile after submit.
   $form_state['redirect'] = 'user/' . $form_state['user']->uid;
 }
@@ -710,18 +753,29 @@ function c4m_user_profile_subscribe_to_mailing_list($email_address, $name) {
  * Our implementation needs to fire after legal module.
  */
 function c4m_user_profile_module_implements_alter(&$implementations, $hook) {
-  if ($hook == 'form_alter' && isset($implementations['c4m_user_profile'])) {
-    $c4m_user_profile = $implementations['c4m_user_profile'];
-    unset($implementations['c4m_user_profile']);
-    $implementations['c4m_user_profile'] = $c4m_user_profile;
+  if ($hook == 'form_alter') {
+    if (isset($implementations['c4m_user_profile'])) {
+      $c4m_user_profile = $implementations['c4m_user_profile'];
+      unset($implementations['c4m_user_profile']);
+      $implementations['c4m_user_profile'] = $c4m_user_profile;
 
-    // In order to alter the login/register form on the "c4m_user_og" module we
+      // In order to alter the login/register form on the "c4m_user_og" module
+      // we have no other way but use this hook to set the order, because of the
+      // alphabetic order of the modules names.
+      if (isset($implementations['c4m_user_og'])) {
+        $c4m_user_profile = $implementations['c4m_user_og'];
+        unset($implementations['c4m_user_og']);
+        $implementations['c4m_user_og'] = $c4m_user_profile;
+      }
+    }
+
+    // In order to alter the login/register form on the "c4m_user" module we
     // have no other way but use this hook to set the order, because of the
     // alphabetic order of the modules names.
-    if (isset($implementations['c4m_user_og'])) {
-      $c4m_user_profile = $implementations['c4m_user_og'];
-      unset($implementations['c4m_user_og']);
-      $implementations['c4m_user_og'] = $c4m_user_profile;
+    if (isset($implementations['c4m_user'])) {
+      $c4m_user_profile = $implementations['c4m_user'];
+      unset($implementations['c4m_user']);
+      $implementations['c4m_user'] = $c4m_user_profile;
     }
   }
 }
@@ -810,6 +864,7 @@ function c4m_user_profile_element_validate_mail(
   $data['validation_messages'] = &$validation_messages;
 
   drupal_alter('c4m_user_profile_validate_email', $data);
+  drupal_alter('c4m_user_profile_validate_email_validation_messages', $data['validation_messages']);
   uasort($validation_messages, 'element_sort');
 
   if ($validation_messages) {
@@ -900,7 +955,7 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
     $data['alter_form'] && $data['form']['c4m_is_organisation_user'][LANGUAGE_NONE]['#value'] = 1;
 
     if ($data['minimum_error_level'] <= C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE) {
-      $data['validation_messages'][] = $is_ldap_user ? array(
+      $data['validation_messages'][] = array(
         'message' => t(
           '<p>You are recognized as member of !logo - %name<br />If you do not want to be associated with this organization, please !use_another_email.</p>',
           array(
@@ -925,7 +980,7 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
         ),
         'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE,
         '#weight' => 4,
-      ) : array();
+      );
     }
   }
 
@@ -941,6 +996,24 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
     if ($organisation_type) {
       $data['form']['c4m_organisation_type'][LANGUAGE_NONE]['#attributes']['disabled'] = 'disabled';
       $data['form']['c4m_organisation_type'][LANGUAGE_NONE]['#value'] = $organisation_type;
+    }
+  }
+
+  // Search for error messages.
+  $has_errors = FALSE;
+  foreach ($data['validation_messages'] as $key => $message) {
+    if (isset($message['type']) && $message['type'] == C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR) {
+      $has_errors = TRUE;
+      break;
+    }
+  }
+
+  // Only keep the error messages if there're.
+  if ($has_errors) {
+    foreach ($data['validation_messages'] as $key => $message) {
+      if (isset($message['type']) && $message['type'] != C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR) {
+        unset($data['validation_messages'][$key]);
+      }
     }
   }
 
@@ -976,8 +1049,8 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
           'This email address is already in use. Please activate your account, or !resend_activation.',
           array(
             '!resend_activation' => l(
-              t('log in'),
-              'user/' . $other_user->uid . '/resend-activation-email'
+              t('re-send the activation mail'),
+              'user/' . $other_user->uid->value() . '/resend-activation-email'
             ),
           )
         ),
@@ -1013,6 +1086,29 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
 }
 
 /**
+ * Implements hook_c4m_user_profile_validate_email_validation_messages_alter().
+ */
+function c4m_user_profile_c4m_user_profile_validate_email_validation_messages_alter(&$messages) {
+  // Search for error messages.
+  $has_errors = FALSE;
+  foreach ($messages as $key => $message) {
+    if (isset($message['type']) && $message['type'] == C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR) {
+      $has_errors = TRUE;
+      break;
+    }
+  }
+
+  // Only keep the error messages if there're.
+  if ($has_errors) {
+    foreach ($messages as $key => $message) {
+      if (isset($message['type']) && $message['type'] != C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR) {
+        unset($messages[$key]);
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Replace the user_login_name_validate() from the user_login form.
@@ -1022,6 +1118,7 @@ function c4m_user_profile_form_user_login_alter(
   &$form_state,
   $form_id
 ) {
+  // If Drupal Core's "user_login_name_validate"-function is present, remove it.
   if (($key = array_search(
       'user_login_name_validate',
       $form['#validate']
@@ -1029,6 +1126,8 @@ function c4m_user_profile_form_user_login_alter(
   ) {
     unset($form['#validate'][$key]);
   }
+
+  // Add our custom "user_login_validate" instead.
   array_unshift($form['#validate'], 'c4m_user_profile_user_login_validate');
 }
 
@@ -1054,31 +1153,28 @@ function c4m_user_profile_user_login_validate($form, &$form_state) {
   }
 
   $account = entity_metadata_wrapper('user', $account);
-  if (!$account->c4m_is_deleted->value() && !$account->c4m_is_spammer->value(
-    ) && !$account->last_login->value()
-  ) {
-    form_set_error(
-      'name',
-      t(
-        'You used valid credentials but your account is not activated yet. Use the !password_recovery form to resend the activation email.',
-        array(
-          '!password_recovery' => l(
-            t('password recovery'),
-            'user/password'
-          ),
-        )
-      )
+  if (!$account->c4m_is_deleted->value() && !$account->c4m_is_spammer->value() && !$account->last_login->value()) {
+    $message = t(
+      'You used valid credentials but your account is not activated yet. Use the !password_recovery form to resend the activation email.',
+      array('!password_recovery' => l(t('password recovery'), 'user/password'))
+    );
+  }
+  elseif ($account->c4m_is_spammer->value()) {
+    $message = t(
+      'This account has been blocked, for more information please !contact an administrator.',
+      array('!contact' => l(t('contact'), 'contact'))
+    );
+  }
+  elseif ($account->c4m_is_deleted->value()) {
+    $message = t(
+      'There is a problem with your account, please !contact the site administrators.',
+      array('!contact' => l(t('contact'), 'contact'))
     );
   }
   else {
-    form_set_error(
-      'name',
-      t(
-        'The username %name has not been activated or is blocked.',
-        array('%name' => $form_state['values']['name'])
-      )
-    );
+    $message = t('Sorry, unrecognized username or password. <a href="@password">Have you forgotten your password?</a>', array('@password' => url('user/password')));
   }
+  form_set_error('name', $message);
 }
 
 /**
@@ -1150,7 +1246,7 @@ function c4m_user_profile_render_user_unsubscribe_hash($account = NULL) {
  * Adding the unsubscribe hash to the user profile when it is not a new profile.
  */
 function c4m_user_profile_user_presave(&$edit, $account, $category) {
-  if (!$account->is_new) {
+  if ($account->is_new) {
     return;
   }
 
@@ -1197,6 +1293,9 @@ function c4m_user_profile_unsubscribe_user_access(
 
   // Validate entity ID.
   try {
+    if ($entity_type == 'group' || $entity_type == 'comment') {
+      $entity_type = 'node';
+    }
     $wrapper = entity_metadata_wrapper($entity_type, $entity_id);
     if (!$wrapper->value()) {
       return FALSE;
@@ -1227,12 +1326,15 @@ function c4m_user_profile_unsubscribe_user($account, $entity_type, $entity_id) {
   ) as $existing_id) {
     if ($existing_id == $entity_id) {
       // User already unsubscribed from entity.
-      return;
+      drupal_set_message(t('Already unsubscribed'), 'warning');
+      drupal_goto();
     }
   }
 
   $wrapper->{$field}[] = $entity_id;
   $wrapper->save();
+  drupal_set_message(t('Successfully unsubscribed'));
+  drupal_goto();
 }
 
 /**
@@ -1244,8 +1346,8 @@ function c4m_user_profile_message_subscribe_get_subscribers_alter(
   &$uids,
   $values
 ) {
-  $entity_type = $values['entity_type'];
-  $entity_id = reset($values['context'][$entity_type]);
+  $entity_type = $values['context']['entity_type'];
+  $entity_id = $values['context']['entity_id'];
   $uids = c4m_user_profile_get_subscribed($entity_type, $entity_id, $uids);
 }
 
@@ -1273,22 +1375,24 @@ function c4m_user_profile_get_subscribed(
     return array();
   }
 
+  $uids_keys = array_keys($uids);
   // Using db_select instead of user_load_multiple to optimize the performance.
   $query = db_select("field_data_c4m_optout_{$entity_type}", 'o');
   $query
     ->fields('o', array('entity_id'))
-    ->condition('entity_id', $uids, 'IN')
+    ->condition('entity_id', $uids_keys, 'IN')
     ->condition("c4m_optout_{$entity_type}_target_id", $entity_id);
 
   $unsubscribers = $query->execute()->fetchAllKeyed(0, 0);
 
-  return array_filter(
-    $uids,
-    function ($uid) use ($unsubscribers) {
-      // Removing all unsubscribed users.
-      return !in_array($uid, $unsubscribers);
+  // Unset unsubscribers from $uids array.
+  foreach ($unsubscribers as $unsubscriber) {
+    if (in_array($unsubscriber, $uids_keys)) {
+      unset($uids[$unsubscriber]);
     }
-  );
+  }
+
+  return $uids;
 }
 
 /**

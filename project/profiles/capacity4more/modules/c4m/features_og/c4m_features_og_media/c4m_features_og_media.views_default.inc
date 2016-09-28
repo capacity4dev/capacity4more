@@ -25,7 +25,7 @@ function c4m_features_og_media_views_default_views() {
   $handler->display->display_options['title'] = 'Media';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'c4m_og_access_og_context';
-  $handler->display->display_options['access']['feature'] = 'c4m_features_og_documents';
+  $handler->display->display_options['access']['feature'] = 'c4m_features_og_media';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['search_api_bypass_access'] = 0;
@@ -70,7 +70,7 @@ function c4m_features_og_media_views_default_views() {
   $handler->display->display_options['header']['result']['field'] = 'result';
   $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
   $handler->display->display_options['header']['result']['empty'] = TRUE;
-  $handler->display->display_options['header']['result']['content'] = '@total items';
+  $handler->display->display_options['header']['result']['content'] = '<span class="total-items">@total items</span>';
   /* Header: Sort results */
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
@@ -128,6 +128,14 @@ function c4m_features_og_media_views_default_views() {
     4 => 0,
     3 => 0,
   );
+  /* Filter criterion: Indexed Node: Created with photo album */
+  $handler->display->display_options['filters']['c4m_created_with_photo_album']['id'] = 'c4m_created_with_photo_album';
+  $handler->display->display_options['filters']['c4m_created_with_photo_album']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['c4m_created_with_photo_album']['field'] = 'c4m_created_with_photo_album';
+  $handler->display->display_options['filters']['c4m_created_with_photo_album']['operator'] = '<>';
+  $handler->display->display_options['filters']['c4m_created_with_photo_album']['value'] = array(
+    1 => '1',
+  );
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
@@ -158,7 +166,7 @@ function c4m_features_og_media_views_default_views() {
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'library';
+  $handler->display->display_options['row_options']['view_mode'] = 'media';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['defaults']['header'] = FALSE;
@@ -173,7 +181,7 @@ function c4m_features_og_media_views_default_views() {
   $handler->display->display_options['header']['result']['field'] = 'result';
   $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
   $handler->display->display_options['header']['result']['empty'] = TRUE;
-  $handler->display->display_options['header']['result']['content'] = '@total items';
+  $handler->display->display_options['header']['result']['content'] = '<span class="total-items">@total items</span>';
   /* Header: Sort results */
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
@@ -216,6 +224,14 @@ function c4m_features_og_media_views_default_views() {
     2 => '2',
     1 => 0,
     3 => 0,
+  );
+  /* Filter criterion: Indexed Node: Created with photo album */
+  $handler->display->display_options['filters']['c4m_created_with_photo_album']['id'] = 'c4m_created_with_photo_album';
+  $handler->display->display_options['filters']['c4m_created_with_photo_album']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['c4m_created_with_photo_album']['field'] = 'c4m_created_with_photo_album';
+  $handler->display->display_options['filters']['c4m_created_with_photo_album']['operator'] = '<>';
+  $handler->display->display_options['filters']['c4m_created_with_photo_album']['value'] = array(
+    1 => '1',
   );
   $handler->display->display_options['path'] = 'overlay/media';
   $export['overview_og_media'] = $view;

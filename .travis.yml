@@ -17,6 +17,9 @@ env:
 php:
   - '5.6'
 
+node_js:
+  - '4'
+
 mysql:
   database: drupal
   username: root
@@ -27,15 +30,12 @@ before_install:
   - sudo apt-get update > /dev/null
   - composer self-update
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - gem install sass
-  - npm -v
-  - npm install -g grunt-cli
 
 install:
   - date
 
   # Update node.js to 4.x
-  - $TRAVIS_BUILD_DIR/ci/bin/install_nodejs.sh
+  #- $TRAVIS_BUILD_DIR/ci/bin/install_nodejs.sh
 
   # Install Apache + extra PHP packages.
   - $TRAVIS_BUILD_DIR/ci/bin/install_apache.sh
@@ -64,11 +64,11 @@ install:
   # Install grunt & bower
   - $TRAVIS_BUILD_DIR/ci/bin/install_taskrunners.sh
 
+  # Install capacity4more profile.
+  - travis_wait 45 $TRAVIS_BUILD_DIR/ci/bin/install_drupal.sh
+
 before_script:
   - date
-
-  # Install capacity4more profile.
-  - $TRAVIS_BUILD_DIR/ci/bin/install_drupal.sh
 
   # Index content in Solr.
   - $TRAVIS_BUILD_DIR/ci/bin/index_drupal.sh
@@ -87,6 +87,15 @@ script:
 
 after_script:
   - date
+
+after_failure:
+  - date
+
+  # Zip dumps and mail
+  - $TRAVIS_BUILD_DIR/ci/bin/report_behat.sh
+
+  # Output watchdog entries (errors).
+  - $TRAVIS_BUILD_DIR/ci/bin/report_watchdog.sh
 
 notifications:
   slack: amplexor:7ssq8h2xLhkDGyJCw6rtmfOY

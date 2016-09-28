@@ -26,9 +26,12 @@ function c4m_content_photoalbum_c4m_og_vocab_info_content() {
 /**
  * Implements hook_form_FORM_ID_alter().
  *
+ * Verifies user has access to the form.
  * Adds an `Add Photos` button to the `Create Photo album` form.
  */
 function c4m_content_photoalbum_form_photoalbum_node_form_alter(&$form, &$form_instance, $form_id) {
+  c4m_content_create_group_content_access();
+
   $form['actions']['add_photos'] = array(
     '#type' => 'submit',
     '#value' => t('Add photos'),
@@ -38,6 +41,9 @@ function c4m_content_photoalbum_form_photoalbum_node_form_alter(&$form, &$form_i
       'c4m_content_photoalbum_add_photos_submit',
     ),
   );
+
+  // Add author information to the edit photoalbum form.
+  c4m_og_add_content_author_options_to_power_users($form);
 }
 
 /**

@@ -11,6 +11,8 @@
 class C4mDemoContentCreateOgUsers extends Migration {
   /**
    * Map the field and properties to the CSV header.
+   *
+   * @var array
    */
   public $csvColumns = array(
     array('id', 'ID'),
@@ -163,6 +165,33 @@ class C4mDemoContentCreateOgUsers extends Migration {
     }
 
     return $filtered_ids;
+  }
+
+  /**
+   * The entity has been created and saved.
+   *
+   * @param object $entity
+   *   The entity object that was created.
+   * @param object $row
+   *   The CSV row we are manipulating.
+   */
+  public function complete($entity, $row) {
+    if ($entity->state != OG_STATE_ACTIVE) {
+      return;
+    }
+
+    if (!function_exists('flag_get_flag')) {
+      return;
+    }
+
+    $user = user_load($entity->etid);
+    $flag = flag_get_flag('subscribe_c4m_follow_group');
+
+    if (!$flag) {
+      return;
+    }
+
+    $flag->flag('flag', $entity->gid, $user, TRUE);
   }
 
 }

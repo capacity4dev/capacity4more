@@ -26,10 +26,10 @@ function c4m_content_discussion_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
-        'info' => 'Share Information',
-        'idea' => 'Share an Idea',
-        'question' => 'Ask a Question',
-        'debate' => 'Start a Debate',
+        'info' => 'Information',
+        'idea' => 'Idea',
+        'question' => 'Question',
+        'debate' => 'Debate',
       ),
       'allowed_values_function' => '',
     ),

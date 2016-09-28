@@ -7,7 +7,6 @@
 
 MODULES_DISABLE=(
   "color"
-  "overlay"
   "search"
   "shortcut"
   "update"

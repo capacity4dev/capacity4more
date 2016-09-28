@@ -26,11 +26,15 @@ function c4m_content_document_c4m_og_vocab_info_content() {
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * Add our own submit handler as the last one.
+ * Verifies user has access to the form.
+ * Adds our own submit handler as the last one.
  */
 function c4m_content_document_form_document_node_form_alter(&$form, $form_state) {
+  c4m_content_create_group_content_access();
   // Hide field Add to library from user.
   $form['c4m_document_add_to_library']['#access'] = FALSE;
+
+  c4m_og_add_content_author_options_to_power_users($form);
 
   if (strpos(url(current_path()), 'overlay')) {
     // If this is overlay page - add our own submit handler.
@@ -123,7 +127,7 @@ function c4m_content_document_get_number_of_downloads($og_id = NULL) {
   $query->addTag('node_access');
 
   if ($og_id) {
-    $query->join('og_membership', 'og', 'n.nid = og.etid');
+    $query->join('og_membership', 'og', "'n.nid = og.etid AND og.entity_type = 'node''");
     $query->condition('og.gid', $og_id);
   }
 
@@ -146,6 +150,7 @@ function c4m_content_document_c4m_content_statistics_info() {
         'singular'    => 'Post',
         'plural'      => 'Posts',
         'state'       => 1,
+        'skip_access_check' => TRUE,
         'aggregate'   => array(
           'type' => 'posts',
         ),

@@ -17,3 +17,6 @@ projects[message_notify][version] = "2.5"
 
 projects[mimemail][version] = "1.0-beta4"
 projects[mimemail][subdir] = "contrib"
+
+projects[reroute_email][version] = "1.2"
+projects[reroute_email][subdir] = "contrib"

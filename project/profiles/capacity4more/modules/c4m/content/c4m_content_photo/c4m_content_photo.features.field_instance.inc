@@ -105,15 +105,36 @@ function c4m_content_photo_field_default_field_instances() {
     'display' => array(
       'activity_global' => array(
         'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
+        'module' => 'smart_trim',
+        'settings' => array(
+          'more_link' => FALSE,
+          'more_text' => 'Read more',
+          'summary_handler' => 'full',
+          'trim_length' => 300,
+          'trim_link' => FALSE,
+          'trim_options' => array(),
+          'trim_preserve_tags' => '',
+          'trim_suffix' => '...',
+          'trim_type' => 'chars',
+        ),
+        'type' => 'smart_trim_format',
         'weight' => 27,
       ),
       'activity_group' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'label' => 'hidden',
+        'module' => 'smart_trim',
+        'settings' => array(
+          'more_link' => FALSE,
+          'more_text' => 'Read more',
+          'summary_handler' => 'full',
+          'trim_length' => 300,
+          'trim_link' => FALSE,
+          'trim_options' => array(),
+          'trim_preserve_tags' => '',
+          'trim_suffix' => '...',
+          'trim_type' => 'chars',
+        ),
+        'type' => 'smart_trim_format',
         'weight' => 22,
       ),
       'c4m_related' => array(
@@ -153,6 +174,12 @@ function c4m_content_photo_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -287,6 +314,12 @@ function c4m_content_photo_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
+      ),
       'teaser' => array(
         'label' => 'above',
         'module' => 'c4m_field_media',
@@ -408,6 +441,12 @@ function c4m_content_photo_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 18,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -498,6 +537,12 @@ function c4m_content_photo_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 26,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -530,6 +575,81 @@ function c4m_content_photo_field_default_field_instances() {
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
       'weight' => 5,
+    ),
+  );
+
+  // Exported field_instance: 'node-photo-c4m_created_with_photo_album'.
+  $field_instances['node-photo-c4m_created_with_photo_album'] = array(
+    'bundle' => 'photo',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'When a photo is created it can be either part of a photo album or a single photo.
+If it is part of a photo album, it might have been added while creating the photo album or added later.',
+    'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 26,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_created_with_photo_album',
+    'label' => 'Created with photo album',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 6,
     ),
   );
 
@@ -595,6 +715,12 @@ function c4m_content_photo_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'inline',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -617,6 +743,7 @@ function c4m_content_photo_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'node_gallery_ref_1',
     'label' => 'Galleries',
+    'required' => FALSE,
     'settings' => array(
       'behaviors' => array(
         'prepopulate' => array(
@@ -690,6 +817,12 @@ function c4m_content_photo_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 27,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -757,19 +890,22 @@ function c4m_content_photo_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 6,
+      'weight' => 7,
     ),
   );
 
   // Translatables
   // Included for use with string extractors like potx.
   t('Comment');
+  t('Created with photo album');
   t('Date');
   t('Description');
   t('Galleries');
   t('Groups');
   t('Image');
   t('Language');
+  t('When a photo is created it can be either part of a photo album or a single photo.
+If it is part of a photo album, it might have been added while creating the photo album or added later.');
 
   return $field_instances;
 }

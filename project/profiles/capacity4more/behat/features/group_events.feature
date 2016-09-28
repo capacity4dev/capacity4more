@@ -78,3 +78,44 @@ Feature: Group Events
     Given I am logged in as user "mariecurie"
     When  I start editing "event" "Some new event1" in group "Architecture"
     Then  I should not see an "edit-og-group-ref-und-0-default" element
+
+  @api
+  Scenario: Check GA can edit an event's author
+    Given I am logged in as user "galileo"
+    When I visit the group "event" detail page "Nobel Prize Issueing"
+    And I click "Edit" in the "primary tabs" region
+    Then I should see the text "Edit Event Nobel Prize Issueing"
+    And I should see the text "Authoring information"
+
+  @api
+  Scenario: Check SA can edit an event's author
+    Given I am logged in as user "survivalofthefittest"
+    When I visit the group "event" detail page "Nobel Prize Issueing"
+    And I click "Edit" in the "primary tabs" region
+    Then I should see the text "Edit Event Nobel Prize Issueing"
+    And I should see the text "Authoring information"
+
+  @javascript
+  Scenario: Promote buttons shouldn't be displayed to anonymous users.
+    Given  I am an anonymous user
+    When I visit the events landing page of group "Nobel Prize"
+    Then  I should not see the ".fa-thumb-tack" element
+
+  @javascript
+  Scenario: Promote buttons shouldn't be displayed to users without access.
+    Given  I am logged in as user "isaacnewton"
+    When I visit the events landing page of group "Nobel Prize"
+    Then  I should not see the ".fa-thumb-tack" element
+
+  @javascript
+  Scenario Outline: Promote and highlight buttons should be displayed to users with access.
+    Given  I am logged in as user "<user>"
+    When I visit the events landing page of group "Nobel Prize"
+    Then  I should see the ".fa-star-o" element
+    And   I should see the ".fa-thumb-tack" element
+
+    Examples:
+      | user        |
+      | alfrednobel |
+      | mariecurie  |
+

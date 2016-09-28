@@ -102,4 +102,14 @@ trait Activity {
 
     return $steps;
   }
+
+  /**
+   * @Given /^I load all activities$/
+   */
+  public function iLoadAllActivities() {
+    while ($link = $this->getSession()->getPage()->findLink('load-more-button')) {
+      $link->click();
+      sleep(3);
+    }
+  }
 }

@@ -23,6 +23,16 @@ trait GroupDashboard {
   }
 
   /**
+   * @When /^I try to invite (users|visitors) to "([^"]*)" group$/
+   */
+  public function iTryToInviteToGroup($who, $title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = 'group/node/'. $group->nid .'/admin/people/invite-' . $who;
+
+    return new Given("I go to \"$uri\"");
+  }
+
+  /**
    * @Then /^I should see the group dashboard (with|without) quick post form$/
    */
   public function iShouldSeeTheGroupDashboard($quick_post_show) {

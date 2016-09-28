@@ -36,6 +36,11 @@ function c4m_content_document_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'comment_node_document';
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
+    'links' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'post_date' => array(
       'weight' => '2',
       'label' => 'hidden',
@@ -295,7 +300,7 @@ function c4m_content_document_ds_field_settings_info() {
       'format' => 'default',
     ),
     'c4m_ds_content_actions' => array(
-      'weight' => '9',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -439,6 +444,83 @@ function c4m_content_document_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|document|pinned_content';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'document';
+  $ds_fieldsetting->view_mode = 'pinned_content';
+  $ds_fieldsetting->settings = array(
+    'c4m_rendered_content' => array(
+      'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'show_title' => 0,
+        'title_wrapper' => '',
+        'ctools' => 'a:3:{s:4:"conf";a:5:{s:9:"view_mode";s:14:"activity_group";s:7:"context";s:25:"argument_entity_id:node_1";s:14:"override_title";i:0;s:19:"override_title_text";s:0:"";s:22:"override_title_heading";s:2:"h2";}s:4:"type";s:11:"entity_view";s:7:"subtype";s:4:"node";}',
+        'load_terms' => 0,
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'title' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '1',
+        'wrapper' => 'h2',
+        'class' => '',
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_user_first_and_last_name' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'linked_user',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '5',
+      'label' => 'hidden',
+      'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_type_insert_action' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_content_type_icon' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+  );
+  $export['node|document|pinned_content'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|document|teaser';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'document';
@@ -456,7 +538,7 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_field_og_group' => array(
-      'weight' => '5',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -465,7 +547,7 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '8',
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -490,7 +572,7 @@ function c4m_content_document_ds_field_settings_info() {
       'format' => 'default',
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '7',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -585,6 +667,7 @@ function c4m_content_document_ds_layout_settings_info() {
         1 => 'c4m_user_first_and_last_name',
         2 => 'post_date',
         3 => 'comment_body',
+        4 => 'links',
       ),
     ),
     'fields' => array(
@@ -592,6 +675,7 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_user_first_and_last_name' => 'right',
       'post_date' => 'right',
       'comment_body' => 'right',
+      'links' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -760,54 +844,56 @@ function c4m_content_document_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'right' => array(
-        0 => 'c4m_vocab_topic',
+        0 => 'highlighted',
         1 => 'c4m_ds_entity_type_label',
-        3 => 'c4m_user_picture',
-        4 => 'c4m_vocab_document_type',
-        5 => 'c4m_vocab_geo',
-        7 => 'c4m_user_first_and_last_name',
-        8 => 'c4m_ds_creation_date',
-        9 => 'c4m_vocab_date',
-        11 => 'c4m_vocab_language',
-        14 => 'og_vocabulary',
-        18 => 'group_node_meta',
-        19 => 'c4m_ds_content_actions',
-        20 => 'group_node_actions',
-        21 => 'group_node_details',
-        22 => 'c4m_ds_content_shared_to',
+        2 => 'c4m_vocab_topic',
+        3 => 'c4m_ds_content_actions',
+        5 => 'c4m_user_picture',
+        6 => 'c4m_vocab_document_type',
+        7 => 'c4m_vocab_geo',
+        8 => 'c4m_user_first_and_last_name',
+        10 => 'c4m_ds_creation_date',
+        11 => 'c4m_vocab_date',
+        13 => 'c4m_vocab_language',
+        15 => 'og_vocabulary',
+        20 => 'group_node_meta',
+        21 => 'group_node_actions',
+        22 => 'group_node_details',
+        23 => 'c4m_ds_content_shared_to',
       ),
       'left' => array(
-        2 => 'c4m_ds_content_type_label',
-        6 => 'c4m_ds_content_status',
-        10 => 'title',
-        12 => 'c4m_ds_content_footer_stats',
-        13 => 'c4m_body',
-        15 => 'c4m_content_document_icon',
-        16 => 'c4m_document',
-        17 => 'comments',
+        4 => 'c4m_ds_content_type_label',
+        9 => 'c4m_ds_content_status',
+        12 => 'title',
+        14 => 'c4m_ds_content_footer_stats',
+        16 => 'c4m_body',
+        17 => 'c4m_content_document_icon',
+        18 => 'c4m_document',
+        19 => 'comments',
       ),
     ),
     'fields' => array(
-      'c4m_vocab_topic' => 'right',
+      'highlighted' => 'right',
       'c4m_ds_entity_type_label' => 'right',
+      'c4m_vocab_topic' => 'right',
+      'c4m_ds_content_actions' => 'right',
       'c4m_ds_content_type_label' => 'left',
       'c4m_user_picture' => 'right',
       'c4m_vocab_document_type' => 'right',
       'c4m_vocab_geo' => 'right',
-      'c4m_ds_content_status' => 'left',
       'c4m_user_first_and_last_name' => 'right',
+      'c4m_ds_content_status' => 'left',
       'c4m_ds_creation_date' => 'right',
       'c4m_vocab_date' => 'right',
       'title' => 'left',
       'c4m_vocab_language' => 'right',
       'c4m_ds_content_footer_stats' => 'left',
-      'c4m_body' => 'left',
       'og_vocabulary' => 'right',
+      'c4m_body' => 'left',
       'c4m_content_document_icon' => 'left',
       'c4m_document' => 'left',
       'comments' => 'left',
       'group_node_meta' => 'right',
-      'c4m_ds_content_actions' => 'right',
       'group_node_actions' => 'right',
       'group_node_details' => 'right',
       'c4m_ds_content_shared_to' => 'right',
@@ -817,6 +903,7 @@ function c4m_content_document_ds_layout_settings_info() {
       'header' => 'div',
       'left' => 'div',
       'right' => 'div',
+      'footer' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
@@ -828,6 +915,47 @@ function c4m_content_document_ds_layout_settings_info() {
     'page_option_title' => '',
   );
   $export['node|document|full'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|document|pinned_content';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'document';
+  $ds_layout->view_mode = 'pinned_content';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'title',
+        1 => 'flag_c4m_og_content_highlight',
+        2 => 'c4m_ds_content_type_icon',
+        3 => 'c4m_user_first_and_last_name',
+        4 => 'c4m_ds_type_insert_action',
+        5 => 'c4m_ds_creation_date',
+        6 => 'c4m_rendered_content',
+      ),
+    ),
+    'fields' => array(
+      'title' => 'ds_content',
+      'flag_c4m_og_content_highlight' => 'ds_content',
+      'c4m_ds_content_type_icon' => 'ds_content',
+      'c4m_user_first_and_last_name' => 'ds_content',
+      'c4m_ds_type_insert_action' => 'ds_content',
+      'c4m_ds_creation_date' => 'ds_content',
+      'c4m_rendered_content' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['node|document|pinned_content'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
@@ -888,6 +1016,8 @@ function c4m_content_document_ds_layout_settings_info() {
         2 => 'c4m_body',
         3 => 'c4m_document',
         4 => 'c4m_ds_content_footer_stats',
+        5 => 'highlighted',
+        6 => 'promoted',
       ),
     ),
     'fields' => array(
@@ -896,6 +1026,8 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_body' => 'right',
       'c4m_document' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
+      'highlighted' => 'right',
+      'promoted' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

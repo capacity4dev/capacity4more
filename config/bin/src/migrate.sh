@@ -83,6 +83,7 @@ function migrate_content_migrate {
   # Content inside groups
   echo "Content within Groups & Projects"
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportNodeOGDocument
+  drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportNodeOGMedia
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportNodeOGMinisite
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportNodeOGDiscussion
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportNodeOGEvent
@@ -92,6 +93,7 @@ function migrate_content_migrate {
   # Comments
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportCommentArticle
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportCommentOGDocument
+  drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportCommentOGMedia
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportCommentOGMinisite
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportCommentOGDiscussion
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportCommentOGEvent

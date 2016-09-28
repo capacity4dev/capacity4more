@@ -13,24 +13,6 @@ function c4m_content_wiki_page_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'book_allowed_types';
-  $strongarm->value = array(
-    0 => 'group',
-    1 => 'project',
-    2 => 'wiki_page',
-  );
-  $export['book_allowed_types'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'book_child_type';
-  $strongarm->value = 'wiki_page';
-  $export['book_child_type'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'comment_anonymous_wiki_page';
   $strongarm->value = 0;
   $export['comment_anonymous_wiki_page'] = $strongarm;
@@ -166,6 +148,12 @@ function c4m_content_wiki_page_strongarm() {
       'block_list' => array(
         'custom_settings' => TRUE,
       ),
+      'pinned_content' => array(
+        'custom_settings' => TRUE,
+      ),
+      'group_dashboard' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -194,11 +182,11 @@ function c4m_content_wiki_page_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '30',
+            'weight' => '34',
             'visible' => FALSE,
           ),
           'teaser_group' => array(
-            'weight' => '30',
+            'weight' => '34',
             'visible' => FALSE,
           ),
           'activity_group' => array(
@@ -208,6 +196,34 @@ function c4m_content_wiki_page_strongarm() {
           'block_list' => array(
             'weight' => '10',
             'visible' => FALSE,
+          ),
+          'pinned_content' => array(
+            'weight' => '1',
+            'visible' => TRUE,
+          ),
+        ),
+        'highlighted' => array(
+          'full' => array(
+            'weight' => '5',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '8',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '7',
+            'visible' => TRUE,
+          ),
+        ),
+        'promoted' => array(
+          'teaser' => array(
+            'weight' => '9',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '8',
+            'visible' => TRUE,
           ),
         ),
       ),

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_features_og_documents.views_default.inc
@@ -46,7 +45,7 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['pager']['options']['tags']['last'] = '»';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'teaser';
+  $handler->display->display_options['row_options']['view_mode'] = 'teaser_group';
   /* Header: Search: Spellcheck */
   $handler->display->display_options['header']['search_api_spellcheck']['id'] = 'search_api_spellcheck';
   $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_nodes';
@@ -66,7 +65,7 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['header']['result']['field'] = 'result';
   $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
   $handler->display->display_options['header']['result']['empty'] = TRUE;
-  $handler->display->display_options['header']['result']['content'] = '@total items';
+  $handler->display->display_options['header']['result']['content'] = '<span class="total-items">@total items</span>';
   /* Header: Sort results */
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
@@ -98,7 +97,7 @@ function c4m_features_og_documents_views_default_views() {
     1 => '1',
   );
   $handler->display->display_options['filters']['status']['group'] = 1;
-  /* Filter criterion: Only Document and Photo album nodes */
+  /* Filter criterion: Only Document nodes */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -179,7 +178,7 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['header']['result']['field'] = 'result';
   $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
   $handler->display->display_options['header']['result']['empty'] = TRUE;
-  $handler->display->display_options['header']['result']['content'] = '@total items';
+  $handler->display->display_options['header']['result']['content'] = '<span class="total-items">@total items</span>';
   /* Header: Sort results */
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
@@ -197,7 +196,7 @@ function c4m_features_og_documents_views_default_views() {
     1 => '1',
   );
   $handler->display->display_options['filters']['status']['group'] = 1;
-  /* Filter criterion: Only Document and Photo album nodes */
+  /* Filter criterion: Only Document nodes */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['filters']['type']['field'] = 'type';

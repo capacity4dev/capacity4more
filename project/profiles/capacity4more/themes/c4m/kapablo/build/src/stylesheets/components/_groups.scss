@@ -4,7 +4,7 @@
 }
 
 .user-group .group-members-count {
-  margin-top: 20px;
+  clear: left;
   color: $color-gray-dark;
 }
 
@@ -110,6 +110,10 @@
 
       &.members::before {
         content: "\f0c0";
+      }
+
+      &.news::before {
+        content: "\f1ea"
       }
 
       &:not(:last-of-type) {
@@ -540,6 +544,17 @@
   }
 }
 
+.pane-og-dashboard {
+  .pane-title {
+    // Same as .pane-activity-stream pane-title. Use padding instead of margin
+    // to avoid margin collapse.
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-bottom: 10px;
+  }
+  margin-bottom: 3rem;
+}
+
 .group-indications {
   float: left;
   margin: 0 0 0 18px;
@@ -569,7 +584,7 @@
     margin-top: 0;
   }
 
-  @media (min-width: $screen-desktop) {
+  @media (min-width: $screen-tablet) {
     float: right;
     margin: 20px 0 40px;
   }
@@ -620,6 +635,7 @@
     display: table;
     width: 120px;
     margin-top: 6px;
+    min-height: 20px;
     border-radius: 4px;
     border: 1px solid $color-accent;
 
@@ -771,30 +787,27 @@
   }
 }
 
-.restricted-organisations {
-  padding-bottom: 15px;
+.restricted-organisations ul li {
+  margin-top: 15px;
 
-  ul li {
-    margin-top: 15px;
+  img {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    border: 1px solid $color-white;
+    border-radius: 4px;
 
-    img {
-      width: 25px;
-      height: 25px;
-      margin-right: 10px;
-      border: 1px solid $color-white;
-      border-radius: 4px;
-
-    }
   }
 }
 
-.restricted-emails {
-  border-top: 1px dashed $color-gray-light;
-  padding-top: 15px;
+.restricted-emails ul li {
+  margin-top: 10px;
+}
 
-  ul li {
-    margin-top: 10px;
-  }
+.restricted-organisations + .restricted-emails {
+  border-top: 1px dashed $color-gray-light;
+  margin-top: 15px;
+  padding-top: 15px;
 }
 
 .pane-c4m-overview-og-highlights .pane-title {
@@ -819,11 +832,20 @@
   margin-top: 10px;
 }
 
-.c4m-group-visitor-cta, .c4m-group-invite-cta {
+.c4m-group-cta,
+.c4m-group-visitor-cta {
   border-bottom: 1px dashed $color-gray-darkThree;
   color: $color-gray-darkThree;
-  margin: 0 0 10px 0;
-  padding: 0 0 10px 0;
+  margin: 10px 0;
+  padding: 10px 0;
+
+  .c4m-group-text-cta {
+    width: 50%;
+    display: inline;
+  }
+}
+
+.c4m-group-visitor-cta {
   text-align: center;
 
   a.btn {
@@ -838,5 +860,39 @@
 .c4m-group-invite-cta {
   a.btn {
     box-shadow: none;
+  }
+}
+
+.view-mode-teaser {
+  .field-name-c4m-ds-content-footer-stats,
+  .form-type-item {
+    display: inline-block;
+
+    .fa {
+      font-size: $font-size-h3;
+    }
+  }
+
+  .highlight-link, .flag-c4m-og-content-highlight {
+    margin-left: 1rem;
+  }
+
+  .highlight-link-text {
+    display: none;
+  }
+}
+
+.group-node-actions {
+  .form-type-item {
+    margin-top: 15px;
+    margin-bottom: 5px;
+
+    .highlight-link-text {
+      font-weight: normal;
+    }
+  }
+
+  .field-name-c4m-ds-content-actions {
+    margin-top: 0px;
   }
 }
