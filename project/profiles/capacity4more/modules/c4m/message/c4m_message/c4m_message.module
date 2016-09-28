@@ -2363,7 +2363,7 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
   // Do not create a message for a photo that is associated with a photo album.
   // Some entity types don't have the type parameter. So we need to check if
   // it's a node first.
-  if ($entity_type == 'node' && $entity->type == 'photo' && !empty($entity->node_gallery_ref_1[LANGUAGE_NONE])) {
+  if ($entity_type == 'node' && c4m_content_photo_is_part_of_photo_album_creation($entity)) {
     $entity->_skip_message = TRUE;
   }
 
@@ -3042,7 +3042,8 @@ function c4m_message__insert__comment($comment) {
 function c4m_message__update__comment($comment) {
   $time_since = time() - variable_get('c4m_message_join_messages', '36000');
 
-  // Load existing message that is not older then 6 hours for the current node.
+  // Load existing message that is not older than the threshold for the current
+  // node.
   $query = new EntityFieldQuery();
   $result = $query
     ->entityCondition('entity_type', 'message')
@@ -3113,33 +3114,42 @@ function c4m_message__update__node($node, $account = NULL) {
     $account = user_load($node->uid);
   }
 
-  $time_since = time() - variable_get('c4m_message_join_messages', '36000');
-  // Load existing message that is not older then 6 hours for the current node.
-  $query = new EntityFieldQuery();
-  $result = $query
-    ->entityCondition('entity_type', 'message')
-    ->propertyCondition('type', 'c4m_insert__node__' . $node->type)
-    ->propertyCondition('timestamp', $time_since, '>')
-    ->fieldCondition('field_node', 'target_id', $node->nid)
-    ->propertyOrderBy('timestamp', 'desc')
-    ->range(0, 1)
-    ->execute();
+  // If the "Send notification" on the form is checked then we should by pass
+  // the threshold since the user explicitly wants to send a notification
+  // (meaning creating a new message).
+  $send_notification_bypass = !empty($node->c4m_send_notification);
+
+  // If we use the bypass we can spare the hit to the DB.
+  if (!$send_notification_bypass) {
+    $time_since = time() - variable_get('c4m_message_join_messages', '36000');
+    // Load existing message that is not older than the threshold for the
+    // current node.
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'message')
+      ->propertyCondition('type', 'c4m_insert__node__' . $node->type)
+      ->propertyCondition('timestamp', $time_since, '>')
+      ->fieldCondition('field_node', 'target_id', $node->nid)
+      ->propertyOrderBy('timestamp', 'desc')
+      ->range(0, 1)
+      ->execute();
+  }
 
   $message = NULL;
-  if (!empty($result['message'])) {
+  if (!$send_notification_bypass && !empty($result['message'])) {
     $id = key($result['message']);
     $message = message_load($id);
     $wrapper = entity_metadata_wrapper('message', $message);
 
     if ($message->uid == $user->uid) {
       if ($wrapper->field_operation->value() == 'update') {
-        // When an existing item is updated within 6 hours after the PREVIOUS
-        // UPDATE by the SAME user who did the last update.
+        // When an existing item is updated within the threshold time after the
+        // PREVIOUS UPDATE by the SAME user who did the last update.
         $message->timestamp = $node->timestamp;
       }
       else {
-        // When an existing item is updated within 6 hours after the initial
-        // insert by the SAME user.
+        // When an existing item is updated within the threshold time after the
+        // initial insert by the SAME user.
         return FALSE;
       }
     }
@@ -3157,7 +3167,7 @@ function c4m_message__update__node($node, $account = NULL) {
     }
   }
   else {
-    // More than 6 hours last - need to create a new message.
+    // More than the threshold - need to create a new message.
     $values = array(
       'uid' => $account->uid,
       'timestamp' => $node->timestamp,
@@ -3604,78 +3614,4 @@ function c4m_message_get_user_last_activity($uid) {
   else {
     return '';
   }
-}
-
-/**
- * Return the formatted promote icon.
- *
- * @param Message $message
- *   The Message entity.
- *
- * @return string
- *   The action text.
- */
-function c4m_message_format_promote(Message $message) {
-  $wrapper = entity_metadata_wrapper('message', $message);
-  $node = $wrapper->field_node->value();
-
-  $promoted_types = array(
-    'discussion',
-    'document',
-    'event',
-    'wiki_page',
-  );
-
-  if (!in_array($node->type, $promoted_types)) {
-    return '';
-  }
-
-  return flag_create_link('c4m_og_content_highlight', $node->nid);
-}
-
-/**
- * Implements hook_block_info().
- */
-function c4m_message_block_info() {
-  $blocks['c4m_og_power_user_actions_block'] = array(
-    'info' => t('C4M Group Activity Actions Block'),
-    'cache' => DRUPAL_CACHE_PER_PAGE,
-  );
-
-  return $blocks;
-}
-
-/**
- * Implements hook_block_view().
- */
-function c4m_message_block_view($delta = '', $message = NULL) {
-  $block = array();
-
-  if ($delta != 'c4m_og_power_user_actions_block') {
-    return $block;
-  }
-
-  if (!$wrapper = entity_metadata_wrapper('message', $message)) {
-    return $block;
-  }
-
-  if (!isset($message->field_group_node) || !$wrapper->field_group_node->value()) {
-    return $block;
-  }
-
-  if (!_c4m_features_og_members_is_power_user($wrapper->field_group_node->value())) {
-    return $block;
-  }
-
-  $tag['element'] = array(
-    '#tag' => 'div',
-    '#value' => c4m_message_format_promote($message),
-    '#attributes' => array(
-      'class' => array('c4m-og-power-user-actions-block'),
-    ),
-  );
-
-  $block['content'] = theme_html_tag($tag);
-
-  return $block;
 }
