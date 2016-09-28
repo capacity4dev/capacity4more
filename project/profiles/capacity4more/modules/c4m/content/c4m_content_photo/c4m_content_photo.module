@@ -41,6 +41,11 @@ function c4m_content_photo_node_presave($node) {
     return;
   }
 
+  // Determine whether a photo has been created while creating its photo album.
+  if (!c4m_content_photo_is_part_of_photo_album_creation($node)) {
+    $wrapper->c4m_created_with_photo_album->set(1);
+  }
+
   $source = file_load($wrapper->c4m_media->value()['fid']);
   $gallery_title = $wrapper->node_gallery_ref_1->label();
   $destination = drupal_dirname(
@@ -63,24 +68,6 @@ function c4m_content_photo_node_presave($node) {
   $wrapper->title->set(drupal_basename($new_file->uri));
 }
 
-/**
- * Implements hook_node_insert().
- *
- * Determine whether a photo has been added while creating its photo album.
- */
-function c4m_content_photo_node_insert($node) {
-  if ($node->type != 'photo') {
-    return;
-  }
-
-  if (!c4m_content_photo_is_part_of_photo_album_creation($node)) {
-    return;
-  }
-
-  $wrapper = entity_metadata_wrapper('node', $node);
-  $wrapper->c4m_created_with_photo_album->set(TRUE);
-  $wrapper->save();
-}
 /**
  * Implements hook_menu().
  */
