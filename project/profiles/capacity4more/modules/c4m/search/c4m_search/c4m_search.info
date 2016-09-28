@@ -16,6 +16,7 @@ dependencies[] = views
 features[ctools][] = facetapi:facetapi_defaults:1
 features[ctools][] = views:views_default:3.0
 features[facetapi][] = search_api@c4m_search_nodes::c4m_datetime_end:value2
+features[facetapi][] = search_api@c4m_search_nodes::c4m_project_stage
 features[facetapi][] = search_api@c4m_search_nodes::c4m_vocab_geo
 features[facetapi][] = search_api@c4m_search_nodes:block:c4m_date
 features[facetapi][] = search_api@c4m_search_nodes:block:c4m_datetime_end:value2

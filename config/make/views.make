@@ -21,3 +21,6 @@ projects[draggableviews][patch][] = "https://www.drupal.org/files/issues/draggab
 
 projects[views_contextual_filters_or][subdir] = "contrib"
 projects[views_contextual_filters_or][version] = "1.x-dev"
+
+projects[views_access_callback][subdir] = "contrib"
+projects[views_access_callback][version] = "1.x-dev"

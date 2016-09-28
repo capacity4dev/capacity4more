@@ -24,8 +24,16 @@ function c4m_features_og_manage_project_details_content_type_render($subtype, $c
   $block->title = '';
 
   $project_details = c4m_features_og_manage_project_details();
+  $theme = 'c4m_features_og_manage_project_details';
 
-  $block->content = theme('c4m_features_og_manage_project_details', array('details' => $project_details));
+  if (!empty($project_details['type']) && $project_details['type'] == 'programme') {
+    $theme = 'c4m_features_og_manage_programme_details';
+  }
+
+  $block->content = array(
+    '#theme'   => $theme,
+    '#details' => $project_details,
+  );
 
   return $block;
 }
@@ -41,6 +49,14 @@ function c4m_features_og_manage_project_details_content_type_edit_form($form, &$
  * Delegated hook_theme().
  */
 function c4m_features_og_manage_project_details_content_type_theme(&$theme, $plugin) {
+  $theme['c4m_features_og_manage_programme_details'] = array(
+    'variables' => array(
+      'details' => NULL,
+    ),
+    'path' => $plugin['path'],
+    'template' => 'programme-details',
+  );
+
   $theme['c4m_features_og_manage_project_details'] = array(
     'variables' => array(
       'details' => NULL,

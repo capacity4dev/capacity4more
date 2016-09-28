@@ -51,7 +51,6 @@ function _c4m_search_block_facetapi_view_alter(&$data, $block) {
     'ajPbeoCHay77liOuYn2HrFBMw0VZUgCz' => t('Type'),
     // Project type.
     'S9qne31IKDd1jhPm8FHFcpVq9mtX65DM' => t('Type'),
-
     // Project stage.
     'OK4Vyc0ny8QpANDSYVhonW7ExFGaGeb5' => t('Stage'),
   );
