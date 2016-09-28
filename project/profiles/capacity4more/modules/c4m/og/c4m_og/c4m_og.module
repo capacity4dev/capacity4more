@@ -1931,12 +1931,14 @@ function c4m_og_get_group_content_notification_types() {
 }
 
 /**
- * Returns an array of content types that require notification on comment.
+ * Returns extended list of content types that require notification.
+ *
+ * All group content types, and global content 'article'.
  *
  * @return array
- *   Types that require notifications for comments.
+ *   Content types (group and global), that require notifications.
  */
-function c4m_og_get_comment_notification_types() {
+function c4m_og_get_extended_content_notification_types() {
   $comment_notification_types = c4m_og_get_group_content_notification_types();
   $comment_notification_types[] = 'article';
 
