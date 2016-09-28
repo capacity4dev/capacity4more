@@ -211,3 +211,23 @@ function c4m_comment_user_cancel($edit, $account, $method) {
     comment_save($comment);
   }
 }
+
+/**
+ * Implements hook_comment_view().
+ *
+ * When a user is forbidden to take actions on a comment we should display the
+ * links only once, hence we remove it from all threads besides the main one.
+ */
+function c4m_comment_comment_view($comment, $view_mode, $langcode) {
+  // The comment is not forbidden for actions.
+  if (empty($comment->content['links']['comment']['#links']['comment_forbidden'])) {
+    return;
+  }
+
+  // The current comment is the main thread.
+  if ($comment->thread == '01/') {
+    return;
+  }
+
+  unset($comment->content['links']['comment']['#links']['comment_forbidden']);
+}
