@@ -46,6 +46,7 @@ function c4m_content_topic_field_default_field_instances() {
   // Exported field_instance: 'node-topic-c4m_banner'.
   $field_instances['node-topic-c4m_banner'] = array(
     'bundle' => 'topic',
+    'default_value' => array(),
     'deleted' => 0,
     'description' => 'The wide image used as a banner on top of the topic pages.',
     'display' => array(
@@ -134,6 +135,7 @@ function c4m_content_topic_field_default_field_instances() {
       'active' => 1,
       'module' => 'media',
       'settings' => array(
+        'allow_replace' => 0,
         'allowed_schemes' => array(
           'public' => 'public',
         ),
@@ -149,6 +151,13 @@ function c4m_content_topic_field_default_field_instances() {
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'upload' => 'upload',
         ),
+        'droppable_area_text' => 'Drop files here to upload',
+        'multiupload' => 0,
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
+        'standard_upload' => 1,
+        'upload_button_text' => 'Upload',
+        'upload_event' => 'manual',
       ),
       'type' => 'media_generic',
       'weight' => 3,
@@ -281,6 +290,7 @@ function c4m_content_topic_field_default_field_instances() {
   // Exported field_instance: 'node-topic-c4m_media'.
   $field_instances['node-topic-c4m_media'] = array(
     'bundle' => 'topic',
+    'default_value' => array(),
     'deleted' => 0,
     'description' => 'The image is used on the topics overview pages.',
     'display' => array(
@@ -369,6 +379,7 @@ function c4m_content_topic_field_default_field_instances() {
       'active' => 1,
       'module' => 'media',
       'settings' => array(
+        'allow_replace' => 0,
         'allowed_schemes' => array(
           'public' => 'public',
         ),
@@ -384,6 +395,13 @@ function c4m_content_topic_field_default_field_instances() {
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'upload' => 'upload',
         ),
+        'droppable_area_text' => 'Drop files here to upload',
+        'multiupload' => 0,
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
+        'standard_upload' => 1,
+        'upload_button_text' => 'Upload',
+        'upload_event' => 'manual',
       ),
       'type' => 'media_generic',
       'weight' => 4,
@@ -676,19 +694,11 @@ function c4m_content_topic_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'term_reference_tree',
+      'module' => 'options',
       'settings' => array(
-        'cascading_selection' => 0,
-        'filter_view' => '',
-        'leaves_only' => 0,
-        'max_depth' => 1,
-        'parent_term_id' => '',
-        'select_parents' => 0,
-        'start_minimized' => 0,
-        'token_display' => '',
-        'track_list' => 0,
+        'content_taxonomy_opt_groups' => 0,
       ),
-      'type' => 'term_reference_tree',
+      'type' => 'options_select',
       'weight' => 1,
     ),
   );
@@ -779,19 +789,11 @@ function c4m_content_topic_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'term_reference_tree',
+      'module' => 'options',
       'settings' => array(
-        'cascading_selection' => 0,
-        'filter_view' => '',
-        'leaves_only' => 0,
-        'max_depth' => 1,
-        'parent_term_id' => '',
-        'select_parents' => 0,
-        'start_minimized' => 0,
-        'token_display' => '',
-        'track_list' => 0,
+        'content_taxonomy_opt_groups' => 0,
       ),
-      'type' => 'term_reference_tree',
+      'type' => 'options_select',
       'weight' => 2,
     ),
   );
