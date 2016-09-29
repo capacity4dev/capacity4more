@@ -611,3 +611,40 @@ function kapablo_group_image_banner($background_image = FALSE) {
 function kapablo_group_image_banner_background() {
   return kapablo_group_image_banner(TRUE);
 }
+
+/**
+ * Render region callback.
+ *
+ * @ingroup themeable
+ */
+function kapablo_panels_bootstrap_layouts_style_region_render($vars) {
+  $display = $vars['display'];
+  $panes = $vars['panes'];
+  $settings = $vars['settings'];
+
+  $layouts = array(
+    'bootstrap_twocol_stacked',
+    'bootstrap_threecol_stacked',
+  );
+
+  if (in_array($display->layout, $layouts) && $panes) {
+    $class = array('group-' . $vars['region_id']);
+
+    if ($settings['column_size']) {
+      if (empty($settings['column_type'])) {
+        $settings['column_type'] = 'col-lg';
+      }
+
+      $class[] = $settings['column_type'] . '-' . $settings['column_size'];
+    }
+
+    if ($settings['offset_type'] && $settings['offset_size']) {
+      $class[] = $settings['offset_type'] . '-' . $settings['offset_size'];
+    }
+
+    $class = implode(' ', $class);
+    $html = implode('', $panes);
+
+    return "<div class='$class'>$html</div>";
+  }
+}
