@@ -1,5 +1,6 @@
 .activity-stream {
     .activities {
+      padding-bottom: 12px;
         border-bottom: 1px dashed $color-gray-light;
         position: relative;
         .c4m-og-power-user-actions-block {
@@ -19,6 +20,7 @@
     }
     h2 {
         margin-top: 25px;
+        margin-bottom: 6px;
     }
     .message-summary {
         padding: 0;
@@ -43,9 +45,10 @@
     .row {
         margin: 0;
     }
-    .pull-right,
+    .pull-right {
+        padding-top: 12px;
+    }
     .field-item.even {
-        // padding: 12px 0;
         padding: 0px 0;
     }
     .field-name-c4m-ds-content-footer-stats {
