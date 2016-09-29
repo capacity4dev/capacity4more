@@ -53,6 +53,9 @@ projects[reldate][version] = "1.x-dev"
 projects[weight][subdir] = "contrib"
 projects[weight][version] = "3.1"
 
+projects[content_taxonomy][subdir] = "contrib"
+projects[content_taxonomy][version] = "1.0-rc1"
+
 libraries[leaflet][download][type]= "get"
 libraries[leaflet][download][url] = "http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.zip"
 libraries[leaflet][directory_name] = "leaflet"
