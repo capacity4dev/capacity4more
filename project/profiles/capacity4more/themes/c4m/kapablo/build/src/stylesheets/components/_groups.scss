@@ -338,8 +338,15 @@
     }
 }
 
+.field-name-c4m-vocab-topic {
+    margin-top: $base-spacing-large;
+}
+
 .og-context .pane-c4m-content-group {
     color: $color-gray-dark;
+
+    border-bottom: 1px dashed $color-gray-dark;
+
     .pane-title {
         margin: 15px 0;
     }
