@@ -38,7 +38,7 @@
 }
 
 .group-right {
-    border: 1px dashed $color-gray-light;
+    border-left: 1px dashed $color-gray-light;
 }
 
 .group-navigation {
@@ -124,29 +124,42 @@
                 display: flex;
                 width: 100%;
                 flex-wrap: wrap;
+                align-items: center;
+                align-content:center;
+                justify-content:flex-start;
+                padding: $base-spacing-medium 0;
             }
             li {
                 flex: 0 1 130px;
                 white-space: nowrap;
                 // outline: 1px solid red;
+                // border-right: 1px dotted $color-gray-light;
 
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                margin: 0px;
+                margin-bottom: $base-spacing-medium/2;
+                margin-top: $base-spacing-medium/2;
 
                 // width: auto;
-                height: 50px;
-                line-height: 50px;
+                // height: 50px;
+                // line-height: 50px;
                 &::before {
+                    color: $color-text-alternative;
+                    margin-left: $base-spacing-tiny;
+                }
+                &::after {
                     color: $color-text-alternative;
                 }
                 &:not(:first-of-type) {
                     border-bottom: none;
                     // border-left: none;
-                    margin: 0px;
+
                 }
                 &:not(:last-of-type) {
                     border-bottom: none;
+                    border-right: 1px dotted $color-gray-light;
                 }
                 &.active::before,
                 &.active a {
@@ -161,6 +174,7 @@
                     // width: 80%;
                     // padding: 0 30px 0 10px;
                     // border-right: 1px solid $color-gray-light;
+                    padding: 0 $base-spacing-medium;
                     color: $color-text-alternative;
                     &:hover {
                         background: none;
