@@ -143,6 +143,20 @@ function c4m_content_featured_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'maxlength_js_featured';
+  $strongarm->value = '20';
+  $export['maxlength_js_featured'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'maxlength_js_label_featured';
+  $strongarm->value = 'Content limited to @limit characters, remaining: <strong>@remaining</strong>';
+  $export['maxlength_js_label_featured'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'menu_options_featured';
   $strongarm->value = array(
     0 => 'main-menu',
