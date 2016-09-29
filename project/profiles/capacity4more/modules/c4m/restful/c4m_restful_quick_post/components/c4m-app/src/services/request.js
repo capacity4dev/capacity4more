@@ -135,6 +135,11 @@ angular.module('c4mApp')
         if (!resourceFields[field] && field != "tags") {
           delete this[field];
         }
+
+        // If there're related documents, add them.
+        if (field == 'relatedDocuments') {
+          this['related_document'] = values;
+        }
       }, cleanData);
 
       return cleanData;

@@ -65,7 +65,7 @@ angular.module('c4mApp')
               var nid = data.data[0].id;
               var item = '(' + nid + ')';
 
-              jQuery('#edit-' + $scope.fieldName + '-und', parent.window.document).val(value);
+              jQuery('#edit-' + $scope.fieldName + '-und', parent.window.document).val(item);
               jQuery('#input-' + $scope.fieldName, parent.window.document).val(nid).trigger('click');
 
               if (!addToLibrary) {

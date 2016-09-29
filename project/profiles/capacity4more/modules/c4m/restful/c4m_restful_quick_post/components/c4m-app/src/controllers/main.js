@@ -462,5 +462,39 @@ angular.module('c4mApp')
       $scope.resetEntityForm();
       // Closes quick-post form.
       $scope.selectedResource = '';
-    }
+    };
+
+    /**
+     * Uploading quick post document file.
+     *
+     * @param $files
+     *  The file.
+     * @param fieldName
+     *  Name of the current field.
+     */
+    $scope.onQuickPostFileSelect = function ($files, fieldName) {
+
+      $scope.setFieldName(fieldName);
+      // $files: an array of files selected, each file has name, size, and type.
+      for (var i = 0; i < $files.length; i++) {
+        var file = $files[i];
+        FileUpload.upload(file).then(function (data) {
+          var fileId = data.data.data[0].id;
+          $scope.data.fileName = data.data.data[0].label;
+          $scope.serverSide.file = data;
+          var openPath = DrupalSettings.getData('purl');
+          Drupal.overlay.open(openPath  + '/overlay-file/' + fileId + '/quick' + '?render=overlay');
+        });
+      }
+    };
+
+    /**
+     * Set the name of the current field.
+     *
+     * @param fieldName
+     */
+    $scope.setFieldName = function (fieldName) {
+      $scope.fieldName = fieldName;
+    };
+
   });
