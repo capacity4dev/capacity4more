@@ -178,6 +178,7 @@ function c4m_search_default_search_api_index() {
         "attachments_c4m_document" : { "type" : "text" },
         "author" : { "type" : "integer", "entity_type" : "user" },
         "c4m_body:value" : { "type" : "text", "boost" : "3.0" },
+        "c4m_created_with_photo_album" : { "type" : "boolean" },
         "c4m_cris_contract_number" : { "type" : "list\\u003Ctext\\u003E" },
         "c4m_cris_decision_number" : { "type" : "list\\u003Ctext\\u003E" },
         "c4m_datetime_end:duration" : { "type" : "duration" },

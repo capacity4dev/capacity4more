@@ -97,3 +97,19 @@ function _c4m_content_project_block_c4m_block_project_partners() {
 
   return $block;
 }
+
+/**
+ * Callback for the c4m_block_project_about block.
+ */
+function _c4m_content_project_block_c4m_block_project_about() {
+  $block = array();
+  $block['subject'] = '';
+
+  if ($node = c4m_og_current_group()) {
+    // Render it with our custom group_dashboard view mode.
+    $node_view = node_view($node, 'group_dashboard');
+    $block['content'] = drupal_render($node_view);
+  }
+
+  return $block;
+}

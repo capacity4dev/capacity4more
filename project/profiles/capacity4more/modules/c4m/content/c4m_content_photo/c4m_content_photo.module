@@ -41,6 +41,11 @@ function c4m_content_photo_node_presave($node) {
     return;
   }
 
+  // Determine whether a photo has been created while creating its photo album.
+  if (c4m_content_photo_is_part_of_photo_album_creation($node)) {
+    $wrapper->c4m_created_with_photo_album->set(1);
+  }
+
   $source = file_load($wrapper->c4m_media->value()['fid']);
   $gallery_title = $wrapper->node_gallery_ref_1->label();
   $destination = drupal_dirname(
@@ -155,6 +160,10 @@ function c4m_content_photo_form_photo_node_form_alter(&$form, $form_state) {
   c4m_content_create_group_content_access();
   // Add author information to the edit discussion form.
   c4m_og_add_content_author_options_to_power_users($form);
+
+  // The "c4m_created_with_photo_album" is being set automatically when
+  // creating a new photo and any user should not be able to change this data.
+  $form['c4m_created_with_photo_album']['#access'] = FALSE;
 
   $node = &$form['#node'];
   if (!empty($node->nid)) {

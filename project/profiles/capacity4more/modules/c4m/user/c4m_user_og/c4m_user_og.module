@@ -582,15 +582,15 @@ function c4m_user_og_c4m_visitor_cta($group) {
     ),
   );
 
-  $membership_request_value = c4m_og_get_group_membership_request($group);
-
-  return array(
-    '#theme' => 'c4m_group_visitor_cta',
-    '#button_label' => $types[$membership_request_value]['button_label'],
-    '#button_icon' => $types[$membership_request_value]['button_icon'],
-    '#url' => url('group/join/' . $group->nid, array('absolute' => TRUE)),
-    '#weight' => 10,
-  );
+  if ($membership_request_value = c4m_og_get_group_membership_request($group)) {
+    return array(
+      '#theme' => 'c4m_group_visitor_cta',
+      '#button_label' => $types[$membership_request_value]['button_label'],
+      '#button_icon' => $types[$membership_request_value]['button_icon'],
+      '#url' => url('group/join/' . $group->nid, array('absolute' => TRUE)),
+      '#weight' => 10,
+    );
+  }
 }
 
 /**
@@ -810,9 +810,18 @@ function c4m_user_og_c4m_leave_group_cta($group) {
 
 /**
  * Sets the CTA to follow or unfollow group notifications.
+ *
+ * For projects we should display this flag for all users, although for Groups
+ * only members should be able to use it.
+ *
+ * @param object $group
+ *   The group to follow (type might be 'group' or 'project').
+ *
+ * @return array|bool
+ *   The settings for this flag, or FALSE if user should not see this.
  */
 function c4m_user_og_follow_group_cta($group) {
-  if (!og_is_member('node', $group->nid)) {
+  if ($group->type == 'group'  && !og_is_member('node', $group->nid)) {
     return FALSE;
   }
 
