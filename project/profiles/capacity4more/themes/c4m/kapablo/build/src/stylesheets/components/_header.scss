@@ -327,6 +327,8 @@
 
 .header-logo,
 .header-search {
+    margin-top: $base-spacing-large;
+
     &::after {
         content: "";
         clear: both;
