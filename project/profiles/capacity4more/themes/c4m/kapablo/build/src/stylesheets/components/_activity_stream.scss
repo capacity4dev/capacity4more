@@ -101,6 +101,14 @@
     }
 }
 
+.activity-stream--content .node-event .icon-col {
+    width: auto;
+    max-width: 56px;
+    & + .icon-content {
+        margin-left: 56px;
+    }
+}
+
 .arrow--right {
     position: absolute;
     top: 2px;

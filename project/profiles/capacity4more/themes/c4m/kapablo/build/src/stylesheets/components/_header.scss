@@ -42,6 +42,8 @@
     @include grey_bar_base;
     border-bottom: none;
     position: relative;
+    overflow: hidden; /* hide boxshadow overflow from banner */
+
     &.c4m-project-page {
         padding-top: 15px;
     }
@@ -69,6 +71,19 @@
             -o-mask-image: linear-gradient(transparent 0%, black 100%);
             -ms-mask-image: linear-gradient(transparent 0%, black 100%);
         }
+    }
+
+    .group-banner {
+      box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.52);
+    }
+    &::after {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        height: 5px;
+        background: linear-gradient( to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+        content: " ";
     }
 }
 
@@ -330,7 +345,7 @@
 
 .og-menu-link {
     &.media {
-        margin-top: 0;
+//        margin-top: 0; // WHY???????
     }
 }
 
