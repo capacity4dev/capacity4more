@@ -582,15 +582,15 @@ function c4m_user_og_c4m_visitor_cta($group) {
     ),
   );
 
-  $membership_request_value = c4m_og_get_group_membership_request($group);
-
-  return array(
-    '#theme' => 'c4m_group_visitor_cta',
-    '#button_label' => $types[$membership_request_value]['button_label'],
-    '#button_icon' => $types[$membership_request_value]['button_icon'],
-    '#url' => url('group/join/' . $group->nid, array('absolute' => TRUE)),
-    '#weight' => 10,
-  );
+  if ($membership_request_value = c4m_og_get_group_membership_request($group)) {
+    return array(
+      '#theme' => 'c4m_group_visitor_cta',
+      '#button_label' => $types[$membership_request_value]['button_label'],
+      '#button_icon' => $types[$membership_request_value]['button_icon'],
+      '#url' => url('group/join/' . $group->nid, array('absolute' => TRUE)),
+      '#weight' => 10,
+    );
+  }
 }
 
 /**
