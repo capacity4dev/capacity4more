@@ -357,9 +357,10 @@ function c4m_document_widget_menu() {
   );
 
   $items['overlay-file/%/quick'] = array(
-    'page callback' => 'c4m_document_widget_add_document_file',
-    'page arguments' => array(1, TRUE),
-    'access callback' => TRUE,
+    'page callback' => 'c4m_document_widget_add_quick_post_document_file',
+    'page arguments' => array(1),
+    'access callback' => 'c4m_document_widget_check_file_access',
+    'access arguments' => array(1),
   );
 
   return $items;
@@ -404,7 +405,7 @@ function c4m_document_widget_check_file_access($file_id) {
 }
 
 /**
- * Renders pre-create document form.
+ * Renders pre-create document form for regular form.
  *
  * @param int $file_id
  *    Document's file id.
@@ -412,7 +413,35 @@ function c4m_document_widget_check_file_access($file_id) {
  * @return string
  *    Return formatted html of the overlay-file page.
  */
-function c4m_document_widget_add_document_file($file_id, $is_quick_post = FALSE) {
+function c4m_document_widget_add_document_file($file_id) {
+  return _c4m_document_widget_document_file($file_id, FALSE);
+}
+
+/**
+ * Renders pre-create document form for quick post form .
+ *
+ * @param int $file_id
+ *    Document's file id.
+ *
+ * @return string
+ *    Return formatted html of the quick post overlay-file page.
+ */
+function c4m_document_widget_add_quick_post_document_file($file_id) {
+  return _c4m_document_widget_document_file($file_id, TRUE);
+}
+
+/**
+ *  Renders pre-create document form, from regular and quick post forms.
+ *
+ * @param int $file_id
+ *    Document's file id.
+ * @param bool $is_quick_post
+ *   TRUE if render from quick post form.
+ *
+ * @return string
+ *    Return formatted html of the overlay-file page.
+ */
+function _c4m_document_widget_document_file($file_id, $is_quick_post = FALSE) {
   $file = file_load($file_id);
   // Get file view.
   $file_view = file_view($file, 'c4m_preview');
