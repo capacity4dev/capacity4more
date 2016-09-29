@@ -5,6 +5,8 @@ body {
   @media (min-width: $screen-tablet) {
     height: auto;
   }
+
+  color: $color-text;
 }
 
 html {

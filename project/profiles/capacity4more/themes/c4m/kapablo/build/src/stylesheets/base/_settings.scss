@@ -2,6 +2,7 @@
  * COLOR DEFINITIONS
  */
 $color-black: #000000;
+// $color-black: #4A4A4A;
 $color-blue-dark: #2C4A59;
 $color-gray-darkThree: #6F6F6F;
 $color-gray-dark: $color-gray-darkThree;
@@ -36,6 +37,13 @@ $brand-primary: $color-text-alternative;
 $brand-success: $color-green;
 $brand-warning: $color-highlight;
 
+
+
+$base-accent: #6E969F;
+$base-spacing-large: 25px;
+$base-spacing-medium: 16px;
+$base-spacing-small: 12px;
+$base-spacing-tiny: 6px;
 
 /*
  * FONT STACKS
