@@ -37,8 +37,9 @@
     }
 }
 
-.group-right {
-    border-left: 1px dashed $color-gray-light;
+.bootstrap-twocol-stacked > .row > .group-right {
+   border-left: 1px dashed $color-gray-light;
+   font-size: 0.85rem;
 }
 
 .group-navigation {
