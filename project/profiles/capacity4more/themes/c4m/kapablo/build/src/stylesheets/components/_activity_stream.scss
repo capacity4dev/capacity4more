@@ -1,6 +1,6 @@
 .activity-stream {
     .activities {
-      padding-bottom: 12px;
+        padding-bottom: 12px;
         border-bottom: 1px dashed $color-gray-light;
         position: relative;
         .c4m-og-power-user-actions-block {
@@ -25,12 +25,25 @@
     .message-summary {
         padding: 0;
     }
-
     .node-document.view-mode-activity_group .node-icon {
-      height: 42px;
-      width: 42px;
+        height: 42px;
+        width: 42px;
+    }
+    .field-name-c4m-document {
+        margin-top: $base-spacing-small;
+    }
+    .view-mode-activity_global .field-name-c4m-content-document-icon {
+        margin-top: 12px;
+        width: 56px;
+    }
+    .view-mode-activity_global.node-document .node-icon {
+        width: 42px;
+        height: 42px;
     }
 
+    .group-left, .group-right {
+        border: none;
+    }
 }
 
 .pane-og-dashboard {
@@ -104,7 +117,8 @@
 .activity-stream--content .node-event .icon-col {
     width: auto;
     max-width: 56px;
-    & + .icon-content {
+    & + .icon-content,
+    & + .content-col  {
         margin-left: 56px;
     }
 }
