@@ -1419,15 +1419,15 @@ function c4m_og_feature_info($feature = NULL) {
 }
 
 /**
- * Check if a given feature is enabled.
+ * Check if a given feature is available for the active group.
  *
  * @param string $feature
  *   The feature to check.
  *
  * @return bool
- *   True if the feature is enabled for the active group.
+ *   True if the feature is available for the active group.
  */
-function c4m_og_feature_enabled($feature) {
+function c4m_og_feature_available($feature) {
   // Check if the feature exists.
   $og_feature = c4m_og_feature_info($feature);
   if (!isset($og_feature['machine_name'])) {
@@ -1442,10 +1442,25 @@ function c4m_og_feature_enabled($feature) {
     }
   }
 
-  // Check if the feature is enabled.
-  $settings = variable_get('c4m_og_features_group', array());
-  if (isset($settings[$feature]) && $settings[$feature] === $feature) {
-    return TRUE;
+  return TRUE;
+}
+
+/**
+ * Check if a given feature is enabled.
+ *
+ * @param string $feature
+ *   The feature to check.
+ *
+ * @return bool
+ *   True if the feature is enabled for the active group.
+ */
+function c4m_og_feature_enabled($feature) {
+  if (c4m_og_feature_available($feature)) {
+    // Check if the feature is enabled.
+    $settings = variable_get('c4m_og_features_group', array());
+    if (isset($settings[$feature]) && $settings[$feature] === $feature) {
+      return TRUE;
+    }
   }
 
   return FALSE;
