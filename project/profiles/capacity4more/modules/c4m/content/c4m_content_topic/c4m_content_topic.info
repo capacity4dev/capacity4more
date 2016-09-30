@@ -82,5 +82,3 @@ features[views_view][] = c4m_expert_users
 features[views_view][] = c4m_related_content
 features[views_view][] = c4m_related_events
 features[views_view][] = c4m_related_nodes
-features_exclude[dependencies][ds] = ds
-features_exclude[dependencies][taxonomy] = taxonomy

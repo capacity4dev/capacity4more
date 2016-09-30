@@ -23,4 +23,3 @@ features[path_breadcrumbs][] = events_past
 features[path_breadcrumbs][] = events_upcoming
 features[views_view][] = c4m_overview_events
 features[views_view][] = c4m_overview_events_landing
-features_exclude[dependencies][ctools] = ctools

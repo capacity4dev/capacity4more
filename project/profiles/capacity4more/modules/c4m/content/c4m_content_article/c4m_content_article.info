@@ -87,4 +87,3 @@ features[variable][] = menu_parent_article
 features[variable][] = node_options_article
 features[variable][] = node_preview_article
 features[variable][] = node_submitted_article
-features[views_view][] = notable_contributions
