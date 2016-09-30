@@ -7,7 +7,7 @@
 ?>
 
 <div class="dropdown">
-  <button class="btn btn-default dropdown-toggle" type="button"
+  <span class="label label-primary dropdown-toggle"
           id="adminster-user-<?php print $user_id; ?>" data-toggle="dropdown"
           aria-expanded="true">
     <?php
@@ -16,7 +16,7 @@
     endif;
     ?>
     <i class="fa fa-cog"></i>
-  </button>
+  </span>
   <ul class="dropdown-menu" role="menu"
       aria-labelledby="adminster-user-<?php print $user_id; ?>">
     <?php print implode('', $links); ?>

@@ -222,7 +222,15 @@
     float: left;
   }
 
-  .field-name-c4m-ds-user-membership-type {
+  .field-name-c4m-ds-user-membership-type, .field-name-c4m-features-og-members-admin-actions {
     float: right;
+
+    .fa-cog {
+      color: $color-white;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 }
