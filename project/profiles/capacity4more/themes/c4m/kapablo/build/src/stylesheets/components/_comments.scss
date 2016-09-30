@@ -1,10 +1,28 @@
 #comments {
+
+  $icon-size: 64px;
+  $icon-size-small: 48px;
+
   clear: both;
   margin-top: 2em;
   overflow: hidden;
 
+  .comment_forbidden {
+    font-size: 0.85rem;
+    color: $color-gray-light;
+  }
+
+  /* do not display the add comment link for lower levels as it clutters the view */
+  .comment .indented .comment_forbidden {
+    display: none;
+  }
+
   .indented {
-    margin-left: 10%;
+     margin-left: $icon-size;
+@media (max-width: $screen-tablet) {
+    margin-left: $icon-size-small / 2;
+  }
+    margin-bottom: 1em;
   }
 
   .comment {
@@ -20,34 +38,52 @@
     }
 
     .icon-col {
+      width: $icon-size;
       @media (max-width: $screen-tablet) {
-        width: 60px;
+        width: $icon-size-small;
+
       }
     }
 
     .content-col {
-      margin-top: 20px;
-      margin-left: 80px;
+      margin-top: 0px;
+      margin-left: $icon-size + $base-spacing-small; /* 64 + 12 */
+      min-height: $icon-size + $base-spacing-tiny; /* 64+6 */
+
+      @media (max-width: $screen-tablet) {
+      margin-left: $icon-size-small + $base-spacing-small; /* 64 + 12 */
+      min-height: $icon-size-small + $base-spacing-tiny; /* 64+6 */
+      }
+
+      .field, .field-items, .field-item {
+        display: inline;
+      }
 
       .field-name-c4m-user-first-and-last-name {
-        float: left;
+        // float: left;
       }
 
       .field-name-post-date {
-        float: left;
+        // float: left;
+
         margin-left: 5px;
         margin-bottom: 17px;
-        display: flex;
+        // display: flex;
+        font-size: 0.85rem;
+        color: $color-gray-light;
 
         &:before {
+          display: inline;
           content: '|';
-          float: left;
+          color: $color-gray-light;
+          // float: left;
           margin-right: 5px;
         }
       }
 
       .field-name-comment-body {
-        clear: left;
+        // clear: left;
+        display: block;
       }
     }
   }
