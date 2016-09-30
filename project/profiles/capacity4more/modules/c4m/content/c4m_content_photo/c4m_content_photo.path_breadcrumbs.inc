@@ -89,7 +89,7 @@ function c4m_content_photo_path_breadcrumbs_settings_info() {
     'paths' => array(
       0 => '<front>',
       1 => 'media',
-      2 => '%nodeidnumber:node-gallery-ref-1:nid',
+      2 => 'node/%nodeidnumber:node-gallery-ref-1:nid',
       3 => '<none>',
     ),
     'home' => 0,
