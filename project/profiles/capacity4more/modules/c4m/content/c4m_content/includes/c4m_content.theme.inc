@@ -44,7 +44,7 @@ function theme_c4m_website_statistics_summary(array $variables) {
     }
 
     // Format single/plural text.
-    $text = '<i class="fa ' . $icons_table[$key] . '"></i> ' . c4m_content_ec_number_format($stat['count']) . ' ' . format_plural(
+    $text = '<i class="fa ' . $icons_table[$key] . '"></i> <span class="number--larger">' . c4m_content_ec_number_format($stat['count']) . '</span> ' . format_plural(
         $stat['count'],
         $stat['title']['singular'],
         $stat['title']['plural']
