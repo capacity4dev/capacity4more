@@ -1,90 +1,78 @@
 #comments {
-
-  $icon-size: 64px;
-  $icon-size-small: 48px;
-
-  clear: both;
-  margin-top: 2em;
-  overflow: hidden;
-
-  .comment_forbidden {
-    font-size: 0.85rem;
-    color: $color-gray-light;
-  }
-
-  /* do not display the add comment link for lower levels as it clutters the view */
-  .comment .indented .comment_forbidden {
-    display: none;
-  }
-
-  .indented {
-     margin-left: $icon-size;
-@media (max-width: $screen-tablet) {
-    margin-left: $icon-size-small / 2;
-  }
-    margin-bottom: 1em;
-  }
-
-  .comment {
-    border-bottom: 1px solid $color-gray-light;
-    margin-top: 20px;
-    padding-bottom: 5px;
-
-    .links {
-
-      &.list-inline {
-        float: right;
-      }
-    }
-
-    .icon-col {
-      width: $icon-size;
-      @media (max-width: $screen-tablet) {
-        width: $icon-size-small;
-
-      }
-    }
-
-    .content-col {
-      margin-top: 0px;
-      margin-left: $icon-size + $base-spacing-small; /* 64 + 12 */
-      min-height: $icon-size + $base-spacing-tiny; /* 64+6 */
-
-      @media (max-width: $screen-tablet) {
-      margin-left: $icon-size-small + $base-spacing-small; /* 64 + 12 */
-      min-height: $icon-size-small + $base-spacing-tiny; /* 64+6 */
-      }
-
-      .field, .field-items, .field-item {
-        display: inline;
-      }
-
-      .field-name-c4m-user-first-and-last-name {
-        // float: left;
-      }
-
-      .field-name-post-date {
-        // float: left;
-
-        margin-left: 5px;
-        margin-bottom: 17px;
-        // display: flex;
+    $icon-size: 64px;
+    $icon-size-small: 48px;
+    clear: both;
+    margin-top: 2em;
+    overflow: hidden;
+    .comment_forbidden {
         font-size: 0.85rem;
         color: $color-gray-light;
-
-        &:before {
-          display: inline;
-          content: '|';
-          color: $color-gray-light;
-          // float: left;
-          margin-right: 5px;
-        }
-      }
-
-      .field-name-comment-body {
-        // clear: left;
-        display: block;
-      }
     }
-  }
+    /* do not display the add comment link for lower levels as it clutters the view */
+    .comment .indented .comment_forbidden {
+        display: none;
+    }
+    .indented {
+        margin-left: $icon-size;
+        @media (max-width: $screen-tablet) {
+            margin-left: $icon-size-small / 2;
+        }
+        margin-bottom: 1em;
+    }
+    .comment {
+        border-bottom: 1px solid $color-gray-light;
+        margin-top: 20px;
+        padding-bottom: 5px;
+        .links {
+            &.list-inline {
+                float: right;
+            }
+        }
+        .icon-col {
+            width: $icon-size;
+            @media (max-width: $screen-tablet) {
+                width: $icon-size-small;
+            }
+        }
+        .content-col {
+            margin-top: 0px;
+            margin-left: $icon-size + $base-spacing-small;
+            /* 64 + 12 */
+            min-height: $icon-size + $base-spacing-tiny;
+            /* 64+6 */
+            @media (max-width: $screen-tablet) {
+                margin-left: $icon-size-small + $base-spacing-small;
+                /* 64 + 12 */
+                min-height: $icon-size-small + $base-spacing-tiny;
+                /* 64+6 */
+            }
+            .field,
+            .field-items,
+            .field-item {
+                display: inline;
+            }
+            .field-name-c4m-user-first-and-last-name {
+                // float: left;
+            }
+            .field-name-post-date {
+                // float: left;
+                margin-left: 5px;
+                margin-bottom: 17px;
+                // display: flex;
+                font-size: 0.85rem;
+                color: $color-gray-light;
+                &:before {
+                    display: inline;
+                    content: '|';
+                    color: $color-gray-light;
+                    // float: left;
+                    margin-right: 5px;
+                }
+            }
+            .field-name-comment-body {
+                // clear: left;
+                display: block;
+            }
+        }
+    }
 }
