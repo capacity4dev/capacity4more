@@ -154,7 +154,7 @@ function c4m_comment_node_view_alter(&$build) {
         )
       );
 
-      $text = '<p>' . t(
+      $text = '<p class="margin--top">' . t(
           '!register or !login to comment',
           array(
             '!register' => $register_link,
@@ -221,11 +221,6 @@ function c4m_comment_user_cancel($edit, $account, $method) {
 function c4m_comment_comment_view($comment, $view_mode, $langcode) {
   // The comment is not forbidden for actions.
   if (empty($comment->content['links']['comment']['#links']['comment_forbidden'])) {
-    return;
-  }
-
-  // The current comment is the main thread.
-  if ($comment->thread == '01/') {
     return;
   }
 
