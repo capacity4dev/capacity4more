@@ -184,5 +184,3 @@ features[variable][] = field_bundle_settings_message__c4m_notify_promoted_member
 features[variable][] = field_bundle_settings_message__c4m_notify_subscribers_new_comment
 features[variable][] = field_bundle_settings_message__c4m_welcome_to_group
 features[views_view][] = group_activity_stream
-features_exclude[dependencies][entity] = entity
-features_exclude[dependencies][views] = views

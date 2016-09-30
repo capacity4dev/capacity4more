@@ -6,11 +6,6 @@
 # Make sure that we are in the Drupal root.
 cd "$DIR_WEB"
 
-# Revert features
-markup_h1 "Revert all features"
-drupal_drush fra -y
-echo
-
 # Make the default directory and its content writable.
 markup_h1 "Make the sites/default directory and its content writable."
 drupal_sites_default_unprotect
