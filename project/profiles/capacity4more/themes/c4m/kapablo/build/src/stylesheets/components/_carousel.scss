@@ -146,7 +146,7 @@
         }
     }
     @media (max-width: $screen-tablet) {
-        // border: 1px solid $color-gray-light;
+        border: 1px solid $color-gray-light;
         @include grain;
     }
 }
