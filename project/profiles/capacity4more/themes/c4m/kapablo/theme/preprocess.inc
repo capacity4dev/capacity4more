@@ -648,3 +648,136 @@ function kapablo_panels_bootstrap_layouts_style_region_render($vars) {
     return "<div class='$class'>$html</div>";
   }
 }
+
+/**
+ * Implements hook_preprocess_panels_pane().
+ *
+ * @ingroup themeable
+ */
+function kapablo_preprocess_panels_pane(&$vars) {
+  $uuid = $vars['pane']->uuid;
+
+  $clear_sidebarblock_panel_pane = FALSE;
+
+  $sidebarblock = FALSE;
+  $sidebarblock_small = FALSE;
+  $sidebarblock_multiple = FALSE;
+
+  // Defining clear panel panes by UUID.
+  $clear_sidebarblock_panel_pane_uuids = array(
+    // My Groups.
+    '3e93b788-7d5d-472b-93b7-c120c0b9f8a8',
+    // Upcoming Events.
+    '43f1ee7a-dabf-47f6-89a3-07a0e96573f2',
+    // Upcoming Events.
+    '5abcf7ba-8a73-4ba1-8599-8e144b4326b1',
+    // Suggested Groups.
+    '5be4e32c-b632-48f9-81af-3ecb57a2eaf7',
+    // Video embed.
+    '6291300a-bfa2-4b41-b466-2acf76adce64',
+  );
+
+  // Defining sidebar blocks by UUID.
+  $sidebarblocks_panel_pane_uuids = array(
+    // Content Group.
+    '1e41655c-1367-4fe9-ba4f-be3c36b3fc25',
+    // Featured Projects.
+    '21833ed8-d9c8-4bd3-a4fd-b3127b5351a1',
+    // Social Share links.
+    '519bddb7-4a12-41fb-be03-a16ec9ddab93',
+    // Social Share links.
+    '58845eeb-9f44-44de-8439-b1027a7a67da',
+    // Homepage Newsletter.
+    '5d2ad3c6-4569-4046-86b0-0c4c57236914',
+    // OG Highlights overview.
+    '61364c4a-b99a-48c5-a681-818853195c85',
+    // Featured Groups.
+    '6c330b80-7e65-4003-bf30-4f31188d01b9',
+    // CTA block.
+    '6d116082-1580-4306-87af-4418aa273b2a',
+    // Featured Projects.
+    '6efd1847-4a18-474e-9197-741d9c7be07e',
+    // Featured Groups.
+    '6fa5e4f2-1bfd-49a1-904c-c52cb184d024',
+    // OG Related Projects.
+    '77dbe08c-372e-438b-b9c6-525010b38791',
+    // Search group form.
+    'afa1da25-d147-4e2b-81c1-9b6ccd17fab6',
+    // OG Related Groups overview.
+    'bd4d5369-1eea-4c6a-b887-42ccc2b59b95',
+    // OG Members overview.
+    'd54f83ca-540d-4bd0-9d56-d99e5afd46d8',
+    // Content Project right.
+    // 'd74f4471-e94f-4bec-bdbf-e9b2a23418c1',
+    // Featured Groups.
+    'e00433dd-e5e5-4c05-8231-b4642b65f37f',
+    // OG Group Dashboard - CTA Block.
+    'e8afdde0-18e0-4a56-982f-cc756de36f88',
+    // Homepage newsletter.
+    'f61cbf35-3227-4724-bc91-c08f74fd7d45',
+    // OG Group Dashboard - CTA Block.
+    'f7eb2728-5593-4a0f-979a-b40f29adf246',
+  );
+
+  $sidebarblocks_panel_pane_uuids_small = array();
+
+  $sidebarblocks_panel_pane_uuids_multiple = array();
+
+  $sidebarblocks_panel_pane_uuids_multiple_small = array();
+
+  // Defining characteristics of sidebar blocks.
+  if (in_array($uuid, $clear_sidebarblock_panel_pane_uuids)) {
+    $clear_sidebarblock_panel_pane = TRUE;
+  }
+  elseif (in_array($uuid, $sidebarblocks_panel_pane_uuids)) {
+    $sidebarblock = TRUE;
+  }
+  elseif (in_array($uuid, $sidebarblocks_panel_pane_uuids_small)) {
+    $sidebarblock = TRUE;
+    $sidebarblock_small = TRUE;
+  }
+  elseif (in_array($uuid, $sidebarblocks_panel_pane_uuids_multiple)) {
+    $sidebarblock = TRUE;
+    $sidebarblock_multiple = TRUE;
+  }
+  elseif (in_array($uuid, $sidebarblocks_panel_pane_uuids_multiple_small)) {
+    $sidebarblock = TRUE;
+    $sidebarblock_small = TRUE;
+    $sidebarblock_multiple = TRUE;
+  }
+
+  // Applying classes and theme hook suggestions based on characteristics.
+  if ($clear_sidebarblock_panel_pane) {
+    $ths = &$vars['theme_hook_suggestions'];
+    array_unshift($ths, 'panels_pane__clear_sideblock');
+  }
+  elseif ($sidebarblock) {
+    $ths = &$vars['theme_hook_suggestions'];
+
+    // Pane class.
+    array_unshift($vars['classes_array'], 'sidebarblock');
+
+    // Pane title class.
+    unset($vars['title_attributes_array']['class']);
+    $vars['title_attributes_array']['class'][] = 'sidebarblock__title';
+
+    if ($sidebarblock_small) {
+      $vars['classes'][] = 'sidebarblock--small';
+
+      if ($sidebarblock_multiple) {
+        array_unshift($ths, 'panels_pane__sidebarblock_multiple_small');
+      }
+      else {
+        array_unshift($ths, 'panels_pane__sidebarblock_small');
+      }
+    }
+    else {
+      if ($sidebarblock_multiple) {
+        array_unshift($ths, 'panels_pane__sidebarblock_multiple');
+      }
+      else {
+        array_unshift($ths, 'panels_pane__sidebarblock');
+      }
+    }
+  }
+}
