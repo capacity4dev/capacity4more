@@ -9,7 +9,7 @@
         color: $color-gray-light;
     }
     /* do not display the add comment link for lower levels as it clutters the view */
-    .comment .indented .comment_forbidden {
+    .indented .comment_forbidden {
         display: none;
     }
     .indented {
@@ -20,7 +20,7 @@
         margin-bottom: 1em;
     }
     .comment {
-        border-bottom: 1px solid $color-gray-light;
+        border-bottom: 1px dashed $color-gray-light;
         margin-top: 20px;
         padding-bottom: 5px;
         .links {
@@ -37,14 +37,10 @@
         .content-col {
             margin-top: 0px;
             margin-left: $icon-size + $base-spacing-small;
-            /* 64 + 12 */
             min-height: $icon-size + $base-spacing-tiny;
-            /* 64+6 */
             @media (max-width: $screen-tablet) {
                 margin-left: $icon-size-small + $base-spacing-small;
-                /* 64 + 12 */
                 min-height: $icon-size-small + $base-spacing-tiny;
-                /* 64+6 */
             }
             .field,
             .field-items,
@@ -65,12 +61,10 @@
                     display: inline;
                     content: '|';
                     color: $color-gray-light;
-                    // float: left;
                     margin-right: 5px;
                 }
             }
             .field-name-comment-body {
-                // clear: left;
                 display: block;
             }
         }
