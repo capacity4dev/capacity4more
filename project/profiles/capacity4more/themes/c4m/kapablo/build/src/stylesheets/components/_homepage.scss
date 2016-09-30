@@ -55,6 +55,21 @@
                     margin-top: 0;
                 }
             }
+
+            .field-type-image {
+              box-shadow: inset 1px 1px 2px 0px rgba(0,0,0,0.25);
+              position: relative;
+              &::after {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                right: 0px;
+                bottom: 0px;
+                content: " ";
+                display: block;
+                box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2) inset;
+              }
+            }
             .field-item img {
                 position: relative;
                 left: 50%;
