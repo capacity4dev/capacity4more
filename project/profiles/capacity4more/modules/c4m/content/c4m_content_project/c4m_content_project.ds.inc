@@ -193,7 +193,11 @@ function c4m_content_project_ds_layout_settings_info() {
       'title' => 'right',
       'c4m_user_first_and_last_name' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        'sidebarblock__content--multiple' => 'sidebarblock__content--multiple',
+      ),
+    ),
     'wrappers' => array(
       'left' => 'div',
       'right' => 'div',
