@@ -36,6 +36,13 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
   $handler->display->display_options['relationships']['uid']['required'] = TRUE;
+  /* Relationship: Flags: c4m_og_content_highlight counter */
+  $handler->display->display_options['relationships']['flag_count_rel']['id'] = 'flag_count_rel';
+  $handler->display->display_options['relationships']['flag_count_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['flag_count_rel']['field'] = 'flag_count_rel';
+  $handler->display->display_options['relationships']['flag_count_rel']['label'] = 'flag_promote_counter';
+  $handler->display->display_options['relationships']['flag_count_rel']['required'] = 0;
+  $handler->display->display_options['relationships']['flag_count_rel']['flag'] = 'c4m_og_content_highlight';
   /* Field: Content: Nid */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
@@ -51,13 +58,6 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Content: Path */
-  $handler->display->display_options['fields']['path']['id'] = 'path';
-  $handler->display->display_options['fields']['path']['table'] = 'node';
-  $handler->display->display_options['fields']['path']['field'] = 'path';
-  $handler->display->display_options['fields']['path']['label'] = 'URL';
-  $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['path']['absolute'] = TRUE;
   /* Field: Content: Type */
   $handler->display->display_options['fields']['c4m_project_type']['id'] = 'c4m_project_type';
   $handler->display->display_options['fields']['c4m_project_type']['table'] = 'field_data_c4m_project_type';
@@ -65,12 +65,6 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['fields']['c4m_project_type']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['c4m_project_type']['alter']['text'] = '[c4m_project_type-value]';
   $handler->display->display_options['fields']['c4m_project_type']['element_label_colon'] = FALSE;
-  /* Field: Content: Status */
-  $handler->display->display_options['fields']['c4m_og_status']['id'] = 'c4m_og_status';
-  $handler->display->display_options['fields']['c4m_og_status']['table'] = 'field_data_c4m_og_status';
-  $handler->display->display_options['fields']['c4m_og_status']['field'] = 'c4m_og_status';
-  $handler->display->display_options['fields']['c4m_og_status']['label'] = 'Project Status';
-  $handler->display->display_options['fields']['c4m_og_status']['element_label_colon'] = FALSE;
   /* Field: Content: Post date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'node';
@@ -81,6 +75,37 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'd/m/Y';
   $handler->display->display_options['fields']['created']['second_date_format'] = 'c4m_long_without_time';
   $handler->display->display_options['fields']['created']['reldate'] = '0';
+  /* Field: Content: Status */
+  $handler->display->display_options['fields']['c4m_og_status']['id'] = 'c4m_og_status';
+  $handler->display->display_options['fields']['c4m_og_status']['table'] = 'field_data_c4m_og_status';
+  $handler->display->display_options['fields']['c4m_og_status']['field'] = 'c4m_og_status';
+  $handler->display->display_options['fields']['c4m_og_status']['label'] = 'Project Status';
+  $handler->display->display_options['fields']['c4m_og_status']['element_label_colon'] = FALSE;
+  /* Field: Content: Group admin */
+  $handler->display->display_options['fields']['group_admin']['id'] = 'group_admin';
+  $handler->display->display_options['fields']['group_admin']['table'] = 'node';
+  $handler->display->display_options['fields']['group_admin']['field'] = 'group_admin';
+  $handler->display->display_options['fields']['group_admin']['label'] = 'Project owner';
+  $handler->display->display_options['fields']['group_admin']['element_label_colon'] = FALSE;
+  /* Field: Content: Group moderators */
+  $handler->display->display_options['fields']['group_moderators']['id'] = 'group_moderators';
+  $handler->display->display_options['fields']['group_moderators']['table'] = 'node';
+  $handler->display->display_options['fields']['group_moderators']['field'] = 'group_moderators';
+  $handler->display->display_options['fields']['group_moderators']['label'] = 'Project Administrator(s)';
+  $handler->display->display_options['fields']['group_moderators']['element_label_colon'] = FALSE;
+  /* Field: Content: Stakeholders */
+  $handler->display->display_options['fields']['c4m_project_stakeholders']['id'] = 'c4m_project_stakeholders';
+  $handler->display->display_options['fields']['c4m_project_stakeholders']['table'] = 'field_data_c4m_project_stakeholders';
+  $handler->display->display_options['fields']['c4m_project_stakeholders']['field'] = 'c4m_project_stakeholders';
+  $handler->display->display_options['fields']['c4m_project_stakeholders']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_project_stakeholders']['delta_offset'] = '0';
+  /* Field: Content: Group metrics */
+  $handler->display->display_options['fields']['group_metrics']['id'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics']['table'] = 'node';
+  $handler->display->display_options['fields']['group_metrics']['field'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics']['label'] = 'Date of latest activity';
+  $handler->display->display_options['fields']['group_metrics']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_metrics']['c4m_admin_groups_group_metric'] = 'group::latest_activity';
   /* Field: Content: Duration */
   $handler->display->display_options['fields']['c4m_date_end']['id'] = 'c4m_date_end';
   $handler->display->display_options['fields']['c4m_date_end']['table'] = 'field_data_c4m_date_end';
@@ -94,6 +119,11 @@ function c4m_admin_projects_views_default_views() {
     'multiple_to' => '',
     'show_remaining_days' => 0,
   );
+  /* Field: Content: Stage */
+  $handler->display->display_options['fields']['c4m_project_stage']['id'] = 'c4m_project_stage';
+  $handler->display->display_options['fields']['c4m_project_stage']['table'] = 'field_data_c4m_project_stage';
+  $handler->display->display_options['fields']['c4m_project_stage']['field'] = 'c4m_project_stage';
+  $handler->display->display_options['fields']['c4m_project_stage']['element_label_colon'] = FALSE;
   /* Field: Content: Total budget */
   $handler->display->display_options['fields']['c4m_money']['id'] = 'c4m_money';
   $handler->display->display_options['fields']['c4m_money']['table'] = 'field_data_c4m_money';
@@ -107,24 +137,6 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['fields']['c4m_source_of_funding']['field'] = 'c4m_source_of_funding';
   $handler->display->display_options['fields']['c4m_source_of_funding']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['c4m_source_of_funding']['delta_offset'] = '0';
-  /* Field: Content: Implemented by */
-  $handler->display->display_options['fields']['c4m_implemented_by']['id'] = 'c4m_implemented_by';
-  $handler->display->display_options['fields']['c4m_implemented_by']['table'] = 'field_data_c4m_implemented_by';
-  $handler->display->display_options['fields']['c4m_implemented_by']['field'] = 'c4m_implemented_by';
-  $handler->display->display_options['fields']['c4m_implemented_by']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['c4m_implemented_by']['delta_offset'] = '0';
-  /* Field: Content: CRIS Decision number */
-  $handler->display->display_options['fields']['c4m_cris_decision_number']['id'] = 'c4m_cris_decision_number';
-  $handler->display->display_options['fields']['c4m_cris_decision_number']['table'] = 'field_data_c4m_cris_decision_number';
-  $handler->display->display_options['fields']['c4m_cris_decision_number']['field'] = 'c4m_cris_decision_number';
-  $handler->display->display_options['fields']['c4m_cris_decision_number']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['c4m_cris_decision_number']['delta_offset'] = '0';
-  /* Field: Content: CRIS Contract Number */
-  $handler->display->display_options['fields']['c4m_cris_contract_number']['id'] = 'c4m_cris_contract_number';
-  $handler->display->display_options['fields']['c4m_cris_contract_number']['table'] = 'field_data_c4m_cris_contract_number';
-  $handler->display->display_options['fields']['c4m_cris_contract_number']['field'] = 'c4m_cris_contract_number';
-  $handler->display->display_options['fields']['c4m_cris_contract_number']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['c4m_cris_contract_number']['delta_offset'] = '0';
   /* Field: Field: Topics */
   $handler->display->display_options['fields']['c4m_vocab_topic']['id'] = 'c4m_vocab_topic';
   $handler->display->display_options['fields']['c4m_vocab_topic']['table'] = 'field_data_c4m_vocab_topic';
@@ -152,6 +164,95 @@ function c4m_admin_projects_views_default_views() {
     'glue' => ' - ',
   );
   $handler->display->display_options['fields']['c4m_vocab_geo']['delta_offset'] = '0';
+  /* Field: Content: Group metrics */
+  $handler->display->display_options['fields']['group_metrics_2']['id'] = 'group_metrics_2';
+  $handler->display->display_options['fields']['group_metrics_2']['table'] = 'node';
+  $handler->display->display_options['fields']['group_metrics_2']['field'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics_2']['label'] = 'Pages';
+  $handler->display->display_options['fields']['group_metrics_2']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_metrics_2']['c4m_admin_groups_group_metric'] = 'group::wiki_page';
+  /* Field: Content: Group metrics */
+  $handler->display->display_options['fields']['group_metrics_9']['id'] = 'group_metrics_9';
+  $handler->display->display_options['fields']['group_metrics_9']['table'] = 'node';
+  $handler->display->display_options['fields']['group_metrics_9']['field'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics_9']['label'] = 'News';
+  $handler->display->display_options['fields']['group_metrics_9']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_metrics_9']['c4m_admin_groups_group_metric'] = 'group::news';
+  /* Field: Content: Group metrics */
+  $handler->display->display_options['fields']['group_metrics_3']['id'] = 'group_metrics_3';
+  $handler->display->display_options['fields']['group_metrics_3']['table'] = 'node';
+  $handler->display->display_options['fields']['group_metrics_3']['field'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics_3']['label'] = 'Documents';
+  $handler->display->display_options['fields']['group_metrics_3']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_metrics_3']['c4m_admin_groups_group_metric'] = 'group::document';
+  /* Field: Content: Group metrics */
+  $handler->display->display_options['fields']['group_metrics_4']['id'] = 'group_metrics_4';
+  $handler->display->display_options['fields']['group_metrics_4']['table'] = 'node';
+  $handler->display->display_options['fields']['group_metrics_4']['field'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics_4']['label'] = 'Photo albums';
+  $handler->display->display_options['fields']['group_metrics_4']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_metrics_4']['c4m_admin_groups_group_metric'] = 'group::photoalbum';
+  /* Field: Content: Group metrics */
+  $handler->display->display_options['fields']['group_metrics_5']['id'] = 'group_metrics_5';
+  $handler->display->display_options['fields']['group_metrics_5']['table'] = 'node';
+  $handler->display->display_options['fields']['group_metrics_5']['field'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics_5']['label'] = 'Photos';
+  $handler->display->display_options['fields']['group_metrics_5']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_metrics_5']['c4m_admin_groups_group_metric'] = 'group::photo';
+  /* Field: Content: Group metrics */
+  $handler->display->display_options['fields']['group_metrics_8']['id'] = 'group_metrics_8';
+  $handler->display->display_options['fields']['group_metrics_8']['table'] = 'node';
+  $handler->display->display_options['fields']['group_metrics_8']['field'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics_8']['label'] = 'Projects';
+  $handler->display->display_options['fields']['group_metrics_8']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_metrics_8']['c4m_admin_groups_group_metric'] = 'group::project';
+  /* Field: Content: Group metrics */
+  $handler->display->display_options['fields']['group_metrics_6']['id'] = 'group_metrics_6';
+  $handler->display->display_options['fields']['group_metrics_6']['table'] = 'node';
+  $handler->display->display_options['fields']['group_metrics_6']['field'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics_6']['label'] = 'Events';
+  $handler->display->display_options['fields']['group_metrics_6']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_metrics_6']['c4m_admin_groups_group_metric'] = 'group::event';
+  /* Field: Content: Group metrics */
+  $handler->display->display_options['fields']['group_metrics_7']['id'] = 'group_metrics_7';
+  $handler->display->display_options['fields']['group_metrics_7']['table'] = 'node';
+  $handler->display->display_options['fields']['group_metrics_7']['field'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics_7']['label'] = 'Comments';
+  $handler->display->display_options['fields']['group_metrics_7']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_metrics_7']['c4m_admin_groups_group_metric'] = 'group::comment';
+  /* Field: Content: Group metrics */
+  $handler->display->display_options['fields']['group_metrics_1']['id'] = 'group_metrics_1';
+  $handler->display->display_options['fields']['group_metrics_1']['table'] = 'node';
+  $handler->display->display_options['fields']['group_metrics_1']['field'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics_1']['label'] = 'Content Recommendations';
+  $handler->display->display_options['fields']['group_metrics_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_metrics_1']['c4m_admin_groups_group_metric'] = 'group::content_recommendations';
+  /* Field: Flags: Flag counter */
+  $handler->display->display_options['fields']['count']['id'] = 'count';
+  $handler->display->display_options['fields']['count']['table'] = 'flag_counts';
+  $handler->display->display_options['fields']['count']['field'] = 'count';
+  $handler->display->display_options['fields']['count']['relationship'] = 'flag_count_rel';
+  $handler->display->display_options['fields']['count']['label'] = 'Project Followers';
+  $handler->display->display_options['fields']['count']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['count']['separator'] = '';
+  /* Field: Content: CRIS Decision number */
+  $handler->display->display_options['fields']['c4m_cris_decision_number']['id'] = 'c4m_cris_decision_number';
+  $handler->display->display_options['fields']['c4m_cris_decision_number']['table'] = 'field_data_c4m_cris_decision_number';
+  $handler->display->display_options['fields']['c4m_cris_decision_number']['field'] = 'c4m_cris_decision_number';
+  $handler->display->display_options['fields']['c4m_cris_decision_number']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_cris_decision_number']['delta_offset'] = '0';
+  /* Field: Content: CRIS Contract Number */
+  $handler->display->display_options['fields']['c4m_cris_contract_number']['id'] = 'c4m_cris_contract_number';
+  $handler->display->display_options['fields']['c4m_cris_contract_number']['table'] = 'field_data_c4m_cris_contract_number';
+  $handler->display->display_options['fields']['c4m_cris_contract_number']['field'] = 'c4m_cris_contract_number';
+  $handler->display->display_options['fields']['c4m_cris_contract_number']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_cris_contract_number']['delta_offset'] = '0';
+  /* Field: Content: Implemented by */
+  $handler->display->display_options['fields']['c4m_implemented_by']['id'] = 'c4m_implemented_by';
+  $handler->display->display_options['fields']['c4m_implemented_by']['table'] = 'field_data_c4m_implemented_by';
+  $handler->display->display_options['fields']['c4m_implemented_by']['field'] = 'c4m_implemented_by';
+  $handler->display->display_options['fields']['c4m_implemented_by']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_implemented_by']['delta_offset'] = '0';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
