@@ -978,7 +978,11 @@ function c4m_content_event_ds_layout_settings_info() {
       'c4m_field_og_group' => 'footer',
       'c4m_event_type' => 'footer',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        'sidebarblock__content--multiple' => 'sidebarblock__content--multiple',
+      ),
+    ),
     'wrappers' => array(
       'header' => 'div',
       'left' => 'div',
