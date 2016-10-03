@@ -2166,3 +2166,35 @@ function c4m_og_edit_author_autocomplete($string = '') {
 function c4m_og_human_to_machine_readable($title, $delimiter = '-') {
   return preg_replace('@[^a-z0-9_]+@', $delimiter, strtolower(trim($title)));
 }
+
+/**
+ * Comparison function for groups, will prioritize group statuses.
+ *
+ * @param object $a
+ *   Group entity A to compare.
+ * @param object $b
+ *   Group entity B to compare.
+ *
+ * @return int
+ *   Comparison value (-1 or 0 or 1).
+ */
+function _c4m_og_sort_by_status($a, $b) {
+  $priorities = array(
+    'published',
+    'archived',
+    'draft',
+    'pending',
+    'deleted',
+  );
+
+  $status_a = $a->c4m_og_status[LANGUAGE_NONE][0]['value'];
+  $status_b = $b->c4m_og_status[LANGUAGE_NONE][0]['value'];
+
+  $rank_a = array_search($status_a, $priorities);
+  $rank_b = array_search($status_b, $priorities);
+
+  if ($rank_a == $rank_b) {
+    return strcmp($a->title, $b->title);
+  }
+  return ($rank_a < $rank_b) ? -1 : 1;
+}
