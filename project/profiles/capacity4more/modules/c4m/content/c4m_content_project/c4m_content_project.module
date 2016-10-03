@@ -219,6 +219,13 @@ function c4m_content_project_c4m_helper_entity_label_info() {
  */
 function c4m_content_project_c4m_helper_entity_metrics_info() {
   return array(
+    'c4m_og_projects' => array(
+      'type' => 'project',
+      'context' => 'group',
+      'callback' => 'c4m_og_group_node_metric',
+      'arguments' => array(array('project')),
+      'weight' => 8,
+    ),
     'c4m_user_projects_administered' => array(
       'type' => 'projects_administered',
       'context' => 'user',
