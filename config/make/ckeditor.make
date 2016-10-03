@@ -4,8 +4,7 @@ api = 2
 ; CKEditor
 
 projects[ckeditor][subdir] = "contrib"
-projects[ckeditor][version] = "1.16"
-projects[ckeditor][patch][] = "https://www.drupal.org/files/issues/Issue_2454933.patch"
+projects[ckeditor][version] = "1.17"
 
 projects[wysiwyg_filter][subdir] = "contrib"
 projects[wysiwyg_filter][version] = "1.6-rc3"
