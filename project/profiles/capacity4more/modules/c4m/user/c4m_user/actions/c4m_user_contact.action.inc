@@ -45,7 +45,7 @@ function c4m_user_contact_action_form(array $context) {
     '#default_value' => isset($context['message']) ? $context['message'] : '',
     '#cols' => '80',
     '#rows' => '20',
-    '#description' => t('The message that should be sent. You may include placeholders like [node:title], [user:name], and [comment:body] to represent data that will be different each time message is sent. Not all placeholders will be available in all contexts.'),
+    '#description' => t('The message that should be sent.'),
   );
   return $form;
 }
