@@ -971,7 +971,7 @@ function c4m_og_get_group_admins_and_owner_ids_for_notification($gid) {
  *   An array of all group admins.
  */
 function c4m_og_get_group_admins($gid, $verify_owner_added = FALSE, $group_type = 'group') {
-  return user_load_multiple(c4m_og_get_group_admins_ids($gid, $verify_owner_added, $group_type));
+  return user_load_multiple(c4m_og_get_group_admins_ids($gid, $verify_owner_added, FALSE, $group_type));
 }
 
 /**
