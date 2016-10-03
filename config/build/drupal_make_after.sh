@@ -34,13 +34,4 @@ markup_h2 "Settings file"
 cp -a "$DIR_ROOT/config/build/settings/settings.php" "$DIR_WEB/sites/default"
 message_success "Master Settings file copied to build"
 
-markup_h2 "Robots.txt"
-cp -a "$DIR_ROOT/config/build/settings/robots.txt" "$DIR_WEB"
-message_success "Custom robots.txt file copied to web folder."
-
-markup_h2 "Plupload examples folder"
-rm -Rf "$DIR_WEB/sites/all/libraries/plupload/examples"
-message_success "Removed plupload examples folder from web directory."
-
-
 echo
