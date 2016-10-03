@@ -93,6 +93,7 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['fields']['group_moderators']['field'] = 'group_moderators';
   $handler->display->display_options['fields']['group_moderators']['label'] = 'Project Administrator(s)';
   $handler->display->display_options['fields']['group_moderators']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_moderators']['c4m_admin_groups_group_type'] = 'project';
   /* Field: Content: Stakeholders */
   $handler->display->display_options['fields']['c4m_project_stakeholders']['id'] = 'c4m_project_stakeholders';
   $handler->display->display_options['fields']['c4m_project_stakeholders']['table'] = 'field_data_c4m_project_stakeholders';
