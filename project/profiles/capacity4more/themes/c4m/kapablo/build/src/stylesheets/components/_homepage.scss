@@ -1,5 +1,5 @@
 .pane-c4m-content-global-statistics-summary {
-    margin: 0 -18px -2rem -18px;
+    margin: 0 -18px;
     padding: 0;
     background: $color-white;
     @media (min-width: $screen-tablet) {
@@ -19,23 +19,13 @@
 }
 
 .pane-featured-block {
-
-  .pane-content .row {
-    display: flex;
-    flex-direction: row;
-  }
-
     @media (min-width: $screen-tablet) {
         border-top: 1px dashed $color-gray-light;
         margin: 0;
         padding: 2rem 0 2rem;
     }
     .col-sm-4 {
-      flex: 1 1 auto;
-
        & > a {
-        font-size: 0.85rem;
-          height: 100%;
             @include grain;
             color: $color-text;
             display: block;

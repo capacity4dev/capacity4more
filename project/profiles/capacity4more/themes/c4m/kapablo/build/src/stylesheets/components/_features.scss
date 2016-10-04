@@ -1,9 +1,9 @@
 .row.features {
   @include grain;
-  border-top: 1px solid $color-gray-light;
+  border: 1px solid $color-gray-light;
 
   @media (min-width: $screen-tablet) {
-    border-top: 0;
+    border: 0;
   }
 
   .panel-separator {
@@ -19,5 +19,20 @@
 
   @media (min-width: $screen-tablet) {
     background: none;
+
+    .row {
+      display: flex;
+      flex-direction: row;
+
+
+      .col-sm-4 {
+        display: flex;
+        flex: 1 1 auto;
+
+        > a {
+          font-size: 0.85rem;
+        }
+      }
+    }
   }
 }
