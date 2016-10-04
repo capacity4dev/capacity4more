@@ -63,6 +63,39 @@
         color: $color-white;
       }
     }
+
+    .sidebarblock__content--multiple {
+      border: none;
+      padding: 0;
+    }
+
+    .dropdown-menu {
+      padding: 0;
+
+      li {
+        border-bottom: 1px dashed $color-white;
+        margin: 0 15px;
+        padding: 15px 0;
+
+        &.last {
+          border: none;
+        }
+      }
+
+      .text-muted {
+        color: $color-white;
+      }
+
+      .view-mode-block_list {
+        .content {
+          margin: 0;
+        }
+
+        .group-members-count {
+          padding-left: 0;
+        }
+      }
+    }
   }
 
   .fullname-picture-wrapper {
@@ -164,7 +197,7 @@
     }
 
     .group-left {
-      margin: 0 10px;
+      margin: 0 20px 0 0;
 
       .img-responsive {
         min-width: 60px;
