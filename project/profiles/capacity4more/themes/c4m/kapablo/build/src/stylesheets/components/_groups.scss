@@ -30,7 +30,9 @@
 }
 
 .group-title {
+    @extend h1;
     margin: 20px 18px 10px;
+
     @media (min-width: $screen-tablet) {
         display: inline-block;
         margin: 20px 0 10px;

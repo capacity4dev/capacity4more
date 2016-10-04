@@ -681,6 +681,7 @@ function c4m_content_group_c4m_helper_entity_label_info() {
 function c4m_content_group_theme() {
   $theme['c4m_content_group_header_title'] = array(
     'variables' => array(
+      'homepage' => FALSE,
       'title' => '',
       'group_type' => '',
       'group_access' => '',
