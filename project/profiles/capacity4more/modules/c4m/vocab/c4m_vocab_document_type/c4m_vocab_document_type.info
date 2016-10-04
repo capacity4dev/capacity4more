@@ -2,6 +2,7 @@ name = Document Type vocabulary
 description = Provides the Type of Document vocabulary.
 core = 7.x
 package = capacity4more - Vocabulary
+dependencies[] = ctools
 dependencies[] = features
 dependencies[] = strongarm
 dependencies[] = taxonomy

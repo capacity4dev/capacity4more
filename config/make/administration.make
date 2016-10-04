@@ -22,10 +22,11 @@ projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta2"
 
 projects[blockreference][subdir] = "contrib"
-projects[blockreference][version] = "2.3"
+projects[blockreference][version] = "2.4"
 
 projects[context][subdir] = "contrib"
 projects[context][version] = "3.7"
+projects[context][patch][] = https://www.drupal.org/files/issues/context-2742913-5.patch
 
 projects[context_block_disable][subdir] = "contrib"
 projects[context_block_disable][version] = "2.1"
@@ -43,7 +44,7 @@ projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
 
 projects[elysia_cron][subdir] = "contrib"
-projects[elysia_cron][version] = "2.1"
+projects[elysia_cron][version] = "2.2"
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.6"
@@ -83,7 +84,7 @@ projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.14"
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "3.7"
+projects[flag][version] = "3.9"
 
 projects[node_gallery][subdir] = "contrib"
 projects[node_gallery][version] = "1.1"
@@ -99,7 +100,7 @@ projects[term_reference_tree][subdir] = "contrib"
 projects[term_reference_tree][version] = "1.10"
 
 projects[views_data_export][subdir] = "contrib"
-projects[views_data_export][version] = "3.0-beta9"
+projects[views_data_export][version] = "3.1"
 projects[views_data_export][patch][] = https://www.drupal.org/files/issues/views_data_export-permanent-files-1875456-63-beta9-do-not-test.patch
 
 ; Themes to upgrade the admin backend.
