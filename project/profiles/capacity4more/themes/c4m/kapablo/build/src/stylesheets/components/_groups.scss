@@ -365,6 +365,7 @@
     .c4m-access-info {
         margin: 15px 18px;
     }
+
     .group-details {
         height: 100% !important;
         .panel-collapse {
@@ -397,7 +398,7 @@
                     margin-bottom: 15px;
                     padding: 0;
                     text-align: left;
-                    width: calc(100% * (1/2) - 10px - 1px);
+                    width: calc(100% * (1 / 2) - 10px - 1px);
 
                     text-overflow: ellipsis;
                     overflow: hidden;
@@ -420,6 +421,51 @@
             }
         }
     }
+
+    .field-name-c4m-vocab-topic,
+    .field-name-c4m-vocab-geo {
+      .field-label {
+        margin: 15px 0;
+        font-weight: 100;
+      }
+
+      @include clearfix;
+    }
+}
+
+.og-context .pane-c4m-content-group .group-details,
+.node-project.view-mode-group_dashboard {
+  .field-name-c4m-content-group-statistics {
+      margin-top: 25px;
+
+      ul.statistics-list {
+          flex-wrap: wrap;
+
+          li {
+              border: none;
+              margin-bottom: 15px;
+              padding: 0;
+              text-align: left;
+              width: calc(100% * (1 / 2) - 10px - 1px);
+
+              a {
+                  margin-top: 0;
+                  padding: 0;
+              }
+
+              i {
+                  clear: none;
+                  display: inline-block;
+                  width: 12px;
+              }
+
+              &::before {
+                  display: inline-block;
+                  width: 20px;
+              }
+          }
+      }
+  }
 }
 
 .field-name-c4m-ds-content-actions {

@@ -21,4 +21,3 @@ features[ds_layout_settings][] = node|project|teaser
 features[features_api][] = api:2
 features[path_breadcrumbs][] = projects
 features[views_view][] = c4m_overview_projects
-features_exclude[dependencies][ctools] = ctools

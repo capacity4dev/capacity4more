@@ -14,3 +14,17 @@
     margin-bottom: 2rem;
   }
 }
+
+.node-project {
+  &.view-mode-group_dashboard {
+    .field {
+      border-bottom: 1px dotted $color-gray-light;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+
+      h3.label-above {
+        margin-bottom: 0.4rem;
+      }
+    }
+  }
+}

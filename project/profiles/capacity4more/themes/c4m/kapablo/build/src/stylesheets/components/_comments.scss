@@ -1,72 +1,87 @@
 #comments {
-    $icon-size: 64px;
-    $icon-size-small: 48px;
-    clear: both;
-    margin-top: 2em;
-    overflow: hidden;
-    .comment_forbidden {
-        font-size: 0.85rem;
-        color: $color-gray-light;
+  $icon-size: 64px;
+  $icon-size-small: 48px;
+  clear: both;
+  margin-top: 2em;
+  overflow: hidden;
+  clear: both;
+  margin-top: 2em;
+  overflow: hidden;
+
+  .comment_forbidden {
+    font-size: 0.85rem;
+    color: $color-gray-light;
+  }
+
+  .indented {
+    margin-left: 10%;
+  }
+
+  .comment {
+    border-bottom: 1px dashed $color-gray-light;
+    margin-top: 20px;
+    padding-bottom: 5px;
+
+    .links {
+      &.list-inline {
+        clear: both;
+        float: right;
+      }
     }
+
     /* do not display the add comment link for lower levels as it clutters the view */
     .indented .comment_forbidden {
-        display: none;
+      display: none;
     }
+
     .indented {
-        margin-left: $icon-size;
-        @media (max-width: $screen-tablet) {
-            margin-left: $icon-size-small / 2;
-        }
-        margin-bottom: 1em;
+      margin-left: $icon-size;
+      @media (max-width: $screen-tablet) {
+        margin-left: $icon-size-small / 2;
+      }
+      margin-bottom: 1em;
     }
-    .comment {
-        border-bottom: 1px dashed $color-gray-light;
-        margin-top: 20px;
-        padding-bottom: 5px;
-        .links {
-            &.list-inline {
-                float: right;
-            }
-        }
-        .icon-col {
-            width: $icon-size;
-            @media (max-width: $screen-tablet) {
-                width: $icon-size-small;
-            }
-        }
-        .content-col {
-            margin-top: 0px;
-            margin-left: $icon-size + $base-spacing-small;
-            min-height: $icon-size + $base-spacing-tiny;
-            @media (max-width: $screen-tablet) {
-                margin-left: $icon-size-small + $base-spacing-small;
-                min-height: $icon-size-small + $base-spacing-tiny;
-            }
-            .field,
-            .field-items,
-            .field-item {
-                display: inline;
-            }
-            .field-name-c4m-user-first-and-last-name {
-                // float: left;
-            }
-            .field-name-post-date {
-                // float: left;
-                margin-left: 5px;
-                margin-bottom: 17px;
-                // display: flex;
-                font-size: 0.85rem;
-                color: $color-gray-light;
-                &:before {
-                    display: inline;
-                    content: '|';
-                    color: $color-gray-light;
-                    margin-right: 5px;
-                }
-            }
-            .field-name-comment-body {
-                display: block;
-            }
-        }
+
+    .icon-col {
+      width: $icon-size;
+      @media (max-width: $screen-tablet) {
+        width: $icon-size-small;
+      }
     }
+
+    .content-col {
+      margin-top: 0px;
+      margin-left: $icon-size + $base-spacing-small;
+      min-height: $icon-size + $base-spacing-tiny;
+      @media (max-width: $screen-tablet) {
+        margin-left: $icon-size-small + $base-spacing-small;
+        min-height: $icon-size-small + $base-spacing-tiny;
+      }
+      .field,
+      .field-items,
+      .field-item {
+        display: inline;
+      }
+      .field-name-c4m-user-first-and-last-name {
+        float: left;
+      }
+      .field-name-post-date {
+        float: left;
+        margin-left: 5px;
+        margin-bottom: 17px;
+        display: flex;
+        font-size: 0.85rem;
+        color: $color-gray-light;
+        &:before {
+          display: inline;
+          content: '|';
+          color: $color-gray-light;
+          margin-right: 5px;
+        }
+      }
+      .field-name-comment-body {
+        display: block;
+      }
+    }
+  }
 }

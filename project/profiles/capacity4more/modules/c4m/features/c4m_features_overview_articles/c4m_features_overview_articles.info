@@ -19,5 +19,3 @@ features[features_api][] = api:2
 features[variable][] = pathauto_node_article_pattern
 features[views_view][] = administration_voices_views
 features[views_view][] = c4m_overview_articles
-features_exclude[dependencies][ctools] = ctools
-features_exclude[dependencies][strongarm] = strongarm

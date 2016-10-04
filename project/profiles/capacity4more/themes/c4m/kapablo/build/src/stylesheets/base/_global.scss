@@ -36,6 +36,10 @@ body {
   margin-bottom: 1rem;
 }
 
+.margin--top {
+  margin-top: 1.5em;
+}
+
 .label {
 
   &.label-default {
@@ -201,6 +205,3 @@ cite {
     border-bottom: 1px dashed $color-gray;
   }
 }
-
-
-
