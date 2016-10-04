@@ -24,7 +24,8 @@ function c4m_user_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'My Content';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['type'] = 'views_access_callback';
+  $handler->display->display_options['access']['views_access_callback'] = 'c4m_user_my_content_access';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['search_api_bypass_access'] = 0;
@@ -115,11 +116,10 @@ function c4m_user_views_default_views() {
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['path'] = 'user/%/content';
-  $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'Groups';
+  $handler->display->display_options['menu']['title'] = 'My content';
   $handler->display->display_options['menu']['weight'] = '3';
-  $handler->display->display_options['menu']['name'] = 'main-menu';
-  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['name'] = 'user-menu';
+  $handler->display->display_options['menu']['context'] = 1;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
   $export['my_content'] = $view;
 

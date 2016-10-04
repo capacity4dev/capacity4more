@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_discussion.strongarm.inc
@@ -181,7 +180,7 @@ function c4m_content_discussion_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '21',
+            'weight' => '24',
             'visible' => FALSE,
           ),
           'activity_global' => array(
@@ -193,7 +192,7 @@ function c4m_content_discussion_strongarm() {
             'visible' => FALSE,
           ),
           'teaser_group' => array(
-            'weight' => '28',
+            'weight' => '8',
             'visible' => FALSE,
           ),
           'activity_group' => array(
@@ -203,6 +202,30 @@ function c4m_content_discussion_strongarm() {
           'pinned_content' => array(
             'weight' => '1',
             'visible' => TRUE,
+          ),
+        ),
+        'highlighted' => array(
+          'full' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '8',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '7',
+            'visible' => TRUE,
+          ),
+        ),
+        'promoted' => array(
+          'teaser_group' => array(
+            'weight' => '9',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '0',
+            'visible' => FALSE,
           ),
         ),
       ),

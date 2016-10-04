@@ -34,10 +34,12 @@
         <div class="col-md-3"><?php print t('Group path') ?></div>
         <div class="col-md-9"><?php print $details['purl'] ?></div>
       </div>
+      <?php if (isset($details['description']['safe_value'])): ?>
       <div class="row">
         <div class="col-md-3"><?php print t('Group description') ?></div>
         <div class="col-md-9"><?php print $details['description']['safe_value'] ?></div>
       </div>
+      <?php endif; ?>
       <div class="row">
         <div class="col-md-3"><?php print t('Group topics') ?></div>
         <div class="col-md-9"><?php print $details['topics'] ?></div>

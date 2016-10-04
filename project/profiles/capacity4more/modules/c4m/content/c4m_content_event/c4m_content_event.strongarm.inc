@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_event.strongarm.inc
@@ -218,7 +217,7 @@ function c4m_content_event_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '26',
+            'weight' => '28',
             'visible' => FALSE,
           ),
           'c4m_related' => array(
@@ -234,7 +233,7 @@ function c4m_content_event_strongarm() {
             'visible' => FALSE,
           ),
           'teaser_group' => array(
-            'weight' => '24',
+            'weight' => '28',
             'visible' => FALSE,
           ),
           'activity_group' => array(
@@ -247,6 +246,30 @@ function c4m_content_event_strongarm() {
           ),
           'pinned_content' => array(
             'weight' => '1',
+            'visible' => TRUE,
+          ),
+        ),
+        'highlighted' => array(
+          'full' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '11',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '11',
+            'visible' => TRUE,
+          ),
+        ),
+        'promoted' => array(
+          'teaser' => array(
+            'weight' => '0',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '12',
             'visible' => TRUE,
           ),
         ),
@@ -275,6 +298,7 @@ function c4m_content_event_strongarm() {
   $strongarm->name = 'node_options_event';
   $strongarm->value = array(
     0 => 'status',
+    1 => 'revision',
   );
   $export['node_options_event'] = $strongarm;
 

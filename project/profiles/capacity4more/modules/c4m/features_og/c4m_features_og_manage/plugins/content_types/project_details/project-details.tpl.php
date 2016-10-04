@@ -34,10 +34,12 @@
         <div class="col-md-3"><?php print t('Project path') ?></div>
         <div class="col-md-9"><?php print $details['purl'] ?></div>
       </div>
-      <div class="row">
-        <div class="col-md-3"><?php print t('Project description') ?></div>
-        <div class="col-md-9"><?php print $details['description']['safe_value'] ?></div>
-      </div>
+      <?php if (isset($details['description']['safe_value'])): ?>
+        <div class="row">
+          <div class="col-md-3"><?php print t('Project description') ?></div>
+          <div class="col-md-9"><?php print $details['description']['safe_value'] ?></div>
+        </div>
+      <?php endif; ?>
       <div class="row">
         <div class="col-md-3"><?php print t('Duration') ?></div>
         <div class="col-md-9"><?php print $details['duration'] ?></div>
@@ -60,7 +62,7 @@
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('CRIS Contact number') ?></div>
-        <div class="col-md-9"><?php print $details['cris_contract_number'] ?></div>
+        <div class="col-md-9"><?php print $details['cris_contact_number'] ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Project topics') ?></div>
@@ -81,7 +83,7 @@
         <div class="col-md-9"><?php print $details['related_groups'] ?></div>
       </div>
       <div class="row">
-        <div class="col-md-3"><?php print t('Related Projects') ?></div>
+        <div class="col-md-3"><?php print t('Related Initiatives') ?></div>
         <div class="col-md-9"><?php print $details['related_projects'] ?></div>
       </div>
     </div>

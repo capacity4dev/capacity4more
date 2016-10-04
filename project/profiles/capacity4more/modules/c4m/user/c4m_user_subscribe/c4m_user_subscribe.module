@@ -11,22 +11,12 @@
  * Flags inserted node, if content requires notification.
  */
 function c4m_user_subscribe_node_insert($node) {
-  if ($node->status != NODE_PUBLISHED) {
-    // Do not mark anything that is saved as draft.
-    return;
-  }
-
-  if (!in_array($node->type, c4m_og_get_comment_notification_types())) {
+  if (!in_array($node->type, c4m_og_get_extended_content_notification_types())) {
     // Inserted content does not require notification.
     return;
   }
 
   flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
-
-  if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
-    // Inserted content does not require notification.
-    return;
-  }
 
   flag('flag', 'subscribe_c4m_follow_node', $node->nid);
 }
@@ -37,12 +27,7 @@ function c4m_user_subscribe_node_insert($node) {
  * Flags updated node, if content requires notification.
  */
 function c4m_user_subscribe_node_update($node) {
-  if ($node->status != NODE_PUBLISHED) {
-    // Do not mark anything that is saved as draft.
-    return;
-  }
-
-  if (!in_array($node->type, c4m_og_get_comment_notification_types())) {
+  if (!in_array($node->type, c4m_og_get_extended_content_notification_types())) {
     // Inserted content does not require notification.
     return;
   }
@@ -50,11 +35,6 @@ function c4m_user_subscribe_node_update($node) {
   // If user has not unsubscribed from that type of notifications.
   if (!_c4m_user_subscribe_entity_notifications_disabled($node->nid, 'comment')) {
     flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
-  }
-
-  if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
-    // Inserted content does not require notification.
-    return;
   }
 
   flag('flag', 'subscribe_c4m_follow_node', $node->nid);
@@ -69,12 +49,7 @@ function c4m_user_subscribe_node_update($node) {
 function c4m_user_subscribe_comment_insert($comment) {
   $node = node_load($comment->nid);
 
-  if ($node->status != NODE_PUBLISHED) {
-    // Do not mark anything for node that is saved as draft.
-    return;
-  }
-
-  if (!in_array($node->type, c4m_og_get_comment_notification_types())) {
+  if (!in_array($node->type, c4m_og_get_extended_content_notification_types())) {
     // Inserted comment is on content that does not require notification.
     return;
   }

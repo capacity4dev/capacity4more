@@ -731,4 +731,15 @@ trait Group {
 
     return new Given("I go to \"$uri\"");
   }
+
+  /**
+   * @When /^I send an invitation to "([^"]*)"$/
+   */
+  public function iSendAnInvitationTo($email) {
+    $steps = array();
+    $steps[] = new Step\When('I fill in "invitee" with "' . $email . '"');
+    $steps[] = new Step\When('I press "Invite user(s)"');
+
+    return $steps;
+  }
 }

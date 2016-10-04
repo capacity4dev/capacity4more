@@ -63,6 +63,13 @@ Feature: Group dashboard
     Then  I should not see the link "Invite a member"
 
   @api
+  Scenario: Check notifications toggle link is not available for a non-member of a group.
+    Given I am logged in as user "president"
+    When  I visit the dashboard of group "Movie Popcorn Corner"
+    Then  I should not see the link "Enable notifications"
+    And   I should not see the link "Disable notifications"
+
+  @api
   Scenario: Check Invite a member link is available for an administrator of a private group.
     Given I am logged in as user "alfrednobel"
     When  I visit the dashboard of group "Tennis Group"

@@ -39,6 +39,7 @@ projects[link][version] = "1.4"
 
 projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2"
+projects[maxlength][patch][] = "../patches/maxlength-7.x-3.2-typo-fix-character-limit-message.patch"
 
 projects[money][subdir] = "contrib"
 projects[money][version] = "1.x-dev"
@@ -51,6 +52,9 @@ projects[reldate][version] = "1.x-dev"
 
 projects[weight][subdir] = "contrib"
 projects[weight][version] = "3.1"
+
+projects[content_taxonomy][subdir] = "contrib"
+projects[content_taxonomy][version] = "1.0-rc1"
 
 libraries[leaflet][download][type]= "get"
 libraries[leaflet][download][url] = "http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.zip"
