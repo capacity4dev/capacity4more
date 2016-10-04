@@ -10,6 +10,6 @@
   <h2 class="sidebarblock__title"><?php print t('Groups') ?></h2>
   <?php print $groups; ?>
   <div class="sidebarblock__viewmore">
-    <a class="see-more-link" href="<?php print $link; ?>"><?php print t('Show more') ?><i class="fa fa-chevron-right"></i></a>
+    <a class="see-more-link" href="<?php print $link; ?>"><?php print t('Show more') ?> <i class="fa fa-chevron-right"></i></a>
   </div>
 </div>
