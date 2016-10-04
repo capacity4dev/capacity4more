@@ -96,6 +96,25 @@ function kapablo_preprocess_block(&$variables) {
       $variables['search_form'] = $form;
 
       break;
+
+    // Sidebar block handling: adding classes, theme suggestion hook.
+    case 'views-c4m_learning_content-block':
+    case 'views-c4m_learning_content-block_1':
+      $variables['classes_array'][] = 'sidebarblock';
+      $variables['title_attributes_array']['class'][] = 'sidebarblock__title';
+      array_unshift($variables['theme_hook_suggestions'], 'block__sidebarblock');
+
+      switch ($block_id) {
+        case 'views-c4m_learning_content-block':
+          $variables['title_attributes_array']['class'][] = 'closely';
+          break;
+
+        case 'views-c4m_learning_content-block_1':
+          $variables['content_attributes_array']['class'][] = 'sidebarblock__content';
+          break;
+      }
+
+      break;
   }
 }
 
