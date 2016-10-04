@@ -226,6 +226,35 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
 }
 
 /**
+ * Implements hook_taxonomy_term_view().
+ */
+function c4m_helper_entity_taxonomy_term_view($term, $view_mode, $langcode) {
+  if (!isset($term->vocabulary_machine_name) || !isset($term->tid)) {
+    return;
+  }
+
+  $vocab_name = $term->vocabulary_machine_name;
+  $term_id = $term->tid;
+
+  $options = array(
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
+    'absolute' => TRUE,
+    'query' => array(
+      'f[0]' => $vocab_name . ':' . $term_id,
+    ),
+  );
+
+  $url = url(
+    'search',
+    $options
+  );
+
+  drupal_goto($url);
+}
+
+/**
  * Implements hook_entity_property_info_alter().
  */
 function c4m_helper_entity_entity_property_info_alter(&$info) {
