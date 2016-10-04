@@ -766,6 +766,7 @@ function kapablo_preprocess_panels_pane(&$vars) {
     // Pane title class.
     unset($vars['title_attributes_array']['class']);
     $vars['title_attributes_array']['class'][] = 'sidebarblock__title';
+    $vars['title_attributes_array']['class'][] = 'closely';
 
     if ($sidebarblock_multiple) {
       array_unshift($ths, 'panels_pane__sidebarblock_multiple');

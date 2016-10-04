@@ -87,12 +87,14 @@
       }
 
       .view-mode-block_list {
-        .content {
-          margin: 0;
-        }
-
         .group-members-count {
           padding-left: 0;
+        }
+
+        img {
+          border: 1px solid $color-gray-light;
+          border-radius: 5px;
+          padding: 2px;
         }
       }
     }
@@ -205,11 +207,8 @@
     }
 
     li {
-
       &.last {
-
         .view-mode-block_list {
-
           .content {
             border-bottom: none;
           }
