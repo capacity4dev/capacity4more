@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Sidebar block multiple panels pane template.

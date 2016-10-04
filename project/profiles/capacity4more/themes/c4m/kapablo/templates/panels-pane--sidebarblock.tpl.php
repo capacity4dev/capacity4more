@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Sidebar block panels pane template.
