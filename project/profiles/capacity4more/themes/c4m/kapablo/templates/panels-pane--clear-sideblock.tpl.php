@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Clear Sidebar block panels pane template.
