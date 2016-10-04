@@ -25,6 +25,7 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
     array('uid', 'UID'),
     array('title', 'Title'),
     array('purl', 'PURL'),
+    array('promote', 'Promote'),
     array('image', 'Image'),
     array('banner', 'Banner'),
     array('duration', 'Duration'),
