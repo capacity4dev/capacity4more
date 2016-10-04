@@ -32,9 +32,9 @@ function c4m_content_news_c4m_helper_entity_label_info() {
       'article' => t('a'),
       'singular' => t('news'),
       'plural' => t('news'),
-      'insert action' => t('created news'),
+      'insert action' => t('posted news'),
       'update action' => t('updated the news'),
-      'icon' => 'fa-comments',
+      'icon' => 'fa-newspaper-o',
     ),
   );
 }
