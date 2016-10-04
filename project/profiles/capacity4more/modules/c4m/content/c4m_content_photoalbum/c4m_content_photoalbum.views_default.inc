@@ -112,6 +112,8 @@ function c4m_content_photoalbum_views_default_views() {
   $handler->display->display_options['fields']['title']['relationship'] = 'nid';
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
 
   /* Display: Image Thumbnail Strip */
   $handler = $view->new_display('embed', 'Image Thumbnail Strip', 'embed_2');
