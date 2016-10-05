@@ -35,7 +35,7 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
     if ($resource_name == 'documents') {
       $resource_name = 'document';
     }
-    else if($resource_name == 'discussions') {
+    elseif ($resource_name == 'discussions') {
       $resource_name = 'discussion';
     }
 

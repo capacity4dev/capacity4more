@@ -431,7 +431,7 @@ function c4m_document_widget_add_quick_post_document_file($file_id) {
 }
 
 /**
- *  Renders pre-create document form, from regular and quick post forms.
+ * Renders pre-create document form, from regular and quick post forms.
  *
  * @param int $file_id
  *    Document's file id.

@@ -222,7 +222,7 @@ function c4m_restful_quick_post_form($group_id) {
         'group' => $group_id,
       ),
       'relatedDocuments' => array(
-        'c4m-related-document' => array (),
+        'c4m-related-document' => array(),
       ),
     ),
   );
