@@ -125,6 +125,7 @@ function c4m_content_book_help_and_guidance_autocomplete($title = '') {
       // Select rows that match by title.
       ->propertyCondition('title', '%' . db_like($title) . '%', 'LIKE')
       ->range(0, 10)
+      ->addTag('c4m_content_book_join')
       ->execute();
 
     if (isset($result['node'])) {
@@ -144,4 +145,14 @@ function c4m_content_book_help_and_guidance_autocomplete($title = '') {
   }
 
   drupal_json_output($node_matches);
+}
+
+/**
+ * Join the autocomplete with the book table to only show main books.
+ *
+ * @param \QueryAlterableInterface $query
+ *   Query object.
+ */
+function c4m_content_book_query_c4m_content_book_join_alter(QueryAlterableInterface $query) {
+  $query->join('book', 'book', 'book.bid = node.nid');
 }

@@ -42,7 +42,12 @@ function theme_c4m_features_og_members_admin_actions(array $field) {
 
   // There are no links (group owner).
   if (empty($links)) {
-    return $membership_level;
+    return theme(
+      'c4m_administer_member_level',
+      array(
+        'membership_level' => $membership_level,
+      )
+    );
   }
 
   return theme(

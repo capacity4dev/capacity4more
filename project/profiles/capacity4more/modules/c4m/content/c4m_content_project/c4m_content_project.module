@@ -438,13 +438,6 @@ function c4m_content_project_c4m_cta_block() {
     return $items;
   }
 
-  $items['create-programme'] = array(
-    '#theme' => 'c4m_group_visitor_cta',
-    '#button_label' => t('Create programme'),
-    '#button_icon' => 'fa-plus',
-    '#url' => url('/node/add/programme'),
-  );
-
   if ($item = c4m_user_og_follow_group_cta($group)) {
     $items['follow'] = $item;
   }

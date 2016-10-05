@@ -633,6 +633,29 @@ function c4m_features_homepage_default_page_manager_pages() {
     $display->content['new-21833ed8-d9c8-4bd3-a4fd-b3127b5351a1'] = $pane;
     $display->panels['right'][3] = 'new-21833ed8-d9c8-4bd3-a4fd-b3127b5351a1';
     $pane = new stdClass();
+    $pane->pid = 'new-916fa034-f4ff-45cd-8e79-f5b40fced21c';
+    $pane->panel = 'right';
+    $pane->type = 'block';
+    $pane->subtype = 'c4m_features_homepage-c4m_features_homepage_newsletter';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $pane->locks = array();
+    $pane->uuid = '916fa034-f4ff-45cd-8e79-f5b40fced21c';
+    $display->content['new-916fa034-f4ff-45cd-8e79-f5b40fced21c'] = $pane;
+    $display->panels['right'][4] = 'new-916fa034-f4ff-45cd-8e79-f5b40fced21c';
+    $pane = new stdClass();
     $pane->pid = 'new-afc6317f-416b-4682-b8f9-cf0330924740';
     $pane->panel = 'top';
     $pane->type = 'voices_views_carousel';

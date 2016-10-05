@@ -28,4 +28,8 @@ MODULES_ENABLE=(
   "og_menu"
   "views_contextual_filters_or"
   "og_invite"
+  # Fail during auto deploy.
+  "c4m_user_og"
+  "c4m_features_og_members"
+  "c4m_features_overview_articles"
 )
