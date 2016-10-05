@@ -178,6 +178,7 @@ function c4m_search_default_search_api_index() {
         "attachments_c4m_document" : { "type" : "text" },
         "author" : { "type" : "integer", "entity_type" : "user" },
         "c4m_body:value" : { "type" : "text", "boost" : "3.0" },
+        "c4m_created_with_photo_album" : { "type" : "boolean" },
         "c4m_cris_contract_number" : { "type" : "list\\u003Ctext\\u003E" },
         "c4m_cris_decision_number" : { "type" : "list\\u003Ctext\\u003E" },
         "c4m_datetime_end:duration" : { "type" : "duration" },
@@ -189,9 +190,12 @@ function c4m_search_default_search_api_index() {
         "c4m_document_presentation" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "c4m_event_type" : { "type" : "string" },
         "c4m_implemented_by" : { "type" : "list\\u003Ctext\\u003E" },
+        "c4m_is_template" : { "type" : "boolean" },
         "c4m_og_group_type" : { "type" : "string" },
         "c4m_organised_by" : { "type" : "text" },
         "c4m_partner" : { "type" : "list\\u003Ctext\\u003E" },
+        "c4m_project_stage" : { "type" : "string" },
+        "c4m_project_type" : { "type" : "string" },
         "c4m_related_topic" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "c4m_related_user" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "user" },
         "c4m_source_of_funding" : { "type" : "list\\u003Ctext\\u003E" },
@@ -437,7 +441,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort" : "0",
     "default_sort_no_terms" : "0",
     "default_order" : "desc",
-    "options" : { "field_name" : "The flag count of type c4m_og_content_recommend for an group entity" },
+    "options" : { "field_name" : "The flag count of type c4m_og_content_recommend for an inthe_picture entity" },
     "rdf_mapping" : []
   }');
   $items['c4m_search_nodes__search_api_relevance'] = entity_import('search_api_sort', '{

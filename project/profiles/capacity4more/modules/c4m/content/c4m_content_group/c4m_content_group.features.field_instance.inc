@@ -652,10 +652,11 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 37,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'list',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 27,
+        'type' => 'list_default',
+        'weight' => 3,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -682,7 +683,9 @@ function c4m_content_group_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'content_taxonomy_opt_groups' => FALSE,
+      ),
       'type' => 'options_select',
       'weight' => 15,
     ),

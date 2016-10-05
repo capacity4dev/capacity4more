@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_document.strongarm.inc
@@ -209,7 +208,7 @@ function c4m_content_document_strongarm() {
             'visible' => FALSE,
           ),
           'teaser_group' => array(
-            'weight' => '26',
+            'weight' => '30',
             'visible' => FALSE,
           ),
           'block_list' => array(
@@ -231,6 +230,20 @@ function c4m_content_document_strongarm() {
             'visible' => TRUE,
           ),
           'teaser' => array(
+            'weight' => '6',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '5',
+            'visible' => TRUE,
+          ),
+        ),
+        'promoted' => array(
+          'teaser' => array(
+            'weight' => '0',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
             'weight' => '6',
             'visible' => TRUE,
           ),

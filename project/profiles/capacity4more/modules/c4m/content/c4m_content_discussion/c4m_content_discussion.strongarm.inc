@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_discussion.strongarm.inc
@@ -193,7 +192,7 @@ function c4m_content_discussion_strongarm() {
             'visible' => FALSE,
           ),
           'teaser_group' => array(
-            'weight' => '28',
+            'weight' => '8',
             'visible' => FALSE,
           ),
           'activity_group' => array(
@@ -216,11 +215,25 @@ function c4m_content_discussion_strongarm() {
           ),
           'teaser' => array(
             'weight' => '8',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '7',
+            'visible' => TRUE,
+          ),
+        ),
+        'promoted' => array(
+          'teaser_group' => array(
+            'weight' => '9',
             'visible' => TRUE,
           ),
           'highlight_block' => array(
             'weight' => '1',
             'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '0',
+            'visible' => FALSE,
           ),
         ),
       ),
