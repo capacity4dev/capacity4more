@@ -21,4 +21,3 @@ features[features_api][] = api:2
 features[path_breadcrumbs][] = og_discussion
 features[variable][] = pathauto_node_discussion_pattern
 features[views_view][] = c4m_overview_og_discussions
-features_exclude[dependencies][ctools] = ctools

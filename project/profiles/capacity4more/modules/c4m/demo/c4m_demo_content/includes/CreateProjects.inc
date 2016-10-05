@@ -110,6 +110,9 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
       'id' => $entity->nid,
     );
     purl_save($modifier);
+
+    // Make sure an og_menu is created.
+    node_save($entity);
   }
 
   /**

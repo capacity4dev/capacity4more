@@ -6,6 +6,7 @@ ul.statistics-list {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: baseline;
 
   @media (min-width: $screen-desktop) {
     display: flex;
@@ -18,7 +19,8 @@ ul.statistics-list {
   }
 
   li {
-    display: inline-block;
+    display: flex;
+    align-items: baseline;
     width: calc(100% / 2);
 
     @media (min-width: $screen-tablet) {
@@ -61,9 +63,10 @@ ul.statistics-list {
     }
 
     a {
-      display: inline-block;
       margin-top: 10px;
       color: $color-gray-dark;
+      display: flex;
+      align-items: baseline;
 
       &:hover, &:active, &:focus {
         color: $link-color;
@@ -95,6 +98,11 @@ ul.statistics-list {
         line-height: inherit;
         margin: 0 5px 0 0;
       }
+    }
+
+    .number--larger {
+      font-size: 1.5em;
+      margin-right: .15em;
     }
 
   }
