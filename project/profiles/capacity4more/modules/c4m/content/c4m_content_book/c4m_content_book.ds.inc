@@ -62,6 +62,11 @@ function c4m_content_book_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'book_navigation' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
   );
   $export['node|book|full'] = $ds_fieldsetting;
 
@@ -154,14 +159,20 @@ function c4m_content_book_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'c4m_body',
-        1 => 'comments',
+        1 => 'book_navigation',
+        2 => 'comments',
       ),
     ),
     'fields' => array(
       'c4m_body' => 'ds_content',
+      'book_navigation' => 'ds_content',
       'comments' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
