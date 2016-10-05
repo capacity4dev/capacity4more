@@ -87,10 +87,6 @@
       }
 
       .view-mode-block_list {
-        .group-members-count {
-          padding-left: 0;
-        }
-
         img {
           border: 1px solid $color-gray-light;
           border-radius: 5px;
@@ -190,12 +186,6 @@
 
     .group-left, .group-right {
       width: auto;
-    }
-
-    .group-right {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
     }
 
     .group-left {
