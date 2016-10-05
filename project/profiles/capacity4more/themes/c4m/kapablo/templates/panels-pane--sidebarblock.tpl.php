@@ -29,10 +29,10 @@
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
   <<?php print $title_heading; ?><?php print $title_attributes; ?>>
-  <?php print $title; ?>
-</<?php print $title_heading; ?>>
-<?php endif; ?>
-<?php print render($title_suffix); ?>
+    <?php print $title; ?>
+  </<?php print $title_heading; ?>>
+  <?php endif; ?>
+  <?php print render($title_suffix); ?>
 
 <?php if ($feeds): ?>
   <div class="sidebarblock__feed">
