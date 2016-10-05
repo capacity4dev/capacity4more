@@ -14,7 +14,7 @@ function c4m_wysiwyg_ckeditor_filter_default_formats() {
   $formats['default_html'] = array(
     'format' => 'default_html',
     'name' => 'Default HTML',
-    'cache' => 1,
+    'cache' => 0,
     'status' => 1,
     'weight' => 0,
     'filters' => array(
@@ -184,7 +184,7 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
   $formats['filtered_html'] = array(
     'format' => 'filtered_html',
     'name' => 'Filtered HTML',
-    'cache' => 1,
+    'cache' => 0,
     'status' => 1,
     'weight' => 0,
     'filters' => array(
@@ -354,7 +354,7 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
   $formats['full_html'] = array(
     'format' => 'full_html',
     'name' => 'Full HTML',
-    'cache' => 1,
+    'cache' => 0,
     'status' => 1,
     'weight' => 1,
     'filters' => array(
