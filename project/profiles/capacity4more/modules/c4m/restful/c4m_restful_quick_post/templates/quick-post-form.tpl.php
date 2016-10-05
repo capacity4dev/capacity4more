@@ -52,7 +52,7 @@
 <!-- Body editor-->
 <div class="form-group" id="body-wrapper" ng-class="{ 'has-error' : errors.body }">
 
-  <div ng-hide="serverSide.file">
+  <div>
     <input type="file" name="document-file" id="c4m-related-document" class="document_file" ng-file-select="onQuickPostFileSelect($files, 'c4m-related-document')">
     <a href="javascript://" ng-click="browseFiles('c4m-related-document')"></a>
     <span class="body-attachment-link"><label for="c4m-related-document"><i class="fa fa-paperclip"></i></label></span>
