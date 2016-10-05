@@ -648,107 +648,6 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_implemented_by'.
-  $field_instances['node-project-c4m_implemented_by'] = array(
-    'bundle' => 'project',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => 'Names of the implementing organisations & companies.',
-    'display' => array(
-      'activity_global' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'activity_group' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'block_list' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 26,
-      ),
-      'c4m_related' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 19,
-      ),
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 7,
-      ),
-      'featured_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'group_dashboard' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 36,
-      ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'library' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 23,
-      ),
-      'teaser_group' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 7,
-      ),
-      'upcoming_event' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_implemented_by',
-    'label' => 'Implemented by',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 13,
-    ),
-  );
-
   // Exported field_instance: 'node-project-c4m_is_template'.
   $field_instances['node-project-c4m_is_template'] = array(
     'bundle' => 'project',
@@ -1458,7 +1357,9 @@ function c4m_content_project_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'content_taxonomy_opt_groups' => FALSE,
+      ),
       'type' => 'options_select',
       'weight' => 15,
     ),
@@ -1650,7 +1551,9 @@ function c4m_content_project_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'content_taxonomy_opt_groups' => FALSE,
+      ),
       'type' => 'options_select',
       'weight' => 6,
     ),
@@ -1874,7 +1777,9 @@ function c4m_content_project_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'content_taxonomy_opt_groups' => FALSE,
+      ),
       'type' => 'options_select',
       'weight' => 5,
     ),
@@ -1916,7 +1821,7 @@ function c4m_content_project_field_default_field_instances() {
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_project_url',
-    'label' => 'URL',
+    'label' => 'External Project URL',
     'required' => 0,
     'settings' => array(
       'absolute_url' => 1,
@@ -1925,7 +1830,7 @@ function c4m_content_project_field_default_field_instances() {
         'configurable_class' => 0,
         'configurable_title' => 0,
         'rel' => '',
-        'target' => 'default',
+        'target' => '_blank',
         'title' => '',
       ),
       'display' => array(
@@ -2951,7 +2856,9 @@ function c4m_content_project_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'content_taxonomy_opt_groups' => FALSE,
+      ),
       'type' => 'options_select',
       'weight' => 1,
     ),
@@ -3416,15 +3323,14 @@ function c4m_content_project_field_default_field_instances() {
   t('Description');
   t('Description about the Project.');
   t('Duration');
+  t('External Project URL');
   t('Geodata');
   t('Group');
   t('Image');
-  t('Implemented by');
   t('Is template');
   t('Left column content');
   t('Map');
   t('Names of the funding organisations & companies.');
-  t('Names of the implementing organisations & companies.');
   t('Names of the partners (stakeholders) organisations & companies.');
   t('Number of items');
   t('Partners');
