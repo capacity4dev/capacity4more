@@ -74,15 +74,16 @@
     }
 
     .group-banner {
-      box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.52);
+      box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.52);
     }
+
     &::after {
         position: absolute;
         bottom: 0px;
         left: 0px;
         right: 0px;
         height: 5px;
-        background: linear-gradient( to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+        background: linear-gradient( to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1));
         content: " ";
     }
 }
@@ -90,10 +91,12 @@
 #header-content-wrapper {
     background: url('../images/header/background-green.png') repeat-x;
     background-size: contain;
+
     .intro-banner & {
         background: url('../images/header/background-green-white.png') repeat-x;
         background-size: contain;
     }
+
     .header-content {
         &.video-is-on {
             height: 298px;
@@ -103,6 +106,7 @@
 
 #c4m-search-redirect-form {
     margin-bottom: 1em;
+
     input {
         padding-right: 3rem;
         width: 100%;
@@ -117,6 +121,7 @@
         position: relative;
         width: 100%;
     }
+
     .form-submit {
         background: none;
         border: none;
@@ -131,6 +136,7 @@
 #c4m-search-form {
     margin-top: 1.8rem;
     position: relative;
+
     .form-group {
         width: auto;
     }
@@ -139,22 +145,27 @@
 .header-breadcrumb {
     display: none;
     margin-top: 1rem;
+
     ol {
         background: none;
         margin: 1rem 0;
         padding: 0;
+
         li {
             @extend .text-small;
+
+            &:before {
+              content: "";
+              padding: 0;
+            }
+
             a {
                 @extend .text-breadcrumb;
             }
+
             i {
                 color: $color-logo-blue;
                 padding: 0 0.5rem;
-            }
-            &:before {
-                content: "";
-                padding: 0;
             }
         }
     }
@@ -166,18 +177,24 @@
 .navigation--primary {
     display: none;
     border-bottom: 1px solid $color-gray-light;
+
     li a:hover {
         background-color: $color-background;
     }
+
     @media (min-width: $grid-float-breakpoint) {
         display: block;
+
         .navbar {
             margin-bottom: 0;
         }
+
         .navbar-collapse {
             padding: 1rem 0;
+
             ul.menu {
                 @include horizontal_menu;
+
                 li {
                     font-size: 0.85rem;
                     padding: 0 0.75rem;
@@ -185,10 +202,12 @@
                         font-size: 1rem;
                         padding: 0 1.25rem;
                     }
+
                     a {
                         line-height: 1rem;
                         padding: 0;
                         text-transform: uppercase;
+
                         &:hover {
                             background: none;
                             color: $color-gray-dark;
@@ -202,10 +221,12 @@
 
 .navbar-toggle {
     border-color: $color-gray-light;
+
     &:hover,
     &:focus {
         background-color: $color-background;
     }
+
     .icon-bar {
         background-color: $color-gray-light;
     }
@@ -216,9 +237,11 @@
         margin-top: 0;
         margin-bottom: 0;
     }
+
     .top-buffer {
         margin-top: 10px;
     }
+
     .indication {
         font-size: 12px;
         text-align: center;
@@ -226,17 +249,21 @@
         color: black;
         display: block;
     }
+
     .group-icon {
         border-style: solid;
         border-width: 1px;
         border-radius: 6px;
         height: 25px;
+
         &.group-public {
             border-color: $color-green;
         }
+
         &.group-private {
             border-color: $color-red;
         }
+
         &.group-restricted {
             border-color: $color-accent;
         }
@@ -251,6 +278,7 @@
     margin: 5px 0 0 -18px;
     padding: 1px 0 1px 0;
     background-color: $color-text-alternative;
+
     @media (min-width: $grid-float-breakpoint) {
         display: none;
     }
@@ -336,19 +364,13 @@
     }
 }
 
-// specific header actions on group pages
+// Specific header actions on group pages.
 .og-context .header-actions {
     width: 40px;
 }
 
 .og-context .header-actions--wrapper:nth-of-type(2) {
     display: none;
-}
-
-.og-menu-link {
-    &.media {
-//        margin-top: 0; // WHY???????
-    }
 }
 
 .view-header {
