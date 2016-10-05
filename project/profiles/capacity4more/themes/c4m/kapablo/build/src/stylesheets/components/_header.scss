@@ -144,9 +144,19 @@
         margin: 1rem 0;
         padding: 0;
         li {
+            & > a,
+            &.last {
+                max-width: 250px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                vertical-align: bottom;
+                white-space: nowrap;
+            }
+
             @extend .text-small;
             a {
                 @extend .text-breadcrumb;
+                display: inline-block;
             }
             i {
                 color: $color-logo-blue;
