@@ -219,7 +219,10 @@ function _c4m_content_book_help_book_navigation_content() {
     return $markup;
   }
 
-  $current_page_object = menu_get_object();
+  // On a wrong URL (page not found), do not display the navigation block.
+  if (!$current_page_object = menu_get_object()){
+    return;
+  }
   $current_page = $current_page_object->book['mlid'];
   $parent_page = $current_page_object->book['plid'];
   $depth = $current_page_object->book['depth'];
@@ -260,6 +263,17 @@ function _c4m_content_book_help_book_navigation_content() {
  * new help pages.
  */
 function c4m_content_book_node_presave($node) {
+  // We are not saving a book page.
+  if ($node->type != 'book'){
+    return;
+  }
+
+  // We are not saving a help book page.
+  $mainpage = c4m_content_book_get_main_help_and_guidance();
+  if ($node->book['menu_name'] != $mainpage->book['menu_name']){
+    return;
+  }
+
   $node->path['alias'] = 'help-guidance/' . c4m_og_human_to_machine_readable($node->title);
   $node->path['pathauto'] = 0;
 }
