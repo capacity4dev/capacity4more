@@ -27,11 +27,11 @@ function c4m_content_book_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'book-navigation' => array(
-          'module' => 'book',
-          'delta' => 'navigation',
+        'c4m_content_book-help_book_navigation' => array(
+          'module' => 'c4m_content_book',
+          'delta' => 'help_book_navigation',
           'region' => 'sidebar_first',
-          'weight' => '-10',
+          'weight' => '-9',
         ),
       ),
     ),
