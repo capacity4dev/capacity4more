@@ -26,17 +26,17 @@ function c4m_features_overview_events_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'views-f50a38aa0504f420d3fc307402101fb9' => array(
+          'module' => 'views',
+          'delta' => 'f50a38aa0504f420d3fc307402101fb9',
+          'region' => 'content_top',
+          'weight' => '-10',
+        ),
         'c4m_views-views_page_title' => array(
           'module' => 'c4m_views',
           'delta' => 'views_page_title',
           'region' => 'content_above',
           'weight' => '-10',
-        ),
-        'views-f50a38aa0504f420d3fc307402101fb9' => array(
-          'module' => 'views',
-          'delta' => 'f50a38aa0504f420d3fc307402101fb9',
-          'region' => 'content_above',
-          'weight' => '-9',
         ),
         'c4m_search_filter-search_filter' => array(
           'module' => 'c4m_search_filter',

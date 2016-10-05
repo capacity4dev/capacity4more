@@ -73,3 +73,11 @@ if [ "$MIGRATION_MODULE" != "" ] || [ "$MIGRATION_SCRIPT" != "" ]; then
         message_success "$MIGRATION_SCRIPT"
     fi
 fi
+
+markup_h2 "Robots.txt"
+cp -a "$DIR_ROOT/config/install/assets/robots.txt" "$DIR_WEB"
+message_success "Custom robots.txt file copied to web folder."
+
+markup_h2 "Plupload examples folder"
+rm -Rf "$DIR_WEB/sites/all/libraries/plupload/examples"
+message_success "Removed plupload examples folder from web directory."
