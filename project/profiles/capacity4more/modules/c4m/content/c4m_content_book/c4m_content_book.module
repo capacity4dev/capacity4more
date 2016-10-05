@@ -178,7 +178,7 @@ function c4m_content_book_block_view($delta = '') {
 /**
  * Get the titles of the help book.
  *
- * @return string
+ * @return null|string
  *   Rendered help pages navigation.
  */
 function _c4m_content_book_help_book_navigation_content() {
@@ -220,7 +220,7 @@ function _c4m_content_book_help_book_navigation_content() {
   }
 
   // On a wrong URL (page not found), do not display the navigation block.
-  if (!$current_page_object = menu_get_object()){
+  if (!$current_page_object = menu_get_object()) {
     return;
   }
   $current_page = $current_page_object->book['mlid'];
@@ -264,13 +264,13 @@ function _c4m_content_book_help_book_navigation_content() {
  */
 function c4m_content_book_node_presave($node) {
   // We are not saving a book page.
-  if ($node->type != 'book'){
+  if ($node->type != 'book') {
     return;
   }
 
   // We are not saving a help book page.
   $mainpage = c4m_content_book_get_main_help_and_guidance();
-  if ($node->book['menu_name'] != $mainpage->book['menu_name']){
+  if ($node->book['menu_name'] != $mainpage->book['menu_name']) {
     return;
   }
 
