@@ -758,6 +758,11 @@ function c4m_content_toggle_highlight_access($group, $node, $status) {
   }
 
   global $user;
+  // Check if the user is the group owner.
+  if ($user->uid === $group->uid) {
+    return TRUE;
+  }
+  // Check if the user is a group admin.
   foreach (c4m_og_get_group_admins($group->nid) as $admin) {
     if ($admin->uid == $user->uid) {
       return TRUE;
