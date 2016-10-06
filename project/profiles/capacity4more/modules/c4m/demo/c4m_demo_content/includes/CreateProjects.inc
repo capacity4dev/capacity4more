@@ -33,7 +33,6 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
     array('budget_currency', 'Currency'),
     array('funding', 'Funding'),
     array('partner', 'Partner'),
-    array('implementation', 'Implementation'),
     array('cris_decision', 'CRIS Decision'),
     array('cris_contract', 'CRIS Contract'),
     array('body', 'Body'),
