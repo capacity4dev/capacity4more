@@ -40,6 +40,21 @@ function c4m_content_news_c4m_helper_entity_label_info() {
 }
 
 /**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_content_news_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_og_news' => array(
+      'type' => 'news',
+      'context' => 'group',
+      'callback' => 'c4m_og_group_node_metric',
+      'arguments' => array(array('news')),
+      'weight' => 6,
+    ),
+  );
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Verifies user has access to the form.

@@ -285,6 +285,7 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['group_moderators']['field'] = 'group_moderators';
   $handler->display->display_options['fields']['group_moderators']['label'] = 'Group moderator(s)';
   $handler->display->display_options['fields']['group_moderators']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_moderators']['c4m_admin_groups_group_type'] = 'group';
   /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics']['id'] = 'group_metrics';
   $handler->display->display_options['fields']['group_metrics']['table'] = 'node';
