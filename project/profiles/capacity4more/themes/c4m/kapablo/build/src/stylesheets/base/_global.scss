@@ -5,6 +5,8 @@ body {
   @media (min-width: $screen-tablet) {
     height: auto;
   }
+
+  color: $color-text;
 }
 
 html {
@@ -126,4 +128,84 @@ cite {
   font-size: 0.75em;
   margin-left: 10px;
   text-transform: none;
+}
+
+/**
+*   USAGE
+*
+*   <div class="sidebarblock">
+*     <div class="sidebarblock__title">related groups</div>
+*     <div class="sidebarblock__content">
+*       content here
+*     </div>
+*     <div class="sidebarblock__viewmore">View more groups</div>
+*   </div>
+*
+*   <!-- variant for groups and smaller block (tighter spacing) -->
+*   <div class="sidebarblock--small">
+*     <div class="sidebarblock__title">related groups</div>
+*     <div class="sidebarblock__content">
+*       content here
+*     </div>
+*     <div class="sidebarblock__viewmore">View more groups</div>
+*   </div>
+*
+*   <!-- variant for items with multiple content distinct block, such as "Featured Groups". Also exists in the 'small' variant. -->
+*   <div class="sidebarblock">
+*     <div class="sidebarblock__title">related groups</div>
+*     <div class="sidebarblock__content--multiple">
+*       content 1 here
+*     </div>
+*     <div class="sidebarblock__content--multiple">
+*       content 2 here
+*     </div>
+*     <div class="sidebarblock__viewmore">View more groups</div>
+*   </div>
+**/
+
+.sidebarblock {
+  margin-top: $base-spacing-large / 2;
+  margin-bottom: $base-spacing-large / 2;
+  padding: 0;
+
+  &__title {
+    @extend .header-2;
+    margin-top: 0px;
+    margin-bottom: $base-spacing-large;
+
+    &.closely {
+      margin-bottom: 0;
+    }
+  }
+
+  &--small &__title{
+    @extend .header-3;
+    margin-top: 0px;
+    margin-bottom: $base-spacing-small;
+  }
+
+  &__content {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 0px;
+  }
+
+  &__viewmore {
+    @include clearfix;
+    margin-top: $base-spacing-small;
+    margin-bottom: 0px;
+    padding: 0px;
+    text-align: right;
+  }
+
+  &__content--multiple {
+    @extend .sidebarblock__content;
+    padding: $base-spacing-large 0;
+    border-bottom: 1px dashed $color-gray;
+  }
+
+  &--small &__content--multiple {
+    @extend .sidebarblock__content--multiple;
+    padding: $base-spacing-small 0;
+  }
 }

@@ -37,8 +37,8 @@ function _c4m_content_group_block_header_name_banner_group() {
 
   $variables = array();
 
+  $variables['homepage'] = drupal_is_front_page();
   $title = $wrapper->title->value();
-
   $variables['title'] = $title;
 
   $variables['group_type'] = c4m_og_get_group_type_name($group);
