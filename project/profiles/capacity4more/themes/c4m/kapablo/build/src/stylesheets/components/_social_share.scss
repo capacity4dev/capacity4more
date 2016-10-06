@@ -15,10 +15,11 @@
 
 // Print button.
 #c4m-print {
-  display: inline-block;
+  //display: inline-block;
+  display: none;
   vertical-align: top;
 
   a {
-    background-position: 0 -1400px;
+    background-position: 0 -700px;
   }
 }
