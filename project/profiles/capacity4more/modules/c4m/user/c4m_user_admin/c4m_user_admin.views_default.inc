@@ -904,12 +904,18 @@ Last access : [access]';
   $handler->display->display_options['fields']['user_metrics']['field'] = 'user_metrics';
   $handler->display->display_options['fields']['user_metrics']['label'] = 'Organisations';
   $handler->display->display_options['fields']['user_metrics']['c4m_user_admin_user_metric'] = 'user::organisations';
-  /* Field: Content: User metrics */
-  $handler->display->display_options['fields']['user_metrics_1']['id'] = 'user_metrics_1';
-  $handler->display->display_options['fields']['user_metrics_1']['table'] = 'users';
-  $handler->display->display_options['fields']['user_metrics_1']['field'] = 'user_metrics';
-  $handler->display->display_options['fields']['user_metrics_1']['label'] = 'Expertise topics';
-  $handler->display->display_options['fields']['user_metrics_1']['c4m_user_admin_user_metric'] = 'user::expertise_topics';
+  /* Field: User: Topics of Expertise */
+  $handler->display->display_options['fields']['c4m_vocab_topic_expertise']['id'] = 'c4m_vocab_topic_expertise';
+  $handler->display->display_options['fields']['c4m_vocab_topic_expertise']['table'] = 'field_data_c4m_vocab_topic_expertise';
+  $handler->display->display_options['fields']['c4m_vocab_topic_expertise']['field'] = 'c4m_vocab_topic_expertise';
+  $handler->display->display_options['fields']['c4m_vocab_topic_expertise']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_vocab_topic_expertise']['type'] = 'term_reference_checked_inline_tree_for_views';
+  $handler->display->display_options['fields']['c4m_vocab_topic_expertise']['settings'] = array(
+    'link' => 0,
+    'separator' => ' > ',
+    'glue' => ' - ',
+  );
+  $handler->display->display_options['fields']['c4m_vocab_topic_expertise']['delta_offset'] = '0';
   /* Field: Content: User metrics */
   $handler->display->display_options['fields']['user_metrics_2']['id'] = 'user_metrics_2';
   $handler->display->display_options['fields']['user_metrics_2']['table'] = 'users';
