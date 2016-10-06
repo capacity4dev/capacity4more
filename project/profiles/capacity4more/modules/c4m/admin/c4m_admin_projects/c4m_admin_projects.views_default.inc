@@ -241,12 +241,13 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['fields']['c4m_cris_contract_number']['field'] = 'c4m_cris_contract_number';
   $handler->display->display_options['fields']['c4m_cris_contract_number']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['c4m_cris_contract_number']['delta_offset'] = '0';
-  /* Field: Content: Implemented by */
-  $handler->display->display_options['fields']['c4m_implemented_by']['id'] = 'c4m_implemented_by';
-  $handler->display->display_options['fields']['c4m_implemented_by']['table'] = 'field_data_c4m_implemented_by';
-  $handler->display->display_options['fields']['c4m_implemented_by']['field'] = 'c4m_implemented_by';
-  $handler->display->display_options['fields']['c4m_implemented_by']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['c4m_implemented_by']['delta_offset'] = '0';
+  /* Field: Content: Group metrics */
+  $handler->display->display_options['fields']['group_metrics_8']['id'] = 'group_metrics_8';
+  $handler->display->display_options['fields']['group_metrics_8']['table'] = 'node';
+  $handler->display->display_options['fields']['group_metrics_8']['field'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics_8']['label'] = 'Projects';
+  $handler->display->display_options['fields']['group_metrics_8']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_metrics_8']['c4m_admin_groups_group_metric'] = 'group::project';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';

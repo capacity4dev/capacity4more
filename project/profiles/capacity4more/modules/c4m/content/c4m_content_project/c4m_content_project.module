@@ -223,8 +223,7 @@ function c4m_content_project_c4m_helper_entity_metrics_info() {
     'c4m_og_projects' => array(
       'type' => 'project',
       'context' => 'group',
-      'callback' => 'c4m_og_group_node_metric',
-      'arguments' => array(array('project')),
+      'callback' => 'c4m_content_project_related_metric',
       'weight' => 8,
     ),
     'c4m_user_projects_administered' => array(
@@ -297,6 +296,36 @@ function c4m_content_project_field_formatter_view(
   }
 
   return $element;
+}
+
+/**
+ * Metrics helper function to retrieve number of related projects.
+ *
+ * @param int $nid
+ *   Node entity id.
+ *
+ * @return int
+ *   Number of related projects.
+ */
+function c4m_content_project_related_metric($nid) {
+  $node = node_load($nid);
+
+  // 2 base fields that can be used to select related projects.
+  if (empty($node->c4m_related_projects) && empty($node->c4m_related_projects_unlimited)) {
+    return 0;
+  }
+
+  $count = 0;
+
+  if (isset($node->c4m_related_projects)) {
+    $count += count($node->c4m_related_projects[LANGUAGE_NONE]);
+  }
+
+  if (isset($node->c4m_related_projects_unlimited)) {
+    $count += count($node->c4m_related_projects_unlimited[LANGUAGE_NONE]);
+  }
+
+  return $count;
 }
 
 /**
