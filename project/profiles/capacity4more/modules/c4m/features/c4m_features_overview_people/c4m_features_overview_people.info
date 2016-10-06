@@ -5,6 +5,7 @@ package = capacity4more - Features
 dependencies[] = c4m_user
 dependencies[] = c4m_views
 dependencies[] = context
+dependencies[] = ctools
 dependencies[] = entity
 dependencies[] = entityreference
 dependencies[] = facetapi
