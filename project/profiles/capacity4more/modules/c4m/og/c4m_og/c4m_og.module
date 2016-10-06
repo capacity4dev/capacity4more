@@ -1886,16 +1886,20 @@ function c4m_og_get_group_type($group) {
  *   User id.
  * @param int $state
  *   Node type.
+ * @param string $og_type
+ *   Group node bundle.
  *
  * @return int
  *   Count.
  */
-function c4m_og_get_user_group_memberships_count($uid, $state = OG_STATE_ACTIVE) {
+function c4m_og_get_user_group_memberships_count($uid, $state = OG_STATE_ACTIVE, $og_type = 'group') {
   $query = db_select('og_membership', 'm');
   $query->fields('m', array('id'));
-  $query->condition('entity_type', 'user');
-  $query->condition('etid', $uid);
-  $query->condition('state', $state);
+  $query->join('node', 'n', 'n.nid = m.gid');
+  $query->condition('m.entity_type', 'user');
+  $query->condition('m.etid', $uid);
+  $query->condition('m.state', $state);
+  $query->condition('n.type', $og_type);
 
   $query = $query->execute();
   $amount = $query->rowCount();
