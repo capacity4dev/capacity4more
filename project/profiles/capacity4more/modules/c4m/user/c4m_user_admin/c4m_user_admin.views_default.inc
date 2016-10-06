@@ -957,13 +957,36 @@ Last access : [access]';
   $handler->display->display_options['fields']['user_metrics_9']['table'] = 'users';
   $handler->display->display_options['fields']['user_metrics_9']['field'] = 'user_metrics';
   $handler->display->display_options['fields']['user_metrics_9']['label'] = 'Administered groups';
+  $handler->display->display_options['fields']['user_metrics_9']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['user_metrics_9']['c4m_user_admin_user_metric'] = 'user::groups_administered';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_13']['id'] = 'user_metrics_13';
+  $handler->display->display_options['fields']['user_metrics_13']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_13']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_13']['label'] = 'Projects pending membership';
+  $handler->display->display_options['fields']['user_metrics_13']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['user_metrics_13']['c4m_user_admin_user_metric'] = 'user::projects_pending';
   /* Field: Content: User metrics */
   $handler->display->display_options['fields']['user_metrics_10']['id'] = 'user_metrics_10';
   $handler->display->display_options['fields']['user_metrics_10']['table'] = 'users';
   $handler->display->display_options['fields']['user_metrics_10']['field'] = 'user_metrics';
   $handler->display->display_options['fields']['user_metrics_10']['label'] = 'Administered projects';
+  $handler->display->display_options['fields']['user_metrics_10']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['user_metrics_10']['c4m_user_admin_user_metric'] = 'user::projects_administered';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_14']['id'] = 'user_metrics_14';
+  $handler->display->display_options['fields']['user_metrics_14']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_14']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_14']['label'] = 'Programmes pending membership';
+  $handler->display->display_options['fields']['user_metrics_14']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['user_metrics_14']['c4m_user_admin_user_metric'] = 'user::programmes_pending';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_12']['id'] = 'user_metrics_12';
+  $handler->display->display_options['fields']['user_metrics_12']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_12']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_12']['label'] = 'Administered programmes';
+  $handler->display->display_options['fields']['user_metrics_12']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['user_metrics_12']['c4m_user_admin_user_metric'] = 'user::programmes_administered';
   $handler->display->display_options['path'] = 'admin/people/export/file';
   $handler->display->display_options['use_batch'] = 'batch';
   $handler->display->display_options['return_path'] = 'admin/people/export';
