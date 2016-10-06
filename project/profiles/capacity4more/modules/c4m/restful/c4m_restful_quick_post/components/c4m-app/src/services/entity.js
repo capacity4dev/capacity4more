@@ -72,6 +72,13 @@ angular.module('c4mApp')
       if (entityId) {
         url += '/' + entityId;
       }
+      else {
+        // Add group ID parameter to POST url.
+        var gid = Drupal.settings.c4m.data.groupID;
+        if (gid) {
+          url += '?gid=' + gid;
+        }
+      }
 
       return $http({
         method: entityId ? 'PATCH' : 'POST',

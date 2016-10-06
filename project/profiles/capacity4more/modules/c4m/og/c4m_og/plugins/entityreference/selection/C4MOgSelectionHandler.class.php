@@ -125,8 +125,18 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
     }
 
-    if (!$group = og_context()) {
-      return $query;
+    // Group ID was provided as a parameter at url.
+    if (!empty($_GET['gid']) && intval($_GET['gid'])) {
+      $gid = intval($_GET['gid']);
+    }
+    else {
+      $gid = FALSE;
+    }
+
+    // Try to resolve group ID from OG context, if it wasn't passed at url.
+    if (!$gid) {
+      $context = og_context();
+      $gid = $context['gid'];
     }
 
     $node_type = $this->instance['bundle'];
@@ -139,7 +149,7 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       $power_user_bypass = _c4m_features_og_members_is_power_user($this->entity, $account);
     }
 
-    if (!$power_user_bypass && !og_user_access($group_type, $group['gid'], "create $node_type content")) {
+    if (!$power_user_bypass && !og_user_access($group_type, $gid, "create $node_type content")) {
       // User does not have permission, falsify the query.
       $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
       return $query;
