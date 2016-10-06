@@ -201,13 +201,6 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['fields']['group_metrics_5']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['group_metrics_5']['c4m_admin_groups_group_metric'] = 'group::photo';
   /* Field: Content: Group metrics */
-  $handler->display->display_options['fields']['group_metrics_8']['id'] = 'group_metrics_8';
-  $handler->display->display_options['fields']['group_metrics_8']['table'] = 'node';
-  $handler->display->display_options['fields']['group_metrics_8']['field'] = 'group_metrics';
-  $handler->display->display_options['fields']['group_metrics_8']['label'] = 'Projects';
-  $handler->display->display_options['fields']['group_metrics_8']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_metrics_8']['c4m_admin_groups_group_metric'] = 'group::project';
-  /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics_6']['id'] = 'group_metrics_6';
   $handler->display->display_options['fields']['group_metrics_6']['table'] = 'node';
   $handler->display->display_options['fields']['group_metrics_6']['field'] = 'group_metrics';
