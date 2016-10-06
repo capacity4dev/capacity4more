@@ -909,12 +909,14 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
  *   have 'administrator member' role.
  * @param bool $filter_event_user
  *   Whether to filter out current user ID from result, or not.
+ * @param string $group_type
+ *   The group node type to filter for, defaults to "group".
  *
  * @return array
  *   An array of all group admins ids.
  */
-function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_event_user = FALSE) {
-  $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
+function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_event_user = FALSE, $group_type = 'group') {
+  $group_admin_role = c4m_og_user_role_load_by_name('administrator member', $group_type);
   $admins = c4m_og_get_users_by_roles($gid, array($group_admin_role->rid));
   foreach ($admins as &$admin) {
     $admin = $admin->uid;
@@ -962,12 +964,14 @@ function c4m_og_get_group_admins_and_owner_ids_for_notification($gid) {
  * @param bool $verify_owner_added
  *   Whether to return group owner, even if group owner does not
  *   have 'administrator member' role.
+ * @param string $group_type
+ *   The group node type to filter for, defaults to "group".
  *
  * @return array
  *   An array of all group admins.
  */
-function c4m_og_get_group_admins($gid, $verify_owner_added = FALSE) {
-  return user_load_multiple(c4m_og_get_group_admins_ids($gid, $verify_owner_added));
+function c4m_og_get_group_admins($gid, $verify_owner_added = FALSE, $group_type = 'group') {
+  return user_load_multiple(c4m_og_get_group_admins_ids($gid, $verify_owner_added, FALSE, $group_type));
 }
 
 /**
