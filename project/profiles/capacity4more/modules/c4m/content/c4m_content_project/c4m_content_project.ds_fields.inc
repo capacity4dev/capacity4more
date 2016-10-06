@@ -99,6 +99,23 @@ function _c4m_content_project_system_block_renderer($field) {
       $number_of_items = $number_of_items[LANGUAGE_NONE][0]['value'];
       $view->set_items_per_page($number_of_items);
 
+      // Show show more link.
+      $view->get_total_rows = TRUE;
+      $view->execute();
+      if ($view->total_rows > (int)$number_of_items) {
+        $group = c4m_og_current_group();
+        $view->add_item(
+          'default',
+          'footer',
+          'views',
+          'area',
+          array(
+            'content' => l(t('Show more'), $group->purl . '/news'),
+            'format' => 'filtered_html',
+          )
+        );
+      }
+
       // Render the View.
       $output = $view->preview($views_info[1], array());
       $view->destroy();
