@@ -295,8 +295,8 @@ function c4m_content_project_ds_field_settings_info() {
         'ft' => array(
           'func' => 'theme_ds_field_expert',
           'ow' => TRUE,
-          'ow-el' => 'h1',
-          'ow-cl' => '',
+          'ow-el' => 'h2',
+          'ow-cl' => 'system-block-title',
           'ow-def-cl' => FALSE,
           'ow-at' => '',
           'ow-def-at' => FALSE,
@@ -460,12 +460,12 @@ function c4m_content_project_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'c4m_heading',
-        1 => 'c4m_block',
+        1 => 'c4m_system_block_renderer',
       ),
     ),
     'fields' => array(
       'c4m_heading' => 'ds_content',
-      'c4m_block' => 'ds_content',
+      'c4m_system_block_renderer' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
