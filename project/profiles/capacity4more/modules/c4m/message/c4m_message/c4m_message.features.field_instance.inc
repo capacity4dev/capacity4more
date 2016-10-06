@@ -1317,6 +1317,7 @@ function c4m_message_field_default_field_instances() {
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
+          'use_content_language' => TRUE,
           'view_mode' => 'activity_global',
         ),
         'type' => 'entityreference_entity_view',
@@ -1327,6 +1328,7 @@ function c4m_message_field_default_field_instances() {
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
+          'use_content_language' => TRUE,
           'view_mode' => 'activity_group',
         ),
         'type' => 'entityreference_entity_view',
@@ -1730,7 +1732,9 @@ function c4m_message_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'content_taxonomy_opt_groups' => FALSE,
+      ),
       'type' => 'options_select',
       'weight' => 6,
     ),
@@ -1873,6 +1877,7 @@ function c4m_message_field_default_field_instances() {
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
+          'use_content_language' => TRUE,
           'view_mode' => 'activity_global',
         ),
         'type' => 'entityreference_entity_view',
@@ -1883,6 +1888,7 @@ function c4m_message_field_default_field_instances() {
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
+          'use_content_language' => TRUE,
           'view_mode' => 'activity_group',
         ),
         'type' => 'entityreference_entity_view',
@@ -1982,7 +1988,9 @@ function c4m_message_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'content_taxonomy_opt_groups' => FALSE,
+      ),
       'type' => 'options_select',
       'weight' => 5,
     ),
@@ -2121,6 +2129,7 @@ function c4m_message_field_default_field_instances() {
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
+          'use_content_language' => TRUE,
           'view_mode' => 'activity_global',
         ),
         'type' => 'entityreference_entity_view',
@@ -2131,6 +2140,7 @@ function c4m_message_field_default_field_instances() {
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
+          'use_content_language' => TRUE,
           'view_mode' => 'activity_group',
         ),
         'type' => 'entityreference_entity_view',
@@ -2229,7 +2239,9 @@ function c4m_message_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'content_taxonomy_opt_groups' => FALSE,
+      ),
       'type' => 'options_select',
       'weight' => 9,
     ),
@@ -2368,6 +2380,7 @@ function c4m_message_field_default_field_instances() {
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
+          'use_content_language' => TRUE,
           'view_mode' => 'activity_global',
         ),
         'type' => 'entityreference_entity_view',
@@ -2378,6 +2391,7 @@ function c4m_message_field_default_field_instances() {
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
+          'use_content_language' => TRUE,
           'view_mode' => 'activity_group',
         ),
         'type' => 'entityreference_entity_view',
@@ -2476,7 +2490,9 @@ function c4m_message_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'content_taxonomy_opt_groups' => FALSE,
+      ),
       'type' => 'options_select',
       'weight' => 7,
     ),
@@ -2673,7 +2689,9 @@ function c4m_message_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'content_taxonomy_opt_groups' => FALSE,
+      ),
       'type' => 'options_select',
       'weight' => 8,
     ),
@@ -2812,6 +2830,7 @@ function c4m_message_field_default_field_instances() {
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
+          'use_content_language' => TRUE,
           'view_mode' => 'activity_global',
         ),
         'type' => 'entityreference_entity_view',
@@ -2822,6 +2841,7 @@ function c4m_message_field_default_field_instances() {
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
+          'use_content_language' => TRUE,
           'view_mode' => 'activity_group',
         ),
         'type' => 'entityreference_entity_view',
@@ -2919,7 +2939,9 @@ function c4m_message_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'content_taxonomy_opt_groups' => FALSE,
+      ),
       'type' => 'options_select',
       'weight' => 8,
     ),
@@ -3058,6 +3080,7 @@ function c4m_message_field_default_field_instances() {
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
+          'use_content_language' => TRUE,
           'view_mode' => 'activity_global',
         ),
         'type' => 'entityreference_entity_view',
@@ -3068,6 +3091,7 @@ function c4m_message_field_default_field_instances() {
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
+          'use_content_language' => TRUE,
           'view_mode' => 'activity_group',
         ),
         'type' => 'entityreference_entity_view',
@@ -3166,7 +3190,9 @@ function c4m_message_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'content_taxonomy_opt_groups' => FALSE,
+      ),
       'type' => 'options_select',
       'weight' => 8,
     ),
@@ -3364,7 +3390,9 @@ function c4m_message_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'content_taxonomy_opt_groups' => FALSE,
+      ),
       'type' => 'options_select',
       'weight' => 8,
     ),
@@ -3603,7 +3631,9 @@ function c4m_message_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'content_taxonomy_opt_groups' => FALSE,
+      ),
       'type' => 'options_select',
       'weight' => 8,
     ),

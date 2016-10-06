@@ -346,7 +346,7 @@ function c4m_user_profile_form_user_register_form_alter(
       array(
         '!privacy_statement_link' => l(
           t('Privacy Statement'),
-          'http://capacity4dev.dev/privacy',
+          'https://www.campaignmonitor.com/policies',
           array(
             'attributes' => array(
               'absolute' => TRUE,
