@@ -126,6 +126,9 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     }
 
     $group = og_context();
+    if (!$group) {
+      return $query;
+    }
     $node_type = $this->instance['bundle'];
 
     // When trying to add related projects as a power user I should be able to
