@@ -31,6 +31,7 @@ function c4m_vocab_date_field_default_field_bases() {
           'parent' => 0,
         ),
       ),
+      'options_list_callback' => 'content_taxonomy_allowed_values',
     ),
     'translatable' => 0,
     'type' => 'taxonomy_term_reference',

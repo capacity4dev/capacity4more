@@ -2,6 +2,7 @@ name = User administration
 description = This module provides functionality for the user administration.
 core = 7.x
 package = capacity4more - User
+dependencies[] = ctools
 dependencies[] = features
 dependencies[] = strongarm
 dependencies[] = views

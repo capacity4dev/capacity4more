@@ -31,4 +31,5 @@ MODULES_ENABLE=(
   # Fail during auto deploy.
   "c4m_user_og"
   "c4m_features_og_members"
+  "c4m_features_overview_articles"
 )

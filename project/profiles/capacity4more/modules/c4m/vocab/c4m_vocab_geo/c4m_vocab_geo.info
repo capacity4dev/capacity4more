@@ -2,6 +2,7 @@ name = Regions & Countries vocabulary
 description = Provides the Regions & Countries vocabulary.
 core = 7.x
 package = capacity4more - Vocabulary
+dependencies[] = ctools
 dependencies[] = features
 dependencies[] = strongarm
 dependencies[] = taxonomy
