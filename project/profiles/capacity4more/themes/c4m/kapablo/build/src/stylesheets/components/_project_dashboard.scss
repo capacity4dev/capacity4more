@@ -17,7 +17,7 @@
 
 .node-project {
   &.view-mode-group_dashboard {
-    .field {
+    > .content > .field {
       border-bottom: 1px dotted $color-gray-light;
       margin-bottom: 1rem;
       padding-bottom: 1rem;
