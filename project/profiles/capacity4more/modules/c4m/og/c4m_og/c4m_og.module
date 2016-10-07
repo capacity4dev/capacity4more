@@ -1893,9 +1893,11 @@ function c4m_og_get_group_type($group) {
 function c4m_og_get_user_group_memberships_count($uid, $state = OG_STATE_ACTIVE) {
   $query = db_select('og_membership', 'm');
   $query->fields('m', array('id'));
-  $query->condition('entity_type', 'user');
-  $query->condition('etid', $uid);
-  $query->condition('state', $state);
+  $query->join('node', 'n', 'n.nid = m.gid');
+  $query->condition('m.entity_type', 'user');
+  $query->condition('m.etid', $uid);
+  $query->condition('m.state', $state);
+  $query->condition('n.type', 'group');
 
   $query = $query->execute();
   $amount = $query->rowCount();
@@ -1921,17 +1923,82 @@ function c4m_og_get_user_group_pending_memberships_count($uid) {
  *
  * @param int $uid
  *   User id.
- * @param string $node_type
- *   Node type.
+ *   Differentiate between projects and programmes.
  *
  * @return int
  *   Count.
  */
-function c4m_og_get_user_administered_groups_count($uid, $node_type) {
+function c4m_og_get_user_administered_groups_count($uid) {
   $query = db_select('og_users_roles', 'ur');
   $query->fields('ur');
   $query->join('og_role', 'r', "ur.rid = r.rid AND name = 'administrator member' AND ur.uid = $uid");
-  $query->join('node', 'n', "ur.gid = n.nid AND ur.group_type = 'node' AND n.type = '$node_type'");
+  $query->join('node', 'n', "ur.gid = n.nid AND ur.group_type = 'node' AND n.type = 'group'");
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
+}
+
+/**
+ * Returns the memberships in projects/programmes count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ * @param int $is_programme
+ *   Differentiate between projects and programmes.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_og_get_user_project_memberships_count($uid, $state = OG_STATE_ACTIVE, $is_programme = 0) {
+  $query = db_select('og_membership', 'm');
+  $query->fields('m', array('id'));
+  $query->join('node', 'n', 'n.nid = m.gid');
+  $query->condition('m.entity_type', 'user');
+  $query->condition('m.etid', $uid);
+  $query->condition('m.state', $state);
+  $query->condition('n.type', 'project');
+
+  $query->leftJoin('field_data_c4m_project_type', 'pt', 'pt.entity_id = n.nid');
+
+  if ($is_programme) {
+    $query->condition('pt.c4m_project_type_value', 'programme', '=');
+  }
+  else {
+    $query->condition('pt.c4m_project_type_value', 'project', '=');
+  }
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
+}
+
+/**
+ * Returns the administered projects/programmes count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ * @param int $is_programme
+ *   Differentiate between projects and programmes.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_og_get_user_administered_projects_count($uid, $is_programme = 0) {
+  $query = db_select('og_users_roles', 'ur');
+  $query->fields('ur');
+  $query->join('og_role', 'r', "ur.rid = r.rid AND name = 'administrator member' AND ur.uid = $uid");
+  $query->join('node', 'n', "ur.gid = n.nid AND ur.group_type = 'node' AND n.type = 'project'");
+  $query->leftJoin('field_data_c4m_project_type', 'pt', 'pt.entity_id = n.nid');
+
+  if ($is_programme) {
+    $query->condition('pt.c4m_project_type_value', 'programme', '=');
+  }
+  else {
+    $query->condition('pt.c4m_project_type_value', 'project', '=');
+  }
 
   $query = $query->execute();
   $amount = $query->rowCount();
