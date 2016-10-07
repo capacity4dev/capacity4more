@@ -21,12 +21,12 @@
         <div class="col-md-9"><?php print $details['owner']; ?></div>
       </div>
       <div class="row">
-        <div class="col-md-3"><?php print t('Members') ?> (<a
-            href="<?php print $details['members_edit']; ?>"><?php print t(
+        <div class="col-md-3"><?php print t('Administrators') ?> (<a
+            href="<?php print $details['admins_edit']; ?>"><?php print t(
               'Edit'
             ) ?></a>)
         </div>
-        <div class="col-md-9"><?php print $details['members']; ?></div>
+        <div class="col-md-9"><?php print $details['admins']; ?></div>
       </div>
     </div>
     <div class="project-details">
@@ -43,6 +43,14 @@
         <div class="col-md-9"><?php print (isset($details['purl'])) ? $details['purl'] : ''; ?></div>
       </div>
       <div class="row">
+        <div class="col-md-3"><?php print t('Project tag line') ?></div>
+        <div class="col-md-9"><?php print isset($details['tagline']) ? $details['tagline'] : ''; ?></div>
+      </div>
+      <div class="row">
+        <div class="col-md-3"><?php print t('Project stage') ?></div>
+        <div class="col-md-9"><?php print isset($details['stage']) ? $details['stage'] : ''; ?></div>
+      </div>
+      <div class="row">
         <div class="col-md-3"><?php print t('Project description') ?></div>
         <div class="col-md-9"><?php print isset($details['description']['value']) ? $details['description']['value'] : ''; ?></div>
       </div>
@@ -53,6 +61,10 @@
       <div class="row">
         <div class="col-md-3"><?php print t('Total budget') ?></div>
         <div class="col-md-9"><?php print (isset($details['total_budget'])) ? $details['total_budget'] : ''; ?></div>
+      </div>
+      <div class="row">
+        <div class="col-md-3"><?php print t('Project stakeholders') ?></div>
+        <div class="col-md-9"><?php print isset($details['stakeholders']) ? $details['stakeholders'] : ''; ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Source of funding') ?></div>

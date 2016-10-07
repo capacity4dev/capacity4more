@@ -584,13 +584,15 @@ function c4m_features_og_manage_project_details() {
       'project/node/' . $project->nid . '/admin/owner',
       array('absolute' => TRUE)
     ),
-    'members' => t('No members'),
-    'members_edit' => url('members', $options),
+    'admins' => t('No administrators'),
+    'admins_edit' => url('group/node/' . $project->nid . '/admin/people', $options),
     'purl' => url($wrapper->value()->purl, array('absolute' => TRUE)),
     'title' => '<strong>' . $wrapper->label() . '</strong>',
+    'tagline' => t('No tag line'),
     'description' => $wrapper->c4m_body->value(),
     'duration' => t('No duration'),
     'total_budget' => t('No total budget'),
+    'stakeholders' => t('No stakeholders'),
     'source_funding' => t('No source of funding'),
     'partners' => t('No partners'),
     'cris_decision_number' => t('No CRIS Decision number'),
@@ -636,6 +638,26 @@ function c4m_features_og_manage_project_details() {
   if (!empty($total_budget)) {
     $total_budget = field_view_field('node', $project, 'c4m_money');
     $details['total_budget'] = $total_budget[0]['#markup'];
+  }
+
+  // Tag line.
+  $tagline = $wrapper->c4m_project_tag_line->value();
+  if (!empty($tagline)) {
+    $tagline = field_view_field('node', $project, 'c4m_project_tag_line');
+    $details['tagline'] = $tagline[0]['#markup'];
+  }
+
+  // Stage.
+  $stage = $wrapper->c4m_project_stage->value();
+  if (!empty($stage)) {
+    $stage = field_view_field('node', $project, 'c4m_project_stage');
+    $details['stage'] = $stage[0]['#markup'];
+  }
+
+  // Stakeholders.
+  $stakeholders = $wrapper->c4m_project_stakeholders->value();
+  if ($list = c4m_features_og_manage_list_simple($stakeholders)) {
+    $details['stakeholders'] = $list;
   }
 
   // Source of funding.
