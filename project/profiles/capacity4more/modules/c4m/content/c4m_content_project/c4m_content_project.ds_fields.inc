@@ -99,21 +99,13 @@ function _c4m_content_project_system_block_renderer($field) {
       $number_of_items = $number_of_items[LANGUAGE_NONE][0]['value'];
       $view->set_items_per_page($number_of_items);
 
-      // Show show more link.
-      $view->get_total_rows = TRUE;
-      $view->execute();
-      if ($view->total_rows > (int)$number_of_items) {
+      // Set correct show more link.
+      $view->set_display('block');
+      if ($view->display_handler->use_more()) {
         $group = c4m_og_current_group();
-        $view->add_item(
-          'default',
-          'footer',
-          'views',
-          'area',
-          array(
-            'content' => l(t('Show more'), $group->purl . '/news'),
-            'format' => 'filtered_html',
-          )
-        );
+        // We store the show more path in the link_url in Views and prepend purl.
+        $show_more_path = $view->display_handler->get_option('link_url');
+        $view->display_handler->set_option('link_url', $group->purl . '/' . $show_more_path);
       }
 
       // Render the View.
