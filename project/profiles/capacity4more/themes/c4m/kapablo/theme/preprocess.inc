@@ -96,6 +96,25 @@ function kapablo_preprocess_block(&$variables) {
       $variables['search_form'] = $form;
 
       break;
+
+    // Sidebar block handling: adding classes, theme suggestion hook.
+    case 'views-c4m_learning_content-block':
+    case 'views-c4m_learning_content-block_1':
+      $variables['classes_array'][] = 'sidebarblock';
+      $variables['title_attributes_array']['class'][] = 'sidebarblock__title';
+      array_unshift($variables['theme_hook_suggestions'], 'block__sidebarblock');
+
+      switch ($block_id) {
+        case 'views-c4m_learning_content-block':
+          $variables['title_attributes_array']['class'][] = 'closely';
+          break;
+
+        case 'views-c4m_learning_content-block_1':
+          $variables['content_attributes_array']['class'][] = 'sidebarblock__content';
+          break;
+      }
+
+      break;
   }
 }
 
@@ -309,43 +328,6 @@ function _kapablo_help_facetapi_link_add_icon($text_orig) {
   }
 
   return $text_orig;
-}
-
-/**
- * Implements hook_preprocess_views_view().
- *
- * Set  parameters for the custom template of the
- * c4m_overview_inthe_picture_blocks view.
- *
- * @see views-view--c4m-overview-inthe-picture-blocks--block.tpl.php
- */
-function kapablo_preprocess_views_view(&$vars) {
-  switch ($vars['name']) {
-    case 'c4m_overview_inthe_picture_blocks':
-      $items = $vars['view']->result;
-      $carousels = array();
-      foreach ($items as $node) {
-        $wrapper = entity_metadata_wrapper('node', $node->nid);
-        $banner = $wrapper->c4m_media->value();
-        $link = $wrapper->c4m_link->value();
-        $body = $wrapper->c4m_body->value();
-        $carousels[] = array(
-          'id' => $wrapper->getIdentifier(),
-          'title' => $wrapper->c4m_heading->value(),
-          'text' => $body['value'],
-          'image' => file_create_url($banner['uri']),
-          'alias' => $link['url'],
-        );
-      }
-
-      // Pass info via Drupal.settings.
-      $settings['c4m'] = array(
-        'carousels' => $carousels,
-      );
-      drupal_add_js($settings, 'setting');
-
-      break;
-  }
 }
 
 /**
@@ -647,4 +629,169 @@ function kapablo_group_image_banner($background_image = FALSE) {
  */
 function kapablo_group_image_banner_background() {
   return kapablo_group_image_banner(TRUE);
+}
+
+/**
+ * Render region callback.
+ *
+ * @ingroup themeable
+ */
+function kapablo_panels_bootstrap_layouts_style_region_render($vars) {
+  $display = $vars['display'];
+  $panes = $vars['panes'];
+  $settings = $vars['settings'];
+
+  $layouts = array(
+    'bootstrap_twocol_stacked',
+    'bootstrap_threecol_stacked',
+  );
+
+  if (in_array($display->layout, $layouts) && $panes) {
+    $class = array('group-' . $vars['region_id']);
+
+    if ($settings['column_size']) {
+      if (empty($settings['column_type'])) {
+        $settings['column_type'] = 'col-lg';
+      }
+
+      $class[] = $settings['column_type'] . '-' . $settings['column_size'];
+    }
+
+    if ($settings['offset_type'] && $settings['offset_size']) {
+      $class[] = $settings['offset_type'] . '-' . $settings['offset_size'];
+    }
+
+    $class = implode(' ', $class);
+    $html = implode('', $panes);
+
+    return "<div class='$class'>$html</div>";
+  }
+}
+
+/**
+ * Implements hook_preprocess_panels_pane().
+ *
+ * @ingroup themeable
+ */
+function kapablo_preprocess_panels_pane(&$vars) {
+  $uuid = $vars['pane']->uuid;
+
+  $clear_sidebarblock_panel_pane = FALSE;
+
+  $sidebarblock = FALSE;
+  $sidebarblock_small = FALSE;
+  $sidebarblock_multiple = FALSE;
+
+  // Defining clear panel panes by UUID.
+  $clear_sidebarblock_panel_pane_uuids = array(
+    // My Groups.
+    '3e93b788-7d5d-472b-93b7-c120c0b9f8a8',
+    // Upcoming Events.
+    '43f1ee7a-dabf-47f6-89a3-07a0e96573f2',
+    // Upcoming Events.
+    '5abcf7ba-8a73-4ba1-8599-8e144b4326b1',
+    // Suggested Groups.
+    '5be4e32c-b632-48f9-81af-3ecb57a2eaf7',
+    // Video embed.
+    '6291300a-bfa2-4b41-b466-2acf76adce64',
+  );
+
+  // Defining sidebar blocks by UUID.
+  $sidebarblocks_panel_pane_uuids = array(
+    // Content Group.
+    '1e41655c-1367-4fe9-ba4f-be3c36b3fc25',
+    // Social Share links.
+    '519bddb7-4a12-41fb-be03-a16ec9ddab93',
+    // Social Share links.
+    '58845eeb-9f44-44de-8439-b1027a7a67da',
+    // Homepage Newsletter.
+    '5d2ad3c6-4569-4046-86b0-0c4c57236914',
+    // OG Highlights overview.
+    '61364c4a-b99a-48c5-a681-818853195c85',
+    // CTA block.
+    '6d116082-1580-4306-87af-4418aa273b2a',
+    // Search group form.
+    'afa1da25-d147-4e2b-81c1-9b6ccd17fab6',
+    // OG Members overview.
+    'd54f83ca-540d-4bd0-9d56-d99e5afd46d8',
+    // Content Project right.
+    // 'd74f4471-e94f-4bec-bdbf-e9b2a23418c1',
+    // OG Group Dashboard - CTA Block.
+    'e8afdde0-18e0-4a56-982f-cc756de36f88',
+    // Homepage newsletter.
+    'f61cbf35-3227-4724-bc91-c08f74fd7d45',
+    // OG Group Dashboard - CTA Block.
+    'f7eb2728-5593-4a0f-979a-b40f29adf246',
+  );
+
+  $sidebarblocks_panel_pane_uuids_small = array();
+
+  $sidebarblocks_panel_pane_uuids_multiple = array(
+    // Featured Projects.
+    '21833ed8-d9c8-4bd3-a4fd-b3127b5351a1',
+    // Featured Groups.
+    '6c330b80-7e65-4003-bf30-4f31188d01b9',
+    // Featured Projects.
+    '6efd1847-4a18-474e-9197-741d9c7be07e',
+    // Featured Groups.
+    '6fa5e4f2-1bfd-49a1-904c-c52cb184d024',
+    // OG Related Projects.
+    '77dbe08c-372e-438b-b9c6-525010b38791',
+    // OG Related Groups overview.
+    'bd4d5369-1eea-4c6a-b887-42ccc2b59b95',
+    // Featured Groups.
+    'e00433dd-e5e5-4c05-8231-b4642b65f37f',
+  );
+
+  $sidebarblocks_panel_pane_uuids_multiple_small = array();
+
+  // Defining characteristics of sidebar blocks.
+  if (in_array($uuid, $clear_sidebarblock_panel_pane_uuids)) {
+    $clear_sidebarblock_panel_pane = TRUE;
+  }
+  elseif (in_array($uuid, $sidebarblocks_panel_pane_uuids)) {
+    $sidebarblock = TRUE;
+  }
+  elseif (in_array($uuid, $sidebarblocks_panel_pane_uuids_small)) {
+    $sidebarblock = TRUE;
+    $sidebarblock_small = TRUE;
+  }
+  elseif (in_array($uuid, $sidebarblocks_panel_pane_uuids_multiple)) {
+    $sidebarblock = TRUE;
+    $sidebarblock_multiple = TRUE;
+  }
+  elseif (in_array($uuid, $sidebarblocks_panel_pane_uuids_multiple_small)) {
+    $sidebarblock = TRUE;
+    $sidebarblock_small = TRUE;
+    $sidebarblock_multiple = TRUE;
+  }
+
+  // Applying classes and theme hook suggestions based on characteristics.
+  if ($clear_sidebarblock_panel_pane) {
+    $ths = &$vars['theme_hook_suggestions'];
+    array_unshift($ths, 'panels_pane__clear_sideblock');
+  }
+  elseif ($sidebarblock) {
+    $ths = &$vars['theme_hook_suggestions'];
+
+    // Pane class.
+    if ($sidebarblock_small) {
+      array_unshift($vars['classes_array'], 'sidebarblock--small');
+    }
+    else {
+      array_unshift($vars['classes_array'], 'sidebarblock');
+    }
+
+    // Pane title class.
+    unset($vars['title_attributes_array']['class']);
+    $vars['title_attributes_array']['class'][] = 'sidebarblock__title';
+    $vars['title_attributes_array']['class'][] = 'closely';
+
+    if ($sidebarblock_multiple) {
+      array_unshift($ths, 'panels_pane__sidebarblock_multiple');
+    }
+    else {
+      array_unshift($ths, 'panels_pane__sidebarblock');
+    }
+  }
 }

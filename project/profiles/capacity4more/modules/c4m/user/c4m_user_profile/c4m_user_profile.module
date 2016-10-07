@@ -111,6 +111,12 @@ function c4m_user_profile_tokens(
 
         case 'url-with-name':
           $name = c4m_user_name($account);
+
+          $wrapper = entity_metadata_wrapper('user', $account);
+          if (!$account->status && $wrapper->c4m_is_deleted_anonymous->value()) {
+            $name = t('Anonymous');
+          }
+
           $replacements[$original] = !empty($account->uid) && $account->status ? l(
             $name,
             "user/$account->uid",
@@ -340,7 +346,7 @@ function c4m_user_profile_form_user_register_form_alter(
       array(
         '!privacy_statement_link' => l(
           t('Privacy Statement'),
-          'http://capacity4dev.dev/privacy',
+          'https://www.campaignmonitor.com/policies',
           array(
             'attributes' => array(
               'absolute' => TRUE,

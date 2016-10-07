@@ -150,8 +150,8 @@ function c4m_content_project_strongarm() {
       'display' => array(
         'highlighted' => array(
           'group_dashboard' => array(
-            'weight' => '0',
-            'visible' => TRUE,
+            'weight' => '14',
+            'visible' => FALSE,
           ),
         ),
       ),
@@ -221,7 +221,7 @@ function c4m_content_project_strongarm() {
         'custom_settings' => TRUE,
       ),
       'full' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'diff_standard' => array(
         'custom_settings' => FALSE,

@@ -198,13 +198,17 @@ function c4m_content_article_node_view_alter(&$build) {
   }
 
   // Remove the 'Regions' taxonomies.
-  foreach ($build['c4m_vocab_geo']['#items'] as $index => $item) {
-    unset($build['c4m_vocab_geo'][$index]);
+  if (!empty($build['c4m_vocab_geo'])) {
+    foreach ($build['c4m_vocab_geo']['#items'] as $index => $item) {
+      unset($build['c4m_vocab_geo'][$index]);
+    }
   }
 
   // Remove the 'Topics' taxonomies.
-  foreach ($build['c4m_vocab_topic']['#items'] as $index => $item) {
-    unset($build['c4m_vocab_topic'][$index]);
+  if (!empty($build['c4m_vocab_topic'])) {
+    foreach ($build['c4m_vocab_topic']['#items'] as $index => $item) {
+      unset($build['c4m_vocab_topic'][$index]);
+    }
   }
 
   // Add the new markup Topics.

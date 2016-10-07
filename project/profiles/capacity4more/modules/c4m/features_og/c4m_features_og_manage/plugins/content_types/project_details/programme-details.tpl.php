@@ -28,47 +28,47 @@
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Programme name') ?></div>
-        <div class="col-md-9"><?php print $details['title'] ?></div>
+        <div class="col-md-9"><?php print (isset($details['title'])) ? $details['title'] : ''; ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Programme path') ?></div>
-        <div class="col-md-9"><?php print $details['purl'] ?></div>
+        <div class="col-md-9"><?php print (isset($details['purl'])) ? $details['purl'] : ''; ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Programme description') ?></div>
-        <div class="col-md-9"><?php print $details['description']['safe_value'] ?></div>
+        <div class="col-md-9"><?php print isset($details['description']['safe_value']) ? $details['description']['safe_value'] : ''; ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Duration') ?></div>
-        <div class="col-md-9"><?php print $details['duration'] ?></div>
+        <div class="col-md-9"><?php print (isset($details['duration'])) ? $details['duration'] : ''; ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Total budget') ?></div>
-        <div class="col-md-9"><?php print $details['total_budget'] ?></div>
+        <div class="col-md-9"><?php print (isset($details['total_budget'])) ? $details['total_budget'] : ''; ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Source of funding') ?></div>
-        <div class="col-md-9"><?php print $details['source_funding'] ?></div>
+        <div class="col-md-9"><?php print (isset($details['source_funding'])) ? $details['source_funding'] : ''; ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Partners') ?></div>
-        <div class="col-md-9"><?php print $details['partners'] ?></div>
+        <div class="col-md-9"><?php print (isset($details['partners'])) ? $details['partners'] : ''; ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('CRIS Decision number') ?></div>
-        <div class="col-md-9"><?php print $details['cris_decision_number'] ?></div>
+        <div class="col-md-9"><?php print (isset($details['cris_decision_number'])) ? $details['cris_decision_number'] : ''; ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('CRIS Contact number') ?></div>
-        <div class="col-md-9"><?php print $details['cris_contract_number'] ?></div>
+        <div class="col-md-9"><?php print (isset($details['cris_contact_number'])) ? $details['cris_contact_number'] : ''; ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Programme topics') ?></div>
-        <div class="col-md-9"><?php print $details['topics'] ?></div>
+        <div class="col-md-9"><?php print (isset($details['topics'])) ? $details['topics'] : ''; ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Programme regions & countries') ?></div>
-        <div class="col-md-9"><?php print $details['locations'] ?></div>
+        <div class="col-md-9"><?php print (isset($details['locations'])) ? $details['locations'] : ''; ?></div>
       </div>
     </div>
     <div class="project-related-content">
@@ -78,11 +78,11 @@
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Related Groups') ?></div>
-        <div class="col-md-9"><?php print $details['related_groups'] ?></div>
+        <div class="col-md-9"><?php print (isset($details['related_groups'])) ? $details['related_groups'] : ''; ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Related Initiatives') ?></div>
-        <div class="col-md-9"><?php print $details['related_projects'] ?></div>
+        <div class="col-md-9"><?php print (isset($details['related_projects'])) ? $details['related_projects'] : ''; ?></div>
       </div>
     </div>
     <div class="project-related-content">

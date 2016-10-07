@@ -26,6 +26,7 @@ Feature: Test homepage content and blocks
     Given I am logged in as user "isaacnewton"
     When  I visit the site homepage
     Then  I should see "My Groups"
+    And   I should see "My Projects"
 
   @api
   Scenario: Anonymous user should see button to open the introduction video.
@@ -38,18 +39,21 @@ Feature: Test homepage content and blocks
     Given I am an anonymous user
     When  I visit the site homepage
     Then  I should not see "My Groups"
+    And   I should not see "My Projects"
 
   @api
   Scenario: Logged in, non member user can't see "My Groups" block
     Given I am logged in as user "president"
     When  I visit the site homepage
     Then  I should not see "My Groups"
+    And   I should not see "My Projects"
 
   @api
   Scenario: Logged in, member user should see "My Groups" block
     Given I am logged in as user "mariecurie"
     When  I visit the site homepage
     Then  I should see "My Groups"
+    And   I should see "My Projects"
     And   I should see "Architecture" in the "div.my-groups" element
     And   I should see "Show more" in the "div.my-groups" element
 
@@ -81,14 +85,14 @@ Feature: Test homepage content and blocks
   Scenario: Anonymous user should see only one "Upcoming event"
     Given I am an anonymous user
     When  I visit the site homepage
-    Then  I should see "Upcoming events" in the "div.pane-upcoming-events" element
+    Then  I should see "Upcoming events" in the "div.sidebarblock.upcoming-events" element
     And   I should see only "1" events
 
   @api
   Scenario: Logged in user should see more than one "Upcoming event"
     Given I am logged in as user "mariecurie"
     When  I visit the site homepage
-    Then  I should see "Upcoming events" in the "div.pane-upcoming-events" element
+    Then  I should see "Upcoming events" in the "div.sidebarblock.upcoming-events" element
     And   I should see only "3" events
 
   @api

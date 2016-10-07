@@ -145,7 +145,7 @@ function c4m_content_share_form_validate($form, &$form_state) {
   $group_ref = $form_state['input']['og_group_ref'][LANGUAGE_NONE][0];
 
   $default = $group_ref['default'];
-  $admin = $group_ref['admin'];
+  $admin = isset($group_ref['admin']) ? $group_ref['admin'] : NULL;
 
   if ((empty($default) || $default === '_none') && (empty($admin) || empty($admin[0]['target_id']))) {
     form_set_error('og_group_ref', t('You need a group reference'));
@@ -188,13 +188,13 @@ function c4m_content_share_form_submit($form, &$form_state) {
 
   node_object_prepare($node);
 
-  /*
-  // If this is a book page, we need an extra step.
   $original_node = entity_metadata_wrapper(
   'node',
   $values['c4m_source_entity']
   );
 
+  /*
+  // If this is a book page, we need an extra step.
   if ($original_node->getBundle() === 'wiki_page') {
   $bid = c4m_content_wiki_page_get_bid_by_nid($values['og_group_ref']);
   $book = $node->book;
@@ -222,6 +222,7 @@ function c4m_content_share_form_submit($form, &$form_state) {
   $node_wrapper->save();
 
   $group = node_load($values['og_group_ref']);
+
   drupal_set_message(
     t(
       'Successfully shared %node_title to <a href="@group_url">%group_title</a>.',
@@ -229,14 +230,7 @@ function c4m_content_share_form_submit($form, &$form_state) {
         '%node_title' => $values['title'],
         '%group_title' => $group->title,
         '@group_url' => url(
-          '<front>',
-          array(
-            'absolute' => TRUE,
-            'purl' => array(
-              'provider' => 'og_purl|node',
-              'id' => $group->nid,
-            ),
-          )
+          'node/' . $group->nid
         ),
       )
     )

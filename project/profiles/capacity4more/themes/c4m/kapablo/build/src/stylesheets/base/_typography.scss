@@ -197,6 +197,7 @@ html {
 
 h1 {
   @extend .header-1;
+  @include hyphenate;
 }
 
 h2 {
