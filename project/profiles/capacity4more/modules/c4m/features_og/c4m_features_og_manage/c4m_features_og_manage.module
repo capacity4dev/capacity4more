@@ -668,6 +668,16 @@ function c4m_features_og_manage_project_details() {
     $details['related_projects'] = $list;
   }
 
+  // List of partners.
+  $partners = $wrapper->c4m_partners->value();
+  if (!empty($partners)) {
+    $partner_titles = array();
+    foreach ($partners as $partner) {
+      $partner_titles[] = $partner->c4m_heading[LANGUAGE_NONE][0]['safe_value'];
+    }
+    $details['partners'] = c4m_features_og_manage_list_simple($partner_titles);
+  }
+
   // Get categories and terms count for current group.
   c4m_features_og_manage_list_taxonomy($project, $details);
 
