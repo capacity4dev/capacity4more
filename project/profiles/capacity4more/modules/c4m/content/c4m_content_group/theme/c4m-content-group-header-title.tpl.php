@@ -9,9 +9,15 @@
 ?>
 
 <?php if ($title): ?>
-  <h1 class="group-title">
-    <?php print $title; ?>
-  </h1>
+  <?php if ($homepage): ?>
+    <h1 class="group-title">
+      <?php print $title; ?>
+    </h1>
+  <?php else: ?>
+    <div class="group-title">
+      <?php print $title; ?>
+    </div>
+  <?php endif; ?>
 <?php endif; ?>
 
 <div class="group-indications">
