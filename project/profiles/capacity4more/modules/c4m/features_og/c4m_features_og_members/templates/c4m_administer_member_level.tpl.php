@@ -7,8 +7,7 @@
 ?>
 
 <?php if ($membership_level): ?>
-<div class="dropdown">
+<span class="label label-primary">
     <?php print $membership_level; ?>
-  </button>
-</div>
+</span>
 <?php endif; ?>

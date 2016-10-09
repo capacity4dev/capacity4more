@@ -855,7 +855,7 @@ function c4m_og_user_is_member($group_type = NULL, $gid = NULL) {
   }
 
   // Make sure the current user is the group manager.
-  return user_access('administer groups') || og_is_member('node', $gid);
+  return user_access('administer group') || og_is_member('node', $gid);
 }
 
 /**
@@ -909,12 +909,14 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
  *   have 'administrator member' role.
  * @param bool $filter_event_user
  *   Whether to filter out current user ID from result, or not.
+ * @param string $group_type
+ *   The group node type to filter for, defaults to "group".
  *
  * @return array
  *   An array of all group admins ids.
  */
-function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_event_user = FALSE) {
-  $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
+function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_event_user = FALSE, $group_type = 'group') {
+  $group_admin_role = c4m_og_user_role_load_by_name('administrator member', $group_type);
   $admins = c4m_og_get_users_by_roles($gid, array($group_admin_role->rid));
   foreach ($admins as &$admin) {
     $admin = $admin->uid;
@@ -962,12 +964,14 @@ function c4m_og_get_group_admins_and_owner_ids_for_notification($gid) {
  * @param bool $verify_owner_added
  *   Whether to return group owner, even if group owner does not
  *   have 'administrator member' role.
+ * @param string $group_type
+ *   The group node type to filter for, defaults to "group".
  *
  * @return array
  *   An array of all group admins.
  */
-function c4m_og_get_group_admins($gid, $verify_owner_added = FALSE) {
-  return user_load_multiple(c4m_og_get_group_admins_ids($gid, $verify_owner_added));
+function c4m_og_get_group_admins($gid, $verify_owner_added = FALSE, $group_type = 'group') {
+  return user_load_multiple(c4m_og_get_group_admins_ids($gid, $verify_owner_added, FALSE, $group_type));
 }
 
 /**
@@ -1419,15 +1423,15 @@ function c4m_og_feature_info($feature = NULL) {
 }
 
 /**
- * Check if a given feature is enabled.
+ * Check if a given feature is available for the active group.
  *
  * @param string $feature
  *   The feature to check.
  *
  * @return bool
- *   True if the feature is enabled for the active group.
+ *   True if the feature is available for the active group.
  */
-function c4m_og_feature_enabled($feature) {
+function c4m_og_feature_available($feature) {
   // Check if the feature exists.
   $og_feature = c4m_og_feature_info($feature);
   if (!isset($og_feature['machine_name'])) {
@@ -1442,10 +1446,25 @@ function c4m_og_feature_enabled($feature) {
     }
   }
 
-  // Check if the feature is enabled.
-  $settings = variable_get('c4m_og_features_group', array());
-  if (isset($settings[$feature]) && $settings[$feature] === $feature) {
-    return TRUE;
+  return TRUE;
+}
+
+/**
+ * Check if a given feature is enabled.
+ *
+ * @param string $feature
+ *   The feature to check.
+ *
+ * @return bool
+ *   True if the feature is enabled for the active group.
+ */
+function c4m_og_feature_enabled($feature) {
+  if (c4m_og_feature_available($feature)) {
+    // Check if the feature is enabled.
+    $settings = variable_get('c4m_og_features_group', array());
+    if (isset($settings[$feature]) && $settings[$feature] === $feature) {
+      return TRUE;
+    }
   }
 
   return FALSE;
@@ -1874,9 +1893,11 @@ function c4m_og_get_group_type($group) {
 function c4m_og_get_user_group_memberships_count($uid, $state = OG_STATE_ACTIVE) {
   $query = db_select('og_membership', 'm');
   $query->fields('m', array('id'));
-  $query->condition('entity_type', 'user');
-  $query->condition('etid', $uid);
-  $query->condition('state', $state);
+  $query->join('node', 'n', 'n.nid = m.gid');
+  $query->condition('m.entity_type', 'user');
+  $query->condition('m.etid', $uid);
+  $query->condition('m.state', $state);
+  $query->condition('n.type', 'group');
 
   $query = $query->execute();
   $amount = $query->rowCount();
@@ -1902,17 +1923,82 @@ function c4m_og_get_user_group_pending_memberships_count($uid) {
  *
  * @param int $uid
  *   User id.
- * @param string $node_type
- *   Node type.
+ *   Differentiate between projects and programmes.
  *
  * @return int
  *   Count.
  */
-function c4m_og_get_user_administered_groups_count($uid, $node_type) {
+function c4m_og_get_user_administered_groups_count($uid) {
   $query = db_select('og_users_roles', 'ur');
   $query->fields('ur');
   $query->join('og_role', 'r', "ur.rid = r.rid AND name = 'administrator member' AND ur.uid = $uid");
-  $query->join('node', 'n', "ur.gid = n.nid AND ur.group_type = 'node' AND n.type = '$node_type'");
+  $query->join('node', 'n', "ur.gid = n.nid AND ur.group_type = 'node' AND n.type = 'group'");
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
+}
+
+/**
+ * Returns the memberships in projects/programmes count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ * @param int $is_programme
+ *   Differentiate between projects and programmes.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_og_get_user_project_memberships_count($uid, $state = OG_STATE_ACTIVE, $is_programme = 0) {
+  $query = db_select('og_membership', 'm');
+  $query->fields('m', array('id'));
+  $query->join('node', 'n', 'n.nid = m.gid');
+  $query->condition('m.entity_type', 'user');
+  $query->condition('m.etid', $uid);
+  $query->condition('m.state', $state);
+  $query->condition('n.type', 'project');
+
+  $query->leftJoin('field_data_c4m_project_type', 'pt', 'pt.entity_id = n.nid');
+
+  if ($is_programme) {
+    $query->condition('pt.c4m_project_type_value', 'programme', '=');
+  }
+  else {
+    $query->condition('pt.c4m_project_type_value', 'project', '=');
+  }
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
+}
+
+/**
+ * Returns the administered projects/programmes count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ * @param int $is_programme
+ *   Differentiate between projects and programmes.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_og_get_user_administered_projects_count($uid, $is_programme = 0) {
+  $query = db_select('og_users_roles', 'ur');
+  $query->fields('ur');
+  $query->join('og_role', 'r', "ur.rid = r.rid AND name = 'administrator member' AND ur.uid = $uid");
+  $query->join('node', 'n', "ur.gid = n.nid AND ur.group_type = 'node' AND n.type = 'project'");
+  $query->leftJoin('field_data_c4m_project_type', 'pt', 'pt.entity_id = n.nid');
+
+  if ($is_programme) {
+    $query->condition('pt.c4m_project_type_value', 'programme', '=');
+  }
+  else {
+    $query->condition('pt.c4m_project_type_value', 'project', '=');
+  }
 
   $query = $query->execute();
   $amount = $query->rowCount();
@@ -2150,4 +2236,36 @@ function c4m_og_edit_author_autocomplete($string = '') {
  */
 function c4m_og_human_to_machine_readable($title, $delimiter = '-') {
   return preg_replace('@[^a-z0-9_]+@', $delimiter, strtolower(trim($title)));
+}
+
+/**
+ * Comparison function for groups, will prioritize group statuses.
+ *
+ * @param object $a
+ *   Group entity A to compare.
+ * @param object $b
+ *   Group entity B to compare.
+ *
+ * @return int
+ *   Comparison value (-1 or 0 or 1).
+ */
+function _c4m_og_sort_by_status($a, $b) {
+  $priorities = array(
+    'published',
+    'archived',
+    'draft',
+    'pending',
+    'deleted',
+  );
+
+  $status_a = $a->c4m_og_status[LANGUAGE_NONE][0]['value'];
+  $status_b = $b->c4m_og_status[LANGUAGE_NONE][0]['value'];
+
+  $rank_a = array_search($status_a, $priorities);
+  $rank_b = array_search($status_b, $priorities);
+
+  if ($rank_a == $rank_b) {
+    return strcmp($a->title, $b->title);
+  }
+  return ($rank_a < $rank_b) ? -1 : 1;
 }

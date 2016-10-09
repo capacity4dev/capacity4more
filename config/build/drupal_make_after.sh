@@ -34,5 +34,4 @@ markup_h2 "Settings file"
 cp -a "$DIR_ROOT/config/build/settings/settings.php" "$DIR_WEB/sites/default"
 message_success "Master Settings file copied to build"
 
-
 echo

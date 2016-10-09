@@ -5,6 +5,3 @@ package = capacity4more - Features
 features[context][] = c4m_homepage_intro_block
 features[ctools][] = context:context:3
 features[features_api][] = api:2
-features_exclude[dependencies][context] = context
-features_exclude[dependencies][ctools] = ctools
-features_exclude[dependencies][views] = views

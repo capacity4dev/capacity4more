@@ -28,9 +28,9 @@ function c4m_features_homepage_video_embed_content_type_render($subtype, $conf, 
     return FALSE;
   }
 
-  $user_groups = og_get_groups_by_user();
+  $user_groups = c4m_user_og_get_groups(NULL, 'group', NODE_PUBLISHED, FALSE);
 
-  if (!empty($user_groups['node'])) {
+  if (!empty($user_groups)) {
     return;
   }
 
