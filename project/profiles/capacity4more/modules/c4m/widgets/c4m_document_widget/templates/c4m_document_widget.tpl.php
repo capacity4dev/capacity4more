@@ -19,8 +19,8 @@
         <a href="javascript://" ng-click="browseFiles('<?php print $field_name; ?>')"> <?php print t('or browse'); ?> </a>
       </div>
       <script>
-        function c4m_attachment_overlay(media) {
-          window.location = '#overlay=<?php print (c4m_og_current_group_purl()); ?>/overlay-file/' + media[0].fid;
+        var c4m_attachment_overlay = function (media) {
+          window.location = '#overlay=<?php print c4m_og_current_group_purl(); ?>/overlay-file/' + media[0].fid;
         }
 
         var media_browser_options = {'enabledPlugins[media_default--media_browser_my_files]': 'media_default--media_browser_my_files'};

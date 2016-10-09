@@ -62,7 +62,11 @@ function c4m_og_current_group_id() {
  *   The group purl, or empty string if no context was found.
  */
 function c4m_og_current_group_purl() {
-  return ($group = c4m_og_current_group()) ? $group->purl:'';
+  if (!$group = c4m_og_current_group()) {
+    return '';
+  }
+
+  return $group->purl;
 }
 
 /**
