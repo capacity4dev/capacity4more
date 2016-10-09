@@ -98,11 +98,12 @@ function c4m_og_group_menu_page_access() {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
+ * Adds Wiki select element for projects.
  */
 function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_state, $form_id) {
-  $gid = og_menu_get_context();
-  $group = node_load($gid);
-  if (!$group || $group->type != 'project') {
+  $group = c4m_og_current_group();
+  if (!$group || $group->type != 'project' || !isset($group->book['menu_name'])) {
     return;
   }
 
@@ -113,30 +114,31 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
   }
 
   $tree = menu_build_tree($group->book['menu_name']);
-  // Resolve pages under the node of the menu tree.
-  $top_pages = array_shift($tree)['below'];
+  // Resolve top level wiki pages.
+  $top_wiki_pages = array_shift($tree)['below'];
 
   // Default select option.
-  $wiki_details = array('' => t('--- SELECT ---'));
+  $wiki_options = array('' => t('Select a Wiki'));
 
   // Generate page details for each page at tree.
-  foreach ($top_pages as $top_page) {
-    _c4m_og_group_menu_process_page($top_page, $wiki_details);
+  foreach ($top_wiki_pages as $top_wiki_page) {
+    _c4m_og_group_menu_process_page($top_wiki_page, $wiki_options);
   }
 
   // Add select element to form.
   $form['wiki_select'] = array(
     '#title' => t('Wiki Page'),
     '#type' => 'select',
-    '#options' => $wiki_details,
+    '#options' => $wiki_options,
     '#weight' => -1,
   );
 
-  // If path provided, set selected Wiki Page as a default value.
-  if (in_array($form['link_path']['#default_value'], array_keys($wiki_details))) {
+  // If path is provided, set selected Wiki Page as a default value.
+  if (in_array($form['link_path']['#default_value'], array_keys($wiki_options))) {
     $form['wiki_select']['#default_value'] = $form['link_path']['#default_value'];
   }
 
+  // Place wiki title and wiki path fields above select element.
   $form['link_title']['#weight'] = -3;
   $form['link_path']['#weight'] = -2;
 
@@ -144,21 +146,20 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
 }
 
 /**
- * Recursive function.
- *
  * Generates 'options' input, for 'Wiki Page' select element.
  *
  * @param array $page
  *   Details of current page, and pages bellow it.
- * @param array $wiki_details
- *   Contains details (lint => title) of all wiki pages.
+ * @param array $wiki_options
+ *   Contains options (lint => title) of all wiki pages.
  */
-function _c4m_og_group_menu_process_page($page, &$wiki_details) {
+function _c4m_og_group_menu_process_page($page, &$wiki_options) {
   // Add details of current page to wiki details.
-  $page_link  = $page['link'];
-  $wiki_details[$page_link['link_path']] = $page_link['link_title'];
+  $page_link = $page['link'];
+  $wiki_options[$page_link['link_path']] = $page_link['link_title'];
 
-  // For each page on level below, generate the details.
+  // For each page on level below, generate the details - recursive
+  // activation of this function.
   $below_pages = $page['below'];
   foreach ($below_pages as $below_page) {
     _c4m_og_group_menu_process_page($below_page, $wiki_details);
