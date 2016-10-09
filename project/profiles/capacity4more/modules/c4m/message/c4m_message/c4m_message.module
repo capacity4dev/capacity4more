@@ -1119,7 +1119,7 @@ function c4m_message_load_tokens__c4m_notify_content_recommendation(Message $mes
   );
 
   $message->arguments['!user_unsubscribe_recommend_url'] = array(
-    'callback' => 'c4m_message_format_node_unsubscribe_url',
+    'callback' => 'c4m_message_format_unsubscribe_content_url',
     'pass message' => TRUE,
   );
 
@@ -2171,6 +2171,10 @@ function c4m_message_format_node_body_teaser(Message $message) {
   $node = $wrapper->field_node->value();
   if (empty($node->c4m_body)) {
     return '';
+  }
+
+  if ($node->type) {
+
   }
 
   $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
