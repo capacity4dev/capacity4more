@@ -183,6 +183,10 @@ function c4m_content_book_block_view($delta = '') {
  */
 function _c4m_content_book_help_book_navigation_content() {
   if (!$book_node = c4m_content_book_get_main_help_and_guidance()) {
+    if (c4m_user_is_site_admin()) {
+      $link = l(t('Please setup one'), 'admin/config/c4m/help_and_guidance', array('purl' => array('disabled' => TRUE)));
+      drupal_set_message(t('Unable to retrieve the main help and guidance book. !link.', array('!link' => $link)), 'error');
+    }
     return NULL;
   }
   $markup = '<div class="c4m-sidebar-book-navigation"><h3>Help & Guidance</h3></div>';
@@ -264,7 +268,7 @@ function _c4m_content_book_help_book_navigation_content() {
  */
 function c4m_content_book_node_presave($node) {
   // We are not saving a book page.
-  if ($node->type != 'book') {
+  if (empty($node->book['menu_name']) || $node->type != 'book') {
     return;
   }
 
