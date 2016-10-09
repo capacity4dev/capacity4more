@@ -268,13 +268,13 @@ function _c4m_content_book_help_book_navigation_content() {
  */
 function c4m_content_book_node_presave($node) {
   // We are not saving a book page.
-  if (empty($node->book['menu_name']) || $node->type != 'book') {
+  if ($node->type != 'book' || empty($node->book['menu_name'])) {
     return;
   }
 
   // We are not saving a help book page.
-  $mainpage = c4m_content_book_get_main_help_and_guidance();
-  if ($node->book['menu_name'] != $mainpage->book['menu_name']) {
+  $main_help_page = c4m_content_book_get_main_help_and_guidance();
+  if ($node->book['menu_name'] != $main_help_page->book['menu_name']) {
     return;
   }
 
