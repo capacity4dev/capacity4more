@@ -475,7 +475,7 @@ function _c4m_document_widget_document_file($file_id, $is_quick_post = FALSE) {
   // PURL options.
   $options_context = array(
     'purl' => array(
-      'disabled' => FALSE,
+      'enabled' => TRUE,
     ),
     'absolute' => TRUE,
   );
