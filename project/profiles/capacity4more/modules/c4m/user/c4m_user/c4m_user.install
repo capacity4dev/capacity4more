@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Code for the C4M user install file.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_user_install() {
+  c4m_user_force_revoke_anonymous_user_text_format_permissions();
+}
+
+/**
+ * Force revoke the text format permissions for anonymous users.
+ */
+function c4m_user_force_revoke_anonymous_user_text_format_permissions() {
+  $permissions = array(
+    'use text format default_html',
+    'use text format mail',
+    'use text format filtered_html',
+    'use text format full_html',
+  );
+  $role = user_role_load_by_name('anonymous user');
+  user_role_revoke_permissions($role->rid, array($permissions));
+}

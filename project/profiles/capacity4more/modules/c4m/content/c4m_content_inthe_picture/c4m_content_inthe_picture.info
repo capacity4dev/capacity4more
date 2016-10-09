@@ -48,4 +48,3 @@ features[variable][] = node_options_inthe_picture
 features[variable][] = node_preview_inthe_picture
 features[variable][] = node_submitted_inthe_picture
 features[variable][] = pathauto_node_inthe_picture_pattern
-features_exclude[field_instance][node-inthe_picture-c4m_link] = node-inthe_picture-c4m_link

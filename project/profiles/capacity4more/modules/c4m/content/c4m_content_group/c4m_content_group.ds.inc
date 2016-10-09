@@ -375,7 +375,11 @@ function c4m_content_group_ds_layout_settings_info() {
       'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_group_members_count' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        'sidebarblock__content--multiple' => 'sidebarblock__content--multiple',
+      ),
+    ),
     'wrappers' => array(
       'left' => 'div',
       'right' => 'div',

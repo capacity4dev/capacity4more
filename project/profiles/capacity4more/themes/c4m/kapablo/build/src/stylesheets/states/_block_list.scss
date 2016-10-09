@@ -13,9 +13,21 @@
     padding-left: 10px;
   }
 
-  .field-name-c4m-ds-group-type-icon {
+  .field-name-c4m-ds-group-type-icon,
+  .field-name-c4m-ds-project-type-icon {
     display: inline;
     float: left;
+
+    .fa {
+      display: inline-block;
+      float: left;
+      height: 1em;
+      line-height: 100%;
+      margin: 2px;
+      text-align: center;
+      vertical-align: baseline;
+      width: 25px;
+    }
   }
 
   .field-name-c4m-field-og-group {
@@ -30,8 +42,6 @@
     .group-left, .group-right {
       padding: 0;
     }
-
-    margin-bottom: .75em;
   }
 
   .content-col {

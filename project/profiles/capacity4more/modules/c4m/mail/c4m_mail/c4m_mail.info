@@ -10,7 +10,4 @@ features[variable][] = mail_system
 features[variable][] = mailsystem_theme
 features[variable][] = mimemail_engine
 features[variable][] = mimemail_format
-features_exclude[dependencies][ctools] = ctools
-features_exclude[dependencies][features] = features
-features_exclude[dependencies][strongarm] = strongarm
 files[] = inc/messages.inc
