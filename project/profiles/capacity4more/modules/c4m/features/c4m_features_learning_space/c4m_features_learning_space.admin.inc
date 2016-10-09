@@ -17,7 +17,7 @@ function c4m_features_learning_space_admin_settings($form) {
     '#description' => t('Upload the banner image for the learning space page.'),
     '#required' => TRUE,
     '#theme' => 'c4m_features_learning_space_admin_image',
-    '#upload_location' => 'public://learning_space/',
+    '#upload_location' => 'public:/v fp/learning_space/',
     '#upload_validators' => array(
       'file_validate_extensions' => array('gif png jpg jpeg'),
       'file_validate_image_resolution' => array(0, '960x300'),
