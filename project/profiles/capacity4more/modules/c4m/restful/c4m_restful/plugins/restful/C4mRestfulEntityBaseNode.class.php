@@ -18,7 +18,7 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
    */
   protected function checkEntityAccess($op, $entity_type, $entity) {
     $account = $this->getAccount();
-    $resource_name = rtrim($this->getResourceName(), 's');
+    $resource_name = $this->getPluginKey('bundle');
     $group_id = $this->request['group'];
     $wrapper = entity_metadata_wrapper('node', $group_id);
     $group_status = $wrapper->c4m_og_status->value();
