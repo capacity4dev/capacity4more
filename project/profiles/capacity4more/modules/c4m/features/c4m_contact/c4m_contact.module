@@ -6,6 +6,11 @@
  */
 
 /**
+ * The allowed format for the ckeditor widget on the contact form.
+ */
+define('C4M_CONTACT_ALLOWED_FORMAT', 'filtered_html');
+
+/**
  * Implements hook_permission().
  */
 function c4m_contact_permission() {
@@ -87,7 +92,8 @@ function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id
     $form['mail']['#disabled'] = TRUE;
 
     $form['message']['#type'] = 'text_format';
-    $form['message']['#format'] = 'filtered_html';
+    $form['message']['#format'] = C4M_CONTACT_ALLOWED_FORMAT;
+    $form['message']['#pre_render'] = ['c4m_contact_filter_formats'];
   }
 
   // Add intro text to form.
@@ -103,6 +109,26 @@ function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id
   // Prepend a submit callback to handle the difference between visitor and user
   // forms (with a WIYIWYG editor). Sends a uniform single string value.
   array_unshift($form['#submit'], 'c4m_contact_contact_site_form_submit');
+}
+
+function c4m_contact_filter_formats(&$element) {
+  if ($element['#type'] != 'text_format') {
+    return $element;
+  }
+
+  $allowed_formats = array(
+    C4M_CONTACT_ALLOWED_FORMAT,
+    filter_fallback_format(),
+  );
+
+  foreach ($element['format']['format']['#options'] as $key => $name) {
+    if (in_array($key, $allowed_formats)) {
+      continue;
+    }
+    unset($element['format']['format']['#options'][$key]);
+  }
+
+  return $element;
 }
 
 /**
