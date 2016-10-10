@@ -2689,6 +2689,11 @@ function c4m_message_load__c4m_insert__node__share(Message $message) {
     'pass message' => TRUE,
   );
 
+  $message->arguments['!group_type'] = array(
+    'callback' => 'c4m_message_format_original_group_type',
+    'pass message' => TRUE,
+  );
+
   $message->arguments['!group_original'] = array(
     'callback' => 'c4m_message_format_original_group_share',
     'pass message' => TRUE,
@@ -2860,13 +2865,16 @@ function c4m_message_format_rendered_node(Message $message) {
   $get_query = drupal_get_query_parameters();
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  $handler = og_purl_og_context_handler();
-  if ((empty($get_query['homepage'])) && !empty($handler)) {
-    $view = node_view($wrapper->field_node->value(), 'activity_group');
+  // Determine if the current display is for homepage.
+  if (isset($get_query['homepage'])) {
+    $homepage = $get_query['homepage'] == '1';
   }
   else {
-    $view = node_view($wrapper->field_node->value(), 'activity_global');
+    $homepage = drupal_is_front_page() && !og_context();
   }
+
+  $view_mode = $homepage ? 'activity_global' : 'activity_group';
+  $view = node_view($wrapper->field_node->value(), $view_mode);
 
   return drupal_render($view);
 }
@@ -2967,6 +2975,30 @@ function c4m_message_format_original_group_share(Message $message) {
 }
 
 /**
+ * Return the original group type (group|project).
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The group type.
+ */
+function c4m_message_format_original_group_type(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $original_entity = entity_metadata_wrapper(
+    'node',
+    $wrapper->field_node->c4m_source_entity->value()
+  );
+  $group_wrapper = entity_metadata_wrapper(
+    'node',
+    $original_entity->og_group_ref->value()
+  );
+
+  return $group_wrapper->getBundle();
+}
+
+/**
  * Return the formatted share operation.
  *
  * Retrieve proper icon for a content type (and maybe subtype).
@@ -3001,10 +3033,18 @@ function c4m_message_format_node_share(Message $message) {
  */
 function c4m_message_format_rendered_comment(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
+  $get_query = drupal_get_query_parameters();
+
+  // Determine if the current display is for a group or homepage.
+  $view_mode = 'activity_global';
+  if (isset($get_query['homepage']) && $get_query['homepage'] == '0') {
+    $view_mode = 'activity_group';
+  }
+
   $view = comment_view(
     $wrapper->field_comment->value(),
     $wrapper->field_node->value(),
-    'activity_global'
+    $view_mode
   );
 
   return drupal_render($view);

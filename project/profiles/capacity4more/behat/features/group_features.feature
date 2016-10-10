@@ -19,7 +19,7 @@ Feature: Group features
     Given I am logged in as user "mariecurie"
     When  I manage the features of group "Movie Popcorn Corner"
     And   I disable the group feature "wiki"
-    And   I disable the group feature "photoalbums"
+    And   I disable the group feature "media"
     And   I disable the group feature "discussions"
     And   I disable the group feature "documents"
     And   I disable the group feature "events"
@@ -30,6 +30,7 @@ Feature: Group features
     Then  I should not see the "Discussions" link on the group menu
     Then  I should not see the "Library" link on the group menu
     Then  I should not see the "Events" link on the group menu
+    Then  I should not see the "Media" link on the group menu
     Then  I should not see the "Members" link on the group menu
 
   @api
@@ -37,7 +38,7 @@ Feature: Group features
     Given I am logged in as user "mariecurie"
     When  I manage the features of group "Movie Popcorn Corner"
     And   I enable the group feature "wiki"
-    And   I enable the group feature "photoalbums"
+    And   I enable the group feature "media"
     And   I enable the group feature "discussions"
     And   I enable the group feature "documents"
     And   I enable the group feature "events"
@@ -48,4 +49,5 @@ Feature: Group features
     Then  I should see the "Discussions" link on the group menu
     Then  I should see the "Library" link on the group menu
     Then  I should see the "Events" link on the group menu
+    Then  I should see the "Media" link on the group menu
     Then  I should see the "Members" link on the group menu
