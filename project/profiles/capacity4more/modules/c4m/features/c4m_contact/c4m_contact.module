@@ -67,6 +67,9 @@ function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id
     return;
   }
 
+  // Send yourself a copy should be allow to all users and visitors.
+  $form['copy']['#access'] = TRUE;
+
   if (!user_is_anonymous()) {
     global $user;
     $user = user_load($user->uid);
