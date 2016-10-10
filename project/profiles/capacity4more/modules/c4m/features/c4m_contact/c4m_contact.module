@@ -103,6 +103,9 @@ function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id
 
 /**
  * Submit handler for the site contact form.
+ *
+ * Keeps the value only from the data array received from a WYSIWYG field.
+ * Inserts HTML line breaks before all newlines in the value from a textarea.
  */
 function c4m_contact_contact_site_form_submit($form, &$form_state) {
   if (isset($form_state['values']['message']['value'])) {
