@@ -52,6 +52,7 @@ function c4m_contact_mail_alter(&$message) {
   if ($message['id'] == 'contact_page_mail') {
     $message['to'] = variable_get('c4m_contact_email_addresses', variable_get('site_mail'));
     $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed;';
+    $message['body'] = implode('<br><br>', $message['body']);
   }
 }
 
@@ -82,6 +83,9 @@ function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id
 
     $form['mail']['#default_value'] = $user->mail;
     $form['mail']['#disabled'] = TRUE;
+
+    $form['message']['#type'] = 'text_format';
+    $form['message']['#format'] = 'filtered_html';
   }
 
   // Add intro text to form.
@@ -93,6 +97,18 @@ function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id
       '#markup' => $markup,
       '#weight' => -1,
     );
+  }
+  array_unshift($form['#submit'], 'c4m_contact_contact_site_form_submit');
+}
+
+/**
+ * Submit handler for the site contact form.
+ */
+function c4m_contact_contact_site_form_submit($form, &$form_state) {
+  if (isset($form_state['values']['message']['value'])) {
+    $form_state['values']['message'] = $form_state['values']['message']['value'];
+  } else {
+    $form_state['values']['message'] = nl2br($form_state['values']['message']);
   }
 }
 
