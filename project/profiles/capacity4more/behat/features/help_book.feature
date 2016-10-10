@@ -2,7 +2,7 @@ Feature: Help & Guidance
   Test the Help & Guidance book navigation
 
   @api
-  Scenario: Check help book a site admin
+  Scenario: Check help book as a site admin
     Given I am logged in as user "survivalofthefittest"
     When  I define the main help book page
     And   I am on "help-guidance"
@@ -10,7 +10,7 @@ Feature: Help & Guidance
     And   I should see the link "Add child page"
 
   @api
-  Scenario: Check help book as anonymous user
+  Scenario: Check help book as an anonymous user
     Given I am an anonymous user
     When  I am on "help-guidance"
     Then  I should have access to the page
