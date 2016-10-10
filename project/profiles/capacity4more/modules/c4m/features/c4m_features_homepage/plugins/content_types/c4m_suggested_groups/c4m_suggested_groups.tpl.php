@@ -6,15 +6,10 @@
  */
 ?>
 
-<div class="row">
-  <div class="col-md-12 right">
-    <div class="suggested-groups panel-pane">
-      <h2 class="pane-title"><?php print t('Suggested Groups') ?></h2>
-      <?php print $groups ?>
-      <a class="see-more-link" href="<?php print $link; ?>">
-        <?php print t('See more') ?>
-        <i class="fa fa-chevron-right"></i>
-      </a>
-    </div>
+<div class="sidebarblock suggested-groups">
+  <h2 class="sidebarblock__title closely"><?php print t('Suggested Groups') ?></h2>
+  <?php print $groups ?>
+  <div class="sidebarblock__viewmore">
+    <a href="<?php print $link; ?>"><?php print t('See more') ?> <i class="fa fa-chevron-right"></i></a>
   </div>
 </div>
