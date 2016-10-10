@@ -51,7 +51,9 @@ function c4m_contact_c4m_captcha_form_info() {
 function c4m_contact_mail_alter(&$message) {
   if ($message['id'] == 'contact_page_mail') {
     $message['to'] = variable_get('c4m_contact_email_addresses', variable_get('site_mail'));
-    $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed;';
+
+    // Join the header prefix and the message itself into a single string and
+    // separate them by 2 HTML line breaks.
     $message['body'] = implode('<br><br>', $message['body']);
   }
 }
@@ -98,6 +100,8 @@ function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id
       '#weight' => -1,
     );
   }
+  // Prepend a submit callback to handle the difference between visitor and user
+  // forms (with a WIYIWYG editor). Sends a uniform single string value.
   array_unshift($form['#submit'], 'c4m_contact_contact_site_form_submit');
 }
 
