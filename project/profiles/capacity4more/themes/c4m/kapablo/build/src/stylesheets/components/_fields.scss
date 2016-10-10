@@ -25,7 +25,7 @@
   }
 }
 
-.field-name-c4m-og-status {
+.field-name-c4m-og-status:not(.page-node-edit .field-name-c4m-og-status) {
   float: right;
 
   .field-item {

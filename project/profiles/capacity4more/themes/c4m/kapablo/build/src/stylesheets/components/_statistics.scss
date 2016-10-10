@@ -6,6 +6,7 @@ ul.statistics-list {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-between;
   align-items: baseline;
 
   @media (min-width: $screen-desktop) {
@@ -15,7 +16,6 @@ ul.statistics-list {
     table-layout: fixed;
     flex-wrap: nowrap;
     align-content: unset;
-    justify-content: space-between;
   }
 
   li {

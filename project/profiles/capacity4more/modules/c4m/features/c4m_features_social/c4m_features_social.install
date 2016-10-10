@@ -24,20 +24,20 @@ function c4m_features_social_share_settings() {
     'facebook'  => array(
       'enabled' => TRUE,
     ),
-    'googleplus'  => array(
+    'twitter'  => array(
       'enabled' => TRUE,
     ),
-    'twitter'  => array(
+    'googleplus'  => array(
       'enabled' => TRUE,
     ),
     'linkedin'  => array(
       'enabled' => TRUE,
     ),
-    'yammer'  => array(
-      'enabled' => FALSE,
-    ),
     'e-mail'  => array(
       'enabled' => TRUE,
+    ),
+    'yammer'  => array(
+      'enabled' => FALSE,
     ),
     'c4m_print'  => array(
       'enabled' => TRUE,

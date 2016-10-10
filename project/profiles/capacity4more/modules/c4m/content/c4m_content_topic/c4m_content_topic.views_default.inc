@@ -281,7 +281,6 @@ function c4m_content_topic_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Related Groups';
-  $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = TRUE;
   $handler->display->display_options['use_more_text'] = 'Show all';
   $handler->display->display_options['link_display'] = 'custom_url';
@@ -397,6 +396,14 @@ function c4m_content_topic_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'project' => 'project',
   );
+  /* Filter criterion: Content: Status (c4m_og_status) */
+  $handler->display->display_options['filters']['c4m_og_status_value']['id'] = 'c4m_og_status_value';
+  $handler->display->display_options['filters']['c4m_og_status_value']['table'] = 'field_data_c4m_og_status';
+  $handler->display->display_options['filters']['c4m_og_status_value']['field'] = 'c4m_og_status_value';
+  $handler->display->display_options['filters']['c4m_og_status_value']['value'] = array(
+    'published' => 'published',
+    'archived' => 'archived',
+  );
 
   /* Display: Articles */
   $handler = $view->new_display('block', 'Articles', 'block_2');
@@ -407,16 +414,16 @@ function c4m_content_topic_views_default_views() {
   $handler->display->display_options['link_url'] = 'articles?f[0]=c4m_vocab_topic:!1';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   /* Relationship: Entity Reference: Referencing entity */
-  $handler->display->display_options['relationships']['reverse_c4m_related_articles_node']['id'] = 'reverse_c4m_related_articles_node';
-  $handler->display->display_options['relationships']['reverse_c4m_related_articles_node']['table'] = 'node';
-  $handler->display->display_options['relationships']['reverse_c4m_related_articles_node']['field'] = 'reverse_c4m_related_articles_node';
-  $handler->display->display_options['relationships']['reverse_c4m_related_articles_node']['required'] = TRUE;
+  $handler->display->display_options['relationships']['reverse_c4m_related_articles_unlimited_node']['id'] = 'reverse_c4m_related_articles_unlimited_node';
+  $handler->display->display_options['relationships']['reverse_c4m_related_articles_unlimited_node']['table'] = 'node';
+  $handler->display->display_options['relationships']['reverse_c4m_related_articles_unlimited_node']['field'] = 'reverse_c4m_related_articles_unlimited_node';
+  $handler->display->display_options['relationships']['reverse_c4m_related_articles_unlimited_node']['required'] = TRUE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['relationship'] = 'reverse_c4m_related_articles_node';
+  $handler->display->display_options['arguments']['nid']['relationship'] = 'reverse_c4m_related_articles_unlimited_node';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'default';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'node';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';

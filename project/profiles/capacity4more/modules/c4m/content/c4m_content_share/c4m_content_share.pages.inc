@@ -222,6 +222,7 @@ function c4m_content_share_form_submit($form, &$form_state) {
   $node_wrapper->save();
 
   $group = node_load($values['og_group_ref']);
+
   drupal_set_message(
     t(
       'Successfully shared %node_title to <a href="@group_url">%group_title</a>.',
@@ -229,14 +230,7 @@ function c4m_content_share_form_submit($form, &$form_state) {
         '%node_title' => $values['title'],
         '%group_title' => $group->title,
         '@group_url' => url(
-          '<front>',
-          array(
-            'absolute' => TRUE,
-            'purl' => array(
-              'provider' => 'og_purl|node',
-              'id' => $group->nid,
-            ),
-          )
+          'node/' . $group->nid
         ),
       )
     )
