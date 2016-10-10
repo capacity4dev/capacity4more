@@ -18,7 +18,7 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
    */
   protected function checkEntityAccess($op, $entity_type, $entity) {
     $account = $this->getAccount();
-    $resource_name = $this->getResourceName();
+    $resource_name = $this->getPluginKey('bundle');
     $group_id = $this->request['group'];
     $wrapper = entity_metadata_wrapper('node', $group_id);
     $group_status = $wrapper->c4m_og_status->value();
@@ -30,13 +30,6 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
     );
     if (!in_array($group_status, $allowed_groups) && !user_access('administer site configuration', $account)) {
       return FALSE;
-    }
-
-    if ($resource_name == 'documents') {
-      $resource_name = 'document';
-    }
-    elseif ($resource_name == 'discussions') {
-      $resource_name = 'discussion';
     }
 
     return og_user_access('node', $group_id, "create $resource_name content", $account);
