@@ -256,7 +256,7 @@ function c4m_features_og_manage_list_simple($list) {
 }
 
 /**
- * Rebuild taxonomy array to fit our taxonomy_build_tree function
+ * Rebuild taxonomy array to fit our taxonomy_build_tree function.
  *
  * @param array $terms
  *   The list of terms to rebuild.
