@@ -125,10 +125,11 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
     }
 
-    $group = og_context();
-    if (!$group) {
-      return $query;
+    // Get group ID from POST data or from context.
+    if (!$group['gid'] = filter_input(INPUT_POST, 'group', FILTER_VALIDATE_INT)) {
+      $group = og_context();
     }
+
     $node_type = $this->instance['bundle'];
 
     // When trying to add related projects as a power user I should be able to
