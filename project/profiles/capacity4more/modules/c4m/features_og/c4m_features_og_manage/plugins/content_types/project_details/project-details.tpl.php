@@ -84,11 +84,11 @@
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Project topics') ?></div>
-        <div class="col-md-9"><?php print (isset($details['topics'])) ? $details['topics'] : ''; ?></div>
+        <div class="col-md-9"><div class="c4m-taxonomy-tree"><?php print (isset($details['topics'])) ? $details['topics'] : ''; ?></div></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Project regions & countries') ?></div>
-        <div class="col-md-9"><?php print (isset($details['locations'])) ? $details['locations'] : ''; ?></div>
+        <div class="col-md-9"><div class="c4m-taxonomy-tree"><?php print (isset($details['locations'])) ? $details['locations'] : ''; ?></div></div>
       </div>
     </div>
     <div class="project-related-content">

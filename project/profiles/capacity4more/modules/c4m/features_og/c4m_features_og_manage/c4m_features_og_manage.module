@@ -256,6 +256,31 @@ function c4m_features_og_manage_list_simple($list) {
 }
 
 /**
+ * Rebuild taxonomy array to fit our taxonomy_build_tree function
+ *
+ * @param array $terms
+ *   The list of terms to rebuild.
+ *
+ * @return array
+ *   Rebuild list of terms.
+ */
+function c4m_features_og_manage_rebuild_taxonomy($terms) {
+  if (!empty($terms)) {
+    $taxonomy_rebuild = array();
+    foreach ($terms as $term) {
+      $taxonomy_rebuild[] = array(
+        'tid' => $term->tid,
+        'taxonomy_term' => $term,
+      );
+    }
+
+    return $taxonomy_rebuild;
+  }
+
+  return FALSE;
+}
+
+/**
  * Transforms given values into themed HTML list.
  *
  * @param array $topics
@@ -265,29 +290,8 @@ function c4m_features_og_manage_list_simple($list) {
  *   Rendered HTML list.
  */
 function c4m_features_og_manage_list_related_topics($topics) {
-  if (!empty($topics)) {
-    $topic_list = array(
-      'title' => NULL,
-      'type' => 'ul',
-      'items' => array(),
-      'attributes' => array(),
-    );
-    foreach ($topics as $topic) {
-      $options = array(
-        'purl' => array(
-          'disabled' => TRUE,
-        ),
-        'absolute' => TRUE,
-        'query' => array(
-          'f[0]' => 'c4m_vocab_topic:' . $topic->tid,
-        ),
-      );
-      $topic_list['items'][] = l($topic->name, url('search', $options));
-    }
-
-    if (count($topic_list['items']) > 0) {
-      return theme_item_list($topic_list);
-    }
+  if ($topics_rebuild = c4m_features_og_manage_rebuild_taxonomy($topics)) {
+    return c4m_content_taxonomy_build_tree($topics_rebuild);
   }
 
   return FALSE;
@@ -303,29 +307,8 @@ function c4m_features_og_manage_list_related_topics($topics) {
  *   Rendered HTML list.
  */
 function c4m_features_og_manage_list_regions_countries($geo) {
-  if (!empty($geo)) {
-    $geo_list = array(
-      'title' => NULL,
-      'type' => 'ul',
-      'items' => array(),
-      'attributes' => array(),
-    );
-    foreach ($geo as $location) {
-      $options = array(
-        'purl' => array(
-          'disabled' => TRUE,
-        ),
-        'absolute' => TRUE,
-        'query' => array(
-          'f[0]' => 'c4m_vocab_geo:' . $location->tid,
-        ),
-      );
-      $geo_list['items'][] = l($location->name, url('search', $options));
-    }
-
-    if (count($geo_list['items']) > 0) {
-      return theme_item_list($geo_list);
-    }
+  if ($geo_rebuild = c4m_features_og_manage_rebuild_taxonomy($geo)) {
+    return c4m_content_taxonomy_build_tree($geo_rebuild);
   }
 
   return FALSE;
