@@ -86,7 +86,7 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
     if (!$node) {
       throw new \RestfulBadRequestException('The "group" parameter is not a node.');
     }
-    elseif ($node->type != 'group') {
+    elseif ($node->type != 'group' && $node->type != 'project') {
       throw new \RestfulBadRequestException('The "group" parameter is not a of type "group".');
     }
 
