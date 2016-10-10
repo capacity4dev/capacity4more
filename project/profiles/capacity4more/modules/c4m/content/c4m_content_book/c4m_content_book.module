@@ -164,13 +164,11 @@ function c4m_content_book_block_info() {
  */
 function c4m_content_book_block_view($delta = '') {
   $block = array();
-
-  switch ($delta) {
-    case 'help_book_navigation':
-      $block['subject'] = '';
-      $block['content'] = _c4m_content_book_help_book_navigation_content();
-      break;
+  if ($delta != 'help_book_navigation') {
+    return $block;
   }
+  $block['subject'] = '';
+  $block['content'] = _c4m_content_book_help_book_navigation_content();
 
   return $block;
 }
@@ -273,11 +271,16 @@ function c4m_content_book_node_presave($node) {
   }
 
   // We are not saving a help book page.
-  $main_help_page = c4m_content_book_get_main_help_and_guidance();
+  if (!$main_help_page = c4m_content_book_get_main_help_and_guidance()) {
+    return;
+  }
+
   if ($node->book['menu_name'] != $main_help_page->book['menu_name']) {
     return;
   }
 
+  // Since the nav context is displayed by the path, help page URLs should be
+  // prefixed by `help-guidance/` for the nav menu to be displayed.
   $node->path['alias'] = 'help-guidance/' . c4m_og_human_to_machine_readable($node->title);
   $node->path['pathauto'] = 0;
 }
