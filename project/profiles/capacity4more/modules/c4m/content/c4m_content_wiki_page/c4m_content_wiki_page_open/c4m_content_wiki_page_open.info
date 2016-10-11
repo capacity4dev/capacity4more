@@ -1,0 +1,4 @@
+name = Open wiki page for editing
+description = Define which users can edit wiki pages.
+core = 7.x
+dependencies[] = c4m_content_wiki_page

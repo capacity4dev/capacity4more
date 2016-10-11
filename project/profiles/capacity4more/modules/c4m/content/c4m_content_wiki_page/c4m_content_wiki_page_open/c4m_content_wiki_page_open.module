@@ -1,0 +1,82 @@
+<?php
+
+/**
+ * @file
+ * Code for the Wiki page editing permissions.
+ */
+
+define('C4M_CONTENT_WIKI_PAGE_OPEN_REALM', 'open_wiki_page');
+define('C4M_CONTENT_WIKI_PAGE_OPEN_GRANT_ID_OPEN', 0);
+define('C4M_CONTENT_WIKI_PAGE_OPEN_GRANT_ID_PRIVATE', 1);
+
+/**
+ * Implements hook_node_grants().
+ *
+ * Responsible for giving out grants for a given user and operation
+ * (view/update/delete). We will return grants for the update operation. Examine
+ * the current user and provide an array of grant IDs for our realm.
+ */
+function c4m_content_wiki_page_open_node_grants($account, $op) {
+  // We're only interested in providing rules for editing content.
+  if ($op != 'update') {
+    return;
+  }
+  // We need to be in a group context and logged in.
+  if (!$group = c4m_og_current_group() || !user_is_logged_in()) {
+    return;
+  }
+
+  // Assign grant IDs by user status.
+  if (_c4m_features_og_members_is_power_user()) {
+    $grants[C4M_CONTENT_WIKI_PAGE_OPEN_REALM] = array(
+      C4M_CONTENT_WIKI_PAGE_OPEN_GRANT_ID_OPEN,
+      C4M_CONTENT_WIKI_PAGE_OPEN_GRANT_ID_PRIVATE,
+    );
+  }
+  elseif (og_is_member('node', $group->nid, 'user', $account)) {
+    $grants[C4M_CONTENT_WIKI_PAGE_OPEN_REALM] = array(
+      C4M_CONTENT_WIKI_PAGE_OPEN_GRANT_ID_OPEN,
+    );
+  }
+
+  return $grants;
+}
+
+/**
+ * Implements hook_node_access_records().
+ *
+ * Responsible for populating the node_access table. It does this whenever a
+ * nodes is saved, or if the node permissions are rebuilt. We examine the node
+ * to see if it is private or open and return grants accordingly.
+ */
+function c4m_content_wiki_page_open_node_access_records($node) {
+  // We're only interested in providing rules for wiki pages.
+  if ($node->type != 'wiki_page') {
+    return;
+  }
+
+  $private = $node->field_c4m_editing_open;
+
+  if ($private) {
+    $grants[] = array(
+      'realm' => C4M_CONTENT_WIKI_PAGE_OPEN_REALM,
+      'gid' => C4M_CONTENT_WIKI_PAGE_OPEN_GRANT_ID_PRIVATE,
+      'grant_view' => 1,
+      'grant_update' => 1,
+      'grant_delete' => 0,
+      'priority' => 0,
+    );
+  }
+  else {
+    $grants[] = array(
+      'realm' => C4M_CONTENT_WIKI_PAGE_OPEN_REALM,
+      'gid' => C4M_CONTENT_WIKI_PAGE_OPEN_GRANT_ID_OPEN,
+      'grant_view' => 1,
+      'grant_update' => 0,
+      'grant_delete' => 0,
+      'priority' => 0,
+    );
+  }
+
+  return $grants;
+}
