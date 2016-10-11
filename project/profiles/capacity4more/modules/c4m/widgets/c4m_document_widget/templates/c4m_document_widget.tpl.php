@@ -28,7 +28,7 @@
          */
         var c4m_attachment_overlay = function (media) {
           window.location = '#overlay=<?php print c4m_og_current_group_purl(); ?>/overlay-file/' + media[0].fid;
-        }
+        };
 
         // Options to define which tabs to display in the media browser modal.
         var media_browser_options = {'enabledPlugins[media_default--media_browser_my_files]': 'media_default--media_browser_my_files'};
