@@ -1119,7 +1119,7 @@ function c4m_message_load_tokens__c4m_notify_content_recommendation(Message $mes
   );
 
   $message->arguments['!user_unsubscribe_recommend_url'] = array(
-    'callback' => 'c4m_message_format_node_unsubscribe_url',
+    'callback' => 'c4m_message_format_unsubscribe_content_url',
     'pass message' => TRUE,
   );
 
@@ -2158,7 +2158,7 @@ function c4m_message_format_node_recommend_count(Message $message) {
 }
 
 /**
- * Returns a teaser of nodes body.
+ * Returns a teaser of content's body (intro text, if it's an article).
  *
  * @param Message $message
  *   The Message entity.
@@ -2169,11 +2169,13 @@ function c4m_message_format_node_recommend_count(Message $message) {
 function c4m_message_format_node_body_teaser(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $node = $wrapper->field_node->value();
-  if (empty($node->c4m_body)) {
+
+  $teaser_field = ($node->type == 'article') ? 'c4m_intro_text' : 'c4m_body';
+  if (empty($node->{$teaser_field})) {
     return '';
   }
 
-  $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
+  $body_teaser = field_view_field('node', $node, $teaser_field, 'teaser');
 
   return strip_tags($body_teaser[0]['#markup']);
 }
