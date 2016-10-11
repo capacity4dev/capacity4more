@@ -18,7 +18,9 @@
         <p class="cfm-file-upload__title"><?php print t('Drop file here to upload documents'); ?></p>
         <a href="javascript://" ng-click="browseFiles('<?php print $field_name; ?>')"> <?php print t('or browse'); ?> </a>
       </div>
-      <a href="<?php print url('overlay/documents', array('absolute' => TRUE, 'purl' => array('disabled' => FALSE))); ?>" ng-click="setFieldName('<?php print $field_name; ?>')" id="link-<?php print $field_name; ?>" ng-class="{'active-library-link':fieldName === '<?php print $field_name; ?>'}">
+      <a href="JavaScript://" onclick="Drupal.media.popups.mediaBrowser(function(media){window.location = '#overlay=nobelprize/overlay-file/' + media[0].fid;},{'enabledPlugins[media_default--media_browser_my_files]': 'media_default--media_browser_my_files'})"
+         ng-click="setFieldName('<?php print $field_name; ?>')" id="link-<?php print $field_name; ?>"
+         ng-class="{'active-library-link':fieldName === '<?php print $field_name; ?>'}">
         <?php print t('or select a document from the library') ?>
       </a>
     </div>
