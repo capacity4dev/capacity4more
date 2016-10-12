@@ -98,6 +98,7 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
  */
 function _c4m_og_purl_allowed_paths() {
   return array(
+    'dashboard',
     'node',
     'group',
     'wiki',
