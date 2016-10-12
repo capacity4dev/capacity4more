@@ -656,7 +656,7 @@ function c4m_content_group_ds_fields_info($entity_type) {
  *   Count.
  */
 function c4m_user_get_administered_groups_count($uid) {
-  return c4m_og_get_user_administered_groups_count($uid, 'group');
+  return c4m_og_get_user_administered_groups_count($uid);
 }
 
 /**

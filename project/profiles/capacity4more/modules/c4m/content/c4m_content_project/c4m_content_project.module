@@ -187,7 +187,7 @@ function c4m_content_project_set_number_of_items_states(&$form, $element) {
 }
 
 /**
- * Returns the administered groups count for an user.
+ * Returns the administered projects count for an user.
  *
  * @param int $uid
  *   User id.
@@ -196,7 +196,46 @@ function c4m_content_project_set_number_of_items_states(&$form, $element) {
  *   Count.
  */
 function c4m_content_project_get_administered_projects_count($uid) {
-  return c4m_og_get_user_administered_groups_count($uid, 'project');
+  return c4m_og_get_user_project_memberships_count($uid, OG_STATE_ACTIVE, 'project');
+}
+
+/**
+ * Returns the administered programmes count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_content_project_get_administered_programmes_count($uid) {
+  return c4m_og_get_user_project_memberships_count($uid, OG_STATE_ACTIVE, 1);
+}
+
+/**
+ * Returns the pending projects count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_content_project_get_pending_projects_count($uid) {
+  return c4m_og_get_user_project_memberships_count($uid, OG_STATE_PENDING, 'project');
+}
+
+/**
+ * Returns the pending programmes count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_content_project_get_pending_programmes_count($uid) {
+  return c4m_og_get_user_project_memberships_count($uid, OG_STATE_PENDING, 1);
 }
 
 /**
@@ -230,6 +269,21 @@ function c4m_content_project_c4m_helper_entity_metrics_info() {
       'type' => 'projects_administered',
       'context' => 'user',
       'callback' => 'c4m_content_project_get_administered_projects_count',
+    ),
+    'c4m_user_programmes_administered' => array(
+      'type' => 'programmes_administered',
+      'context' => 'user',
+      'callback' => 'c4m_content_project_get_administered_programmes_count',
+    ),
+    'c4m_user_projects_pending' => array(
+      'type' => 'projects_pending',
+      'context' => 'user',
+      'callback' => 'c4m_content_project_get_pending_projects_count',
+    ),
+    'c4m_user_programmes_pending' => array(
+      'type' => 'programmes_pending',
+      'context' => 'user',
+      'callback' => 'c4m_content_project_get_pending_programmes_count',
     ),
   );
 }

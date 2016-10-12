@@ -322,8 +322,8 @@ function c4m_content_project_ds_field_settings_info() {
         'ft' => array(
           'func' => 'theme_ds_field_expert',
           'ow' => TRUE,
-          'ow-el' => 'h1',
-          'ow-cl' => '',
+          'ow-el' => 'h2',
+          'ow-cl' => 'system-block-title',
           'ow-def-cl' => FALSE,
           'ow-at' => '',
           'ow-def-at' => FALSE,

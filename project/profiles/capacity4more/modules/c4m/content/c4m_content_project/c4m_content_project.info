@@ -101,6 +101,7 @@ features[field_instance][] = paragraphs_item-c4m_paragraph_system_block-c4m_bloc
 features[field_instance][] = paragraphs_item-c4m_paragraph_system_block-c4m_heading
 features[field_instance][] = paragraphs_item-c4m_paragraph_system_block-c4m_number_of_items
 features[field_instance][] = paragraphs_item-c4m_paragraph_text-c4m_heading
+features[field_instance][] = paragraphs_item-c4m_paragraph_text-c4m_intro_text
 features[field_instance][] = paragraphs_item-c4m_paragraph_twitter-c4m_twitter_hashtag
 features[field_instance][] = paragraphs_item-c4m_paragraph_twitter-c4m_twitter_keywords
 features[field_instance][] = paragraphs_item-c4m_paragraph_twitter-c4m_twitter_username

@@ -40,6 +40,11 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     return;
   }
 
+  // Disable form validation when SA deletes a node.
+  if (!empty($form['actions']['delete']) && c4m_user_is_site_admin()) {
+    $form['actions']['delete']['#limit_validation_errors'] = array();
+  }
+
   // Use destination parameter when set.
   $params = drupal_get_query_parameters();
   if (empty($params['destination'])) {

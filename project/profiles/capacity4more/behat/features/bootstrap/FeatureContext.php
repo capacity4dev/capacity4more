@@ -26,6 +26,7 @@ require __DIR__ . '/FeatureContext/GroupMembers.php';
 require __DIR__ . '/FeatureContext/Highlights.php';
 require __DIR__ . '/FeatureContext/Homepage.php';
 require __DIR__ . '/FeatureContext/Learning.php';
+require __DIR__ . '/FeatureContext/HelpBook.php';
 require __DIR__ . '/FeatureContext/MainMenu.php';
 require __DIR__ . '/FeatureContext/Node.php';
 require __DIR__ . '/FeatureContext/NodeJs.php';
@@ -71,6 +72,7 @@ class FeatureContext extends DrupalContext {
   use FeatureContext\Highlights;
   use FeatureContext\Homepage;
   use FeatureContext\Learning;
+  use FeatureContext\HelpBook;
   use FeatureContext\MainMenu;
   use FeatureContext\Node;
   use FeatureContext\NodeJs;
