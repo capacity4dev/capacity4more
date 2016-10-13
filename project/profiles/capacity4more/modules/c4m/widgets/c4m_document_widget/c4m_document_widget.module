@@ -437,7 +437,7 @@ function c4m_document_widget_add_document_file($file_id) {
   // PURL options.
   $options_context = array(
     'purl' => array(
-      'enabled' => TRUE,
+      'disabled' => FALSE,
     ),
     'absolute' => TRUE,
   );
