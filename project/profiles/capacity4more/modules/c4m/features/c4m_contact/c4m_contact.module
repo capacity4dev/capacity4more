@@ -6,6 +6,11 @@
  */
 
 /**
+ * The allowed format for the CKEditor widget on the contact form.
+ */
+define('C4M_CONTACT_ALLOWED_FORMAT', 'filtered_html');
+
+/**
  * Implements hook_permission().
  */
 function c4m_contact_permission() {
@@ -87,7 +92,23 @@ function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id
     $form['mail']['#disabled'] = TRUE;
 
     $form['message']['#type'] = 'text_format';
-    $form['message']['#format'] = 'filtered_html';
+    $form['message']['#format'] = C4M_CONTACT_ALLOWED_FORMAT;
+    $form['#after_build'][] = 'c4m_contact_node_form_after_build';
+  }
+
+  /**
+   * Removes the filter options select box from the contact form.
+   *
+   * @param array $form
+   *   Nested array of form elements that comprise the form.
+   *
+   * @return array
+   *   Modified array of form elements that comprise the form.
+   */
+  function c4m_contact_node_form_after_build($form) {
+    $form['message']['format']['#access'] = FALSE;
+
+    return $form;
   }
 
   // Add intro text to form.
@@ -109,15 +130,29 @@ function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id
  * Submit handler for the site contact form.
  *
  * Keeps the value only from the data array received from a WYSIWYG field.
- * Inserts HTML line breaks before all newlines in the value from a textarea.
  */
 function c4m_contact_contact_site_form_submit($form, &$form_state) {
   if (isset($form_state['values']['message']['value'])) {
     $form_state['values']['message'] = $form_state['values']['message']['value'];
   }
-  else {
+
+  // Inserts HTML line breaks before all newlines.
+  if (!_c4m_contact_string_is_html($form_state['values']['message'])) {
     $form_state['values']['message'] = nl2br($form_state['values']['message']);
   }
+}
+
+/**
+ * Helper to detect if a string contains HTML entities.
+ *
+ * @param string $string
+ *   The string to determine if contains HTML tags.
+ *
+ * @return bool
+ *   Whether the string contains HTML tags.
+ */
+function _c4m_contact_string_is_html($string) {
+  return preg_match("/<[^<]+>/", $string, $m) != 0;
 }
 
 /**
