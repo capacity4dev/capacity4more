@@ -42,9 +42,9 @@
   }
 
   &.node-share {
-    .field-name-c4m-source-entity {
+    .field-name-c4m-source-entity, .field-name-title {
       background: $color-background;
-      margin-left: 2em;
+      margin: 0 0 0 2em;
       padding: 1em;
 
       h2 {
