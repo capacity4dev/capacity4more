@@ -838,7 +838,7 @@ function c4m_user_og_follow_group_cta($group) {
   $item = array(
     '#theme' => 'c4m_group_text_cta',
     '#icon' => 'fa-bell-o',
-    '#text' => flag_create_link('subscribe_c4m_follow_group', $group->nid),
+    '#text' => c4m_content_group_theme_toggle_notification_link(),
     '#weight' => 50,
   );
 
