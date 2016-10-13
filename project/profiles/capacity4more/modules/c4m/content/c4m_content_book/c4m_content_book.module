@@ -148,6 +148,144 @@ function c4m_content_book_help_and_guidance_autocomplete($title = '') {
 }
 
 /**
+ * Implements hook_block_info().
+ */
+function c4m_content_book_block_info() {
+  $blocks = array();
+  $blocks['help_book_navigation'] = array(
+    'info' => t('Help pages navigation'),
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_content_book_block_view($delta = '') {
+  $block = array();
+  if ($delta != 'help_book_navigation') {
+    return $block;
+  }
+  $block['subject'] = '';
+  $block['content'] = _c4m_content_book_help_book_navigation_content();
+
+  return $block;
+}
+
+/**
+ * Get the titles of the help book.
+ *
+ * @return null|string
+ *   Rendered help pages navigation.
+ */
+function _c4m_content_book_help_book_navigation_content() {
+  if (!$book_node = c4m_content_book_get_main_help_and_guidance()) {
+    if (c4m_user_is_site_admin()) {
+      $link = l(t('Please setup one'), 'admin/config/c4m/help_and_guidance', array('purl' => array('disabled' => TRUE)));
+      drupal_set_message(t('Unable to retrieve the main help and guidance book. !link.', array('!link' => $link)), 'error');
+    }
+    return NULL;
+  }
+  $markup = '<div class="c4m-sidebar-book-navigation"><h3>Help & Guidance</h3></div>';
+  // We have to replicate some code because we cannot just
+  // call theme('book_navigation', array('book_link' => ...)) because
+  // we want to remove level 0 from the tree.
+  $tree = menu_tree_all_data($book_node->book['menu_name']);
+
+  if (empty($tree)) {
+    return NULL;
+  }
+
+  // Remove level 0 first.
+  $tree = $tree[key($tree)]['below'];
+  $tree = menu_tree_output($tree);
+
+  // Fix the theme hook suggestions.
+  // Do this so we end up in OUR theme overrides.
+  $file = DRUPAL_ROOT . '/' . drupal_get_path('theme', 'bootstrap') .
+    '/templates/book/book-navigation.vars.php';
+  if (file_exists($file)) {
+    require_once $file;
+    _bootstrap_book_fix_theme_hooks($book_node->book['nid'], $tree);
+  }
+
+  // Return the rendered output.
+  $markup .= drupal_render($tree);
+  // We need to clear the menu build tree cache for this menu or the building
+  // of book navigation will fail as it will have nids for node objects.
+  drupal_static_reset('_menu_build_tree');
+
+  // See if user should access these links.
+  if (!c4m_user_is_site_admin()) {
+    return $markup;
+  }
+
+  // On a wrong URL (page not found), do not display the navigation block.
+  if (!$current_page_object = menu_get_object()) {
+    return;
+  }
+  $current_page = $current_page_object->book['mlid'];
+  $parent_page = $current_page_object->book['plid'];
+  $depth = $current_page_object->book['depth'];
+
+  $options = array(
+    'attributes' => array(
+      'class' => 'add-more',
+    ),
+    'html' => TRUE,
+  );
+
+  // Links to add new book pages.
+  $links = array(
+    l(
+      '<i class="fa fa-plus-square-o"></i> ' . t('Add page on same level'),
+      'node/add/book',
+      array_merge($options, array('query' => array('parent' => $parent_page)))
+    ),
+    $depth <= 5 ? l(
+      '<i class="fa fa-plus-square-o"></i> ' . t('Add child page'),
+      'node/add/book',
+      array_merge($options, array('query' => array('parent' => $current_page)))
+    ) : '',
+  );
+
+  $markup .= theme(
+    'item_list',
+    array('items' => $links, 'attributes' => array('class' => 'add-links'))
+  );
+
+  return $markup;
+}
+
+/**
+ * Implements hook_node_presave().
+ *
+ * Correct the autopath alias and add the `help-guidance/` prefix to the path of
+ * new help pages.
+ */
+function c4m_content_book_node_presave($node) {
+  // We are not saving a book page.
+  if ($node->type != 'book' || empty($node->book['menu_name'])) {
+    return;
+  }
+
+  // We are not saving a help book page.
+  if (!$main_help_page = c4m_content_book_get_main_help_and_guidance()) {
+    return;
+  }
+
+  if ($node->book['menu_name'] != $main_help_page->book['menu_name']) {
+    return;
+  }
+
+  // Since the nav context is displayed by the path, help page URLs should be
+  // prefixed by `help-guidance/` for the nav menu to be displayed.
+  $node->path['alias'] = 'help-guidance/' . c4m_og_human_to_machine_readable($node->title);
+  $node->path['pathauto'] = 0;
+}
+
+/**
  * Join the autocomplete with the book table to only show main books.
  *
  * @param \QueryAlterableInterface $query

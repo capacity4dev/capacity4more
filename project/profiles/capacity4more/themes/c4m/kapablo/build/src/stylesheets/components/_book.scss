@@ -13,3 +13,9 @@
 //    }
 //  }
 //}
+
+@media (max-width: $screen-sm-min) {
+  .c4m-sidebar-book-navigation {
+    padding-top: 5vh;
+  }
+}
