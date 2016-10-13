@@ -14,3 +14,6 @@ projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "3.0"
+
+projects[exif_orientation][subdir] = "contrib"
+projects[exif_orientation]version] = "1.1"

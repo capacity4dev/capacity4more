@@ -40,6 +40,11 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     return;
   }
 
+  // Disable form validation when SA deletes a node.
+  if (!empty($form['actions']['delete']) && c4m_user_is_site_admin()) {
+    $form['actions']['delete']['#limit_validation_errors'] = array();
+  }
+
   // Use destination parameter when set.
   $params = drupal_get_query_parameters();
   if (empty($params['destination'])) {
@@ -1071,6 +1076,14 @@ function _c4m_content_taxonomy_extract_root_item(&$items) {
  * For OG type 'group', allows access for group members and power users.
  */
 function c4m_content_create_group_content_access() {
+  $item = menu_get_item();
+
+  // Making sure the current request is for the node/add form.
+  preg_match('/node\/add\/(discussion|document|event|news|photo(album)?|wiki-page)/', $item['path'], $matches);
+  if (empty($matches[0])) {
+    return;
+  }
+
   // If not under og context, return early.
   if (!$context = og_context()) {
     drupal_access_denied();

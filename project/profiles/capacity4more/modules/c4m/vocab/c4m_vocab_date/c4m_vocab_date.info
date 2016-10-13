@@ -2,6 +2,7 @@ name = Date vocabulary
 description = Provides the Date vocabulary.
 core = 7.x
 package = capacity4more - Vocabulary
+dependencies[] = ctools
 dependencies[] = features
 dependencies[] = strongarm
 dependencies[] = taxonomy

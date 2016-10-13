@@ -1,3 +1,17 @@
+.project-management-dashboard,
+.group-management-dashboard {
+  .row {
+    margin-bottom: 1rem;
+
+    .item-list {
+      ul {
+        list-style: none;
+        padding-left: 0;
+      }
+    }
+  }
+}
+
 .field-name-c4m-partners {
   margin: 0 -0.6em;
 
@@ -12,5 +26,19 @@
     color: $color-text-alternative;
     font-size: 250%;
     margin-bottom: 2rem;
+  }
+}
+
+.node-project {
+  &.view-mode-group_dashboard {
+    > .content > .field {
+      border-bottom: 1px dotted $color-gray-light;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+
+      h3.label-above {
+        margin-bottom: 0.4rem;
+      }
+    }
   }
 }

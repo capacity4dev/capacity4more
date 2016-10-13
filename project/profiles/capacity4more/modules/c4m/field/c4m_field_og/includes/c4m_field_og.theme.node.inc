@@ -38,49 +38,25 @@ function theme_c4m_field_og_group($field) {
     return;
   }
 
-  if ($entity->type == 'share') {
-    $node = entity_metadata_wrapper('node', $entity);
-    $original_entity = entity_metadata_wrapper(
-      'node',
-      $node->c4m_source_entity->value()
-    );
-    $group = $original_entity->og_group_ref->value();
+  // Get group node.
+  $groups = og_get_entity_groups('node', $entity);
 
-    $uri_info = entity_uri('node', $group);
-
-    c4m_og_purl_alter_uri_info_purl_dashboard($uri_info);
-
-    // Return a link to the group dashboard.
-    $output = l($group->title, $uri_info['path'], $uri_info['options']);
-    if (!empty($field['formatter_settings']['show_group_type'])) {
-      $output = t(
-        'Original @group_type: !output',
-        array('@group_type' => $group->type, '!output' => $output)
-      );
-    }
+  // Only show this field for group nodes.
+  if (!isset($groups['node'])) {
+    return;
   }
-  else {
 
-    // Get group node.
-    $groups = og_get_entity_groups('node', $entity);
+  $group_nid = array_pop($groups['node']);
+  $group = node_load($group_nid);
 
-    // Only show this field for group nodes.
-    if (!isset($groups['node'])) {
-      return;
-    }
+  $uri_info = entity_uri('node', $group);
 
-    $group_nid = array_pop($groups['node']);
-    $group = node_load($group_nid);
+  c4m_og_purl_alter_uri_info_purl_dashboard($uri_info);
 
-    $uri_info = entity_uri('node', $group);
-
-    c4m_og_purl_alter_uri_info_purl_dashboard($uri_info);
-
-    // Return a link to the group dashboard.
-    $output = l($group->title, $uri_info['path'], $uri_info['options']);
-    if (!empty($field['formatter_settings']['show_group_type'])) {
-      $output = ucfirst($group->type) . ': ' . $output;
-    }
+  // Return a link to the group dashboard.
+  $output = l($group->title, $uri_info['path'], $uri_info['options']);
+  if (!empty($field['formatter_settings']['show_group_type'])) {
+    $output = ucfirst($group->type) . ': ' . $output;
   }
 
   return $output;

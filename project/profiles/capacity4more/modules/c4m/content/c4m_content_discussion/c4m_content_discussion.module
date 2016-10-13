@@ -213,7 +213,7 @@ function c4m_content_discussion_c4m_helper_entity_label_info() {
       'icon' => 'fa-question-circle',
     ),
     'discussion-idea' => array(
-      'article' => t('a'),
+      'article' => t('an'),
       'singular' => t('idea'),
       'plural' => t('ideas'),
       'insert action' => t('posted an Idea'),

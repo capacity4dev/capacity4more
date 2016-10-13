@@ -82,12 +82,11 @@ function c4m_content_project_field_group_info() {
     'weight' => '10',
     'children' => array(
       0 => 'c4m_date_end',
-      1 => 'c4m_implemented_by',
-      2 => 'c4m_money',
-      4 => 'c4m_source_of_funding',
-      5 => 'c4m_project_geodata',
-      6 => 'c4m_project_stakeholders',
-      7 => 'c4m_project_url',
+      1 => 'c4m_money',
+      2 => 'c4m_project_geodata',
+      3 => 'c4m_project_stakeholders',
+      4 => 'c4m_project_url',
+      5 => 'c4m_source_of_funding',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
