@@ -34,7 +34,7 @@ function c4m_og_group_menu_block_view_alter(&$data, $block) {
     if ($value['#title'] == 'Home') {
       // Group home link.
       $value['#attributes']['class'][] = 'front';
-      if ($item['path'] == 'node') {
+      if ($item['path'] == 'node' || $item['path'] == 'dashboard') {
         $value['#attributes']['class'][] = 'active';
       }
     }
