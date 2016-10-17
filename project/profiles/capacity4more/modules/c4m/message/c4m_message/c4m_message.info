@@ -8,6 +8,7 @@ dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = list
 dependencies[] = message
+dependencies[] = strongarm
 dependencies[] = views
 dependencies[] = views_content
 features[ctools][] = strongarm:strongarm:1
