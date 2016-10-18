@@ -279,7 +279,7 @@ If it is part of a photo album, it might have been added while creating the phot
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 20,
       ),
       'pinned_content' => array(
         'label' => 'above',
@@ -502,7 +502,7 @@ If it is part of a photo album, it might have been added while creating the phot
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 28,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -598,7 +598,7 @@ If it is part of a photo album, it might have been added while creating the phot
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 29,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -695,7 +695,7 @@ If it is part of a photo album, it might have been added while creating the phot
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 28,
+        'weight' => 31,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -805,7 +805,7 @@ If it is part of a photo album, it might have been added while creating the phot
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 30,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

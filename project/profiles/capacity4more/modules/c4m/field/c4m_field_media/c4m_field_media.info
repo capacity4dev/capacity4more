@@ -5,6 +5,7 @@ package = capacity4more - Fields
 dependencies[] = c4m_ds
 dependencies[] = ctools
 dependencies[] = ds
+dependencies[] = exif_orientation
 dependencies[] = features
 dependencies[] = file_entity
 dependencies[] = image

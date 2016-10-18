@@ -55,7 +55,7 @@ function c4m_content_share_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 0,
+        'weight' => 2,
       ),
       'activity_group' => array(
         'label' => 'hidden',
@@ -203,15 +203,15 @@ function c4m_content_share_field_default_field_instances() {
           'view_mode' => 'activity_group',
         ),
         'type' => 'entityreference_entity_view',
-        'weight' => 1,
+        'weight' => 3,
       ),
       'activity_group' => array(
         'label' => 'hidden',
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
-          'use_content_language' => TRUE,
-          'view_mode' => 'activity_global',
+          'use_content_language' => 1,
+          'view_mode' => 'activity_group',
         ),
         'type' => 'entityreference_entity_view',
         'weight' => 3,
@@ -316,7 +316,7 @@ function c4m_content_share_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 2,
+        'weight' => 23,
       ),
       'activity_group' => array(
         'label' => 'hidden',
