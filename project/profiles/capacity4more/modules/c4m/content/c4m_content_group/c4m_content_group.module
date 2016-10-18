@@ -902,9 +902,6 @@ function c4m_content_group_create_toggle_notification_link($account, $group) {
 /**
  * Themes toggle group notifications link.
  *
- * @param array $field
- *  The field definition.
- *
  * @return \Html|void
  *   Rendered html for field.
  */
