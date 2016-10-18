@@ -49,17 +49,12 @@ angular.module('c4mApp')
             if (angular.isObject(allowedValues) && Object.keys(allowedValues).length) {
               submitData[field] = {};
             }
-
-            var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
-            angular.forEach(textFields, function (field) {
-              if (!field) {
-                submitData[field] = field == 'tags' ? [] : '';
-              }
-            });
           });
+
           submitData.document = fileId;
           submitData.group = DrupalSettings.getData('groupID');
           submitData.add_to_library = addToLibrary ? 1 : 0;
+          submitData.label = $scope.data.label;
 
           EntityResource.createEntity(submitData, 'documents', resourceFields)
             .success(function (data, status) {
