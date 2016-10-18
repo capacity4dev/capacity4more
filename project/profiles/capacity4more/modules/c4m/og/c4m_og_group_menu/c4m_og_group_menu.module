@@ -154,7 +154,7 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
  *   Contains options (path link => title) of all wiki pages.
  */
 function _c4m_og_group_menu_process_page($page, &$wiki_options) {
-  // Add details of current page to wiki details.
+  // Add details of current page to wiki options.
   $page_link = $page['link'];
   $wiki_options[$page_link['link_path']] = $page_link['link_title'];
 
@@ -162,6 +162,6 @@ function _c4m_og_group_menu_process_page($page, &$wiki_options) {
   // activation of this function.
   $below_pages = $page['below'];
   foreach ($below_pages as $below_page) {
-    _c4m_og_group_menu_process_page($below_page, $wiki_details);
+    _c4m_og_group_menu_process_page($below_page, $wiki_options);
   }
 }
