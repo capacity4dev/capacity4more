@@ -76,6 +76,9 @@ function c4m_content_inthe_picture_strongarm() {
         'path' => array(
           'weight' => '6',
         ),
+        'redirect' => array(
+          'weight' => '30',
+        ),
       ),
       'display' => array(),
     ),

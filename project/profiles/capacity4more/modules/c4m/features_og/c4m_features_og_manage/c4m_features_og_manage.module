@@ -256,6 +256,31 @@ function c4m_features_og_manage_list_simple($list) {
 }
 
 /**
+ * Rebuild taxonomy array to fit our taxonomy_build_tree function.
+ *
+ * @param array $terms
+ *   The list of terms to rebuild.
+ *
+ * @return array
+ *   Rebuild list of terms.
+ */
+function c4m_features_og_manage_rebuild_taxonomy($terms) {
+  if (!empty($terms)) {
+    $taxonomy_rebuild = array();
+    foreach ($terms as $term) {
+      $taxonomy_rebuild[] = array(
+        'tid' => $term->tid,
+        'taxonomy_term' => $term,
+      );
+    }
+
+    return $taxonomy_rebuild;
+  }
+
+  return FALSE;
+}
+
+/**
  * Transforms given values into themed HTML list.
  *
  * @param array $topics
@@ -265,29 +290,8 @@ function c4m_features_og_manage_list_simple($list) {
  *   Rendered HTML list.
  */
 function c4m_features_og_manage_list_related_topics($topics) {
-  if (!empty($topics)) {
-    $topic_list = array(
-      'title' => NULL,
-      'type' => 'ul',
-      'items' => array(),
-      'attributes' => array(),
-    );
-    foreach ($topics as $topic) {
-      $options = array(
-        'purl' => array(
-          'disabled' => TRUE,
-        ),
-        'absolute' => TRUE,
-        'query' => array(
-          'f[0]' => 'c4m_vocab_topic:' . $topic->tid,
-        ),
-      );
-      $topic_list['items'][] = l($topic->name, url('search', $options));
-    }
-
-    if (count($topic_list['items']) > 0) {
-      return theme_item_list($topic_list);
-    }
+  if ($topics_rebuild = c4m_features_og_manage_rebuild_taxonomy($topics)) {
+    return c4m_content_taxonomy_build_tree($topics_rebuild);
   }
 
   return FALSE;
@@ -303,29 +307,8 @@ function c4m_features_og_manage_list_related_topics($topics) {
  *   Rendered HTML list.
  */
 function c4m_features_og_manage_list_regions_countries($geo) {
-  if (!empty($geo)) {
-    $geo_list = array(
-      'title' => NULL,
-      'type' => 'ul',
-      'items' => array(),
-      'attributes' => array(),
-    );
-    foreach ($geo as $location) {
-      $options = array(
-        'purl' => array(
-          'disabled' => TRUE,
-        ),
-        'absolute' => TRUE,
-        'query' => array(
-          'f[0]' => 'c4m_vocab_geo:' . $location->tid,
-        ),
-      );
-      $geo_list['items'][] = l($location->name, url('search', $options));
-    }
-
-    if (count($geo_list['items']) > 0) {
-      return theme_item_list($geo_list);
-    }
+  if ($geo_rebuild = c4m_features_og_manage_rebuild_taxonomy($geo)) {
+    return c4m_content_taxonomy_build_tree($geo_rebuild);
   }
 
   return FALSE;
@@ -584,13 +567,15 @@ function c4m_features_og_manage_project_details() {
       'project/node/' . $project->nid . '/admin/owner',
       array('absolute' => TRUE)
     ),
-    'members' => t('No members'),
-    'members_edit' => url('members', $options),
+    'admins' => t('No administrators'),
+    'admins_edit' => url('group/node/' . $project->nid . '/admin/people', $options),
     'purl' => url($wrapper->value()->purl, array('absolute' => TRUE)),
     'title' => '<strong>' . $wrapper->label() . '</strong>',
+    'tagline' => t('No tag line'),
     'description' => $wrapper->c4m_body->value(),
     'duration' => t('No duration'),
     'total_budget' => t('No total budget'),
+    'stakeholders' => t('No stakeholders'),
     'source_funding' => t('No source of funding'),
     'partners' => t('No partners'),
     'cris_decision_number' => t('No CRIS Decision number'),
@@ -638,6 +623,26 @@ function c4m_features_og_manage_project_details() {
     $details['total_budget'] = $total_budget[0]['#markup'];
   }
 
+  // Tag line.
+  $tagline = $wrapper->c4m_project_tag_line->value();
+  if (!empty($tagline)) {
+    $tagline = field_view_field('node', $project, 'c4m_project_tag_line');
+    $details['tagline'] = $tagline[0]['#markup'];
+  }
+
+  // Stage.
+  $stage = $wrapper->c4m_project_stage->value();
+  if (!empty($stage)) {
+    $stage = field_view_field('node', $project, 'c4m_project_stage');
+    $details['stage'] = $stage[0]['#markup'];
+  }
+
+  // Stakeholders.
+  $stakeholders = $wrapper->c4m_project_stakeholders->value();
+  if ($list = c4m_features_og_manage_list_simple($stakeholders)) {
+    $details['stakeholders'] = $list;
+  }
+
   // Source of funding.
   $c4m_sources_of_funding = $wrapper->c4m_source_of_funding->value();
   if ($list = c4m_features_og_manage_list_simple($c4m_sources_of_funding)) {
@@ -666,6 +671,16 @@ function c4m_features_og_manage_project_details() {
   $related_projects = $wrapper->c4m_related_projects->value();
   if ($list = c4m_features_og_manage_list_related($related_projects)) {
     $details['related_projects'] = $list;
+  }
+
+  // List of partners.
+  $partners = $wrapper->c4m_partners->value();
+  if (!empty($partners)) {
+    $partner_titles = array();
+    foreach ($partners as $partner) {
+      $partner_titles[] = $partner->c4m_heading[LANGUAGE_NONE][0]['safe_value'];
+    }
+    $details['partners'] = c4m_features_og_manage_list_simple($partner_titles);
   }
 
   // Get categories and terms count for current group.
