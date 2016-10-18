@@ -29,7 +29,7 @@ angular.module('c4mApp')
      */
     $scope.createDocument = function (event, fileId, data, addToLibrary) {
       // Preventing the form from redirecting to the "action" url.
-      // We nee the url in the action because of the "overlay" module.
+      // We need the url in the action because of the "overlay" module.
       event.preventDefault();
       DrupalSettings.getFieldSchema('documents')
         .then(function (data) {
@@ -40,7 +40,7 @@ angular.module('c4mApp')
           var submitData = Request.cleanFields(data, resourceFields);
 
           angular.forEach(resourceFields, function (data, field) {
-            // Don't change the group field Or resource object.
+            // Don't change the group field or resource object.
             if (field == 'resources' || field == 'group' || field == "tags") {
               return;
             }
@@ -48,17 +48,12 @@ angular.module('c4mApp')
             if (angular.isObject(allowedValues) && Object.keys(allowedValues).length) {
               submitData[field] = {};
             }
-
-            var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
-            angular.forEach(textFields, function (field) {
-              if (!field) {
-                submitData[field] = field == 'tags' ? [] : '';
-              }
-            });
           });
+
           submitData.document = fileId;
           submitData.group = DrupalSettings.getData('groupID');
           submitData.add_to_library = addToLibrary ? 1 : 0;
+          submitData.label = $scope.data.label;
 
           EntityResource.createEntity(submitData, 'documents', resourceFields)
             .success(function (data, status) {
