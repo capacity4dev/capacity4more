@@ -18,7 +18,7 @@ function c4m_content_project_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'block_list';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -31,7 +31,7 @@ function c4m_content_project_ds_field_settings_info() {
       ),
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '3',
+      'weight' => '4',
       'label' => 'inline',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -376,13 +376,15 @@ function c4m_content_project_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'c4m_ds_project_type_icon',
-        2 => 'title',
-        3 => 'c4m_user_first_and_last_name',
+        2 => 'c4m_project_stage',
+        3 => 'title',
+        4 => 'c4m_user_first_and_last_name',
       ),
     ),
     'fields' => array(
       'c4m_media' => 'left',
       'c4m_ds_project_type_icon' => 'right',
+      'c4m_project_stage' => 'right',
       'title' => 'right',
       'c4m_user_first_and_last_name' => 'right',
     ),

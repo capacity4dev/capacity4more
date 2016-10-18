@@ -58,7 +58,7 @@ module.exports = function (grunt) {
       autoprefixer: {
           dev: {
               options: {
-                  browsers: ['last 2 versions', 'ie 9'],
+                  browsers: ['last 4 versions', 'ie 10'],
                   diff: true,
                   map: true
                 },
@@ -72,7 +72,7 @@ module.exports = function (grunt) {
             },
           build: {
               options: {
-                  browsers: ['last 2 versions', 'ie 6'],
+                  browsers: ['last 4 versions', 'ie 10'],
                   diff: false,
                   map: false
                 },
