@@ -29,15 +29,26 @@ angular.module('c4mApp')
      */
     $scope.createDocument = function (event, fileId, data, addToLibrary) {
       // Preventing the form from redirecting to the "action" url.
-      // We nee the url in the action because of the "overlay" module.
+      // We need the url in the action because of the "overlay" module.
       event.preventDefault();
       DrupalSettings.getFieldSchema('documents')
         .then(function (data) {
           $scope.fieldSchema = data.c4m.field_schema;
           $scope.data.entity = data.c4m.data.entity;
 
+
+          console.log($scope.data);
+
+
+
           var resourceFields = $scope.fieldSchema.resources['documents'];
           var submitData = Request.cleanFields(data, resourceFields);
+
+          console.log(resourceFields);
+          console.log(data);
+
+
+
 
           angular.forEach(resourceFields, function (data, field) {
             // Don't change the group field Or resource object.
@@ -48,17 +59,22 @@ angular.module('c4mApp')
             if (angular.isObject(allowedValues) && Object.keys(allowedValues).length) {
               submitData[field] = {};
             }
-
-            var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
-            angular.forEach(textFields, function (field) {
-              if (!field) {
-                submitData[field] = field == 'tags' ? [] : '';
-              }
-            });
           });
+
+          var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
+          angular.forEach(textFields, function (field) {
+            console.log(field);
+            if (!field) {
+              submitData[field] = field == 'tags' ? [] : '';
+            }
+          });
+
           submitData.document = fileId;
           submitData.group = DrupalSettings.getData('groupID');
           submitData.add_to_library = addToLibrary ? 1 : 0;
+
+          console.log(submitData);
+          return;
 
           EntityResource.createEntity(submitData, 'documents', resourceFields)
             .success(function (data, status) {

@@ -30,7 +30,7 @@ angular.module('c4mApp')
      */
     $scope.createDocument = function (event, fileId, data, addToLibrary) {
       // Preventing the form from redirecting to the "action" url.
-      // We nee the url in the action because of the "overlay" module.
+      // We need the url in the action because of the "overlay" module.
       event.preventDefault();
       DrupalSettings.getFieldSchema('documents')
         .then(function (data) {
