@@ -243,7 +243,7 @@ function c4m_message_default_message_type() {
           "format" : "default_html"
         },
         {
-          "value" : "\\u003Cp\\u003EDear Administrator,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E requested a new @group_node_type: \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Cstrong\\u003EReason\\u003C\\/strong\\u003E: \\u003Cem\\u003E@message_to_site_admins\\u003C\\/em\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003ETo edit the status of this @group_node_type and add a rework message: \\u003Ca href=\\u0022!group_edit_status_url\\u0022\\u003Emanage this @group_node_type\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n",
+          "value" : "\\u003Cp\\u003EDear Administrator,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E requested a new @group_node_type: \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Cstrong\\u003EReason\\u003C\\/strong\\u003E: \\u003Cem\\u003E@message_to_site_admins\\u003C\\/em\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003ETo edit the status of this @group_node_type: \\u003Ca href=\\u0022!pending_groups_overview\\u0022\\u003Emanage pending @group_node_type\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\r\\n",
           "format" : "full_html"
         }
       ]
