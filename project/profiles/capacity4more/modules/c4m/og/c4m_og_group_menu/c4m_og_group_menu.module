@@ -152,16 +152,20 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
  *   Details of current page, and pages bellow it.
  * @param array $wiki_options
  *   Contains options (path link => title) of all wiki pages.
+ * @param string $prefix
+ *   Indicates wiki page hierarchy. First level got none, second gets
+ *   level '--', third '----', etc.
  */
-function _c4m_og_group_menu_process_page($page, &$wiki_options) {
+function _c4m_og_group_menu_process_page($page, &$wiki_options, $prefix = '') {
   // Add details of current page to wiki options.
   $page_link = $page['link'];
-  $wiki_options[$page_link['link_path']] = $page_link['link_title'];
+  $wiki_options[$page_link['link_path']] = $prefix . ' ' . $page_link['link_title'];
 
   // For each page on level below, generate the details - recursive
   // activation of this function.
   $below_pages = $page['below'];
+  $prefix = $prefix . '--';
   foreach ($below_pages as $below_page) {
-    _c4m_og_group_menu_process_page($below_page, $wiki_options);
+    _c4m_og_group_menu_process_page($below_page, $wiki_options, $prefix);
   }
 }
