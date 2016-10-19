@@ -43,9 +43,8 @@ function c4m_og_purl_init() {
 
   // Menu items prefixes, which we allow to be accessed under OG context.
   $group_allowed_path = _c4m_og_purl_allowed_paths();
-  $context = og_context();
 
-  if (!_c4m_og_purl_starts_with_in_array($group_allowed_path, $item['path'])) {
+  if (og_context() && !_c4m_og_purl_starts_with_in_array($group_allowed_path, $item['path'])) {
     // Under OG context, but menu item prefix is not part of allowed array.
     drupal_access_denied();
     drupal_exit();
@@ -91,11 +90,11 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
 
       return;
     }
-
-    if (_c4m_og_purl_starts_with($path, 'node') && !_c4m_og_purl_node_at_path_is_content_of_group($path, $context['gid'])) {
-      // Node at path is not content of current OG group, thus, remove purl.
-      $options['prefix'] = '';
-    }
+//
+//    if (_c4m_og_purl_starts_with($path, 'node') && !_c4m_og_purl_node_at_path_is_content_of_group($path, $context['gid'])) {
+//      // Node at path is not content of current OG group, thus, remove purl.
+//      $options['prefix'] = '';
+//    }
   }
 }
 
