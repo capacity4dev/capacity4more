@@ -42,7 +42,7 @@
   }
 
   &.node-share {
-    .field-name-c4m-source-entity, .field-name-title {
+    > .content {
       background: $color-background;
       margin: 0 0 0 2em;
       padding: 1em;
@@ -50,6 +50,14 @@
       h2 {
         margin-top: 0;
       }
+
+      .field-name-c4m-field-og-group {
+        margin-top: 0;
+      }
     }
   }
+}
+
+.message-c4m-insert--node--share {
+  margin-top: 25px;
 }

@@ -586,19 +586,12 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['group_approve']['label'] = '';
   $handler->display->display_options['fields']['group_approve']['exclude'] = TRUE;
   $handler->display->display_options['fields']['group_approve']['element_label_colon'] = FALSE;
-  /* Field: Content: Group reject link */
-  $handler->display->display_options['fields']['group_reject']['id'] = 'group_reject';
-  $handler->display->display_options['fields']['group_reject']['table'] = 'node';
-  $handler->display->display_options['fields']['group_reject']['field'] = 'group_reject';
-  $handler->display->display_options['fields']['group_reject']['label'] = '';
-  $handler->display->display_options['fields']['group_reject']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['group_reject']['element_label_colon'] = FALSE;
   /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'Actions';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '[group_approve] [group_reject] [edit_node]';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '[group_approve] or [edit_node]';
   $handler->display->display_options['fields']['nothing']['alter']['trim_whitespace'] = TRUE;
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Filter criterion: Content: Type */
