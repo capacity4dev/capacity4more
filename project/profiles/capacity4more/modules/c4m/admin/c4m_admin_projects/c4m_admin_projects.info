@@ -3,6 +3,7 @@ description = Administration interface to manage projects & their status.
 core = 7.x
 package = capacity4more - Admin
 dependencies[] = c4m_admin_groups
+dependencies[] = ctools
 dependencies[] = views
 dependencies[] = views_data_export
 features[ctools][] = views:views_default:3.0
