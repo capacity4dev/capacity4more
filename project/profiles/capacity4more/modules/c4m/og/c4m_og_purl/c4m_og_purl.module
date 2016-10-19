@@ -90,11 +90,11 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
 
       return;
     }
-//
-//    if (_c4m_og_purl_starts_with($path, 'node') && !_c4m_og_purl_node_at_path_is_content_of_group($path, $context['gid'])) {
-//      // Node at path is not content of current OG group, thus, remove purl.
-//      $options['prefix'] = '';
-//    }
+
+    if (_c4m_og_purl_starts_with($path, 'node') && !_c4m_og_purl_node_at_path_is_content_of_group($path, $context['gid'])) {
+      // Node at path is not content of current OG group, thus, remove purl.
+      $options['prefix'] = '';
+    }
   }
 }
 
