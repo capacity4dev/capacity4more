@@ -14,7 +14,7 @@ function c4m_content_share_menu() {
   $items = array();
 
   $items['node/%node/share'] = array(
-    'title' => 'Share content to another group',
+    'title' => 'Share content to another group or project',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_content_share_form'),
     'access callback' => 'c4m_content_share_access',
