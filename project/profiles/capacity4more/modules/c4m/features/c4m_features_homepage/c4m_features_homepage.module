@@ -202,7 +202,7 @@ function c4m_features_homepage_c4m_featured_groups_get_groups() {
 function c4m_features_homepage_c4m_featured_projects_get_projects() {
   $projects = c4m_features_homepage_c4m_get_featured_og_groups('project');
 
-  if (is_null($groups)) {
+  if (is_null($projects)) {
     return;
   }
 
