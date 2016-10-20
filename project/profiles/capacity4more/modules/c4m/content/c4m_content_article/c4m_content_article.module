@@ -101,8 +101,12 @@ function c4m_content_article_subscribe_contributors($node) {
 }
 
 /**
- * @param $node
- * @param $flag_name
+ * Helper function to (un)subscribe contributors from an article.
+ *
+ * @param object $node
+ *   Node entity object.
+ * @param string $flag_name
+ *   Machine name of the flag.
  */
 function _c4m_content_article_subscribe_contributors_flag($node, $flag_name) {
   $subscribe_c4m_follow_node_flag = flag_get_flag($flag_name);
