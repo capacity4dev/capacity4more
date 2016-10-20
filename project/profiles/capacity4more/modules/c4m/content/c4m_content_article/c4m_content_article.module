@@ -89,15 +89,30 @@ function c4m_content_article_subscribe_contributors($node) {
     return;
   }
 
-  // Get the correct flag object.
-  $subscribe_c4m_follow_node_flag = flag_get_flag('subscribe_c4m_follow_node');
+  // Get the correct flag object to subscribe to the node.
+  $flag_name = 'subscribe_c4m_follow_node';
+
+  _c4m_content_article_subscribe_contributors_flag($node, $flag_name);
+
+  // Get the correct flag object to subscribe to the commenting on the node.
+  $flag_name = 'subscribe_c4m_follow_comment';
+
+  _c4m_content_article_subscribe_contributors_flag($node, $flag_name);
+}
+
+/**
+ * @param $node
+ * @param $flag_name
+ */
+function _c4m_content_article_subscribe_contributors_flag($node, $flag_name) {
+  $subscribe_c4m_follow_node_flag = flag_get_flag($flag_name);
 
   // Get all contributors of the current article.
   $contributors_current = is_array(field_get_items('node', $node, 'c4m_related_user'))
     ? field_get_items('node', $node, 'c4m_related_user') : array();
 
   // Get all subscribed users in the database.
-  $flagged_users = flag_get_entity_flags('node', $node->nid, 'subscribe_c4m_follow_node');
+  $flagged_users = flag_get_entity_flags('node', $node->nid, $flag_name);
 
   foreach ($flagged_users as $flagged_user) {
     if ($user = user_load($flagged_user->uid)) {

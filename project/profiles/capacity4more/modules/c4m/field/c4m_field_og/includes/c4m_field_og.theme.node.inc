@@ -23,7 +23,7 @@ function theme_c4m_field_og_group($field) {
 
   // Don't show this field in a group context.
   $context = og_context();
-  if ($context) {
+  if ($context && $field['entity']->type !== "share") {
     return;
   }
 

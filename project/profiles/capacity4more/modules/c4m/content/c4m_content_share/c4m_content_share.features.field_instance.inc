@@ -55,14 +55,14 @@ function c4m_content_share_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 2,
+        'weight' => 0,
       ),
       'activity_group' => array(
         'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 2,
+        'weight' => 0,
       ),
       'block_list' => array(
         'label' => 'hidden',
@@ -203,7 +203,7 @@ function c4m_content_share_field_default_field_instances() {
           'view_mode' => 'activity_group',
         ),
         'type' => 'entityreference_entity_view',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'activity_group' => array(
         'label' => 'hidden',
@@ -214,7 +214,7 @@ function c4m_content_share_field_default_field_instances() {
           'view_mode' => 'activity_group',
         ),
         'type' => 'entityreference_entity_view',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'block_list' => array(
         'label' => 'hidden',
@@ -316,13 +316,13 @@ function c4m_content_share_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 24,
       ),
       'activity_group' => array(
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 24,
       ),
       'block_list' => array(
         'label' => 'hidden',
