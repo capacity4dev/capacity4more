@@ -847,7 +847,7 @@ function c4m_user_og_follow_group_cta($group) {
 
   $item = array(
     '#theme' => 'c4m_group_follow_cta',
-    '#text' => c4m_content_group_theme_toggle_notification_link(),
+    '#text' => c4m_content_theme_toggle_group_notification_link(),
     '#weight' => 50,
   );
 
