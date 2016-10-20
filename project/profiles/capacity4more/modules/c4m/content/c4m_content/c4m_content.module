@@ -773,7 +773,7 @@ function c4m_content_toggle_highlight_access($group, $node, $status) {
   if (!is_object($group)) {
     $group = node_load($group['gid']);
   }
-  foreach (c4m_og_get_group_admins($group->nid) as $admin) {
+  foreach (c4m_og_get_group_admins($group->nid, TRUE) as $admin) {
     if ($admin->uid == $user->uid) {
       return TRUE;
     }
