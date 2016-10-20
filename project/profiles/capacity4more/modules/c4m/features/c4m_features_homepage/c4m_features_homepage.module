@@ -46,7 +46,7 @@ function c4m_features_homepage_has_featured_content($bundle) {
     return TRUE;
   }
 
-  $suggested_content = c4m_features_homepage_get_suggested_items($bundle)
+  $suggested_content = c4m_features_homepage_get_suggested_items($bundle);
 
   if ($filter == 'interests' && is_null($suggested_content)) {
     return TRUE;
