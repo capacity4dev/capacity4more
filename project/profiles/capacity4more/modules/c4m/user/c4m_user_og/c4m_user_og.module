@@ -494,6 +494,16 @@ function c4m_user_og_theme() {
     ),
   );
 
+  $theme['c4m_group_follow_cta'] = array(
+    'template' => 'c4m_group_follow_cta',
+    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
+    'variables' => array(
+      'text' => NULL,
+      'wrapper_class' => 'c4m-group-follow-cta text-copy--small',
+      'text_class' => NULL,
+    ),
+  );
+
   $theme['c4m_group_manage_cta'] = array(
     'template' => 'c4m_group_manage_cta',
     'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
@@ -836,8 +846,7 @@ function c4m_user_og_follow_group_cta($group) {
   }
 
   $item = array(
-    '#theme' => 'c4m_group_text_cta',
-    '#icon' => 'fa-bell-o',
+    '#theme' => 'c4m_group_follow_cta',
     '#text' => c4m_content_group_theme_toggle_notification_link(),
     '#weight' => 50,
   );

@@ -877,6 +877,7 @@ function c4m_content_group_create_toggle_notification_link($account, $group) {
   $user_subscribed = _c4m_content_group_is_subscribed_to_group_notifications($account, $group);
   $message_text = $user_subscribed ? t('Notifications are enabled') : t('Notifications are disabled');
   $link_text = $user_subscribed ? t('disable') : t('enable');
+  $icon_class = $user_subscribed ? 'fa fa-bell-o' : 'fa fa-bell-slash-o';
 
   $options = array(
     'attributes' => array(
@@ -889,8 +890,18 @@ function c4m_content_group_create_toggle_notification_link($account, $group) {
   $link = l($link_text, url('group/' . $group->nid . '/notification/nojs'), $options);
 
   $tag['element'] = array(
+    '#tag' => 'i',
+    '#value' => '',
+    '#attributes' => array(
+      'class' => $icon_class,
+    ),
+  );
+  $icon_html = theme_html_tag($tag);
+
+
+  $tag['element'] = array(
     '#tag' => 'span',
-    '#value' => $message_text . '  (' . $link . ')',
+    '#value' => $icon_html . $message_text . '  (' . $link . ')',
     '#attributes' => array(
       'id' => 'toggle-group-notifications',
     ),
