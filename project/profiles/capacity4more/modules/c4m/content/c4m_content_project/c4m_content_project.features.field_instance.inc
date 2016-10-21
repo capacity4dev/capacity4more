@@ -3027,9 +3027,10 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 0,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'text_default',
         'weight' => 0,
       ),
       'paragraphs_editor_preview' => array(
