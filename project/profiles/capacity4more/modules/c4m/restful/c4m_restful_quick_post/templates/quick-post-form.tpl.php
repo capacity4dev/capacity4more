@@ -55,7 +55,7 @@
 
   <div>
     <input type="file" name="document-file" id="c4m-related-document" class="document_file" ng-file-select="onQuickPostFileSelect($files, 'c4m-related-document')">
-    <a href="javascript://" clas="hidden" ng-click="browseFiles('c4m-related-document')"></a>
+    <a href="javascript://" class="hidden" ng-click="browseFiles('c4m-related-document')"></a>
     <span class="body-attachment-link">
       <label for="c4m-related-document">File to attach
         <i class="fa fa-paperclip"></i>
@@ -67,7 +67,7 @@
   <label class="hidden" for="body">Quick post discussion body</label>
   <p ng-show="errors.body" class="help-block"><?php print t('Body is required.'); ?></p>
   <related-quick-post-documents related-documents="data.relatedDocuments" form-id="formId" field-name="'c4m-related-document'"></related-quick-post-documents>
-  <input type="text" id="input-c4m-related-document" class="hidden" value>
+  <input type="hidden" id="input-c4m-related-document" class="hidden" value>
 
   <div class="cfm-file-upload-wrapper form-group input-wrapper file-wrapper" ng-class="{ 'has-error' : errors.document }">
 
