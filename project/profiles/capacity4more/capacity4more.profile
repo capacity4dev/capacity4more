@@ -122,6 +122,7 @@ function capacity4more_setup_set_permissions(&$install_state) {
     'create files',
     'view own files',
     'edit own photo content',
+    'access overlay',
   );
 
   $content_types = array(
