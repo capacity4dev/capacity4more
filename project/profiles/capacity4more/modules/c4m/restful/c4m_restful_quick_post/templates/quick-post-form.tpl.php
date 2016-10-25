@@ -16,6 +16,7 @@
          ng-focus="focusQuickPostTitle('<?php print key($show_resources) ?>', $event)"
          ng-blur="titlePlaceholder = true"
          required>
+  <label class="hidden" for="label">Quick post discussion title</label>
 
   <p ng-show="errors.label"
      class="help-block"><?php print t('Title is too short.'); ?></p>
@@ -54,11 +55,16 @@
 
   <div>
     <input type="file" name="document-file" id="c4m-related-document" class="document_file" ng-file-select="onQuickPostFileSelect($files, 'c4m-related-document')">
-    <a href="javascript://" ng-click="browseFiles('c4m-related-document')"></a>
-    <span class="body-attachment-link"><label for="c4m-related-document"><i class="fa fa-paperclip"></i></label></span>
+    <a href="javascript://" clas="hidden" ng-click="browseFiles('c4m-related-document')"></a>
+    <span class="body-attachment-link">
+      <label for="c4m-related-document">File to attach
+        <i class="fa fa-paperclip"></i>
+      </label>
+    </span>
   </div>
 
   <textarea ckeditor="editorOptions" name="body" class="form-control" id="body" ng-model="data.body" placeholder="Share information or an idea, start debate or ask a question here..."></textarea>
+  <label class="hidden" for="body">Quick post discussion body</label>
   <p ng-show="errors.body" class="help-block"><?php print t('Body is required.'); ?></p>
   <related-quick-post-documents related-documents="data.relatedDocuments" form-id="formId" field-name="'c4m-related-document'"></related-quick-post-documents>
   <input type="text" id="input-c4m-related-document" class="hidden" value>

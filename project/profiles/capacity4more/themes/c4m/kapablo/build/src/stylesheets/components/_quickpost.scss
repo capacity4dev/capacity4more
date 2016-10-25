@@ -31,6 +31,10 @@
       right: 7px;
 
       label {
+        color: transparent;
+      }
+
+      i {
         color: $color-text-alternative;
         text-shadow: 1px 1px 1px $color-gray-light;
         font-size: 1.5em;
