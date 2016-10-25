@@ -18,7 +18,24 @@
         <p class="cfm-file-upload__title"><?php print t('Drop file here to upload documents'); ?></p>
         <a href="javascript://" ng-click="browseFiles('<?php print $field_name; ?>')"> <?php print t('or browse'); ?> </a>
       </div>
-      <a href="<?php print url('overlay/documents', array('absolute' => TRUE, 'purl' => array('disabled' => FALSE))); ?>" ng-click="setFieldName('<?php print $field_name; ?>')" id="link-<?php print $field_name; ?>" ng-class="{'active-library-link':fieldName === '<?php print $field_name; ?>'}">
+      <script>
+        /**
+         * Opens the file attachment form in overlay after choosing a file in
+         * the media browser modal.
+         *
+         * @param media
+         *   Data object of the file chosen in the media browser.
+         */
+        var c4m_attachment_overlay = function (media) {
+          window.location = '#overlay=<?php print c4m_og_current_group_purl(); ?>/overlay-file/' + media[0].fid;
+        };
+
+        // Options to define which tabs to display in the media browser modal.
+        var media_browser_options = {'enabledPlugins[media_default--media_browser_my_files]': 'media_default--media_browser_my_files'};
+      </script>
+      <a href="JavaScript://" onclick="Drupal.media.popups.mediaBrowser(c4m_attachment_overlay,media_browser_options)"
+         ng-click="setFieldName('<?php print $field_name; ?>')" id="link-<?php print $field_name; ?>"
+         ng-class="{'active-library-link':fieldName === '<?php print $field_name; ?>'}">
         <?php print t('or select a document from the library') ?>
       </a>
     </div>
