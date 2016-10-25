@@ -58,7 +58,7 @@
     <span class="body-attachment-link"><label for="c4m-related-document"><i class="fa fa-paperclip"></i></label></span>
   </div>
 
-  <textarea ckeditor="editorOptions" name="body" class="form-control" id="body" ng-model="data.body" placeholder="Share information or an idea, start debate or ask a question here..."></textarea>
+  <textarea ckeditor="editorOptions" name="body" class="form-control" id="body" ng-model="data.body" placeholder="Discussion details..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Discussion details...'"></textarea>
   <p ng-show="errors.body" class="help-block"><?php print t('Body is required.'); ?></p>
   <related-quick-post-documents related-documents="data.relatedDocuments" form-id="formId" field-name="'c4m-related-document'"></related-quick-post-documents>
   <input type="text" id="input-c4m-related-document" class="hidden" value>
