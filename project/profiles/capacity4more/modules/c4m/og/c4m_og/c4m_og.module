@@ -56,6 +56,20 @@ function c4m_og_current_group_id() {
 }
 
 /**
+ * Helper to get the current active group purl (based on og_context()).
+ *
+ * @return string
+ *   The group purl, or empty string if no context was found.
+ */
+function c4m_og_current_group_purl() {
+  if (!$group = c4m_og_current_group()) {
+    return '';
+  }
+
+  return $group->purl;
+}
+
+/**
  * Helper to get the current value of the group membership request.
  *
  * @param object $group

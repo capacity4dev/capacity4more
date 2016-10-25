@@ -101,8 +101,12 @@ function c4m_content_article_subscribe_contributors($node) {
 }
 
 /**
- * @param $node
- * @param $flag_name
+ * Helper function to (un)subscribe contributors from an article.
+ *
+ * @param object $node
+ *   Node entity object.
+ * @param string $flag_name
+ *   Machine name of the flag.
  */
 function _c4m_content_article_subscribe_contributors_flag($node, $flag_name) {
   $subscribe_c4m_follow_node_flag = flag_get_flag($flag_name);
@@ -217,6 +221,9 @@ function c4m_content_article_node_view_alter(&$build) {
     foreach ($build['c4m_vocab_geo']['#items'] as $index => $item) {
       unset($build['c4m_vocab_geo'][$index]);
     }
+
+    // Add the new markup Regions.
+    $build['c4m_vocab_geo'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_geo']['#items']);
   }
 
   // Remove the 'Topics' taxonomies.
@@ -224,12 +231,10 @@ function c4m_content_article_node_view_alter(&$build) {
     foreach ($build['c4m_vocab_topic']['#items'] as $index => $item) {
       unset($build['c4m_vocab_topic'][$index]);
     }
-  }
 
-  // Add the new markup Topics.
-  $build['c4m_vocab_topic'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_topic']['#items']);
-  // Add the new markup Regions.
-  $build['c4m_vocab_geo'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_geo']['#items']);
+    // Add the new markup Topics.
+    $build['c4m_vocab_topic'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_topic']['#items']);
+  }
 
   return $build;
 }
