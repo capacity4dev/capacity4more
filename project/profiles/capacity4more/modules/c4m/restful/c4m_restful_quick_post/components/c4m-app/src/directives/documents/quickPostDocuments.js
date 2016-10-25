@@ -64,7 +64,7 @@ angular.module('c4mApp')
         scope.data = scope.updateDocumentsData(scope.relatedDocuments);
 
         // Updating data when added or removed item from the related documents.
-        scope.$watch('relatedQuickPostDocuments', function (newValue, oldValue) {
+        scope.$watch('relatedDocuments', function (newValue, oldValue) {
           if (newValue !== oldValue) {
             scope.data = scope.updateDocumentsData(newValue);
           }
