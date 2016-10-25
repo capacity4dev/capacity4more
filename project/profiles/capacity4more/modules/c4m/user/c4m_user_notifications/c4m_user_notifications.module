@@ -611,8 +611,8 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
     return;
   }
 
-  if (!empty($node->c4m_send_notification) && !$node->c4m_send_notification) {
-    // 'Send Notification' checkbox was set, but not checked.
+  if (isset($node->c4m_send_notification) && !$node->c4m_send_notification) {
+    // 'Send Notification' checkbox on content form was set, but not checked.
     return;
   }
 
