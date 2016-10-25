@@ -202,7 +202,7 @@ function c4m_content_wiki_page_strongarm() {
             'visible' => TRUE,
           ),
           'highlight_block' => array(
-            'weight' => '2',
+            'weight' => '27',
             'visible' => FALSE,
           ),
         ),
@@ -220,7 +220,7 @@ function c4m_content_wiki_page_strongarm() {
             'visible' => TRUE,
           ),
           'highlight_block' => array(
-            'weight' => '0',
+            'weight' => '4',
             'visible' => TRUE,
           ),
         ),
@@ -234,7 +234,7 @@ function c4m_content_wiki_page_strongarm() {
             'visible' => TRUE,
           ),
           'highlight_block' => array(
-            'weight' => '1',
+            'weight' => '5',
             'visible' => TRUE,
           ),
         ),

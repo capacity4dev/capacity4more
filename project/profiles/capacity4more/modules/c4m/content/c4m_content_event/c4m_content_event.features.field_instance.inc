@@ -177,10 +177,23 @@ function c4m_content_event_field_default_field_instances() {
         'weight' => 6,
       ),
       'highlight_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 41,
+        'label' => 'hidden',
+        'module' => 'smart_trim',
+        'settings' => array(
+          'more_link' => 1,
+          'more_text' => '... Read more',
+          'summary_handler' => 'full',
+          'trim_length' => 150,
+          'trim_link' => 0,
+          'trim_options' => array(
+            'text' => 0,
+          ),
+          'trim_preserve_tags' => '',
+          'trim_suffix' => '',
+          'trim_type' => 'chars',
+        ),
+        'type' => 'smart_trim_format',
+        'weight' => 2,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -355,7 +368,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 36,
+        'weight' => 38,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -504,7 +517,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 35,
+        'weight' => 37,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -627,7 +640,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 34,
+        'weight' => 36,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -749,7 +762,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 37,
+        'weight' => 39,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -858,7 +871,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 38,
+        'weight' => 40,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -987,7 +1000,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 40,
+        'weight' => 42,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1109,7 +1122,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 39,
+        'weight' => 41,
       ),
       'pinned_content' => array(
         'label' => 'above',
@@ -1253,7 +1266,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 33,
+        'weight' => 35,
       ),
       'pinned_content' => array(
         'label' => 'above',
@@ -1366,7 +1379,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 32,
+        'weight' => 34,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1485,7 +1498,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 29,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1603,7 +1616,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 28,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1738,7 +1751,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 27,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1853,7 +1866,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 28,
+        'weight' => 30,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1967,7 +1980,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 29,
+        'weight' => 31,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2080,7 +2093,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 31,
+        'weight' => 33,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2233,7 +2246,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 30,
+        'weight' => 32,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

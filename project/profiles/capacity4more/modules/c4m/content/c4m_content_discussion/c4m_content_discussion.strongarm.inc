@@ -204,7 +204,7 @@ function c4m_content_discussion_strongarm() {
             'visible' => TRUE,
           ),
           'highlight_block' => array(
-            'weight' => '2',
+            'weight' => '24',
             'visible' => FALSE,
           ),
         ),
@@ -221,6 +221,10 @@ function c4m_content_discussion_strongarm() {
             'weight' => '7',
             'visible' => TRUE,
           ),
+          'highlight_block' => array(
+            'weight' => '4',
+            'visible' => TRUE,
+          ),
         ),
         'promoted' => array(
           'teaser_group' => array(
@@ -228,7 +232,7 @@ function c4m_content_discussion_strongarm() {
             'visible' => TRUE,
           ),
           'highlight_block' => array(
-            'weight' => '1',
+            'weight' => '5',
             'visible' => TRUE,
           ),
           'teaser' => array(

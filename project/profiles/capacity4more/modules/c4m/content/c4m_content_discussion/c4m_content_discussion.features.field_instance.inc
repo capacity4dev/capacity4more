@@ -171,10 +171,23 @@ function c4m_content_discussion_field_default_field_instances() {
         'weight' => 4,
       ),
       'highlight_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 31,
+        'label' => 'hidden',
+        'module' => 'smart_trim',
+        'settings' => array(
+          'more_link' => 1,
+          'more_text' => '... Read more',
+          'summary_handler' => 'full',
+          'trim_length' => 150,
+          'trim_link' => 0,
+          'trim_options' => array(
+            'text' => 0,
+          ),
+          'trim_preserve_tags' => '',
+          'trim_suffix' => '',
+          'trim_type' => 'chars',
+        ),
+        'type' => 'smart_trim_format',
+        'weight' => 2,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -343,7 +356,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 29,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -451,7 +464,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 30,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -567,7 +580,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 22,
+        'weight' => 28,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -676,7 +689,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 21,
+        'weight' => 27,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -782,7 +795,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 19,
+        'weight' => 25,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -890,7 +903,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 20,
+        'weight' => 26,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -994,7 +1007,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 31,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1135,7 +1148,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 32,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

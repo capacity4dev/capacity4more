@@ -177,10 +177,23 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'weight' => 9,
       ),
       'highlight_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 10,
+        'label' => 'hidden',
+        'module' => 'smart_trim',
+        'settings' => array(
+          'more_link' => 1,
+          'more_text' => '... Read more',
+          'summary_handler' => 'full',
+          'trim_length' => 150,
+          'trim_link' => 0,
+          'trim_options' => array(
+            'text' => 0,
+          ),
+          'trim_preserve_tags' => '',
+          'trim_suffix' => '',
+          'trim_type' => 'chars',
+        ),
+        'type' => 'smart_trim_format',
+        'weight' => 2,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -358,7 +371,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 8,
+        'weight' => 33,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -479,7 +492,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 34,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -594,7 +607,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 7,
+        'weight' => 32,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -707,7 +720,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 6,
+        'weight' => 31,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -821,7 +834,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 3,
+        'weight' => 28,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -931,7 +944,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 4,
+        'weight' => 29,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1078,7 +1091,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 5,
+        'weight' => 30,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

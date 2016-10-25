@@ -249,7 +249,7 @@ function c4m_content_event_strongarm() {
             'visible' => TRUE,
           ),
           'highlight_block' => array(
-            'weight' => '24',
+            'weight' => '26',
             'visible' => FALSE,
           ),
         ),
@@ -266,6 +266,10 @@ function c4m_content_event_strongarm() {
             'weight' => '11',
             'visible' => TRUE,
           ),
+          'highlight_block' => array(
+            'weight' => '4',
+            'visible' => TRUE,
+          ),
         ),
         'promoted' => array(
           'teaser' => array(
@@ -277,7 +281,7 @@ function c4m_content_event_strongarm() {
             'visible' => TRUE,
           ),
           'highlight_block' => array(
-            'weight' => '1',
+            'weight' => '5',
             'visible' => TRUE,
           ),
         ),
