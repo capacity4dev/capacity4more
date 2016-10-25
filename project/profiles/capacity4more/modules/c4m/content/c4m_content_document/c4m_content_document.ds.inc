@@ -148,7 +148,7 @@ function c4m_content_document_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'block_list';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '1',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -159,7 +159,7 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_field_og_group' => array(
-      'weight' => '3',
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -168,7 +168,7 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_submitted_by_and_on' => array(
-      'weight' => '2',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'j F Y',
     ),
@@ -176,6 +176,9 @@ function c4m_content_document_ds_field_settings_info() {
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
     ),
   );
   $export['node|document|block_list'] = $ds_fieldsetting;
@@ -774,20 +777,28 @@ function c4m_content_document_ds_layout_settings_info() {
     'regions' => array(
       'left' => array(
         0 => 'c4m_content_document_icon',
+        1 => 'highlighted',
+        2 => 'promoted',
       ),
       'right' => array(
-        1 => 'title',
-        2 => 'c4m_ds_submitted_by_and_on',
-        3 => 'c4m_field_og_group',
+        3 => 'title',
+        4 => 'c4m_ds_submitted_by_and_on',
+        5 => 'c4m_field_og_group',
       ),
     ),
     'fields' => array(
       'c4m_content_document_icon' => 'left',
+      'highlighted' => 'left',
+      'promoted' => 'left',
       'title' => 'right',
       'c4m_ds_submitted_by_and_on' => 'right',
       'c4m_field_og_group' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'left' => 'div',
       'right' => 'div',

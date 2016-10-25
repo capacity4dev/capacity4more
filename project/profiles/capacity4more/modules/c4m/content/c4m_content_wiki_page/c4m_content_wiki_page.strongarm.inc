@@ -194,7 +194,7 @@ function c4m_content_wiki_page_strongarm() {
             'visible' => FALSE,
           ),
           'block_list' => array(
-            'weight' => '10',
+            'weight' => '33',
             'visible' => FALSE,
           ),
           'pinned_content' => array(
@@ -215,6 +215,10 @@ function c4m_content_wiki_page_strongarm() {
             'weight' => '7',
             'visible' => TRUE,
           ),
+          'block_list' => array(
+            'weight' => '1',
+            'visible' => TRUE,
+          ),
         ),
         'promoted' => array(
           'teaser' => array(
@@ -223,6 +227,10 @@ function c4m_content_wiki_page_strongarm() {
           ),
           'teaser_group' => array(
             'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'block_list' => array(
+            'weight' => '2',
             'visible' => TRUE,
           ),
         ),

@@ -881,3 +881,21 @@
     margin-top: 0px;
   }
 }
+.view-mode-block_list {
+  #highlight-content {
+    position: absolute;
+    top: -21px;
+    right: 0;
+
+    .highlight-link-text {
+      display: none;
+    }
+  }
+
+  .flag-c4m-og-content-highlight {
+    position: absolute;
+    top: -19px;
+    right: 19px;
+  }
+}
+

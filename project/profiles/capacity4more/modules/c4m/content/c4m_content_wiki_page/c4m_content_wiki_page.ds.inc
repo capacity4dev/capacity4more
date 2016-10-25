@@ -787,12 +787,20 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'title',
+        1 => 'highlighted',
+        2 => 'promoted',
       ),
     ),
     'fields' => array(
       'title' => 'ds_content',
+      'highlighted' => 'ds_content',
+      'promoted' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
