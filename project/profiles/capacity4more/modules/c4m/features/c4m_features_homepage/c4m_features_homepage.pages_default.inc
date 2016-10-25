@@ -564,29 +564,6 @@ function c4m_features_homepage_default_page_manager_pages() {
     $display->content['new-5abcf7ba-8a73-4ba1-8599-8e144b4326b1'] = $pane;
     $display->panels['right'][0] = 'new-5abcf7ba-8a73-4ba1-8599-8e144b4326b1';
     $pane = new stdClass();
-    $pane->pid = 'new-e00433dd-e5e5-4c05-8231-b4642b65f37f';
-    $pane->panel = 'right';
-    $pane->type = 'c4m_featured_groups';
-    $pane->subtype = 'c4m_featured_groups';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = 'e00433dd-e5e5-4c05-8231-b4642b65f37f';
-    $display->content['new-e00433dd-e5e5-4c05-8231-b4642b65f37f'] = $pane;
-    $display->panels['right'][1] = 'new-e00433dd-e5e5-4c05-8231-b4642b65f37f';
-    $pane = new stdClass();
     $pane->pid = 'new-6c330b80-7e65-4003-bf30-4f31188d01b9';
     $pane->panel = 'right';
     $pane->type = 'c4m_featured_groups';
