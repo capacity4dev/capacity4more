@@ -27,7 +27,7 @@ angular.module('c4mApp')
 
     // Hide quickpost title field placeholder on focus.
     $scope.titlePlaceholder = true;
-    $scope.titlePlaceholderText = 'Start a discussion, share an idea...';
+    $scope.titlePlaceholderText = 'Share information or an idea, start debate or ask a question here...';
 
     $scope = QuickPostService.setDefaults($scope);
 

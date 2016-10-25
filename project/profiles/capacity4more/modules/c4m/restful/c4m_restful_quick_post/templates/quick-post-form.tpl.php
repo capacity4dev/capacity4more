@@ -63,7 +63,7 @@
     </span>
   </div>
 
-  <textarea ckeditor="editorOptions" name="body" class="form-control" id="body" ng-model="data.body" placeholder="Share information or an idea, start debate or ask a question here..."</textarea>
+  <textarea ckeditor="editorOptions" name="body" class="form-control" id="body" ng-model="data.body" placeholder="Discussion details..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Discussion details...'"></textarea>
   <label class="hidden" for="body"><?php print t('Quick post discussion body'); ?></label>
   <p ng-show="errors.body" class="help-block"><?php print t('Body is required.'); ?></p>
   <related-quick-post-documents related-documents="data.relatedDocuments" form-id="formId" field-name="'c4m-related-document'"></related-quick-post-documents>
