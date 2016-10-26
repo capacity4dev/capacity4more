@@ -155,11 +155,11 @@ function kapablo_preprocess_page(&$variables) {
   // Off-canvas trigger labels.
   $offcanvas_trigger_label_left = array(
     'icon' => 'fa fa-info',
-    'label' => t('More info')
+    'label' => t('More info'),
   );
   $offcanvas_trigger_label_right = array(
     'icon' => 'fa fa-info',
-    'label' => t('More info')
+    'label' => t('More info'),
   );
 
   drupal_alter('c4m_offcanvas_trigger_label_left', $offcanvas_trigger_label_left);
@@ -178,11 +178,12 @@ function _set_og_breadcrumbs() {
 
   // If the current path contains 2 or less parts and
   // the first part is a Persistent URL.
-  if (count($path_elements) <= 2 && $purl = purl_load(array(
+  if (count($path_elements) <= 2 && $purl = purl_load(
+    array(
       'provider' => 'og_purl|node',
       'value' => $path_elements[0],
-    ))
-  ) {
+    )
+  )) {
     $breadcrumb = array();
 
     // We need to load the group to get the
@@ -619,7 +620,7 @@ function kapablo_group_image_banner($background_image = FALSE) {
         );
         $markup .= l(theme_html_tag($edit_link) . theme_image_style($file), url('node/' . $group->nid . '/edit', array(
           'absolute' => TRUE,
-          'fragment' => 'edit-image-banner'
+          'fragment' => 'edit-image-banner',
         )), $options);
       }
       else {
