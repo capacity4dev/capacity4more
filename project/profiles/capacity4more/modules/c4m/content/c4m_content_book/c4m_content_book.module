@@ -17,7 +17,6 @@ function c4m_content_book_menu() {
     'access arguments' => array('administer site configuration'),
     'title' => 'Help & Guidance Settings',
     'description' => 'Manage the Help & guidance book',
-    'type' => MENU_NORMAL_ITEM,
   );
 
   $items['c4m/autocomplete/c4m_content_book_help_and_guidance'] = array(
