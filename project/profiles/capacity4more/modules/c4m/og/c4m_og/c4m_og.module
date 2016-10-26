@@ -2021,6 +2021,51 @@ function c4m_og_get_user_administered_projects_count($uid, $is_programme = 0) {
 }
 
 /**
+ * Returns an array of all OG content types of type 'node'.
+ *
+ * @return array
+ *    OG content types of type 'node'.
+ */
+function c4m_og_get_all_content_bundles() {
+  $og_content_bundles = og_get_all_group_content_bundle();
+  $node_bundles = $og_content_bundles['node'];
+
+  return array_keys($node_bundles);
+}
+
+/**
+ * Returns an array of all OG Group content types, of type 'node'.
+ *
+ * @return array
+ *   OG Group content types, of type 'node'.
+ */
+function c4m_og_get_group_content_bundles() {
+  $og_content_bundles = og_get_all_group_content_bundle();
+  $node_bundles = $og_content_bundles['node'];
+
+  unset($node_bundles['news']);
+  unset($node_bundles['share']);
+
+  return array_keys($node_bundles);
+}
+
+/**
+ * Returns an array of all OG Project content types, of type 'node'.
+ *
+ * @return array
+ *   OG Project content types, of type 'node'.
+ */
+function c4m_og_get_project_content_bundles() {
+  $og_content_bundles = og_get_all_group_content_bundle();
+  $node_bundles = $og_content_bundles['node'];
+
+  unset($node_bundles['discussion']);
+  unset($node_bundles['share']);
+
+  return array_keys($node_bundles);
+}
+
+/**
  * Returns an array of OG content types that require notification.
  *
  * @return array
@@ -2135,7 +2180,7 @@ function c4m_og_get_group_status($group) {
  * Blocks access to 'node/%node/delete'.
  */
 function c4m_og_node_access($node, $op, $account) {
-  if (!og_context_is_init()) {
+  if (!og_context_is_init() && $op != 'update') {
     // OG context was not determined yet, so register the path and return early.
     // The next time this access callback will be called, it will not enter
     // here.
@@ -2163,6 +2208,8 @@ function c4m_og_node_access($node, $op, $account) {
 
     return $group_access ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
+
+  if ($op == 'create' && c4m_og_get_group_content_notification_types())
 
   return NODE_ACCESS_IGNORE;
 }
