@@ -480,6 +480,7 @@ function c4m_user_og_theme() {
       'url' => NULL,
       'button_label' => NULL,
       'button_icon' => NULL,
+      'login_url' => NULL,
     ),
   );
 
@@ -592,12 +593,17 @@ function c4m_user_og_c4m_visitor_cta($group) {
     ),
   );
 
+  $login_url = t('Please <a href="@login-page">log in</a> first if you have a C4D account', array(
+    '@login-page' => url('user/login', array('query' => array('destination' => request_path()))),
+  ));
+
   if ($membership_request_value = c4m_og_get_group_membership_request($group)) {
     return array(
       '#theme' => 'c4m_group_visitor_cta',
       '#button_label' => $types[$membership_request_value]['button_label'],
       '#button_icon' => $types[$membership_request_value]['button_icon'],
       '#url' => url('group/join/' . $group->nid, array('absolute' => TRUE)),
+      '#login_url' => $login_url,
       '#weight' => 10,
     );
   }

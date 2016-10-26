@@ -10,5 +10,5 @@
     <i class="fa <?php print $button_icon; ?>"></i>
     <?php print $button_label; ?>
   </a>
-  <span class="">Please <a class="" href="http://cfm.local/user/login?destination=<?php print t(request_path()); ?>">log in</a> first if you have a C4D account</span>
+  <span><?php print $login_url; ?></span>
 </div>
