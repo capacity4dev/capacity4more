@@ -97,6 +97,9 @@ projects[restful][download][branch] = 7.x-1.x
 projects[restful][subdir] = "contrib"
 projects[restful][type] = "module"
 
+projects[entity_js][subdir] = "contrib"
+projects[entity_js][version] = "1.0-alpha3"
+
 projects[term_reference_tree][subdir] = "contrib"
 projects[term_reference_tree][version] = "1.10"
 

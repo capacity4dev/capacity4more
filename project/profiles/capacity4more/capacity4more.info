@@ -34,6 +34,7 @@ dependencies[] = date
 dependencies[] = date_popup
 dependencies[] = diff
 dependencies[] = entity
+dependencies[] = entity_js
 dependencies[] = entity_token
 dependencies[] = entityreference
 dependencies[] = entityreference_prepopulate

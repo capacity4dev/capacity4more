@@ -15,7 +15,7 @@
  * @description A list of related to the discussion documents.
  */
 angular.module('c4mApp')
-  .directive('relatedDocuments', function (DrupalSettings, $window, EntityResource) {
+  .directive('relatedDocuments', function (DrupalSettings, $window, EntityResource, $sce) {
     return {
       templateUrl: DrupalSettings.getBasePath() + 'profiles/capacity4more/libraries/bower_components/c4m-app/dist/directives/documents/documents.html',
       restrict: 'E',
@@ -39,15 +39,24 @@ angular.module('c4mApp')
           var documents = {};
           angular.forEach(relatedDocuments, function (value, key) {
 
-            // Get all field values of the document.
-            EntityResource.getEntityData('documents', value).success(function (data, status) {
-              documents[key] = data.data[0];
-              // Format file size.
-              documents[key].document.filesize = $window.filesize(documents[key].document.filesize);
+            entity_render_view('node', value, 'block_list').success(function(data) {
+              documents[key] = data;
             });
+
+            // // Get all field values of the document.
+            // EntityResource.getEntityData('documents', value).success(function (data, status) {
+            //   documents[key] = data.data[0];
+            //   // Format file size.
+            //   documents[key].document.filesize = $window.filesize(documents[key].document.filesize);
+            // });
           });
+
           return documents;
         };
+
+        scope.toTrustedHTML = function( html ){
+          return $sce.trustAsHtml( html );
+        }
 
         // Get the click event form the overlay and update related documents.
         element.parents('#' + scope.formId).find('#input-' + scope.fieldName).on('click', function (event) {
