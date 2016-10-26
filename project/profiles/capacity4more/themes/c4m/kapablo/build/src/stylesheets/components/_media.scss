@@ -2,3 +2,8 @@ div.media-wrapper-mediaStyleSelector,
 div.media-wrapper-mediaStyleSelector + .ui-widget-overlay {
   display: none !important;
 }
+
+.media,
+.media .media {
+  margin-top: 0;
+}
