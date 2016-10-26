@@ -154,7 +154,9 @@ function c4m_content_wiki_page_form_node_form_alter(&$form, &$form_state, $form_
   }
 
   // Only power users should be allowed to set this field.
-  $form['c4m_edit_by_members']['#access'] = _c4m_features_og_members_is_power_user();
+  if (!empty($form['c4m_edit_by_members'])) {
+    $form['c4m_edit_by_members']['#access'] = _c4m_features_og_members_is_power_user();
+  }
 }
 
 /**
