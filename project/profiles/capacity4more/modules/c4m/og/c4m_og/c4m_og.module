@@ -2196,7 +2196,15 @@ function c4m_og_node_access($node, $op, $account) {
     return $group_access ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
 
-  if ($op == 'create' && c4m_og_get_group_content_notification_types())
+  // When creating group content, deny access if the group of content is
+  // at pending state.
+  if (is_string($node) && $op == 'create' && in_array($node, c4m_og_get_group_content_bundles())) {
+    if($group = c4m_og_current_group()) {
+      if (c4m_og_get_group_status($group) == 'pending') {
+        return NODE_ACCESS_DENY;
+      }
+    }
+  }
 
   return NODE_ACCESS_IGNORE;
 }
