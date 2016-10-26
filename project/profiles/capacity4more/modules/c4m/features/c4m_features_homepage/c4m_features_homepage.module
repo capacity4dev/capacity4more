@@ -68,6 +68,9 @@ function c4m_features_homepage_has_featured_content($bundle) {
  */
 function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   $groups = c4m_features_homepage_get_suggested_items('group');
+  if ($groups) {
+    $groups = c4m_features_homepage_alphabetically_render_node_list($groups);
+  }
 
   $output = '';
 
@@ -100,6 +103,10 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
  */
 function c4m_features_homepage_c4m_suggested_projects_get_projects() {
   $projects = c4m_features_homepage_get_suggested_items('project');
+  if ($projects) {
+    $projects = c4m_features_homepage_alphabetically_render_node_list($projects);
+  }
+
   $output = '';
 
   if (!is_null($projects)) {
@@ -170,7 +177,7 @@ function c4m_features_homepage_get_suggested_items($bundle) {
     return;
   }
 
-  return c4m_features_homepage_alphabetically_render_node_list($result['node']);
+  return $result['node'];
 }
 
 /**
@@ -180,10 +187,17 @@ function c4m_features_homepage_get_suggested_items($bundle) {
  *   Rendered HTML of featured groups.
  */
 function c4m_features_homepage_c4m_featured_groups_get_groups() {
+  // Do not render the featured groups block if there are suggested groups which
+  // are based on the user's interests.
+  $suggested_groups = c4m_features_homepage_get_suggested_items('group');
+  if (!empty($suggested_groups)) {
+    return '';
+  }
+
   $groups = c4m_features_homepage_c4m_get_featured_og_groups('group');
 
   if (is_null($groups)) {
-    return;
+    return '';
   }
 
   $variables = array(
@@ -200,6 +214,13 @@ function c4m_features_homepage_c4m_featured_groups_get_groups() {
  *   Rendered HTML of 3 featured projects.
  */
 function c4m_features_homepage_c4m_featured_projects_get_projects() {
+  // Do not render the featured projects block if there are suggested projects
+  // which are based on the user's interests.
+  $suggested_projects = c4m_features_homepage_get_suggested_items('project');
+  if (!empty($suggested_projects)) {
+    return '';
+  }
+
   $projects = c4m_features_homepage_c4m_get_featured_og_groups('project');
 
   if (is_null($projects)) {
