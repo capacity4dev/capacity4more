@@ -718,12 +718,8 @@ function c4m_user_og_group_management_cta($group) {
 
   if (_c4m_features_og_members_is_power_user($group)) {
     $items['#title'] = t("You're the manager of this !group_type", array('!group_type' => $group->type));
-    $items['#links'][] = array(
-      '#theme' => 'c4m_group_text_cta',
-      '#icon' => 'fa-cogs',
-      '#text' => l(t("Manage !group_type", array('!group_type' => $group->type)), 'manage'),
-    );
-  } elseif (og_is_member('node', $group->nid)) {
+  }
+  elseif (og_is_member('node', $group->nid)) {
     $items['#title'] = t('You\'re a member of this !group_type', array('!group_type' => $group->type));
   }
 
