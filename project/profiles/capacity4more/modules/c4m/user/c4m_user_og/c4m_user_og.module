@@ -724,7 +724,7 @@ function c4m_user_og_group_management_cta($group) {
       '#text' => l(t("Manage !group_type", array('!group_type' => $group->type)), 'manage'),
     );
   } elseif (og_is_member('node', $group->nid)) {
-    $items['#title'] = t("You're a member of this !group_type", array('!group_type' => $group->type));
+    $items['#title'] = t('You\'re a member of this !group_type', array('!group_type' => $group->type));
   }
 
   if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
@@ -781,7 +781,7 @@ function c4m_user_og_c4m_invite_cta($group) {
       'group/node/' . $group->nid . '/admin/people/invite-users',
       array('absolute' => TRUE)
     ),
-    '#weight' => 15,
+    '#weight' => 0,
   );
 }
 
