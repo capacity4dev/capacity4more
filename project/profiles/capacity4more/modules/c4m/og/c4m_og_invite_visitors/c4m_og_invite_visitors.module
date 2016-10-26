@@ -178,7 +178,14 @@ function c4m_og_invite_visitors_og_ui_get_group_admin($group_type, $gid) {
 function c4m_og_invite_visitors_user_access($gid) {
   $group = node_load($gid);
 
-  // SAs, GOs and GAs can invite new members.
+  // Do not allow anyone but site admin, to invite visitors to group which is at
+  // pending status.
+  if (!c4m_user_is_site_admin() && c4m_og_get_group_status($group) == 'pending') {
+    return FALSE;
+  }
+
+  // SAs, GOs and GAs can invite new members to groups with status other
+  // than pending.
   if (_c4m_features_og_members_is_power_user($group)) {
     return TRUE;
   }

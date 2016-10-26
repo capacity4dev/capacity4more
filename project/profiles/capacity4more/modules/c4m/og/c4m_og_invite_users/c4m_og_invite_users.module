@@ -133,12 +133,19 @@ function c4m_og_invite_users_access($group_type, $gid) {
     return FALSE;
   }
 
+  $group = node_load($gid);
+  // Do not allow anyone but site admin, to invite users to group which is at
+  // pending status.
+  if (!c4m_user_is_site_admin() && c4m_og_get_group_status($group) == 'pending') {
+    return FALSE;
+  }
+
   if (_c4m_features_og_members_is_power_user()) {
     return TRUE;
   }
 
   // Get request type (open/moderated).
-  $group = node_load($gid);
+
   $group_request_membership_value = c4m_og_get_group_membership_request($group);
 
   return $group_request_membership_value == 'open' && og_user_access('node', $gid, 'invite any user');
