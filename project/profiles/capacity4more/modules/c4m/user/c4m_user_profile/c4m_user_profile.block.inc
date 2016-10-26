@@ -101,6 +101,11 @@ function _c4m_user_profile_block_user_menu() {
 function _c4m_user_profile_my_groups_top_bar() {
   $user_groups = array();
   foreach (c4m_user_og_get_groups() as $group) {
+    // Deleted groups should not appear on the top bar list.
+    if (c4m_og_get_group_status($group) == 'deleted') {
+      continue;
+    }
+
     $node_view = node_view($group, 'block_list');
     $user_groups[] = render($node_view);
 
