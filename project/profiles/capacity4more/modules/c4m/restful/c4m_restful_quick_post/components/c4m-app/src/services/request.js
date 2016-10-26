@@ -73,6 +73,12 @@ angular.module('c4mApp')
       var categories = submitData.categories;
       delete(submitData.categories);
       delete(submitData.tags);
+
+      // Make sure 'categories' is defined.
+      if (!categories) {
+        categories = [];
+      }
+
       submitData.categories = categories.concat(tags);
 
       return jQuery.param(submitData);
