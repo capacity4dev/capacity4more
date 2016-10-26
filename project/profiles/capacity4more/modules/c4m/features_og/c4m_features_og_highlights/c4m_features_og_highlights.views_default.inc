@@ -32,7 +32,9 @@ function c4m_features_og_highlights_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_plugin'] = 'node';
+  $handler->display->display_options['row_options']['view_mode'] = 'highlight_block';
+  $handler->display->display_options['row_options']['links'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -40,6 +42,16 @@ function c4m_features_og_highlights_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Content: Promoted to front page */
+  $handler->display->display_options['fields']['promote']['id'] = 'promote';
+  $handler->display->display_options['fields']['promote']['table'] = 'node';
+  $handler->display->display_options['fields']['promote']['field'] = 'promote';
+  $handler->display->display_options['fields']['promote']['label'] = '';
+  $handler->display->display_options['fields']['promote']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['promote']['type'] = 'custom';
+  $handler->display->display_options['fields']['promote']['type_custom_true'] = '<i class="fa fa-star-o" aria-hidden="true"></i>';
+  $handler->display->display_options['fields']['promote']['type_custom_false'] = '<i class="fa fa-star" aria-hidden="true"></i>';
+  $handler->display->display_options['fields']['promote']['not'] = 0;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';

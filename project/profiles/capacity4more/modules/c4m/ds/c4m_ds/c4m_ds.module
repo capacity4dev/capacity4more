@@ -255,6 +255,10 @@ function c4m_ds_entity_info_alter(&$entity_info) {
     'custom settings' => TRUE,
     'label' => 'Member Overview',
   );
+  $entity_info['node']['view modes']['highlight_block'] = array(
+    'custom settings' => TRUE,
+    'label' => 'Highlight block',
+  );
 }
 
 /**

@@ -389,6 +389,42 @@ function c4m_content_wiki_page_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|wiki_page|highlight_block';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'wiki_page';
+  $ds_fieldsetting->view_mode = 'highlight_block';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => 'purl_auto',
+        'wrapper' => 'h3',
+        'class' => '',
+        'ft' => array(),
+      ),
+    ),
+    'submitted_by' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'ds_post_date_c4m_long_with_time',
+    ),
+    'c4m_ds_content_type_icon' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
+  );
+  $export['node|wiki_page|highlight_block'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|wiki_page|pinned_content';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'wiki_page';
@@ -913,6 +949,52 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
     'page_option_title' => '',
   );
   $export['node|wiki_page|full'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|wiki_page|highlight_block';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'wiki_page';
+  $ds_layout->view_mode = 'highlight_block';
+  $ds_layout->layout = 'c4m_ds_2col_icon_left_stacked';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'left' => array(
+        0 => 'c4m_ds_content_type_icon',
+      ),
+      'right' => array(
+        1 => 'title',
+        2 => 'c4m_body',
+        3 => 'submitted_by',
+      ),
+      'footer' => array(
+        4 => 'highlighted',
+        5 => 'promoted',
+      ),
+    ),
+    'fields' => array(
+      'c4m_ds_content_type_icon' => 'left',
+      'title' => 'right',
+      'c4m_body' => 'right',
+      'submitted_by' => 'right',
+      'highlighted' => 'footer',
+      'promoted' => 'footer',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'header' => 'div',
+      'left' => 'div',
+      'right' => 'div',
+      'footer' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['node|wiki_page|highlight_block'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
