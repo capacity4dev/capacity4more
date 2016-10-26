@@ -495,6 +495,16 @@ function c4m_user_og_theme() {
     ),
   );
 
+  $theme['c4m_group_flag_cta'] = array(
+    'template' => 'c4m_group_flag_cta',
+    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
+    'variables' => array(
+      'text' => NULL,
+      'wrapper_class' => 'c4m-group-text-cta text-copy--small',
+      'text_class' => NULL,
+    ),
+  );
+
   $theme['c4m_group_manage_cta'] = array(
     'template' => 'c4m_group_manage_cta',
     'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
@@ -593,9 +603,8 @@ function c4m_user_og_c4m_visitor_cta($group) {
     ),
   );
 
-  $login_url = t('Please <a href="@login-page">log in</a> first if you have a C4D account', array(
-    '@login-page' => url('user/login', array('query' => array('destination' => request_path()))),
-  ));
+  $login_link = l(t('log in'), 'user/login', array('query' => array('destination' => request_path())));
+  $login_url = t('Please !login-link first if you have a C4D account', array('!login-link' => $login_link));
 
   if ($membership_request_value = c4m_og_get_group_membership_request($group)) {
     return array(
@@ -844,7 +853,7 @@ function c4m_user_og_follow_group_cta($group) {
   }
 
   $item = array(
-    '#theme' => 'c4m_group_text_cta',
+    '#theme' => 'c4m_group_flag_cta',
     '#icon' => 'fa-bell-o',
     '#text' => flag_create_link('subscribe_c4m_follow_group', $group->nid),
     '#weight' => 50,
