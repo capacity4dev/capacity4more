@@ -42,11 +42,13 @@
   }
 
   &.node-share {
-    > .content {
+    .group-shared-content {
       background: $color-background;
       margin: 0 0 0 2em;
       padding: 1em;
+    }
 
+    > .content {
       h2 {
         margin-top: 0;
       }

@@ -84,7 +84,6 @@ function c4m_search_default_search_api_index() {
               "c4m_organised_by" : true,
               "c4m_cris_contract_number" : true,
               "c4m_cris_decision_number" : true,
-              "c4m_implemented_by" : true,
               "c4m_partner" : true,
               "c4m_source_of_funding" : true,
               "body:value" : true
@@ -100,7 +99,6 @@ function c4m_search_default_search_api_index() {
               "c4m_organised_by" : true,
               "c4m_cris_contract_number" : true,
               "c4m_cris_decision_number" : true,
-              "c4m_implemented_by" : true,
               "c4m_partner" : true,
               "c4m_source_of_funding" : true,
               "body:value" : true
@@ -118,7 +116,6 @@ function c4m_search_default_search_api_index() {
               "c4m_organised_by" : true,
               "c4m_cris_contract_number" : true,
               "c4m_cris_decision_number" : true,
-              "c4m_implemented_by" : true,
               "c4m_partner" : true,
               "c4m_source_of_funding" : true,
               "body:value" : true
@@ -134,7 +131,6 @@ function c4m_search_default_search_api_index() {
               "c4m_organised_by" : true,
               "c4m_cris_contract_number" : true,
               "c4m_cris_decision_number" : true,
-              "c4m_implemented_by" : true,
               "c4m_partner" : true,
               "c4m_source_of_funding" : true,
               "body:value" : true
@@ -152,7 +148,6 @@ function c4m_search_default_search_api_index() {
               "c4m_organised_by" : true,
               "c4m_cris_contract_number" : true,
               "c4m_cris_decision_number" : true,
-              "c4m_implemented_by" : true,
               "c4m_partner" : true,
               "c4m_source_of_funding" : true,
               "body:value" : true
