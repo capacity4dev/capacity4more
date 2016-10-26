@@ -240,7 +240,7 @@ function _capacity4more_install_save_default_permissions(
     $filtered_html_permission,
   );
   // Enable default permissions for anonymous users.
-  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, $permissions);
+//  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, $permissions);
 
   $permissions += array(
     'post comments',
@@ -255,7 +255,7 @@ function _capacity4more_install_save_default_permissions(
     'access user contact forms',
   );
   // Enable default permissions for authenticated users.
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
+//  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 
   // Create a default role for site administrators,
   // with all available permissions assigned.

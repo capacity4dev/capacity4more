@@ -33,20 +33,20 @@ function capacity4more_install_tasks() {
     'display' => FALSE,
   );
 
-  $tasks['capacity4more_setup_set_permissions'] = array(
-    'display_name' => st('Set permissions'),
-    'display' => FALSE,
-  );
-
-  $tasks['capacity4more_setup_set_og_permissions'] = array(
-    'display_name' => st('Set OG permissions'),
-    'display' => FALSE,
-  );
-
-  $tasks['capacity4more_setup_set_terms_og_permissions'] = array(
-    'display_name' => st('Set terms OG permissions'),
-    'display' => FALSE,
-  );
+//  $tasks['capacity4more_setup_set_permissions'] = array(
+//    'display_name' => st('Set permissions'),
+//    'display' => FALSE,
+//  );
+//
+//  $tasks['capacity4more_setup_set_og_permissions'] = array(
+//    'display_name' => st('Set OG permissions'),
+//    'display' => FALSE,
+//  );
+//
+//  $tasks['capacity4more_setup_set_terms_og_permissions'] = array(
+//    'display_name' => st('Set terms OG permissions'),
+//    'display' => FALSE,
+//  );
 
   $tasks['capacity4more_setup_set_menu_purl'] = array(
     'display_name' => st('Set menu purl modifiers (main menu)'),
