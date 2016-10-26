@@ -720,17 +720,12 @@ function c4m_user_og_group_management_cta($group) {
     $items['#title'] = t("You're the manager of this !group_type", array('!group_type' => $group->type));
   }
   elseif (og_is_member('node', $group->nid)) {
-    $items['#title'] = t('You\'re a member of this !group_type', array('!group_type' => $group->type));
+    $items['#title'] = t("You're a member of this !group_type", array('!group_type' => $group->type));
   }
 
-  if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
-    $items['#links'][] = $item;
-  }
-
-  if (isset($items['#links'])) {
-    $items['#theme'] = 'c4m_group_manage_cta';
-    $items['#weight'] = 0;
-  }
+  $items['#links'][] = c4m_user_og_c4m_leave_group_cta($group);
+  $items['#theme'] = 'c4m_group_manage_cta';
+  $items['#weight'] = 0;
 
   return $items;
 }
@@ -819,7 +814,7 @@ function c4m_user_og_c4m_membership_cta($group) {
  * Sets the CTA to leave a group.
  */
 function c4m_user_og_c4m_leave_group_cta($group) {
-  if (!og_is_member('node', $group->nid)) {
+  if (!og_is_member('node', $group->nid) || _c4m_features_og_members_is_power_user()) {
     return;
   }
 
