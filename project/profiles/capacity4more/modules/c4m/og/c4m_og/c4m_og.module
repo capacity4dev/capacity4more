@@ -2167,13 +2167,13 @@ function c4m_og_get_group_status($group) {
  * Blocks access to 'node/%node/delete'.
  */
 function c4m_og_node_access($node, $op, $account) {
-  if (!og_context_is_init() && $op != 'update') {
-    // OG context was not determined yet, so register the path and return early.
-    // The next time this access callback will be called, it will not enter
-    // here.
-    og_context_access_callback_register_path($_GET['q']);
-    return;
-  }
+//  if (!og_context_is_init() && $op != 'update') {
+//    // OG context was not determined yet, so register the path and return early.
+//    // The next time this access callback will be called, it will not enter
+//    // here.
+//    og_context_access_callback_register_path($_GET['q']);
+//    return;
+//  }
 
   if ($op == 'delete' && og_is_group('node', $node) && !user_access('administer nodes')) {
     return NODE_ACCESS_DENY;
@@ -2203,6 +2203,13 @@ function c4m_og_node_access($node, $op, $account) {
       if (c4m_og_get_group_status($group) == 'pending') {
         return NODE_ACCESS_DENY;
       }
+    }
+  }
+
+  // When group is restricted, deny access for non power users.
+  if (is_object($node) && og_is_group('node', $node)) {
+    if (c4m_og_get_group_status($node) == 'pending') {
+      return _c4m_features_og_members_is_power_user($node) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
     }
   }
 
