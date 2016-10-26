@@ -158,6 +158,7 @@ function capacity4more_setup_set_og_permissions() {
   $permissions = array(
     'invite visitors',
     'invite any user',
+    'update any wiki_page content'
   );
   foreach ($content_types as $content_type) {
     $permissions = array_merge($permissions, array(
@@ -206,7 +207,7 @@ function capacity4more_setup_set_og_permissions() {
     'share',
   );
 
-  $permissions = array();
+  $permissions = array('update any wiki_page content');
   foreach ($content_types as $content_type) {
     $permissions = array_merge($permissions, array(
       "create $content_type content",
