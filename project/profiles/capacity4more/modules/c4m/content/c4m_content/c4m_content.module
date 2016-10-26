@@ -764,14 +764,14 @@ function c4m_content_toggle_highlight_access($group, $node, $status) {
     return FALSE;
   }
 
-  // Allow SA only to highlight a group/project.
-  if (og_is_group('node', $node) && !c4m_user_is_site_admin()) {
+  // Verify that the node being highlighted belongs to this group.
+  if (!og_is_member('node', $group->nid, 'node', $node)) {
     return FALSE;
   }
 
-  // The node in question is a member of the group.
-  if (!og_is_member('node', $group->nid, 'node', $node)) {
-    return FALSE;
+  // Allow SA only to highlight a group/project.
+  if (og_is_group('node', $node)) {
+    return c4m_user_is_site_admin();
   }
 
   // Allow power users (SA, GO and GA) to highlight group content.
