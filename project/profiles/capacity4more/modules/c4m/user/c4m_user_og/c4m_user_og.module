@@ -714,6 +714,8 @@ function c4m_user_og_group_management_cta($group) {
       '#icon' => 'fa-cogs',
       '#text' => l(t("Manage !group_type", array('!group_type' => $group->type)), 'manage'),
     );
+  } elseif (og_is_member('node', $group->nid)) {
+    $items['#title'] = t("You're a member of this !group_type", array('!group_type' => $group->type));
   }
 
   if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
