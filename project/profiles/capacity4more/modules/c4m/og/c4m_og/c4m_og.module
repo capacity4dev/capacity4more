@@ -2021,23 +2021,10 @@ function c4m_og_get_user_administered_projects_count($uid, $is_programme = 0) {
 }
 
 /**
- * Returns an array of all OG content types of type 'node'.
+ * Returns an array of all OG Group content bundles, of type 'node'.
  *
  * @return array
- *    OG content types of type 'node'.
- */
-function c4m_og_get_all_content_bundles() {
-  $og_content_bundles = og_get_all_group_content_bundle();
-  $node_bundles = $og_content_bundles['node'];
-
-  return array_keys($node_bundles);
-}
-
-/**
- * Returns an array of all OG Group content types, of type 'node'.
- *
- * @return array
- *   OG Group content types, of type 'node'.
+ *   OG Group content bundles, of type 'node'.
  */
 function c4m_og_get_group_content_bundles() {
   $og_content_bundles = og_get_all_group_content_bundle();
@@ -2050,10 +2037,10 @@ function c4m_og_get_group_content_bundles() {
 }
 
 /**
- * Returns an array of all OG Project content types, of type 'node'.
+ * Returns an array of all OG Project content bundles, of type 'node'.
  *
  * @return array
- *   OG Project content types, of type 'node'.
+ *   OG Project content bundles, of type 'node'.
  */
 function c4m_og_get_project_content_bundles() {
   $og_content_bundles = og_get_all_group_content_bundle();
