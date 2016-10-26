@@ -2141,10 +2141,8 @@ function c4m_og_node_access($node, $op, $account) {
     return NODE_ACCESS_DENY;
   }
 
-  if ($op == 'update' && is_object($node) && $node->type == 'wiki_page') {
-    $wrapper = entity_metadata_wrapper('node', $node);
-    $group = $wrapper->{OG_AUDIENCE_FIELD}->value();
-    if (!_c4m_features_og_members_is_power_user($group) && !$wrapper->c4m_edit_by_members->value()) {
+  if ($op == 'update' && ($group = c4m_og_get_group_of_content($node)) && $node->type == 'wiki_page') {
+    if (!_c4m_features_og_members_is_power_user($group) && !c4m_content_wiki_page_is_editable_by_members($node)) {
       return NODE_ACCESS_DENY;
     }
   }
