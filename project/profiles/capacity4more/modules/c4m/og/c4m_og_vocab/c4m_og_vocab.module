@@ -376,6 +376,28 @@ function c4m_og_vocab_validate(
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Removing all og_vocab from the default taxonomy list (CFM-1316).
+ *
+ * @see taxonomy_overview_vocabularies()
+ */
+function c4m_og_vocab_form_taxonomy_overview_vocabularies_alter(&$form, &$form_state, $form_id) {
+  foreach (array_keys($form) as $tid) {
+    // taxonomy_overview_vocabularies() is adding the vocabularies to the form
+    // object, hence we make sure the current iteration is a vocabulary.
+    if (!isset($form[$tid]['#vocabulary']) || !is_object($form[$tid]['#vocabulary'])) {
+      continue;
+    }
+
+    // Remove the og_vocab from the form.
+    if (og_vocab_relation_get($tid)) {
+      unset($form[$tid]);
+    }
+  }
+}
+
+/**
  * Implements hook_theme().
  */
 function c4m_og_vocab_theme() {
