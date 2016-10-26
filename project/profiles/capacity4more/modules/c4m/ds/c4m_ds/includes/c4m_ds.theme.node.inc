@@ -812,7 +812,7 @@ function theme_c4m_ds_group_notification_toggle(array $field) {
     return '';
   }
 
-  return c4m_content_group_create_toggle_notification_link($user, $group);
+  return '';
 }
 
 /**

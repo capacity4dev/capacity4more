@@ -130,11 +130,6 @@ function c4m_content_group_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'c4m_ds_group_notification_toggle' => array(
-      'weight' => '3',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'c4m_content_group_statistics' => array(
       'weight' => '4',
       'label' => 'hidden',
@@ -407,7 +402,6 @@ function c4m_content_group_ds_layout_settings_info() {
         1 => 'highlighted',
         2 => 'c4m_ds_creation_date',
         3 => 'group_access_info',
-        4 => 'c4m_ds_group_notification_toggle',
         5 => 'c4m_content_group_statistics',
         6 => 'c4m_user_first_and_last_name',
         7 => 'group_admins',
@@ -423,7 +417,6 @@ function c4m_content_group_ds_layout_settings_info() {
       'highlighted' => 'ds_content',
       'c4m_ds_creation_date' => 'ds_content',
       'group_access_info' => 'ds_content',
-      'c4m_ds_group_notification_toggle' => 'ds_content',
       'c4m_content_group_statistics' => 'ds_content',
       'c4m_user_first_and_last_name' => 'ds_content',
       'group_admins' => 'ds_content',
