@@ -4,7 +4,6 @@ core = 7.x
 package = capacity4more - OG
 dependencies[] = c4m_context
 dependencies[] = c4m_features_og_group_dashboard
-dependencies[] = c4m_og
 dependencies[] = c4m_og_invite_visitors
 dependencies[] = context
 dependencies[] = ctools
