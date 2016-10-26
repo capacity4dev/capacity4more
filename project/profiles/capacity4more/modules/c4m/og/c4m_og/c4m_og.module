@@ -2239,7 +2239,7 @@ function c4m_og_form_valid_author($form, &$form_state) {
     form_set_error('name', 'There was an error validating the author for this group.');
   }
 
-  if ($user && !og_is_member('node', $gid, 'user', $user)) {
+  if ($user && !c4m_user_is_site_admin($user) && !og_is_member('node', $gid, 'user', $user)) {
     form_set_error('name', $form_state['values']['name'] . ' is not an active member of this group.');
   }
 }
