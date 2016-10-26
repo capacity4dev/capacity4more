@@ -38,25 +38,16 @@ angular.module('c4mApp')
         scope.updateDocumentsData = function (relatedDocuments) {
           var documents = {};
           angular.forEach(relatedDocuments, function (value, key) {
-
-            entity_render_view('node', value, 'block_list').success(function(data) {
-              documents[key] = data;
+            // Get all field values of the document.
+            EntityResource.getEntityData('documents', value).success(function (data, status) {
+              documents[key] = data.data[0];
+              // Format file size.
+              documents[key].document.filesize = $window.filesize(documents[key].document.filesize);
             });
-
-            // // Get all field values of the document.
-            // EntityResource.getEntityData('documents', value).success(function (data, status) {
-            //   documents[key] = data.data[0];
-            //   // Format file size.
-            //   documents[key].document.filesize = $window.filesize(documents[key].document.filesize);
-            // });
           });
 
           return documents;
         };
-
-        scope.toTrustedHTML = function( html ){
-          return $sce.trustAsHtml( html );
-        }
 
         // Get the click event form the overlay and update related documents.
         element.parents('#' + scope.formId).find('#input-' + scope.fieldName).on('click', function (event) {
