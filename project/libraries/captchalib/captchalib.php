@@ -1,12 +1,11 @@
 <?php
-
-/* *
+/**
   CAPTCHA based on reCAPTCHA
   AUTHORS:
   DIGIT FPFIS SUPPORT
-  /* */
+ */
 
-/* *
+/**
   Copyright (c) 2007 reCAPTCHA -- http://recaptcha.net
   AUTHORS:
   Mike Crawford
@@ -29,21 +28,21 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-  /* */
+ */
 
 /**
  * The captcha server URL's
  */
 if (!defined('CAPTCHA_VERIFY_SERVER'))
-  define('CAPTCHA_VERIFY_SERVER', 'webtools.ec.europa.eu');
+    define('CAPTCHA_VERIFY_SERVER', 'webtools.ec.europa.eu');
 if (!defined('CAPTCHA_VERIFY_SERVER_PATH'))
-  define('CAPTCHA_VERIFY_SERVER_PATH', '/captcha');
+    define('CAPTCHA_VERIFY_SERVER_PATH', '/captcha');
 if (!defined('CAPTCHA_API_SERVER'))
-  define('CAPTCHA_API_SERVER', 'https://' . CAPTCHA_VERIFY_SERVER . CAPTCHA_VERIFY_SERVER_PATH);
+    define('CAPTCHA_API_SERVER', 'https://' . CAPTCHA_VERIFY_SERVER . CAPTCHA_VERIFY_SERVER_PATH);
 if (!defined('CAPTCHA_API_SECURE_SERVER'))
-  define('CAPTCHA_API_SECURE_SERVER', 'https://' . CAPTCHA_VERIFY_SERVER . CAPTCHA_VERIFY_SERVER_PATH);
+    define('CAPTCHA_API_SECURE_SERVER', 'https://' . CAPTCHA_VERIFY_SERVER . CAPTCHA_VERIFY_SERVER_PATH);
 if (!defined('CAPTCHA_ADDITIONAL_HEADER'))
-  define('CAPTCHA_ADDITIONAL_HEADER', '');
+    define('CAPTCHA_ADDITIONAL_HEADER', '');
 
 /**
  * Encodes the given data into a query string format
@@ -51,13 +50,13 @@ if (!defined('CAPTCHA_ADDITIONAL_HEADER'))
  * @return string - encoded request
  */
 function _captcha_qsencode($data) {
-  $req = "";
-  foreach ($data as $key => $value)
-    $req .= $key . '=' . urlencode(stripslashes($value)) . '&';
+    $req = "";
+    foreach ($data as $key => $value)
+        $req .= $key . '=' . urlencode(stripslashes($value)) . '&';
 
-  // Cut the last '&'
-  $req = substr($req, 0, strlen($req) - 1);
-  return $req;
+    // Cut the last '&'
+    $req = substr($req, 0, strlen($req) - 1);
+    return $req;
 }
 
 /**
@@ -70,28 +69,28 @@ function _captcha_qsencode($data) {
  */
 function _captcha_http_post($host, $path, $data, $port = 443) {
 
-  $req = _captcha_qsencode($data);
-  $http_request = "POST $path HTTP/1.0\r\n";
-  $http_request .= "Host: $host\r\n";
-  $http_request .= "Content-Type: application/x-www-form-urlencoded;\r\n";
-  $http_request .= "Content-Length: " . strlen($req) . "\r\n";
-  $http_request .= "User-Agent: FPFIS Captcha/PHP" . CAPTCHA_ADDITIONAL_HEADER . "\r\n";
-  $http_request .= "\r\n";
-  $http_request .= $req;
+    $req = _captcha_qsencode($data);
+    $http_request = "POST $path HTTP/1.0\r\n";
+    $http_request .= "Host: $host\r\n";
+    $http_request .= "Content-Type: application/x-www-form-urlencoded;\r\n";
+    $http_request .= "Content-Length: " . strlen($req) . "\r\n";
+    $http_request .= "User-Agent: FPFIS Captcha/PHP" . CAPTCHA_ADDITIONAL_HEADER . "\r\n";
+    $http_request .= "\r\n";
+    $http_request .= $req;
 
-  $response = '';
-  if (false == ( $fs = @fsockopen('ssl://webtools.ec.europa.eu', 443, $errno, $errstr, 10) )) {
-    die('Could not open socket.'.$errno.'-'.$errstr.'-'.$fs);
-  }
-  fwrite($fs, $http_request);
+    $response = '';
+    if (false == ( $fs = @fsockopen('ssl://' . CAPTCHA_VERIFY_SERVER, 443, $errno, $errstr, 10) )) {
+        die('Could not open socket.' . $errno . '-' . $errstr . '-' . $fs);
+    }
+    fwrite($fs, $http_request);
 
-  while (!feof($fs))
-    $response .= fgets($fs, 1160); // One TCP-IP packet
-  fclose($fs);
+    while (!feof($fs))
+        $response .= fgets($fs, 1160); // One TCP-IP packet
+    fclose($fs);
 
-  $response = explode("\r\n\r\n", $response, 2);
+    $response = explode("\r\n\r\n", $response, 2);
 
-  return $response;
+    return $response;
 }
 
 /**
@@ -102,54 +101,54 @@ function _captcha_http_post($host, $path, $data, $port = 443) {
  * @return string - The HTML to be embedded in the user's form.
  */
 function captcha_get_html($use_ssl = false) {
-  if ($use_ssl) {
-    $server = CAPTCHA_API_SECURE_SERVER;
-    $host = CAPTCHA_VERIFY_SERVER;
-  }
-  else {
-    $server = CAPTCHA_API_SERVER;
-    $host = CAPTCHA_VERIFY_SERVER;
-  }
-
-  $sessionid = '';
-
-  /* Prepare request to get CAPTCHA on remote server */
-  $req = _captcha_qsencode(array());
-  $path = CAPTCHA_VERIFY_SERVER_PATH . '/securimage_show.php';
-  $port = 80;
-  $http_request = "POST $path HTTP/1.0\r\n";
-  $http_request .= "Host: $host\r\n";
-  $http_request .= "Content-Type: application/x-www-form-urlencoded;\r\n";
-  $http_request .= "Content-Length: " . strlen($req) . "\r\n";
-  $http_request .= "User-Agent: FPFIS Captcha/PHP" . CAPTCHA_ADDITIONAL_HEADER . "\r\n";
-  $http_request .= "\r\n";
-  $http_request .= $req;
-
-  $response = '';
-  if (false == ( $fs = @fsockopen($host, $port, $errno, $errstr, 10) )) {
-    die('Could not open socket. - 2');
-  }
-
-  fwrite($fs, $http_request);
-
-  while (!feof($fs))
-    $response .= fgets($fs, 1160); // One TCP-IP packet
-  fclose($fs);
-
-  $response = explode("\r\n\r\n", $response, 2);
-
-  if (!empty($response[0])) {
-    $pattern = '/CAPTCHAID=([^;]+);/i';
-    $matches = array();
-    if (preg_match($pattern, $response[0], $matches)) {
-      if (!empty($matches[1])) {
-        $sessionid = '&amp;CAPTCHAID=' . $matches[1];
-      }
+    if ($use_ssl) {
+        $server = CAPTCHA_API_SECURE_SERVER;
+        $host = CAPTCHA_VERIFY_SERVER;
     }
-  }
+    else {
+        $server = CAPTCHA_API_SERVER;
+        $host = CAPTCHA_VERIFY_SERVER;
+    }
 
-  $strCaptcha = ('<SPAN class="captcha"></SPAN><NOSCRIPT><img src="' . $server . '/securimage_show.php?' . $sessionid . 'width=100&amp;height=40&amp;characters=5" alt="Security Image" /> <br />Please enter the security code as above: <input id="security_code" name="security_code" type="text" /></NOSCRIPT>');
-  return $strCaptcha;
+    $sessionid = '';
+
+    /* Prepare request to get CAPTCHA on remote server */
+    $req = _captcha_qsencode(array());
+    $path = CAPTCHA_VERIFY_SERVER_PATH . '/securimage_show.php';
+    $port = 80;
+    $http_request = "POST $path HTTP/1.0\r\n";
+    $http_request .= "Host: $host\r\n";
+    $http_request .= "Content-Type: application/x-www-form-urlencoded;\r\n";
+    $http_request .= "Content-Length: " . strlen($req) . "\r\n";
+    $http_request .= "User-Agent: FPFIS Captcha/PHP" . CAPTCHA_ADDITIONAL_HEADER . "\r\n";
+    $http_request .= "\r\n";
+    $http_request .= $req;
+
+    $response = '';
+    if (false == ( $fs = @fsockopen($host, $port, $errno, $errstr, 10) )) {
+        die('Could not open socket. - 2');
+    }
+
+    fwrite($fs, $http_request);
+
+    while (!feof($fs))
+        $response .= fgets($fs, 1160); // One TCP-IP packet
+    fclose($fs);
+
+    $response = explode("\r\n\r\n", $response, 2);
+
+    if (!empty($response[0])) {
+        $pattern = '/CAPTCHAID=([^;]+);/i';
+        $matches = array();
+        if (preg_match($pattern, $response[0], $matches)) {
+            if (!empty($matches[1])) {
+                $sessionid = $matches[1];
+            }
+        }
+    }
+
+    $strCaptcha = ('<SPAN class="captcha"></SPAN><NOSCRIPT><img src="' . $server . '/securimage_show.php?&amp;CAPTCHAID=' . $sessionid . '&amp;width=100&amp;height=40&amp;characters=5" alt="Security Image" /> <br />Please enter the security code as above: <input id="security_code" name="security_code" type="text" /><input type="hidden" name="CAPTCHAID" value="' . $sessionid . '" /></NOSCRIPT>');
+    return $strCaptcha;
 }
 
 /**
@@ -157,8 +156,8 @@ function captcha_get_html($use_ssl = false) {
  */
 class captchaResponse {
 
-  var $is_valid;
-  var $error;
+    var $is_valid;
+    var $error;
 
 }
 
@@ -169,35 +168,37 @@ class captchaResponse {
  * @return captchaResponse
  */
 function captcha_check_answer($request = false, $extra_params = array()) {
-  if (empty($request)) {
-    $request = $_REQUEST;
-  }
+    if (empty($request)) {
+        $request = $_REQUEST;
+    }
 
-  //discard spam submissions
-  if (empty($request['security_code']) &&
-    (
-      empty($request['captcha_field_name']) || (!empty($request['captcha_field_name']) && empty($request[$request['captcha_field_name']]))
-    )
-  ) {
+    //discard spam submissions
+    if (empty($request['security_code']) &&
+        (
+        empty($request['captcha_field_name']) || (!empty($request['captcha_field_name']) && empty($request[$request['captcha_field_name']]))
+        )
+    ) {
+        $captcha_response = new captchaResponse();
+        $captcha_response->is_valid = false;
+        $captcha_response->error = 'incorrect-captcha-sol';
+        return $captcha_response;
+    }
+
+    $response = _captcha_http_post(
+        CAPTCHA_VERIFY_SERVER, CAPTCHA_VERIFY_SERVER_PATH . '/captchaverify.php', $request + $extra_params
+    );
+
+    $answers = explode("\n", $response [1]);
     $captcha_response = new captchaResponse();
-    $captcha_response->is_valid = false;
-    $captcha_response->error = 'incorrect-captcha-sol';
+    if (trim($answers[0]) == 'true') {
+        $captcha_response->is_valid = true;
+        $captcha_response->error = $answers[1];
+    }
+    else {
+        $captcha_response->is_valid = false;
+        $captcha_response->error = $answers[1];
+    }
     return $captcha_response;
-  }
-
-  $response = _captcha_http_post(
-    'webtools.ec.europa.eu', '/captcha' . '/captchaverify.php', $request + $extra_params
-  );
-
-  $answers = explode("\n", $response [1]);
-  $captcha_response = new captchaResponse();
-  if (trim($answers[0]) == 'true') {
-    $captcha_response->is_valid = true;
-    $captcha_response->error = $answers[1];
-  }
-  else {
-    $captcha_response->is_valid = false;
-    $captcha_response->error = $answers[1];
-  }
-  return $captcha_response;
 }
+
+?>
