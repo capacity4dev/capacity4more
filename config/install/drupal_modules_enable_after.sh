@@ -15,3 +15,8 @@ echo
 markup_h1 "Set the administration menu"
 drupal_drush vset admin_theme adminimal
 echo
+
+# Revert all features.
+markup_h1 "Revert all features"
+drupal_drush fra -y
+echo
