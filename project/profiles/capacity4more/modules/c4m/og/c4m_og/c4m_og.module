@@ -2165,6 +2165,8 @@ function c4m_og_get_group_status($group) {
  *
  * Prevents anyone besides site administrators to delete Group/Project.
  * Blocks access to 'node/%node/delete'.
+ * On wiki page edit, allows access to power users, ond all group members,
+ * in case this option is allowed (c4m_edit_by_members).
  */
 function c4m_og_node_access($node, $op, $account) {
 //  if (!og_context_is_init() && $op != 'update') {
@@ -2177,6 +2179,12 @@ function c4m_og_node_access($node, $op, $account) {
 
   if ($op == 'delete' && og_is_group('node', $node) && !user_access('administer nodes')) {
     return NODE_ACCESS_DENY;
+  }
+
+  if ($op == 'update' && ($group = c4m_og_get_group_of_content($node)) && $node->type == 'wiki_page') {
+    if (!_c4m_features_og_members_is_power_user($group) && !c4m_content_wiki_page_is_editable_by_members($node)) {
+      return NODE_ACCESS_DENY;
+    }
   }
 
   // Grant access to group content by the same access to the group.
