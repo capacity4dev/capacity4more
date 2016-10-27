@@ -57,29 +57,34 @@ Feature: Test homepage content and blocks
     And   I should see "Architecture" in the "div.my-groups" element
     And   I should see "Show more" in the "div.my-groups" element
 
-  @api
-  Scenario: Anonymous user can't see "Suggested Groups" block
+  @api @test
+  Scenario: Anonymous user can see "Featured Groups" block and not "Suggested Groups"
     Given I am an anonymous user
     When  I visit the site homepage
     Then  I should not see "Suggested Groups"
+    And   I should see "Featured Groups"
 
-  @api
-  Scenario: Logged in, non member user should see "Suggested Groups" block
+  @api @test
+  Scenario: Logged in user should see "Suggested Groups" block and not "Featured groups"
     Given I am logged in as user "president"
     When  I visit the site homepage
     Then  I should see "Suggested Groups"
+    And   I should not see "Featured Groups"
 
-  @api
-  Scenario: Anonymous user should see "Featured projects" block
+  @api @test
+  Scenario: Anonymous user can see "Featured Projects" block and not "Suggested Projects"
     Given I am an anonymous user
     When  I visit the site homepage
-    Then  I should see "Featured projects"
+    Then  I should not see "Suggested Projects"
+    And   I should see "Featured Projects"
 
-  @api
-  Scenario: Logged in, member user should see "Featured projects" block
+  @api @test
+  Scenario: Logged in user should see "Suggested Projects" block and not "Featured Projects"
     Given I am logged in as user "mariecurie"
     When  I visit the site homepage
-    Then  I should see "Featured projects"
+    Then  I should see "Suggested Projects"
+    And   I should not see "Featured Projects"
+
 
   @api
   Scenario: Anonymous user should see only one "Upcoming event"
