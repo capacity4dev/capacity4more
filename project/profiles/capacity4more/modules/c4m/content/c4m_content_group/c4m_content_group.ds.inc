@@ -125,16 +125,6 @@ function c4m_content_group_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_group_administer_link' => array(
-      'weight' => '15',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
-    'c4m_ds_group_notification_toggle' => array(
-      'weight' => '3',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'c4m_content_group_statistics' => array(
       'weight' => '4',
       'label' => 'hidden',
@@ -427,6 +417,7 @@ function c4m_content_group_ds_layout_settings_info() {
       'c4m_vocab_topic' => 'ds_content',
       'c4m_vocab_geo' => 'ds_content',
       'c4m_ds_content_actions' => 'ds_content',
+      'c4m_ds_group_administer_link' => 'ds_content',
       'group_extra_info' => 'ds_content',
     ),
     'classes' => array(),
