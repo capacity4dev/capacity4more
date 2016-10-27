@@ -320,6 +320,7 @@ function c4m_og_og_features_default_permissions() {
   $permissions['node:group:update any wiki_page content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
+      'member' => 'member',
     ),
   );
 
@@ -689,7 +690,9 @@ function c4m_og_og_features_default_permissions() {
 
   // Exported og permission: 'node:project:update any wiki_page content'
   $permissions['node:project:update any wiki_page content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:update group'
