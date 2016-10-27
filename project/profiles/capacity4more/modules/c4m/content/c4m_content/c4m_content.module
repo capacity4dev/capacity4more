@@ -1200,7 +1200,7 @@ function c4m_content_menu_alter(&$items) {
 }
 
 /**
- * @return bool
+ * Access Callback; /node/add should be allowed for SA only.
  */
 function c4m_content_add_access() {
   return c4m_user_is_site_admin();
