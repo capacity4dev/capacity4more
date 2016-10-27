@@ -61,3 +61,27 @@ Feature: Group Wiki pages
     And I click "Edit" in the "primary tabs" region
     Then I should see the text "Edit Wiki page Award Process"
     And I should see the text "Authoring information"
+
+  @api
+  Scenario: Check GM can edit a wiki page which is allowed to edit by GM
+    # Check GM can not edit a wiki page which is not allowed to edit by GM.
+    Given I am logged in with a temporal user
+    When I visit the group "wiki_page" detail page "2011-2012"
+    Then I should not be able to see the edit link
+
+    # Allow all members to edit the wiki page.
+    When I am logged in as user "badhairday"
+    When I visit the group "wiki_page" detail page "2011-2012"
+    And I click "Edit" in the "primary tabs" region
+    Then I should see the text "Edit Wiki page 2011-2012"
+    Then I check the box "Edit by Members"
+    And  I press "Save"
+    Then I should see the text "Wiki page 2011-2012 has been updated."
+
+    # Make sure the user is now able to edit the wiki page.
+    When  I am logged in with a temporal user again
+    When I visit the dashboard of group "Football Talk"
+    And  I click "Join this group"
+    When I visit the group "wiki_page" detail page "2011-2012"
+    And  I click "Edit" in the "primary tabs" region
+    Then I should see the text "Edit Wiki page 2011-2012"
