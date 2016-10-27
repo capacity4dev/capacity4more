@@ -460,6 +460,57 @@ function _c4m_features_og_members_is_power_user($group = NULL, $user = NULL) {
 }
 
 /**
+ * Returns the type of user, within a group.
+ *
+ * Meaning the user:
+ * - Has the site wide role 'administrator' -> 'site-admin'.
+ * - Is author of the group -> 'owner'.
+ * - Has the 'administrator member' role within the group -> 'admin'.
+ * - Is group member -> 'member'.
+ * - Otherwise ->'non-member'.
+ *
+ * @param mixed $group
+ *   The group we want to check the user for.
+ * @param mixed $user
+ *   The user object.
+ *
+ * @return bool
+ *   Is the user a power user.
+ */
+function _c4m_features_og_members_get_user_type($group = NULL, $user = NULL) {
+  if (!isset($user)) {
+    global $user;
+  }
+  // The user has the site wide role 'administrator'.
+  if (in_array('administrator', $user->roles)) {
+    return 'site-admin';
+  }
+
+  if (!isset($group)) {
+    $group = c4m_og_current_group();
+  }
+
+  // Currently we're not in a group context, and at that point the user is not
+  // an administrator.
+  if (!$group || user_is_anonymous()) {
+    return 'non-member';
+  }
+
+  // The user is the group owner.
+  // What is a group owner? see https://www.drupal.org/node/1114858.
+  if ($group->uid === $user->uid) {
+    return 'owner';
+  }
+
+  // The user has the group role 'administrator member'.
+  if (in_array('administrator member', og_get_user_roles('node', $group->nid, $user->uid)) ) {
+    return 'admin';
+  }
+
+  return og_is_member('node', $group->nid) ? 'member' : 'non-member';
+}
+
+/**
  * Implements hook_entity_property_info_alter().
  */
 function c4m_features_og_members_entity_property_info_alter(&$info) {

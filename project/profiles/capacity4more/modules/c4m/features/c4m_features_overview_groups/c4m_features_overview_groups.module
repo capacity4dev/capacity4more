@@ -33,11 +33,6 @@ function c4m_features_overview_groups_views_pre_build(&$view) {
     return;
   }
 
-  // Power users should see pending groups, thus we remove the filter.
-  if (_c4m_features_og_members_is_power_user()) {
-    unset($view->filter['c4m_og_status']);
-  }
-
   // We remove the filter for authenticated users.
   // (They can see groups with anonymous authors).
   unset($view->filter['author']);

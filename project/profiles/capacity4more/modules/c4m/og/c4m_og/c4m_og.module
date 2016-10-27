@@ -2214,11 +2214,19 @@ function c4m_og_node_access($node, $op, $account) {
     }
   }
 
-  // When group is restricted, deny access for non power users.
+  // Allow access to group, based on group state and user role within the group.
   if (is_object($node) && og_is_group('node', $node)) {
-    if (c4m_og_get_group_status($node) == 'pending') {
-      return _c4m_features_og_members_is_power_user($node) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
-    }
+    $allowed_states = array (
+      'non-member' => array('archived', 'published'),
+      'member' => array('archived', 'published'),
+      'admin' => array('draft', 'archived', 'published'),
+      'owner' => array('pending', 'draft', 'archived', 'published'),
+    );
+
+    $user_type = _c4m_features_og_members_get_user_type($node);
+    $group_state = c4m_og_get_group_status($node);
+
+    return in_array($group_state, $allowed_states[$user_type]) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;;
   }
 
   return NODE_ACCESS_IGNORE;
