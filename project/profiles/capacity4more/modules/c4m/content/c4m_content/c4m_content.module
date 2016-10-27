@@ -1194,7 +1194,16 @@ function c4m_content_menu_alter(&$items) {
     'access arguments' => array(1),
   );
 
+  $items['node/add']['access callback'] = 'c4m_content_add_access';
+
   return $items;
+}
+
+/**
+ * @return bool
+ */
+function c4m_content_add_access() {
+  return c4m_user_is_site_admin();
 }
 
 /**
