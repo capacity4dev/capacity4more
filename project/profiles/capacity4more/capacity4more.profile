@@ -33,11 +33,6 @@ function capacity4more_install_tasks() {
     'display' => FALSE,
   );
 
-//  $tasks['capacity4more_setup_set_permissions'] = array(
-//    'display_name' => st('Set permissions'),
-//    'display' => FALSE,
-//  );
-//
 //  $tasks['capacity4more_setup_set_og_permissions'] = array(
 //    'display_name' => st('Set OG permissions'),
 //    'display' => FALSE,
@@ -105,40 +100,6 @@ function capacity4more_setup_set_variables(&$install_state) {
   foreach ($variables as $key => $value) {
     variable_set($key, $value);
   }
-}
-
-/**
- * Task callback; Create permissions.
- */
-function capacity4more_setup_set_permissions(&$install_state) {
-  // Enable default permissions for authenticated users.
-  $permissions = array(
-    'access content',
-    'create group content',
-    'edit own group content',
-    'delete own group content',
-    'create new books',
-    'add content to books',
-    'create files',
-    'view own files',
-    'edit own photo content',
-    'access overlay',
-  );
-
-  $content_types = array(
-    'discussion',
-    'document',
-    'event',
-    'photo',
-    'photoalbum',
-    'news',
-  );
-
-  foreach ($content_types as $content_type) {
-    $permissions[] = "create $content_type content";
-  }
-
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 }
 
 /**
