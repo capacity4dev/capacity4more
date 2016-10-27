@@ -56,6 +56,20 @@ function c4m_og_current_group_id() {
 }
 
 /**
+ * Helper to get the current active group purl (based on og_context()).
+ *
+ * @return string
+ *   The group purl, or empty string if no context was found.
+ */
+function c4m_og_current_group_purl() {
+  if (!$group = c4m_og_current_group()) {
+    return '';
+  }
+
+  return $group->purl;
+}
+
+/**
  * Helper to get the current value of the group membership request.
  *
  * @param object $group
@@ -2119,10 +2133,18 @@ function c4m_og_get_group_status($group) {
  *
  * Prevents anyone besides site administrators to delete Group/Project.
  * Blocks access to 'node/%node/delete'.
+ * On wiki page edit, allows access to power users, ond all group members,
+ * in case this option is allowed (c4m_edit_by_members).
  */
 function c4m_og_node_access($node, $op, $account) {
   if ($op == 'delete' && og_is_group('node', $node) && !user_access('administer nodes')) {
     return NODE_ACCESS_DENY;
+  }
+
+  if ($op == 'update' && ($group = c4m_og_get_group_of_content($node)) && $node->type == 'wiki_page') {
+    if (!_c4m_features_og_members_is_power_user($group) && !c4m_content_wiki_page_is_editable_by_members($node)) {
+      return NODE_ACCESS_DENY;
+    }
   }
 
   // Grant access to group content by the same access to the group.
@@ -2183,7 +2205,7 @@ function c4m_og_form_valid_author($form, &$form_state) {
     form_set_error('name', 'There was an error validating the author for this group.');
   }
 
-  if ($user && !og_is_member('node', $gid, 'user', $user)) {
+  if ($user && !c4m_user_is_site_admin($user) && !og_is_member('node', $gid, 'user', $user)) {
     form_set_error('name', $form_state['values']['name'] . ' is not an active member of this group.');
   }
 }
