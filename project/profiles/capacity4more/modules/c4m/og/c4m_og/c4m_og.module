@@ -32,7 +32,7 @@ function c4m_og_current_group() {
     // The next time this access callback will be called, it will not enter
     // here.
     og_context_access_callback_register_path($_GET['q']);
-    return;
+    return FALSE;
   }
 
   $context = og_context();
@@ -2218,9 +2218,9 @@ function c4m_og_node_access($node, $op, $account) {
   // Allow access to group, based on group state and user role within the group.
   if (is_object($node) && og_is_group('node', $node) && $node->type == 'group') {
     // Allowed states for Public group Viewing.
-    $allowed_states = array (
-      'visitor' => array('archived', 'published'),
-      'non-member' => array('archived', 'published'),
+    $allowed_states = array(
+      'visitor' => array(),
+      'non-member' => array(),
       'member' => array('archived', 'published'),
       'admin' => array('draft', 'archived', 'published'),
       'owner' => array('pending', 'draft', 'archived', 'published'),
@@ -2228,19 +2228,18 @@ function c4m_og_node_access($node, $op, $account) {
 
     $group_access = c4m_og_get_access_type($node);
 
-    if ($group_access['type'] == 'restricted') {
-      // Adjustments for allowed states of Restricted group Viewing.
-      $allowed_states['visitor'] = array();
-      unset($allowed_states['non-member'][0]);
-
+    if ($group_access['type'] == 'public') {
+      $allowed_states['visitor'] = $allowed_states['non-member'] = array('archived', 'published');
+    }
+    elseif ($group_access['type'] == 'restricted') {
+      // User is not a member, but cas access restricted group.
       if (c4m_og_user_can_access_restricted_group($node, $account, $op)) {
-        unset($allowed_states['non-member'][1]);
+        $allowed_states['non-member'] = 'published';
       }
       $allowed_states['member'][] = 'draft';
     }
     elseif ($group_access['type'] == 'private') {
       // Adjustments for allowed states of Private group Viewing.
-      $allowed_states['visitor'] = $allowed_states['non-member'] = array();
       $allowed_states['member'][] = 'draft';
     }
 
@@ -2263,7 +2262,7 @@ function c4m_og_node_access($node, $op, $account) {
  * @param object $account
  *   User that requests access.
  * @param string $op
- *   Operation, for which user requested the access
+ *   Operation, for which user requested the access.
  *
  * @return bool
  *   True if user got access to group.
@@ -2429,7 +2428,7 @@ function c4m_og_is_invite_allowed($group_type, $gid) {
   $group_state = c4m_og_get_group_status($group);
 
   // Invite is allowed at groups with Draft/Published state.
-  if(!in_array($group_state, $allowed_group_states)) {
+  if (!in_array($group_state, $allowed_group_states)) {
     return FALSE;
   }
 
@@ -2444,7 +2443,6 @@ function c4m_og_is_invite_allowed($group_type, $gid) {
   }
 
   // If we got so far, user is group owner / admin, and group state
-  // allows invite;
+  // allows invite.
   return TRUE;
 }
-

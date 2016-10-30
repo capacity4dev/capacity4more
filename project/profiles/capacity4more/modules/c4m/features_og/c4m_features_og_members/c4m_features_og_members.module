@@ -508,7 +508,7 @@ function _c4m_features_og_members_get_user_type($group = NULL, $user = NULL) {
   }
 
   // The user has the group role 'administrator member'.
-  if (in_array('administrator member', og_get_user_roles('node', $group->nid, $user->uid)) ) {
+  if (in_array('administrator member', og_get_user_roles('node', $group->nid, $user->uid))) {
     return 'admin';
   }
 
