@@ -662,6 +662,8 @@ function c4m_content_highlightable_node_types() {
     'document',
     'event',
     'wiki_page',
+    'photo',
+    'photoalbum',
   );
 }
 
