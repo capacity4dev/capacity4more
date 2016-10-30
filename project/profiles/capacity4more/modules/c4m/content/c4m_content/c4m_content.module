@@ -813,7 +813,7 @@ function c4m_content_toggle_highlight($group, $node, $status, $ajax = 'nojs') {
       $wrapper->promote->value()
     );
 
-    $commands[] = ajax_command_replace('#highlight-content', $link);
+    $commands[] = ajax_command_replace('#highlight-content' . $node->nid, $link);
     $page = array('#type' => 'ajax', '#commands' => $commands);
     ajax_deliver($page);
   }
@@ -838,7 +838,7 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
   $options = array(
     'attributes' => array(
       'class' => array('use-ajax', 'highlight-link'),
-      'id' => 'highlight-content',
+      'id' => 'highlight-content' . $nid,
     ),
     'purl' => array('disabled' => TRUE),
     'html' => TRUE,
