@@ -2037,22 +2037,6 @@ function c4m_og_get_group_content_bundles() {
 }
 
 /**
- * Returns an array of all OG Project content bundles, of type 'node'.
- *
- * @return array
- *   OG Project content bundles, of type 'node'.
- */
-function c4m_og_get_project_content_bundles() {
-  $og_content_bundles = og_get_all_group_content_bundle();
-  $node_bundles = $og_content_bundles['node'];
-
-  unset($node_bundles['discussion']);
-  unset($node_bundles['share']);
-
-  return array_keys($node_bundles);
-}
-
-/**
  * Returns an array of OG content types that require notification.
  *
  * @return array
@@ -2416,3 +2400,43 @@ function _c4m_og_sort_by_status($a, $b) {
   }
   return ($rank_a < $rank_b) ? -1 : 1;
 }
+
+/**
+ * Return true if the user is allowed to invite and false if he isn't.
+ *
+ * Checks by og_permissions, group state and moderation type.
+ */
+function c4m_og_is_invite_allowed($group_type, $gid) {
+  if (c4m_user_is_site_admin()) {
+    return TRUE;
+  }
+
+  // OG invite access is allowed for group members and administrators.
+  if (!_og_invite_access($group_type, $gid)) {
+    return FALSE;
+  }
+
+  $group = node_load($gid);
+  $allowed_group_states = array('draft', 'published');
+  $group_state = c4m_og_get_group_status($group);
+
+  // Invite is allowed at groups with Draft/Published state.
+  if(!in_array($group_state, $allowed_group_states)) {
+    return FALSE;
+  }
+
+  // Either 'open' or 'moderated'.
+  $group_moderation_state = c4m_og_get_group_membership_request($group);
+  $user_type = _c4m_features_og_members_get_user_type();
+  $group_access = c4m_og_get_access_type($group);
+
+  // Group members can't invite to private group, or group that is moderated.
+  if ($user_type == 'member' && ($group_access == 'private' || $group_moderation_state != 'open')) {
+    return FALSE;
+  }
+
+  // If we got so far, user is group owner / admin, and group state
+  // allows invite;
+  return TRUE;
+}
+

@@ -156,8 +156,7 @@ function _c4m_field_og_set_status_flow(&$form, $form_state, $type) {
     // This is site administrator.
     $unallowed_values = array(
       'pending' => array(
-        0 => 'archived',
-        1 => 'published',
+        'archived',
       ),
       'draft' => array(
         'pending',
@@ -180,8 +179,8 @@ function _c4m_field_og_set_status_flow(&$form, $form_state, $type) {
     if ($type == 'group') {
       $group_access = c4m_og_get_access_type($entity);
 
-      if ($group_access['type']  == 'private') {
-        unset($unallowed_values['pending'][1]);
+      if ($group_access['type']  != 'private') {
+       $unallowed_values['pending'][] = 'published';
       }
     }
 
