@@ -2174,18 +2174,18 @@ function c4m_og_node_access($node, $op, $account) {
   // Grant access to group content by the same access to the group.
   if (is_object($node) && og_is_group_content_type('node', $node->type)) {
 
-    // Couldn't resolve the group of the content.
-    if (!$group = c4m_og_get_group_of_content($node)) {
-      return NODE_ACCESS_IGNORE;
-    }
-
-    if (c4m_og_get_group_status($group) != 'pending') {
-      return NODE_ACCESS_IGNORE;
-    }
-
-    $group_access = node_access($group, $op, $account);
-
-    return $group_access ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+//    // Couldn't resolve the group of the content.
+//    if (!$group = c4m_og_get_group_of_content($node)) {
+//      return NODE_ACCESS_IGNORE;
+//    }
+//
+//    if (c4m_og_get_group_status($group) != 'pending') {
+//      return NODE_ACCESS_IGNORE;
+//    }
+//
+//    $group_access = node_access($group, $op, $account);
+//
+//    return $group_access ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
 
   $node_type = is_string($node) ? $node : $node->type;
@@ -2234,7 +2234,7 @@ function c4m_og_node_access($node, $op, $account) {
     elseif ($group_access['type'] == 'restricted') {
       // User is not a member, but cas access restricted group.
       if (c4m_og_user_can_access_restricted_group($node, $account, $op)) {
-        $allowed_states['non-member'] = 'published';
+        $allowed_states['non-member'][] = 'published';
       }
       $allowed_states['member'][] = 'draft';
     }
@@ -2268,13 +2268,14 @@ function c4m_og_node_access($node, $op, $account) {
  *   True if user got access to group.
  */
 function c4m_og_user_can_access_restricted_group($group, $account, $op) {
-  $node_grants = pluggable_node_access_node_grants($account, $op);
+  $node_grants = array_keys(pluggable_node_access_node_grants($account, $op));
   $node_access_records = pluggable_node_access_node_access_records($group);
 
-  // If one of node grants matches a node access record, access is allowed.
+  // If one of node grants matches a realm of node access record,
+  // access is allowed.
   foreach ($node_grants as $node_grant) {
     foreach ($node_access_records as $node_access_record) {
-      if ($node_grant == $node_access_record) {
+      if ($node_grant == $node_access_record['realm']) {
         return TRUE;
       }
     }
