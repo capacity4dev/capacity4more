@@ -135,6 +135,7 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     // When trying to add related projects as a power user I should be able to
     // have the permission.
     $power_user_bypass = FALSE;
+    // When creating new content, both $entity_type and $entity are empty.
     if (!empty($this->entity_type) && !empty($this->entity) && og_is_group($this->entity_type, $this->entity)) {
       $item = menu_get_item();
       if ($item['path'] == 'entityreference/autocomplete/single/%/%/%') {

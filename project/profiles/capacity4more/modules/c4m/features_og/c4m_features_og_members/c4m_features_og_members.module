@@ -498,7 +498,7 @@ function _c4m_features_og_members_get_user_type($group = NULL, $user = NULL) {
   // Currently we're not in a group context, and at that point the user is not
   // an administrator.
   if (!$group) {
-    return 'non-member';
+    return 'unknown';
   }
 
   // The user is the group owner.

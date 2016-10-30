@@ -27,6 +27,14 @@ define('C4M_OG_PRIVATE_GROUP', 2);
  *   The group entity, or FALSE if no context was found.
  */
 function c4m_og_current_group() {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return;
+  }
+
   $context = og_context();
   if (!$context) {
     return FALSE;
