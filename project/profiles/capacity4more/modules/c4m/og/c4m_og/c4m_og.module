@@ -2169,14 +2169,6 @@ function c4m_og_get_group_status($group) {
  * in case this option is allowed (c4m_edit_by_members).
  */
 function c4m_og_node_access($node, $op, $account) {
-//  if (!og_context_is_init() && $op != 'update') {
-//    // OG context was not determined yet, so register the path and return early.
-//    // The next time this access callback will be called, it will not enter
-//    // here.
-//    og_context_access_callback_register_path($_GET['q']);
-//    return;
-//  }
-
   if ($op == 'delete' && og_is_group('node', $node) && !user_access('administer nodes')) {
     return NODE_ACCESS_DENY;
   }
@@ -2207,9 +2199,13 @@ function c4m_og_node_access($node, $op, $account) {
   $node_type = is_string($node) ? $node : $node->type;
 
   // When adding / editing group content, deny access, if current user is not a
-  // power users, or group state does not allow the operation.
+  // site admin, group member, owner or admin, or group state does not allow
+  // the operation.
   if (in_array($node_type, c4m_og_get_group_content_bundles())) {
-    if (!_c4m_features_og_members_is_power_user()) {
+    $allowed_user_types = array('member', 'admin', 'owner', 'site-admin');
+    $user_type = _c4m_features_og_members_get_user_type();
+
+    if (!in_array($user_type, $allowed_user_types)) {
       return NODE_ACCESS_DENY;
     }
 
@@ -2226,7 +2222,6 @@ function c4m_og_node_access($node, $op, $account) {
       return NODE_ACCESS_DENY;
     }
   }
-
 
   // Allow access to group, based on group state and user role within the group.
   if (is_object($node) && og_is_group('node', $node) && $node->type == 'group') {
@@ -2245,9 +2240,10 @@ function c4m_og_node_access($node, $op, $account) {
       // Adjustments for allowed states of Restricted group Viewing.
       $allowed_states['visitor'] = array();
       unset($allowed_states['non-member'][0]);
-//      if (!pluggable_node_access) {
-//        unset($allowed_states['non-member'][1]);
-//      }
+
+      if (c4m_og_user_can_access_restricted_group($node, $account, $op)) {
+        unset($allowed_states['non-member'][1]);
+      }
       $allowed_states['member'][] = 'draft';
     }
     elseif ($group_access['type'] == 'private') {
@@ -2265,6 +2261,35 @@ function c4m_og_node_access($node, $op, $account) {
   }
 
   return NODE_ACCESS_IGNORE;
+}
+
+/**
+ * Returns true is user has access to restricted group.
+ *
+ * @param object $group
+ *   Restricted group, to which access is required.
+ * @param object $account
+ *   User that requests access.
+ * @param string $op
+ *   Operation, for which user requested the access
+ *
+ * @return bool
+ *   True if user got access to group.
+ */
+function c4m_og_user_can_access_restricted_group($group, $account, $op) {
+  $node_grants = pluggable_node_access_node_grants($account, $op);
+  $node_access_records = pluggable_node_access_node_access_records($group);
+
+  // If one of node grants matches a node access record, access is allowed.
+  foreach ($node_grants as $node_grant) {
+    foreach ($node_access_records as $node_access_record) {
+      if ($node_grant == $node_access_record) {
+        return TRUE;
+      }
+    }
+  }
+
+  return FALSE;
 }
 
 /**
