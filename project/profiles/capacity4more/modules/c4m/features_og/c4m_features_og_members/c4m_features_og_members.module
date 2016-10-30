@@ -481,6 +481,11 @@ function _c4m_features_og_members_get_user_type($group = NULL, $user = NULL) {
   if (!isset($user)) {
     global $user;
   }
+
+  if (user_is_anonymous()) {
+    return 'visitor';
+  }
+
   // The user has the site wide role 'administrator'.
   if (in_array('administrator', $user->roles)) {
     return 'site-admin';
@@ -492,7 +497,7 @@ function _c4m_features_og_members_get_user_type($group = NULL, $user = NULL) {
 
   // Currently we're not in a group context, and at that point the user is not
   // an administrator.
-  if (!$group || user_is_anonymous()) {
+  if (!$group) {
     return 'non-member';
   }
 
