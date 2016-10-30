@@ -28,16 +28,13 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['distinct'] = TRUE;
+  $handler->display->display_options['query']['options']['contextual_filters_or'] = TRUE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['row_plugin'] = 'fields';
-  $handler->display->display_options['row_options']['inline'] = array(
-    'c4m_media' => 'c4m_media',
-    'message_render' => 'message_render',
-  );
-  $handler->display->display_options['row_options']['hide_empty'] = TRUE;
+  $handler->display->display_options['row_plugin'] = 'entity';
+  $handler->display->display_options['row_options']['view_mode'] = 'activity_global';
   /* Relationship: Entity Reference: Referenced Entity */
   $handler->display->display_options['relationships']['field_node_target_id']['id'] = 'field_node_target_id';
   $handler->display->display_options['relationships']['field_node_target_id']['table'] = 'field_data_field_node';
@@ -68,6 +65,36 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['sorts']['timestamp']['table'] = 'message';
   $handler->display->display_options['sorts']['timestamp']['field'] = 'timestamp';
   $handler->display->display_options['sorts']['timestamp']['order'] = 'DESC';
+  /* Contextual filter: Message: Group node (field_group_node) */
+  $handler->display->display_options['arguments']['field_group_node_target_id']['id'] = 'field_group_node_target_id';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['table'] = 'field_data_field_group_node';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['field'] = 'field_group_node_target_id';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['default_argument_type'] = 'c4m_message_plugin_argument_default';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['break_phrase'] = TRUE;
+  /* Contextual filter: Field: Topics (c4m_vocab_topic) */
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['id'] = 'c4m_vocab_topic_tid';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['table'] = 'field_data_c4m_vocab_topic';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['field'] = 'c4m_vocab_topic_tid';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['relationship'] = 'field_node_target_id';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['exception']['value'] = 'any';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['default_argument_type'] = 'c4m_message_plugin_argument_default';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['break_phrase'] = TRUE;
+  /* Filter criterion: Message: Entity Published (field_entity_published) */
+  $handler->display->display_options['filters']['field_entity_published_value']['id'] = 'field_entity_published_value';
+  $handler->display->display_options['filters']['field_entity_published_value']['table'] = 'field_data_field_entity_published';
+  $handler->display->display_options['filters']['field_entity_published_value']['field'] = 'field_entity_published_value';
+  $handler->display->display_options['filters']['field_entity_published_value']['value'] = array(
+    1 => '1',
+  );
+  $handler->display->display_options['filters']['field_entity_published_value']['group'] = 1;
   /* Filter criterion: Message: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'message';
@@ -83,6 +110,23 @@ function c4m_message_views_default_views() {
     'c4m_insert__node__share' => 'c4m_insert__node__share',
     'c4m_insert__node__wiki_page' => 'c4m_insert__node__wiki_page',
   );
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  $handler->display->display_options['filters']['type']['expose']['operator_id'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
+  $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['identifier'] = 'filter';
+  $handler->display->display_options['filters']['type']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    4 => 0,
+    3 => 0,
+  );
+  /* Filter criterion: Node access */
+  $handler->display->display_options['filters']['nid']['id'] = 'nid';
+  $handler->display->display_options['filters']['nid']['table'] = 'node_access';
+  $handler->display->display_options['filters']['nid']['field'] = 'nid';
+  $handler->display->display_options['filters']['nid']['relationship'] = 'field_node_target_id';
+  $handler->display->display_options['filters']['nid']['ui_name'] = 'Node access';
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');

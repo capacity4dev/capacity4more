@@ -36,7 +36,7 @@ class c4m_message_plugin_argument_default extends views_plugin_argument_default 
         $groups_by_user = implode('+', $groups_by_user);
         break;
       case 'interests':
-        $groups_by_user = 'all';
+        $groups_by_user = 'any';
         break;
       default:
         $groups_by_user = 'all';
