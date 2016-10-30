@@ -11,6 +11,8 @@
       var filter = radios.val();
       window.location.search = '?filter=' + filter;
     });
+
+    $('body').addClass('jsenabled');
   });
 
 })(jQuery);

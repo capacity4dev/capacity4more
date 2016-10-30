@@ -63,3 +63,23 @@
 .message-c4m-insert--node--share {
   margin-top: 25px;
 }
+
+.jsenabled {
+  #block-views-global-activity-stream-block {
+    display: none;
+  }
+
+  .activity-stream {
+    display: block;
+  }
+}
+
+body:not(.jsenabled) {
+  .activity-stream {
+    display: none;
+  }
+
+  #block-views-global-activity-stream-block {
+    display: block;
+  }
+}

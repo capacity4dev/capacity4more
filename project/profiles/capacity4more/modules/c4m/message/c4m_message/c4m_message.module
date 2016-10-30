@@ -3658,3 +3658,25 @@ function c4m_message_get_user_last_activity($uid) {
     return '';
   }
 }
+
+/**
+ * Filters an array of group IDs by their bundle.
+ *
+ * @param $og_list
+ *   An array of group IDs to check.
+ * @param string $bundle
+ *   The bundle name to include in the return.
+ *
+ * @return mixed
+ *   An array of the groups of the requested type (bundle).
+ */
+function c4m_message_filter_groups_by_bundle($og_list, $bundle = 'group') {
+  foreach ($og_list as $key => $item) {
+    $group = node_load($item);
+    if (!og_is_group('node', $group) || $group->type != $bundle) {
+      unset($og_list[$key]);
+    }
+  }
+
+  return $og_list;
+}
