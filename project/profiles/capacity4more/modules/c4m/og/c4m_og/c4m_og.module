@@ -2161,8 +2161,15 @@ function c4m_og_get_group_status($group) {
  * in case this option is allowed (c4m_edit_by_members).
  */
 function c4m_og_node_access($node, $op, $account) {
-  if ($op == 'delete' && og_is_group('node', $node) && !user_access('administer nodes')) {
-    return NODE_ACCESS_DENY;
+  if ($op == 'delete') {
+    if (og_is_group('node', $node) && !user_access('administer nodes')) {
+      return NODE_ACCESS_DENY;
+    }
+
+    // Power user should always have access to delete group content.
+    if (($group = c4m_og_get_group_of_content($node)) && _c4m_features_og_members_is_power_user($group)) {
+      return NODE_ACCESS_ALLOW;
+    }
   }
 
   if ($op == 'update' && ($group = c4m_og_get_group_of_content($node)) && $node->type == 'wiki_page') {
