@@ -45,6 +45,7 @@ function c4m_user_admin_views_default_views() {
     'status' => 'status',
     'c4m_is_spammer' => 'c4m_is_spammer',
     'c4m_is_deleted' => 'c4m_is_deleted',
+    'c4m_is_deleted_anonymous' => 'c4m_is_deleted_anonymous',
     'rid' => 'rid',
     'created' => 'created',
     'access' => 'access',
@@ -114,6 +115,13 @@ function c4m_user_admin_views_default_views() {
       'empty_column' => 0,
     ),
     'c4m_is_deleted' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'desc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'c4m_is_deleted_anonymous' => array(
       'sortable' => 0,
       'default_sort_order' => 'desc',
       'align' => '',
@@ -275,6 +283,18 @@ function c4m_user_admin_views_default_views() {
   $handler->display->display_options['fields']['c4m_is_deleted']['empty'] = 'No';
   $handler->display->display_options['fields']['c4m_is_deleted']['empty_zero'] = TRUE;
   $handler->display->display_options['fields']['c4m_is_deleted']['type'] = 'list_key';
+  /* Field: User: Is deleted anonymous */
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['id'] = 'c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['table'] = 'field_data_c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['field'] = 'c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['label'] = '';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['alter']['text'] = 'Yes';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['empty'] = 'No';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['type'] = 'list_key';
   /* Field: User: Active */
   $handler->display->display_options['fields']['status']['id'] = 'status';
   $handler->display->display_options['fields']['status']['table'] = 'users';
@@ -283,7 +303,8 @@ function c4m_user_admin_views_default_views() {
   $handler->display->display_options['fields']['status']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['status']['alter']['text'] = 'Active : [status]<br>
 Is Spammer : [c4m_is_spammer]<br>
-Is Deleted : [c4m_is_deleted]<br>';
+Is Deleted : [c4m_is_deleted]<br>
+Is Deleted Anonymous : [c4m_is_deleted_anonymous]<br>';
   $handler->display->display_options['fields']['status']['not'] = 0;
   /* Field: User: Roles */
   $handler->display->display_options['fields']['rid']['id'] = 'rid';
@@ -526,6 +547,21 @@ Last access : [access]';
     1 => 0,
     3 => 0,
   );
+  /* Filter criterion: User: Is deleted anonymous (c4m_is_deleted_anonymous) */
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['id'] = 'c4m_is_deleted_anonymous_value';
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['table'] = 'field_data_c4m_is_deleted_anonymous';
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['field'] = 'c4m_is_deleted_anonymous_value';
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['group'] = 1;
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['operator_id'] = 'c4m_is_deleted_anonymous_value_op';
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['label'] = 'Deleted';
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['operator'] = 'c4m_is_deleted_anonymous_value_op';
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['identifier'] = 'deleted';
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+  );
   /* Filter criterion: User: Roles */
   $handler->display->display_options['filters']['rid']['id'] = 'rid';
   $handler->display->display_options['filters']['rid']['table'] = 'users_roles';
@@ -672,6 +708,18 @@ Last access : [access]';
   $handler->display->display_options['fields']['c4m_is_deleted']['empty'] = 'No';
   $handler->display->display_options['fields']['c4m_is_deleted']['empty_zero'] = TRUE;
   $handler->display->display_options['fields']['c4m_is_deleted']['type'] = 'list_key';
+  /* Field: User: Is deleted anonymous*/
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['id'] = 'c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['table'] = 'field_data_c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['field'] = 'c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['label'] = '';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['alter']['text'] = 'Yes';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['empty'] = 'No';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['type'] = 'list_key';
   /* Field: User: Active */
   $handler->display->display_options['fields']['status']['id'] = 'status';
   $handler->display->display_options['fields']['status']['table'] = 'users';
@@ -680,7 +728,8 @@ Last access : [access]';
   $handler->display->display_options['fields']['status']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['status']['alter']['text'] = 'Active : [status]<br>
 Is Spammer : [c4m_is_spammer]<br>
-Is Deleted : [c4m_is_deleted]<br>';
+Is Deleted : [c4m_is_deleted]<br>
+Is Deleted Anonymous: [c4m_is_deleted_anonymous]<br>';
   $handler->display->display_options['fields']['status']['not'] = 0;
   /* Field: User: Roles */
   $handler->display->display_options['fields']['rid']['id'] = 'rid';
@@ -834,7 +883,8 @@ Last access : [access]';
   $handler->display->display_options['fields']['status']['field'] = 'status';
   $handler->display->display_options['fields']['status']['alter']['text'] = 'Active : [status]<br>
 Is Spammer : [c4m_is_spammer]<br>
-Is Deleted : [c4m_is_deleted]<br>';
+Is Deleted : [c4m_is_deleted]<br>
+Is Deleted Anonymous: [c4m_is_deleted_anonymous]<br>';
   $handler->display->display_options['fields']['status']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['status']['not'] = 0;
   /* Field: User: Is spammer */
@@ -859,6 +909,17 @@ Is Deleted : [c4m_is_deleted]<br>';
   $handler->display->display_options['fields']['c4m_is_deleted']['empty'] = 'No';
   $handler->display->display_options['fields']['c4m_is_deleted']['empty_zero'] = TRUE;
   $handler->display->display_options['fields']['c4m_is_deleted']['type'] = 'list_key';
+  /* Field: User: Is deleted anonymous */
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['id'] = 'c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['table'] = 'field_data_c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['field'] = 'c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['label'] = 'Deleted';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['alter']['text'] = 'Yes';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['empty'] = 'No';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['type'] = 'list_key';
   /* Field: User: Created date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'users';
