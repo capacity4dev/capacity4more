@@ -2437,7 +2437,7 @@ function c4m_og_is_invite_allowed($group_type, $gid) {
 
   // Either 'open' or 'moderated'.
   $group_moderation_state = c4m_og_get_group_membership_request($group);
-  $user_type = _c4m_features_og_members_get_user_type();
+  $user_type = _c4m_features_og_members_get_user_type($group);
   $group_access = c4m_og_get_access_type($group);
 
   // Group members can't invite to private group, or group that is moderated.
