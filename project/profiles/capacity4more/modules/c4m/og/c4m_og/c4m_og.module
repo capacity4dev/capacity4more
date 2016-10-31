@@ -2171,7 +2171,11 @@ function c4m_og_node_access($node, $op, $account) {
     }
   }
 
-  // For view operation, assigns access to group content to be the
+  // When $node is string (happens when creating content), it contains the
+  // type of created content.
+  $node_type = is_string($node) ? $node : $node->type;
+
+  // When viewing group content, assigns access to group content to be the
   // same as access of the group.
   if ($op == 'view' && is_object($node) && og_is_group_content_type('node', $node->type)) {
 
@@ -2185,8 +2189,6 @@ function c4m_og_node_access($node, $op, $account) {
     return $group_access ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
 
-  $node_type = is_string($node) ? $node : $node->type;
-
   // When adding / editing group content, deny access, if current user is not a
   // site admin, group member, owner or admin, or group state does not allow
   // the operation.
@@ -2194,6 +2196,7 @@ function c4m_og_node_access($node, $op, $account) {
     $allowed_user_types = array('member', 'admin', 'owner', 'site-admin');
     $user_type = _c4m_features_og_members_get_user_type();
 
+    // Can't resolve user type - couldn't get OG context to resolve group.
     if ($user_type == 'unknown') {
       return NODE_ACCESS_IGNORE;
     }
@@ -2216,9 +2219,14 @@ function c4m_og_node_access($node, $op, $account) {
     return in_array($group_state, $allowed_states) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
 
-  // Allow access to group, based on group state and user role within the group.
+  // Any authenticated user can create any kind of group.
+  if ($op == 'create' && is_string($node) && $node_type == 'group') {
+    return user_is_anonymous() ? NODE_ACCESS_DENY : NODE_ACCESS_ALLOW;
+  }
+
+  // View/Edit group, based on group state and user role within the group.
   if (is_object($node) && og_is_group('node', $node) && $node->type == 'group') {
-    // Allowed states for Public group Viewing.
+    // Allowed states for Public group.
     $allowed_states = array(
       'visitor' => array(),
       'non-member' => array(),
