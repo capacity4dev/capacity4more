@@ -3718,3 +3718,21 @@ function c4m_message_views_query_alter(&$view, &$query) {
       unset($query->where[2]);
   }
 }
+
+/**
+ * Redirect the user to the homepage + query string ?filter=.
+ *
+ * For the global activity stream, when JS is not enabled, this function will
+ * redirect to the correct path when filtering the content by groups, projects
+ * or interests.
+ */
+function c4m_features_homepage_filter_form_create_submit(&$form, &$form_state) {
+  $form_state['redirect'] = array(
+    '<front>',
+    array(
+      'query' => array(
+        'filter' => $form_state['values']['homepage-filter'],
+      ),
+    ),
+  );
+}

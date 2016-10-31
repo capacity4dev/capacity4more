@@ -24,7 +24,7 @@ function c4m_message_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Global Activity Stream';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'c4m_og_access_og_context';
+  $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['distinct'] = TRUE;
@@ -123,8 +123,9 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['filters']['c4m_vocab_topic_tid']['table'] = 'field_data_c4m_vocab_topic';
   $handler->display->display_options['filters']['c4m_vocab_topic_tid']['field'] = 'c4m_vocab_topic_tid';
   $handler->display->display_options['filters']['c4m_vocab_topic_tid']['relationship'] = 'field_node_target_id';
-  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['operator'] = 'empty';
-  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['value'] = NULL;
+  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['value'] = array(
+    0 => '0',
+  );
   $handler->display->display_options['filters']['c4m_vocab_topic_tid']['group'] = 2;
   $handler->display->display_options['filters']['c4m_vocab_topic_tid']['reduce_duplicates'] = TRUE;
   $handler->display->display_options['filters']['c4m_vocab_topic_tid']['type'] = 'select';

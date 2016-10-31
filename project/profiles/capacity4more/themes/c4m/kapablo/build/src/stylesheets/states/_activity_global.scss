@@ -65,21 +65,29 @@
 }
 
 .jsenabled {
-  #block-views-global-activity-stream-block {
+  .pane-global-activity-stream {
     display: none;
   }
 
-  .activity-stream {
+  .pane-activity-stream {
     display: block;
+  }
+
+  #c4m_filter_cmd {
+    display: none;
   }
 }
 
 body:not(.jsenabled) {
-  .activity-stream {
+  .pane-activity-stream {
     display: none;
   }
 
-  #block-views-global-activity-stream-block {
+  .pane-global-activity-stream {
     display: block;
+  }
+
+  #c4m_filter_cmd {
+    display: inline-block;
   }
 }

@@ -61,16 +61,25 @@ function c4m_features_homepage_filter_form_create() {
     $default_value = 'showAll';
   }
 
-  $element['homepage-filter'] = array(
+  $form['homepage-filter'] = array(
     '#type' => 'radios',
     '#title' => t('Filter by'),
     '#options' => $options,
     '#default_value' => $default_value,
   );
 
-  $element['#attached']['js'][] = drupal_get_path('module', 'c4m_features_homepage') . '/plugins/content_types/filter/filter_homepage.js';
+  $form['#attached']['js'][] = drupal_get_path('module', 'c4m_features_homepage') . '/plugins/content_types/filter/filter_homepage.js';
 
-  return $element;
+  $form['action'] = array(
+    '#type' => 'actions',
+    'submit' => array(
+      '#type' => 'submit',
+      '#value' => t('Filter'),
+      '#id' => t('c4m_filter_cmd'),
+    ),
+  );
+
+  return $form;
 }
 
 /**
