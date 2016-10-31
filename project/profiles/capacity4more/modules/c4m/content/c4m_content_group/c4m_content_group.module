@@ -776,8 +776,10 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
  */
 function c4m_content_group_theme_topics_and_regions(&$elements) {
   // Remove the 'Regions' taxonomies.
-  foreach ($elements['c4m_vocab_geo']['#items'] as $index => $item) {
-    unset($elements['c4m_vocab_geo'][$index]);
+  if (!empty($elements['c4m_vocab_geo']['#items'])) {
+    foreach ($elements['c4m_vocab_geo']['#items'] as $index => $item) {
+      unset($elements['c4m_vocab_geo'][$index]);
+    }
   }
 
   // Remove the 'Topics' taxonomies.
@@ -789,7 +791,9 @@ function c4m_content_group_theme_topics_and_regions(&$elements) {
   $topics_options = array('vocabulary_name' => 'c4m_vocab_topic');
   $elements['c4m_vocab_topic'][0]['#markup'] = c4m_content_taxonomy_build_tree($elements['c4m_vocab_topic']['#items'], $topics_options);
   // Add the new markup Regions.
-  $elements['c4m_vocab_geo'][0]['#markup'] = c4m_content_taxonomy_build_tree($elements['c4m_vocab_geo']['#items']);
+  if (!empty($elements['c4m_vocab_geo']['#items'])) {
+    $elements['c4m_vocab_geo'][0]['#markup'] = c4m_content_taxonomy_build_tree($elements['c4m_vocab_geo']['#items']);
+  }
 
   return $elements;
 }
