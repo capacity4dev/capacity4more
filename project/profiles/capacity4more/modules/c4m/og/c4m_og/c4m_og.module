@@ -2197,6 +2197,10 @@ function c4m_og_node_access($node, $op, $account) {
     $allowed_user_types = array('member', 'admin', 'owner', 'site-admin');
     $user_type = _c4m_features_og_members_get_user_type();
 
+    if ($user_type == 'unknown') {
+      return NODE_ACCESS_IGNORE;
+    }
+
     if (!in_array($user_type, $allowed_user_types)) {
       return NODE_ACCESS_DENY;
     }
@@ -2206,13 +2210,13 @@ function c4m_og_node_access($node, $op, $account) {
     $group_access = c4m_og_get_access_type($group);
     $allowed_states = array('draft', 'published');
 
-    if ($group_access['type'] == 'restricted') {
+    // At public groups, it's possible to add content when
+    // group is at 'archived' state.
+    if ($group_access['type'] == 'public') {
       $allowed_states[] = 'archived';
     }
 
-    if (!in_array($group_state, $allowed_states)) {
-      return NODE_ACCESS_DENY;
-    }
+    return in_array($group_state, $allowed_states) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
 
   // Allow access to group, based on group state and user role within the group.
@@ -2232,7 +2236,7 @@ function c4m_og_node_access($node, $op, $account) {
       $allowed_states['visitor'] = $allowed_states['non-member'] = array('archived', 'published');
     }
     elseif ($group_access['type'] == 'restricted') {
-      // User is not a member, but cas access restricted group.
+      // User is not a member, but can access restricted group.
       if (c4m_og_user_can_access_restricted_group($node, $account, $op)) {
         $allowed_states['non-member'][] = 'published';
       }
@@ -2246,9 +2250,7 @@ function c4m_og_node_access($node, $op, $account) {
     $user_type = _c4m_features_og_members_get_user_type($node);
     $group_state = c4m_og_get_group_status($node);
 
-    if (!in_array($group_state, $allowed_states[$user_type])) {
-      return NODE_ACCESS_DENY;
-    }
+    return in_array($group_state, $allowed_states[$user_type]) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
 
   return NODE_ACCESS_IGNORE;
