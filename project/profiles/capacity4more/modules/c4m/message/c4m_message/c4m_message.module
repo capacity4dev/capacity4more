@@ -3680,3 +3680,37 @@ function c4m_message_filter_groups_by_bundle($og_list, $bundle = 'group') {
 
   return $og_list;
 }
+
+/**
+ * Implements hook_views_query_alter().
+ */
+function c4m_message_views_query_alter(&$view, &$query) {
+  if ($view->name != 'global_activity_stream') {
+    return;
+  }
+
+  $filterBy = filter_input(INPUT_GET, 'filter', FILTER_SANITIZE_STRING);
+  $groups = og_get_groups_by_user();
+
+  switch ($filterBy) {
+    case 'groups':
+      $groups = c4m_message_filter_groups_by_bundle($groups['node']);
+      $groups = implode(',', $groups);
+      $query->where[2]['conditions'][0]['value'] = "($groups)";
+      $query->where[2]['conditions'][0]['operator'] = 'IN';
+      break;
+    case 'projects':
+      $groups = c4m_message_filter_groups_by_bundle($groups['node'], 'project');
+      $groups = implode(',', $groups);
+      $query->where[2]['conditions'][0]['value'] = "($groups)";
+      $query->where[2]['conditions'][0]['operator'] = 'IN';
+      break;
+    case 'interests':
+      // @todo rewrite protected condition.
+
+      break;
+    default:
+      unset($query->where[2]);
+  }
+}
+

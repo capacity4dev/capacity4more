@@ -28,7 +28,9 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['distinct'] = TRUE;
-  $handler->display->display_options['query']['options']['contextual_filters_or'] = TRUE;
+  $handler->display->display_options['query']['options']['query_tags'] = array(
+    0 => 'global_activity_stream',
+  );
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
@@ -65,28 +67,10 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['sorts']['timestamp']['table'] = 'message';
   $handler->display->display_options['sorts']['timestamp']['field'] = 'timestamp';
   $handler->display->display_options['sorts']['timestamp']['order'] = 'DESC';
-  /* Contextual filter: Message: Group node (field_group_node) */
-  $handler->display->display_options['arguments']['field_group_node_target_id']['id'] = 'field_group_node_target_id';
-  $handler->display->display_options['arguments']['field_group_node_target_id']['table'] = 'field_data_field_group_node';
-  $handler->display->display_options['arguments']['field_group_node_target_id']['field'] = 'field_group_node_target_id';
-  $handler->display->display_options['arguments']['field_group_node_target_id']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['field_group_node_target_id']['default_argument_type'] = 'c4m_message_plugin_argument_default';
-  $handler->display->display_options['arguments']['field_group_node_target_id']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_group_node_target_id']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_group_node_target_id']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['field_group_node_target_id']['break_phrase'] = TRUE;
-  /* Contextual filter: Field: Topics (c4m_vocab_topic) */
-  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['id'] = 'c4m_vocab_topic_tid';
-  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['table'] = 'field_data_c4m_vocab_topic';
-  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['field'] = 'c4m_vocab_topic_tid';
-  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['relationship'] = 'field_node_target_id';
-  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['exception']['value'] = 'any';
-  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['default_argument_type'] = 'c4m_message_plugin_argument_default';
-  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['break_phrase'] = TRUE;
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
   /* Filter criterion: Message: Entity Published (field_entity_published) */
   $handler->display->display_options['filters']['field_entity_published_value']['id'] = 'field_entity_published_value';
   $handler->display->display_options['filters']['field_entity_published_value']['table'] = 'field_data_field_entity_published';
@@ -127,6 +111,27 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['filters']['nid']['field'] = 'nid';
   $handler->display->display_options['filters']['nid']['relationship'] = 'field_node_target_id';
   $handler->display->display_options['filters']['nid']['ui_name'] = 'Node access';
+  $handler->display->display_options['filters']['nid']['group'] = 1;
+  /* Filter criterion: Message: Group node (field_group_node) */
+  $handler->display->display_options['filters']['field_group_node_target_id']['id'] = 'field_group_node_target_id';
+  $handler->display->display_options['filters']['field_group_node_target_id']['table'] = 'field_data_field_group_node';
+  $handler->display->display_options['filters']['field_group_node_target_id']['field'] = 'field_group_node_target_id';
+  $handler->display->display_options['filters']['field_group_node_target_id']['value']['value'] = '%1';
+  $handler->display->display_options['filters']['field_group_node_target_id']['group'] = 2;
+  /* Filter criterion: Field: Topics (c4m_vocab_topic) */
+  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['id'] = 'c4m_vocab_topic_tid';
+  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['table'] = 'field_data_c4m_vocab_topic';
+  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['field'] = 'c4m_vocab_topic_tid';
+  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['relationship'] = 'field_node_target_id';
+  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['value'] = array(
+    333 => '333',
+    357 => '357',
+  );
+  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['group'] = 2;
+  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['type'] = 'select';
+  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['vocabulary'] = 'c4m_vocab_topic';
+  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['hierarchy'] = 1;
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
