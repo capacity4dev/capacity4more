@@ -2171,21 +2171,18 @@ function c4m_og_node_access($node, $op, $account) {
     }
   }
 
-  // Grant access to group content by the same access to the group.
-  if (is_object($node) && og_is_group_content_type('node', $node->type)) {
+  // For view operation, assigns access to group content to be the
+  // same as access of the group.
+  if ($op == 'view' && is_object($node) && og_is_group_content_type('node', $node->type)) {
 
-//    // Couldn't resolve the group of the content.
-//    if (!$group = c4m_og_get_group_of_content($node)) {
-//      return NODE_ACCESS_IGNORE;
-//    }
-//
-//    if (c4m_og_get_group_status($group) != 'pending') {
-//      return NODE_ACCESS_IGNORE;
-//    }
-//
-//    $group_access = node_access($group, $op, $account);
-//
-//    return $group_access ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+    // Couldn't resolve the group of the content.
+    if (!$group = c4m_og_get_group_of_content($node)) {
+      return NODE_ACCESS_IGNORE;
+    }
+
+    $group_access = node_access($group, $op, $account);
+
+    return $group_access ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
 
   $node_type = is_string($node) ? $node : $node->type;
