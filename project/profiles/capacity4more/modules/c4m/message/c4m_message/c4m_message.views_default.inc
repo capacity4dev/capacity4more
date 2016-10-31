@@ -124,7 +124,7 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['filters']['c4m_vocab_topic_tid']['field'] = 'c4m_vocab_topic_tid';
   $handler->display->display_options['filters']['c4m_vocab_topic_tid']['relationship'] = 'field_node_target_id';
   $handler->display->display_options['filters']['c4m_vocab_topic_tid']['value'] = array(
-    0 => '0',
+    '327' => '327',
   );
   $handler->display->display_options['filters']['c4m_vocab_topic_tid']['group'] = 2;
   $handler->display->display_options['filters']['c4m_vocab_topic_tid']['reduce_duplicates'] = TRUE;

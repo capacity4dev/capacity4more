@@ -3697,12 +3697,14 @@ function c4m_message_views_query_alter(&$view, &$query) {
       $groups = c4m_message_filter_groups_by_bundle($groups['node']);
       $query->where[2]['conditions'][0]['value'] = $groups;
       $query->where[2]['conditions'][0]['operator'] = 'IN';
+      unset($query->where[2]['conditions'][1]);
       break;
 
     case 'projects':
       $groups = c4m_message_filter_groups_by_bundle($groups['node'], 'project');
       $query->where[2]['conditions'][0]['value'] = $groups;
       $query->where[2]['conditions'][0]['operator'] = 'IN';
+      unset($query->where[2]['conditions'][1]);
       break;
 
     case 'interests':
