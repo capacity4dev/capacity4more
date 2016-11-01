@@ -310,6 +310,13 @@ function c4m_features_overview_events_views_default_views() {
     'event' => 'event',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Indexed Node: Group type */
+  $handler->display->display_options['filters']['c4m_og_group_type']['id'] = 'c4m_og_group_type';
+  $handler->display->display_options['filters']['c4m_og_group_type']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['c4m_og_group_type']['field'] = 'c4m_og_group_type';
+  $handler->display->display_options['filters']['c4m_og_group_type']['operator'] = '<>';
+  $handler->display->display_options['filters']['c4m_og_group_type']['value'] = 'project';
+  $handler->display->display_options['filters']['c4m_og_group_type']['group'] = 1;
   /* Filter criterion: Search form */
   $handler->display->display_options['filters']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
   $handler->display->display_options['filters']['search_api_views_fulltext']['table'] = 'search_api_index_c4m_search_nodes';
@@ -389,6 +396,13 @@ function c4m_features_overview_events_views_default_views() {
     'event' => 'event',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Indexed Node: Group type */
+  $handler->display->display_options['filters']['c4m_og_group_type']['id'] = 'c4m_og_group_type';
+  $handler->display->display_options['filters']['c4m_og_group_type']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['c4m_og_group_type']['field'] = 'c4m_og_group_type';
+  $handler->display->display_options['filters']['c4m_og_group_type']['operator'] = '<>';
+  $handler->display->display_options['filters']['c4m_og_group_type']['value'] = 'project';
+  $handler->display->display_options['filters']['c4m_og_group_type']['group'] = 1;
   /* Filter criterion: Search form */
   $handler->display->display_options['filters']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
   $handler->display->display_options['filters']['search_api_views_fulltext']['table'] = 'search_api_index_c4m_search_nodes';
@@ -459,6 +473,13 @@ function c4m_features_overview_events_views_default_views() {
     'event' => 'event',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Indexed Node: Group type */
+  $handler->display->display_options['filters']['c4m_og_group_type']['id'] = 'c4m_og_group_type';
+  $handler->display->display_options['filters']['c4m_og_group_type']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['c4m_og_group_type']['field'] = 'c4m_og_group_type';
+  $handler->display->display_options['filters']['c4m_og_group_type']['operator'] = '<>';
+  $handler->display->display_options['filters']['c4m_og_group_type']['value'] = 'project';
+  $handler->display->display_options['filters']['c4m_og_group_type']['group'] = 1;
   /* Filter criterion: Search form */
   $handler->display->display_options['filters']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
   $handler->display->display_options['filters']['search_api_views_fulltext']['table'] = 'search_api_index_c4m_search_nodes';
@@ -481,6 +502,7 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['field'] = 'c4m_datetime_end_value2';
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['operator'] = '<';
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['value'] = 'now';
+  $handler->display->display_options['filters']['c4m_datetime_end_value2']['group'] = 1;
 
   /* Display: Dummy view block to create facet filters */
   $handler = $view->new_display('block', 'Dummy view block to create facet filters', 'block_3');
