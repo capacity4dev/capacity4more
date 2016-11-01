@@ -10,4 +10,5 @@
     <i class="fa <?php print $button_icon; ?>"></i>
     <?php print $button_label; ?>
   </a>
+  <span><?php print $login_url; ?></span>
 </div>

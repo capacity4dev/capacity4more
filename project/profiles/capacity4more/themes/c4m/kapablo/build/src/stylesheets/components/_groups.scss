@@ -881,3 +881,10 @@
     margin-top: 0px;
   }
 }
+
+@media all and (min-width: $screen-desktop) {
+  .c4m-group-invite-cta {
+    float: right;
+    margin-top: -44px;
+  }
+}

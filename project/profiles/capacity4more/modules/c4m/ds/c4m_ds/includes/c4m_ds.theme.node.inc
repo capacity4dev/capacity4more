@@ -720,34 +720,6 @@ function theme_c4m_ds_photoalbum_cover_image(array $field) {
 /**
  * DS function field.
  *
- * Render administration link.
- *
- * @param array $field
- *   The field that needs to be rendered.
- *
- * @return mixed
- *   The rendered field.
- */
-function theme_c4m_ds_group_administer_link(array $field) {
-  global $user;
-
-  $entity = $field['entity'];
-
-  if (og_user_access('node', $entity->nid, 'administer group', $user)) {
-    return l(
-      '<i class="fa fa-cog"></i> ' . t(
-        'Manage this @group_type',
-        array('@group_type' => $entity->type)
-      ),
-      'manage',
-      array('html' => TRUE)
-    );
-  }
-}
-
-/**
- * DS function field.
- *
  * Render download link of a photo.
  *
  * @param array $field

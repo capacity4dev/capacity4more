@@ -125,11 +125,6 @@ function c4m_content_group_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_group_administer_link' => array(
-      'weight' => '15',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'c4m_content_group_statistics' => array(
       'weight' => '4',
       'label' => 'hidden',
@@ -408,7 +403,6 @@ function c4m_content_group_ds_layout_settings_info() {
         7 => 'c4m_vocab_topic',
         8 => 'c4m_vocab_geo',
         9 => 'c4m_ds_content_actions',
-        10 => 'c4m_ds_group_administer_link',
         11 => 'group_extra_info',
       ),
     ),

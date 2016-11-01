@@ -68,33 +68,6 @@ function c4m_content_group_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_extra_info|node|group|group_dashboard';
-  $field_group->group_name = 'group_extra_info';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'group';
-  $field_group->mode = 'group_dashboard';
-  $field_group->parent_name = 'group_access_info';
-  $field_group->data = array(
-    'label' => '',
-    'weight' => '20',
-    'children' => array(
-      0 => 'c4m_ds_group_administer_link',
-    ),
-    'format_type' => 'html5',
-    'format_settings' => array(
-      'label' => '',
-      'instance_settings' => array(
-        'id' => '',
-        'classes' => 'row',
-        'wrapper' => 'section',
-      ),
-    ),
-  );
-  $field_groups['group_extra_info|node|group|group_dashboard'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
   $field_group->identifier = 'group_iconbar_comments_views|node|group|teaser';
   $field_group->group_name = 'group_iconbar_comments_views';
   $field_group->entity_type = 'node';
