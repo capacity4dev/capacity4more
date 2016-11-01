@@ -185,7 +185,7 @@ function c4m_search_default_search_api_index() {
         "c4m_document_presentation" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "c4m_event_type" : { "type" : "string" },
         "c4m_is_template" : { "type" : "boolean" },
-        "c4m_og_group_type" : { "type" : "string" },
+        "c4m_og_group_access_type" : { "type" : "string" },
         "c4m_organised_by" : { "type" : "text" },
         "c4m_project_stage" : { "type" : "string" },
         "c4m_project_type" : { "type" : "string" },
