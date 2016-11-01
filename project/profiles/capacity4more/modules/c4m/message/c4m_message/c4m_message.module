@@ -3685,7 +3685,7 @@ function c4m_message_filter_groups_by_bundle($og_list, $bundle = 'group') {
  * Implements hook_views_query_alter().
  */
 function c4m_message_views_query_alter(&$view, &$query) {
-  if ($view->name != 'global_activity_stream') {
+  if ($view->name != 'global_activity_stream_no_js_fallback') {
     return;
   }
 

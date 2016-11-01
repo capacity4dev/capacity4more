@@ -549,7 +549,7 @@ function c4m_features_homepage_default_page_manager_pages() {
   $pane->pid = 'new-98afd53a-7134-42fa-aa33-75d6cdc905d7';
   $pane->panel = 'left';
   $pane->type = 'views';
-  $pane->subtype = 'global_activity_stream';
+  $pane->subtype = 'global_activity_stream_no_js_fallback';
   $pane->shown = TRUE;
   $pane->access = array();
   $pane->configuration = array(
@@ -850,7 +850,7 @@ function c4m_features_homepage_default_page_manager_pages() {
   $pane->pid = 'new-90edc65c-f964-4636-85fc-8d9e20e7f177';
   $pane->panel = 'left';
   $pane->type = 'views';
-  $pane->subtype = 'global_activity_stream';
+  $pane->subtype = 'global_activity_stream_no_js_fallback';
   $pane->shown = TRUE;
   $pane->access = array();
   $pane->configuration = array(

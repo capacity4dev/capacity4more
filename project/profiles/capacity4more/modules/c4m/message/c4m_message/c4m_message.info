@@ -190,5 +190,5 @@ features[variable][] = field_bundle_settings_message__c4m_notify_editors_group_c
 features[variable][] = field_bundle_settings_message__c4m_notify_promoted_member
 features[variable][] = field_bundle_settings_message__c4m_notify_subscribers_new_comment
 features[variable][] = field_bundle_settings_message__c4m_welcome_to_group
-features[views_view][] = global_activity_stream
+features[views_view][] = global_activity_stream_no_js_fallback
 features[views_view][] = group_activity_stream

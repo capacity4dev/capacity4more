@@ -64,7 +64,7 @@
   margin-top: 25px;
 }
 
-.jsenabled {
+.js-enabled {
   .pane-global-activity-stream {
     display: none;
   }
@@ -78,7 +78,7 @@
   }
 }
 
-body:not(.jsenabled) {
+body:not(.js-enabled) {
   .pane-activity-stream {
     display: none;
   }

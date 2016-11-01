@@ -11,25 +11,25 @@ function c4m_message_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'global_activity_stream';
+  $view->name = 'global_activity_stream_no_js_fallback';
   $view->description = '';
   $view->tag = 'default';
   $view->base_table = 'message';
-  $view->human_name = 'Global Activity Stream';
+  $view->human_name = 'Global activity stream no-js fallback';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Global Activity Stream';
+  $handler->display->display_options['title'] = 'Global activity stream no-js fallback';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['distinct'] = TRUE;
   $handler->display->display_options['query']['options']['query_tags'] = array(
-    0 => 'global_activity_stream',
+    0 => 'global_activity_stream_no_js_fallback',
   );
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
@@ -134,8 +134,8 @@ function c4m_message_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
-  $handler->display->display_options['block_description'] = 'Global Activity Stream For NoJS';
-  $export['global_activity_stream'] = $view;
+  $handler->display->display_options['block_description'] = 'Global activity stream no JS fallback block';
+  $export['global_activity_stream_no_js_fallback'] = $view;
 
   $view = new view();
   $view->name = 'group_activity_stream';
@@ -181,6 +181,16 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['sorts']['timestamp']['table'] = 'message';
   $handler->display->display_options['sorts']['timestamp']['field'] = 'timestamp';
   $handler->display->display_options['sorts']['timestamp']['order'] = 'DESC';
+  /* Contextual filter: Message: Group node (field_group_node) */
+  $handler->display->display_options['arguments']['field_group_node_target_id']['id'] = 'field_group_node_target_id';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['table'] = 'field_data_field_group_node';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['field'] = 'field_group_node_target_id';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['default_argument_type'] = 'og_context';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['validate']['type'] = 'node';
   /* Filter criterion: Message: Entity Published (field_entity_published) */
   $handler->display->display_options['filters']['field_entity_published_value']['id'] = 'field_entity_published_value';
   $handler->display->display_options['filters']['field_entity_published_value']['table'] = 'field_data_field_entity_published';

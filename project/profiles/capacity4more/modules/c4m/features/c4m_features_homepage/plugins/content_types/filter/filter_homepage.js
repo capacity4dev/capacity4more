@@ -12,7 +12,7 @@
       window.location.search = '?filter=' + filter;
     });
 
-    $('body').addClass('jsenabled');
+    $('body').addClass('js-enabled');
   });
 
 })(jQuery);
