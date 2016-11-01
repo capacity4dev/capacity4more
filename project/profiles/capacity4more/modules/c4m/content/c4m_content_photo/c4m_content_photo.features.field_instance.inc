@@ -148,7 +148,7 @@ function c4m_content_photo_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 4,
+        'weight' => 1,
       ),
       'featured_block' => array(
         'label' => 'above',
@@ -270,10 +270,9 @@ If it is part of a photo album, it might have been added while creating the phot
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 26,
+        'type' => 'hidden',
+        'weight' => 30,
       ),
       'full' => array(
         'label' => 'above',
@@ -359,7 +358,7 @@ If it is part of a photo album, it might have been added while creating the phot
           'image_style' => 'large',
         ),
         'type' => 'image',
-        'weight' => 3,
+        'weight' => 0,
       ),
       'featured_block' => array(
         'label' => 'above',
@@ -490,7 +489,7 @@ If it is part of a photo album, it might have been added while creating the phot
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 19,
       ),
       'featured_block' => array(
         'label' => 'above',
@@ -586,7 +585,7 @@ If it is part of a photo album, it might have been added while creating the phot
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 1,
+        'weight' => 25,
       ),
       'featured_block' => array(
         'label' => 'above',
@@ -683,7 +682,7 @@ If it is part of a photo album, it might have been added while creating the phot
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 29,
       ),
       'featured_block' => array(
         'label' => 'above',
@@ -793,7 +792,7 @@ If it is part of a photo album, it might have been added while creating the phot
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 2,
+        'weight' => 26,
       ),
       'featured_block' => array(
         'label' => 'above',
