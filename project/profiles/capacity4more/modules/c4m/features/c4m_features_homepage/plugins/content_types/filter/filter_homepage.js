@@ -12,7 +12,6 @@
       window.location.search = '?filter=' + filter;
     });
 
-    $('body').addClass('js-enabled');
   });
 
 })(jQuery);

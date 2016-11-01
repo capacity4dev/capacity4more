@@ -64,8 +64,8 @@
   margin-top: 25px;
 }
 
-.js-enabled {
-  .pane-global-activity-stream {
+body:not(.no-js) {
+  .pane-global-activity-stream-no-js-fallback {
     display: none;
   }
 
@@ -78,12 +78,12 @@
   }
 }
 
-body:not(.js-enabled) {
+body.no-js {
   .pane-activity-stream {
     display: none;
   }
 
-  .pane-global-activity-stream {
+  .pane-global-activity-stream-no-js-fallback {
     display: block;
   }
 
