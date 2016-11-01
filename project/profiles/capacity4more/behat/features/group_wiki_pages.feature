@@ -74,7 +74,7 @@ Feature: Group Wiki pages
     When I visit the group "wiki_page" detail page "2011-2012"
     And I click "Edit" in the "primary tabs" region
     Then I should see the text "Edit Wiki page 2011-2012"
-    Then I check the box "Edit by Members"
+    Then I check the box "Editable by members"
     And  I press "Save"
     Then I should see the text "Wiki page 2011-2012 has been updated."
 
