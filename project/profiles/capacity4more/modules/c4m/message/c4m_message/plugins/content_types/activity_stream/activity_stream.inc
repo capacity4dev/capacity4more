@@ -24,6 +24,8 @@ function c4m_message_activity_stream_content_type_render($subtype, $conf, $args,
   $block->module = 'c4m_message';
   $block->title = '';
   $block->content = theme('c4m_message_activity_stream');
+
+  // Add the `group activity stream` view as a fallback if JS is disabled.
   $block->content .= views_embed_view('group_activity_stream');
   return $block;
 }

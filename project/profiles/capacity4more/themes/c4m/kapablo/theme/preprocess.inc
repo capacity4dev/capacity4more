@@ -163,11 +163,11 @@ function kapablo_preprocess_page(&$variables) {
   );
 
   // Add js to control the body no-js class.
-  drupal_add_js('
-(function ($) {
-  $(\'body\').removeClass(\'no-js\');
-}(jQuery));
-', array('type' => 'inline', 'scope' => 'footer', 'weight' => 5));
+  drupal_add_js("jQuery('body').removeClass('no-js');", array(
+    'type' => 'inline',
+    'scope' => 'footer',
+    'weight' => 5,
+  ));
 
   drupal_alter('c4m_offcanvas_trigger_label_left', $offcanvas_trigger_label_left);
   drupal_alter('c4m_offcanvas_trigger_label_right', $offcanvas_trigger_label_right);
@@ -541,6 +541,8 @@ function kapablo_preprocess_image(&$variables) {
 function kapablo_preprocess_html(&$variables) {
   // Render off_canvas into top level variables.
   $variables['off_canvas'] = drupal_render($variables['page']['off_canvas']);
+  // We are adding a class `no-js` to the body element which is set to be
+  // removed by JS. This enables us to easily use fallback css if JS disabled.
   $variables['classes_array'][] = 'no-js';
 }
 

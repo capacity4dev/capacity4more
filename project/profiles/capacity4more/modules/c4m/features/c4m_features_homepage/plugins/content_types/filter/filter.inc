@@ -75,7 +75,7 @@ function c4m_features_homepage_filter_form_create() {
     'submit' => array(
       '#type' => 'submit',
       '#value' => t('Filter'),
-      '#id' => t('c4m_filter_cmd'),
+      '#id' => 'c4m_activity_stream_filter',
     ),
   );
 

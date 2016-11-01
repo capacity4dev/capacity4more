@@ -3660,64 +3660,21 @@ function c4m_message_get_user_last_activity($uid) {
 }
 
 /**
- * Filters an array of group IDs by their bundle.
- *
- * @param array $og_list
- *   An array of group IDs to check.
- * @param string $bundle
- *   The bundle name to include in the return.
- *
- * @return mixed
- *   An array of the groups of the requested type (bundle).
- */
-function c4m_message_filter_groups_by_bundle($og_list, $bundle = 'group') {
-  foreach ($og_list as $key => $item) {
-    $group = node_load($item);
-    if (!og_is_group('node', $group) || $group->type != $bundle) {
-      unset($og_list[$key]);
-    }
-  }
-
-  return $og_list;
-}
-
-/**
  * Implements hook_views_query_alter().
  */
 function c4m_message_views_query_alter(&$view, &$query) {
   if ($view->name != 'global_activity_stream_no_js_fallback') {
     return;
   }
-
   $filterBy = filter_input(INPUT_GET, 'filter', FILTER_SANITIZE_STRING);
-  $groups = og_get_groups_by_user();
 
-  switch ($filterBy) {
-    case 'groups':
-      $groups = c4m_message_filter_groups_by_bundle($groups['node']);
-      $query->where[2]['conditions'][0]['value'] = $groups;
-      $query->where[2]['conditions'][0]['operator'] = 'IN';
-      unset($query->where[2]['conditions'][1]);
-      break;
-
-    case 'projects':
-      $groups = c4m_message_filter_groups_by_bundle($groups['node'], 'project');
-      $query->where[2]['conditions'][0]['value'] = $groups;
-      $query->where[2]['conditions'][0]['operator'] = 'IN';
-      unset($query->where[2]['conditions'][1]);
-      break;
-
-    case 'interests':
-      global $user;
-      $account = user_load($user->uid);
-      $user_wrapper = entity_metadata_wrapper('user', $account->uid);
-      $interests = $user_wrapper->c4m_vocab_topic->raw();
-      $query->where[2]['conditions'][1]['value'] = $interests;
-      $query->where[2]['conditions'][1]['operator'] = 'IN';
-      break;
-
-    default:
-      unset($query->where[2]);
+  if ($filterBy == 'groups' || $filterBy == 'projects') {
+    $groups = c4m_og_get_user_group_ids_by_bundle(rtrim($filterBy, 's'));
+    $query->where[2]['conditions'][0]['value'] = $groups;
+    $query->where[2]['conditions'][0]['operator'] = 'IN';
+  }
+  else {
+    unset($query->where[2]);
   }
 }
 
@@ -3729,12 +3686,10 @@ function c4m_message_views_query_alter(&$view, &$query) {
  * or interests.
  */
 function c4m_features_homepage_filter_form_create_submit(&$form, &$form_state) {
-  $form_state['redirect'] = array(
-    '<front>',
-    array(
-      'query' => array(
-        'filter' => $form_state['values']['homepage-filter'],
-      ),
+  $options = array(
+    'query' => array(
+      'filter' => $form_state['values']['homepage-filter'],
     ),
   );
+  $form_state['redirect'] = array('<front>', $options);
 }

@@ -67,6 +67,21 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['sorts']['timestamp']['table'] = 'message';
   $handler->display->display_options['sorts']['timestamp']['field'] = 'timestamp';
   $handler->display->display_options['sorts']['timestamp']['order'] = 'DESC';
+  /* Contextual filter: Field: Topics (c4m_vocab_topic) */
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['id'] = 'c4m_vocab_topic_tid';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['table'] = 'field_data_c4m_vocab_topic';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['field'] = 'c4m_vocab_topic_tid';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['relationship'] = 'field_node_target_id';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['default_argument_type'] = 'c4m_message_plugin_argument_default';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['validate']['type'] = 'taxonomy_term';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['validate_options']['vocabularies'] = array(
+    'c4m_vocab_topic' => 'c4m_vocab_topic',
+  );
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['break_phrase'] = TRUE;
   $handler->display->display_options['filter_groups']['groups'] = array(
     1 => 'AND',
     2 => 'OR',
@@ -118,19 +133,6 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['filters']['field_group_node_target_id']['field'] = 'field_group_node_target_id';
   $handler->display->display_options['filters']['field_group_node_target_id']['value']['value'] = '%1';
   $handler->display->display_options['filters']['field_group_node_target_id']['group'] = 2;
-  /* Filter criterion: Field: Topics (c4m_vocab_topic) */
-  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['id'] = 'c4m_vocab_topic_tid';
-  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['table'] = 'field_data_c4m_vocab_topic';
-  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['field'] = 'c4m_vocab_topic_tid';
-  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['relationship'] = 'field_node_target_id';
-  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['value'] = array(
-    '327' => '327',
-  );
-  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['group'] = 2;
-  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['reduce_duplicates'] = TRUE;
-  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['type'] = 'select';
-  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['vocabulary'] = 'c4m_vocab_topic';
-  $handler->display->display_options['filters']['c4m_vocab_topic_tid']['hierarchy'] = 1;
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');

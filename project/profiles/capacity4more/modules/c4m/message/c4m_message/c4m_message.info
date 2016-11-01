@@ -192,3 +192,4 @@ features[variable][] = field_bundle_settings_message__c4m_notify_subscribers_new
 features[variable][] = field_bundle_settings_message__c4m_welcome_to_group
 features[views_view][] = global_activity_stream_no_js_fallback
 features[views_view][] = group_activity_stream
+files[] = includes/c4m_message_plugin_argument_default.inc

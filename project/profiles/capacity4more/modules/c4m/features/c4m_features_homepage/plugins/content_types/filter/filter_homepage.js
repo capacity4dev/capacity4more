@@ -11,7 +11,6 @@
       var filter = radios.val();
       window.location.search = '?filter=' + filter;
     });
-
   });
 
 })(jQuery);
