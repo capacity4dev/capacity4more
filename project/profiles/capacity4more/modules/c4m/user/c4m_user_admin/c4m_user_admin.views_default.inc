@@ -554,9 +554,9 @@ Last access : [access]';
   $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['group'] = 1;
   $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['exposed'] = TRUE;
   $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['operator_id'] = 'c4m_is_deleted_anonymous_value_op';
-  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['label'] = 'Deleted';
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['label'] = 'Deleted Anonymous';
   $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['operator'] = 'c4m_is_deleted_anonymous_value_op';
-  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['identifier'] = 'deleted';
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['identifier'] = 'deleted_anonymous';
   $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['remember_roles'] = array(
     2 => '2',
     1 => 0,
@@ -913,7 +913,7 @@ Is Deleted Anonymous: [c4m_is_deleted_anonymous]<br>';
   $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['id'] = 'c4m_is_deleted_anonymous';
   $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['table'] = 'field_data_c4m_is_deleted_anonymous';
   $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['field'] = 'c4m_is_deleted_anonymous';
-  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['label'] = 'Deleted';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['label'] = 'Deleted Anonymous';
   $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['alter']['text'] = 'Yes';
   $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['element_label_colon'] = FALSE;
