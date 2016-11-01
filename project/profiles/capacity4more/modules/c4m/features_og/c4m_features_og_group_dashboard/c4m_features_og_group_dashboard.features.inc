@@ -122,7 +122,6 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
       'activity_group' => 0,
       'block_list' => 0,
       'group_dashboard' => 0,
-      'pinned_content' => 0,
       'revision' => 0,
     ),
     'show_as_field' => 0,
@@ -182,7 +181,6 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
       'activity_group' => 0,
       'block_list' => 0,
       'group_dashboard' => 0,
-      'pinned_content' => 0,
       'revision' => 0,
     ),
     'show_as_field' => 0,
@@ -190,11 +188,11 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
     'access_author' => '',
     'show_contextual_link' => 0,
     'i18n' => 0,
+    'api_version' => 3,
     'module' => 'c4m_features_og_group_dashboard',
     'locked' => array(
       0 => 'name',
     ),
-    'api_version' => 3,
   );
   // Exported flag: "C4M Follow Group".
   $flags['subscribe_c4m_follow_group'] = array(
@@ -285,7 +283,6 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
       'activity_group' => 0,
       'block_list' => 0,
       'group_dashboard' => 0,
-      'pinned_content' => 0,
       'revision' => 0,
     ),
     'show_as_field' => 0,
