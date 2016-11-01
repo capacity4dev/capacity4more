@@ -1375,6 +1375,7 @@ function c4m_og_entity_property_info_alter(&$info) {
     $info['node']['bundles'][$bundle]['properties']['c4m_og_group_type'] = array(
       'type' => 'text',
       'label' => t('Group type'),
+      'description' => t('The type of the group a content belongs to (group/project).'),
       'sanitized' => TRUE,
       'getter callback' => '_c4m_og_group_type_getter_callback',
     );
