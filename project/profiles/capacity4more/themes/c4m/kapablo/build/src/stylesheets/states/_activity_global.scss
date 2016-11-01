@@ -69,7 +69,11 @@ body:not(.no-js) {
     display: none;
   }
 
-  .pane-activity-stream {
+  section>.pane-activity-stream {
+    display: block;
+  }
+
+  .activity-stream {
     display: block;
   }
 
@@ -79,7 +83,11 @@ body:not(.no-js) {
 }
 
 body.no-js {
-  .pane-activity-stream {
+  section>.pane-activity-stream {
+    display: none;
+  }
+
+  .activity-stream {
     display: none;
   }
 
