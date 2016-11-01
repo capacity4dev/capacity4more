@@ -1344,6 +1344,21 @@ function c4m_og_get_posts_count($group) {
 }
 
 /**
+ * Gets all group content bundles by entity type.
+ *
+ * @param string $entity_type
+ *   Entity type (optional).
+ *
+ * @return array
+ *   Bundles which are defined as group content.
+ */
+function c4m_og_get_all_group_content_bundles($entity_type = NULL) {
+  $bundles = og_get_all_group_content_bundle();
+
+  return $entity_type ? $bundles[$entity_type] : $bundles;
+}
+
+/**
  * Implements hook_entity_property_info_alter().
  */
 function c4m_og_entity_property_info_alter(&$info) {
@@ -1353,6 +1368,17 @@ function c4m_og_entity_property_info_alter(&$info) {
     'sanitized' => TRUE,
     'getter callback' => '_c4m_og_group_access_type_getter_callback',
   );
+
+  // Adding c4m_og_group_type to all group content bundles.
+  $bundles = c4m_og_get_all_group_content_bundles('node');
+  foreach (array_keys($bundles) as $bundle) {
+    $info['node']['bundles'][$bundle]['properties']['c4m_og_group_type'] = array(
+      'type' => 'text',
+      'label' => t('Group type'),
+      'sanitized' => TRUE,
+      'getter callback' => '_c4m_og_group_type_getter_callback',
+    );
+  }
 }
 
 /**
@@ -1370,6 +1396,23 @@ function _c4m_og_group_access_type_getter_callback($item) {
   if (!empty($group_access['type'])) {
     return ucfirst($group_access['type']);
   }
+}
+
+/**
+ * Getter callback for c4m_og_group_type property.
+ *
+ * @param object $node
+ *    A node object.
+ *
+ * @return string
+ *    Type of group the node belongs to (group/project).
+ */
+function _c4m_og_group_type_getter_callback($node) {
+  if (!$group = c4m_og_get_group_of_content($node)) {
+    return '';
+  }
+
+  return $group->type;
 }
 
 /**
