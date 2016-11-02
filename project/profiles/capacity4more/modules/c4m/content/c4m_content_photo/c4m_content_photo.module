@@ -205,3 +205,23 @@ function c4m_content_photo_preprocess(&$variables, $hook) {
     $variables['prev_link'] = url($variables['prev_link'], $options);
   }
 }
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function c4m_content_photo_entity_property_info_alter(&$info) {
+  $info['node']['bundles']['photo']['properties']['c4m_photo_is_part_of_photo_album'] = array(
+    'type' => 'boolean',
+    'label' => t('Part of photo album'),
+    'description' => t('Indicates if a photo is part of a photo album.'),
+    'getter callback' => '_c4m_photo_is_part_of_photo_album_getter_callback',
+  );
+}
+
+/**
+ * @see c4m_content_photo_get_photo_album()
+ */
+function _c4m_photo_is_part_of_photo_album_getter_callback($item) {
+  // Using !! to always return a boolean.
+  return !!c4m_content_photo_get_photo_album($item);
+}
