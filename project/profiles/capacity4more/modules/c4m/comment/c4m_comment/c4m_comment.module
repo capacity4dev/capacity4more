@@ -154,7 +154,7 @@ function c4m_comment_node_view_alter(&$build) {
         )
       );
 
-      $text = '<p>' . t(
+      $text = '<p class="margin--top">' . t(
           '!register or !login to comment',
           array(
             '!register' => $register_link,
@@ -199,7 +199,7 @@ function c4m_comment_c4m_helper_entity_label_info() {
  * comments manually as well.
  */
 function c4m_comment_user_cancel($edit, $account, $method) {
-  if ($method != 'user_block_reassign') {
+  if (!in_array($method, c4m_user_profile_get_cancel_methods_to_reassign())) {
     return;
   }
 
@@ -210,4 +210,19 @@ function c4m_comment_user_cancel($edit, $account, $method) {
     $comment->name = t('Anonymous');
     comment_save($comment);
   }
+}
+
+/**
+ * Implements hook_comment_view().
+ *
+ * When a user is forbidden to take actions on a comment we should display the
+ * links only once, hence we remove it from all threads besides the main one.
+ */
+function c4m_comment_comment_view($comment, $view_mode, $langcode) {
+  // The comment is not forbidden for actions.
+  if (empty($comment->content['links']['comment']['#links']['comment_forbidden'])) {
+    return;
+  }
+
+  unset($comment->content['links']['comment']['#links']['comment_forbidden']);
 }

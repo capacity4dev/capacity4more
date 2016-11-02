@@ -99,6 +99,15 @@ function _c4m_content_project_system_block_renderer($field) {
       $number_of_items = $number_of_items[LANGUAGE_NONE][0]['value'];
       $view->set_items_per_page($number_of_items);
 
+      // Set correct show more link.
+      $view->set_display('block');
+      if ($view->display_handler->use_more()) {
+        $group = c4m_og_current_group();
+        // We store the show more path in the link_url in Views and prepend purl.
+        $show_more_path = $view->display_handler->get_option('link_url');
+        $view->display_handler->set_option('link_url', $group->purl . '/' . $show_more_path);
+      }
+
       // Render the View.
       $output = $view->preview($views_info[1], array());
       $view->destroy();

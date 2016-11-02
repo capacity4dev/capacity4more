@@ -32,7 +32,6 @@ class C4mDemoContentCreateProgrammes extends C4mDemoContentCreateOgGroups {
     array('budget_currency', 'Currency'),
     array('funding', 'Funding'),
     array('partner', 'Partner'),
-    array('implementation', 'Implementation'),
     array('cris_decision', 'CRIS Decision'),
     array('cris_contract', 'CRIS Contract'),
     array('body', 'Body'),
@@ -55,9 +54,6 @@ class C4mDemoContentCreateProgrammes extends C4mDemoContentCreateOgGroups {
       ->separator(';');
 
     $this->addFieldMapping('c4m_partner', 'partner')
-      ->separator(';');
-
-    $this->addFieldMapping('c4m_implemented_by', 'implementation')
       ->separator(';');
 
     $this->addFieldMapping('c4m_cris_decision_number', 'cris_decision')

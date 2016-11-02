@@ -1,0 +1,13 @@
+diff --git a/node_gallery_api.inc b/node_gallery_api.inc
+index d399457..540a3dc 100644
+--- a/node_gallery_api.inc
++++ b/node_gallery_api.inc
+@@ -822,7 +822,7 @@ function node_gallery_api_get_item_position($ngid, $nid, $reset = FALSE) {
+       $item_position[$ngid] = $cache->data;
+     }
+   }
+-  return $item_position[$ngid][$nid];
++  return (isset($item_position[$ngid][$nid])) ? $item_position[$ngid][$nid] : 1;
+ }
+ 
+ /**

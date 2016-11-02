@@ -728,6 +728,7 @@ function c4m_content_article_field_default_field_instances() {
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
+          'use_content_language' => TRUE,
           'view_mode' => 'block_list',
         ),
         'type' => 'entityreference_entity_view',
@@ -797,6 +798,7 @@ function c4m_content_article_field_default_field_instances() {
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
+          'use_content_language' => TRUE,
           'view_mode' => 'block_list',
         ),
         'type' => 'entityreference_entity_view',
@@ -866,6 +868,7 @@ function c4m_content_article_field_default_field_instances() {
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
+          'use_content_language' => TRUE,
           'view_mode' => 'block_list',
         ),
         'type' => 'entityreference_entity_view',

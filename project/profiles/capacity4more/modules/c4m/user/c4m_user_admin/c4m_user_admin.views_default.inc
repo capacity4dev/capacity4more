@@ -45,6 +45,7 @@ function c4m_user_admin_views_default_views() {
     'status' => 'status',
     'c4m_is_spammer' => 'c4m_is_spammer',
     'c4m_is_deleted' => 'c4m_is_deleted',
+    'c4m_is_deleted_anonymous' => 'c4m_is_deleted_anonymous',
     'rid' => 'rid',
     'created' => 'created',
     'access' => 'access',
@@ -120,6 +121,13 @@ function c4m_user_admin_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
+    'c4m_is_deleted_anonymous' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'desc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
     'rid' => array(
       'align' => '',
       'separator' => '',
@@ -168,7 +176,7 @@ function c4m_user_admin_views_default_views() {
   $handler->display->display_options['empty']['area_text_custom']['content'] = 'No users available.';
   /* Field: Bulk operations: User */
   $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
-  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'users';
+  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'views_entity_user';
   $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '0';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 0;
@@ -275,6 +283,18 @@ function c4m_user_admin_views_default_views() {
   $handler->display->display_options['fields']['c4m_is_deleted']['empty'] = 'No';
   $handler->display->display_options['fields']['c4m_is_deleted']['empty_zero'] = TRUE;
   $handler->display->display_options['fields']['c4m_is_deleted']['type'] = 'list_key';
+  /* Field: User: Is deleted anonymous */
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['id'] = 'c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['table'] = 'field_data_c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['field'] = 'c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['label'] = '';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['alter']['text'] = 'Yes';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['empty'] = 'No';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['type'] = 'list_key';
   /* Field: User: Active */
   $handler->display->display_options['fields']['status']['id'] = 'status';
   $handler->display->display_options['fields']['status']['table'] = 'users';
@@ -283,7 +303,8 @@ function c4m_user_admin_views_default_views() {
   $handler->display->display_options['fields']['status']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['status']['alter']['text'] = 'Active : [status]<br>
 Is Spammer : [c4m_is_spammer]<br>
-Is Deleted : [c4m_is_deleted]<br>';
+Is Deleted : [c4m_is_deleted]<br>
+Is Deleted Anonymous : [c4m_is_deleted_anonymous]<br>';
   $handler->display->display_options['fields']['status']['not'] = 0;
   /* Field: User: Roles */
   $handler->display->display_options['fields']['rid']['id'] = 'rid';
@@ -526,6 +547,21 @@ Last access : [access]';
     1 => 0,
     3 => 0,
   );
+  /* Filter criterion: User: Is deleted anonymous (c4m_is_deleted_anonymous) */
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['id'] = 'c4m_is_deleted_anonymous_value';
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['table'] = 'field_data_c4m_is_deleted_anonymous';
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['field'] = 'c4m_is_deleted_anonymous_value';
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['group'] = 1;
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['operator_id'] = 'c4m_is_deleted_anonymous_value_op';
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['label'] = 'Deleted Anonymous';
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['operator'] = 'c4m_is_deleted_anonymous_value_op';
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['identifier'] = 'deleted_anonymous';
+  $handler->display->display_options['filters']['c4m_is_deleted_anonymous_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+  );
   /* Filter criterion: User: Roles */
   $handler->display->display_options['filters']['rid']['id'] = 'rid';
   $handler->display->display_options['filters']['rid']['table'] = 'users_roles';
@@ -672,6 +708,29 @@ Last access : [access]';
   $handler->display->display_options['fields']['c4m_is_deleted']['empty'] = 'No';
   $handler->display->display_options['fields']['c4m_is_deleted']['empty_zero'] = TRUE;
   $handler->display->display_options['fields']['c4m_is_deleted']['type'] = 'list_key';
+  /* Field: User: Is deleted anonymous */
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['id'] = 'c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['table'] = 'field_data_c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['field'] = 'c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['label'] = '';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['alter']['text'] = 'Yes';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['empty'] = 'No';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['type'] = 'list_key';
+  /* Field: User: Is deleted by */
+  $handler->display->display_options['fields']['c4m_is_deleted_by_uid']['id'] = 'c4m_is_deleted_by_uid';
+  $handler->display->display_options['fields']['c4m_is_deleted_by_uid']['table'] = 'field_data_c4m_is_deleted_by_uid';
+  $handler->display->display_options['fields']['c4m_is_deleted_by_uid']['field'] = 'c4m_is_deleted_by_uid';
+  $handler->display->display_options['fields']['c4m_is_deleted_by_uid']['label'] = 'Deleted by';
+  $handler->display->display_options['fields']['c4m_is_deleted_by_uid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_by_uid']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_by_uid']['alter']['text'] = 'Deleted by: [c4m_is_deleted_by_uid]';
+  $handler->display->display_options['fields']['c4m_is_deleted_by_uid']['settings'] = array(
+    'link' => 1,
+  );
   /* Field: User: Active */
   $handler->display->display_options['fields']['status']['id'] = 'status';
   $handler->display->display_options['fields']['status']['table'] = 'users';
@@ -680,7 +739,9 @@ Last access : [access]';
   $handler->display->display_options['fields']['status']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['status']['alter']['text'] = 'Active : [status]<br>
 Is Spammer : [c4m_is_spammer]<br>
-Is Deleted : [c4m_is_deleted]<br>';
+Is Deleted : [c4m_is_deleted]<br>
+Is Deleted Anonymous: [c4m_is_deleted_anonymous]<br>
+[c4m_is_deleted_by_uid]<br>';
   $handler->display->display_options['fields']['status']['not'] = 0;
   /* Field: User: Roles */
   $handler->display->display_options['fields']['rid']['id'] = 'rid';
@@ -834,7 +895,8 @@ Last access : [access]';
   $handler->display->display_options['fields']['status']['field'] = 'status';
   $handler->display->display_options['fields']['status']['alter']['text'] = 'Active : [status]<br>
 Is Spammer : [c4m_is_spammer]<br>
-Is Deleted : [c4m_is_deleted]<br>';
+Is Deleted : [c4m_is_deleted]<br>
+Is Deleted Anonymous: [c4m_is_deleted_anonymous]<br>';
   $handler->display->display_options['fields']['status']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['status']['not'] = 0;
   /* Field: User: Is spammer */
@@ -859,6 +921,25 @@ Is Deleted : [c4m_is_deleted]<br>';
   $handler->display->display_options['fields']['c4m_is_deleted']['empty'] = 'No';
   $handler->display->display_options['fields']['c4m_is_deleted']['empty_zero'] = TRUE;
   $handler->display->display_options['fields']['c4m_is_deleted']['type'] = 'list_key';
+  /* Field: User: Is deleted anonymous */
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['id'] = 'c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['table'] = 'field_data_c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['field'] = 'c4m_is_deleted_anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['label'] = 'Deleted Anonymous';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['alter']['text'] = 'Yes';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['empty'] = 'No';
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['c4m_is_deleted_anonymous']['type'] = 'list_key';
+  /* Field: User: Is deleted by */
+  $handler->display->display_options['fields']['c4m_is_deleted_by_uid']['id'] = 'c4m_is_deleted_by_uid';
+  $handler->display->display_options['fields']['c4m_is_deleted_by_uid']['table'] = 'field_data_c4m_is_deleted_by_uid';
+  $handler->display->display_options['fields']['c4m_is_deleted_by_uid']['field'] = 'c4m_is_deleted_by_uid';
+  $handler->display->display_options['fields']['c4m_is_deleted_by_uid']['label'] = 'Deleted by';
+  $handler->display->display_options['fields']['c4m_is_deleted_by_uid']['settings'] = array(
+    'link' => 1,
+  );
   /* Field: User: Created date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'users';
@@ -904,12 +985,18 @@ Last access : [access]';
   $handler->display->display_options['fields']['user_metrics']['field'] = 'user_metrics';
   $handler->display->display_options['fields']['user_metrics']['label'] = 'Organisations';
   $handler->display->display_options['fields']['user_metrics']['c4m_user_admin_user_metric'] = 'user::organisations';
-  /* Field: Content: User metrics */
-  $handler->display->display_options['fields']['user_metrics_1']['id'] = 'user_metrics_1';
-  $handler->display->display_options['fields']['user_metrics_1']['table'] = 'users';
-  $handler->display->display_options['fields']['user_metrics_1']['field'] = 'user_metrics';
-  $handler->display->display_options['fields']['user_metrics_1']['label'] = 'Expertise topics';
-  $handler->display->display_options['fields']['user_metrics_1']['c4m_user_admin_user_metric'] = 'user::expertise_topics';
+  /* Field: User: Topics of Expertise */
+  $handler->display->display_options['fields']['c4m_vocab_topic_expertise']['id'] = 'c4m_vocab_topic_expertise';
+  $handler->display->display_options['fields']['c4m_vocab_topic_expertise']['table'] = 'field_data_c4m_vocab_topic_expertise';
+  $handler->display->display_options['fields']['c4m_vocab_topic_expertise']['field'] = 'c4m_vocab_topic_expertise';
+  $handler->display->display_options['fields']['c4m_vocab_topic_expertise']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_vocab_topic_expertise']['type'] = 'term_reference_checked_inline_tree_for_views';
+  $handler->display->display_options['fields']['c4m_vocab_topic_expertise']['settings'] = array(
+    'link' => 0,
+    'separator' => ' > ',
+    'glue' => ' - ',
+  );
+  $handler->display->display_options['fields']['c4m_vocab_topic_expertise']['delta_offset'] = '0';
   /* Field: Content: User metrics */
   $handler->display->display_options['fields']['user_metrics_2']['id'] = 'user_metrics_2';
   $handler->display->display_options['fields']['user_metrics_2']['table'] = 'users';
@@ -957,13 +1044,36 @@ Last access : [access]';
   $handler->display->display_options['fields']['user_metrics_9']['table'] = 'users';
   $handler->display->display_options['fields']['user_metrics_9']['field'] = 'user_metrics';
   $handler->display->display_options['fields']['user_metrics_9']['label'] = 'Administered groups';
+  $handler->display->display_options['fields']['user_metrics_9']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['user_metrics_9']['c4m_user_admin_user_metric'] = 'user::groups_administered';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_13']['id'] = 'user_metrics_13';
+  $handler->display->display_options['fields']['user_metrics_13']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_13']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_13']['label'] = 'Projects pending membership';
+  $handler->display->display_options['fields']['user_metrics_13']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['user_metrics_13']['c4m_user_admin_user_metric'] = 'user::projects_pending';
   /* Field: Content: User metrics */
   $handler->display->display_options['fields']['user_metrics_10']['id'] = 'user_metrics_10';
   $handler->display->display_options['fields']['user_metrics_10']['table'] = 'users';
   $handler->display->display_options['fields']['user_metrics_10']['field'] = 'user_metrics';
   $handler->display->display_options['fields']['user_metrics_10']['label'] = 'Administered projects';
+  $handler->display->display_options['fields']['user_metrics_10']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['user_metrics_10']['c4m_user_admin_user_metric'] = 'user::projects_administered';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_14']['id'] = 'user_metrics_14';
+  $handler->display->display_options['fields']['user_metrics_14']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_14']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_14']['label'] = 'Programmes pending membership';
+  $handler->display->display_options['fields']['user_metrics_14']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['user_metrics_14']['c4m_user_admin_user_metric'] = 'user::programmes_pending';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_12']['id'] = 'user_metrics_12';
+  $handler->display->display_options['fields']['user_metrics_12']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_12']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_12']['label'] = 'Administered programmes';
+  $handler->display->display_options['fields']['user_metrics_12']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['user_metrics_12']['c4m_user_admin_user_metric'] = 'user::programmes_administered';
   $handler->display->display_options['path'] = 'admin/people/export/file';
   $handler->display->display_options['use_batch'] = 'batch';
   $handler->display->display_options['return_path'] = 'admin/people/export';

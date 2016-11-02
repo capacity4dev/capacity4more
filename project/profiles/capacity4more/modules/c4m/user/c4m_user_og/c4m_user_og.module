@@ -276,6 +276,8 @@ function c4m_user_og_has_groups(
  *   Optional bundle type, can be 'group' (default) or 'project'.
  * @param int $status
  *   Optional status of the groups to filter on, default published.
+ * @param bool $sort
+ *   Optional sort boolean (sort by group status).
  *
  * @return array|void
  *   An array with the groups or an empty array.
@@ -283,7 +285,8 @@ function c4m_user_og_has_groups(
 function c4m_user_og_get_groups(
   $account = NULL,
   $bundle = 'group',
-  $status = NODE_PUBLISHED
+  $status = NODE_PUBLISHED,
+  $sort = TRUE
 ) {
   $groups = og_get_groups_by_user($account);
 
@@ -293,6 +296,17 @@ function c4m_user_og_get_groups(
 
   // Load groups of bundle type.
   $group_nodes = node_load_multiple($groups['node'], array('type' => $bundle));
+
+  if (empty($group_nodes)) {
+    return array();
+  }
+
+  // Sort groups by status.
+  if ($sort && !empty($group_nodes)) {
+    usort($group_nodes, 'c4m_sort_object_by_title');
+    usort($group_nodes, '_c4m_og_sort_by_status');
+  }
+
   return $group_nodes;
 }
 
@@ -480,6 +494,16 @@ function c4m_user_og_theme() {
     ),
   );
 
+  $theme['c4m_group_follow_cta'] = array(
+    'template' => 'c4m_group_follow_cta',
+    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
+    'variables' => array(
+      'text' => NULL,
+      'wrapper_class' => 'c4m-group-follow-cta text-copy--small',
+      'text_class' => NULL,
+    ),
+  );
+
   $theme['c4m_group_manage_cta'] = array(
     'template' => 'c4m_group_manage_cta',
     'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
@@ -530,11 +554,6 @@ function c4m_user_og_c4m_cta_block() {
     return;
   }
 
-  // Prevent from 'project' nodes to run this logic.
-  if ($group->type != 'group') {
-    return;
-  }
-
   // A blocked (banned) user should not be able to see the CTA block.
   $user_role = c4m_user_og_get_role_in_group($user, $group);
   if ($user_role == 'blocked') {
@@ -551,17 +570,18 @@ function c4m_user_og_c4m_cta_block() {
     $items['actions'] = $item;
   }
 
-  if ($item = c4m_user_og_c4m_join_cta($group)) {
-    $items['join'] = $item;
-  }
-
-  if ($item = c4m_user_og_follow_group_cta($group)) {
-    $items['follow'] = $item;
-  }
-
-  // Add a link to the CTA block if the user is permitted to invite new members.
-  if (!user_is_anonymous() && c4m_user_og_invite_access($group)) {
-    $items['invite'] = c4m_user_og_c4m_invite_cta($group);
+  if ($group->type == 'group') {
+    if ($item = c4m_user_og_c4m_join_cta($group)) {
+      $items['join'] = $item;
+    }
+    if ($item = c4m_user_og_follow_group_cta($group)) {
+      $items['follow'] = $item;
+    }
+    // Add a link to the CTA block
+    // if the user is permitted to invite new members.
+    if (!user_is_anonymous() && c4m_user_og_invite_access($group)) {
+      $items['invite'] = c4m_user_og_c4m_invite_cta($group);
+    }
   }
 
   return $items;
@@ -692,11 +712,11 @@ function c4m_user_og_group_management_cta($group) {
   $items = array();
 
   if (_c4m_features_og_members_is_power_user($group)) {
-    $items['#title'] = t("You're the manager of this group");
+    $items['#title'] = t("You're the manager of this !group_type", array('!group_type' => $group->type));
     $items['#links'][] = array(
       '#theme' => 'c4m_group_text_cta',
       '#icon' => 'fa-cogs',
-      '#text' => l(t('Manage group'), 'manage'),
+      '#text' => l(t("Manage !group_type", array('!group_type' => $group->type)), 'manage'),
     );
   }
 
@@ -826,9 +846,9 @@ function c4m_user_og_follow_group_cta($group) {
   }
 
   $item = array(
-    '#theme' => 'c4m_group_text_cta',
-    '#icon' => 'fa-bell-o',
-    '#text' => flag_create_link('subscribe_c4m_follow_group', $group->nid),
+    '#theme' => 'c4m_group_follow_cta',
+    '#text' => c4m_content_theme_toggle_group_notification_link(),
+    '#weight' => 50,
   );
 
   return $item;

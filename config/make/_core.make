@@ -9,6 +9,7 @@ projects[drupal][patch][] = "https://drupal.org/files/911354-drupal-profile-85.p
 projects[drupal][patch][] = "https://www.drupal.org/files/issues/book_unpublished_patch_760102-10.patch"
 projects[drupal][patch][] = "https://www.drupal.org/files/issues/1116326-overlay-method-get-forms-56-D7.patch"
 projects[drupal][patch][] = "https://www.drupal.org/files/issues/drupal-drupal_tempnam-985384-11.patch"
+projects[drupal][patch][] = "https://www.drupal.org/files/issues/imagerotate-2215369-83.patch"
 
 ; Patch which changes the output of Drupal's .htaccess files.
 ; This patch will make the .htaccess files match DIGIT's requirements (Apache 2.4.x).

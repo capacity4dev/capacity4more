@@ -89,15 +89,34 @@ function c4m_content_article_subscribe_contributors($node) {
     return;
   }
 
-  // Get the correct flag object.
-  $subscribe_c4m_follow_node_flag = flag_get_flag('subscribe_c4m_follow_node');
+  // Get the correct flag object to subscribe to the node.
+  $flag_name = 'subscribe_c4m_follow_node';
+
+  _c4m_content_article_subscribe_contributors_flag($node, $flag_name);
+
+  // Get the correct flag object to subscribe to the commenting on the node.
+  $flag_name = 'subscribe_c4m_follow_comment';
+
+  _c4m_content_article_subscribe_contributors_flag($node, $flag_name);
+}
+
+/**
+ * Helper function to (un)subscribe contributors from an article.
+ *
+ * @param object $node
+ *   Node entity object.
+ * @param string $flag_name
+ *   Machine name of the flag.
+ */
+function _c4m_content_article_subscribe_contributors_flag($node, $flag_name) {
+  $subscribe_c4m_follow_node_flag = flag_get_flag($flag_name);
 
   // Get all contributors of the current article.
   $contributors_current = is_array(field_get_items('node', $node, 'c4m_related_user'))
     ? field_get_items('node', $node, 'c4m_related_user') : array();
 
   // Get all subscribed users in the database.
-  $flagged_users = flag_get_entity_flags('node', $node->nid, 'subscribe_c4m_follow_node');
+  $flagged_users = flag_get_entity_flags('node', $node->nid, $flag_name);
 
   foreach ($flagged_users as $flagged_user) {
     if ($user = user_load($flagged_user->uid)) {
@@ -198,19 +217,24 @@ function c4m_content_article_node_view_alter(&$build) {
   }
 
   // Remove the 'Regions' taxonomies.
-  foreach ($build['c4m_vocab_geo']['#items'] as $index => $item) {
-    unset($build['c4m_vocab_geo'][$index]);
+  if (!empty($build['c4m_vocab_geo'])) {
+    foreach ($build['c4m_vocab_geo']['#items'] as $index => $item) {
+      unset($build['c4m_vocab_geo'][$index]);
+    }
+
+    // Add the new markup Regions.
+    $build['c4m_vocab_geo'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_geo']['#items']);
   }
 
   // Remove the 'Topics' taxonomies.
-  foreach ($build['c4m_vocab_topic']['#items'] as $index => $item) {
-    unset($build['c4m_vocab_topic'][$index]);
-  }
+  if (!empty($build['c4m_vocab_topic'])) {
+    foreach ($build['c4m_vocab_topic']['#items'] as $index => $item) {
+      unset($build['c4m_vocab_topic'][$index]);
+    }
 
-  // Add the new markup Topics.
-  $build['c4m_vocab_topic'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_topic']['#items']);
-  // Add the new markup Regions.
-  $build['c4m_vocab_geo'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_geo']['#items']);
+    // Add the new markup Topics.
+    $build['c4m_vocab_topic'][0]['#markup'] = c4m_content_taxonomy_build_tree($build['c4m_vocab_topic']['#items']);
+  }
 
   return $build;
 }

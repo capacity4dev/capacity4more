@@ -346,7 +346,7 @@ function c4m_user_profile_form_user_register_form_alter(
       array(
         '!privacy_statement_link' => l(
           t('Privacy Statement'),
-          'http://capacity4dev.dev/privacy',
+          'https://www.campaignmonitor.com/policies',
           array(
             'attributes' => array(
               'absolute' => TRUE,
@@ -1434,6 +1434,27 @@ function c4m_user_profile_c4m_helper_entity_metrics_info() {
 }
 
 /**
+ * Gets the IDs of the topics (interests) of a user.
+ *
+ * @param object|int $account
+ *   The user object or ID (optional).
+ *   If not given then use the current user.
+ *
+ * @return array
+ *   The terms IDs of the topics.
+ */
+function c4m_user_profile_get_interests($account = NULL) {
+  if (!$account) {
+    global $user;
+    $account = $user;
+  }
+
+  $wrapper = entity_metadata_wrapper('user', $account);
+
+  return $wrapper->c4m_vocab_topic->raw();
+}
+
+/**
  * Returns the expertise topics count for an user.
  *
  * @param int $uid
@@ -1474,6 +1495,19 @@ function c4m_user_profile_user_cancel_methods_alter(&$methods) {
 }
 
 /**
+ * Gets the custom cancellations methods we should reassign the content.
+ *
+ * @return array
+ *   The c4m custom cancellations methods machine names.
+ */
+function c4m_user_profile_get_cancel_methods_to_reassign() {
+  return array(
+    'c4m_user_admin_block_anonymous',
+    'user_block_reassign',
+  );
+}
+
+/**
  * Implements hook_user_cancel().
  *
  * Implements the functionality for the custom cancellation method that blocks
@@ -1482,11 +1516,32 @@ function c4m_user_profile_user_cancel_methods_alter(&$methods) {
  * platform.
  */
 function c4m_user_profile_user_cancel($edit, $account, $method) {
+  global $user;
+
+  $wrapper = entity_metadata_wrapper('user', $account);
+
+  $wrapper->c4m_is_deleted->set(TRUE);
+  $wrapper->c4m_is_deleted_by_uid->set($user->uid);
+
   // By default, the cancellation blocks the user, so we only care about the
   // content reassign that is already implemented in the node hook
   // implementation.
-  if ($method == 'user_block_reassign') {
+  if (in_array($method, c4m_user_profile_get_cancel_methods_to_reassign())) {
+    $wrapper->c4m_is_deleted_anonymous->set(TRUE);
     node_user_cancel($edit, $account, 'user_cancel_reassign');
+  }
+
+  user_save($account);
+
+  // Remove all the session information of the account.
+  $query = db_delete('sessions');
+  $query->condition('uid', $account->uid);
+  $query->execute();
+
+  // We should not clear the cookies for admins that canceling a different user
+  // account.
+  if ($user->uid !== $account->uid && c4m_user_is_site_admin()) {
+    return;
   }
 
   // Remove all the cookies.
@@ -1507,9 +1562,4 @@ function c4m_user_profile_user_cancel($edit, $account, $method) {
       setcookie($name, '', -1, '/');
     }
   }
-
-  // Remove all the session information.
-  $query = db_delete('sessions');
-  $query->condition('uid', $account->uid);
-  $query->execute();
 }
