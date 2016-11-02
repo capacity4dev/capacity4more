@@ -958,7 +958,9 @@ function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_
 }
 
 /**
- * Returns the ids of group owner and group admins. Filters out current user.
+ * Returns the ids of group owner and group admins.
+ *
+ * Filters out current user, and admins that are blocked at that group.
  *
  * @param int $gid
  *   The ID of the group.
@@ -967,7 +969,20 @@ function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_
  *   An array of all group admins ids.
  */
 function c4m_og_get_group_admins_and_owner_ids_for_notification($gid) {
-  return c4m_og_get_group_admins_ids($gid, TRUE, TRUE);
+  $admins_ids = c4m_og_get_group_admins_ids($gid, TRUE, TRUE);
+  $group = node_load($gid);
+  $admins = user_load_multiple($admins_ids);
+
+  $index = 0;
+  foreach ($admins as $admin) {
+    if (c4m_user_og_get_role_in_group($admin, $group) == 'blocked') {
+      unset($admins[$index]);
+    }
+
+    $index++;
+  }
+
+  return $admins_ids;
 }
 
 /**
