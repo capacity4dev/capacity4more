@@ -65,6 +65,14 @@
 }
 
 body:not(.no-js) {
+  .field-name-activity-stream-by-topic {
+    display: block;
+  }
+
+  .field-name-activity-stream-by-topic-nojs-fallback {
+    display: none;
+  }
+
   .pane-global-activity-stream-no-js-fallback {
     display: none;
   }
@@ -87,6 +95,18 @@ body:not(.no-js) {
 }
 
 body.no-js {
+  .field-name-activity-stream-by-topic {
+    display: none;
+  }
+
+  .field-name-activity-stream-by-topic-nojs-fallback {
+    display: block;
+  }
+
+  .field-name-activity-stream-by-topic-nojs-fallback .activity-stream {
+    display: block;
+  }
+
   section>.pane-activity-stream {
     display: none;
   }
