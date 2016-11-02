@@ -128,6 +128,11 @@ function c4m_features_og_media_views_default_views() {
     4 => 0,
     3 => 0,
   );
+  /* Filter criterion: Indexed Node: Part of photo album */
+  $handler->display->display_options['filters']['c4m_photo_is_part_of_photo_album']['id'] = 'c4m_photo_is_part_of_photo_album';
+  $handler->display->display_options['filters']['c4m_photo_is_part_of_photo_album']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['c4m_photo_is_part_of_photo_album']['field'] = 'c4m_photo_is_part_of_photo_album';
+  $handler->display->display_options['filters']['c4m_photo_is_part_of_photo_album']['value'] = '0';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
