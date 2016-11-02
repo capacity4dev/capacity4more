@@ -152,7 +152,7 @@ function c4m_content_photo_strongarm() {
             'visible' => FALSE,
           ),
           'default' => array(
-            'weight' => '5',
+            'weight' => '27',
             'visible' => FALSE,
           ),
           'full' => array(
@@ -170,6 +170,16 @@ function c4m_content_photo_strongarm() {
           'pinned_content' => array(
             'weight' => '28',
             'visible' => FALSE,
+          ),
+        ),
+        'highlighted' => array(
+          'default' => array(
+            'weight' => '2',
+            'visible' => FALSE,
+          ),
+          'full' => array(
+            'weight' => '1',
+            'visible' => TRUE,
           ),
         ),
       ),
