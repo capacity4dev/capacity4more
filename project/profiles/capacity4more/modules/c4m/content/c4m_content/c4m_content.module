@@ -793,6 +793,11 @@ function c4m_content_toggle_highlight_access($group, $node, $status) {
 function c4m_content_toggle_highlight($group, $node, $status, $ajax = 'nojs') {
   $wrapper = entity_metadata_wrapper('node', $node);
 
+  // Add parameter to node that will signal to cancel  notification that is
+  // triggered, as a result of node update, because we should not send
+  // a notification for highlight.
+  $node->c4m_send_notification = FALSE;
+
   // Setting the new value.
   // When generating the link, we create it with the current status. So, when
   // updating the node, we have to change it to the opposite status.
