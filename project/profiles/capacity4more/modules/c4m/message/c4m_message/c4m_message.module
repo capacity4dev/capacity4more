@@ -3660,6 +3660,9 @@ function c4m_message_get_user_last_activity($uid) {
 
 /**
  * Implements hook_views_query_alter().
+ *
+ * Adds the current logged-in user's groups/projects to the filter criteria when
+ * the users chooses to show activity from his groups or projects only.
  */
 function c4m_message_views_query_alter(&$view, &$query) {
   if ($view->name != 'global_activity_stream_no_js_fallback') {
@@ -3668,11 +3671,14 @@ function c4m_message_views_query_alter(&$view, &$query) {
   $filterBy = filter_input(INPUT_GET, 'filter', FILTER_SANITIZE_STRING);
 
   if ($filterBy == 'groups' || $filterBy == 'projects') {
+    // `rtrim` removes plural 's' from the query string value to get the bundle.
     $groups = c4m_og_get_user_group_ids_by_bundle(rtrim($filterBy, 's'));
     $query->where[2]['conditions'][0]['value'] = $groups;
     $query->where[2]['conditions'][0]['operator'] = 'IN';
   }
   else {
+    // Remove the filter criteria when the users chooses to show all activity or
+    // filter by his interests rather than by his groups or projects.
     unset($query->where[2]);
   }
 }

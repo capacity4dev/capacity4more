@@ -541,8 +541,8 @@ function kapablo_preprocess_image(&$variables) {
 function kapablo_preprocess_html(&$variables) {
   // Render off_canvas into top level variables.
   $variables['off_canvas'] = drupal_render($variables['page']['off_canvas']);
-  // We are adding a class `no-js` to the body element which is set to be
-  // removed by JS. This enables us to easily use fallback css if JS disabled.
+  // Adding a `no-js` class to the body element which is set to be removed by
+  // JavaScript. Useful for detecting if JS is enabled in the browser.
   $variables['classes_array'][] = 'no-js';
 }
 

@@ -25,11 +25,8 @@ class c4m_message_plugin_argument_default extends views_plugin_argument_default 
     $filterBy = filter_input(INPUT_GET, 'filter', FILTER_SANITIZE_STRING);
 
     if ($filterBy == 'interests') {
-      global $user;
-      $account = user_load($user->uid);
-      $user_wrapper = entity_metadata_wrapper('user', $account->uid);
-      $interests = $user_wrapper->c4m_vocab_topic->raw();
-      $interests = implode('+', $interests);
+      // Convert the interest IDs array to a string (1+2+3) for the SQL query.
+      $interests = implode('+', c4m_user_profile_get_interests());
     }
     else {
       $interests = 'all';
