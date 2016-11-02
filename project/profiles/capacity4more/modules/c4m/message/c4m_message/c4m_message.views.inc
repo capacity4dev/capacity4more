@@ -14,9 +14,9 @@ function c4m_message_views_plugins() {
   $plugins = array(
     'module' => 'c4m_message',
     'argument default' => array(
-      'c4m_message_plugin_argument_default' => array(
+      'c4m_message_user_interests_default' => array(
         'title' => t('C4M message user interests'),
-        'handler' => 'c4m_message_plugin_argument_default',
+        'handler' => 'c4m_message_user_interests_default',
         'path' => drupal_get_path('module', 'c4m_message') . '/includes',
         'theme path' => drupal_get_path('module', 'views') . '/theme',
         'theme file' => 'theme.inc',
