@@ -154,15 +154,17 @@ Feature: Test homepage content and blocks
     And   I should not see "updated the Article" in the "div.activity-stream" element
 
   @javascript
-  Scenario: Logged in, non member user can't see My group filter and restricted
-  group activities
+  Scenario: Logged in, non member user with no interests can't see My group nor My interests filter
+            and restricted group activities.
     Given I am logged in as user "president"
     When  I visit the site homepage
-    Then  I should wait to see "Filter by"
+    Then  I should wait to see "Latest activity"
+    Then  I should not see "Filter by"
     And   I should not see "My groups" in the "div.pane-filter" element
     And   I should not see "Nobel Prize" in the "div.activity-stream" element
+    And   I should not see "uploaded" in the "div.activity-stream" element
     And   I load more activities
-    And   I should see "posted" in the "div.activity-stream" element
+    And   I should see "uploaded" in the "div.activity-stream" element
 
   @javascript @wip
   Scenario: Logged in, non member user should see only activities from groups of
