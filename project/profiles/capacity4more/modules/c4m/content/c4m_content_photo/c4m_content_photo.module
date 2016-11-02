@@ -219,6 +219,8 @@ function c4m_content_photo_entity_property_info_alter(&$info) {
 }
 
 /**
+ * Getter callback.
+ *
  * @see c4m_content_photo_get_photo_album()
  */
 function _c4m_photo_is_part_of_photo_album_getter_callback($item) {
