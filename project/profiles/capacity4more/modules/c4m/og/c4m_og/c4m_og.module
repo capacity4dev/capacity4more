@@ -2179,6 +2179,11 @@ function c4m_og_node_access($node, $op, $account) {
   // same as access of the group.
   if ($op == 'view' && is_object($node) && og_is_group_content_type('node', $node->type)) {
 
+    // Group content is saved as draft.
+    if ($node->status == NODE_NOT_PUBLISHED) {
+      return NODE_ACCESS_IGNORE;
+    }
+
     // Couldn't resolve the group of the content.
     if (!$group = c4m_og_get_group_of_content($node)) {
       return NODE_ACCESS_IGNORE;
@@ -2193,6 +2198,11 @@ function c4m_og_node_access($node, $op, $account) {
   // site admin, group member, owner or admin, or group state does not allow
   // the operation.
   if (in_array($node_type, c4m_og_get_group_content_bundles())) {
+    // Group content is saved as draft.
+    if ($op != 'create' && $node->status == NODE_NOT_PUBLISHED) {
+      return NODE_ACCESS_IGNORE;
+    }
+
     $allowed_user_types = array('member', 'admin', 'owner', 'site-admin');
     $user_type = _c4m_features_og_members_get_user_type();
 
@@ -2207,14 +2217,7 @@ function c4m_og_node_access($node, $op, $account) {
 
     $group = c4m_og_current_group();
     $group_state = c4m_og_get_group_status($group);
-    $group_access = c4m_og_get_access_type($group);
     $allowed_states = array('draft', 'published');
-
-    // At public groups, it's possible to add content when
-    // group is at 'archived' state.
-    if ($group_access['type'] == 'public') {
-      $allowed_states[] = 'archived';
-    }
 
     return in_array($group_state, $allowed_states) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
@@ -2231,7 +2234,7 @@ function c4m_og_node_access($node, $op, $account) {
       $allowed_states = array(
         'visitor' => array(),
         'non-member' => array(),
-        'member' => array('archived', 'published'),
+        'member' => array('draft', 'archived', 'published'),
         'admin' => array('draft', 'archived', 'published'),
         'owner' => array('pending', 'draft', 'archived', 'published'),
       );
@@ -2248,11 +2251,9 @@ function c4m_og_node_access($node, $op, $account) {
           // Adjustments for allowed states of restricted group.
           $allowed_states['non-member'][] = 'published';
         }
-        $allowed_states['member'][] = 'draft';
       }
       elseif ($group_access['type'] == 'private') {
         // Adjustments for allowed states of private group.
-        $allowed_states['member'][] = 'draft';
       }
     }
     // Allowed states for editing any kind of  group.
