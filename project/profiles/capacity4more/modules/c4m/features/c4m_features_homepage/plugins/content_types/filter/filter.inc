@@ -51,6 +51,11 @@ function c4m_features_homepage_filter_form_create() {
     $options['interests'] = t('My interests');
   }
 
+  // No options, show all anyway, hence we can drop this form.
+  if (!$options) {
+    return array();
+  }
+
   $options['showAll'] = t('Show all');
 
   $get_query = drupal_get_query_parameters();

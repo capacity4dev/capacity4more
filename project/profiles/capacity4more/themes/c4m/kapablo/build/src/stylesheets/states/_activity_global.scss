@@ -80,6 +80,10 @@ body:not(.no-js) {
   #c4m_activity_stream_filter {
     display: none;
   }
+
+  .view-id-group_activity_stream {
+    display: none;
+  }
 }
 
 body.no-js {
@@ -97,5 +101,9 @@ body.no-js {
 
   #c4m_activity_stream_filter {
     display: inline-block;
+  }
+
+  .field-name-activity-stream-by-topic .activity-stream {
+    display: block;
   }
 }
