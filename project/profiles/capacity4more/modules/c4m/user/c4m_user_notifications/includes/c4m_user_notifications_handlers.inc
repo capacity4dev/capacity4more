@@ -957,9 +957,9 @@ function c4m_user_notifications_message_subscribe_get_subscribers($message, $sub
   // Filter users and preparing final user list.
   foreach ($users as $key => &$value) {
 
-    // Filter banned users.
+    // When node is group or group content, filter banned users.
     $user = user_load($key);
-    if (c4m_user_og_get_role_in_group($user, $group) == 'blocked') {
+    if (!is_null($group) && c4m_user_og_get_role_in_group($user, $group) == 'blocked') {
       unset($users[$key]);
       continue;
     }
