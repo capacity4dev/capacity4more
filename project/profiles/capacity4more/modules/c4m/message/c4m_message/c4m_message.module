@@ -2390,6 +2390,16 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
     return NULL;
   }
 
+  // When a new photo is being uploaded to a photo album, we should create an
+  // update message of the photo album itself instead of a message of the
+  // photo (CFM-1456).
+  if ($entity_type == 'node' && $photo_album = c4m_content_photo_get_photo_album($entity)) {
+    // Update the correct time.
+    $photo_album->timestamp = $entity->timestamp;
+    $op = 'update';
+    $entity = $photo_album;
+  }
+
   $message = NULL;
 
   $func = 'c4m_message__' . $op . '__' . $entity_type;
@@ -3119,10 +3129,6 @@ function c4m_message__update__comment($comment) {
  *   The non-saved message entity.
  */
 function c4m_message__insert__node($node) {
-  if ($photo_album = c4m_content_photo_get_photo_album($node)) {
-    return c4m_message__update__node($photo_album);
-  }
-
   $values = array('uid' => $node->uid);
   $message = message_create('c4m_insert__node__' . $node->type, $values);
 
