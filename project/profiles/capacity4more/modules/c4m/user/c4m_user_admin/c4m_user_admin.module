@@ -171,48 +171,14 @@ function c4m_user_admin_user_cancel($edit, $account, $method) {
         ->condition('uid', $account->uid)
         ->execute();
 
-      // Anonymize comments.
-      $comments = comment_load_multiple(array(), array('uid' => $account->uid));
-      foreach ($comments as $comment) {
-        $comment->uid = 0;
-        $comment->_skip_message = TRUE;
-        unset($comment->name);
-        comment_save($comment);
-      }
-
       // Anonymize messages.
-      anonymize_messages_for_user($account);
+      c4m_user_admin_anonymize_messages_for_user($account);
 
-      // Set the flag "Is deleted" for this user.
-      $changes = array(
-        'c4m_is_deleted' => array(
-          'und' => array(
-            0 => array(
-              'value' => 1,
-            ),
-          ),
-        ),
-      );
-      user_save($account, $changes);
       break;
 
     case 'user_cancel_reassign':
       // Anonymize messages.
-      anonymize_messages_for_user($account);
-      break;
-
-    case 'user_cancel_block':
-      // Set the flag "Is deleted" for this user.
-      $changes = array(
-        'c4m_is_deleted' => array(
-          'und' => array(
-            0 => array(
-              'value' => 1,
-            ),
-          ),
-        ),
-      );
-      user_save($account, $changes);
+      c4m_user_admin_anonymize_messages_for_user($account);
       break;
   }
 }
@@ -223,7 +189,7 @@ function c4m_user_admin_user_cancel($edit, $account, $method) {
  * @param object $account
  *   User account for which to anonymize messages.
  */
-function anonymize_messages_for_user($account) {
+function c4m_user_admin_anonymize_messages_for_user($account) {
   db_update('message')
     ->fields(array('uid' => 0))
     ->condition('uid', $account->uid)
