@@ -46,4 +46,3 @@ function c4m_features_homepage_c4m_featured_groups_content_type_theme(&$theme, $
     'template' => 'c4m_featured_groups',
   );
 }
-
