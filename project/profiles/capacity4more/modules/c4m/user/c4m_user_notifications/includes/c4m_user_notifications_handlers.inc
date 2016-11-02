@@ -964,7 +964,6 @@ function c4m_user_notifications_message_subscribe_get_subscribers($message, $sub
       continue;
     }
 
-    // Filter
     if (array_search($key, $filtered_users) !== FALSE) {
       // If user is found at filtering array, set it's notifier to mail.
       $value = array('notifiers' => array('email' => 'email'));
