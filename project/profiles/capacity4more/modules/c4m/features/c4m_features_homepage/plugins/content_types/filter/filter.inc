@@ -47,10 +47,11 @@ function c4m_features_homepage_filter_form_create() {
     $options['projects'] = t('My projects');
   }
 
-  $options += array(
-    'interests' => t('My interests'),
-    'showAll'   => t('Show all'),
-  );
+  if (c4m_user_profile_get_interests()) {
+    $options['interests'] = t('My interests');
+  }
+
+  $options['showAll'] = t('Show all');
 
   $get_query = drupal_get_query_parameters();
   $default_value = !empty($get_query['filter'])
