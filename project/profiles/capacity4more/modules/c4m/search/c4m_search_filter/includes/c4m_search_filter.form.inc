@@ -27,13 +27,6 @@ function c4m_search_filter_search_filter_form($form, &$form_state, $filter_type 
     }
   }
 
-  // Add projects filter.
-  if ($filter_type == 'all' || $filter_type == 'projects' || $filter_type == 'projects_overview') {
-    if (c4m_user_og_has_groups($account = NULL, $bundle = 'project')) {
-      $options += array('projects' => t('My projects'));
-    }
-  }
-
   // Add interests filter.
   if ($filter_type == 'all' || $filter_type == 'interests' || $filter_type == 'groups_overview' || $filter_type == 'projects_overview') {
     if (c4m_user_profile_get_interests()) {
