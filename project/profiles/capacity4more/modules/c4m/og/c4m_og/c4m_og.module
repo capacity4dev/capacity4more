@@ -2247,6 +2247,25 @@ function c4m_og_node_access($node, $op, $account) {
     return $group_access ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
 
+  // When viewing group content, assigns access to group content to be the
+  // same as access of the group.
+  if ($op == 'view' && is_object($node) && og_is_group_content_type('node', $node->type)) {
+
+    // Group content is saved as draft.
+    if ($node->status == NODE_NOT_PUBLISHED) {
+      return NODE_ACCESS_IGNORE;
+    }
+
+    // Couldn't resolve the group of the content.
+    if (!$group = c4m_og_get_group_of_content($node)) {
+      return NODE_ACCESS_IGNORE;
+    }
+
+    $group_access = node_access($op, $group, $account);
+
+    return $group_access ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+  }
+
   // When adding / editing group content, deny access, if current user is not a
   // site admin, group member, owner or admin, or group state does not allow
   // the operation.
