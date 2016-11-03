@@ -976,7 +976,7 @@ function c4m_og_get_group_admins_and_owner_ids_for_notification($gid) {
   $index = 0;
   foreach ($admins as $admin) {
     if (c4m_user_og_get_role_in_group($admin, $group) == 'blocked') {
-      unset($admins[$index]);
+      unset($admins_ids[$index]);
     }
 
     $index++;
