@@ -932,7 +932,7 @@ function c4m_user_notifications_message_subscribe_get_subscribers($message, $sub
 
   // Need to load the group to which content belongs, take sure user is not
   // banned at that group.
-  if ($entity_type == 'node') {
+  if ($flagged_entity_type == 'node') {
     $node = node_load($entity_id);
 
     // Node is a group.
