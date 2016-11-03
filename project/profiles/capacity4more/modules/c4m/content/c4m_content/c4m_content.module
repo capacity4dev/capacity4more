@@ -1088,6 +1088,8 @@ function _c4m_content_taxonomy_extract_root_item(&$items) {
  * For OG type 'group', allows access for group members and power users.
  */
 function c4m_content_create_group_content_access() {
+  return;
+
   $item = menu_get_item();
 
   // Making sure the current request is for the node/add form.
