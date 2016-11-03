@@ -18,7 +18,7 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
    */
   protected function checkEntityAccess($op, $entity_type, $entity) {
     $account = $this->getAccount();
-    $resource_name = $this->getResourceName();
+    $resource_name = $this->getPluginKey('bundle');
     $group_id = $this->request['group'];
     $wrapper = entity_metadata_wrapper('node', $group_id);
     $group_status = $wrapper->c4m_og_status->value();
@@ -86,7 +86,7 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
     if (!$node) {
       throw new \RestfulBadRequestException('The "group" parameter is not a node.');
     }
-    elseif ($node->type != 'group') {
+    elseif ($node->type != 'group' && $node->type != 'project') {
       throw new \RestfulBadRequestException('The "group" parameter is not a of type "group".');
     }
 
