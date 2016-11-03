@@ -16,6 +16,7 @@
          ng-focus="focusQuickPostTitle('<?php print key($show_resources) ?>', $event)"
          ng-blur="titlePlaceholder = true"
          required>
+  <label class="hidden" for="label"><?php print t('Quick post discussion title'); ?></label>
 
   <p ng-show="errors.label"
      class="help-block"><?php print t('Title is too short.'); ?></p>
@@ -54,14 +55,19 @@
 
   <div>
     <input type="file" name="document-file" id="c4m-related-document" class="document_file" ng-file-select="onQuickPostFileSelect($files, 'c4m-related-document')">
-    <a href="javascript://" ng-click="browseFiles('c4m-related-document')"></a>
-    <span class="body-attachment-link"><label for="c4m-related-document"><i class="fa fa-paperclip"></i></label></span>
+    <a href="" class="hidden" ng-click="browseFiles('c4m-related-document')"></a>
+    <span class="body-attachment-link">
+      <label for="c4m-related-document"><?php print t('File to attach'); ?>
+        <i class="fa fa-paperclip"></i>
+      </label>
+    </span>
   </div>
 
   <textarea ckeditor="editorOptions" name="body" class="form-control" id="body" ng-model="data.body" placeholder="Discussion details..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Discussion details...'"></textarea>
+  <label class="hidden" for="body"><?php print t('Quick post discussion body'); ?></label>
   <p ng-show="errors.body" class="help-block"><?php print t('Body is required.'); ?></p>
   <related-quick-post-documents related-documents="data.relatedDocuments" form-id="formId" field-name="'c4m-related-document'"></related-quick-post-documents>
-  <input type="text" id="input-c4m-related-document" class="hidden" value>
+  <input type="hidden" id="input-c4m-related-document" class="hidden" value>
 
   <div class="cfm-file-upload-wrapper form-group input-wrapper file-wrapper" ng-class="{ 'has-error' : errors.document }">
 
@@ -80,7 +86,7 @@
 </div>
 
 <span>Create a post with additional details by using
-  <a href="javascript://" id="full-from-button" ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('the advanced form'); ?></a>
+  <a href="" id="full-from-button" ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('the advanced form'); ?></a>
 instead.</span>
 
 <div class="form-group btn-group clearfix btn-group-selectors topics-section" ng-class="{ 'has-error' : errors.topic }">
@@ -117,10 +123,10 @@ instead.</span>
     </div>
     <div class="actions-row-group">
       <div class="qp-post-button">
-        <button type="submit" id="quick-submit" class="btn btn-primary quickpost-btn quickpost-submit-btn" tabindex="100"><?php print t('Post'); ?></button>
+        <button type="submit" id="quick-submit" class="btn btn-primary quickpost-btn quickpost-submit-btn"><?php print t('Post'); ?></button>
       </div>
       <div class="qp-post-cancel">
-        <a href="javascript://" id="clear-button" ng-click="closeQuickPost()"><?php print t('Cancel'); ?></a>
+        <a href="" id="clear-button" ng-click="closeQuickPost()"><?php print t('Cancel'); ?></a>
       </div>
     </div>
   </div>
