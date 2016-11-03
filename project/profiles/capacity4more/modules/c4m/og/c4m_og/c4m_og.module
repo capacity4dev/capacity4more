@@ -2225,7 +2225,7 @@ function c4m_og_node_access($node, $op, $account) {
   $node_type = is_string($node) ? $node : $node->type;
 
   // Handling group content bundles.
-  if (og_is_group_content_type('node', $node_type))   {
+  if (og_is_group_content_type('node', $node_type)) {
 
     if ($op == 'view') {
       // Couldn't resolve the group of the content.
