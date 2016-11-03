@@ -310,12 +310,12 @@ function c4m_features_overview_articles_views_default_views() {
   $handler->display->display_options['header']['search_api_spellcheck']['field'] = 'search_api_spellcheck';
   $handler->display->display_options['header']['search_api_spellcheck']['empty'] = TRUE;
   /* Header: Number of items */
-  $handler->display->display_options['header']['result']['id'] = 'result';
-  $handler->display->display_options['header']['result']['table'] = 'views';
-  $handler->display->display_options['header']['result']['field'] = 'result';
-  $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
-  $handler->display->display_options['header']['result']['empty'] = TRUE;
-  $handler->display->display_options['header']['result']['content'] = '@total in total';
+  $handler->display->display_options['header']['c4m_views_result']['id'] = 'c4m_views_result';
+  $handler->display->display_options['header']['c4m_views_result']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_result']['field'] = 'c4m_views_result';
+  $handler->display->display_options['header']['c4m_views_result']['ui_name'] = 'Number of items';
+  $handler->display->display_options['header']['c4m_views_result']['empty'] = TRUE;
+  $handler->display->display_options['header']['c4m_views_result']['content'] = '@total in total';
   /* Header: Sort by */
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
