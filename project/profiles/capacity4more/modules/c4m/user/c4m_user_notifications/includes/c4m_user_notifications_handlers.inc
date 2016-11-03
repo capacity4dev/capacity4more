@@ -954,7 +954,7 @@ function c4m_user_notifications_message_subscribe_get_subscribers($message, $sub
     return array();
   }
 
-  // Filter users and preparing final user list.
+  // Filtering users and preparing final user list.
   $users = user_load_multiple(array_keys($users));
   foreach ($users as $key => &$value) {
 
