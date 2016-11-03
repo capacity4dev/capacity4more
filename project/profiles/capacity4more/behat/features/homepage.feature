@@ -64,8 +64,14 @@ Feature: Test homepage content and blocks
     Then  I should not see "Suggested Groups"
 
   @api
-  Scenario: Logged in, non member user should see "Suggested Groups" block
+  Scenario: Logged in user without any topics of interest, should not see "Suggested Groups" block
     Given I am logged in as user "president"
+    When  I visit the site homepage
+    Then  I should not see "Suggested Groups"
+
+  @api
+  Scenario: Logged in user with a topic of interest, should see "Suggested Groups" block
+    Given I am logged in as user "alfrednobel"
     When  I visit the site homepage
     Then  I should see "Suggested Groups"
 
