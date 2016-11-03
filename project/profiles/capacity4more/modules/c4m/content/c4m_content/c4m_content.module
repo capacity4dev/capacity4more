@@ -1088,27 +1088,19 @@ function _c4m_content_taxonomy_extract_root_item(&$items) {
  * For OG type 'group', allows access for group members and power users.
  */
 function c4m_content_create_group_content_access() {
-  return;
-
   $item = menu_get_item();
 
+  $bundles = c4m_og_get_all_group_content_bundles('node');
+  $regex = '/node\/add\/(' . implode('|', array_keys($bundles)) . ')/';
+
   // Making sure the current request is for the node/add form.
-  preg_match('/node\/add\/(discussion|document|event|news|photo(album)?|wiki-page)/', $item['path'], $matches);
+  preg_match($regex, $item['path'], $matches);
   if (empty($matches[0])) {
     return;
   }
 
   // If not under og context, return early.
   if (!$context = og_context()) {
-    drupal_access_denied();
-    drupal_exit();
-  }
-
-  // Resolve OG group type.
-  $group_type = c4m_og_get_group_type($context);
-
-  // For type 'group' allow access only to it's members and site admin.
-  if ($group_type == 'group' && !og_is_member('node', $context['gid']) && !c4m_user_is_site_admin()) {
     drupal_access_denied();
     drupal_exit();
   }
