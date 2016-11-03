@@ -149,16 +149,28 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       return $query;
     }
 
-    $unallowed_values = array(
-      'pending',
-      'archived',
-      'deleted',
-    );
+    $allowed_user_types = array('member', 'admin', 'owner', 'site-admin');
+    $user_type = _c4m_features_og_members_get_user_type();
+    // If user is not of type that can create the content, falsify the query.
+    if (!in_array($user_type, $allowed_user_types)) {
+      $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
+      return $query;
+    }
+
+    $group = c4m_og_current_group();
+    $group_access = c4m_og_get_access_type($group);
+    $allowed_states = array('draft', 'published');
+    // At public groups, it's possible to add content when
+    // group is at 'archived' state.
+    if ($group_access['type'] == 'public') {
+      $allowed_states[] = 'archived';
+    }
+
     $query->fieldCondition(
       'c4m_og_status',
       'value',
-      $unallowed_values,
-      'NOT IN'
+      $allowed_states,
+      'IN'
     );
 
     return $query;

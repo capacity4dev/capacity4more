@@ -57,12 +57,6 @@ Feature: Group Status
     And   the "#edit-c4m-og-status-und" element should not contain "draft"
 
   @api
-  Scenario: Check archived group as group owner
-    Given I am logged in as user "alfrednobel"
-    When  I start editing group "Archived group"
-    Then  I should not see an "#edit-c4m-og-status-und" element
-
-  @api
   Scenario: Check deleted group as admin
     Given I am logged in as user "mariecurie"
     When  I start editing group "Deleted group"
@@ -133,7 +127,7 @@ Feature: Group Status
     Given I am logged in as user "turing"
     When  I visit "Archived group" node of type "group"
     Then  I should not see "Access denied"
-    And   I should be allowed to edit a group "Archived group"
+    And   I should not be allowed to edit a group "Archived group"
 
   @api
   Scenario: Check Deleted group access by group admin
