@@ -2224,116 +2224,118 @@ function c4m_og_node_access($node, $op, $account) {
   // type of created content.
   $node_type = is_string($node) ? $node : $node->type;
 
-  // Handling View group content.
-  if ($op == 'view' && is_object($node) && og_is_group_content_type('node', $node->type)) {
+  // Handling group content bundles.
+  if (og_is_group_content_type('node', $node_type))   {
 
-    // Couldn't resolve the group of the content.
-    if (!$group = c4m_og_get_group_of_content($node)) {
-      return NODE_ACCESS_IGNORE;
-    }
-
-    // Group content is saved as draft.
-    if ($node->status == NODE_NOT_PUBLISHED) {
-
-      // Only power user or content author may view the node.
-      if (_c4m_features_og_members_is_power_user($group) || $node->uid == $user->uid) {
-        return NODE_ACCESS_ALLOW;
+    if ($op == 'view') {
+      // Couldn't resolve the group of the content.
+      if (!$group = c4m_og_get_group_of_content($node)) {
+        return NODE_ACCESS_IGNORE;
       }
-      else {
+
+      // Group content is saved as draft.
+      if ($node->status == NODE_NOT_PUBLISHED) {
+
+        // Only power user or content author may view the node.
+        if (_c4m_features_og_members_is_power_user($group) || $node->uid == $user->uid) {
+          return NODE_ACCESS_ALLOW;
+        }
+        else {
+          return NODE_ACCESS_DENY;
+        }
+      }
+
+      $group_access = node_access($op, $group, $account);
+
+      return $group_access ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+    }
+    // Handling Create / Update / Delete operations.
+    else {
+
+      $user_type = _c4m_features_og_members_get_user_type();
+      // Can't resolve user type - couldn't get OG context to resolve group.
+      if ($user_type == 'unknown') {
+        return NODE_ACCESS_IGNORE;
+      }
+
+      // We allow access only for draft / published groups.
+      $group = c4m_og_current_group();
+      $group_state = c4m_og_get_group_status($group);
+      $allowed_states = array('draft', 'published');
+
+      if (!in_array($group_state, $allowed_states)) {
         return NODE_ACCESS_DENY;
       }
-    }
 
-    $group_access = node_access($op, $group, $account);
-
-    return $group_access ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
-  }
-
-  // Handling Create / Update / Delete group content.
-  if (in_array($node_type, c4m_og_get_group_content_bundles())) {
-
-    $user_type = _c4m_features_og_members_get_user_type();
-    // Can't resolve user type - couldn't get OG context to resolve group.
-    if ($user_type == 'unknown') {
-      return NODE_ACCESS_IGNORE;
-    }
-
-    // We allow access only for draft / published groups.
-    $group = c4m_og_current_group();
-    $group_state = c4m_og_get_group_status($group);
-    $allowed_states = array('draft', 'published');
-
-    if (!in_array($group_state, $allowed_states)) {
-      return NODE_ACCESS_DENY;
-    }
-
-    // We allow access to power users, any member, when creating, and member
-    // that is also content author, when editing or deleting.
-    $allowed_user_types = array('admin', 'owner', 'site-admin');
-    if (in_array($user_type, $allowed_user_types)) {
-      return NODE_ACCESS_ALLOW;
-    }
-    elseif ($user_type == 'member') {
-
-      if ($op == 'create') {
+      // We allow access to power users, any member, when creating, and member
+      // that is also content author, when editing or deleting.
+      $allowed_user_types = array('admin', 'owner', 'site-admin');
+      if (in_array($user_type, $allowed_user_types)) {
         return NODE_ACCESS_ALLOW;
       }
-      else {
-        return ($node->uid == $user->uid) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
-      }
-    }
-  }
+      elseif ($user_type == 'member') {
 
-  // Handling Create group.
-  if ($op == 'create' && is_string($node) && $node_type == 'group') {
-
-    // Any authenticated user can create any kind of group.
-    return user_is_anonymous() ? NODE_ACCESS_DENY : NODE_ACCESS_ALLOW;
-  }
-
-  // Handling View / Update / Delete group.
-  if (is_object($node) && og_is_group('node', $node) && $node->type == 'group') {
-    // Allowed states for viewing any kind of  group.
-    if ($op == 'view') {
-      $allowed_states = array(
-        'visitor' => array(),
-        'non-member' => array(),
-        'member' => array('draft', 'archived', 'published'),
-        'admin' => array('draft', 'archived', 'published'),
-        'owner' => array('pending', 'draft', 'archived', 'published'),
-      );
-
-      $group_access = c4m_og_get_access_type($node);
-
-      if ($group_access['type'] == 'public') {
-        // Adjustments for allowed states of public group.
-        $allowed_states['visitor'] = $allowed_states['non-member'] = array('archived', 'published');
-      }
-      elseif ($group_access['type'] == 'restricted') {
-        // User is not a member, but can access restricted group.
-        if (c4m_og_user_can_access_restricted_group($node, $account, $op)) {
-          // Adjustments for allowed states of restricted group.
-          $allowed_states['non-member'][] = 'published';
+        if ($op == 'create') {
+          return NODE_ACCESS_ALLOW;
+        }
+        else {
+          return ($node->uid == $user->uid) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
         }
       }
     }
-    // $op is Update or Delete.
-    else {
-      // GA and GO get access for draft and published groups.
-      // GO also gets access for pending groups.
-      $allowed_states = array(
-        'visitor' => array(),
-        'non-member' => array(),
-        'member' => array(),
-        'admin' => array('draft', 'published'),
-        'owner' => array('pending', 'draft', 'published'),
-      );
+  }
+  // Handling group bundles.
+  elseif (og_is_group_type('node', $node_type)) {
+    if ($op == 'create') {
+      // Any authenticated user can create any kind of group.
+      return user_is_anonymous() ? NODE_ACCESS_DENY : NODE_ACCESS_ALLOW;
     }
+    else {
+      // Allowed states for viewing any kind of  group.
+      if ($op == 'view') {
+        $allowed_states = array(
+          'visitor' => array(),
+          'non-member' => array(),
+          'member' => array('draft', 'archived', 'published'),
+          'admin' => array('draft', 'archived', 'published'),
+          'owner' => array('pending', 'draft', 'archived', 'published'),
+        );
 
-    $user_type = _c4m_features_og_members_get_user_type($node);
-    $group_state = c4m_og_get_group_status($node);
+        $group_access = c4m_og_get_access_type($node);
 
-    return in_array($group_state, $allowed_states[$user_type]) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+        if ($group_access['type'] == 'public') {
+          // Adjustments for allowed states of public group.
+          $allowed_states['visitor'] = $allowed_states['non-member'] = array('archived', 'published');
+        }
+        elseif ($group_access['type'] == 'restricted') {
+          // User is not a member, but can access restricted group.
+          if (c4m_og_user_can_access_restricted_group($node, $account, $op)) {
+            // Adjustments for allowed states of restricted group.
+            $allowed_states['non-member'][] = 'published';
+          }
+        }
+      }
+      // $op is Update or Delete.
+      else {
+        // GA and GO get access for draft and published groups.
+        // GO also gets access for pending groups.
+        $allowed_states = array(
+          'visitor' => array(),
+          'non-member' => array(),
+          'member' => array(),
+          'admin' => array('draft', 'published'),
+          'owner' => array('pending', 'draft', 'published'),
+        );
+      }
+
+      $user_type = _c4m_features_og_members_get_user_type($node);
+      $group_state = c4m_og_get_group_status($node);
+
+      return in_array($group_state, $allowed_states[$user_type]) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+    }
+  }
+  else {
+    // Content that is not OG. For example: article.
   }
 
   return NODE_ACCESS_IGNORE;
