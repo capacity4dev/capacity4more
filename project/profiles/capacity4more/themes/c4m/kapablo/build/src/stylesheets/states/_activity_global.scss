@@ -67,7 +67,8 @@
 body:not(.no-js) {
   .field-name-activity-stream-by-topic-nojs-fallback,
   .pane-global-activity-stream-no-js-fallback,
-  .view-group-activity-stream {
+  .view-group-activity-stream,
+  #c4m_activity_stream_filter {
     display: none;
   }
 }
