@@ -14,8 +14,6 @@ function c4m_wysiwyg_ckeditor_install() {
 
   // Add ckeditor profiles.
   c4m_wysiwyg_ckeditor_install_set_ckeditor_profiles();
-
-  c4m_wysiwyg_ckeditor_install_set_permissions();
 }
 
 /**
@@ -368,15 +366,4 @@ EOT;
   );
 
   return $settings;
-}
-
-/**
- * Custom function to set permissions.
- */
-function c4m_wysiwyg_ckeditor_install_set_permissions() {
-  // Allow authenticated users to use the media browser within WYSIWYG.
-  user_role_grant_permissions(
-    DRUPAL_AUTHENTICATED_RID,
-    array('use media wysiwyg')
-  );
 }

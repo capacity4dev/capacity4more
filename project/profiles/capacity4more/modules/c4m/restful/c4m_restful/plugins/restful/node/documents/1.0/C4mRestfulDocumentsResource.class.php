@@ -128,4 +128,24 @@ class C4mRestfulDocumentsResource extends C4mRestfulEntityBaseNode {
     );
   }
 
+  /**
+   * Remove indirect document additions from the activity stream.
+   *
+   * Posting new document is being used via the c4m_document_widget, and we
+   * should not create a new activity stream for that nor send a notification
+   * about it, see CFM-183.
+   *
+   * {@inheritdoc}
+   */
+  protected function setPropertyValues(EntityMetadataWrapper $wrapper, $null_missing_fields = FALSE) {
+    // Set the _skip_message property on the entity will prevent from creating
+    // a new message and sending a notification for it.
+    if ($this->getMethod() == \RestfulInterface::POST) {
+      $entity = $wrapper->value();
+      $entity->_skip_message = TRUE;
+    }
+
+    parent::setPropertyValues($wrapper, $null_missing_fields);
+  }
+
 }
