@@ -2273,17 +2273,20 @@ function c4m_og_node_access($node, $op, $account) {
       return NODE_ACCESS_DENY;
     }
 
-    // We allow access only for power users, or member that is
-    // author of the content.
+    // We allow access to power users, any member, when creating, and member
+    // that is also content author, when editing or deleting.
     $allowed_user_types = array('admin', 'owner', 'site-admin');
     if (in_array($user_type, $allowed_user_types)) {
       return NODE_ACCESS_ALLOW;
     }
-    elseif ($user_type == 'member' && $node->uid == $user->uid) {
-      return NODE_ACCESS_ALLOW;
-    }
-    else {
-      return NODE_ACCESS_DENY;
+    elseif ($user_type == 'member') {
+
+      if ($op == 'create') {
+        return NODE_ACCESS_ALLOW;
+      }
+      else {
+        return ($node->uid == $user->uid) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+      }
     }
   }
 
