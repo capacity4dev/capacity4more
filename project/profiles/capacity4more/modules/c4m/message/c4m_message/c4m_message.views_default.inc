@@ -73,7 +73,7 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['field'] = 'c4m_vocab_topic_tid';
   $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['relationship'] = 'field_node_target_id';
   $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['default_argument_type'] = 'c4m_message_user_interests_default';
+  $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['default_argument_type'] = 'c4m_message_user_interests';
   $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['c4m_vocab_topic_tid']['summary_options']['items_per_page'] = '25';

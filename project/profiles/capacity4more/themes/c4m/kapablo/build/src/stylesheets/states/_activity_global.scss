@@ -65,65 +65,16 @@
 }
 
 body:not(.no-js) {
-  .field-name-activity-stream-by-topic {
-    display: block;
-  }
-
-  .field-name-activity-stream-by-topic-nojs-fallback {
-    display: none;
-  }
-
-  .pane-global-activity-stream-no-js-fallback {
-    display: none;
-  }
-
-  section>.pane-activity-stream {
-    display: block;
-  }
-
-  .activity-stream {
-    display: block;
-  }
-
-  #c4m_activity_stream_filter {
-    display: none;
-  }
-
-  .view-id-group_activity_stream {
+  .field-name-activity-stream-by-topic-nojs-fallback,
+  .pane-global-activity-stream-no-js-fallback,
+  .view-group-activity-stream {
     display: none;
   }
 }
 
 body.no-js {
-  .field-name-activity-stream-by-topic {
+  .field-name-activity-stream-by-topic,
+  .pane-content .activity-stream {
     display: none;
-  }
-
-  .field-name-activity-stream-by-topic-nojs-fallback {
-    display: block;
-  }
-
-  .field-name-activity-stream-by-topic-nojs-fallback .activity-stream {
-    display: block;
-  }
-
-  section>.pane-activity-stream {
-    display: none;
-  }
-
-  .activity-stream {
-    display: none;
-  }
-
-  .pane-global-activity-stream-no-js-fallback {
-    display: block;
-  }
-
-  #c4m_activity_stream_filter {
-    display: inline-block;
-  }
-
-  .field-name-activity-stream-by-topic .activity-stream {
-    display: block;
   }
 }

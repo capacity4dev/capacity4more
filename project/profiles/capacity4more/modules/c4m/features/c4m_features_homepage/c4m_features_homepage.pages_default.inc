@@ -565,7 +565,7 @@ function c4m_features_homepage_default_page_manager_pages() {
     'args' => '',
     'url' => '',
     'display' => 'block',
-    'override_title' => 1,
+    'override_title' => 0,
     'override_title_text' => 'Latest activity',
     'override_title_heading' => 'h2',
   );
@@ -866,7 +866,7 @@ function c4m_features_homepage_default_page_manager_pages() {
     'args' => '',
     'url' => '',
     'display' => 'block',
-    'override_title' => 1,
+    'override_title' => 0,
     'override_title_text' => 'Latest activity',
     'override_title_heading' => 'h2',
   );

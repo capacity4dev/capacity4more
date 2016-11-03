@@ -3659,27 +3659,55 @@ function c4m_message_get_user_last_activity($uid) {
 }
 
 /**
+ * Gets the specified condition index in the query where hierarchy.
+ *
+ * @param array $query_filter
+ *   The query->where array to search.
+ * @param string $field
+ *   The specific field name we wish to find.
+ *
+ * @return array
+ *   An associative array of the filter group and index of the requested
+ *   condition.
+ */
+function c4m_message_get_query_condition_index_by_field_name($query_filter, $field) {
+  foreach ($query_filter as $group_index => $group) {
+    foreach ($group['conditions'] as $condition_index => $condition) {
+      if (is_string($condition['field']) && $condition['field'] == $field) {
+        return array(
+          'group' => $group_index,
+          'index' => $condition_index,
+        );
+      }
+    }
+  }
+  return array();
+}
+
+/**
  * Implements hook_views_query_alter().
  *
- * Adds the current logged-in user's groups/projects to the filter criteria when
- * the users chooses to show activity from his groups or projects only.
+ * Filter the activity stream by the user's choice.
  */
 function c4m_message_views_query_alter(&$view, &$query) {
   if ($view->name != 'global_activity_stream_no_js_fallback') {
     return;
   }
-  $filterBy = filter_input(INPUT_GET, 'filter', FILTER_SANITIZE_STRING);
 
-  if ($filterBy == 'groups' || $filterBy == 'projects') {
+  $filter_by = filter_input(INPUT_GET, 'filter', FILTER_SANITIZE_STRING);
+
+  if ($filter_by == 'groups' || $filter_by == 'projects') {
     // `rtrim` removes plural 's' from the query string value to get the bundle.
-    $groups = c4m_og_get_user_group_ids_by_bundle(rtrim($filterBy, 's'));
-    $query->where[2]['conditions'][0]['value'] = $groups;
-    $query->where[2]['conditions'][0]['operator'] = 'IN';
+    $groups = c4m_og_get_user_group_ids_by_bundle(rtrim($filter_by, 's'));
+    $condition = c4m_message_get_query_condition_index_by_field_name($query->where, 'field_data_field_group_node.field_group_node_target_id');
+    $query->where[$condition['group']]['conditions'][$condition['index']]['value'] = $groups;
+    $query->where[$condition['group']]['conditions'][$condition['index']]['operator'] = 'IN';
   }
   else {
     // Remove the filter criteria when the users chooses to show all activity or
-    // filter by his interests rather than by his groups or projects.
-    unset($query->where[2]);
+    // filter by interests rather than by groups or projects.
+    $condition = c4m_message_get_query_condition_index_by_field_name($query->where, 'field_data_field_group_node.field_group_node_target_id');
+    unset($query->where[$condition['group']]);
   }
 }
 
