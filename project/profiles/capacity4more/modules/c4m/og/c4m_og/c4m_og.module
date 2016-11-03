@@ -2207,6 +2207,7 @@ function c4m_og_get_group_status($group) {
 function c4m_og_node_access($node, $op, $account) {
   global $user;
 
+  // Only site admin may delete groups.
   if ($op == 'delete' && og_is_group('node', $node) && !user_access('administer nodes')) {
     return NODE_ACCESS_DENY;
   }
