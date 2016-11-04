@@ -1979,9 +1979,10 @@ function c4m_og_get_user_group_pending_memberships_count($uid) {
 /**
  * Returns the administered groups count for an user.
  *
+ * Differentiate between projects and programmes.
+ *
  * @param int $uid
  *   User id.
- *   Differentiate between projects and programmes.
  *
  * @return int
  *   Count.
@@ -2003,6 +2004,8 @@ function c4m_og_get_user_administered_groups_count($uid) {
  *
  * @param int $uid
  *   User id.
+ * @param int $state
+ *   OG state.
  * @param int $is_programme
  *   Differentiate between projects and programmes.
  *
@@ -2021,10 +2024,10 @@ function c4m_og_get_user_project_memberships_count($uid, $state = OG_STATE_ACTIV
   $query->leftJoin('field_data_c4m_project_type', 'pt', 'pt.entity_id = n.nid');
 
   if ($is_programme) {
-    $query->condition('pt.c4m_project_type_value', 'programme', '=');
+    $query->condition('pt.c4m_project_type_value', 'programme');
   }
   else {
-    $query->condition('pt.c4m_project_type_value', 'project', '=');
+    $query->condition('pt.c4m_project_type_value', 'project');
   }
 
   $query = $query->execute();
