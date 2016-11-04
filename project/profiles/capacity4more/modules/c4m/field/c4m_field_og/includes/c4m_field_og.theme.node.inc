@@ -21,16 +21,20 @@ function theme_c4m_field_og_group($field) {
     return;
   }
 
-  // Don't show this field in a group context.
-  $context = og_context();
-  if ($context && $field['entity']->type !== "share") {
-    return;
-  }
-
   $entity = $field['entity'];
-  // If this is a comment, get the node of the comment.
-  if (isset($entity->node_type)) {
-    $entity = node_load($entity->nid);
+
+  if ($entity->entity_type === 'node') {
+    // Don't show this field in a group context.
+    $context = og_context();
+    if ($context && $entity->type !== "share") {
+      return;
+    }
+  }
+  elseif (($entity->entity_type === 'comment')) {
+    // If this is a comment, get the node of the comment.
+    if (isset($entity->node_type)) {
+      $entity = node_load($entity->nid);
+    }
   }
 
   // Only show this field for group node types.
