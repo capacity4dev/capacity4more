@@ -135,14 +135,14 @@ function c4m_content_project_form_project_node_form_alter(&$form, &$form_state) 
 
   if (preg_match('/node\/add\/(project|programme)/', $_SERVER['REQUEST_URI'], $matches)) {
     $type = $matches[1];
-    $form['c4m_project_type'][LANGUAGE_NONE]['#value'] = $type;
+    $form['c4m_project_type'][LANGUAGE_NONE]['#default_value'] = array($type);
   }
 
   _c4m_og_alter_group_form($form, $form_state, $type);
 
   // Type specific title for the field "c4m_related_projects".
   $form['c4m_related_projects'][LANGUAGE_NONE]['#title']
-    = ($type == 'programme') ?
+    = ($form['c4m_project_type'][LANGUAGE_NONE]['#default_value'][0] == 'programme') ?
       t('Projects in this Programme') :
       t('Related Projects');
 
