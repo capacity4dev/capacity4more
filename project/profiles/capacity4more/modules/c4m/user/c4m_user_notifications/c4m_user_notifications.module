@@ -196,6 +196,11 @@ function c4m_user_notifications_node_insert($node) {
     return;
   }
 
+  // The current node was explicitly set to not send a notification.
+  if (!empty($node->_skip_message)) {
+    return;
+  }
+
   _c4m_user_notifications_process_general_triggers_insert($node);
   _c4m_user_notifications_process_og_alter($node, 'insert');
   _c4m_user_notifications_process_og_content_alter($node, 'insert');

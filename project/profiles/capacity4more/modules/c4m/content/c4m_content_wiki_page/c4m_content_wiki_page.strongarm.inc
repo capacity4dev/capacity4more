@@ -166,6 +166,9 @@ function c4m_content_wiki_page_strongarm() {
         'path' => array(
           'weight' => '10',
         ),
+        'redirect' => array(
+          'weight' => '30',
+        ),
       ),
       'display' => array(
         'flag_c4m_og_content_highlight' => array(

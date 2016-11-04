@@ -293,6 +293,87 @@ function c4m_content_wiki_page_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-wiki_page-c4m_edit_by_members'.
+  $field_instances['node-wiki_page-c4m_edit_by_members'] = array(
+    'bundle' => 'wiki_page',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'This wiki page can be opened up to all members. If this checkbox is ticked, all members can edit and contribute to this wiki page.
+There is no moderation, so changes will be published immediately.',
+    'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 10,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'pinned_content' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_edit_by_members',
+    'label' => 'Editable by members',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 31,
+    ),
+  );
+
   // Exported field_instance: 'node-wiki_page-c4m_related_document'.
   $field_instances['node-wiki_page-c4m_related_document'] = array(
     'bundle' => 'wiki_page',
@@ -1090,10 +1171,13 @@ function c4m_content_wiki_page_field_default_field_instances() {
   t('Comment');
   t('Date');
   t('Documents');
+  t('Editable by members');
   t('Groups');
   t('Language');
   t('OG vocabulary');
   t('Regions & Countries');
+  t('This wiki page can be opened up to all members. If this checkbox is ticked, all members can edit and contribute to this wiki page.
+There is no moderation, so changes will be published immediately.');
   t('Topics');
   t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
 

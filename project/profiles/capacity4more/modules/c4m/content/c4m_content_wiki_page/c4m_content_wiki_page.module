@@ -152,6 +152,11 @@ function c4m_content_wiki_page_form_node_form_alter(&$form, &$form_state, $form_
   if (og_is_group('node', $node)) {
     $form['book']['bid']['#disabled'] = TRUE;
   }
+
+  // Only power users should be allowed to set this field.
+  if (!empty($form['c4m_edit_by_members'])) {
+    $form['c4m_edit_by_members']['#access'] = _c4m_features_og_members_is_power_user();
+  }
 }
 
 /**
@@ -521,4 +526,23 @@ function c4m_content_wiki_page_module_implements_alter(&$implementations, $hook)
   $group = $implementations['book'];
   unset($implementations['book']);
   $implementations['book'] = $group;
+}
+
+/**
+ * Determine if a members are allowed to edit the wiki page.
+ *
+ * @param object $node
+ *   The wiki page node object.
+ *
+ * @return bool
+ *   TRUE if the wiki page is editable by members, FALSE otherwise.
+ */
+function c4m_content_wiki_page_is_editable_by_members($node) {
+  if ($node->type != 'wiki_page') {
+    return FALSE;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  return $wrapper->c4m_edit_by_members->value();
 }
