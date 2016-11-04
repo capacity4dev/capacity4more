@@ -38,6 +38,7 @@ function c4m_user_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "asc",
     "options" : { "field_name" : "Date changed" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   return $items;
