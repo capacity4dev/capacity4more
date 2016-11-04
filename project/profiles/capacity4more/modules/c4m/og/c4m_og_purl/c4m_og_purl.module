@@ -91,7 +91,7 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
       return;
     }
 
-    if (_c4m_og_purl_starts_with($path, 'node') && !_c4m_og_purl_node_at_path_is_content_of_group($path, $context['gid'])) {
+    if (_c4m_og_purl_starts_with($path, 'node') && !_c4m_og_purl_node_at_path_is_content_of_group($path, $context['gid']) && !_c4m_og_purl_path_is_add_group_content($path, $context['gid'])) {
       // Node at path is not content of current OG group, thus, remove purl.
       $options['prefix'] = '';
     }
@@ -126,6 +126,34 @@ function _c4m_og_purl_node_at_path_is_content_of_group($path, $gid) {
   $node_gid = c4m_og_get_gid_from_entity($node);
 
   return $gid == $node_gid;
+}
+
+/**
+ * Determines if node ($nid at path) is content of group with ID $gid.
+ *
+ * @param string $path
+ *   Menu item path.
+ * @param int $gid
+ *   Group ID.
+ *
+ * @return bool
+ *   TRUE if node ($nid at path) is content of group with ID $gid.
+ */
+function _c4m_og_purl_path_is_add_group_content($path, $gid) {
+  $path_element = explode('/', $path);
+
+  if (count($path_element) <= 2) {
+    // Not a node view / manipulation path.
+    return FALSE;
+  }
+
+  if ($path_element[1] !== 'add') {
+    return FALSE;
+  }
+
+  $node_type = str_replace('-', '_', $path_element[2]);
+
+  return og_is_group_content_type('node', $node_type);
 }
 
 /**
