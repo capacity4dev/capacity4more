@@ -174,7 +174,9 @@ function _c4m_og_purl_allowed_paths() {
     'comment',
     'members',
     'manage',
+    'news',
     'quick-post',
+    'searchgroup',
     'overlay-file',
     'overlay-node',
   );
