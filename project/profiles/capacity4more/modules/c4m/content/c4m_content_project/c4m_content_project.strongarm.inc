@@ -87,7 +87,7 @@ function c4m_content_project_strongarm() {
         'custom_settings' => FALSE,
       ),
       'token' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'c4m_related' => array(
         'custom_settings' => FALSE,
@@ -128,6 +128,9 @@ function c4m_content_project_strongarm() {
       'group_dashboard' => array(
         'custom_settings' => TRUE,
       ),
+      'pinned_content' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -155,6 +158,14 @@ function c4m_content_project_strongarm() {
           ),
           'block_list' => array(
             'weight' => '26',
+            'visible' => FALSE,
+          ),
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'token' => array(
+            'weight' => '48',
             'visible' => FALSE,
           ),
         ),

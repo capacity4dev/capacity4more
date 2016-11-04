@@ -507,7 +507,7 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation from the !group_type: !group_original\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E",
+          "value" : "\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation \\u003Cspan class=\\u0022share__group-info\\u0022\\u003Eto the !group_type: !group_original\\u003C\\/span\\u003E\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
           "format" : "full_html"
         }
       ]

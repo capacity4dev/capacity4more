@@ -124,12 +124,8 @@ function c4m_user_profile_remove_account_form($form, $form_state, $account) {
 function c4m_user_profile_remove_account_form_submit($form, &$form_state) {
   $values = $form_state['values'];
   $account = $values['_account'];
-  $wrapper = entity_metadata_wrapper('user', $account);
-  $wrapper->c4m_is_deleted->set(TRUE);
 
   if ($values['anonymize']) {
-    $wrapper->c4m_is_deleted_anonymous->set(TRUE);
-
     // This cancel method will reassign all the content of the user
     // to the anonymous user.
     $values['user_cancel_method'] = 'user_block_reassign';
@@ -143,8 +139,6 @@ function c4m_user_profile_remove_account_form_submit($form, &$form_state) {
       og_ungroup('node', $gid, 'user', $account->uid);
     }
   }
-
-  user_save($account);
 
   // This calls the default Drupal workflow for cancelling an account.
   user_cancel($values, $values['uid'], $values['user_cancel_method']);
