@@ -15,7 +15,7 @@
  * @description A list of related to the discussion documents.
  */
 angular.module('c4mApp')
-  .directive('relatedDocuments', function (DrupalSettings, $window, EntityResource, $sce) {
+  .directive('relatedQuickPostDocuments', function (DrupalSettings, $window, EntityResource) {
     return {
       templateUrl: DrupalSettings.getBasePath() + 'profiles/capacity4more/libraries/bower_components/c4m-app/dist/directives/documents/documents.html',
       restrict: 'E',
@@ -25,6 +25,9 @@ angular.module('c4mApp')
         fieldName: '='
       },
       link: function postLink(scope, element) {
+
+        scope.fieldName = 'c4m-related-document';
+        scope.formId = 'quick-post-form';
 
         /**
          * Create array of related document objects.
@@ -45,13 +48,11 @@ angular.module('c4mApp')
               documents[key].document.filesize = $window.filesize(documents[key].document.filesize);
             });
           });
-
           return documents;
         };
 
         // Get the click event form the overlay and update related documents.
         element.parents('#' + scope.formId).find('#input-' + scope.fieldName).on('click', function (event) {
-
           var val = jQuery(this).val();
           scope.$apply(function (scope) {
             var ids = val.split(',');
@@ -63,7 +64,7 @@ angular.module('c4mApp')
         scope.data = scope.updateDocumentsData(scope.relatedDocuments);
 
         // Updating data when added or removed item from the related documents.
-        scope.$watch('relatedDocuments', function (newValue, oldValue) {
+        scope.$watch('relatedQuickPostDocuments', function (newValue, oldValue) {
           if (newValue !== oldValue) {
             scope.data = scope.updateDocumentsData(newValue);
           }

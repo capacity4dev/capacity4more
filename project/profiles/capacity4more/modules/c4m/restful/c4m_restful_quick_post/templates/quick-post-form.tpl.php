@@ -5,7 +5,7 @@
  * Template to render the Quick post forms.
  */
 ?>
-<form name="entityForm"
+<form name="entityForm" id="quick-post-form"
       ng-submit="submitForm(data, selectedResource, 'quick_post')"
       xmlns="http://www.w3.org/1999/html">
 
@@ -35,11 +35,42 @@
     <p ng-show="errors.discussion_type" class="help-block"><?php print t('Discussion type is required.'); ?></p>
 </div>
 
+  <div class="field-type-entityreference field-name-c4m-related-document field-widget-c4m-add-document form-wrapper form-group" id="edit-c4m-related-document">
+    <div class="ng-hide"><div class="form-item form-item-c4m-related-document-und form-type-textfield form-autocomplete form-group">
+        <label class="control-label" for="edit-c4m-related-document-und">Documents </label>
+        <div class="input-group">
+          <input class="form-control form-text" type="text" id="edit-c4m-related-document-und" name="c4m_related_document[und]" value="" size="60" maxlength="1024" autocomplete="OFF" aria-autocomplete="list"/>
+          <span class="input-group-addon">
+            <span class="icon glyphicon glyphicon-refresh" aria-hidden="true"></span>
+          </span>
+        </div>
+        <input type="hidden" id="edit-c4m-related-document-und-autocomplete" value="http://capacity4more.local/index.php?q=entityreference/autocomplete/tags/c4m_related_document/node/discussion/NULL" disabled="disabled" class="autocomplete" />
+      </div>
+    </div>
+  </div>
+
 <!-- Body editor-->
 <div class="form-group" id="body-wrapper" ng-class="{ 'has-error' : errors.body }">
-  <textarea ckeditor="editorOptions" name="body" class="form-control" id="body" ng-model="data.body" placeholder="Body"></textarea>
 
+  <div>
+    <input type="file" name="document-file" id="c4m-related-document" class="document_file" ng-file-select="onQuickPostFileSelect($files, 'c4m-related-document')">
+    <a href="javascript://" ng-click="browseFiles('c4m-related-document')"></a>
+    <span class="body-attachment-link"><label for="c4m-related-document"><i class="fa fa-paperclip"></i></label></span>
+  </div>
+
+  <textarea ckeditor="editorOptions" name="body" class="form-control" id="body" ng-model="data.body" placeholder="Body"></textarea>
+  <related-quick-post-documents related-documents="data.relatedDocuments" form-id="formId" field-name="'c4m-related-document'"></related-quick-post-documents>
+  <input type="text" id="input-c4m-related-document" class="hidden" value>
   <p ng-show="errors.body" class="help-block"><?php print t('Body is required.'); ?></p>
+
+  <div class="cfm-file-upload-wrapper form-group input-wrapper file-wrapper" ng-class="{ 'has-error' : errors.document }">
+
+    <div class="has-error" ng-show="serverSide.data.imageError">
+      <ul class="help-block">
+        <li><?php print t('An error occurred while trying to upload the attachment.') ?></li>
+      </ul>
+    </div>
+  </div>
 
   <div class="errors">
     <ul ng-show="serverSide.data.errors.body">

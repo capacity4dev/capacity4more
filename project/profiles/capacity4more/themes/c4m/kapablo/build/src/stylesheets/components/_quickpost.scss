@@ -21,6 +21,34 @@
       margin-right: 10px;
     }
   }
+
+  #body-wrapper {
+    position: relative;
+
+    .body-attachment-link {
+      position: absolute;
+      top: 22px;
+      right: 7px;
+
+      label {
+        color: $color-text-alternative;
+        text-shadow: 1px 1px 1px $color-gray-light;
+        font-size: 1.5em;
+        cursor: pointer;
+      }
+    }
+
+    .document_file {
+      visibility: hidden;
+    }
+    textarea[name=body] {
+      resize: vertical;
+    }
+
+    .remove-attachment {
+      cursor: pointer;
+    }
+  }
 }
 
   .topics-section {
