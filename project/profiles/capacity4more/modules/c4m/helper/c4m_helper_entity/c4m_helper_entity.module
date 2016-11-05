@@ -476,3 +476,12 @@ function c4m_helper_entity_get_metrics($metric_key, $entity_id, $entity_type) {
 
   return $data[$key];
 }
+
+/**
+ * Implements hook_entity_load().
+ */
+function c4m_helper_entity_entity_load($entities, $type) {
+  foreach ($entities as $entity) {
+    $entity->entity_type = $type;
+  }
+}

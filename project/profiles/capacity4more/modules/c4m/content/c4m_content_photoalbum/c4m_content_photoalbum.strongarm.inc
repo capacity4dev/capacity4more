@@ -198,6 +198,12 @@ function c4m_content_photoalbum_strongarm() {
             'visible' => FALSE,
           ),
         ),
+        'highlighted' => array(
+          'full' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
       ),
     ),
   );
