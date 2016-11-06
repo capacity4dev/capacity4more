@@ -137,6 +137,13 @@ function c4m_og_get_group_type_name($node = NULL) {
  * Implements hook_form_alter().
  */
 function c4m_og_form_alter(&$form, $form_state) {
+
+  // Always expose the group ref field to site administrators, but keep the
+  // same access for non admins.
+  if (isset($form[OG_AUDIENCE_FIELD]['#access'])) {
+    $form[OG_AUDIENCE_FIELD]['#access'] = $form[OG_AUDIENCE_FIELD]['#access'] || c4m_user_is_site_admin();
+  }
+
   if (empty($form['#node_edit_form'])
     || !og_is_group_type(
       'node',
@@ -2203,10 +2210,6 @@ function c4m_og_node_access($node, $op, $account) {
 
     // Couldn't resolve the group of the content.
     if (!$group = c4m_og_get_group_of_content($node)) {
-      return NODE_ACCESS_IGNORE;
-    }
-
-    if (c4m_og_get_group_status($group) != 'pending') {
       return NODE_ACCESS_IGNORE;
     }
 
