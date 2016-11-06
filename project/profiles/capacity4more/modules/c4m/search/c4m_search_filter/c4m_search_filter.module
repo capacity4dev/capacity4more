@@ -63,24 +63,46 @@ function c4m_search_filter_form_alter(&$form, &$form_state, $form_id) {
  * Implements hook_search_api_query_alter().
  */
 function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query) {
+  global $user;
+
   $params = drupal_get_query_parameters();
 
-  if (empty($params['filter'])) {
+  if (0 === strpos(current_path(), 'groups', 0)) {
+    $bundle = 'group';
+  }
+  elseif (0 === strpos(current_path(), 'projects', 0)) {
+    $bundle = 'project';
+  }
+  else {
+    $bundle = 'other';
+  }
+
+  if (empty($params['filter']) && ($bundle == 'other')) {
     return;
   }
 
-  global $user;
+  // No filter applied, and working on groups/projects view.
+  if (empty($params['filter']) && ($bundle != 'other')) {
+
+    $groups = _c4m_search_filter_get_accessible_groups();
+
+    $filter = $query->createFilter('OR');
+
+    // Filter on groups.
+    foreach ($groups as $group) {
+      $filter->condition('nid', $group);
+    }
+
+    // Apply filter.
+    $query->filter($filter);
+
+    return;
+  }
 
   switch ($params['filter']) {
     case 'groups':
       // Get groups.
-      $groups = og_get_groups_by_user();
-      if (isset($groups['node'])) {
-        $groups = $groups['node'];
-      }
-      else {
-        return;
-      }
+      $groups = _c4m_search_filter_get_accessible_groups('group');
 
       // Create filter.
       $filter = $query->createFilter('OR');
@@ -101,13 +123,7 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
 
     case 'projects':
       // Get projects.
-      $groups = og_get_groups_by_user();
-      if (isset($groups['node'])) {
-        $groups = $groups['node'];
-      }
-      else {
-        return;
-      }
+      $groups = $groups = _c4m_search_filter_get_accessible_groups('project');
 
       // Create filter.
       $filter = $query->createFilter('OR');
@@ -155,4 +171,32 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
 
       break;
   }
+}
+
+function _c4m_search_filter_get_accessible_groups($bundle = NULL) {
+  $groups = c4m_user_og_get_groups(NULL, $bundle, NODE_PUBLISHED, FALSE);
+
+  // Removes groups where the logged in user has no access.
+  $groups = array_filter($groups, 'c4m_search_filter_node_access_view_filter');
+
+  $filtered_groups = array();
+
+  foreach($groups as $group) {
+    $filtered_groups[$group->nid] = $group->nid;
+  }
+
+  return $filtered_groups;
+}
+
+/**
+ * Callback for array_filter that checks if the user has access to the node.
+ *
+ * @param object $node
+ *   Node object.
+ *
+ * @returns boolean
+ *   Indicates if the user has access or not.
+ */
+function c4m_search_filter_node_access_view_filter($node) {
+  return node_access('view', $node);
 }
