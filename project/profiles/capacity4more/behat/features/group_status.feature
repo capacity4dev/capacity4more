@@ -94,7 +94,7 @@ Feature: Group Status
     Then  I should have access to the page
     And   I visit "Archived group" node of type "group"
     And   I should not see "Access denied"
-    And   I should be allowed to edit a group "Archived group"
+    And   I should not be allowed to edit a group "Archived group"
 
   @api
   Scenario: Check Deleted group dashboard access by group owner
