@@ -53,6 +53,15 @@
       cursor: pointer;
     }
   }
+
+  .documents-uploaded {
+    width: 100%;
+
+    h3 {
+      margin-top: 10px;
+      color: $color-gray-lightTwo;
+    }
+  }
 }
 
 .topics-section {
