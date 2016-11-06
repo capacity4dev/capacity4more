@@ -88,16 +88,8 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
 
   // View presents OG groups ('group' / 'project'), and no filters were set.
   if ($no_filter && ($bundle != 'other')) {
-    // Retrieve all groups logged-in user can view.
-    $groups = _c4m_search_filter_get_all_accessible_groups($bundle);
-
-    // Apply filter on groups.
-    $filter = $query->createFilter('OR');
-    foreach ($groups as $group) {
-      $filter->condition('nid', $group);
-    }
-
-    $query->filter($filter);
+    // Filter, to present only the groups logged-in user can access.
+    _c4m_search_filter_apply_view_access_filter($bundle, $query);
 
     return;
   }
@@ -146,6 +138,12 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
       break;
 
     case 'interests':
+      // When presenting OG groups (of type 'group' / 'project'.
+      if ($bundle != 'other') {
+        // Filter, to present only the groups logged-in user can access.
+        _c4m_search_filter_apply_view_access_filter($bundle, $query);
+      }
+
       // Get user object.
       $user_wrapper = entity_metadata_wrapper('user', $user->uid);
 
@@ -174,6 +172,27 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
 
       break;
   }
+}
+
+/**
+ * Add filter to query, to present only the groups logged-in user can access.
+ *
+ * @param string $bundle
+ *   Group bundle.
+ * @param object $query
+ *   The query that is used to select groups that will be presented.
+ */
+function _c4m_search_filter_apply_view_access_filter($bundle, &$query) {
+  // Retrieve all groups logged-in user can view.
+  $groups = _c4m_search_filter_get_all_accessible_groups($bundle);
+
+  // Apply filter on groups.
+  $filter = $query->createFilter('OR');
+  foreach ($groups as $group) {
+    $filter->condition('nid', $group);
+  }
+
+  $query->filter($filter);
 }
 
 /**
