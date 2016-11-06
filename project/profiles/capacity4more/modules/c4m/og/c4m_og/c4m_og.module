@@ -2258,12 +2258,18 @@ function c4m_og_node_access($node, $op, $account) {
         return NODE_ACCESS_IGNORE;
       }
 
+      // Visitors are not allowed to Create / Update / Delete content.
+      if ($user_type == 'visitor') {
+        return NODE_ACCESS_DENY;
+      }
+
       // We allow access only for draft / published groups.
       $group = c4m_og_current_group();
       $group_state = c4m_og_get_group_status($group);
       $allowed_states = array('draft', 'published');
 
-      if (!in_array($group_state, $allowed_states)) {
+      // Can't resolve group state, or group state is not allowed.
+      if (!$group_state || !in_array($group_state, $allowed_states)) {
         return NODE_ACCESS_DENY;
       }
 
