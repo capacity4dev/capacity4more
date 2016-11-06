@@ -67,6 +67,7 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
 
   $params = drupal_get_query_parameters();
 
+  // Determine the bundle view works with.
   if (0 === strpos(current_path(), 'groups', 0)) {
     $bundle = 'group';
   }
@@ -77,24 +78,25 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
     $bundle = 'other';
   }
 
+  // Determines if filters were applied on view.
   $no_filter = empty($params['filter']) || $params['filter'] == 'showAll';
 
+  // View does not present OG groups ('group' / 'project'), and no filters set.
   if ($no_filter && ($bundle == 'other')) {
     return;
   }
 
-  // No filter applied, and working on groups/projects view.
+  // View presents OG groups ('group' / 'project'), and no filters were set.
   if ($no_filter && ($bundle != 'other')) {
-
+    // Retrieve all groups logged-in user can view.
     $groups = _c4m_search_filter_get_all_accessible_groups($bundle);
-    $filter = $query->createFilter('OR');
 
-    // Filter on groups.
+    // Apply filter on groups.
+    $filter = $query->createFilter('OR');
     foreach ($groups as $group) {
       $filter->condition('nid', $group);
     }
 
-    // Apply filter.
     $query->filter($filter);
 
     return;
