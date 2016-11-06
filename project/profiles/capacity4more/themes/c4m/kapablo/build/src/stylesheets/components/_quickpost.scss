@@ -1,5 +1,5 @@
 .pane-quick-form {
-  @include grain_dark;
+  background-color: $color-gray;
   padding: 15px;
   color: white;
 
@@ -21,101 +21,133 @@
       margin-right: 10px;
     }
   }
+
+  #body-wrapper {
+    position: relative;
+
+    .body-attachment-link {
+      position: absolute;
+      top: 22px;
+      right: 7px;
+
+      label {
+        color: transparent;
+      }
+
+      i {
+        color: $color-text-alternative;
+        text-shadow: 1px 1px 1px $color-gray-light;
+        font-size: 1.5em;
+        cursor: pointer;
+      }
+    }
+
+    .document_file {
+      visibility: hidden;
+    }
+    textarea[name=body] {
+      resize: vertical;
+    }
+
+    .remove-attachment {
+      cursor: pointer;
+    }
+  }
 }
 
-  .topics-section {
-    margin: 20px 0;
-    padding: 10px 0 5px;
-    border-top: 1px dashed darken($color-white, 20%);
-    border-bottom: 1px dashed darken($color-white, 20%);
+.topics-section {
+  margin: 20px 0;
+  padding: 10px 0 5px;
+  border-top: 1px dashed darken($color-white, 20%);
+  border-bottom: 1px dashed darken($color-white, 20%);
+}
+
+.popover-content {
+  color: black;
+
+  .popover-content-list {
+    padding: 0;
   }
+}
 
-  .popover-content {
-    color: black;
+.quickpost-btn {
+  width: 150px;
+  color: $color-gray;
+  background-color: white;
+}
 
-    .popover-content-list {
-      padding: 0;
+.popup-btn {
+  margin-top: 15px;
+}
+
+.actions-row {
+  display: flex;
+  margin-top: 15px;
+  justify-content: space-between;
+  align-items: center;
+
+  .actions-row-group {
+    display: flex;
+    align-items: center;
+
+    // Override bootstrap styles.
+    input,
+    label {
+      margin: 0;
+    }
+
+    label {
+      margin-left: 10px;
+      font-weight: 100;
+
+      @media (min-width: $screen-md) {
+        margin-left: 5px;
+      }
     }
   }
 
   .quickpost-btn {
-    width: 150px;
-    color: $color-text-alternative;
-    background-color: white;
+    margin-right: 15px;
+  }
+}
+
+.btn-group-discussion_type {
+  display: flex;
+  flex-direction: column;
+
+  @media(min-width: $screen-md) {
+    flex-direction: row;
   }
 
-  .popup-btn {
-    margin-top: 15px;
-  }
+  .discussion_type {
+    color: white;
+    border: 1px solid lighten($color-gray, 10%);
+    border-radius: 3px;
+    background: transparent;
+    box-shadow: none;
 
-  .actions-row {
-    display: flex;
-    margin-top: 15px;
-    justify-content: space-between;
-    align-items: center;
+    @media (min-width: $screen-md) {
+      margin-right: 20px;
+    }
 
-    .actions-row-group {
-      display: flex;
-      align-items: center;
+    &:last-of-type {
 
-      // Override bootstrap styles.
-      input,
-      label {
-        margin: 0;
-      }
-
-      label {
-        margin-left: 10px;
-        font-weight: 100;
-
-        @media (min-width: $screen-md) {
-          margin-left: 5px;
-        }
+      @media(min-width: $screen-md) {
+        margin-right: 0;
       }
     }
 
-    .quickpost-btn {
-      margin-right: 15px;
+    &.active {
+      color: $color-white;
+      background: $color-gray-darker;
+    }
+
+    &:hover,
+    &:active {
+      color: $color-white;
+      background: rgba($color-white, 0.1);
     }
   }
-
-  .btn-group-discussion_type {
-    display: flex;
-    flex-direction: column;
-
-    @media(min-width: $screen-md) {
-      flex-direction: row;
-    }
-
-    .discussion_type {
-      color: white;
-      border: 1px solid lighten($color-gray, 10%);
-      border-radius: 3px;
-      background: transparent;
-      box-shadow: none;
-
-      @media (min-width: $screen-md) {
-        margin-right: 20px;
-      }
-
-      &:last-of-type {
-
-        @media(min-width: $screen-md) {
-          margin-right: 0;
-        }
-      }
-
-      &.active {
-        color: $color-white;
-        background: rgba($color-white, 0.3);
-      }
-
-      &:hover,
-      &:active {
-        color: $color-white;
-        background: rgba($color-white, 0.1);
-      }
-    }
 
   button[value="idea"] {
     .fa:before {
