@@ -174,6 +174,15 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
   }
 }
 
+/**
+ * Returns the list of groups logged-in user belongs to, and can view.
+ *
+ * @param string $bundle
+ *   Group bundle. By default, set to NULL.
+ *
+ * @returns array
+ *   List of groups logged-in user belongs to, and can view.
+ */
 function _c4m_search_filter_get_member_accessible_groups($bundle = NULL) {
   $groups = c4m_user_og_get_groups(NULL, $bundle, NODE_PUBLISHED, FALSE);
 
@@ -182,13 +191,22 @@ function _c4m_search_filter_get_member_accessible_groups($bundle = NULL) {
 
   $filtered_groups = array();
 
-  foreach($groups as $group) {
+  foreach ($groups as $group) {
     $filtered_groups[$group->nid] = $group->nid;
   }
 
   return $filtered_groups;
 }
 
+/**
+ * Returns the list of groups logged-in user can view.
+ *
+ * @param string $bundle
+ *   Group bundle. By default, set to NULL.
+ *
+ * @returns array
+ *   List of groups logged-in user can view.
+ */
 function _c4m_search_filter_get_all_accessible_groups($bundle = NULL) {
   $groups = og_get_all_group();
   $conditions = is_null($bundle) ? array() : array('type' => $bundle);
@@ -196,13 +214,12 @@ function _c4m_search_filter_get_all_accessible_groups($bundle = NULL) {
   $groups = array_filter($groups, 'c4m_search_filter_node_access_view_filter');
 
   $filtered_groups = array();
-  foreach($groups as $group) {
+  foreach ($groups as $group) {
     $filtered_groups[$group->nid] = $group->nid;
   }
 
   return $filtered_groups;
 }
-
 
 /**
  * Callback for array_filter that checks if the user has access to the node.
@@ -215,8 +232,4 @@ function _c4m_search_filter_get_all_accessible_groups($bundle = NULL) {
  */
 function c4m_search_filter_node_access_view_filter($node) {
   return node_access('view', $node);
-}
-
-function c4m_search_filter_no_node_access_view_filter($node) {
-  return !node_access('view', $node);
 }
