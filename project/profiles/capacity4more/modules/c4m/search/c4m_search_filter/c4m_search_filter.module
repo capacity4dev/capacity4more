@@ -85,7 +85,7 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
     $bundle = 'other';
   }
 
-  $no_filter = empty($params['filter']) || empty($params['filter']) == 'showAll';
+  $no_filter = empty($params['filter']) || $params['filter'] == 'showAll';
 
   if ($no_filter && ($bundle == 'other')) {
     return;
