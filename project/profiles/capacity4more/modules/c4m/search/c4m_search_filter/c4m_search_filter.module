@@ -126,7 +126,7 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
 
     case 'projects':
       // Get projects.
-      $groups = $groups = _c4m_search_filter_get_member_accessible_groups('project');
+      $groups = _c4m_search_filter_get_member_accessible_groups('project');
 
       // Create filter.
       $filter = $query->createFilter('OR');
