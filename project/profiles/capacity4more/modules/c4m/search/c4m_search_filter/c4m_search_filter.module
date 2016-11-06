@@ -138,7 +138,7 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
       break;
 
     case 'interests':
-      // When presenting OG groups (of type 'group' / 'project'.
+      // When presenting OG groups (of type 'group' / 'project').
       if ($bundle != 'other') {
         // Filter, to present only the groups logged-in user can access.
         _c4m_search_filter_apply_view_access_filter($bundle, $query);
