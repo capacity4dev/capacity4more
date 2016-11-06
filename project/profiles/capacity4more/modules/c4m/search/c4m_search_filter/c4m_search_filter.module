@@ -59,14 +59,6 @@ function c4m_search_filter_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
-function c4m_search_filter_module_implements_alter(&$implementations, $hook) {
-  if ($hook == 'search_api_query_alter') {
-    $group = $implementations['c4m_search_filter'];
-    unset($implementations['c4m_search_filter']);
-    $implementations['c4m_search_filter'] = $group;
-  }
-}
-
 /**
  * Implements hook_search_api_query_alter().
  */
