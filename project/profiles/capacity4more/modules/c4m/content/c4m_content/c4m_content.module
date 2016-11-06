@@ -1104,6 +1104,30 @@ function c4m_content_create_group_content_access() {
     drupal_access_denied();
     drupal_exit();
   }
+
+  $deny_access = FALSE;
+  // We allow access only for draft / published groups.
+  $group = node_load($context['gid']);
+  $group_state = c4m_og_get_group_status($group);
+  $allowed_states = array('draft', 'published');
+
+  // Can't resolve group state, or group state is not allowed.
+  if (!$group_state || !in_array($group_state, $allowed_states)) {
+    $deny_access = TRUE;
+  }
+  else {
+    $user_type = _c4m_features_og_members_get_user_type();
+    // We allow access to power users, and members, when creating content.
+    $allowed_user_types = array('member', 'admin', 'owner', 'site-admin');
+    if (!in_array($user_type, $allowed_user_types)) {
+      $deny_access = TRUE;
+    }
+  }
+
+  if ($deny_access) {
+    drupal_access_denied();
+    drupal_exit();
+  }
 }
 
 /**
