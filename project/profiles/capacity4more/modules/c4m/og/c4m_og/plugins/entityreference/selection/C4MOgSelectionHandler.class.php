@@ -157,8 +157,6 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       return $query;
     }
 
-    $group = c4m_og_current_group();
-    $group_access = c4m_og_get_access_type($group);
     $allowed_states = array('draft', 'published');
 
     $query->fieldCondition(
