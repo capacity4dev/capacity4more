@@ -160,11 +160,6 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     $group = c4m_og_current_group();
     $group_access = c4m_og_get_access_type($group);
     $allowed_states = array('draft', 'published');
-    // At public groups, it's possible to add content when
-    // group is at 'archived' state.
-    if ($group_access['type'] == 'public') {
-      $allowed_states[] = 'archived';
-    }
 
     $query->fieldCondition(
       'c4m_og_status',
