@@ -531,16 +531,6 @@ function c4m_user_og_theme() {
     ),
   );
 
-  $theme['c4m_group_invite_cta'] = array(
-    'template' => 'c4m_group_invite_cta',
-    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
-    'variables' => array(
-      'url' => NULL,
-      'button_label' => NULL,
-      'button_icon' => NULL,
-    ),
-  );
-
   return $theme;
 }
 
@@ -765,14 +755,13 @@ function c4m_user_og_c4m_join_cta($group) {
  */
 function c4m_user_og_c4m_invite_cta($group) {
   return array(
-    '#theme' => 'c4m_group_invite_cta',
-    '#button_label' => t('Invite a member'),
-    '#button_icon' => 'fa-user-plus',
-    '#url' => url(
+    '#theme' => 'c4m_group_text_cta',
+    '#icon' => 'fa-user-plus',
+    '#text' => l(
+      t('Invite a member'),
       'group/node/' . $group->nid . '/admin/people/invite-users',
       array('absolute' => TRUE)
     ),
-    '#weight' => 0,
   );
 }
 
@@ -839,7 +828,7 @@ function c4m_user_og_c4m_leave_group_cta($group) {
  *   The settings for this flag, or FALSE if user should not see this.
  */
 function c4m_user_og_follow_group_cta($group) {
-  if ($group->type == 'group'  && !og_is_member('node', $group->nid)) {
+  if ($group->type == 'group' && !og_is_member('node', $group->nid)) {
     return FALSE;
   }
 
