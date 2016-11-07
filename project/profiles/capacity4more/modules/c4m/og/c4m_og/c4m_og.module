@@ -2196,6 +2196,35 @@ function c4m_og_get_group_status($group) {
   return $wrapper->c4m_og_status->value();
 }
 
+function c4m_og_view_node_access($node, $account) {
+
+  return NODE_ACCESS_IGNORE;
+}
+
+function c4m_og_create_node_access($node, $account) {
+
+  // $node is string.
+  if (og_is_group_content_type('node', $node)) {
+
+    $user_type = _c4m_features_og_members_get_user_type();
+    // Can't resolve user type - couldn't get OG context to resolve group.
+    if ($user_type == 'unknown') {
+      return NODE_ACCESS_IGNORE;
+    }
+  }
+
+  return NODE_ACCESS_IGNORE;
+}
+
+function c4m_og_update_node_access($node, $account) {
+
+  return NODE_ACCESS_IGNORE;
+}
+
+function c4m_og_delete_node_access($node, $account) {
+  return  c4m_og_update_node_access($node, $account);
+}
+
 /**
  * Implements hook_node_access().
  *
@@ -2219,6 +2248,35 @@ function c4m_og_node_access($node, $op, $account) {
       return NODE_ACCESS_DENY;
     }
   }
+
+  $function = 'c4m_og_' . $op . '_node_access';
+  $args = array($node, $account);
+
+  return call_user_func_array($function, $args);
+}
+
+
+function c4m_og_node_access_hold($node, $op, $account) {
+  global $user;
+
+  // Only site admin may delete groups.
+  if ($op == 'delete' && og_is_group('node', $node) && !user_access('administer nodes')) {
+    return NODE_ACCESS_DENY;
+  }
+
+  // When updating published wiki page, allow access to group members,
+  // if 'editable by members' option is enabled for this page.
+  if ($op == 'update' && ($group = c4m_og_get_group_of_content($node)) && $node->type == 'wiki_page' && $node->status == NODE_PUBLISHED) {
+    if (_c4m_features_og_members_get_user_type($group) == 'member' && !c4m_content_wiki_page_is_editable_by_members($node)) {
+      return NODE_ACCESS_DENY;
+    }
+  }
+
+  $function = 'c4m_og_' . $op . '_node_access';
+  $args = array($node, $account);
+  $result = call_user_func_array($function, $args);
+
+
 
   // When $node is string (happens when creating content), it contains the
   // type of created content.
