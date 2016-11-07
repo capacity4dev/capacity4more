@@ -149,16 +149,21 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       return $query;
     }
 
-    $unallowed_values = array(
-      'pending',
-      'archived',
-      'deleted',
-    );
+    $allowed_user_types = array('member', 'admin', 'owner', 'site-admin');
+    $user_type = _c4m_features_og_members_get_user_type();
+    // If user is not of type that can create the content, falsify the query.
+    if (!in_array($user_type, $allowed_user_types)) {
+      $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
+      return $query;
+    }
+
+    $allowed_states = array('draft', 'published');
+
     $query->fieldCondition(
       'c4m_og_status',
       'value',
-      $unallowed_values,
-      'NOT IN'
+      $allowed_states,
+      'IN'
     );
 
     return $query;

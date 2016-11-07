@@ -1090,8 +1090,11 @@ function _c4m_content_taxonomy_extract_root_item(&$items) {
 function c4m_content_create_group_content_access() {
   $item = menu_get_item();
 
+  $bundles = c4m_og_get_all_group_content_bundles('node');
+  $regex = '/node\/add\/(' . implode('|', array_keys($bundles)) . ')/';
+
   // Making sure the current request is for the node/add form.
-  preg_match('/node\/add\/(discussion|document|event|news|photo(album)?|wiki-page)/', $item['path'], $matches);
+  preg_match($regex, $item['path'], $matches);
   if (empty($matches[0])) {
     return;
   }
@@ -1102,11 +1105,26 @@ function c4m_content_create_group_content_access() {
     drupal_exit();
   }
 
-  // Resolve OG group type.
-  $group_type = c4m_og_get_group_type($context);
+  $deny_access = FALSE;
+  // We allow access only for draft / published groups.
+  $group = node_load($context['gid']);
+  $group_state = c4m_og_get_group_status($group);
+  $allowed_states = array('draft', 'published');
 
-  // For type 'group' allow access only to it's members and site admin.
-  if ($group_type == 'group' && !og_is_member('node', $context['gid']) && !c4m_user_is_site_admin()) {
+  // Can't resolve group state, or group state is not allowed.
+  if (!$group_state || !in_array($group_state, $allowed_states)) {
+    $deny_access = TRUE;
+  }
+  else {
+    $user_type = _c4m_features_og_members_get_user_type();
+    // We allow access to power users, and members, when creating content.
+    $allowed_user_types = array('member', 'admin', 'owner', 'site-admin');
+    if (!in_array($user_type, $allowed_user_types)) {
+      $deny_access = TRUE;
+    }
+  }
+
+  if ($deny_access) {
     drupal_access_denied();
     drupal_exit();
   }
