@@ -234,7 +234,7 @@ function _c4m_search_filter_view_access_filter_grants($op = 'view') {
   // Activate the hook functions of all modules from the list.
   $grants = array();
   foreach ($implementing_modules as $module) {
-    $function = $module . '_' . 'node_grants';
+    $function = $module . '_node_grants';
     if (function_exists($function)) {
       $result = call_user_func_array($function, $args);
       if (isset($result) && is_array($result)) {
