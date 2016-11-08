@@ -126,17 +126,17 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     }
 
     // Get group ID from POST data or from context.
-    if (!$group['gid'] = filter_input(INPUT_POST, 'group', FILTER_VALIDATE_INT)) {
-      $group = og_context();
-    }
+//    if (!$group['gid'] = filter_input(INPUT_POST, 'group', FILTER_VALIDATE_INT)) {
+//      $group = og_context();
+//    }
 
-    $node_type = $this->instance['bundle'];
-
-    if (!_c4m_features_og_members_is_power_user() && !og_user_access($group_type, $group['gid'], "create $node_type content")) {
-      // User does not have permission, falsify the query.
-      $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
-      return $query;
-    }
+//    $node_type = $this->instance['bundle'];
+//
+//    if (!_c4m_features_og_members_is_power_user() && !og_user_access($group_type, $group['gid'], "create $node_type content")) {
+//      // User does not have permission, falsify the query.
+//      $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
+//      return $query;
+//    }
 
     $allowed_user_types = array(
       C4M_USER_TYPE_MEMBER,
@@ -146,6 +146,13 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     );
 
     $user_type = _c4m_features_og_members_get_user_type();
+    if(!$user_type) {
+      // Can't resolve context - returned query will cause og_node_access
+      // to return NODE_ACCESS_ALLOW. Access will be rechecked at create content
+      // form, where context is already present.
+      return $query;
+    }
+
     // If user is not of type that can create the content, falsify the query.
     if (!in_array($user_type, $allowed_user_types)) {
       $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
