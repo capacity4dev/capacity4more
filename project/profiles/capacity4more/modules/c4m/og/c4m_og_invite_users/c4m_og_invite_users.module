@@ -129,7 +129,7 @@ function c4m_og_invite_users_access($group_type, $gid) {
     return;
   }
 
-  return c4m_og_is_invite_allowed($group_type, $gid);
+  return c4m_og_invite_access($group_type, $gid);
 }
 
 /**

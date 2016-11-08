@@ -177,7 +177,7 @@ function c4m_og_invite_visitors_og_ui_get_group_admin($group_type, $gid) {
  */
 function c4m_og_invite_visitors_user_access($gid) {
 
-  return c4m_og_is_invite_allowed('node', $gid);
+  return c4m_og_invite_access('node', $gid);
 }
 
 /**

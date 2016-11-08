@@ -68,10 +68,10 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
   $params = drupal_get_query_parameters();
 
   // Determine the bundle view works with.
-  if (0 === strpos(current_path(), 'groups', 0)) {
+  if (strpos(current_path(), 'groups', 0) === 0) {
     $bundle = 'group';
   }
-  elseif (0 === strpos(current_path(), 'projects', 0)) {
+  elseif (strpos(current_path(), 'projects', 0) === 0) {
     $bundle = 'project';
   }
   else {
@@ -104,7 +104,7 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
 
       // Filter on groups.
       foreach ($groups as $group) {
-        if (0 === strpos(current_path(), 'groups', 0)) {
+        if (strpos(current_path(), 'groups', 0) === 0) {
           $filter->condition('nid', $group);
         }
         else {
@@ -125,7 +125,7 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
 
       // Filter on projects.
       foreach ($groups as $group) {
-        if (0 === strpos(current_path(), 'projects', 0)) {
+        if (strpos(current_path(), 'projects', 0) === 0) {
           $filter->condition('nid', $group);
         }
         else {
