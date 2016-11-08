@@ -120,3 +120,349 @@ Feature: Test creation of the content permissions.
     Given I am logged in as user "isaacnewton"
     When  I go to "movie-corner/node/add/photoalbum"
     Then  I should have access to the page
+
+  @dev
+  Scenario Outline: Access create content form, without purl prefix.
+    Given  I am logged in as user "<user>"
+    When  I go to "<path>"
+    Then  I should not have access to the page
+
+    Examples:
+      | user        | path                 |
+      | badhairday  | /node/add/photoalbum |
+      | turing      | /node/add/photoalbum |
+      | galileo     | /node/add/photoalbum |
+      | alfrednobel | /node/add/photoalbum |
+      | mariecurie  | /node/add/photoalbum |
+      | badhairday  | /node/add/photo |
+      | turing      | /node/add/photo |
+      | galileo     | /node/add/photo |
+      | alfrednobel | /node/add/photo |
+      | mariecurie  | /node/add/photo |
+      | badhairday  | /node/add/event |
+      | turing      | /node/add/event |
+      | galileo     | /node/add/event |
+      | alfrednobel | /node/add/event |
+      | mariecurie  | /node/add/event |
+      | badhairday  | /node/add/document |
+      | turing      | /node/add/document |
+      | galileo     | /node/add/document |
+      | alfrednobel | /node/add/document |
+      | mariecurie  | /node/add/document |
+      | badhairday  | /node/add/discussion |
+      | turing      | /node/add/discussion |
+      | galileo     | /node/add/discussion |
+      | alfrednobel | /node/add/discussion |
+      | mariecurie  | /node/add/discussion |
+
+  @dev
+  Scenario: Set "Nobel Prize" group state to 'Public'. Anonymous user asked to log in.
+    Given  I am logged in as user "mariecurie"
+    When  I change access of group "Nobel Prize" to "Public"
+    Then  I am an anonymous user
+    And I go to "nobelprize"
+    And I should see "Please log in"
+
+  @dev
+  Scenario Outline: As site admin, access create content form, with purl prefix of pending public group.
+    Given  I am logged in as user "<user>"
+    When  I go to "<path>"
+    Then  I should have access to the page
+
+    Examples:
+      | user        | path                 |
+      | mariecurie  | /nobelprize/node/add/photoalbum |
+      | mariecurie  | /nobelprize/node/add/photo |
+      | mariecurie  | /nobelprize/node/add/event |
+      | mariecurie  | /nobelprize/node/add/document |
+      | mariecurie  | /nobelprize/node/add/discussion |
+
+  @dev
+  Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of pending public group.
+    Given  I am logged in as user "<user>"
+    When  I go to "<path>"
+    Then  I should not have access to the page
+
+    Examples:
+      | user        | path                 |
+      | badhairday  | /nobelprize/node/add/photoalbum |
+      | turing      | /nobelprize/node/add/photoalbum |
+      | galileo     | /nobelprize/node/add/photoalbum |
+      | alfrednobel | /nobelprize/node/add/photoalbum |
+      | badhairday  | /nobelprize/node/add/photo |
+      | turing      | /nobelprize/node/add/photo |
+      | galileo     | /nobelprize/node/add/photo |
+      | alfrednobel | /nobelprize/node/add/photo |
+      | badhairday  | /nobelprize/node/add/event |
+      | turing      | /nobelprize/node/add/event |
+      | galileo     | /nobelprize/node/add/event |
+      | alfrednobel | /nobelprize/node/add/event |
+      | badhairday  | /nobelprize/node/add/document |
+      | turing      | /nobelprize/node/add/document |
+      | galileo     | /nobelprize/node/add/document |
+      | alfrednobel | /nobelprize/node/add/document |
+      | badhairday  | /nobelprize/node/add/discussion |
+      | turing      | /nobelprize/node/add/discussion |
+      | galileo     | /nobelprize/node/add/discussion |
+      | alfrednobel | /nobelprize/node/add/discussion |
+
+  @dev
+  Scenario: Set "Nobel Prize" group state to 'Restricted'. Anonymous user asked to log in.
+    Given  I am logged in as user "mariecurie"
+    When  I change access of group "Nobel Prize" to "Restricted"
+    Then  I am an anonymous user
+    And I go to "nobelprize"
+    And I should see "Please log in"
+
+  @dev
+  Scenario Outline: As site admin, access create content form, with purl prefix of pending restricted group.
+    Given  I am logged in as user "<user>"
+    When  I go to "<path>"
+    Then  I should have access to the page
+
+    Examples:
+      | user        | path                 |
+      | mariecurie  | /nobelprize/node/add/photoalbum |
+      | mariecurie  | /nobelprize/node/add/photo |
+      | mariecurie  | /nobelprize/node/add/event |
+      | mariecurie  | /nobelprize/node/add/document |
+      | mariecurie  | /nobelprize/node/add/discussion |
+
+  @dev
+  Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of pending restricted group.
+    Given  I am logged in as user "<user>"
+    When  I go to "<path>"
+    Then  I should not have access to the page
+
+    Examples:
+      | user        | path                 |
+      | badhairday  | /nobelprize/node/add/photoalbum |
+      | turing      | /nobelprize/node/add/photoalbum |
+      | galileo     | /nobelprize/node/add/photoalbum |
+      | alfrednobel | /nobelprize/node/add/photoalbum |
+      | badhairday  | /nobelprize/node/add/photo |
+      | turing      | /nobelprize/node/add/photo |
+      | galileo     | /nobelprize/node/add/photo |
+      | alfrednobel | /nobelprize/node/add/photo |
+      | badhairday  | /nobelprize/node/add/event |
+      | turing      | /nobelprize/node/add/event |
+      | galileo     | /nobelprize/node/add/event |
+      | alfrednobel | /nobelprize/node/add/event |
+      | badhairday  | /nobelprize/node/add/document |
+      | turing      | /nobelprize/node/add/document |
+      | galileo     | /nobelprize/node/add/document |
+      | alfrednobel | /nobelprize/node/add/document |
+      | badhairday  | /nobelprize/node/add/discussion |
+      | turing      | /nobelprize/node/add/discussion |
+      | galileo     | /nobelprize/node/add/discussion |
+      | alfrednobel | /nobelprize/node/add/discussion |
+
+  @dev
+  Scenario: Set "Nobel Prize" group state to 'Private'. Anonymous user asked to log in.
+    Given  I am logged in as user "mariecurie"
+    When  I change access of group "Nobel Prize" to "Private"
+    Then  I am an anonymous user
+    And I go to "nobelprize"
+    And I should see "Please log in"
+
+  @dev
+  Scenario Outline: As site admin, access create content form, with purl prefix of pending private group.
+    Given  I am logged in as user "<user>"
+    When  I go to "<path>"
+    Then  I should have access to the page
+
+    Examples:
+      | user        | path                 |
+      | mariecurie  | /nobelprize/node/add/photoalbum |
+      | mariecurie  | /nobelprize/node/add/photo |
+      | mariecurie  | /nobelprize/node/add/event |
+      | mariecurie  | /nobelprize/node/add/document |
+      | mariecurie  | /nobelprize/node/add/discussion |
+
+  @dev
+  Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of pending private group.
+    Given  I am logged in as user "<user>"
+    When  I go to "<path>"
+    Then  I should not have access to the page
+
+    Examples:
+      | user        | path                 |
+      | badhairday  | /nobelprize/node/add/photoalbum |
+      | turing      | /nobelprize/node/add/photoalbum |
+      | galileo     | /nobelprize/node/add/photoalbum |
+      | alfrednobel | /nobelprize/node/add/photoalbum |
+      | badhairday  | /nobelprize/node/add/photo |
+      | turing      | /nobelprize/node/add/photo |
+      | galileo     | /nobelprize/node/add/photo |
+      | alfrednobel | /nobelprize/node/add/photo |
+      | badhairday  | /nobelprize/node/add/event |
+      | turing      | /nobelprize/node/add/event |
+      | galileo     | /nobelprize/node/add/event |
+      | alfrednobel | /nobelprize/node/add/event |
+      | badhairday  | /nobelprize/node/add/document |
+      | turing      | /nobelprize/node/add/document |
+      | galileo     | /nobelprize/node/add/document |
+      | alfrednobel | /nobelprize/node/add/document |
+      | badhairday  | /nobelprize/node/add/discussion |
+      | turing      | /nobelprize/node/add/discussion |
+      | galileo     | /nobelprize/node/add/discussion |
+      | alfrednobel | /nobelprize/node/add/discussion |
+
+  @dev
+  Scenario: Change "Nobel Prize" group state to Draft.
+    Given  I am logged in as user "mariecurie"
+    When  The group "Nobel Prize" status is changed by admin to "Draft"
+    Then  I should have access to the page
+
+  @dev-wip
+  Scenario: Set "Nobel Prize" group state to 'Public'. Anonymous user asked to log in.
+    Given  I am logged in as user "mariecurie"
+    When  I change access of group "Nobel Prize" to "Public"
+    Then  I am an anonymous user
+    And I go to "nobelprize"
+    And I should see "Please log in"
+
+  @dev-wip
+  Scenario Outline: As member, group admin, group owner and site admin, access create content form, with purl prefix of draft public group.
+    Given  I am logged in as user "<user>"
+    When  I go to "<path>"
+    Then  I should have access to the page
+
+    Examples:
+      | user        | path                 |
+      | turing  | /nobelprize/node/add/photoalbum |
+      | turing  | /nobelprize/node/add/photo |
+      | turing  | /nobelprize/node/add/event |
+      | turing  | /nobelprize/node/add/document |
+      | turing  | /nobelprize/node/add/discussion |
+      | galileo  | /nobelprize/node/add/photoalbum |
+      | galileo  | /nobelprize/node/add/photo |
+      | galileo  | /nobelprize/node/add/event |
+      | galileo  | /nobelprize/node/add/document |
+      | galileo  | /nobelprize/node/add/discussion |
+      | galileo  | /nobelprize/node/add/photoalbum |
+      | alfrednobel  | /nobelprize/node/add/photo |
+      | alfrednobel  | /nobelprize/node/add/event |
+      | alfrednobel  | /nobelprize/node/add/document |
+      | alfrednobel  | /nobelprize/node/add/discussion |
+      | mariecurie  | /nobelprize/node/add/photoalbum |
+      | mariecurie  | /nobelprize/node/add/photo |
+      | mariecurie  | /nobelprize/node/add/event |
+      | mariecurie  | /nobelprize/node/add/document |
+      | mariecurie  | /nobelprize/node/add/discussion |
+
+  @dev-wip
+  Scenario Outline: As non member, access create content form, with purl prefix of draft public group.
+    Given  I am logged in as user "<user>"
+    When  I go to "<path>"
+    Then  I should not have access to the page
+
+    Examples:
+      | user        | path                 |
+      | badhairday  | /nobelprize/node/add/photoalbum |
+      | badhairday  | /nobelprize/node/add/photo |
+      | badhairday  | /nobelprize/node/add/event |
+      | badhairday  | /nobelprize/node/add/document |
+      | badhairday  | /nobelprize/node/add/discussion |
+
+  @dev-wip
+  Scenario: Set "Nobel Prize" group state to 'Restricted'. Anonymous user asked to log in.
+    Given  I am logged in as user "mariecurie"
+    When  I change access of group "Nobel Prize" to "Restricted"
+    Then  I am an anonymous user
+    And I go to "nobelprize"
+    And I should see "Please log in"
+
+  @dev-wip
+  Scenario Outline:  As member, group admin, group owner and site admin, access create content form, with purl prefix of draft restricted group.
+    Given  I am logged in as user "<user>"
+    When  I go to "<path>"
+    Then  I should have access to the page
+
+    Examples:
+      | user        | path                 |
+      | turing  | /nobelprize/node/add/photoalbum |
+      | turing  | /nobelprize/node/add/photo |
+      | turing  | /nobelprize/node/add/event |
+      | turing  | /nobelprize/node/add/document |
+      | turing  | /nobelprize/node/add/discussion |
+      | galileo  | /nobelprize/node/add/photoalbum |
+      | galileo  | /nobelprize/node/add/photo |
+      | galileo  | /nobelprize/node/add/event |
+      | galileo  | /nobelprize/node/add/document |
+      | galileo  | /nobelprize/node/add/discussion |
+      | galileo  | /nobelprize/node/add/photoalbum |
+      | alfrednobel  | /nobelprize/node/add/photo |
+      | alfrednobel  | /nobelprize/node/add/event |
+      | alfrednobel  | /nobelprize/node/add/document |
+      | alfrednobel  | /nobelprize/node/add/discussion |
+      | mariecurie  | /nobelprize/node/add/photoalbum |
+      | mariecurie  | /nobelprize/node/add/photo |
+      | mariecurie  | /nobelprize/node/add/event |
+      | mariecurie  | /nobelprize/node/add/document |
+      | mariecurie  | /nobelprize/node/add/discussion |
+
+  @dev-wip
+  Scenario Outline: As non member, access create content form, with purl prefix of draft restricted group.
+    Given  I am logged in as user "<user>"
+    When  I go to "<path>"
+    Then  I should not have access to the page
+
+    Examples:
+      | user        | path                 |
+      | badhairday  | /nobelprize/node/add/photoalbum |
+      | badhairday  | /nobelprize/node/add/photo |
+      | badhairday  | /nobelprize/node/add/event |
+      | badhairday  | /nobelprize/node/add/document |
+      | badhairday  | /nobelprize/node/add/discussion |
+
+  @dev-wip
+  Scenario: Set "Nobel Prize" group state to 'Private'. Anonymous user asked to log in.
+    Given  I am logged in as user "mariecurie"
+    When  I change access of group "Nobel Prize" to "Private"
+    Then  I am an anonymous user
+    And I go to "nobelprize"
+    And I should see "Please log in"
+
+  @dev-wip
+  Scenario Outline: As member, group admin, group owner and site admin, access create content form, with purl prefix of draft private group.
+    Given  I am logged in as user "<user>"
+    When  I go to "<path>"
+    Then  I should have access to the page
+
+    Examples:
+      | user        | path                 |
+      | turing  | /nobelprize/node/add/photoalbum |
+      | turing  | /nobelprize/node/add/photo |
+      | turing  | /nobelprize/node/add/event |
+      | turing  | /nobelprize/node/add/document |
+      | turing  | /nobelprize/node/add/discussion |
+      | galileo  | /nobelprize/node/add/photoalbum |
+      | galileo  | /nobelprize/node/add/photo |
+      | galileo  | /nobelprize/node/add/event |
+      | galileo  | /nobelprize/node/add/document |
+      | galileo  | /nobelprize/node/add/discussion |
+      | galileo  | /nobelprize/node/add/photoalbum |
+      | alfrednobel  | /nobelprize/node/add/photo |
+      | alfrednobel  | /nobelprize/node/add/event |
+      | alfrednobel  | /nobelprize/node/add/document |
+      | alfrednobel  | /nobelprize/node/add/discussion |
+      | mariecurie  | /nobelprize/node/add/photoalbum |
+      | mariecurie  | /nobelprize/node/add/photo |
+      | mariecurie  | /nobelprize/node/add/event |
+      | mariecurie  | /nobelprize/node/add/document |
+      | mariecurie  | /nobelprize/node/add/discussion |
+
+  @dev-wip
+  Scenario Outline: As non member, access create content form, with purl prefix of draft private group.
+    Given  I am logged in as user "<user>"
+    When  I go to "<path>"
+    Then  I should not have access to the page
+
+    Examples:
+      | user        | path                 |
+      | badhairday  | /nobelprize/node/add/photoalbum |
+      | badhairday  | /nobelprize/node/add/photo |
+      | badhairday  | /nobelprize/node/add/event |
+      | badhairday  | /nobelprize/node/add/document |
+      | badhairday  | /nobelprize/node/add/discussion |
