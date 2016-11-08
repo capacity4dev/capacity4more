@@ -2237,7 +2237,7 @@ function c4m_og_view_node_access($node, $account) {
     if ($node->status == NODE_NOT_PUBLISHED) {
 
       // Only power user or content author may view the node.
-      if (_c4m_features_og_members_is_power_user($group) || $node->uid == $user->uid) {
+      if (_c4m_features_og_members_is_power_user($group) || $node->uid == $account->uid) {
         return NODE_ACCESS_ALLOW;
       }
       else {
@@ -2292,7 +2292,6 @@ function c4m_og_create_node_access($node, $account) {
 }
 
 function c4m_og_update_node_access($node, $account) {
-  global $user;
 
   if ($group = og_is_group('node', $node)) {
     // GA and GO get access to draft and published groups.
@@ -2348,7 +2347,7 @@ function c4m_og_update_node_access($node, $account) {
     }
     elseif ($user_type == 'member') {
       // User is content author, or not.
-      return ($node->uid == $user->uid) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+      return ($node->uid == $account->uid) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
     }
   }
 
@@ -2357,7 +2356,6 @@ function c4m_og_update_node_access($node, $account) {
 }
 
 function c4m_og_delete_node_access($node, $account) {
-  global $user;
 
   if ($group = og_is_group('node', $node)) {
 
@@ -2411,7 +2409,7 @@ function c4m_og_delete_node_access($node, $account) {
     }
     elseif ($user_type == 'member') {
       // User is content author, or not.
-      return ($node->uid == $user->uid) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+      return ($node->uid == $account->uid) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
     }
   }
 
