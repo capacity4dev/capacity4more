@@ -2196,6 +2196,9 @@ function c4m_og_get_group_status($group) {
   return $wrapper->c4m_og_status->value();
 }
 
+/**
+ * Handles 'view' operation of hook_node_access().
+ */
 function c4m_og_view_node_access($node, $account) {
   if ($group = og_is_group('node', $node)) {
 
@@ -2254,6 +2257,9 @@ function c4m_og_view_node_access($node, $account) {
   return NODE_ACCESS_IGNORE;
 }
 
+/**
+ * Handles 'create' operation of hook_node_access().
+ */
 function c4m_og_create_node_access($node, $account) {
   // When creating, $node is string that indicates bundle name.
   if ($group = og_is_group_type('node', $node)) {
@@ -2291,6 +2297,9 @@ function c4m_og_create_node_access($node, $account) {
   return NODE_ACCESS_IGNORE;
 }
 
+/**
+ * Handles 'update' operation of hook_node_access().
+ */
 function c4m_og_update_node_access($node, $account) {
 
   if ($group = og_is_group('node', $node)) {
@@ -2355,6 +2364,9 @@ function c4m_og_update_node_access($node, $account) {
   return NODE_ACCESS_IGNORE;
 }
 
+/**
+ * Handles 'delete' operation of hook_node_access().
+ */
 function c4m_og_delete_node_access($node, $account) {
 
   if ($group = og_is_group('node', $node)) {
@@ -2419,11 +2431,6 @@ function c4m_og_delete_node_access($node, $account) {
 
 /**
  * Implements hook_node_access().
- *
- * Prevents anyone besides site administrators to delete Group/Project.
- * Blocks access to 'node/%node/delete'.
- * On wiki page edit, allows access to power users, ond all group members,
- * in case this option is allowed (c4m_edit_by_members).
  */
 function c4m_og_node_access($node, $op, $account) {
 
