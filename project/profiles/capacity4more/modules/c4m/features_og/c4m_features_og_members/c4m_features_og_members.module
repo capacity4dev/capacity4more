@@ -467,7 +467,8 @@ function _c4m_features_og_members_is_power_user($group = NULL, $user = NULL) {
  * - C4M_USER_TYPE_OWNER -> group owner.
  * - C4M_USER_TYPE_ADMIN -> group administrator.
  * - C4M_USER_TYPE_MEMBER -> group member.
- * - C4M_USER_TYPE_NON_MEMBER -> not a group member.
+ * - C4M_USER_TYPE_NON_MEMBER -> authenticated, not a group member.
+ * - C4M_USER_TYPE_NON_VISITOR -> anonymous user.
  *
  * @param object $group
  *   The group for which we want to check the user.
