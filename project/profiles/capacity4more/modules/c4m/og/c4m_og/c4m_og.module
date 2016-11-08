@@ -2229,7 +2229,7 @@ function c4m_og_view_node_access($node, $account) {
 
     return in_array($group_state, $allowed_states[$user_type]) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
-  elseif (og_is_group_content_type('node', $node)) {
+  elseif (og_is_group_content_type('node', $node->type)) {
 
     // Couldn't resolve the group of the content.
     if (!$group = c4m_og_get_group_of_content($node)) {
@@ -2318,7 +2318,7 @@ function c4m_og_update_node_access($node, $account) {
 
     return in_array($group_state, $allowed_states[$user_type]) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
-  elseif (og_is_group_content_type('node', $node)) {
+  elseif (og_is_group_content_type('node', $node->type)) {
 
     $group = c4m_og_get_group_of_content($node);
     $user_type = _c4m_features_og_members_get_user_type($group);
@@ -2372,26 +2372,9 @@ function c4m_og_delete_node_access($node, $account) {
   if ($group = og_is_group('node', $node)) {
 
     // Only site admin may delete groups.
-    if (!c4m_user_is_site_admin($account)) {
-      return NODE_ACCESS_DENY;
-    }
-
-    // GA and GO get access to draft and published groups.
-    // GO also gets access to pending groups.
-    $allowed_states = array(
-      'visitor' => array(),
-      'non-member' => array(),
-      'member' => array(),
-      'admin' => array('draft', 'published'),
-      'owner' => array('pending', 'draft', 'published'),
-    );
-
-    $user_type = _c4m_features_og_members_get_user_type($node);
-    $group_state = c4m_og_get_group_status($node);
-
-    return in_array($group_state, $allowed_states[$user_type]) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+    return c4m_user_is_site_admin($account) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
-  elseif (og_is_group_content_type('node', $node)) {
+  elseif (og_is_group_content_type('node', $node->type)) {
 
     $group = c4m_og_get_group_of_content($node);
     $user_type = _c4m_features_og_members_get_user_type($group);
