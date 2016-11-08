@@ -2255,13 +2255,15 @@ function c4m_og_view_node_access($node, $account) {
 }
 
 function c4m_og_create_node_access($node, $account) {
-  if ($group = og_is_group('node', $node)) {
+  // When creating, $node is string that indicates bundle name.
+  if ($group = og_is_group_type('node', $node)) {
 
     return user_is_anonymous() ? NODE_ACCESS_DENY : NODE_ACCESS_ALLOW;
   }
   elseif (og_is_group_content_type('node', $node)) {
 
-    $user_type = _c4m_features_og_members_get_user_type();
+    $group = c4m_og_get_group_of_content($node);
+    $user_type = _c4m_features_og_members_get_user_type($group);
     // Can't resolve user type - couldn't get OG context to resolve group.
     if ($user_type == 'unknown') {
       return NODE_ACCESS_IGNORE;
@@ -2273,7 +2275,6 @@ function c4m_og_create_node_access($node, $account) {
     }
 
     // We allow access only for draft / published groups.
-    $group = c4m_og_current_group();
     $group_state = c4m_og_get_group_status($group);
     $allowed_states = array('draft', 'published');
 
@@ -2311,19 +2312,27 @@ function c4m_og_update_node_access($node, $account) {
   }
   elseif (og_is_group_content_type('node', $node)) {
 
-    $user_type = _c4m_features_og_members_get_user_type();
+    $group = c4m_og_get_group_of_content($node);
+    $user_type = _c4m_features_og_members_get_user_type($group);
     // Can't resolve user type - couldn't get OG context to resolve group.
     if ($user_type == 'unknown') {
       return NODE_ACCESS_IGNORE;
     }
 
     // Only group members or power users may update content.
-    if ($user_type == 'visitor' || $user_type == 'non-member')  {
+    if ($user_type == 'visitor' || $user_type == 'non-member') {
       return NODE_ACCESS_DENY;
     }
 
+    // When updating published wiki page, deny access to group members,
+    // if 'editable by members' option is not enabled for this page.
+    if ($node->type == 'wiki_page' && $node->status == NODE_PUBLISHED) {
+      if ($user_type == 'member' && !c4m_content_wiki_page_is_editable_by_members($node)) {
+        return NODE_ACCESS_DENY;
+      }
+    }
+
     // We allow access only for draft / published groups.
-    $group = c4m_og_current_group();
     $group_state = c4m_og_get_group_status($group);
     $allowed_states = array('draft', 'published');
 
@@ -2351,6 +2360,12 @@ function c4m_og_delete_node_access($node, $account) {
   global $user;
 
   if ($group = og_is_group('node', $node)) {
+
+    // Only site admin may delete groups.
+    if (!c4m_user_is_site_admin($account)) {
+      return NODE_ACCESS_DENY;
+    }
+
     // GA and GO get access to draft and published groups.
     // GO also gets access to pending groups.
     $allowed_states = array(
@@ -2368,19 +2383,19 @@ function c4m_og_delete_node_access($node, $account) {
   }
   elseif (og_is_group_content_type('node', $node)) {
 
-    $user_type = _c4m_features_og_members_get_user_type();
+    $group = c4m_og_get_group_of_content($node);
+    $user_type = _c4m_features_og_members_get_user_type($group);
     // Can't resolve user type - couldn't get OG context to resolve group.
     if ($user_type == 'unknown') {
       return NODE_ACCESS_IGNORE;
     }
 
     // Only group members or power users may delete content.
-    if ($user_type == 'visitor' || $user_type == 'non-member')  {
+    if ($user_type == 'visitor' || $user_type == 'non-member') {
       return NODE_ACCESS_DENY;
     }
 
     // We allow access only for draft / published groups.
-    $group = c4m_og_current_group();
     $group_state = c4m_og_get_group_status($group);
     $allowed_states = array('draft', 'published');
 
@@ -2417,19 +2432,15 @@ function c4m_og_node_access($node, $op, $account) {
   switch ($op) {
     case "view":
       return c4m_og_view_node_access($node, $account);
-      break;
 
     case "create":
       return c4m_og_create_node_access($node, $account);
-      break;
 
     case "update":
       return c4m_og_update_node_access($node, $account);
-      break;
 
     case "delete":
       return c4m_og_delete_node_access($node, $account);
-      break;
 
   }
 }
