@@ -2200,7 +2200,7 @@ function c4m_og_get_group_status($group) {
  * Handles 'view' operation of hook_node_access().
  */
 function c4m_og_view_node_access($node, $account) {
-  if ($group = og_is_group('node', $node)) {
+  if (og_is_group('node', $node)) {
 
     $allowed_states = array(
       'visitor' => array(),
@@ -2262,7 +2262,7 @@ function c4m_og_view_node_access($node, $account) {
  */
 function c4m_og_create_node_access($node, $account) {
   // When creating, $node is string that indicates bundle name.
-  if ($group = og_is_group_type('node', $node)) {
+  if (og_is_group_type('node', $node)) {
 
     return user_is_anonymous() ? NODE_ACCESS_DENY : NODE_ACCESS_ALLOW;
   }
@@ -2302,7 +2302,7 @@ function c4m_og_create_node_access($node, $account) {
  */
 function c4m_og_update_node_access($node, $account) {
 
-  if ($group = og_is_group('node', $node)) {
+  if (og_is_group('node', $node)) {
     // GA and GO get access to draft and published groups.
     // GO also gets access to pending groups.
     $allowed_states = array(
@@ -2369,7 +2369,7 @@ function c4m_og_update_node_access($node, $account) {
  */
 function c4m_og_delete_node_access($node, $account) {
 
-  if ($group = og_is_group('node', $node)) {
+  if (og_is_group('node', $node)) {
 
     // Only site admin may delete groups.
     return c4m_user_is_site_admin($account) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
@@ -2397,7 +2397,7 @@ function c4m_og_delete_node_access($node, $account) {
       return NODE_ACCESS_DENY;
     }
 
-    // We allow access to power users, and member that is also content author.
+    // We allow access to power user, and member that is also content author.
     $allowed_user_types = array('admin', 'owner', 'site-admin');
     if (in_array($user_type, $allowed_user_types)) {
       return NODE_ACCESS_ALLOW;
