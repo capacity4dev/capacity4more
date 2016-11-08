@@ -475,7 +475,7 @@ function _c4m_features_og_members_is_power_user($group = NULL, $user = NULL) {
  * @param object $user
  *   The user object.
  *
- * @return string|FALSE
+ * @return string|false
  *   Type of user, globally, or within the group.
  *   FALSE, if type could not be resolve.
  */
