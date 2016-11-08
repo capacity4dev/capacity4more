@@ -1090,6 +1090,8 @@ function _c4m_content_taxonomy_extract_root_item(&$items) {
 function c4m_content_create_group_content_access() {
   $item = menu_get_item();
 
+  // Build regular expression that will look like
+  // '/node\/add\/(discussion|document|event|news|photo|photoalbum|wiki-page)/'.
   $bundles = c4m_og_get_all_group_content_bundles('node');
   $regex = '/node\/add\/(' . implode('|', array_keys($bundles)) . ')/';
 
@@ -1121,13 +1123,14 @@ function c4m_content_create_group_content_access() {
   }
   else {
     $user_type = _c4m_features_og_members_get_user_type();
-    // We allow access to power users, and members, when creating content.
+
     $allowed_user_types = array(
       C4M_USER_TYPE_MEMBER,
       C4M_USER_TYPE_ADMIN,
       C4M_USER_TYPE_OWNER,
     );
 
+    // We allow access to power users, and members, when creating content.
     if (!in_array($user_type, $allowed_user_types)) {
       $deny_access = TRUE;
     }

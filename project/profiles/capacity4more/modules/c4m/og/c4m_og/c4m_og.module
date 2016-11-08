@@ -27,14 +27,6 @@ define('C4M_OG_PRIVATE_GROUP', 2);
  *   The group entity, or FALSE if no context was found.
  */
 function c4m_og_current_group() {
-  if (!og_context_is_init()) {
-    // OG context was not determined yet, so register the path and return early.
-    // The next time this access callback will be called, it will not enter
-    // here.
-    og_context_access_callback_register_path($_GET['q']);
-    return FALSE;
-  }
-
   $context = og_context();
   if (!$context) {
     return FALSE;
@@ -2226,6 +2218,8 @@ function c4m_og_view_node_access($node, $account) {
     $user_type = _c4m_features_og_members_get_user_type($node, $account);
     $group_state = c4m_og_get_group_status($node);
 
+    // If group's state appears at allowed states array, for logged in
+    // user type, access is allowed.
     return in_array($group_state, $allowed_states[$user_type]) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
   elseif (og_is_group_content_type('node', $node->type)) {
@@ -2247,12 +2241,13 @@ function c4m_og_view_node_access($node, $account) {
       }
     }
 
+    // View access of content is same as view access of group it belongs to.
     $group_access = node_access('view', $group, $account);
 
     return $group_access ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
 
-  // If we got so far, the content is not OG. For example: article.
+  // The content is not OG. For example: article.
   return NODE_ACCESS_IGNORE;
 }
 
@@ -2292,7 +2287,7 @@ function c4m_og_create_node_access($node, $account) {
     return NODE_ACCESS_ALLOW;
   }
 
-  // If we got so far, the content is not OG. For example: article.
+  // The content is not OG. For example: article.
   return NODE_ACCESS_IGNORE;
 }
 
@@ -2315,6 +2310,8 @@ function c4m_og_update_node_access($node, $account) {
     $user_type = _c4m_features_og_members_get_user_type($node, $account);
     $group_state = c4m_og_get_group_status($node);
 
+    // If group's state appears at allowed states array, for logged in
+    // user type, access is allowed.
     return in_array($group_state, $allowed_states[$user_type]) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
   elseif (og_is_group_content_type('node', $node->type)) {
@@ -2367,7 +2364,7 @@ function c4m_og_update_node_access($node, $account) {
     }
   }
 
-  // If we got so far, the content is not OG. For example: article.
+  // The content is not OG. For example: article.
   return NODE_ACCESS_IGNORE;
 }
 
@@ -2420,7 +2417,7 @@ function c4m_og_delete_node_access($node, $account) {
     }
   }
 
-  // If we got so far, the content is not OG. For example: article.
+  // The content is not OG. For example: article.
   return NODE_ACCESS_IGNORE;
 }
 
@@ -2430,16 +2427,16 @@ function c4m_og_delete_node_access($node, $account) {
 function c4m_og_node_access($node, $op, $account) {
 
   switch ($op) {
-    case "view":
+    case 'view':
       return c4m_og_view_node_access($node, $account);
 
-    case "create":
+    case 'create':
       return c4m_og_create_node_access($node, $account);
 
-    case "update":
+    case 'update':
       return c4m_og_update_node_access($node, $account);
 
-    case "delete":
+    case 'delete':
       return c4m_og_delete_node_access($node, $account);
 
   }
