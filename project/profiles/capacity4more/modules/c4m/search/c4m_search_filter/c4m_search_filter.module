@@ -215,7 +215,7 @@ function _c4m_search_filter_view_access_filter_query_alter(&$query) {
  * @param string $op
  *   Operation for which grants are generated. Defaults to 'view'.
  *
- * @see node_access_grants().
+ * @see node_access_grants()
  *
  * @returns array
  *   List of grants for logged in user.
