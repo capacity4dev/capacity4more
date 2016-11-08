@@ -2223,7 +2223,7 @@ function c4m_og_view_node_access($node, $account) {
       }
     }
 
-    $user_type = _c4m_features_og_members_get_user_type($node);
+    $user_type = _c4m_features_og_members_get_user_type($node, $account);
     $group_state = c4m_og_get_group_status($node);
 
     return in_array($group_state, $allowed_states[$user_type]) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
@@ -2267,8 +2267,8 @@ function c4m_og_create_node_access($node, $account) {
   }
   elseif (og_is_group_content_type('node', $node)) {
 
-    $group = c4m_og_get_group_of_content($node);
-    $user_type = _c4m_features_og_members_get_user_type($group);
+    $group = c4m_og_current_group();
+    $user_type = _c4m_features_og_members_get_user_type($group, $account);
     // Can't resolve user type - couldn't get OG context to resolve group.
     if ($user_type == 'unknown') {
       return NODE_ACCESS_IGNORE;
@@ -2312,7 +2312,7 @@ function c4m_og_update_node_access($node, $account) {
       'owner' => array('pending', 'draft', 'published'),
     );
 
-    $user_type = _c4m_features_og_members_get_user_type($node);
+    $user_type = _c4m_features_og_members_get_user_type($node, $account);
     $group_state = c4m_og_get_group_status($node);
 
     return in_array($group_state, $allowed_states[$user_type]) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
@@ -2320,7 +2320,7 @@ function c4m_og_update_node_access($node, $account) {
   elseif (og_is_group_content_type('node', $node->type)) {
 
     $group = c4m_og_get_group_of_content($node);
-    $user_type = _c4m_features_og_members_get_user_type($group);
+    $user_type = _c4m_features_og_members_get_user_type($group, $account);
     // Can't resolve user type - couldn't get OG context to resolve group.
     if ($user_type == 'unknown') {
       return NODE_ACCESS_IGNORE;
@@ -2379,7 +2379,7 @@ function c4m_og_delete_node_access($node, $account) {
   elseif (og_is_group_content_type('node', $node->type)) {
 
     $group = c4m_og_get_group_of_content($node);
-    $user_type = _c4m_features_og_members_get_user_type($group);
+    $user_type = _c4m_features_og_members_get_user_type($group, $account);
     // Can't resolve user type - couldn't get OG context to resolve group.
     if ($user_type == 'unknown') {
       return NODE_ACCESS_IGNORE;
