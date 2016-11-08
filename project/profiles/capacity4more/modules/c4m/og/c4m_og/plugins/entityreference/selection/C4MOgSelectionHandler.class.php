@@ -149,7 +149,13 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       return $query;
     }
 
-    $allowed_user_types = array('member', 'admin', 'owner', 'site-admin');
+    $allowed_user_types = array(
+      C4M_USER_TYPE_MEMBER,
+      C4M_USER_TYPE_ADMIN,
+      C4M_USER_TYPE_OWNER,
+      C4M_USER_TYPE_SITE_ADMIN,
+    );
+
     $user_type = _c4m_features_og_members_get_user_type();
     // If user is not of type that can create the content, falsify the query.
     if (!in_array($user_type, $allowed_user_types)) {

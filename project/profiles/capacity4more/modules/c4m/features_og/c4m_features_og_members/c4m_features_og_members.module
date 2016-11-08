@@ -460,22 +460,23 @@ function _c4m_features_og_members_is_power_user($group = NULL, $user = NULL) {
 }
 
 /**
- * Returns the type of user, within a group.
+ * Returns the type of user, globally, or within a group.
  *
- * Meaning the user:
- * - Has the site wide role 'administrator' -> 'site-admin'.
- * - Is author of the group -> 'owner'.
- * - Has the 'administrator member' role within the group -> 'admin'.
- * - Is group member -> 'member'.
- * - Otherwise ->'non-member'.
+ * Possible types:
+ * - C4M_USER_TYPE_SITE_ADMIN -> site administrator.
+ * - C4M_USER_TYPE_OWNER -> group owner.
+ * - C4M_USER_TYPE_ADMIN -> group administrator.
+ * - C4M_USER_TYPE_MEMBER -> group member.
+ * - C4M_USER_TYPE_NON_MEMBER -> not a group member.
  *
- * @param mixed $group
- *   The group we want to check the user for.
- * @param mixed $user
+ * @param object $group
+ *   The group for which we want to check the user.
+ * @param object $user
  *   The user object.
  *
- * @return bool
- *   Is the user a power user.
+ * @return string|FALSE
+ *   Type of user, globally, or within the group.
+ *   FALSE, if type could not be resolve.
  */
 function _c4m_features_og_members_get_user_type($group = NULL, $user = NULL) {
   if (!isset($user)) {
@@ -483,12 +484,12 @@ function _c4m_features_og_members_get_user_type($group = NULL, $user = NULL) {
   }
 
   if (user_is_anonymous()) {
-    return 'visitor';
+    return C4M_USER_TYPE_VISITOR;
   }
 
   // The user has the site wide role 'administrator'.
   if (in_array('administrator', $user->roles)) {
-    return 'site-admin';
+    return C4M_USER_TYPE_SITE_ADMIN;
   }
 
   if (!isset($group)) {
@@ -498,21 +499,21 @@ function _c4m_features_og_members_get_user_type($group = NULL, $user = NULL) {
   // Currently we're not in a group context, and at that point the user is not
   // an administrator.
   if (!$group) {
-    return 'unknown';
+    return FALSE;
   }
 
   // The user is the group owner.
   // What is a group owner? see https://www.drupal.org/node/1114858.
   if ($group->uid === $user->uid) {
-    return 'owner';
+    return C4M_USER_TYPE_OWNER;
   }
 
   // The user has the group role 'administrator member'.
   if (in_array('administrator member', og_get_user_roles('node', $group->nid, $user->uid))) {
-    return 'admin';
+    return C4M_USER_TYPE_ADMIN;
   }
 
-  return og_is_member('node', $group->nid) ? 'member' : 'non-member';
+  return og_is_member('node', $group->nid) ? C4M_USER_TYPE_MEMBER : C4M_USER_TYPE_NON_MEMBER;
 }
 
 /**

@@ -2202,24 +2202,24 @@ function c4m_og_view_node_access($node, $account) {
   if (og_is_group('node', $node)) {
 
     $allowed_states = array(
-      'visitor' => array(),
-      'non-member' => array(),
-      'member' => array('draft', 'archived', 'published'),
-      'admin' => array('draft', 'archived', 'published'),
-      'owner' => array('pending', 'draft', 'archived', 'published'),
+      C4M_USER_TYPE_VISITOR => array(),
+      C4M_USER_TYPE_NON_MEMBER => array(),
+      C4M_USER_TYPE_MEMBER => array('draft', 'archived', 'published'),
+      C4M_USER_TYPE_ADMIN => array('draft', 'archived', 'published'),
+      C4M_USER_TYPE_OWNER => array('pending', 'draft', 'archived', 'published'),
     );
 
     $group_access = c4m_og_get_access_type($node);
 
     if ($group_access['type'] == 'public') {
       // Archived and published states are allowed for public group.
-      $allowed_states['visitor'] = $allowed_states['non-member'] = array('archived', 'published');
+      $allowed_states[C4M_USER_TYPE_VISITOR] = $allowed_states[C4M_USER_TYPE_NON_MEMBER] = array('archived', 'published');
     }
     elseif ($group_access['type'] == 'restricted') {
       // User is not a member, but can access restricted group.
       if (c4m_og_user_can_access_restricted_group($node, $account, 'view')) {
         // Published state is allowed for restricted group.
-        $allowed_states['non-member'][] = 'published';
+        $allowed_states[C4M_USER_TYPE_NON_MEMBER][] = 'published';
       }
     }
 
@@ -2270,12 +2270,12 @@ function c4m_og_create_node_access($node, $account) {
     $group = c4m_og_current_group();
     $user_type = _c4m_features_og_members_get_user_type($group, $account);
     // Can't resolve user type - couldn't get OG context to resolve group.
-    if ($user_type == 'unknown') {
+    if (!$user_type) {
       return NODE_ACCESS_IGNORE;
     }
 
     // Only group members or power users may create content.
-    if ($user_type == 'visitor' || $user_type == 'non-member') {
+    if ($user_type == C4M_USER_TYPE_VISITOR || $user_type == C4M_USER_TYPE_NON_MEMBER) {
       return NODE_ACCESS_DENY;
     }
 
@@ -2288,7 +2288,7 @@ function c4m_og_create_node_access($node, $account) {
       return NODE_ACCESS_DENY;
     }
 
-    // We know that is user is member or power member.
+    // We know that the user is member or power member.
     return NODE_ACCESS_ALLOW;
   }
 
@@ -2305,11 +2305,11 @@ function c4m_og_update_node_access($node, $account) {
     // GA and GO get access to draft and published groups.
     // GO also gets access to pending groups.
     $allowed_states = array(
-      'visitor' => array(),
-      'non-member' => array(),
-      'member' => array(),
-      'admin' => array('draft', 'published'),
-      'owner' => array('pending', 'draft', 'published'),
+      C4M_USER_TYPE_VISITOR => array(),
+      C4M_USER_TYPE_NON_MEMBER => array(),
+      C4M_USER_TYPE_MEMBER => array(),
+      C4M_USER_TYPE_ADMIN => array('draft', 'published'),
+      C4M_USER_TYPE_OWNER => array('pending', 'draft', 'published'),
     );
 
     $user_type = _c4m_features_og_members_get_user_type($node, $account);
@@ -2322,19 +2322,19 @@ function c4m_og_update_node_access($node, $account) {
     $group = c4m_og_get_group_of_content($node);
     $user_type = _c4m_features_og_members_get_user_type($group, $account);
     // Can't resolve user type - couldn't get OG context to resolve group.
-    if ($user_type == 'unknown') {
+    if (!$user_type) {
       return NODE_ACCESS_IGNORE;
     }
 
     // Only group members or power users may update content.
-    if ($user_type == 'visitor' || $user_type == 'non-member') {
+    if ($user_type == C4M_USER_TYPE_VISITOR || $user_type == C4M_USER_TYPE_NON_MEMBER) {
       return NODE_ACCESS_DENY;
     }
 
     // When updating published wiki page, deny access to group members,
     // if 'editable by members' option is not enabled for this page.
     if ($node->type == 'wiki_page' && $node->status == NODE_PUBLISHED) {
-      if ($user_type == 'member' && !c4m_content_wiki_page_is_editable_by_members($node)) {
+      if ($user_type == C4M_USER_TYPE_MEMBER && !c4m_content_wiki_page_is_editable_by_members($node)) {
         return NODE_ACCESS_DENY;
       }
       else {
@@ -2352,11 +2352,16 @@ function c4m_og_update_node_access($node, $account) {
     }
 
     // We allow access to power users, and member that is also content author.
-    $allowed_user_types = array('admin', 'owner', 'site-admin');
+    $allowed_user_types = array(
+      C4M_USER_TYPE_ADMIN,
+      C4M_USER_TYPE_OWNER,
+      C4M_USER_TYPE_SITE_ADMIN,
+    );
+
     if (in_array($user_type, $allowed_user_types)) {
       return NODE_ACCESS_ALLOW;
     }
-    elseif ($user_type == 'member') {
+    elseif ($user_type == C4M_USER_TYPE_MEMBER) {
       // User is content author, or not.
       return ($node->uid == $account->uid) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
     }
@@ -2381,12 +2386,12 @@ function c4m_og_delete_node_access($node, $account) {
     $group = c4m_og_get_group_of_content($node);
     $user_type = _c4m_features_og_members_get_user_type($group, $account);
     // Can't resolve user type - couldn't get OG context to resolve group.
-    if ($user_type == 'unknown') {
+    if (!$user_type) {
       return NODE_ACCESS_IGNORE;
     }
 
     // Only group members or power users may delete content.
-    if ($user_type == 'visitor' || $user_type == 'non-member') {
+    if ($user_type == C4M_USER_TYPE_VISITOR || $user_type == C4M_USER_TYPE_NON_MEMBER) {
       return NODE_ACCESS_DENY;
     }
 
@@ -2400,11 +2405,16 @@ function c4m_og_delete_node_access($node, $account) {
     }
 
     // We allow access to power user, and member that is also content author.
-    $allowed_user_types = array('admin', 'owner', 'site-admin');
+    $allowed_user_types = array(
+      C4M_USER_TYPE_ADMIN,
+      C4M_USER_TYPE_OWNER,
+      C4M_USER_TYPE_SITE_ADMIN,
+    );
+
     if (in_array($user_type, $allowed_user_types)) {
       return NODE_ACCESS_ALLOW;
     }
-    elseif ($user_type == 'member') {
+    elseif ($user_type == C4M_USER_TYPE_MEMBER) {
       // User is content author, or not.
       return ($node->uid == $account->uid) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
     }
@@ -2620,7 +2630,7 @@ function c4m_og_invite_access($group_type, $gid) {
   $group_access = c4m_og_get_access_type($group);
 
   // Group members can't invite to private group, or group that is moderated.
-  if ($user_type == 'member' && ($group_access == 'private' || $group_moderation_state != 'open')) {
+  if ($user_type == C4M_USER_TYPE_MEMBER && ($group_access == 'private' || $group_moderation_state != 'open')) {
     return FALSE;
   }
 

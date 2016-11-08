@@ -7,6 +7,13 @@
 
 include_once 'c4m_user.features.inc';
 
+define('C4M_USER_TYPE_VISITOR', 'visitor');
+define('C4M_USER_TYPE_NON_MEMBER', 'non member');
+define('C4M_USER_TYPE_MEMBER', 'member');
+define('C4M_USER_TYPE_OWNER', 'owner');
+define('C4M_USER_TYPE_ADMIN', 'admin');
+define('C4M_USER_TYPE_SITE_ADMIN', 'site admin');
+
 /**
  * Define active user status.
  */
