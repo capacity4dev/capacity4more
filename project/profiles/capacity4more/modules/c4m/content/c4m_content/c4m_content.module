@@ -1105,6 +1105,10 @@ function c4m_content_create_group_content_access() {
     drupal_exit();
   }
 
+  if (c4m_user_is_site_admin()) {
+    return TRUE;
+  }
+
   $deny_access = FALSE;
   // We allow access only for draft / published groups.
   $group = node_load($context['gid']);
@@ -1118,7 +1122,7 @@ function c4m_content_create_group_content_access() {
   else {
     $user_type = _c4m_features_og_members_get_user_type();
     // We allow access to power users, and members, when creating content.
-    $allowed_user_types = array('member', 'admin', 'owner', 'site-admin');
+    $allowed_user_types = array('member', 'admin', 'owner');
     if (!in_array($user_type, $allowed_user_types)) {
       $deny_access = TRUE;
     }
