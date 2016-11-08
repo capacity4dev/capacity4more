@@ -251,8 +251,8 @@ function c4m_user_profile_menu() {
     'title' => 'Leave platform',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_user_profile_remove_account_form', 1),
-    'access callback' => 'user_is_logged_in',
-    'access arguments' => array(),
+    'access callback' => 'c4m_user_profile_leave_user_access',
+    'access arguments' => array(1),
     'file' => 'c4m_user_profile.pages.inc',
     'type' => MENU_CALLBACK,
   );
@@ -1304,6 +1304,25 @@ function c4m_user_profile_unsubscribe_user_access(
     }
   }
   catch (\EntityMetadataWrapperException $e) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
+ * Access callback for "Leave platform" page.
+ *
+ * @param object $account
+ *   The user object.
+ *
+ * @return bool
+ *   TRUE if user has access.
+ */
+function c4m_user_profile_leave_user_access($account) {
+  global $user;
+
+  if ($account->uid != $user->uid) {
     return FALSE;
   }
 
