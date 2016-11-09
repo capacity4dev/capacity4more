@@ -6,6 +6,11 @@
  */
 
 /**
+ * The allowed format for the CKEditor widget on the contact form.
+ */
+define('C4M_CONTACT_ALLOWED_FORMAT', 'filtered_html');
+
+/**
  * Implements hook_permission().
  */
 function c4m_contact_permission() {
@@ -51,6 +56,10 @@ function c4m_contact_c4m_captcha_form_info() {
 function c4m_contact_mail_alter(&$message) {
   if ($message['id'] == 'contact_page_mail') {
     $message['to'] = variable_get('c4m_contact_email_addresses', variable_get('site_mail'));
+
+    // Join the header prefix and the message itself into a single string and
+    // separate them by 2 HTML line breaks.
+    $message['body'] = implode('<br><br>', $message['body']);
   }
 }
 
@@ -67,6 +76,9 @@ function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id
     return;
   }
 
+  // Send yourself a copy should be allow to all users and visitors.
+  $form['copy']['#access'] = TRUE;
+
   if (!user_is_anonymous()) {
     global $user;
     $user = user_load($user->uid);
@@ -78,6 +90,25 @@ function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id
 
     $form['mail']['#default_value'] = $user->mail;
     $form['mail']['#disabled'] = TRUE;
+
+    $form['message']['#type'] = 'text_format';
+    $form['message']['#format'] = C4M_CONTACT_ALLOWED_FORMAT;
+    $form['#after_build'][] = 'c4m_contact_node_form_after_build';
+  }
+
+  /**
+   * Removes the filter options select box from the contact form.
+   *
+   * @param array $form
+   *   Nested array of form elements that comprise the form.
+   *
+   * @return array
+   *   Modified array of form elements that comprise the form.
+   */
+  function c4m_contact_node_form_after_build($form) {
+    $form['message']['format']['#access'] = FALSE;
+
+    return $form;
   }
 
   // Add intro text to form.
@@ -90,6 +121,38 @@ function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id
       '#weight' => -1,
     );
   }
+  // Prepend a submit callback to handle the difference between visitor and user
+  // forms (with a WIYIWYG editor). Sends a uniform single string value.
+  array_unshift($form['#submit'], 'c4m_contact_contact_site_form_submit');
+}
+
+/**
+ * Submit handler for the site contact form.
+ *
+ * Keeps the value only from the data array received from a WYSIWYG field.
+ */
+function c4m_contact_contact_site_form_submit($form, &$form_state) {
+  if (isset($form_state['values']['message']['value'])) {
+    $form_state['values']['message'] = $form_state['values']['message']['value'];
+  }
+
+  // Inserts HTML line breaks before all newlines.
+  if (!_c4m_contact_string_is_html($form_state['values']['message'])) {
+    $form_state['values']['message'] = nl2br($form_state['values']['message']);
+  }
+}
+
+/**
+ * Helper to detect if a string contains HTML entities.
+ *
+ * @param string $string
+ *   The string to determine if contains HTML tags.
+ *
+ * @return bool
+ *   Whether the string contains HTML tags.
+ */
+function _c4m_contact_string_is_html($string) {
+  return preg_match("/<[^<]+>/", $string, $m) != 0;
 }
 
 /**

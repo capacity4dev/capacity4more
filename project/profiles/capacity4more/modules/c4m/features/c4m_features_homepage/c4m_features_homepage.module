@@ -49,9 +49,8 @@ function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
 /**
  * Renders suggested groups for the user.
  *
- * Suggest 5 random groups for the user which he is not subscribed to.
- * When interests filter is applied : select groups which has at least one
- * common topic of interest with the user.
+ * Suggests 3 random groups for the user which he is not subscribed to.
+ * Select groups which ve at least one common topic of interest with the user.
  * Interests are taken from user's profile.
  *
  * @return mixed
@@ -63,12 +62,10 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
 
   $user_wrapper = entity_metadata_wrapper('user', $account->uid);
   $interests = $user_wrapper->c4m_vocab_topic->raw();
-
-  $get_query = drupal_get_query_parameters();
-  $filter = !empty($get_query['filter'])
-    ? $get_query['filter']
-    : NULL;
-
+  // Can't suggest groups for user that got no interests.
+  if (empty($interests)) {
+    return;
+  }
   $user_groups = og_get_groups_by_user($account, NULL, TRUE);
 
   $query = new EntityFieldQuery();
@@ -84,9 +81,7 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
       ->propertyCondition('nid', $user_groups['node'], 'NOT IN');
   }
 
-  if (!empty($interests)) {
-    $query->fieldCondition('c4m_vocab_topic', 'tid', $interests, 'IN');
-  }
+  $query->fieldCondition('c4m_vocab_topic', 'tid', $interests, 'IN');
 
   $result = $query
     ->addTag('random')

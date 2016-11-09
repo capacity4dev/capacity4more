@@ -64,8 +64,14 @@ Feature: Test homepage content and blocks
     Then  I should not see "Suggested Groups"
 
   @api
-  Scenario: Logged in, non member user should see "Suggested Groups" block
+  Scenario: Logged in user without any topics of interest, should not see "Suggested Groups" block
     Given I am logged in as user "president"
+    When  I visit the site homepage
+    Then  I should not see "Suggested Groups"
+
+  @api
+  Scenario: Logged in user with a topic of interest, should see "Suggested Groups" block
+    Given I am logged in as user "alfrednobel"
     When  I visit the site homepage
     Then  I should see "Suggested Groups"
 
@@ -154,13 +160,15 @@ Feature: Test homepage content and blocks
     And   I should not see "updated the Article" in the "div.activity-stream" element
 
   @javascript
-  Scenario: Logged in, non member user can't see My group filter and restricted
-  group activities
+  Scenario: Logged in, non member user with no interests can't see My group nor My interests filter
+            and restricted group activities.
     Given I am logged in as user "president"
     When  I visit the site homepage
-    Then  I should wait to see "Filter by"
+    Then  I should wait to see "Latest activity"
+    Then  I should not see "Filter by"
     And   I should not see "My groups" in the "div.pane-filter" element
     And   I should not see "Nobel Prize" in the "div.activity-stream" element
+    And   I should not see "uploaded" in the "div.activity-stream" element
     And   I load more activities
     And   I should see "posted" in the "div.activity-stream" element
 
@@ -179,3 +187,22 @@ Feature: Test homepage content and blocks
     Given I am logged in as user "admin"
     Then  I change access of group "Nobel prize" to "Public"
 
+  @javascript
+  Scenario: Anonymous user can see the news activity.
+    Given I am an anonymous user
+    When  I visit the site homepage
+    And   I load all activities until I see "News example"
+
+  @javascript
+  Scenario: Authenticated user can see the news activity.
+    Given I am logged in as user "alfrednobel"
+    When  I visit the site homepage
+    And   I load all activities until I see "News example"
+
+  @javascript
+  Scenario: Authenticated user should not see the news activity when filtered by groups.
+    Given I am logged in as user "alfrednobel"
+    When  I visit the site homepage
+    And   I select the radio button "My groups" with the id "edit-homepage-filter-groups"
+    And   I load all activities
+    And   I should not see "News example" in the "div.activity-stream" element

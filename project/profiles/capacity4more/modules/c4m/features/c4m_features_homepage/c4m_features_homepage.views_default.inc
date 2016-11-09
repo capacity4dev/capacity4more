@@ -243,6 +243,15 @@ function c4m_features_homepage_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Status (c4m_og_status) */
+  $handler->display->display_options['filters']['c4m_og_status_value']['id'] = 'c4m_og_status_value';
+  $handler->display->display_options['filters']['c4m_og_status_value']['table'] = 'field_data_c4m_og_status';
+  $handler->display->display_options['filters']['c4m_og_status_value']['field'] = 'c4m_og_status_value';
+  $handler->display->display_options['filters']['c4m_og_status_value']['operator'] = 'not';
+  $handler->display->display_options['filters']['c4m_og_status_value']['value'] = array(
+    'draft' => 'draft',
+    'deleted' => 'deleted',
+  );
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
