@@ -579,6 +579,13 @@ function c4m_user_user_default_permissions() {
     'module' => 'statistics',
   );
 
+  // Exported permission: 'administer taxonomy'.
+  $permissions['administer taxonomy'] = array(
+    'name' => 'administer taxonomy',
+    'roles' => array(),
+    'module' => 'taxonomy',
+  );
+
   // Exported permission: 'administer themes'.
   $permissions['administer themes'] = array(
     'name' => 'administer themes',
@@ -1284,6 +1291,48 @@ function c4m_user_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: 'delete terms in c4m_vocab_date'.
+  $permissions['delete terms in c4m_vocab_date'] = array(
+    'name' => 'delete terms in c4m_vocab_date',
+    'roles' => array(),
+    'module' => 'taxonomy',
+  );
+
+  // Exported permission: 'delete terms in c4m_vocab_document_type'.
+  $permissions['delete terms in c4m_vocab_document_type'] = array(
+    'name' => 'delete terms in c4m_vocab_document_type',
+    'roles' => array(),
+    'module' => 'taxonomy',
+  );
+
+  // Exported permission: 'delete terms in c4m_vocab_geo'.
+  $permissions['delete terms in c4m_vocab_geo'] = array(
+    'name' => 'delete terms in c4m_vocab_geo',
+    'roles' => array(),
+    'module' => 'taxonomy',
+  );
+
+  // Exported permission: 'delete terms in c4m_vocab_language'.
+  $permissions['delete terms in c4m_vocab_language'] = array(
+    'name' => 'delete terms in c4m_vocab_language',
+    'roles' => array(),
+    'module' => 'taxonomy',
+  );
+
+  // Exported permission: 'delete terms in c4m_vocab_theme'.
+  $permissions['delete terms in c4m_vocab_theme'] = array(
+    'name' => 'delete terms in c4m_vocab_theme',
+    'roles' => array(),
+    'module' => 'taxonomy',
+  );
+
+  // Exported permission: 'delete terms in c4m_vocab_topic'.
+  $permissions['delete terms in c4m_vocab_topic'] = array(
+    'name' => 'delete terms in c4m_vocab_topic',
+    'roles' => array(),
+    'module' => 'taxonomy',
+  );
+
   // Exported permission: 'delete user revisions'.
   $permissions['delete user revisions'] = array(
     'name' => 'delete user revisions',
@@ -1647,6 +1696,48 @@ function c4m_user_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: 'edit terms in c4m_vocab_date'.
+  $permissions['edit terms in c4m_vocab_date'] = array(
+    'name' => 'edit terms in c4m_vocab_date',
+    'roles' => array(),
+    'module' => 'taxonomy',
+  );
+
+  // Exported permission: 'edit terms in c4m_vocab_document_type'.
+  $permissions['edit terms in c4m_vocab_document_type'] = array(
+    'name' => 'edit terms in c4m_vocab_document_type',
+    'roles' => array(),
+    'module' => 'taxonomy',
+  );
+
+  // Exported permission: 'edit terms in c4m_vocab_geo'.
+  $permissions['edit terms in c4m_vocab_geo'] = array(
+    'name' => 'edit terms in c4m_vocab_geo',
+    'roles' => array(),
+    'module' => 'taxonomy',
+  );
+
+  // Exported permission: 'edit terms in c4m_vocab_language'.
+  $permissions['edit terms in c4m_vocab_language'] = array(
+    'name' => 'edit terms in c4m_vocab_language',
+    'roles' => array(),
+    'module' => 'taxonomy',
+  );
+
+  // Exported permission: 'edit terms in c4m_vocab_theme'.
+  $permissions['edit terms in c4m_vocab_theme'] = array(
+    'name' => 'edit terms in c4m_vocab_theme',
+    'roles' => array(),
+    'module' => 'taxonomy',
+  );
+
+  // Exported permission: 'edit terms in c4m_vocab_topic'.
+  $permissions['edit terms in c4m_vocab_topic'] = array(
+    'name' => 'edit terms in c4m_vocab_topic',
+    'roles' => array(),
+    'module' => 'taxonomy',
   );
 
   // Exported permission: 'execute elysia_cron'.
