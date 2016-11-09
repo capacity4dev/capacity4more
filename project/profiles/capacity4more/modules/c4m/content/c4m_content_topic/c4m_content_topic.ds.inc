@@ -62,6 +62,11 @@ function c4m_content_topic_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'activity_stream_by_topic_nojs_fallback' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'expert_users_by_topic' => array(
       'weight' => '8',
       'label' => 'hidden',
@@ -173,6 +178,21 @@ function c4m_content_topic_ds_custom_fields_info() {
     'block_render' => '2',
   );
   $export['activity_stream_by_topic'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'activity_stream_by_topic_nojs_fallback';
+  $ds_field->label = 'Activity Stream by Topic NoJS fallback';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'node' => 'node',
+  );
+  $ds_field->ui_limit = 'topic|full';
+  $ds_field->properties = array(
+    'block' => 'views|c4m_message_with_related_topics_no_js_fallback-block',
+    'block_render' => '2',
+  );
+  $export['activity_stream_by_topic_nojs_fallback'] = $ds_field;
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
@@ -349,6 +369,7 @@ function c4m_content_topic_ds_layout_settings_info() {
       ),
       'left' => array(
         6 => 'activity_stream_by_topic',
+        13 => 'activity_stream_by_topic_nojs_fallback',
       ),
       'right' => array(
         8 => 'related_events_by_topic',
@@ -366,6 +387,7 @@ function c4m_content_topic_ds_layout_settings_info() {
       'c4m_header_bottom' => 'header',
       'title' => 'header',
       'activity_stream_by_topic' => 'left',
+      'activity_stream_by_topic_nojs_fallback' => 'left',
       'c4m_body' => 'header',
       'related_events_by_topic' => 'right',
       'related_groups_by_topic' => 'right',
