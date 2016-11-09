@@ -163,7 +163,6 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
 
     // No additional modifications to query. If creating content from a form,
     // permissions will be rechecked at form access.
-
     return $query;
   }
 
