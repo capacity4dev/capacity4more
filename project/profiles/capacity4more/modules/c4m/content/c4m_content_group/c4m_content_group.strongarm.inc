@@ -176,8 +176,8 @@ function c4m_content_group_strongarm() {
             'visible' => FALSE,
           ),
           'group_dashboard' => array(
-            'weight' => '0',
-            'visible' => TRUE,
+            'weight' => '28',
+            'visible' => FALSE,
           ),
         ),
       ),
