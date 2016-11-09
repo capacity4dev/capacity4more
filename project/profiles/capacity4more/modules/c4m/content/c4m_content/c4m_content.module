@@ -1106,14 +1106,16 @@ function c4m_content_create_group_content_access() {
     drupal_exit();
   }
 
-  if (c4m_user_is_site_admin()) {
-    return TRUE;
-  }
-
   $deny_access = FALSE;
   // We allow access only for draft / published groups.
   $group = node_load($context['gid']);
   $group_state = c4m_og_get_group_status($group);
+
+  // Site admin may not add content to pending group. No other restrictions.
+  if (c4m_user_is_site_admin()) {
+    return ($group_state != 'pending');
+  }
+
   $allowed_states = array('draft', 'published');
 
   // Group state is not allowed.
