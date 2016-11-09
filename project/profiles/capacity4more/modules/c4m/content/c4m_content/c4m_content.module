@@ -1116,18 +1116,23 @@ function c4m_content_create_group_content_access() {
   $group_state = c4m_og_get_group_status($group);
   $allowed_states = array('draft', 'published');
 
-  // Can't resolve group state, or group state is not allowed.
-  if (!$group_state || !in_array($group_state, $allowed_states)) {
+  // Group state is not allowed.
+  if (!in_array($group_state, $allowed_states)) {
     $deny_access = TRUE;
   }
   else {
     $user_type = _c4m_features_og_members_get_user_type();
 
     $allowed_user_types = array(
-      C4M_USER_TYPE_MEMBER,
       C4M_USER_TYPE_ADMIN,
       C4M_USER_TYPE_OWNER,
     );
+
+    // If content is not wiki page, allow it's creation by group member.
+    $bundle = explode('/', $item['path']);
+    if ($bundle[2] != 'wiki-page') {
+      $allowed_user_types[] = C4M_USER_TYPE_MEMBER;
+    }
 
     // We allow access to power users, and members, when creating content.
     if (!in_array($user_type, $allowed_user_types)) {

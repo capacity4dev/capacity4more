@@ -140,7 +140,7 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       $target_access = og_user_access($group_type, $group['gid'], "create $node_type content");
       // Any member can edit a wiki page unless a power user has changed it
       // specifically for a specific node.
-      if (!empty($this->entity->nid) && $node_type == 'wiki_page') {
+      if ($node_type == 'wiki_page') {
         $target_access = og_user_access($group_type, $group['gid'], "update any wiki_page content");
       }
 
