@@ -106,3 +106,20 @@ Feature: Group dashboard
     When  I go to "/groups?text=nobel"
     Then  I should see the text "Nobel Prize"
     And   I should not see the ".c4m-node-highlight" element
+
+  @api
+  Scenario Outline: GO / GA / Member / User should not be able to highlight a group.
+    Given I am logged in as user "<username>"
+    When  I visit the dashboard of group "Nobel Prize"
+    Then  I should see the text "Nobel Prize"
+    And   I should not see the ".c4m-node-highlight" element
+    When  I go to "/groups?text=nobel"
+    Then  I should see the text "Nobel Prize"
+    And   I should not see the ".c4m-node-highlight" element
+
+    Examples:
+    | username    |
+    | alfrednobel |
+    | galileo     |
+    | badhairday  |
+    | president   |
