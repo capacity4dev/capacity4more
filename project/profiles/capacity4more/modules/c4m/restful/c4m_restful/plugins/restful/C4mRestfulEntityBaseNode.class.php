@@ -31,6 +31,7 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
     if (!in_array($group_status, $allowed_groups) && !user_access('administer site configuration', $account)) {
       return FALSE;
     }
+
     return og_user_access('node', $group_id, "create $resource_name content", $account);
   }
 
