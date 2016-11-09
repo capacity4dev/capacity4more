@@ -3659,3 +3659,72 @@ function c4m_message_get_user_last_activity($uid) {
     return '';
   }
 }
+
+/**
+ * Gets the specified condition index in the query where hierarchy.
+ *
+ * @param array $query_filter
+ *   The query->where array to search.
+ * @param string $field
+ *   The specific field name we wish to find.
+ *
+ * @return array
+ *   An associative array of the filter group and index of the requested
+ *   condition.
+ */
+function c4m_message_get_query_condition_index_by_field_name($query_filter, $field) {
+  foreach ($query_filter as $group_index => $group) {
+    foreach ($group['conditions'] as $condition_index => $condition) {
+      if (is_string($condition['field']) && $condition['field'] == $field) {
+        return array(
+          'group' => $group_index,
+          'index' => $condition_index,
+        );
+      }
+    }
+  }
+  return array();
+}
+
+/**
+ * Implements hook_views_query_alter().
+ *
+ * Filter the activity stream by the user's choice.
+ */
+function c4m_message_views_query_alter(&$view, &$query) {
+  if ($view->name != 'global_activity_stream_no_js_fallback') {
+    return;
+  }
+
+  $filter_by = filter_input(INPUT_GET, 'filter', FILTER_SANITIZE_STRING);
+
+  if ($filter_by == 'groups' || $filter_by == 'projects') {
+    // `rtrim` removes plural 's' from the query string value to get the bundle.
+    $groups = c4m_og_get_user_group_ids_by_bundle(rtrim($filter_by, 's'));
+    $condition = c4m_message_get_query_condition_index_by_field_name($query->where, 'field_data_field_group_node.field_group_node_target_id');
+    $query->where[$condition['group']]['conditions'][$condition['index']]['value'] = $groups;
+    $query->where[$condition['group']]['conditions'][$condition['index']]['operator'] = 'IN';
+  }
+  else {
+    // Remove the filter criteria when the users chooses to show all activity or
+    // filter by interests rather than by groups or projects.
+    $condition = c4m_message_get_query_condition_index_by_field_name($query->where, 'field_data_field_group_node.field_group_node_target_id');
+    unset($query->where[$condition['group']]);
+  }
+}
+
+/**
+ * Redirect the user to the homepage + query string ?filter=.
+ *
+ * For the global activity stream, when JS is not enabled, this function will
+ * redirect to the correct path when filtering the content by groups, projects
+ * or interests.
+ */
+function c4m_features_homepage_filter_form_create_submit(&$form, &$form_state) {
+  $options = array(
+    'query' => array(
+      'filter' => $form_state['values']['homepage-filter'],
+    ),
+  );
+  $form_state['redirect'] = array('<front>', $options);
+}
