@@ -12,6 +12,11 @@
 
   transition: transform 0.5s;
   -webkit-transition: -webkit-transform 0.5s;
+
+  .modal-open & {
+    z-index: auto;
+    perspective: none;
+  }
 }
 
 .container--push::after,
