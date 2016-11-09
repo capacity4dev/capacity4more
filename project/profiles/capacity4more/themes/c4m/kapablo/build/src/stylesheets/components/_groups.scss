@@ -579,15 +579,18 @@
 }
 
 .group-indications--access {
-  position: relative;
   float: left;
   height: 25px;
-  margin-right: 20px;
+  margin-right: 10px;
+  position: relative;
+  @media (min-width: $screen-tablet) {
+    margin-right: 20px;
+  }
 }
 
 .group-type,
 .group-status {
-  display: inline-block;
+  float: left;
   margin-left: 10px;
   height: 25px;
 }
@@ -595,7 +598,8 @@
 .group-access {
   display: none;
   @media (min-width: $screen-tablet) {
-    display: inline-block;
+    float: right;
+    display: block;
     margin-left: 5px;
     height: 25px;
     border-radius: 4px;
@@ -605,8 +609,7 @@
 .group-status {
   @media (min-width: $screen-tablet) {
     float: right;
-    display: block;
-    clear: left;
+    clear: both;
     margin-top: 6px;
   }
 }
