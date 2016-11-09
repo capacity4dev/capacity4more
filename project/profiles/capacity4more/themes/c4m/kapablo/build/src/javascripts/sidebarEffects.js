@@ -39,7 +39,8 @@
           },
           bodyClickFn = function (evt) {
             if (!hasParentClass(evt.target, 'offCanvasNavigation')
-              && !hasParentClass(evt.target, 'offCanvasNavigation--left')) {
+              && !hasParentClass(evt.target, 'offCanvasNavigation--left')
+              && !hasParentClass(evt.target, 'group-right')) {
               resetMenu();
               document.removeEventListener(eventtype, bodyClickFn);
             }
