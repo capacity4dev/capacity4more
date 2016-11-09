@@ -285,7 +285,10 @@ function c4m_helper_entity_entity_property_info_alter(&$info) {
  */
 function c4m_helper_entity_entity_property_flag_count_entity_definition($type, $flag) {
   return array(
-    'label' => t('The flag count of type @flag for an @type entity', array('@type' => $type, '@flag' => $flag->name)),
+    'label' => t('The flag count of type @flag for an @type entity', array(
+      '@type' => $type,
+      '@flag' => $flag->name,
+    )),
     'description' => t('Returns the flag count of the type @flag of an entity.', array('@flag' => $flag->name)),
     'type' => 'integer',
     'getter callback' => 'c4m_helper_entity_entity_get_properties',
@@ -482,6 +485,11 @@ function c4m_helper_entity_get_metrics($metric_key, $entity_id, $entity_type) {
  */
 function c4m_helper_entity_entity_load($entities, $type) {
   foreach ($entities as $entity) {
-    $entity->entity_type = $type;
+    if (!property_exists($entity, 'entity_type')) {
+      $entity->entity_type = $type;
+    }
+    elseif (!isset($entity->entity_type)) {
+      $entity->entity_type = $type;
+    }
   }
 }
