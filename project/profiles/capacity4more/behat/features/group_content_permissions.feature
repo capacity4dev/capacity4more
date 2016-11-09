@@ -37,22 +37,7 @@ Feature: Test creation of the content permissions.
     And   I should see "Please log in"
 
   @api
-  Scenario Outline: As site admin, access create content form, with purl prefix of pending public group.
-    Given I am logged in as user "<user>"
-    When  I go to "<path>"
-    Then  I should have access to the page
-
-    Examples:
-      | user        | path                 |
-      | mariecurie  |  /pending/node/add/photoalbum |
-      | mariecurie  |  /pending/node/add/photo |
-      | mariecurie  |  /pending/node/add/event |
-      | mariecurie  |  /pending/node/add/document |
-      | mariecurie  |  /pending/node/add/discussion |
-      | mariecurie  |  /pending/node/add/wiki-page |
-
-  @api
-  Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of pending public group.
+  Scenario Outline: As non member, member, group admin, group owner and site admin, access create content form, with purl prefix of pending public group.
     Given  I am logged in as user "<user>"
     When  I go to "<path>"
     Then  I should not have access to the page
@@ -83,6 +68,12 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /pending/node/add/wiki-page |
       | turing      | /pending/node/add/wiki-page |
       | alfrednobel | /pending/node/add/wiki-page |
+      | mariecurie  |  /pending/node/add/photoalbum |
+      | mariecurie  |  /pending/node/add/photo |
+      | mariecurie  |  /pending/node/add/event |
+      | mariecurie  |  /pending/node/add/document |
+      | mariecurie  |  /pending/node/add/discussion |
+      | mariecurie  |  /pending/node/add/wiki-page |
 
   @api
   Scenario: Set "Pending group" group state to 'Restricted'. Anonymous user asked to log in.
@@ -93,22 +84,7 @@ Feature: Test creation of the content permissions.
     And   I should see "Please log in"
 
   @api
-  Scenario Outline: As site admin, access create content form, with purl prefix of pending restricted group.
-    Given  I am logged in as user "<user>"
-    When   I go to "<path>"
-    Then   I should have access to the page
-
-    Examples:
-      | user        | path                 |
-      | mariecurie  | /pending/node/add/photoalbum |
-      | mariecurie  | /pending/node/add/photo |
-      | mariecurie  | /pending/node/add/event |
-      | mariecurie  | /pending/node/add/document |
-      | mariecurie  | /pending/node/add/discussion |
-      | mariecurie  | /pending/node/add/wiki-page |
-
-  @api
-  Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of pending restricted group.
+  Scenario Outline: As non member, member, group admin, group owner and site admin, access create content form, with purl prefix of pending restricted group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
     Then   I should not have access to the page
@@ -139,6 +115,12 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /pending/node/add/wiki-page |
       | turing      | /pending/node/add/wiki-page |
       | alfrednobel | /pending/node/add/wiki-page |
+      | mariecurie  |  /pending/node/add/photoalbum |
+      | mariecurie  |  /pending/node/add/photo |
+      | mariecurie  |  /pending/node/add/event |
+      | mariecurie  |  /pending/node/add/document |
+      | mariecurie  |  /pending/node/add/discussion |
+      | mariecurie  |  /pending/node/add/wiki-page |
 
   @api
   Scenario: Set "Pending group" group state to 'Private'. Anonymous user asked to log in.
@@ -149,22 +131,7 @@ Feature: Test creation of the content permissions.
     And    I should see "Please log in"
 
   @api
-  Scenario Outline: As site admin, access create content form, with purl prefix of pending private group.
-    Given  I am logged in as user "<user>"
-    When  I go to "<path>"
-    Then  I should have access to the page
-
-    Examples:
-      | user        | path                 |
-      | mariecurie  | /pending/node/add/photoalbum |
-      | mariecurie  | /pending/node/add/photo |
-      | mariecurie  | /pending/node/add/event |
-      | mariecurie  | /pending/node/add/document |
-      | mariecurie  | /pending/node/add/discussion |
-      | mariecurie  | /pending/node/add/wiki-page |
-
-  @api
-  Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of pending private group.
+  Scenario Outline: AAs non member, member, group admin, group owner and site admin, access create content form, with purl prefix of pending private group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
     Then   I should not have access to the page
@@ -195,6 +162,12 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /pending/node/add/wiki-page |
       | turing      | /pending/node/add/wiki-page |
       | alfrednobel | /pending/node/add/wiki-page |
+      | mariecurie  |  /pending/node/add/photoalbum |
+      | mariecurie  |  /pending/node/add/photo |
+      | mariecurie  |  /pending/node/add/event |
+      | mariecurie  |  /pending/node/add/document |
+      | mariecurie  |  /pending/node/add/discussion |
+      | mariecurie  |  /pending/node/add/wiki-page |
 
   @api
   Scenario: Restore "Pending group" group state to 'Public'.
