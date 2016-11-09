@@ -14,114 +14,6 @@ Feature: Test creation of the content permissions.
     Then  I should be allowed to create a "event" in group "Discussion Insert 4"
 
   @api
-  Scenario: There should be no access to 'create event' global form.
-    Given I am logged in as user "isaacnewton"
-    When  I go to "node/add/event"
-    Then  I should not have access to the page
-
-  @api
-  Scenario: Group non member should not have access to group 'create event' form.
-    Given I am logged in as user "badhairday"
-    When  I go to "movie-corner/node/add/event"
-    Then  I should not have access to the page
-
-  @api
-  Scenario: Group member should have access to group 'create event' form.
-    Given I am logged in as user "isaacnewton"
-    When  I go to "movie-corner/node/add/event"
-    Then  I should have access to the page
-
-  @api
-  Scenario: There should be no access to 'create document' global form.
-    Given I am logged in as user "isaacnewton"
-    When  I go to "node/add/document"
-    Then  I should not have access to the page
-
-  @api
-  Scenario: Group non member should not have access to group 'create document' form.
-    Given I am logged in as user "badhairday"
-    When  I go to "movie-corner/node/add/document"
-    Then  I should not have access to the page
-
-  @api
-  Scenario: Group member should have access to group 'create document' form.
-    Given I am logged in as user "isaacnewton"
-    When  I go to "movie-corner/node/add/document"
-    Then  I should have access to the page
-
-  @api
-  Scenario: There should be no access to 'create discussion' global form.
-    Given I am logged in as user "isaacnewton"
-    When  I go to "node/add/discussion"
-    Then  I should not have access to the page
-
-  @api
-  Scenario: Group non member should not have access to group 'create discussion' form.
-    Given I am logged in as user "badhairday"
-    When  I go to "movie-corner/node/add/discussion"
-    Then  I should not have access to the page
-
-  @api
-  Scenario: Group member should have access to group 'create discussion' form.
-    Given I am logged in as user "isaacnewton"
-    When  I go to "movie-corner/node/add/discussion"
-    Then  I should have access to the page
-
-  @api
-  Scenario: There should be no access to 'create wiki-page' global form.
-    Given I am logged in as user "isaacnewton"
-    When  I go to "node/add/wiki-page"
-    Then  I should not have access to the page
-
-  @api
-  Scenario: Group owner should not have access to group 'create wiki-page' form.
-    Given I am logged in as user "alfrednobel"
-    When  I go to "nobelprize/node/add/wiki-page"
-    Then  I should have access to the page
-
-  @api
-  Scenario: Group admin should have access to group 'create wiki-page' form.
-    Given I am logged in as user "galileo"
-    When  I go to "nobelprize/node/add/wiki-page"
-    Then  I should have access to the page
-
-  @api
-  Scenario: There should be no access to 'create photo' global form.
-    Given I am logged in as user "isaacnewton"
-    When  I go to "node/add/photo"
-    Then  I should not have access to the page
-
-  @api
-  Scenario: Group non member should not have access to group 'create photo' form.
-    Given I am logged in as user "badhairday"
-    When  I go to "movie-corner/node/add/photo"
-    Then  I should not have access to the page
-
-  @api
-  Scenario: Group member should have access to group 'create photo' form.
-    Given I am logged in as user "isaacnewton"
-    When  I go to "movie-corner/node/add/photo"
-    Then  I should have access to the page
-
-  @api
-  Scenario: There should be no access to 'create photoalbum' global form.
-    Given I am logged in as user "isaacnewton"
-    When  I go to "node/add/photoalbum"
-    Then  I should not have access to the page
-
-  @api
-  Scenario: Group non member should not have access to group 'create photoalbum' form.
-    Given I am logged in as user "badhairday"
-    When  I go to "movie-corner/node/add/photoalbum"
-    Then  I should not have access to the page
-
-  @api
-  Scenario: Group member should have access to group 'create photoalbum' form.
-    Given I am logged in as user "isaacnewton"
-    When  I go to "movie-corner/node/add/photoalbum"
-    Then  I should have access to the page
-
-  @dev-new
   Scenario Outline: As admin, access create content form, without purl prefix.
     Given  I am logged in as user "<user>"
     When  I go to "<path>"
@@ -135,7 +27,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /node/add/document |
       | mariecurie  | /node/add/discussion |
 
-  @dev-new
+  @api
   Scenario: Set "Pending" group state to 'Public'. Anonymous user asked to log in.
     Given  I am logged in as user "mariecurie"
     When  I change access of group "Pending group" to "Public"
@@ -157,7 +49,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /pending/node/add/document |
       | mariecurie  | /pending/node/add/discussion |
 
-  @dev
+  @dev-new
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of pending public group.
     Given  I am logged in as user "<user>"
     When  I go to "<path>"
@@ -187,9 +79,9 @@ Feature: Test creation of the content permissions.
       | alfrednobel | /nobelprize/node/add/discussion |
 
   @dev
-  Scenario: Set "Nobel Prize" group state to 'Restricted'. Anonymous user asked to log in.
+  Scenario: Set "Pending group" group state to 'Restricted'. Anonymous user asked to log in.
     Given  I am logged in as user "mariecurie"
-    When  I change access of group "Nobel Prize" to "Restricted"
+    When  I change access of group "Pending group" to "Restricted"
     Then  I am an anonymous user
     And I go to "nobelprize"
     And I should see "Please log in"
