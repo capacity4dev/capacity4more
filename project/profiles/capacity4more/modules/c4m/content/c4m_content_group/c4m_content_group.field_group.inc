@@ -176,6 +176,7 @@ function c4m_content_group_field_group_info() {
       1 => 'title',
       2 => 'c4m_ds_group_type_icon',
       3 => 'c4m_ds_group_membership_type',
+      4 => 'c4m_ds_node_highlight',
     ),
     'format_type' => 'div',
     'format_settings' => array(

@@ -629,14 +629,6 @@ function c4m_content_custom_node_delete_confirm($form, &$form_state) {
 function c4m_content_field_extra_fields() {
   $extra_fields = array();
 
-  foreach (c4m_content_highlightable_node_types() as $type) {
-    $extra_fields['node'][$type]['display']['highlighted'] = array(
-      'label' => t('Highlight'),
-      'description' => t('Highlight a node will toggle its promote property.'),
-      'weight' => 0,
-    );
-  }
-
   foreach (c4m_content_promotable_node_types() as $type) {
     $extra_fields['node'][$type]['display']['promoted'] = array(
       'label' => t('Promote'),
@@ -712,23 +704,6 @@ function c4m_content_node_view($node, $view_mode, $langcode) {
   // Getting the extra fields for the current node type display.
   $extra_fields = field_info_extra_fields('node', $node->type, 'display');
 
-  // Determine if the highlighted button is part of the current display.
-  if (!empty($extra_fields['highlighted'])) {
-    // Add Drupal's ajax system to the current page.
-    drupal_add_library('system', 'drupal.ajax');
-
-    $link = c4m_content_create_highlight_link(
-      $group->nid,
-      $node->nid,
-      $node->promote
-    );
-
-    $node->content['highlighted'] = array(
-      '#type' => 'item',
-      '#title' => $link,
-    );
-  }
-
   // Determine if the promoted button is part of the current display.
   if (!empty($extra_fields['promoted'])) {
     $promote_link = c4m_content_create_promote_link($node);
@@ -780,6 +755,11 @@ function c4m_content_toggle_highlight_access($group, $node, $status) {
 
   if ($status != NODE_PROMOTED && $status != NODE_NOT_PROMOTED) {
     return FALSE;
+  }
+
+  // Verify the type of the node.
+  if (!in_array($node->type, c4m_content_highlightable_node_types())) {
+    return NULL;
   }
 
   if (!og_is_group('node', $group)) {
@@ -864,6 +844,7 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
 
   $options = array(
     'attributes' => array(
+      'title' => t('Highlight'),
       'class' => array('use-ajax', 'highlight-link'),
       'id' => 'highlight-content' . $nid,
     ),

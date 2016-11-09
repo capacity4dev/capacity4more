@@ -860,12 +860,21 @@
       font-size: $font-size-h3;
     }
   }
-  .highlight-link,
+
   .flag-c4m-og-content-highlight {
     margin-left: 1rem;
   }
-  .highlight-link-text {
-    display: none;
+
+  .c4m-node-highlight {
+    float: right;
+
+    .highlight-link {
+      margin: 0 2px;
+    }
+
+    .highlight-link-text {
+      display: none;
+    }
   }
 }
 
