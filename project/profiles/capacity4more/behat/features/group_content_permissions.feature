@@ -121,49 +121,29 @@ Feature: Test creation of the content permissions.
     When  I go to "movie-corner/node/add/photoalbum"
     Then  I should have access to the page
 
-  @dev
-  Scenario Outline: Access create content form, without purl prefix.
+  @dev-new
+  Scenario Outline: As admin, access create content form, without purl prefix.
     Given  I am logged in as user "<user>"
     When  I go to "<path>"
     Then  I should not have access to the page
 
     Examples:
       | user        | path                 |
-      | badhairday  | /node/add/photoalbum |
-      | turing      | /node/add/photoalbum |
-      | galileo     | /node/add/photoalbum |
-      | alfrednobel | /node/add/photoalbum |
       | mariecurie  | /node/add/photoalbum |
-      | badhairday  | /node/add/photo |
-      | turing      | /node/add/photo |
-      | galileo     | /node/add/photo |
-      | alfrednobel | /node/add/photo |
       | mariecurie  | /node/add/photo |
-      | badhairday  | /node/add/event |
-      | turing      | /node/add/event |
-      | galileo     | /node/add/event |
-      | alfrednobel | /node/add/event |
       | mariecurie  | /node/add/event |
-      | badhairday  | /node/add/document |
-      | turing      | /node/add/document |
-      | galileo     | /node/add/document |
-      | alfrednobel | /node/add/document |
       | mariecurie  | /node/add/document |
-      | badhairday  | /node/add/discussion |
-      | turing      | /node/add/discussion |
-      | galileo     | /node/add/discussion |
-      | alfrednobel | /node/add/discussion |
       | mariecurie  | /node/add/discussion |
 
-  @dev
-  Scenario: Set "Nobel Prize" group state to 'Public'. Anonymous user asked to log in.
+  @dev-new
+  Scenario: Set "Pending" group state to 'Public'. Anonymous user asked to log in.
     Given  I am logged in as user "mariecurie"
-    When  I change access of group "Nobel Prize" to "Public"
+    When  I change access of group "Pending group" to "Public"
     Then  I am an anonymous user
-    And I go to "nobelprize"
+    And I go to "pending"
     And I should see "Please log in"
 
-  @dev
+  @dev-new
   Scenario Outline: As site admin, access create content form, with purl prefix of pending public group.
     Given  I am logged in as user "<user>"
     When  I go to "<path>"
@@ -171,11 +151,11 @@ Feature: Test creation of the content permissions.
 
     Examples:
       | user        | path                 |
-      | mariecurie  | /nobelprize/node/add/photoalbum |
-      | mariecurie  | /nobelprize/node/add/photo |
-      | mariecurie  | /nobelprize/node/add/event |
-      | mariecurie  | /nobelprize/node/add/document |
-      | mariecurie  | /nobelprize/node/add/discussion |
+      | mariecurie  | /pending/node/add/photoalbum |
+      | mariecurie  | /pending/node/add/photo |
+      | mariecurie  | /pending/node/add/event |
+      | mariecurie  | /pending/node/add/document |
+      | mariecurie  | /pending/node/add/discussion |
 
   @dev
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of pending public group.
@@ -186,24 +166,24 @@ Feature: Test creation of the content permissions.
     Examples:
       | user        | path                 |
       | badhairday  | /nobelprize/node/add/photoalbum |
+      | isaacnewton | /nobelprize/node/add/photoalbum |
       | turing      | /nobelprize/node/add/photoalbum |
-      | galileo     | /nobelprize/node/add/photoalbum |
       | alfrednobel | /nobelprize/node/add/photoalbum |
       | badhairday  | /nobelprize/node/add/photo |
+      | isaacnewton | /nobelprize/node/add/photo |
       | turing      | /nobelprize/node/add/photo |
-      | galileo     | /nobelprize/node/add/photo |
       | alfrednobel | /nobelprize/node/add/photo |
       | badhairday  | /nobelprize/node/add/event |
+      | isaacnewton | /nobelprize/node/add/event |
       | turing      | /nobelprize/node/add/event |
-      | galileo     | /nobelprize/node/add/event |
       | alfrednobel | /nobelprize/node/add/event |
       | badhairday  | /nobelprize/node/add/document |
+      | isaacnewton | /nobelprize/node/add/document |
       | turing      | /nobelprize/node/add/document |
-      | galileo     | /nobelprize/node/add/document |
       | alfrednobel | /nobelprize/node/add/document |
       | badhairday  | /nobelprize/node/add/discussion |
+      | isaacnewton | /nobelprize/node/add/discussion |
       | turing      | /nobelprize/node/add/discussion |
-      | galileo     | /nobelprize/node/add/discussion |
       | alfrednobel | /nobelprize/node/add/discussion |
 
   @dev
@@ -237,24 +217,24 @@ Feature: Test creation of the content permissions.
     Examples:
       | user        | path                 |
       | badhairday  | /nobelprize/node/add/photoalbum |
+      | isaacnewton | /nobelprize/node/add/photoalbum |
       | turing      | /nobelprize/node/add/photoalbum |
-      | galileo     | /nobelprize/node/add/photoalbum |
       | alfrednobel | /nobelprize/node/add/photoalbum |
       | badhairday  | /nobelprize/node/add/photo |
+      | isaacnewton | /nobelprize/node/add/photo |
       | turing      | /nobelprize/node/add/photo |
-      | galileo     | /nobelprize/node/add/photo |
       | alfrednobel | /nobelprize/node/add/photo |
       | badhairday  | /nobelprize/node/add/event |
+      | isaacnewton | /nobelprize/node/add/event |
       | turing      | /nobelprize/node/add/event |
-      | galileo     | /nobelprize/node/add/event |
       | alfrednobel | /nobelprize/node/add/event |
       | badhairday  | /nobelprize/node/add/document |
+      | isaacnewton | /nobelprize/node/add/document |
       | turing      | /nobelprize/node/add/document |
-      | galileo     | /nobelprize/node/add/document |
       | alfrednobel | /nobelprize/node/add/document |
       | badhairday  | /nobelprize/node/add/discussion |
+      | isaacnewton | /nobelprize/node/add/discussion |
       | turing      | /nobelprize/node/add/discussion |
-      | galileo     | /nobelprize/node/add/discussion |
       | alfrednobel | /nobelprize/node/add/discussion |
 
   @dev
@@ -288,24 +268,24 @@ Feature: Test creation of the content permissions.
     Examples:
       | user        | path                 |
       | badhairday  | /nobelprize/node/add/photoalbum |
+      | isaacnewton | /nobelprize/node/add/photoalbum |
       | turing      | /nobelprize/node/add/photoalbum |
-      | galileo     | /nobelprize/node/add/photoalbum |
       | alfrednobel | /nobelprize/node/add/photoalbum |
       | badhairday  | /nobelprize/node/add/photo |
+      | isaacnewton | /nobelprize/node/add/photo |
       | turing      | /nobelprize/node/add/photo |
-      | galileo     | /nobelprize/node/add/photo |
       | alfrednobel | /nobelprize/node/add/photo |
       | badhairday  | /nobelprize/node/add/event |
+      | isaacnewton | /nobelprize/node/add/event |
       | turing      | /nobelprize/node/add/event |
-      | galileo     | /nobelprize/node/add/event |
       | alfrednobel | /nobelprize/node/add/event |
       | badhairday  | /nobelprize/node/add/document |
+      | isaacnewton | /nobelprize/node/add/document |
       | turing      | /nobelprize/node/add/document |
-      | galileo     | /nobelprize/node/add/document |
       | alfrednobel | /nobelprize/node/add/document |
       | badhairday  | /nobelprize/node/add/discussion |
+      | isaacnewton | /nobelprize/node/add/discussion |
       | turing      | /nobelprize/node/add/discussion |
-      | galileo     | /nobelprize/node/add/discussion |
       | alfrednobel | /nobelprize/node/add/discussion |
 
   @dev
