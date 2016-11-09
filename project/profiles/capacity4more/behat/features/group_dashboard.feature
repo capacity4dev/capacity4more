@@ -96,3 +96,13 @@ Feature: Group dashboard
     Given I am logged in as user "survivalofthefittest"
     When  I go to "/groups?text=nobel"
     Then  I should be able to toggle the highlight link
+
+  @api
+  Scenario: Visitor should not be able to highlight a group.
+    Given I am an anonymous user
+    When  I visit the dashboard of group "Nobel Prize"
+    Then  I should see the text "Nobel Prize"
+    And   I should not see the ".c4m-node-highlight" element
+    When  I go to "/groups?text=nobel"
+    Then  I should see the text "Nobel Prize"
+    And   I should not see the ".c4m-node-highlight" element
