@@ -125,41 +125,37 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
     }
 
-    // Get group ID from POST data or from context.
+    // If group id present at POST data, we got here from document widget,
+    // that creates group content (AJAX POST).
+    // If not, try to resolve group id from context.
     if (!$group['gid'] = filter_input(INPUT_POST, 'group', FILTER_VALIDATE_INT)) {
       $group = og_context();
     }
 
-    $node_type = $this->instance['bundle'];
+    // If group id was resolved, check that user got permissions to add content
+    // to resolved group.
+    if ($group['gid']) {
+      $node_type = $this->instance['bundle'];
 
-    if (!_c4m_features_og_members_is_power_user() && !og_user_access($group_type, $group['gid'], "create $node_type content")) {
-      // User does not have permission, falsify the query.
-      $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
-      return $query;
+      if (!_c4m_features_og_members_is_power_user() && !og_user_access($group_type, $group['gid'], "create $node_type content")) {
+        // User is not group member and can't add content. Falsify the query.
+        $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
+        return $query;
+      }
     }
 
-    $allowed_user_types = array(
-      C4M_USER_TYPE_MEMBER,
-      C4M_USER_TYPE_ADMIN,
-      C4M_USER_TYPE_OWNER,
-      C4M_USER_TYPE_SITE_ADMIN,
-    );
-
-    $user_type = _c4m_features_og_members_get_user_type();
-    // If user is not of type that can create the content, falsify the query.
-    if (!in_array($user_type, $allowed_user_types)) {
-      $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
-      return $query;
-    }
-
+    // Adding condition that verifying that group state allows adding content
+    // member can add content to groups at draft or published state.
     $allowed_states = array('draft', 'published');
-
     $query->fieldCondition(
       'c4m_og_status',
       'value',
       $allowed_states,
       'IN'
     );
+
+    // No additional modifications to query. If creating content from a form,
+    // permissions will be rechecked at form access.
 
     return $query;
   }
