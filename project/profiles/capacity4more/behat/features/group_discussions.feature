@@ -53,7 +53,7 @@ Feature: Group Discussions
     Then  I should see "Edit discussion"
     And   I should see "Some new discussion3"
 
-  @api
+  @api @c
   Scenario: Check GA can edit a discussion's author
     Given I am logged in as user "galileo"
     When I visit the group "discussion" detail page "Medals"

@@ -31,4 +31,29 @@ trait Highlights {
           $params));
     }
   }
+
+  /**
+   * @Then /^I should be able to toggle the highlight link$/
+   */
+  public function iShouldBeAbleToToggleTheHighlightLink() {
+    $page = $this->getSession()->getPage();
+    $link = $page->find('css', '.c4m-node-highlight a');
+    if ($link === null) {
+      throw new \Exception('The Highlight link is missing.');
+    }
+
+    $promoted = $page->find('css', '.c4m-node-highlight a .fa-star');
+    $link->click();
+
+    // Since we toggle the link, we dependent on the previous state of it,
+    // hence the class to appear should be relative the previous one.
+    // 'fa-star' for promoted node, and 'fa-star-o' for non promoted one.
+    $class = 'fa-star';
+    if ($promoted) {
+      $class .= '-o';
+    }
+
+    $this->waitForXpathNode("//div[contains(@class, \"c4m-node-highlight\")]//i[contains(@class, \"$class\")]", TRUE);
+  }
+
 }

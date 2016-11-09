@@ -84,3 +84,15 @@ Feature: Group dashboard
     And   I click "Invite a member"
     Then  I should see the text "Invite People to Join"
     And   I should see the text "Manage all group memberships"
+
+  @javascript
+  Scenario: SA highlight a group via its dashboard.
+    Given I am logged in as user "survivalofthefittest"
+    When  I visit the dashboard of group "Nobel Prize"
+    Then  I should be able to toggle the highlight link
+
+  @javascript
+  Scenario: SA highlight a group via the groups overview.
+    Given I am logged in as user "survivalofthefittest"
+    When  I go to "/groups?text=nobel"
+    Then  I should be able to toggle the highlight link
