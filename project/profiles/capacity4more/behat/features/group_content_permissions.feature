@@ -26,6 +26,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /node/add/event |
       | mariecurie  | /node/add/document |
       | mariecurie  | /node/add/discussion |
+      | mariecurie  | /node/add/wiki-page |
 
   @api
   Scenario: Set "Pending" group state to 'Public'. Anonymous user asked to log in.
@@ -48,6 +49,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  |  /pending/node/add/event |
       | mariecurie  |  /pending/node/add/document |
       | mariecurie  |  /pending/node/add/discussion |
+      | mariecurie  |  /pending/node/add/wiki-page |
 
   @api
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of pending public group.
@@ -77,6 +79,10 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /pending/node/add/discussion |
       | turing      | /pending/node/add/discussion |
       | alfrednobel | /pending/node/add/discussion |
+      | badhairday  | /pending/node/add/wiki-page |
+      | isaacnewton | /pending/node/add/wiki-page |
+      | turing      | /pending/node/add/wiki-page |
+      | alfrednobel | /pending/node/add/wiki-page |
 
   @api
   Scenario: Set "Pending group" group state to 'Restricted'. Anonymous user asked to log in.
@@ -99,6 +105,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /pending/node/add/event |
       | mariecurie  | /pending/node/add/document |
       | mariecurie  | /pending/node/add/discussion |
+      | mariecurie  | /pending/node/add/wiki-page |
 
   @api
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of pending restricted group.
@@ -128,6 +135,10 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /pending/node/add/discussion |
       | turing      | /pending/node/add/discussion |
       | alfrednobel | /pending/node/add/discussion |
+      | badhairday  | /pending/node/add/wiki-page |
+      | isaacnewton | /pending/node/add/wiki-page |
+      | turing      | /pending/node/add/wiki-page |
+      | alfrednobel | /pending/node/add/wiki-page |
 
   @api
   Scenario: Set "Pending group" group state to 'Private'. Anonymous user asked to log in.
@@ -150,6 +161,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /pending/node/add/event |
       | mariecurie  | /pending/node/add/document |
       | mariecurie  | /pending/node/add/discussion |
+      | mariecurie  | /pending/node/add/wiki-page |
 
   @api
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of pending private group.
@@ -179,6 +191,10 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /pending/node/add/discussion |
       | turing      | /pending/node/add/discussion |
       | alfrednobel | /pending/node/add/discussion |
+      | badhairday  | /pending/node/add/wiki-page |
+      | isaacnewton | /pending/node/add/wiki-page |
+      | turing      | /pending/node/add/wiki-page |
+      | alfrednobel | /pending/node/add/wiki-page |
 
   @api
   Scenario: Restore "Pending group" group state to 'Public'.
@@ -203,28 +219,31 @@ Feature: Test creation of the content permissions.
     Examples:
       | user        | path                 |
       | isaacnewton | /draft/node/add/photoalbum |
-      | isaacnewton | /draft/node/add/photo |
-      | isaacnewton | /draft/node/add/event |
-      | isaacnewton | /draft/node/add/document |
-      | isaacnewton | /draft/node/add/discussion |
-      | turing      | /draft/node/add/photoalbum |
-      | turing      | /draft/node/add/photo |
-      | turing      | /draft/node/add/event |
-      | turing      | /draft/node/add/document |
-      | turing      | /draft/node/add/discussion |
-      | alfrednobel  | /draft/node/add/photoalbum |
-      | alfrednobel  | /draft/node/add/photo |
-      | alfrednobel  | /draft/node/add/event |
-      | alfrednobel  | /draft/node/add/document |
-      | alfrednobel  | /draft/node/add/discussion |
-      | mariecurie  | /draft/node/add/photoalbum |
-      | mariecurie  | /draft/node/add/photo |
-      | mariecurie  | /draft/node/add/event |
-      | mariecurie  | /draft/node/add/document |
-      | mariecurie  | /draft/node/add/discussion |
+      | isaacnewton | /published/node/add/photo |
+      | isaacnewton | /published/node/add/event |
+      | isaacnewton | /published/node/add/document |
+      | isaacnewton | /published/node/add/discussion |
+      | turing      | /published/node/add/photoalbum |
+      | turing      | /published/node/add/photo |
+      | turing      | /published/node/add/event |
+      | turing      | /published/node/add/document |
+      | turing      | /published/node/add/discussion |
+      | turing      | /published/node/add/wiki-page |
+      | alfrednobel  | /published/node/add/photoalbum |
+      | alfrednobel  | /published/node/add/photo |
+      | alfrednobel  | /published/node/add/event |
+      | alfrednobel  | /published/node/add/document |
+      | alfrednobel  | /published/node/add/discussion |
+      | alfrednobel  | /published/node/add/wiki-page |
+      | mariecurie  | /published/node/add/photoalbum |
+      | mariecurie  | /published/node/add/photo |
+      | mariecurie  | /published/node/add/event |
+      | mariecurie  | /published/node/add/document |
+      | mariecurie  | /published/node/add/discussion |
+      | mariecurie  | /published/node/add/wiki-page |
 
   @api
-  Scenario Outline: As non member, access create content form, with purl prefix of draft public group.
+  Scenario Outline: As non member, member (for wiki-page only) access create content form, with purl prefix of draft public group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
     Then   I should not have access to the page
@@ -236,6 +255,8 @@ Feature: Test creation of the content permissions.
       | badhairday  | /draft/node/add/event |
       | badhairday  | /draft/node/add/document |
       | badhairday  | /draft/node/add/discussion |
+      | badhairday  | /draft/node/add/wiki-page |
+      | isaacnewton | /draft/node/add/wiki-page |
 
   @api
   Scenario: Set "Draft group" group state to 'Restricted'. Anonymous user asked to log in.
@@ -254,28 +275,31 @@ Feature: Test creation of the content permissions.
     Examples:
       | user        | path                 |
       | isaacnewton | /draft/node/add/photoalbum |
-      | isaacnewton | /draft/node/add/photo |
-      | isaacnewton | /draft/node/add/event |
-      | isaacnewton | /draft/node/add/document |
-      | isaacnewton | /draft/node/add/discussion |
-      | turing      | /draft/node/add/photoalbum |
-      | turing      | /draft/node/add/photo |
-      | turing      | /draft/node/add/event |
-      | turing      | /draft/node/add/document |
-      | turing      | /draft/node/add/discussion |
-      | alfrednobel  | /draft/node/add/photoalbum |
-      | alfrednobel  | /draft/node/add/photo |
-      | alfrednobel  | /draft/node/add/event |
-      | alfrednobel  | /draft/node/add/document |
-      | alfrednobel  | /draft/node/add/discussion |
-      | mariecurie  | /draft/node/add/photoalbum |
-      | mariecurie  | /draft/node/add/photo |
-      | mariecurie  | /draft/node/add/event |
-      | mariecurie  | /draft/node/add/document |
-      | mariecurie  | /draft/node/add/discussion |
+      | isaacnewton | /published/node/add/photo |
+      | isaacnewton | /published/node/add/event |
+      | isaacnewton | /published/node/add/document |
+      | isaacnewton | /published/node/add/discussion |
+      | turing      | /published/node/add/photoalbum |
+      | turing      | /published/node/add/photo |
+      | turing      | /published/node/add/event |
+      | turing      | /published/node/add/document |
+      | turing      | /published/node/add/discussion |
+      | turing      | /published/node/add/wiki-page |
+      | alfrednobel  | /published/node/add/photoalbum |
+      | alfrednobel  | /published/node/add/photo |
+      | alfrednobel  | /published/node/add/event |
+      | alfrednobel  | /published/node/add/document |
+      | alfrednobel  | /published/node/add/discussion |
+      | alfrednobel  | /published/node/add/wiki-page |
+      | mariecurie  | /published/node/add/photoalbum |
+      | mariecurie  | /published/node/add/photo |
+      | mariecurie  | /published/node/add/event |
+      | mariecurie  | /published/node/add/document |
+      | mariecurie  | /published/node/add/discussion |
+      | mariecurie  | /published/node/add/wiki-page |
 
   @api
-  Scenario Outline: As non member, access create content form, with purl prefix of draft restricted group.
+  Scenario Outline: As non member, member (for wiki-page only) access create content form, with purl prefix of draft restricted group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
     Then   I should not have access to the page
@@ -287,6 +311,8 @@ Feature: Test creation of the content permissions.
       | badhairday  | /draft/node/add/event |
       | badhairday  | /draft/node/add/document |
       | badhairday  | /draft/node/add/discussion |
+      | badhairday  | /draft/node/add/wiki-page |
+      | isaacnewton | /draft/node/add/wiki-page |
 
   @api
   Scenario: Set "Draft group" group state to 'Private'. Anonymous user asked to log in.
@@ -305,28 +331,31 @@ Feature: Test creation of the content permissions.
     Examples:
       | user        | path                 |
       | isaacnewton | /draft/node/add/photoalbum |
-      | isaacnewton | /draft/node/add/photo |
-      | isaacnewton | /draft/node/add/event |
-      | isaacnewton | /draft/node/add/document |
-      | isaacnewton | /draft/node/add/discussion |
-      | turing      | /draft/node/add/photoalbum |
-      | turing      | /draft/node/add/photo |
-      | turing      | /draft/node/add/event |
-      | turing      | /draft/node/add/document |
-      | turing      | /draft/node/add/discussion |
-      | alfrednobel  | /draft/node/add/photoalbum |
-      | alfrednobel  | /draft/node/add/photo |
-      | alfrednobel  | /draft/node/add/event |
-      | alfrednobel  | /draft/node/add/document |
-      | alfrednobel  | /draft/node/add/discussion |
-      | mariecurie  | /draft/node/add/photoalbum |
-      | mariecurie  | /draft/node/add/photo |
-      | mariecurie  | /draft/node/add/event |
-      | mariecurie  | /draft/node/add/document |
-      | mariecurie  | /draft/node/add/discussion |
+      | isaacnewton | /published/node/add/photo |
+      | isaacnewton | /published/node/add/event |
+      | isaacnewton | /published/node/add/document |
+      | isaacnewton | /published/node/add/discussion |
+      | turing      | /published/node/add/photoalbum |
+      | turing      | /published/node/add/photo |
+      | turing      | /published/node/add/event |
+      | turing      | /published/node/add/document |
+      | turing      | /published/node/add/discussion |
+      | turing      | /published/node/add/wiki-page |
+      | alfrednobel  | /published/node/add/photoalbum |
+      | alfrednobel  | /published/node/add/photo |
+      | alfrednobel  | /published/node/add/event |
+      | alfrednobel  | /published/node/add/document |
+      | alfrednobel  | /published/node/add/discussion |
+      | alfrednobel  | /published/node/add/wiki-page |
+      | mariecurie  | /published/node/add/photoalbum |
+      | mariecurie  | /published/node/add/photo |
+      | mariecurie  | /published/node/add/event |
+      | mariecurie  | /published/node/add/document |
+      | mariecurie  | /published/node/add/discussion |
+      | mariecurie  | /published/node/add/wiki-page |
 
   @api
-  Scenario Outline: As non member, access create content form, with purl prefix of draft private group.
+  Scenario Outline: As non member, member (for wiki-page only) access create content form, with purl prefix of draft private group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
     Then   I should not have access to the page
@@ -338,6 +367,8 @@ Feature: Test creation of the content permissions.
       | badhairday  | /draft/node/add/event |
       | badhairday  | /draft/node/add/document |
       | badhairday  | /draft/node/add/discussion |
+      | badhairday  | /draft/node/add/wiki-page |
+      | isaacnewton | /draft/node/add/wiki-page |
 
   @api
   Scenario: Restore "Draft group" group state to 'Public'.
@@ -371,19 +402,22 @@ Feature: Test creation of the content permissions.
       | turing      | /published/node/add/event |
       | turing      | /published/node/add/document |
       | turing      | /published/node/add/discussion |
+      | turing      | /published/node/add/wiki-page |
       | alfrednobel  | /published/node/add/photoalbum |
       | alfrednobel  | /published/node/add/photo |
       | alfrednobel  | /published/node/add/event |
       | alfrednobel  | /published/node/add/document |
       | alfrednobel  | /published/node/add/discussion |
+      | alfrednobel  | /published/node/add/wiki-page |
       | mariecurie  | /published/node/add/photoalbum |
       | mariecurie  | /published/node/add/photo |
       | mariecurie  | /published/node/add/event |
       | mariecurie  | /published/node/add/document |
       | mariecurie  | /published/node/add/discussion |
+      | mariecurie  | /published/node/add/wiki-page |
 
   @api
-  Scenario Outline: As non member, access create content form, with purl prefix of published public group.
+  Scenario Outline: As non member, member (for wiki-page only) access create content form, with purl prefix of published public group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
     Then   I should not have access to the page
@@ -395,6 +429,8 @@ Feature: Test creation of the content permissions.
       | badhairday  | /published/node/add/event |
       | badhairday  | /published/node/add/document |
       | badhairday  | /published/node/add/discussion |
+      | badhairday  | /published/node/add/wiki-page |
+      | isaacnewton | /published/node/add/wiki-page |
 
   @api
   Scenario: Set "Published group" group state to 'Restricted'. Anonymous user asked to log in.
@@ -422,19 +458,22 @@ Feature: Test creation of the content permissions.
       | turing      | /published/node/add/event |
       | turing      | /published/node/add/document |
       | turing      | /published/node/add/discussion |
+      | turing      | /published/node/add/wiki-page |
       | alfrednobel  | /published/node/add/photoalbum |
       | alfrednobel  | /published/node/add/photo |
       | alfrednobel  | /published/node/add/event |
       | alfrednobel  | /published/node/add/document |
       | alfrednobel  | /published/node/add/discussion |
+      | alfrednobel  | /published/node/add/wiki-page |
       | mariecurie  | /published/node/add/photoalbum |
       | mariecurie  | /published/node/add/photo |
       | mariecurie  | /published/node/add/event |
       | mariecurie  | /published/node/add/document |
       | mariecurie  | /published/node/add/discussion |
+      | mariecurie  | /published/node/add/wiki-page |
 
   @api
-  Scenario Outline: As non member, access create content form, with purl prefix of published restricted group.
+  Scenario Outline: As non member, member (for wiki-page only) access create content form, with purl prefix of published restricted group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
     Then   I should not have access to the page
@@ -446,6 +485,8 @@ Feature: Test creation of the content permissions.
       | badhairday  | /published/node/add/event |
       | badhairday  | /published/node/add/document |
       | badhairday  | /published/node/add/discussion |
+      | badhairday  | /published/node/add/wiki-page |
+      | isaacnewton | /published/node/add/wiki-page |
 
   @api
   Scenario: Set "Published group" group state to 'Private'. Anonymous user asked to log in.
@@ -473,19 +514,22 @@ Feature: Test creation of the content permissions.
       | turing      | /published/node/add/event |
       | turing      | /published/node/add/document |
       | turing      | /published/node/add/discussion |
+      | turing      | /published/node/add/wiki-page |
       | alfrednobel  | /published/node/add/photoalbum |
       | alfrednobel  | /published/node/add/photo |
       | alfrednobel  | /published/node/add/event |
       | alfrednobel  | /published/node/add/document |
       | alfrednobel  | /published/node/add/discussion |
+      | alfrednobel  | /published/node/add/wiki-page |
       | mariecurie  | /published/node/add/photoalbum |
       | mariecurie  | /published/node/add/photo |
       | mariecurie  | /published/node/add/event |
       | mariecurie  | /published/node/add/document |
       | mariecurie  | /published/node/add/discussion |
+      | mariecurie  | /published/node/add/wiki-page |
 
   @api
-  Scenario Outline: As non member, access create content form, with purl prefix of published private group.
+  Scenario Outline: As non member, member (for wiki-page only) access create content form, with purl prefix of published private group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
     Then   I should not have access to the page
@@ -497,7 +541,8 @@ Feature: Test creation of the content permissions.
       | badhairday  | /published/node/add/event |
       | badhairday  | /published/node/add/document |
       | badhairday  | /published/node/add/discussion |
-
+      | badhairday  | /published/node/add/wiki-page |
+      | isaacnewton | /published/node/add/wiki-page |
 
   @api
   Scenario: Restore "Published group" group state to 'Public'.
@@ -526,6 +571,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  |  /archived/node/add/event |
       | mariecurie  |  /archived/node/add/document |
       | mariecurie  |  /archived/node/add/discussion |
+      | mariecurie  |  /archived/node/add/wiki-page | 
 
   @api
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of archived public group.
@@ -555,6 +601,10 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /archived/node/add/discussion |
       | turing      | /archived/node/add/discussion |
       | alfrednobel | /archived/node/add/discussion |
+      | badhairday  | /archived/node/add/wiki-page |
+      | isaacnewton | /archived/node/add/wiki-page |
+      | turing      | /archived/node/add/wiki-page |
+      | alfrednobel | /archived/node/add/wiki-page |
 
   @api
   Scenario: Set "Archived group" group state to 'Restricted'. Anonymous user asked to log in.
@@ -577,7 +627,8 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /archived/node/add/event |
       | mariecurie  | /archived/node/add/document |
       | mariecurie  | /archived/node/add/discussion |
-
+      | mariecurie  | /archived/node/add/wiki-page |
+    
   @api
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of archived restricted group.
     Given  I am logged in as user "<user>"
@@ -606,6 +657,10 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /archived/node/add/discussion |
       | turing      | /archived/node/add/discussion |
       | alfrednobel | /archived/node/add/discussion |
+      | badhairday  | /archived/node/add/wiki-page |
+      | isaacnewton | /archived/node/add/wiki-page |
+      | turing      | /archived/node/add/wiki-page |
+      | alfrednobel | /archived/node/add/wiki-page |
 
   @api
   Scenario: Set "Archived group" group state to 'Private'. Anonymous user asked to log in.
@@ -628,6 +683,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /archived/node/add/event |
       | mariecurie  | /archived/node/add/document |
       | mariecurie  | /archived/node/add/discussion |
+      | mariecurie  | /archived/node/add/wiki-page |
 
   @api
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of archived private group.
@@ -657,6 +713,10 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /archived/node/add/discussion |
       | turing      | /archived/node/add/discussion |
       | alfrednobel | /archived/node/add/discussion |
+      | badhairday  | /archived/node/add/wiki-page |
+      | isaacnewton | /archived/node/add/wiki-page |
+      | turing      | /archived/node/add/wiki-page |
+      | alfrednobel | /archived/node/add/wiki-page |
 
   @api
   Scenario: Restore "Archived group" group state to 'Public'.
@@ -685,6 +745,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  |  /deleted/node/add/event |
       | mariecurie  |  /deleted/node/add/document |
       | mariecurie  |  /deleted/node/add/discussion |
+      | mariecurie  |  /deleted/node/add/wiki-page |
 
   @api
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of deleted public group.
@@ -714,6 +775,10 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /deleted/node/add/discussion |
       | turing      | /deleted/node/add/discussion |
       | alfrednobel | /deleted/node/add/discussion |
+      | badhairday  | /deleted/node/add/wiki-page |
+      | isaacnewton | /deleted/node/add/wiki-page |
+      | turing      | /deleted/node/add/wiki-page |
+      | alfrednobel | /deleted/node/add/wiki-page |
 
   @api
   Scenario: Set "Deleted group" group state to 'Restricted'. Anonymous user asked to log in.
@@ -736,6 +801,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /deleted/node/add/event |
       | mariecurie  | /deleted/node/add/document |
       | mariecurie  | /deleted/node/add/discussion |
+      | mariecurie  | /deleted/node/add/wiki-page |
 
   @api
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of deleted restricted group.
@@ -765,6 +831,10 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /deleted/node/add/discussion |
       | turing      | /deleted/node/add/discussion |
       | alfrednobel | /deleted/node/add/discussion |
+      | badhairday  | /deleted/node/add/wiki-page |
+      | isaacnewton | /deleted/node/add/wiki-page |
+      | turing      | /deleted/node/add/wiki-page |
+      | alfrednobel | /deleted/node/add/wiki-page |
 
   @api
   Scenario: Set "Deleted group" group state to 'Private'. Anonymous user asked to log in.
@@ -787,6 +857,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /deleted/node/add/event |
       | mariecurie  | /deleted/node/add/document |
       | mariecurie  | /deleted/node/add/discussion |
+      | mariecurie  | /deleted/node/add/wiki-page |
 
   @api
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of deleted private group.
@@ -816,6 +887,10 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /deleted/node/add/discussion |
       | turing      | /deleted/node/add/discussion |
       | alfrednobel | /deleted/node/add/discussion |
+      | badhairday  | /deleted/node/add/wiki-page |
+      | isaacnewton | /deleted/node/add/wiki-page |
+      | turing      | /deleted/node/add/wiki-page |
+      | alfrednobel | /deleted/node/add/wiki-page |
 
   @api
   Scenario: Restore "Deleted group" group state to 'Public'.
