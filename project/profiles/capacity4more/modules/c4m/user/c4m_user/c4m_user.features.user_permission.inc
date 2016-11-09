@@ -1520,6 +1520,7 @@ function c4m_user_user_default_permissions() {
     'name' => 'edit any wiki_page content',
     'roles' => array(
       'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'node',
   );
