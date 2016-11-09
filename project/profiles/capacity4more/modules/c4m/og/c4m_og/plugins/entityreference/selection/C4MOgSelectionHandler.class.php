@@ -137,14 +137,21 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     if ($group['gid']) {
       $node_type = $this->instance['bundle'];
 
-      if (!_c4m_features_og_members_is_power_user() && !og_user_access($group_type, $group['gid'], "create $node_type content")) {
+      $target_access = og_user_access($group_type, $group['gid'], "create $node_type content");
+      // Any member can edit a wiki page unless a power user has changed it
+      // specifically for a specific node.
+      if (!empty($this->entity->nid) && $node_type == 'wiki_page') {
+        $target_access = og_user_access($group_type, $group['gid'], "update any wiki_page content");
+      }
+
+      if (!_c4m_features_og_members_is_power_user() && !$target_access) {
         // User is not group member and can't add content. Falsify the query.
         $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
         return $query;
       }
     }
 
-    // Adding condition that verifying that group state allows adding content -
+    // Adding condition that verifying that group state allows adding content
     // member can add content to groups at draft or published state.
     $allowed_states = array('draft', 'published');
     $query->fieldCondition(
