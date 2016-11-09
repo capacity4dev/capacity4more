@@ -248,7 +248,9 @@ function c4m_content_get_group_statistics($og_context = NULL) {
     return array();
   }
 
-  $list = c4m_content_statistics_info('group');
+  $group = node_load($og_context['gid']);
+
+  $list = c4m_content_statistics_info($group->type);
 
   // Filter the list & limit to only content types that are enabled for the
   // given group.
@@ -980,7 +982,7 @@ function c4m_content_taxonomy_build_tree(
           'f[0]' => $link_term_to_facet['vocabulary_name'] . ':' . $taxonomy->tid,
         );
 
-        $link = l($taxonomy->name, 'groups', $options);
+        $link = l($taxonomy->name, 'search', $options);
       }
 
       $local_tree[] = $link;

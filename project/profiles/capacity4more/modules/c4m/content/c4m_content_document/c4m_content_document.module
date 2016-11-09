@@ -182,6 +182,25 @@ function c4m_content_document_c4m_content_statistics_info() {
         ),
       ),
     ),
+    'project' => array(
+      'c4m_og_documents' => array(
+        'type'          => 'document',
+        'entity_type'   => 'node',
+        'bundles'       => array('document'),
+        'singular'      => 'Document',
+        'plural'        => 'Documents',
+        'state'         => 1,
+        'aggregate'     => array(),
+        'weight'        => 2,
+        'feature_name'  => 'c4m_features_og_documents',
+        'attributes'    => array(
+          'class' => array('og-documents'),
+        ),
+        'link'          => array(
+          'path' => 'documents',
+        ),
+      ),
+    ),
     'topic' => array(
       'c4m_topic_documents' => array(
         'type'          => 'document',
