@@ -525,6 +525,12 @@ function c4m_user_notifications_notify_admins_admin_granted($gid, $uid) {
  */
 function c4m_user_notifications_notify_user_admin_demoted($gid, $uid) {
   global $user;
+
+  // When admin demotes himself, don't notify him.
+  if ($uid == $user->uid) {
+    return;
+  }
+
   $message = message_create('c4m_group_admin_demoted', array('uid' => $uid));
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_admin_demoted($message);
