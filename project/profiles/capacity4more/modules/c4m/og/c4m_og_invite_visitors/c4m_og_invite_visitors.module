@@ -537,14 +537,6 @@ function c4m_og_invite_visitors_register_submit($form, &$form_state) {
     return;
   }
 
-  $group = node_load($gid);
-  // Removing the original message of the user_register_form.
-  drupal_get_messages('status');
-  $message = t('Activation mail was sent to your email. You will become a member of group @group_title, once you activate the account.', array('@group_title' => $group->title));
-
-  drupal_set_message($message);
-  $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
-
   // Void the invitation token in the database after registration completes and
   // add the new user ID.
   c4m_og_invite_visitors_void_invitation($form_state['user']->uid, $form_state['user']->mail, $gid);
@@ -590,10 +582,12 @@ function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
  *
  * Setting a message to the user and redirect back to the group.
  */
-function c4m_og_invite_visitors_user_update($form, &$form_state) {
-//  if (!account_activation) {
-//    return;
-//  }
+function c4m_og_invite_visitors_user_update(&$edit, $account, $category) {
+  if ($account->original->status == $account->status) {
+    return;
+  }
+
+  $account = user_load($account->uid);
 
   if (!isset($_SESSION['c4m_og_invite_visitors_gid_join']) || !$gid = $_SESSION['c4m_og_invite_visitors_gid_join']) {
     return;
@@ -608,7 +602,7 @@ function c4m_og_invite_visitors_user_update($form, &$form_state) {
   $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
 
   // Add the user to the group.
-  og_group('node', $group, array('entity' => $form_state['user']));
+  og_group('node', $group, array('entity' => $account));
 
   // User is registered, the session variable should be destroyed.
   unset($_SESSION['c4m_og_invite_visitors_gid_join']);
