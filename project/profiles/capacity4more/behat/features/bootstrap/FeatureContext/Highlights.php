@@ -43,6 +43,7 @@ trait Highlights {
     }
 
     $promoted = $page->find('css', '.c4m-node-highlight a .fa-star');
+    $link->focus();
     $link->click();
 
     // Since we toggle the link, we dependent on the previous state of it,
