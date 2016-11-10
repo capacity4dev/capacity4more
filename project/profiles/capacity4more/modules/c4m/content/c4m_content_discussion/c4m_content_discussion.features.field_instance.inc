@@ -361,7 +361,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 31,
+        'weight' => 30,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -463,7 +463,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 25,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -573,7 +573,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 29,
+        'weight' => 28,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -676,7 +676,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 30,
+        'weight' => 29,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -776,7 +776,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 28,
+        'weight' => 27,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -878,7 +878,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 32,
+        'weight' => 31,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -976,7 +976,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 24,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -1111,7 +1111,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 26,
       ),
       'upcoming_event' => array(
         'label' => 'above',

@@ -128,7 +128,7 @@ function c4m_user_profile_remove_account_form_submit($form, &$form_state) {
   if ($values['anonymize']) {
     // This cancel method will reassign all the content of the user
     // to the anonymous user.
-    $values['user_cancel_method'] = 'user_block_reassign';
+    $values['user_cancel_method'] = 'c4m_user_admin_block_anonymous';
   }
 
   $gids = c4m_og_get_user_group_ids_by_bundle(NULL, $account);

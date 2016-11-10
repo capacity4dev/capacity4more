@@ -670,27 +670,6 @@ function c4m_user_menu() {
     'page callback' => 'c4m_user_access_denied',
     'access callback' => 'user_is_anonymous',
   );
-  $items['access-denied/login'] = array(
-    'title' => 'Log in',
-    'access callback' => 'user_is_anonymous',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-  );
-  $items['access-denied/register'] = array(
-    'title' => 'Create new account',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('user_register_form'),
-    'access callback' => 'user_register_access',
-    'type' => MENU_LOCAL_TASK,
-  );
-  $items['access-denied/password'] = array(
-    'title' => 'Request new password',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('user_pass'),
-    'access callback' => TRUE,
-    'type' => MENU_LOCAL_TASK,
-    'file path' => drupal_get_path('module', 'user'),
-    'file' => 'user.pages.inc',
-  );
 
   return $items;
 }
@@ -851,9 +830,10 @@ function c4m_user_contact_form_submit($form, $form_state) {
 
   if ($form_state['values']['c4m_contact_user_self_copy']) {
     // Sending a copy of the mail to the sender since the user checked
-    // the "Send me a copy" checkbox on the form.
+    // the "Send me a copy" checkbox on the form. Do not display status
+    // message for it.
     $user_language = user_preferred_language($user);
-    _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body, $user_language);
+    _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body, $user_language, TRUE);
   }
 }
 
