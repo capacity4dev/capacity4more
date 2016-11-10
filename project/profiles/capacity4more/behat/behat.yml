@@ -33,6 +33,9 @@ default:
       files_path: 'features/files'
     Drupal\DrupalExtension\Extension:
       blackbox: ~
+      region_map:
+        primary tabs: ".tabs--primary"
+
 
 phantomjs:
   context:
