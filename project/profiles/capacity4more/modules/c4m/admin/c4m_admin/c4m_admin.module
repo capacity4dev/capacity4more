@@ -35,6 +35,27 @@ function c4m_admin_menu() {
 }
 
 /**
+ * Implements hook_menu_alter().
+ *
+ * Override the theme of user creation form via the admin because of the
+ * vocab widget.
+ */
+function c4m_admin_menu_alter(&$items) {
+  $items['admin/people/create']['theme callback'] = 'c4m_admin_set_kapablo_theme';
+  $items['admin/people/create']['theme arguments'] = array();
+}
+
+/**
+ * Theme callback; Set the kapablo theme over the user creation form via admin.
+ *
+ * @return string
+ *   The machine name of the kapablo theme.
+ */
+function c4m_admin_set_kapablo_theme() {
+  return 'kapablo';
+}
+
+/**
  * Returns site administrators ids.
  *
  * @param bool $filter_event_user
