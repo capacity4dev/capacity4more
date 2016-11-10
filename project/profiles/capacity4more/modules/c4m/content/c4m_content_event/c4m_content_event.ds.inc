@@ -603,6 +603,16 @@ function c4m_content_event_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '11',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_promote' => array(
+      'weight' => '12',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_ds_event_start_icon' => array(
       'weight' => '0',
       'label' => 'hidden',
@@ -721,6 +731,16 @@ function c4m_content_event_ds_field_settings_info() {
     ),
     'c4m_ds_content_footer_stats' => array(
       'weight' => '10',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '11',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_promote' => array(
+      'weight' => '12',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -1185,6 +1205,8 @@ function c4m_content_event_ds_layout_settings_info() {
         8 => 'c4m_field_location_city_country',
         9 => 'c4m_body',
         10 => 'c4m_ds_content_footer_stats',
+        11 => 'c4m_ds_node_highlight',
+        12 => 'c4m_ds_node_promote',
       ),
     ),
     'fields' => array(
@@ -1199,8 +1221,14 @@ function c4m_content_event_ds_layout_settings_info() {
       'c4m_field_location_city_country' => 'right',
       'c4m_body' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
+      'c4m_ds_node_highlight' => 'right',
+      'c4m_ds_node_promote' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'left' => 'div',
       'right' => 'div',
@@ -1241,8 +1269,8 @@ function c4m_content_event_ds_layout_settings_info() {
       'footer' => array(
         9 => 'c4m_body',
         10 => 'c4m_ds_content_footer_stats',
-        11 => 'highlighted',
-        12 => 'promoted',
+        11 => 'c4m_ds_node_highlight',
+        12 => 'c4m_ds_node_promote',
       ),
     ),
     'fields' => array(
@@ -1257,10 +1285,14 @@ function c4m_content_event_ds_layout_settings_info() {
       'c4m_field_location_city_country' => 'right',
       'c4m_body' => 'footer',
       'c4m_ds_content_footer_stats' => 'footer',
-      'highlighted' => 'footer',
-      'promoted' => 'footer',
+      'c4m_ds_node_highlight' => 'footer',
+      'c4m_ds_node_promote' => 'footer',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'header' => 'div',
       'left' => 'div',
