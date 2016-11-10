@@ -694,17 +694,23 @@ function c4m_message_strongarm() {
       'form' => array(),
       'display' => array(
         'message__message_text__0' => array(
-          'default' => array(
-            'weight' => '0',
+          'message_notify_email_subject' => array(
             'visible' => TRUE,
+            'weight' => 0,
           ),
-          'activity_global' => array(
-            'weight' => '0',
-            'visible' => TRUE,
+          'message_notify_email_body' => array(
+            'visible' => FALSE,
+            'weight' => 0,
           ),
-          'activity_group' => array(
-            'weight' => '0',
+        ),
+        'message__message_text__1' => array(
+          'message_notify_email_subject' => array(
+            'visible' => FALSE,
+            'weight' => 0,
+          ),
+          'message_notify_email_body' => array(
             'visible' => TRUE,
+            'weight' => 0,
           ),
         ),
       ),
@@ -738,17 +744,23 @@ function c4m_message_strongarm() {
       'form' => array(),
       'display' => array(
         'message__message_text__0' => array(
-          'default' => array(
-            'weight' => '0',
+          'message_notify_email_subject' => array(
             'visible' => TRUE,
+            'weight' => 0,
           ),
-          'activity_global' => array(
-            'weight' => '0',
-            'visible' => TRUE,
+          'message_notify_email_body' => array(
+            'visible' => FALSE,
+            'weight' => 0,
           ),
-          'activity_group' => array(
-            'weight' => '0',
+        ),
+        'message__message_text__1' => array(
+          'message_notify_email_subject' => array(
+            'visible' => FALSE,
+            'weight' => 0,
+          ),
+          'message_notify_email_body' => array(
             'visible' => TRUE,
+            'weight' => 0,
           ),
         ),
       ),
@@ -782,17 +794,23 @@ function c4m_message_strongarm() {
       'form' => array(),
       'display' => array(
         'message__message_text__0' => array(
-          'activity_group' => array(
-            'weight' => '0',
+          'message_notify_email_subject' => array(
             'visible' => TRUE,
+            'weight' => 0,
           ),
-          'default' => array(
-            'weight' => '0',
-            'visible' => TRUE,
+          'message_notify_email_body' => array(
+            'visible' => FALSE,
+            'weight' => 0,
           ),
-          'activity_global' => array(
-            'weight' => '0',
+        ),
+        'message__message_text__1' => array(
+          'message_notify_email_subject' => array(
+            'visible' => FALSE,
+            'weight' => 0,
+          ),
+          'message_notify_email_body' => array(
             'visible' => TRUE,
+            'weight' => 0,
           ),
         ),
       ),
@@ -826,17 +844,23 @@ function c4m_message_strongarm() {
       'form' => array(),
       'display' => array(
         'message__message_text__0' => array(
-          'default' => array(
-            'weight' => '0',
+          'message_notify_email_subject' => array(
             'visible' => TRUE,
+            'weight' => 0,
           ),
-          'activity_global' => array(
-            'weight' => '0',
-            'visible' => TRUE,
+          'message_notify_email_body' => array(
+            'visible' => FALSE,
+            'weight' => 0,
           ),
-          'activity_group' => array(
-            'weight' => '0',
+        ),
+        'message__message_text__1' => array(
+          'message_notify_email_subject' => array(
+            'visible' => FALSE,
+            'weight' => 0,
+          ),
+          'message_notify_email_body' => array(
             'visible' => TRUE,
+            'weight' => 0,
           ),
         ),
       ),
@@ -870,17 +894,23 @@ function c4m_message_strongarm() {
       'form' => array(),
       'display' => array(
         'message__message_text__0' => array(
-          'default' => array(
-            'weight' => '0',
+          'message_notify_email_subject' => array(
             'visible' => TRUE,
+            'weight' => 0,
           ),
-          'activity_global' => array(
-            'weight' => '0',
-            'visible' => TRUE,
+          'message_notify_email_body' => array(
+            'visible' => FALSE,
+            'weight' => 0,
           ),
-          'activity_group' => array(
-            'weight' => '0',
+        ),
+        'message__message_text__1' => array(
+          'message_notify_email_subject' => array(
+            'visible' => FALSE,
+            'weight' => 0,
+          ),
+          'message_notify_email_body' => array(
             'visible' => TRUE,
+            'weight' => 0,
           ),
         ),
       ),
