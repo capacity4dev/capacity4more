@@ -584,15 +584,21 @@ function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
  * to the group he was invited into.
  */
 function c4m_og_invite_visitors_user_update(&$edit, $account, $category) {
-  if ($account->original->status == $account->status) {
+  // Return early, unless, account was not activated, before user update.
+  if ($account->original->status != 0) {
     return;
   }
 
-  $account = user_load($account->uid);
+  // Return early, unless, account became active, after user update.
+  if ($account->status != 1) {
+    return;
+  }
 
   if (!isset($_SESSION['c4m_og_invite_visitors_gid_join']) || !$gid = $_SESSION['c4m_og_invite_visitors_gid_join']) {
     return;
   }
+
+  $account = user_load($account->uid);
 
   $group = node_load($gid);
   // Removing the original message of the user_register_form.
