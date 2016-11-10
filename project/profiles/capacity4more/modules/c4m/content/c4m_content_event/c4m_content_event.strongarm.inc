@@ -241,7 +241,7 @@ function c4m_content_event_strongarm() {
             'visible' => FALSE,
           ),
           'block_list' => array(
-            'weight' => '38',
+            'weight' => '40',
             'visible' => FALSE,
           ),
           'pinned_content' => array(
@@ -262,6 +262,10 @@ function c4m_content_event_strongarm() {
             'weight' => '11',
             'visible' => TRUE,
           ),
+          'block_list' => array(
+            'weight' => '1',
+            'visible' => TRUE,
+          ),
         ),
         'promoted' => array(
           'teaser' => array(
@@ -270,6 +274,10 @@ function c4m_content_event_strongarm() {
           ),
           'teaser_group' => array(
             'weight' => '12',
+            'visible' => TRUE,
+          ),
+          'block_list' => array(
+            'weight' => '2',
             'visible' => TRUE,
           ),
         ),

@@ -153,7 +153,7 @@ function c4m_content_event_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'block_list';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '1',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -164,7 +164,7 @@ function c4m_content_event_ds_field_settings_info() {
       ),
     ),
     'c4m_field_og_group' => array(
-      'weight' => '2',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -983,17 +983,21 @@ function c4m_content_event_ds_layout_settings_info() {
     'regions' => array(
       'left' => array(
         0 => 'c4m_ds_event_start_icon',
+        1 => 'highlighted',
+        2 => 'promoted',
       ),
       'right' => array(
-        1 => 'title',
+        3 => 'title',
       ),
       'footer' => array(
-        2 => 'c4m_field_og_group',
-        3 => 'c4m_event_type',
+        4 => 'c4m_field_og_group',
+        5 => 'c4m_event_type',
       ),
     ),
     'fields' => array(
       'c4m_ds_event_start_icon' => 'left',
+      'highlighted' => 'left',
+      'promoted' => 'left',
       'title' => 'right',
       'c4m_field_og_group' => 'footer',
       'c4m_event_type' => 'footer',
