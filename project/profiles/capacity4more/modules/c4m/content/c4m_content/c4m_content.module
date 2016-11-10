@@ -1276,3 +1276,25 @@ function c4m_content_toggle_group_notification($group, $ajax = 'nojs') {
   $page = array('#type' => 'ajax', '#commands' => $commands);
   ajax_deliver($page);
 }
+
+/**
+ * Gets all node IDs of a specific type (bundle).
+ *
+ * @param string $type
+ *   The node type.
+ *
+ * @return array
+ *   The IDs of the nodes.
+ */
+function _c4m_content_get_all_node_ids_by_type($type) {
+  $cache = &drupal_static(__FUNCTION__ . $type);
+  if (!isset($cache)) {
+    $cache = db_select('node', 'n')
+      ->fields('n', array('nid'))
+      ->condition('type', $type)
+      ->execute()
+      ->fetchAllKeyed(0, 0);
+  }
+
+  return $cache;
+}
