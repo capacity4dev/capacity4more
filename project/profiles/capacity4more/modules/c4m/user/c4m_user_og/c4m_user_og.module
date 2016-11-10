@@ -823,7 +823,7 @@ function c4m_user_og_c4m_leave_group_cta($group) {
   $link = 'group/node/' . $group->nid . '/unsubscribe';
   return array(
     '#theme' => 'c4m_group_text_cta',
-    '#icon' => 'fa-user-plus',
+    '#icon' => 'fa-pencil-square-o',
     '#text' => l(t('Edit membership'), $link, array('absolute' => TRUE)),
   );
 }
