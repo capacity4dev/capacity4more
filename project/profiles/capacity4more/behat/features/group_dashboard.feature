@@ -86,16 +86,26 @@ Feature: Group dashboard
     And   I should see the text "Manage all group memberships"
 
   @javascript
-  Scenario: SA highlight a group via its dashboard.
-    Given I am logged in as user "survivalofthefittest"
+  Scenario Outline: SA highlight a group via its dashboard.
+    Given I am logged in as user "<username>"
     When  I visit the dashboard of group "Nobel Prize"
     Then  I should be able to toggle the highlight link
 
+    Examples:
+    | username             |
+    | mariecurie           |
+    | survivalofthefittest |
+
   @javascript
-  Scenario: SA highlight a group via the groups overview.
-    Given I am logged in as user "survivalofthefittest"
+  Scenario Outline: SA highlight a group via the groups overview.
+    Given I am logged in as user "<username>"
     When  I go to "/groups?text=nobel"
     Then  I should be able to toggle the highlight link
+
+    Examples:
+    | username             |
+    | mariecurie           |
+    | survivalofthefittest |
 
   @api
   Scenario: Visitor should not be able to highlight a group.
