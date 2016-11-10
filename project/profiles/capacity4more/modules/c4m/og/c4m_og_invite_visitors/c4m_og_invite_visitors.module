@@ -584,13 +584,13 @@ function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
  * to the group he was invited into.
  */
 function c4m_og_invite_visitors_user_update(&$edit, $account, $category) {
-  // Return early, unless, account was not activated, before user update.
-  if ($account->original->status != 0) {
+  // Original status was "Active".
+  if ($account->original->status !== 0) {
     return;
   }
 
-  // Return early, unless, account became active, after user update.
-  if ($account->status != 1) {
+  // Current status is "Not active".
+  if ($account->status !== 1) {
     return;
   }
 
