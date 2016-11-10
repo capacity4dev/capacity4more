@@ -208,7 +208,7 @@ function c4m_content_document_strongarm() {
             'visible' => FALSE,
           ),
           'teaser_group' => array(
-            'weight' => '30',
+            'weight' => '29',
             'visible' => FALSE,
           ),
           'block_list' => array(

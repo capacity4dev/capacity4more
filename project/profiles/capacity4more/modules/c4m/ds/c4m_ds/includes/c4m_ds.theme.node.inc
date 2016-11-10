@@ -579,6 +579,89 @@ function theme_c4m_ds_group_membership_type(array $field) {
 /**
  * DS function field.
  *
+ * Render the highlight node link.
+ *
+ * @param array $field
+ *   The field that needs to be rendered.
+ *
+ * @return mixed
+ *   The rendered field.
+ */
+function theme_c4m_ds_node_highlight(array $field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+
+  $node = $field['entity'];
+
+  // Make sure the node is a group content.
+  if (!$group = c4m_og_get_group_of_content($node)) {
+    // The node is not a group content, might be the group itself, hence we
+    // manipulate the parameter so the access callback will handle it.
+    $group = $node;
+  }
+
+  if (!c4m_content_toggle_highlight_access($group, $node, $node->promote)) {
+    return NULL;
+  }
+  // Add Drupal's ajax system to the current page.
+  drupal_add_library('system', 'drupal.ajax');
+
+  $link = c4m_content_create_highlight_link(
+    $group->nid,
+    $node->nid,
+    $node->promote
+  );
+
+  $tag['element'] = array(
+    '#tag' => 'div',
+    '#value' => $link,
+    '#attributes' => array(
+      'class' => array('c4m-node-highlight'),
+    ),
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
+ * Render the promote node link.
+ *
+ * @param array $field
+ *   The field that needs to be rendered.
+ *
+ * @return mixed
+ *   The rendered field.
+ */
+function theme_c4m_ds_node_promote(array $field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+
+  $node = $field['entity'];
+
+  if (!in_array($node->type, c4m_content_promotable_node_types())) {
+    return NULL;
+  }
+
+  // Make sure the node has a group.
+  if (!$group = c4m_og_get_group_of_content($node)) {
+    return NULL;
+  }
+
+  // Only power users can promote a node.
+  if (!_c4m_features_og_members_is_power_user($group)) {
+    return NULL;
+  }
+
+  return flag_create_link('c4m_og_content_highlight', $node->nid);
+}
+
+/**
+ * DS function field.
+ *
  * Render members of a group with particular role.
  *
  * @param array $field

@@ -185,13 +185,25 @@ function c4m_features_og_group_dashboard_action_recommend($node) {
 function c4m_features_og_group_dashboard_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id === 'flag_confirm') {
     $flag = $form['#flag'];
+
+    $entity_id = $form['entity_id']['#value'];
+    // Get entity you wan't to flag.
+    $entity = entity_load_single($flag->entity_type, $entity_id);
+    // Get group of the entity.
+    $group_id   = c4m_og_get_gid_from_entity($entity);
+
+    $url_options = array(
+      'purl' => array(
+        'provider' => 'og_purl|node',
+        'id' => $group_id,
+      ),
+    );
+
+    // Override the destination so we'll get the purl.
+    $_GET['destination'] = url($_GET['destination'], $url_options);
+
     if ($flag->name === 'c4m_og_content_highlight' && $form['action']['#value'] == 'flag') {
       $flag_id = $flag->fid;
-      $entity_id = $form['entity_id']['#value'];
-      // Get entity you wan't to flag.
-      $entity = entity_load_single($flag->entity_type, $entity_id);
-      // Get group of the entity.
-      $group_id   = c4m_og_get_gid_from_entity($entity);
 
       // Get flagged content.
       $flagged_og_content = c4m_features_og_group_dashboard_get_flagged_group_content($group_id, $flag_id);

@@ -826,7 +826,20 @@
   }
 }
 
+.view-mode-group_dashboard {
+
+  .c4m-node-highlight {
+    margin-top: 10px;
+
+    .highlight-link-text {
+      margin-left: 1rem;
+    }
+  }
+}
+
 .view-mode-teaser {
+  .field-name-c4m-ds-node-promote,
+  .field-name-c4m-ds-node-highlight,
   .field-name-c4m-ds-content-footer-stats,
   .form-type-item {
     display: inline-block;
@@ -834,12 +847,33 @@
       font-size: $font-size-h3;
     }
   }
-  .highlight-link,
+
   .flag-c4m-og-content-highlight {
     margin-left: 1rem;
   }
-  .highlight-link-text {
-    display: none;
+
+  .field-name-c4m-ds-node-highlight {
+    margin-left: 1rem;
+
+    .highlight-link-text {
+      display: none;
+    }
+  }
+}
+
+.view-id-c4m_overview_projects,
+.view-id-c4m_overview_groups {
+
+  .c4m-node-highlight {
+    float: right;
+
+    .highlight-link {
+      margin: 0 2px;
+
+      .highlight-link-text {
+        display: none;
+      }
+    }
   }
 }
 
