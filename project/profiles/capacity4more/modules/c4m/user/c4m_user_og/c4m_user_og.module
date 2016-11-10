@@ -771,7 +771,7 @@ function c4m_user_og_c4m_invite_cta($group) {
     '#button_label' => t('Invite a member'),
     '#button_icon' => 'fa-user-plus',
     '#url' => url(
-      'group/node/' . $group->nid . '/admin/people/invite-users',
+      'group/node/' . $group->nid . '/admin/people/invite-visitors',
       array('absolute' => TRUE)
     ),
     '#weight' => 15,
