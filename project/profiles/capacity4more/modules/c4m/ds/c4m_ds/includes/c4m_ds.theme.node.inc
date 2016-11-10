@@ -604,6 +604,15 @@ function theme_c4m_ds_node_highlight(array $field) {
   if (!c4m_content_toggle_highlight_access($group, $node, $node->promote)) {
     return NULL;
   }
+
+  // We should allow block-list view mode to display the highlight button only
+  // withing og context().
+  if (!empty($field['formatter_settings']['ft']['lb-cl']) && $field['formatter_settings']['ft']['lb-cl'] == 'block-list') {
+    if (!og_context()) {
+      return NULL;
+    }
+  }
+
   // Add Drupal's ajax system to the current page.
   drupal_add_library('system', 'drupal.ajax');
 
