@@ -627,6 +627,41 @@ function theme_c4m_ds_node_highlight(array $field) {
 /**
  * DS function field.
  *
+ * Render the promote node link.
+ *
+ * @param array $field
+ *   The field that needs to be rendered.
+ *
+ * @return mixed
+ *   The rendered field.
+ */
+function theme_c4m_ds_node_promote(array $field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+
+  $node = $field['entity'];
+
+  if (!in_array($node->type, c4m_content_promotable_node_types())) {
+    return NULL;
+  }
+
+  // Make sure the node has a group.
+  if (!$group = c4m_og_get_group_of_content($node)) {
+    return NULL;
+  }
+
+  // Only power users can promote a node.
+  if (!_c4m_features_og_members_is_power_user($group)) {
+    return NULL;
+  }
+
+  return flag_create_link('c4m_og_content_highlight', $node->nid);
+}
+
+/**
+ * DS function field.
+ *
  * Render members of a group with particular role.
  *
  * @param array $field
