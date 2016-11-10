@@ -88,6 +88,7 @@ Feature: Group dashboard
   @javascript
   Scenario Outline: SA highlight a group via its dashboard.
     Given I am logged in as user "<username>"
+    And   The window is maximized
     When  I visit the dashboard of group "Nobel Prize"
     Then  I should be able to toggle the highlight link
 
@@ -99,6 +100,7 @@ Feature: Group dashboard
   @javascript
   Scenario Outline: SA highlight a group via the groups overview.
     Given I am logged in as user "<username>"
+    And   The window is maximized
     When  I go to "/groups?text=nobel"
     Then  I should be able to toggle the highlight link
 

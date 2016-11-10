@@ -44,9 +44,7 @@ trait Highlights {
 
     $promoted = $page->find('css', '.c4m-node-highlight a .fa-star');
 
-    // Using jQuery because the admin menu is in position fixed which
-    // overlapping the element.
-    $this->getSession()->executeScript("jQuery('.c4m-node-highlight a').click()");
+    $link->click();
 
     // Since we toggle the link, we dependent on the previous state of it,
     // hence the class to appear should be relative the previous one.
