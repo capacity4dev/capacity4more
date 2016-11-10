@@ -162,7 +162,7 @@ function c4m_content_group_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '26',
+            'weight' => '30',
             'visible' => FALSE,
           ),
         ),

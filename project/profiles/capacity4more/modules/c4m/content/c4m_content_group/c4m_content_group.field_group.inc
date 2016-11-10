@@ -101,10 +101,11 @@ function c4m_content_group_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Icons',
-    'weight' => '4',
+    'weight' => '5',
     'children' => array(
       0 => 'c4m_ds_group_members_count',
       1 => 'c4m_ds_group_posts_count',
+      2 => 'c4m_ds_node_highlight',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -174,7 +175,6 @@ function c4m_content_group_field_group_info() {
       1 => 'title',
       2 => 'c4m_ds_group_type_icon',
       3 => 'c4m_ds_group_membership_type',
-      4 => 'c4m_ds_node_highlight',
     ),
     'format_type' => 'div',
     'format_settings' => array(

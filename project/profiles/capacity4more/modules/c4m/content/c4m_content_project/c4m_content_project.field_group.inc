@@ -133,6 +133,38 @@ function c4m_content_project_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_iconbar_project_views|node|project|teaser';
+  $field_group->group_name = 'group_iconbar_project_views';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'project';
+  $field_group->mode = 'teaser';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Icons',
+    'weight' => '6',
+    'children' => array(
+      0 => 'c4m_ds_node_highlight',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Icons',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'group-iconbar-project-views field-group-div',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $field_groups['group_iconbar_project_views|node|project|teaser'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_page_content|node|project|form';
   $field_group->group_name = 'group_page_content';
   $field_group->entity_type = 'node';
@@ -164,6 +196,7 @@ function c4m_content_project_field_group_info() {
   // Included for use with string extractors like potx.
   t('Details');
   t('EC Info');
+  t('Icons');
   t('Metadata');
   t('Page content');
   t('Related content');
