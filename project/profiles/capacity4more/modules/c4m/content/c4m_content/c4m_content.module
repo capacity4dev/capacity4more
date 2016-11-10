@@ -1110,7 +1110,7 @@ function c4m_content_create_group_content_access() {
   $group = node_load($context['gid']);
   $group_state = c4m_og_get_group_status($group);
 
-  // Site admin may not add content to pending / deleted group.
+  // Site admin may not add content to pending/deleted group.
   // No other restrictions.
   if (c4m_user_is_site_admin()) {
 
