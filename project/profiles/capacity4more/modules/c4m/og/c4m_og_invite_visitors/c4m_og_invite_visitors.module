@@ -361,7 +361,16 @@ function c4m_og_invite_visitors_determine_user_action($invitee_email, $gid) {
 
   // Do not invite a user who is already a member of the group.
   if ($og_membership = og_get_membership('node', $gid, 'user', $account->uid)) {
-    drupal_set_message(t('%user is already a member of this group.', array('%user' => format_username($account))), 'error');
+    // Member is blocked, display a link to the manage people page.
+    if ($og_membership->state == 3) {
+      drupal_set_message(t('%user is a blocked member of this group. <a href="@people-page">Manage the group members.</a>', array(
+        '%user' => format_username($account),
+        '@people-page' => url('group/node/' . $og_membership->gid . '/admin/people'),
+      )), 'error');
+    }
+    else {
+      drupal_set_message(t('%user is already a member of this group.', array('%user' => format_username($account))), 'error');
+    }
 
     return $action;
   }
@@ -528,10 +537,7 @@ function c4m_og_invite_visitors_form_user_register_form_alter(&$form, &$form_sta
     'group_title' => $wrapper->label(),
     'login_link' => l(t('Log in.'), 'user/login'),
   );
-  drupal_set_title(
-    theme('c4m_unified_workflow_register', $variables),
-    PASS_THROUGH
-  );
+  drupal_set_title(theme('c4m_unified_workflow_register', $variables), PASS_THROUGH);
 
   $form['#submit'][] = 'c4m_og_invite_visitors_register_submit';
   $form['actions']['submit']['#value'] = t('Register to join');

@@ -310,6 +310,8 @@ function c4m_user_profile_form_user_register_form_alter(
   $form_id
 ) {
 
+  // Set the title to `Registration` only if the user did not get to this page
+  // via an invitation to join a group.
   if (empty($_SESSION['c4m_og_invite_visitors_gid_join'])) {
     drupal_set_title(t('Registration'));
   }

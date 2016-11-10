@@ -12,6 +12,8 @@
  * other existing users to the group.
  */
 function c4m_og_invite_users_menu_alter(&$items) {
+  // Block access to the form created by og_invite. The functionality for
+  // inviting users should only be invoked through c4m_og_invite_visitors.
   $items['group/%/%/admin/people/invite-users']['access callback'] = 'c4m_og_invite_users_deny_access';
   $items['group/%/%/admin/people/invite-users/%user']['access callback'] = 'c4m_og_invite_users_access';
   $items['group/%/%/admin/people/invite-users/autocomplete']['access callback'] = 'c4m_og_invite_users_access';
