@@ -53,6 +53,8 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
     }
   }
 
+  $display_see_more = ($count > 5) ? TRUE : FALSE;
+
   $link_options = array(
     'query' => array(
       'filter' => 'groups',
@@ -61,7 +63,7 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
   $variables = array(
     'groups' => $rendered_groups,
     'link' => url('groups', $link_options),
-    'num_groups' => $count,
+    'display_see_more' => $display_see_more,
   );
   $output = '';
   if ($rendered_groups) {
@@ -175,6 +177,7 @@ function c4m_features_homepage_my_groups_content_type_theme(&$theme, $plugin) {
     'variables' => array(
       'groups' => NULL,
       'link' => NULL,
+      'display_see_more' => NULL,
     ),
     'path' => $plugin['path'],
     'template' => 'my-groups',
