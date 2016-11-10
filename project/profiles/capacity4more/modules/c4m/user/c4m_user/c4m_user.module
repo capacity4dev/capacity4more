@@ -670,27 +670,6 @@ function c4m_user_menu() {
     'page callback' => 'c4m_user_access_denied',
     'access callback' => 'user_is_anonymous',
   );
-  $items['access-denied/login'] = array(
-    'title' => 'Log in',
-    'access callback' => 'user_is_anonymous',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-  );
-  $items['access-denied/register'] = array(
-    'title' => 'Create new account',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('user_register_form'),
-    'access callback' => 'user_register_access',
-    'type' => MENU_LOCAL_TASK,
-  );
-  $items['access-denied/password'] = array(
-    'title' => 'Request new password',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('user_pass'),
-    'access callback' => TRUE,
-    'type' => MENU_LOCAL_TASK,
-    'file path' => drupal_get_path('module', 'user'),
-    'file' => 'user.pages.inc',
-  );
 
   return $items;
 }
