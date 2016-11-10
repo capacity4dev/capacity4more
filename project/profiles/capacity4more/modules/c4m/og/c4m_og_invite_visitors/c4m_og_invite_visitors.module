@@ -578,9 +578,10 @@ function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
 }
 
 /**
- * A submit handler for the invite visitors registration.
+ * Implements hook__user_update().
  *
- * Setting a message to the user and redirect back to the group.
+ * When account is activated, add the user, as active member,
+ * to the group he was invited into.
  */
 function c4m_og_invite_visitors_user_update(&$edit, $account, $category) {
   if ($account->original->status == $account->status) {
