@@ -61,6 +61,7 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
   $variables = array(
     'groups' => $rendered_groups,
     'link' => url('groups', $link_options),
+    'num_groups' => $count,
   );
   $output = '';
   if ($rendered_groups) {
