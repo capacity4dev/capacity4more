@@ -286,9 +286,14 @@ function c4m_user_og_get_groups(
   $account = NULL,
   $bundle = 'group',
   $status = NODE_PUBLISHED,
-  $sort = TRUE
+  $sort = TRUE,
+  $allow_pending = FALSE
 ) {
   $groups = og_get_groups_by_user($account);
+  if ($allow_pending) {
+    $pending_groups = c4m_features_homepage_get_pending_groups_by_user(NULL, NULL, TRUE);
+    $groups['node'] += $pending_groups['node'];
+  }
 
   if (empty($groups)) {
     return array();
@@ -308,6 +313,70 @@ function c4m_user_og_get_groups(
   }
 
   return $group_nodes;
+}
+
+/**
+ * Get the group IDs of all the groups a user is a pending member of.
+ *
+ * @param object $account
+ *   (optional) The user object to fetch group memberships for. Defaults to the
+ *   acting user.
+ * @param string $group_type
+ *   (optional) The entity type of the groups to fetch. By default all group
+ *   types will be fetched.
+ * @param bool $access_check
+ *   (optional) When TRUE check if user has permissions to view the group.
+ *   When FALSE do not check user permissions. Default to FALSE.
+ *
+ * @return array
+ *   An array with the group IDs or an empty array.
+ */
+function c4m_features_homepage_get_pending_groups_by_user($account = NULL, $group_type = NULL, $access_check = FALSE) {
+  if (empty($account)) {
+    global $user;
+    $account = $user;
+  }
+
+  $gids = array();
+
+  if (!og_get_group_audience_fields()) {
+    // User entity doesn't have group audience fields.
+    return $gids;
+  }
+
+  // Get all active OG membership that belong to the user.
+  $wrapper = entity_metadata_wrapper('user', $account->uid);
+  $og_memberships = $wrapper->{'og_membership__' . OG_STATE_PENDING}->value();
+  if (!$og_memberships) {
+    return $gids;
+  }
+
+  $groups = array();
+  foreach ($og_memberships as $og_membership) {
+    if (empty($og_membership)) {
+      // OG membership might have been just deleted.
+      continue;
+    }
+    $groups[$og_membership->group_type][] = $og_membership->gid;
+  }
+
+  foreach ($groups as $entity_type => $ids) {
+    foreach (entity_load($entity_type, $ids) as $entity) {
+      if ($access_check && !entity_access('view', $entity_type, $entity, $account)) {
+        // User doesn't have access to the group.
+        continue;
+      }
+      list($id) = entity_extract_ids($entity_type, $entity);
+      $gids[$entity_type][$id] = $id;
+    }
+  }
+
+  if (empty($group_type)) {
+    return $gids;
+  }
+  elseif (!empty($gids[$group_type])) {
+    return $gids[$group_type];
+  }
 }
 
 /**
