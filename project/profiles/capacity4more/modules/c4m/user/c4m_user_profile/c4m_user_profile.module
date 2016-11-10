@@ -309,7 +309,10 @@ function c4m_user_profile_form_user_register_form_alter(
   &$form_state,
   $form_id
 ) {
-  drupal_set_title(t('Registration'));
+
+  if (empty($_SESSION['c4m_og_invite_visitors_gid_join'])) {
+    drupal_set_title(t('Registration'));
+  }
 
   c4m_user_profile_alter_user_form($form, $form_state, TRUE);
 

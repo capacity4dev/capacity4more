@@ -523,6 +523,16 @@ function c4m_og_invite_visitors_form_user_register_form_alter(&$form, &$form_sta
     return;
   }
 
+  $wrapper = entity_metadata_wrapper('node', $_SESSION['c4m_og_invite_visitors_gid_join']);
+  $variables = array(
+    'group_title' => $wrapper->label(),
+    'login_link' => l(t('Log in.'), 'user/login'),
+  );
+  drupal_set_title(
+    theme('c4m_unified_workflow_register', $variables),
+    PASS_THROUGH
+  );
+
   $form['#submit'][] = 'c4m_og_invite_visitors_register_submit';
   $form['actions']['submit']['#value'] = t('Register to join');
 }
