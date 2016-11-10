@@ -856,10 +856,15 @@
 
   .c4m-node-highlight {
     margin-top: 10px;
+
+    .highlight-link-text {
+      margin-left: 1rem;
+    }
   }
 }
 
 .view-mode-teaser {
+  .field-name-c4m-ds-node-highlight,
   .field-name-c4m-ds-content-footer-stats,
   .form-type-item {
     display: inline-block;
@@ -872,15 +877,27 @@
     margin-left: 1rem;
   }
 
+  .field-name-c4m-ds-node-highlight {
+    margin-left: 1rem;
+
+    .highlight-link-text {
+      display: none;
+    }
+  }
+}
+
+.view-id-c4m_overview_projects,
+.view-id-c4m_overview_groups {
+
   .c4m-node-highlight {
     float: right;
 
     .highlight-link {
       margin: 0 2px;
-    }
 
-    .highlight-link-text {
-      display: none;
+      .highlight-link-text {
+        display: none;
+      }
     }
   }
 }
