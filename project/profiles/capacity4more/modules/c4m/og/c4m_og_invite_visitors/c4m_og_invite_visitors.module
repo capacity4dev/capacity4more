@@ -578,7 +578,7 @@ function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
 }
 
 /**
- * Implements hook__user_update().
+ * Implements hook_user_update().
  *
  * When account is activated, add the user, as active member,
  * to the group he was invited into.
