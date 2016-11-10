@@ -174,6 +174,10 @@ function c4m_features_og_events_upcoming_events_loggedin() {
     case 'groups':
       $groups = c4m_og_get_user_group_ids_by_bundle('group');
       break;
+
+    case 'projects':
+      // When filtering by projects the block should not be displayed.
+      return array('', FALSE);
   }
 
   $events = c4m_features_og_events_upcoming_events_get_events($range, $interests, $groups);
