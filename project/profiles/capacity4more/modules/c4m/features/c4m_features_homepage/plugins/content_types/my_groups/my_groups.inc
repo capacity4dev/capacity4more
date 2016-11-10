@@ -53,7 +53,7 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
     }
   }
 
-  $display_see_more = ($count > 5) ? TRUE : FALSE;
+  $display_see_more = $count > 5;
 
   $link_options = array(
     'query' => array(
@@ -101,6 +101,8 @@ function c4m_features_homepage_get_group_type_title($type) {
  *
  * @param object $account
  *   User object. Defaults global user if NULL.
+ * @param bool $allow_pending
+ *   Optional include requested groups (pending status).
  *
  * @returns mixed|null
  *   List of groups or NULL if the user has no groups.
@@ -134,6 +136,8 @@ function c4m_features_homepage_node_access_view_filter($node) {
  *
  * @param object $account
  *   User object. Defaults global user if NULL.
+ * @param bool $allow_pending
+ *   Optional include requested groups (pending status).
  *
  * @returns mixed|null
  *   List of groups or NULL if the user has no groups.
