@@ -1087,7 +1087,8 @@ function _c4m_content_taxonomy_extract_root_item(&$items) {
 /**
  * Manages access to 'create group content' form.
  *
- * For OG type 'group', allows access for group members and power users.
+ * Allows access for group power users. Members allowed access, when creating
+ * all content types, besides wiki page.
  */
 function c4m_content_create_group_content_access() {
   $item = menu_get_item();
@@ -1100,27 +1101,30 @@ function c4m_content_create_group_content_access() {
     return;
   }
 
-  // If not under og context, return early.
+  // If not under og context, deny access.
   if (!$context = og_context()) {
-    drupal_access_denied();
-    drupal_exit();
+    c4m_content_deny_access();
   }
 
-  $deny_access = FALSE;
   // We allow access only for draft / published groups.
   $group = node_load($context['gid']);
   $group_state = c4m_og_get_group_status($group);
 
   // Site admin may not add content to pending group. No other restrictions.
   if (c4m_user_is_site_admin()) {
-    return ($group_state != 'pending');
+
+    if ($group_state == 'pending') {
+      c4m_content_deny_access();
+    }
+    else {
+      return;
+    }
   }
 
   $allowed_states = array('draft', 'published');
-
-  // Group state is not allowed.
+  // Deny access, if group state is not allowed.
   if (!in_array($group_state, $allowed_states)) {
-    $deny_access = TRUE;
+    c4m_content_deny_access();
   }
   else {
     $user_type = _c4m_features_og_members_get_user_type();
@@ -1138,14 +1142,17 @@ function c4m_content_create_group_content_access() {
 
     // We allow access to power users, and members, when creating content.
     if (!in_array($user_type, $allowed_user_types)) {
-      $deny_access = TRUE;
+      c4m_content_deny_access();
     }
   }
+}
 
-  if ($deny_access) {
-    drupal_access_denied();
-    drupal_exit();
-  }
+/**
+ * Redirects to page 'Access denied'.
+ */
+function c4m_content_deny_access() {
+  drupal_access_denied();
+  drupal_exit();
 }
 
 /**
