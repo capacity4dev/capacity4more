@@ -260,6 +260,14 @@ function c4m_user_admin_form_user_cancel_confirm_form_alter(&$form, &$form_state
           ':input[name=user_cancel_method]' => array('value' => 'user_cancel_block'),
         ),
       ),
+      'enabled' => array(
+        array(
+          ':input[name=user_cancel_method]' => array('value' => 'c4m_user_admin_block_anonymous'),
+        ),
+        array(
+          ':input[name=user_cancel_method]' => array('value' => 'user_cancel_block'),
+        ),
+      ),
     ),
   );
 

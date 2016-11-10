@@ -1476,25 +1476,6 @@ function c4m_user_profile_get_expertise_topics($uid) {
 }
 
 /**
- * Implements hook_user_cancel_methods_alter().
- *
- * Adds a new cancellation method that reassigns the content to the anonymous
- * user without deleting the user account.
- */
-function c4m_user_profile_user_cancel_methods_alter(&$methods) {
-  $methods['user_block_reassign'] = array(
-    'title' => t(
-      'Block the account and make its content belong to the %anonymous-name user.',
-      array('%anonymous-name' => variable_get('anonymous', t('Anonymous')))
-    ),
-    'description' => t(
-      'Your account will be blocked. All of your content will be assigned to the %anonymous-name user.',
-      array('%anonymous-name' => variable_get('anonymous', t('Anonymous')))
-    ),
-  );
-}
-
-/**
  * Gets the custom cancellations methods we should reassign the content.
  *
  * @return array
@@ -1503,7 +1484,6 @@ function c4m_user_profile_user_cancel_methods_alter(&$methods) {
 function c4m_user_profile_get_cancel_methods_to_reassign() {
   return array(
     'c4m_user_admin_block_anonymous',
-    'user_block_reassign',
   );
 }
 
