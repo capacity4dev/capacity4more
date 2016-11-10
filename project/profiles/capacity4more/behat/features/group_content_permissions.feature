@@ -27,7 +27,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /node/add/document |
       | mariecurie  | /node/add/discussion |
       | mariecurie  | /node/add/wiki-page |
-
+      | mariecurie  | /node/add/news |
   @api
   Scenario: Set "Pending" group state to 'Public'. Anonymous user asked to log in.
     Given I am logged in as user "mariecurie"
@@ -192,28 +192,28 @@ Feature: Test creation of the content permissions.
     Examples:
       | user        | path                 |
       | isaacnewton | /draft/node/add/photoalbum |
-      | isaacnewton | /published/node/add/photo |
-      | isaacnewton | /published/node/add/event |
-      | isaacnewton | /published/node/add/document |
-      | isaacnewton | /published/node/add/discussion |
-      | turing      | /published/node/add/photoalbum |
-      | turing      | /published/node/add/photo |
-      | turing      | /published/node/add/event |
-      | turing      | /published/node/add/document |
-      | turing      | /published/node/add/discussion |
-      | turing      | /published/node/add/wiki-page |
-      | alfrednobel  | /published/node/add/photoalbum |
-      | alfrednobel  | /published/node/add/photo |
-      | alfrednobel  | /published/node/add/event |
-      | alfrednobel  | /published/node/add/document |
-      | alfrednobel  | /published/node/add/discussion |
-      | alfrednobel  | /published/node/add/wiki-page |
-      | mariecurie  | /published/node/add/photoalbum |
-      | mariecurie  | /published/node/add/photo |
-      | mariecurie  | /published/node/add/event |
-      | mariecurie  | /published/node/add/document |
-      | mariecurie  | /published/node/add/discussion |
-      | mariecurie  | /published/node/add/wiki-page |
+      | isaacnewton | /draft/node/add/photo |
+      | isaacnewton | /draft/node/add/event |
+      | isaacnewton | /draft/node/add/document |
+      | isaacnewton | /draft/node/add/discussion |
+      | turing      | /draft/node/add/photoalbum |
+      | turing      | /draft/node/add/photo |
+      | turing      | /draft/node/add/event |
+      | turing      | /draft/node/add/document |
+      | turing      | /draft/node/add/discussion |
+      | turing      | /draft/node/add/wiki-page |
+      | alfrednobel  | /draft/node/add/photoalbum |
+      | alfrednobel  | /draft/node/add/photo |
+      | alfrednobel  | /draft/node/add/event |
+      | alfrednobel  | /draft/node/add/document |
+      | alfrednobel  | /draft/node/add/discussion |
+      | alfrednobel  | /draft/node/add/wiki-page |
+      | mariecurie  | /draft/node/add/photoalbum |
+      | mariecurie  | /draft/node/add/photo |
+      | mariecurie  | /draft/node/add/event |
+      | mariecurie  | /draft/node/add/document |
+      | mariecurie  | /draft/node/add/discussion |
+      | mariecurie  | /draft/node/add/wiki-page |
 
   @api
   Scenario Outline: As non member, member (for wiki-page only) access create content form, with purl prefix of draft public group.
@@ -248,28 +248,28 @@ Feature: Test creation of the content permissions.
     Examples:
       | user        | path                 |
       | isaacnewton | /draft/node/add/photoalbum |
-      | isaacnewton | /published/node/add/photo |
-      | isaacnewton | /published/node/add/event |
-      | isaacnewton | /published/node/add/document |
-      | isaacnewton | /published/node/add/discussion |
-      | turing      | /published/node/add/photoalbum |
-      | turing      | /published/node/add/photo |
-      | turing      | /published/node/add/event |
-      | turing      | /published/node/add/document |
-      | turing      | /published/node/add/discussion |
-      | turing      | /published/node/add/wiki-page |
-      | alfrednobel  | /published/node/add/photoalbum |
-      | alfrednobel  | /published/node/add/photo |
-      | alfrednobel  | /published/node/add/event |
-      | alfrednobel  | /published/node/add/document |
-      | alfrednobel  | /published/node/add/discussion |
-      | alfrednobel  | /published/node/add/wiki-page |
-      | mariecurie  | /published/node/add/photoalbum |
-      | mariecurie  | /published/node/add/photo |
-      | mariecurie  | /published/node/add/event |
-      | mariecurie  | /published/node/add/document |
-      | mariecurie  | /published/node/add/discussion |
-      | mariecurie  | /published/node/add/wiki-page |
+      | isaacnewton | /draft/node/add/photo |
+      | isaacnewton | /draft/node/add/event |
+      | isaacnewton | /draft/node/add/document |
+      | isaacnewton | /draft/node/add/discussion |
+      | turing      | /draft/node/add/photoalbum |
+      | turing      | /draft/node/add/photo |
+      | turing      | /draft/node/add/event |
+      | turing      | /draft/node/add/document |
+      | turing      | /draft/node/add/discussion |
+      | turing      | /draft/node/add/wiki-page |
+      | alfrednobel  | /draft/node/add/photoalbum |
+      | alfrednobel  | /draft/node/add/photo |
+      | alfrednobel  | /draft/node/add/event |
+      | alfrednobel  | /draft/node/add/document |
+      | alfrednobel  | /draft/node/add/discussion |
+      | alfrednobel  | /draft/node/add/wiki-page |
+      | mariecurie  | /draft/node/add/photoalbum |
+      | mariecurie  | /draft/node/add/photo |
+      | mariecurie  | /draft/node/add/event |
+      | mariecurie  | /draft/node/add/document |
+      | mariecurie  | /draft/node/add/discussion |
+      | mariecurie  | /draft/node/add/wiki-page |
 
   @api
   Scenario Outline: As non member, member (for wiki-page only) access create content form, with purl prefix of draft restricted group.
@@ -304,28 +304,28 @@ Feature: Test creation of the content permissions.
     Examples:
       | user        | path                 |
       | isaacnewton | /draft/node/add/photoalbum |
-      | isaacnewton | /published/node/add/photo |
-      | isaacnewton | /published/node/add/event |
-      | isaacnewton | /published/node/add/document |
-      | isaacnewton | /published/node/add/discussion |
-      | turing      | /published/node/add/photoalbum |
-      | turing      | /published/node/add/photo |
-      | turing      | /published/node/add/event |
-      | turing      | /published/node/add/document |
-      | turing      | /published/node/add/discussion |
-      | turing      | /published/node/add/wiki-page |
-      | alfrednobel  | /published/node/add/photoalbum |
-      | alfrednobel  | /published/node/add/photo |
-      | alfrednobel  | /published/node/add/event |
-      | alfrednobel  | /published/node/add/document |
-      | alfrednobel  | /published/node/add/discussion |
-      | alfrednobel  | /published/node/add/wiki-page |
-      | mariecurie  | /published/node/add/photoalbum |
-      | mariecurie  | /published/node/add/photo |
-      | mariecurie  | /published/node/add/event |
-      | mariecurie  | /published/node/add/document |
-      | mariecurie  | /published/node/add/discussion |
-      | mariecurie  | /published/node/add/wiki-page |
+      | isaacnewton | /draft/node/add/photo |
+      | isaacnewton | /draft/node/add/event |
+      | isaacnewton | /draft/node/add/document |
+      | isaacnewton | /draft/node/add/discussion |
+      | turing      | /draft/node/add/photoalbum |
+      | turing      | /draft/node/add/photo |
+      | turing      | /draft/node/add/event |
+      | turing      | /draft/node/add/document |
+      | turing      | /draft/node/add/discussion |
+      | turing      | /draft/node/add/wiki-page |
+      | alfrednobel  | /draft/node/add/photoalbum |
+      | alfrednobel  | /draft/node/add/photo |
+      | alfrednobel  | /draft/node/add/event |
+      | alfrednobel  | /draft/node/add/document |
+      | alfrednobel  | /draft/node/add/discussion |
+      | alfrednobel  | /draft/node/add/wiki-page |
+      | mariecurie  | /draft/node/add/photoalbum |
+      | mariecurie  | /draft/node/add/photo |
+      | mariecurie  | /draft/node/add/event |
+      | mariecurie  | /draft/node/add/document |
+      | mariecurie  | /draft/node/add/discussion |
+      | mariecurie  | /draft/node/add/wiki-page |
 
   @api
   Scenario Outline: As non member, member (for wiki-page only) access create content form, with purl prefix of draft private group.
