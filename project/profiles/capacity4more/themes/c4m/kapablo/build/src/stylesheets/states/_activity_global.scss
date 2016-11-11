@@ -10,7 +10,7 @@
     padding-right: 0;
   }
 
-  .field-name-c4m-field-og-group, .user-name {
+  .user-name {
     @extend .text-copy--muted;
 
     margin: -1em 0 1em 0;
@@ -50,10 +50,6 @@
 
     > .content {
       h2 {
-        margin-top: 0;
-      }
-
-      .field-name-c4m-field-og-group {
         margin-top: 0;
       }
     }

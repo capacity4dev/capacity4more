@@ -64,19 +64,18 @@
 }
 
 .view-mode-activity_global {
-    .row {
-        margin: 0;
-    }
-    .pull-right {
-        padding-top: 12px;
-    }
-    .field-item.even {
-        padding: 0px 0;
-    }
-    .field-name-c4m-ds-content-footer-stats {
-        // color: $color-gray-darkThree;
-        color: $color-gray-light;
-    }
+  .row {
+    margin: 0;
+  }
+  .pull-right {
+    padding-top: 12px;
+  }
+  .field-item.even {
+    padding: 0px 0;
+  }
+  .field-name-c4m-ds-content-footer-stats {
+    color: $color-gray-light;
+  }
 }
 
 .show-more-wrapper,
