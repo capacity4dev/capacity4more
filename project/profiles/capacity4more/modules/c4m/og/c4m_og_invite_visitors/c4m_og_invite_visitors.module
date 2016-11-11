@@ -585,12 +585,13 @@ function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
  */
 function c4m_og_invite_visitors_user_update(&$edit, $account, $category) {
   // Original status was "Active".
-  if ($account->original->status !== 0) {
+  // For some reason the status in the original object is string.
+  if ($account->original->status != '0') {
     return;
   }
 
   // Current status is "Not active".
-  if ($account->status !== 1) {
+  if ($account->status != 1) {
     return;
   }
 
