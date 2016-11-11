@@ -22,6 +22,15 @@
         margin-top: 25px;
         margin-bottom: 6px;
     }
+
+    .message-c4m-insert--comment {
+
+        h2 {
+            margin-top: 10px;
+            margin-bottom: 25px;
+        }
+    }
+
     .message-summary {
         padding: 0;
     }
@@ -97,6 +106,14 @@
         font-family: $font-verdana;
     }
     margin-bottom: $base-spacing-medium;
+}
+
+.message-c4m-insert--comment {
+
+    .activity-stream--operator {
+        margin-top: 25px;
+        margin-bottom: 0;
+    }
 }
 
 .activity-stream--content .view-mode-activity_global .field-name-c4m-field-og-group,

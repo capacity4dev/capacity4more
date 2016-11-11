@@ -525,6 +525,12 @@ function c4m_user_notifications_notify_admins_admin_granted($gid, $uid) {
  */
 function c4m_user_notifications_notify_user_admin_demoted($gid, $uid) {
   global $user;
+
+  // When admin demotes himself, don't notify him.
+  if ($uid == $user->uid) {
+    return;
+  }
+
   $message = message_create('c4m_group_admin_demoted', array('uid' => $uid));
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_admin_demoted($message);
@@ -930,14 +936,46 @@ function c4m_user_notifications_message_subscribe_get_subscribers($message, $sub
     $filtered_users = $function(array_keys($users), array_keys($filtered_users));
   }
 
-  // Set notifiers to mail, for users that remain after filtering.
+  // Need to load the group to which content belongs, take sure user is not
+  // banned at that group.
+  if ($flagged_entity_type == 'node') {
+    $node = node_load($entity_id);
+
+    // Node is a group.
+    if (og_is_group_type('node', $node->type)) {
+      $group = $node;
+    }
+    // Node is group content.
+    elseif (og_is_group_content_type('node', $node->type)) {
+      $group = c4m_og_get_group_of_content($node);
+    }
+    // Site content which does not belong to a group. For example, 'article'.
+    else {
+      $group = NULL;
+    }
+  }
+  // In this case, entity is a term, and it's notification is not supported
+  // for current MVP.
+  else {
+    return array();
+  }
+
+  // Filtering users and preparing final user list.
+  $users = user_load_multiple(array_keys($users));
   foreach ($users as $key => &$value) {
+
+    // When node is group or group content, filter banned users.
+    if (!is_null($group) && c4m_user_og_get_role_in_group($value, $group) == 'blocked') {
+      unset($users[$key]);
+      continue;
+    }
+
     if (array_search($key, $filtered_users) !== FALSE) {
-      // If user is found at filtering array, keep it.
+      // If user is found at filtering array, set it's notifier to mail.
       $value = array('notifiers' => array('email' => 'email'));
     }
     else {
-      // If not found, unset user from array.
+      // If not found, filter the user.
       unset($users[$key]);
     }
   }

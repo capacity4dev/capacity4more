@@ -84,3 +84,54 @@ Feature: Group dashboard
     And   I click "Invite a member"
     Then  I should see the text "Invite People to Join"
     And   I should see the text "Manage all group memberships"
+
+  @javascript
+  Scenario Outline: SA highlight a group via its dashboard.
+    Given I am logged in as user "<username>"
+    And   The window is maximized
+    When  I visit the dashboard of group "Nobel Prize"
+    Then  I should be able to toggle the highlight link
+
+    Examples:
+    | username             |
+    | mariecurie           |
+    | survivalofthefittest |
+
+  @javascript
+  Scenario Outline: SA highlight a group via the groups overview.
+    Given I am logged in as user "<username>"
+    And   The window is maximized
+    When  I go to "/groups?text=nobel"
+    Then  I should be able to toggle the highlight link
+
+    Examples:
+    | username             |
+    | mariecurie           |
+    | survivalofthefittest |
+
+  @api
+  Scenario: Visitor should not be able to highlight a group.
+    Given I am an anonymous user
+    When  I visit the dashboard of group "Nobel Prize"
+    Then  I should see the text "Nobel Prize"
+    And   I should not see the ".c4m-node-highlight" element
+    When  I go to "/groups?text=nobel"
+    Then  I should see the text "Nobel Prize"
+    And   I should not see the ".c4m-node-highlight" element
+
+  @api
+  Scenario Outline: GO / GA / Member / User should not be able to highlight a group.
+    Given I am logged in as user "<username>"
+    When  I visit the dashboard of group "Nobel Prize"
+    Then  I should see the text "Nobel Prize"
+    And   I should not see the ".c4m-node-highlight" element
+    When  I go to "/groups?text=nobel"
+    Then  I should see the text "Nobel Prize"
+    And   I should not see the ".c4m-node-highlight" element
+
+    Examples:
+    | username    |
+    | alfrednobel |
+    | galileo     |
+    | badhairday  |
+    | president   |
