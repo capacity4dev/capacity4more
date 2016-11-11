@@ -33,16 +33,16 @@ trait Highlights {
   }
 
   /**
-   * @Then /^I should be able to toggle the highlight link$/
+   * @Then /^I should be able to toggle the group highlight link$/
    */
   public function iShouldBeAbleToToggleTheHighlightLink() {
     $page = $this->getSession()->getPage();
-    $link = $page->find('css', '.c4m-node-highlight a');
+    $link = $page->find('css', '.c4m-group-node-highlight a');
     if ($link === null) {
       throw new \Exception('The Highlight link is missing.');
     }
 
-    $promoted = $page->find('css', '.c4m-node-highlight a .fa-star');
+    $promoted = $page->find('css', '.c4m-group-node-highlight a .fa-star');
 
     $link->click();
 
@@ -54,7 +54,7 @@ trait Highlights {
       $class .= '-o';
     }
 
-    $this->waitForXpathNode("//div[contains(@class, \"c4m-node-highlight\")]//i[contains(@class, \"$class\")]", TRUE);
+    $this->waitForXpathNode("//div[contains(@class, \"c4m-group-node-highlight\")]//i[contains(@class, \"$class\")]", TRUE);
   }
 
 }

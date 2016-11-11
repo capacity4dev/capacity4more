@@ -626,7 +626,7 @@ function theme_c4m_ds_node_highlight(array $field) {
     '#tag' => 'div',
     '#value' => $link,
     '#attributes' => array(
-      'class' => array('c4m-node-highlight'),
+      'class' => array('c4m-node-highlight', "c4m-{$node->type}-node-highlight"),
     ),
   );
 
