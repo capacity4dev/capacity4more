@@ -208,11 +208,11 @@ function c4m_content_document_strongarm() {
             'visible' => FALSE,
           ),
           'teaser_group' => array(
-            'weight' => '29',
+            'weight' => '30',
             'visible' => FALSE,
           ),
           'block_list' => array(
-            'weight' => '25',
+            'weight' => '29',
             'visible' => FALSE,
           ),
           'pinned_content' => array(

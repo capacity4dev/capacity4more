@@ -148,6 +148,11 @@ function c4m_content_wiki_page_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
   );
   $export['node|wiki_page|block_list'] = $ds_fieldsetting;
 
@@ -807,12 +812,18 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'title',
+        1 => 'c4m_ds_node_highlight',
       ),
     ),
     'fields' => array(
       'title' => 'ds_content',
+      'c4m_ds_node_highlight' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),

@@ -837,6 +837,18 @@
   }
 }
 
+.pane-c4m-overview-og-highlights {
+
+  .c4m-node-highlight {
+    text-align: right;
+    margin-bottom: 5px;
+
+    .highlight-link-text {
+      display: none;
+    }
+  }
+}
+
 .view-mode-teaser {
   .field-name-c4m-ds-node-promote,
   .field-name-c4m-ds-node-highlight,
