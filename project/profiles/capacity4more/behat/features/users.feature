@@ -18,6 +18,20 @@ Feature: Testing user creation/manipulations.
        And I should see a "Notable Contributions" field
 
   @api
+  Scenario: Testing "my content" page
+     Given I am logged in as user "alfrednobel"
+      When I click "Hello Alfred Nobel"
+      And  I click "My content"
+       And I should see "Sort by:"
+      Then I should see "Type"
+      Then I should see "Filter by status"
+      Then I should see "Topics"
+      Then I should not see "Medals"
+      When I fill in "search" with "medals"
+      And  I press "edit-submit-my-content"
+      Then I should see "Medals"
+
+  @api
   Scenario: The user tries to leave the platform but still has groups.
     Given I am logged in as user "mariecurie"
      When I visit the leave platform page of the current user
