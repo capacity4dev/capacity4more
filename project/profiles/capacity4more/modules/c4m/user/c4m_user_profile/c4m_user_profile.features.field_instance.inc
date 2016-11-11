@@ -98,7 +98,7 @@ function c4m_user_profile_field_default_field_instances() {
           'filtered_html' => 'filtered_html',
           'full_html' => 0,
           'mail' => 0,
-          'plain_text' => 0,
+          'plain_text' => 'plain_text',
         ),
         'allowed_formats_toggle' => 1,
         'default_order_toggle' => 0,
