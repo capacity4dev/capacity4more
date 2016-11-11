@@ -44,7 +44,7 @@ function c4m_og_purl_init() {
   // Menu items prefixes, which we allow to be accessed under OG context.
   $group_allowed_path = _c4m_og_purl_allowed_paths();
 
-  if ($context = og_context() && !_c4m_og_purl_starts_with_in_array($group_allowed_path, $item['path'])) {
+  if (og_context() && !_c4m_og_purl_starts_with_in_array($group_allowed_path, $item['path'])) {
     // Under OG context, but menu item prefix is not part of allowed array.
     drupal_access_denied();
     drupal_exit();
@@ -78,16 +78,82 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
 
   // Path prefixes, which we allow to be accessed under OG context.
   $group_allowed_path = _c4m_og_purl_allowed_paths();
+  $context = og_context();
 
-  if ($context = og_context() && !_c4m_og_purl_starts_with_in_array($group_allowed_path, $path)) {
-    // Under OG context, but path prefix is not specified at allowed array.
-    // Cancel the 'prefix' that was added by purl_url_outbound_alter().
-    // purl_url_outbound_alter() will always run before this hook, as
-    // PURL model weight is lower (-20) than standard (0).
-    $options['prefix'] = '';
+  if ($context) {
+    if (!_c4m_og_purl_starts_with_in_array($group_allowed_path, $path)) {
+      // Under OG context, but path prefix is not specified at allowed array.
+      // Cancel the 'prefix' that was added by purl_url_outbound_alter().
+      // purl_url_outbound_alter() will always run before this hook, as
+      // PURL model weight is lower (-20) than standard (0).
+      $options['prefix'] = '';
 
-    return;
+      return;
+    }
+
+    if (_c4m_og_purl_starts_with($path, 'node') && !_c4m_og_purl_node_at_path_is_content_of_group($path, $context['gid']) && !_c4m_og_purl_path_is_add_group_content($path, $context['gid'])) {
+      // Node at path is not content of current OG group, thus, remove purl.
+      $options['prefix'] = '';
+    }
   }
+}
+
+/**
+ * Determines if node ($nid at path) is content of group with ID $gid.
+ *
+ * @param string $path
+ *   Menu item path.
+ * @param int $gid
+ *   Group ID.
+ *
+ * @return bool
+ *   TRUE if node ($nid at path) is content of group with ID $gid.
+ */
+function _c4m_og_purl_node_at_path_is_content_of_group($path, $gid) {
+  $path_element = explode('/', $path);
+
+  if (count($path_element) < 2) {
+    // Not a node view / manipulation path.
+    return FALSE;
+  }
+
+  $nid = $path_element[1];
+  if (!$node = node_load($nid)) {
+    // Not a valid node.
+    return FALSE;
+  }
+
+  $node_gid = c4m_og_get_gid_from_entity($node);
+
+  return $gid == $node_gid;
+}
+
+/**
+ * Determines if node ($nid at path) is content of group with ID $gid.
+ *
+ * @param string $path
+ *   Menu item path.
+ * @param int $gid
+ *   Group ID.
+ *
+ * @return bool
+ *   TRUE if node ($nid at path) is content of group with ID $gid.
+ */
+function _c4m_og_purl_path_is_add_group_content($path, $gid) {
+  $path_element = explode('/', $path);
+
+  if (count($path_element) <= 2) {
+    // Not a node view / manipulation path.
+    return FALSE;
+  }
+
+  if ($path_element[1] !== 'add') {
+    return FALSE;
+  }
+
+  $node_type = str_replace('-', '_', $path_element[2]);
+
+  return og_is_group_content_type('node', $node_type);
 }
 
 /**
@@ -108,7 +174,9 @@ function _c4m_og_purl_allowed_paths() {
     'comment',
     'members',
     'manage',
+    'news',
     'quick-post',
+    'searchgroup',
     'overlay-file',
     'overlay-node',
   );

@@ -17,5 +17,3 @@ default:
       api_driver: "drupal"
       drupal:
         drupal_root: "/var/www/capacity4more/www"
-      region_map:
-        primary tabs: ".tabs--primary"

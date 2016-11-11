@@ -233,7 +233,7 @@ function c4m_content_event_strongarm() {
             'visible' => FALSE,
           ),
           'teaser_group' => array(
-            'weight' => '28',
+            'weight' => '27',
             'visible' => FALSE,
           ),
           'activity_group' => array(
