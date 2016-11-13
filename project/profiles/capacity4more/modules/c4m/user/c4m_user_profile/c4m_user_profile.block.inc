@@ -99,18 +99,30 @@ function _c4m_user_profile_block_user_menu() {
  * Render the top bar menu for "my groups".
  */
 function _c4m_user_profile_my_groups_top_bar() {
+  global $user;
+
+  module_load_include('inc', 'c4m_features_homepage', 'plugins/content_types/my_groups/my_groups');
+
+  $max_groups_to_display = 3;
   $user_groups = array();
-  foreach (c4m_user_og_get_groups() as $group) {
-    // Deleted groups should not appear on the top bar list.
-    if (c4m_og_get_group_status($group) == 'deleted') {
-      continue;
+  foreach (c4m_features_homepage_get_user_groups_grouped_by_membership($user) as $group_list) {
+    foreach ($group_list as $group) {
+      // Deleted groups should not appear on the top bar list.
+      if (c4m_og_get_group_status($group) == 'deleted') {
+        continue;
+      }
+
+      // The max groups to display on the top bar is 3 by definition.
+      if (count($user_groups) >= $max_groups_to_display) {
+        break;
+      }
+
+      $node_view = node_view($group, 'block_list');
+      $user_groups[] = render($node_view);
     }
 
-    $node_view = node_view($group, 'block_list');
-    $user_groups[] = render($node_view);
-
     // The max groups to display on the top bar is 3 by definition.
-    if (count($user_groups) == 3) {
+    if (count($user_groups) >= $max_groups_to_display) {
       $user_groups[] = _c4m_user_profile_render_explore_all_my_groups_link();
       break;
     }
