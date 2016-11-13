@@ -370,9 +370,9 @@ function c4m_og_invite_visitors_determine_user_action($invitee_email, $gid) {
     // Member is blocked, display a link to the manage people page.
     if ($og_membership->state == OG_STATE_BLOCKED) {
       $link = l(t('Manage the group members.'), 'group/node/' . $og_membership->gid . '/admin/people');
-      drupal_set_message(t('%user is a blocked member of this group. !people-page', array(
+      drupal_set_message(t('%user is a blocked member of this group. !people-page-link', array(
         '%user' => format_username($account),
-        '!people-page' => $link,
+        '!people-page-link' => $link,
       )), 'error');
     }
     else {
