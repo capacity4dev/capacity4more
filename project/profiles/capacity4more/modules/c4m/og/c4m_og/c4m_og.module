@@ -224,6 +224,28 @@ function c4m_og_menu() {
 function c4m_og_menu_alter(&$items) {
   // Adding a member should be allow to SA only (CFM-1292).
   $items['group/%/%/admin/people/add-user']['access callback'] = 'c4m_og_add_member_to_group_access';
+
+  // Assign access to Node Gallery API features, if user has permission to
+  // edit the gallery.
+  $node_galery_api_features = array('upload', 'items', 'manage', 'sort');
+  foreach ($node_galery_api_features as $suffix) {
+    $path = 'node/%node_gallery_api_gallery/' . $suffix;
+    $items[$path]['access callback'] = 'node_access';
+    $items[$path]['access arguments'] = array('update', 1);
+  }
+
+  // Assign access to upload Node Gallery API item types, per upload access
+  // function.
+  // Node Gallery API item types are resolve in same manner
+  // as at node_gallery_api_menu().
+  $relationship_types = node_gallery_api_get_relationship_type(NULL, NULL, NULL, TRUE);
+  foreach ($relationship_types as $relationship) {
+    foreach ($relationship->item_types as $item_type) {
+      $path = 'node/%node_gallery_api_gallery/upload/' . $item_type;
+      $items[$path]['access callback'] = 'c4m_og_node_gallery_access';
+      $items[$path]['access arguments'] = array(1, $item_type);
+    }
+  }
 }
 
 /**
@@ -2633,4 +2655,17 @@ function c4m_og_invite_access($group_type, $gid) {
 
   // If we got so far, user is allowed to invite.
   return TRUE;
+}
+
+/**
+ * Access function for gallery items uploads.
+ *
+ * @see node_gallery_api_upload_access()
+ */
+function c4m_og_node_gallery_access($gallery, $item_type = NULL) {
+  $relationship_types = node_gallery_api_get_relationship_type($gallery->type, $item_type);
+
+  // Assign access to Node Gallery API item type upload, there's a relationship
+  // for gallery item type, and user got permission to edit the gallery.
+  return (!empty($relationship_types) && node_access('update', $gallery));
 }
