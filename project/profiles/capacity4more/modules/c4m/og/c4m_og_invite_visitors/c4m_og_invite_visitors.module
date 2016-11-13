@@ -537,26 +537,12 @@ function c4m_og_invite_visitors_register_submit($form, &$form_state) {
     return;
   }
 
-  $group = node_load($gid);
-  // Removing the original message of the user_register_form.
-  drupal_get_messages('status');
-  $message = t('Welcome to group @group_title.', array('@group_title' => $group->title));
-
-  drupal_set_message($message);
-  $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
-
-  // Add the user to the group.
-  og_group('node', $group, array('entity' => $form_state['user']));
-
   // Void the invitation token in the database after registration completes and
   // add the new user ID.
   c4m_og_invite_visitors_void_invitation($form_state['user']->uid, $form_state['user']->mail, $gid);
 
   // drupal_goto has a fallback to the 'destination' so we must remove it.
   unset($_GET['destination']);
-
-  // User is registered, the session variable should be destroyed.
-  unset($_SESSION['c4m_og_invite_visitors_gid_join']);
 }
 
 /**
@@ -589,6 +575,45 @@ function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
   }
 
   return $num_updated;
+}
+
+/**
+ * Implements hook_user_update().
+ *
+ * When account is activated, add the user, as active member,
+ * to the group he was invited into.
+ */
+function c4m_og_invite_visitors_user_update(&$edit, $account, $category) {
+  // Original status was "Active".
+  // For some reason the status in the original object is string.
+  if ($account->original->status != '0') {
+    return;
+  }
+
+  // Current status is "Not active".
+  if ($account->status != 1) {
+    return;
+  }
+
+  if (!isset($_SESSION['c4m_og_invite_visitors_gid_join']) || !$gid = $_SESSION['c4m_og_invite_visitors_gid_join']) {
+    return;
+  }
+
+  $account = user_load($account->uid);
+
+  $group = node_load($gid);
+  // Removing the original message of the user_register_form.
+  drupal_get_messages('status');
+  $message = t('Welcome to group @group_title.', array('@group_title' => $group->title));
+
+  drupal_set_message($message);
+  $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
+
+  // Add the user to the group.
+  og_group('node', $group, array('entity' => $account));
+
+  // User is registered, the session variable should be destroyed.
+  unset($_SESSION['c4m_og_invite_visitors_gid_join']);
 }
 
 /**

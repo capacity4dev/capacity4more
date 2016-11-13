@@ -401,6 +401,7 @@ function c4m_restful_quick_post_needs_app() {
     'user/%/edit',
     'c4m/project-template-clone/%/%',
     'c4m/programme-template-clone/%/%',
+    'admin/people/create',
   );
   // If we are on a group edit form, the app should be loaded.
   if (in_array($path, $allowed_paths)) {

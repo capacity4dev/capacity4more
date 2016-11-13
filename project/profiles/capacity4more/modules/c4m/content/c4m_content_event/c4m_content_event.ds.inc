@@ -164,13 +164,18 @@ function c4m_content_event_ds_field_settings_info() {
       ),
     ),
     'c4m_field_og_group' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
         'show_group_type' => 1,
         'ft' => array(),
       ),
+    ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
     ),
     'c4m_ds_event_start_icon' => array(
       'weight' => '0',
@@ -986,15 +991,17 @@ function c4m_content_event_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'title',
+        2 => 'c4m_ds_node_highlight',
       ),
       'footer' => array(
-        2 => 'c4m_field_og_group',
-        3 => 'c4m_event_type',
+        3 => 'c4m_field_og_group',
+        4 => 'c4m_event_type',
       ),
     ),
     'fields' => array(
       'c4m_ds_event_start_icon' => 'left',
       'title' => 'right',
+      'c4m_ds_node_highlight' => 'right',
       'c4m_field_og_group' => 'footer',
       'c4m_event_type' => 'footer',
     ),
