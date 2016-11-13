@@ -100,11 +100,11 @@ function _c4m_user_profile_block_user_menu() {
  */
 function _c4m_user_profile_my_groups_top_bar() {
   $user_groups = array();
-  foreach (c4m_user_og_get_groups() as $group) {
-    // Deleted groups should not appear on the top bar list.
-    if (c4m_og_get_group_status($group) == 'deleted') {
-      continue;
-    }
+  $groups = c4m_user_og_get_groups();
+
+  // Removes groups where the logged in user has no access.
+  $groups = array_filter($groups, 'c4m_user_profile_node_access_view_filter');
+  foreach ($groups as $group) {
 
     $node_view = node_view($group, 'block_list');
     $user_groups[] = render($node_view);
@@ -441,4 +441,17 @@ function _c4m_user_profile_block_user_my_profile_groups() {
   $block['content'] = !empty($rendered_groups) ? theme('c4m_user_profile_my_profile_groups', $variables) : FALSE;
 
   return $block;
+}
+
+/**
+ * Callback for array_filter that checks if the user has access to the node.
+ *
+ * @param object $node
+ *   Node object.
+ *
+ * @returns boolean
+ *   Indicates if the user has access or not.
+ */
+function c4m_user_profile_node_access_view_filter($node) {
+  return node_access('view', $node);
 }
