@@ -356,7 +356,7 @@ Feature: Test creation of the content permissions.
     When   I change access of group "Published group" to "Public"
     Then   I am an anonymous user
     And    I go to "published"
-    And    I should see "Please log in"
+    And    I should have access to the page
 
   @permission
   Scenario Outline: As member, group admin, group owner and site admin, access create content form, with purl prefix of published public group.
@@ -530,7 +530,7 @@ Feature: Test creation of the content permissions.
     When  I change access of group "Archived group" to "Public"
     Then  I am an anonymous user
     And   I go to "archived"
-    And   I should see "Please log in"
+    And   I should have access to the page
 
   @permission
   Scenario Outline: As site admin, access create content form, with purl prefix of archived public group.
