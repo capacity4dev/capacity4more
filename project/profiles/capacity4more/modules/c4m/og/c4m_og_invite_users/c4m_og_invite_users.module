@@ -12,13 +12,26 @@
  * other existing users to the group.
  */
 function c4m_og_invite_users_menu_alter(&$items) {
-  $items['group/%/%/admin/people/invite-users']['access callback'] = 'c4m_og_invite_users_access';
+  // Block access to the form created by og_invite. The functionality for
+  // inviting users should only be invoked through c4m_og_invite_visitors.
+  $items['group/%/%/admin/people/invite-users']['access callback'] = 'c4m_og_invite_users_deny_access';
   $items['group/%/%/admin/people/invite-users/%user']['access callback'] = 'c4m_og_invite_users_access';
   $items['group/%/%/admin/people/invite-users/autocomplete']['access callback'] = 'c4m_og_invite_users_access';
   $items['group/%/%/admin/people/invite-users/answer/%']['access callback'] = 'c4m_og_invite_users_answer_access';
   $items['group/%/%/admin/people/invite-users/answer/%']['access arguments'] = array(7);
   $items['group/%/%/admin/people/invite-users/answer/%']['page callback'] = '_c4m_og_invite_users_answer';
   $items['group/%/%/admin/people/invite-users/answer/%']['page arguments'] = array(2, 7);
+}
+
+/**
+ * Implements hook_og_ui_get_group_admin_alter().
+ *
+ * Removes the Invite Users link from the group admin page. This module is meant
+ * to be invoked only by the c4m_og_invite_visitors module and not display its
+ * own invite form.
+ */
+function c4m_og_invite_users_og_ui_get_group_admin_alter(&$data, $context) {
+  unset($data['og_invite']);
 }
 
 /**
@@ -112,6 +125,16 @@ function c4m_og_invite_users_answer_access($hash) {
   }
 
   return TRUE;
+}
+
+/**
+ * Removes the invite users module menu item.
+ *
+ * This module is meant to be invoked only by the c4m_og_invite_visitors module
+ * and not display its own invite form.
+ */
+function c4m_og_invite_users_deny_access() {
+  return FALSE;
 }
 
 /**

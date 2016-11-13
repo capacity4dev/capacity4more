@@ -13,7 +13,7 @@
 function c4m_og_invite_visitors_menu() {
   $items = array();
   $items['group/%/%/admin/people/invite-visitors'] = array(
-    'title' => 'Invite Visitors',
+    'title' => 'Invite group members',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('_c4m_og_invite_visitors_new_users_form', 2),
     'type' => MENU_LOCAL_TASK,
@@ -154,8 +154,8 @@ function c4m_og_invite_visitors_og_ui_get_group_admin($group_type, $gid) {
   $items = array();
   if (og_user_access($group_type, $gid, 'invite visitors')) {
     $items['c4m_og_invite_visitors'] = array(
-      'title' => t('Invite visitors'),
-      'description' => t('Create new users and add them as group members.'),
+      'title' => t('Invite group members'),
+      'description' => t('Invite users or create new users and add them as group members.'),
       'href' => 'admin/people/invite-visitors',
     );
   }
@@ -242,7 +242,13 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $gid) {
     '#type' => 'value',
     '#value' => $group->nid,
   );
-
+  // str_replace result is the path to `Manage the group members`.
+  $form['manage_group_people'] = array(
+    '#type' => 'link',
+    '#href' => str_replace('/invite-visitors', '', $_GET['q']),
+    '#title' => 'Manage all group memberships',
+    '#access' => _c4m_features_og_members_is_power_user(),
+  );
   $form['c4m_og_invite_visitors'] = array(
     '#type' => 'fieldset',
     '#title' => t('Invite new users to %group', array('%group' => $label)),
@@ -326,7 +332,7 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
       case 'invite_user':
         // Invoke the invite_user functionality.
         $field_name = key(og_get_group_audience_fields());
-        og_invite_invite('node', $gid, $field_name, $action['uid']);
+        c4m_og_invite_users_invite($gid, $field_name, $action['uid'], $form_fields['body'], $form_fields['subject']);
         drupal_set_message(t('An email notification was sent to %address.', array('%address' => $invitee_email)));
         break;
     }
@@ -361,7 +367,17 @@ function c4m_og_invite_visitors_determine_user_action($invitee_email, $gid) {
 
   // Do not invite a user who is already a member of the group.
   if ($og_membership = og_get_membership('node', $gid, 'user', $account->uid)) {
-    drupal_set_message(t('%user is already a member of this group.', array('%user' => format_username($account))), 'error');
+    // Member is blocked, display a link to the manage people page.
+    if ($og_membership->state == OG_STATE_BLOCKED) {
+      $link = l(t('Manage the group members.'), 'group/node/' . $og_membership->gid . '/admin/people');
+      drupal_set_message(t('%user is a blocked member of this group. !people-page-link', array(
+        '%user' => format_username($account),
+        '!people-page-link' => $link,
+      )), 'error');
+    }
+    else {
+      drupal_set_message(t('%user is already a member of this group.', array('%user' => format_username($account))), 'error');
+    }
 
     return $action;
   }
@@ -522,6 +538,13 @@ function c4m_og_invite_visitors_form_user_register_form_alter(&$form, &$form_sta
   if (empty($_SESSION['c4m_og_invite_visitors_gid_join'])) {
     return;
   }
+
+  $wrapper = entity_metadata_wrapper('node', $_SESSION['c4m_og_invite_visitors_gid_join']);
+  $variables = array(
+    'group_title' => $wrapper->label(),
+    'login_link' => l(t('Log in.'), 'user/login'),
+  );
+  drupal_set_title(theme('c4m_unified_workflow_register', $variables), PASS_THROUGH);
 
   $form['#submit'][] = 'c4m_og_invite_visitors_register_submit';
   $form['actions']['submit']['#value'] = t('Register to join');

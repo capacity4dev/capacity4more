@@ -278,6 +278,8 @@ function c4m_user_og_has_groups(
  *   Optional status of the groups to filter on, default published.
  * @param bool $sort
  *   Optional sort boolean (sort by group status).
+ * @param bool $allow_pending
+ *   Optional include requested groups (pending status).
  *
  * @return array|void
  *   An array with the groups or an empty array.
@@ -286,9 +288,22 @@ function c4m_user_og_get_groups(
   $account = NULL,
   $bundle = 'group',
   $status = NODE_PUBLISHED,
-  $sort = TRUE
+  $sort = TRUE,
+  $allow_pending = FALSE
 ) {
   $groups = og_get_groups_by_user($account);
+  // Include requested groups (pending status).
+  if ($allow_pending) {
+    $pending_groups = c4m_og_get_pending_groups_by_user(NULL, NULL, TRUE);
+    if (isset($groups['node'])) {
+      if (isset($pending_groups['node'])) {
+        $groups['node'] += $pending_groups['node'];
+      }
+    }
+    else {
+      $groups = $pending_groups;
+    }
+  }
 
   if (empty($groups)) {
     return array();

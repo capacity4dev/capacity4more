@@ -20,7 +20,7 @@ $plugin = array(
  */
 function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $args, $context) {
   global $user;
-  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($user);
+  $groups = c4m_features_homepage_get_user_groups_grouped_by_membership($user, TRUE);
 
   $block = new stdClass();
   $block->module = 'c4m_features_homepage';
@@ -65,6 +65,7 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
   $variables = array(
     'groups' => $rendered_groups,
     'link' => url('groups', $link_options),
+    'display_see_more' => $display_see_more,
   );
   $output = '';
   if ($rendered_groups) {
@@ -102,12 +103,14 @@ function c4m_features_homepage_get_group_type_title($type) {
  *
  * @param object $account
  *   User object. Defaults global user if NULL.
+ * @param bool $allow_pending
+ *   Optional include requested groups (pending status).
  *
  * @returns mixed|null
  *   List of groups or NULL if the user has no groups.
  */
-function c4m_features_homepage_get_user_groups($account = NULL) {
-  $groups = c4m_user_og_get_groups($account);
+function c4m_features_homepage_get_user_groups($account = NULL, $allow_pending = FALSE) {
+  $groups = c4m_user_og_get_groups($account, 'group', NODE_PUBLISHED, TRUE, $allow_pending);
 
   // Removes groups where the logged in user has no access.
   $groups = array_filter($groups, 'c4m_features_homepage_node_access_view_filter');
@@ -135,12 +138,14 @@ function c4m_features_homepage_node_access_view_filter($node) {
  *
  * @param object $account
  *   User object. Defaults global user if NULL.
+ * @param bool $allow_pending
+ *   Optional include requested groups (pending status).
  *
  * @returns mixed|null
  *   List of groups or NULL if the user has no groups.
  */
-function c4m_features_homepage_get_user_groups_grouped_by_membership($account = NULL) {
-  $groups = c4m_features_homepage_get_user_groups($account);
+function c4m_features_homepage_get_user_groups_grouped_by_membership($account = NULL, $allow_pending = FALSE) {
+  $groups = c4m_features_homepage_get_user_groups($account, $allow_pending);
 
   $grouped_groups = array(
     'owner' => array(),
@@ -178,6 +183,7 @@ function c4m_features_homepage_my_groups_content_type_theme(&$theme, $plugin) {
     'variables' => array(
       'groups' => NULL,
       'link' => NULL,
+      'display_see_more' => NULL,
     ),
     'path' => $plugin['path'],
     'template' => 'my-groups',
