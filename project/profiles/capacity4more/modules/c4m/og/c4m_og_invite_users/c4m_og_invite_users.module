@@ -115,7 +115,7 @@ function c4m_og_invite_users_answer_access($hash) {
 }
 
 /**
- * Return true if the user is allowed to invite and false if he isn't.
+ * Return true if the user is allowed to invite users, and false if he isn't.
  *
  * Checks by user role and og_role against group visibility (Public/Private) and
  * Membership requests setting (Open/Moderated).
@@ -129,19 +129,7 @@ function c4m_og_invite_users_access($group_type, $gid) {
     return;
   }
 
-  if (!_og_invite_access($group_type, $gid)) {
-    return FALSE;
-  }
-
-  if (_c4m_features_og_members_is_power_user()) {
-    return TRUE;
-  }
-
-  // Get request type (open/moderated).
-  $group = node_load($gid);
-  $group_request_membership_value = c4m_og_get_group_membership_request($group);
-
-  return $group_request_membership_value == 'open' && og_user_access('node', $gid, 'invite any user');
+  return c4m_og_invite_access($group_type, $gid);
 }
 
 /**
