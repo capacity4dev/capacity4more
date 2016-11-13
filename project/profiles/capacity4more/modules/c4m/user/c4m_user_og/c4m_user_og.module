@@ -480,6 +480,7 @@ function c4m_user_og_theme() {
       'url' => NULL,
       'button_label' => NULL,
       'button_icon' => NULL,
+      'login_url' => NULL,
     ),
   );
 
@@ -527,16 +528,6 @@ function c4m_user_og_theme() {
     'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
     'variables' => array(
       'group_title' => NULL,
-    ),
-  );
-
-  $theme['c4m_group_invite_cta'] = array(
-    'template' => 'c4m_group_invite_cta',
-    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
-    'variables' => array(
-      'url' => NULL,
-      'button_label' => NULL,
-      'button_icon' => NULL,
     ),
   );
 
@@ -602,12 +593,16 @@ function c4m_user_og_c4m_visitor_cta($group) {
     ),
   );
 
+  $login_link = l(t('log in'), 'user/login', array('query' => array('destination' => request_path())));
+  $login_url = t('Please !login-link first if you have a C4D account', array('!login-link' => $login_link));
+
   if ($membership_request_value = c4m_og_get_group_membership_request($group)) {
     return array(
       '#theme' => 'c4m_group_visitor_cta',
       '#button_label' => $types[$membership_request_value]['button_label'],
       '#button_icon' => $types[$membership_request_value]['button_icon'],
       '#url' => url('group/join/' . $group->nid, array('absolute' => TRUE)),
+      '#login_url' => $login_url,
       '#weight' => 10,
     );
   }
@@ -766,14 +761,13 @@ function c4m_user_og_c4m_join_cta($group) {
  * existing users or new people to join the group.
  */
 function c4m_user_og_c4m_invite_cta($group) {
+  $url = url('group/node/' . $group->nid . '/admin/people/invite-users', array('absolute' => TRUE));
+
   return array(
-    '#theme' => 'c4m_group_invite_cta',
-    '#button_label' => t('Invite a member'),
-    '#button_icon' => 'fa-user-plus',
-    '#url' => url(
-      'group/node/' . $group->nid . '/admin/people/invite-users',
-      array('absolute' => TRUE)
-    ),
+    '#theme' => 'c4m_group_text_cta',
+//    '#button_label' => t('Invite a member'),
+    '#icon' => 'fa-user-plus',
+    '#text' => l(t('Invite a member'), $url),
     '#weight' => 15,
   );
 }

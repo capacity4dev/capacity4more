@@ -32,6 +32,8 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
 
   $rendered_groups = '';
   $count = 0;
+  $max_groups_to_display = 5;
+  $display_see_more = FALSE;
 
   // Render node views for each group.
   foreach ($groups as $type => $group_list) {
@@ -43,12 +45,14 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
       $rendered_groups .= drupal_render($node_view);
 
       $count++;
-      if ($count >= 5) {
+      if ($count >= $max_groups_to_display) {
+        $display_see_more = TRUE;
         break;
       }
     }
 
-    if ($count >= 5) {
+    if ($count >= $max_groups_to_display) {
+      $display_see_more = TRUE;
       break;
     }
   }
