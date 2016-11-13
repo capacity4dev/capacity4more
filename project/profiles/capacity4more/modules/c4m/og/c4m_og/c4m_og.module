@@ -229,9 +229,8 @@ function c4m_og_menu_alter(&$items) {
   // edit the gallery.
   $node_galery_api_features = array('upload', 'items', 'manage', 'sort');
   foreach ($node_galery_api_features as $suffix) {
-    $path = 'node/%node_gallery_api_gallery/' . $suffix;
-    $items[$path]['access callback'] = 'node_access';
-    $items[$path]['access arguments'] = array('update', 1);
+    $items['node/%node_gallery_api_gallery/' . $suffix]['access callback'] = 'node_access';
+    $items['node/%node_gallery_api_gallery/' . $suffix]['access arguments'] = array('update', 1);
   }
 
   // Assign access to upload Node Gallery API item types, per upload access
@@ -241,9 +240,8 @@ function c4m_og_menu_alter(&$items) {
   $relationship_types = node_gallery_api_get_relationship_type(NULL, NULL, NULL, TRUE);
   foreach ($relationship_types as $relationship) {
     foreach ($relationship->item_types as $item_type) {
-      $path = 'node/%node_gallery_api_gallery/upload/' . $item_type;
-      $items[$path]['access callback'] = 'c4m_og_node_gallery_access';
-      $items[$path]['access arguments'] = array(1, $item_type);
+      $items['node/%node_gallery_api_gallery/upload/' . $item_type]['access callback'] = 'c4m_og_node_gallery_access';
+      $items['node/%node_gallery_api_gallery/upload/' . $item_type]['access arguments'] = array(1, $item_type);
     }
   }
 }
