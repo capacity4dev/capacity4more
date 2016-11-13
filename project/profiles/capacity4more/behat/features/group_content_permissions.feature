@@ -28,6 +28,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /node/add/discussion |
       | mariecurie  | /node/add/wiki-page |
       | mariecurie  | /node/add/news |
+
   @permission
   Scenario: Set "Pending" group state to 'Public'. Anonymous user asked to log in.
     Given I am logged in as user "mariecurie"
@@ -706,22 +707,7 @@ Feature: Test creation of the content permissions.
     And   I should see "Please log in"
 
   @permission
-  Scenario Outline: As site admin, access create content form, with purl prefix of deleted public group.
-    Given I am logged in as user "<user>"
-    When  I go to "<path>"
-    Then  I should have access to the page
-
-    Examples:
-      | user        | path                 |
-      | mariecurie  |  /deleted/node/add/photoalbum |
-      | mariecurie  |  /deleted/node/add/photo |
-      | mariecurie  |  /deleted/node/add/event |
-      | mariecurie  |  /deleted/node/add/document |
-      | mariecurie  |  /deleted/node/add/discussion |
-      | mariecurie  |  /deleted/node/add/wiki-page |
-
-  @permission
-  Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of deleted public group.
+  Scenario Outline: As non member, member, group admin, group owner and site admin, access create content form, with purl prefix of deleted public group.
     Given  I am logged in as user "<user>"
     When  I go to "<path>"
     Then  I should not have access to the page
@@ -752,6 +738,13 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /deleted/node/add/wiki-page |
       | turing      | /deleted/node/add/wiki-page |
       | alfrednobel | /deleted/node/add/wiki-page |
+      | mariecurie  |  /deleted/node/add/photoalbum |
+      | mariecurie  |  /deleted/node/add/photo |
+      | mariecurie  |  /deleted/node/add/event |
+      | mariecurie  |  /deleted/node/add/document |
+      | mariecurie  |  /deleted/node/add/discussion |
+      | mariecurie  |  /deleted/node/add/wiki-page |
+
 
   @permission
   Scenario: Set "Deleted group" group state to 'Restricted'. Anonymous user asked to log in.
@@ -762,22 +755,7 @@ Feature: Test creation of the content permissions.
     And   I should see "Please log in"
 
   @permission
-  Scenario Outline: As site admin, access create content form, with purl prefix of deleted restricted group.
-    Given  I am logged in as user "<user>"
-    When   I go to "<path>"
-    Then   I should have access to the page
-
-    Examples:
-      | user        | path                 |
-      | mariecurie  | /deleted/node/add/photoalbum |
-      | mariecurie  | /deleted/node/add/photo |
-      | mariecurie  | /deleted/node/add/event |
-      | mariecurie  | /deleted/node/add/document |
-      | mariecurie  | /deleted/node/add/discussion |
-      | mariecurie  | /deleted/node/add/wiki-page |
-
-  @permission
-  Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of deleted restricted group.
+  Scenario Outline:  As non member, member, group admin, group owner and site admin, access create content form, with purl prefix of deleted restricted group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
     Then   I should not have access to the page
@@ -808,6 +786,12 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /deleted/node/add/wiki-page |
       | turing      | /deleted/node/add/wiki-page |
       | alfrednobel | /deleted/node/add/wiki-page |
+      | mariecurie  |  /deleted/node/add/photoalbum |
+      | mariecurie  |  /deleted/node/add/photo |
+      | mariecurie  |  /deleted/node/add/event |
+      | mariecurie  |  /deleted/node/add/document |
+      | mariecurie  |  /deleted/node/add/discussion |
+      | mariecurie  |  /deleted/node/add/wiki-page |
 
   @permission
   Scenario: Set "Deleted group" group state to 'Private'. Anonymous user asked to log in.
@@ -818,22 +802,7 @@ Feature: Test creation of the content permissions.
     And    I should see "Please log in"
 
   @permission
-  Scenario Outline: As site admin, access create content form, with purl prefix of deleted private group.
-    Given  I am logged in as user "<user>"
-    When  I go to "<path>"
-    Then  I should have access to the page
-
-    Examples:
-      | user        | path                 |
-      | mariecurie  | /deleted/node/add/photoalbum |
-      | mariecurie  | /deleted/node/add/photo |
-      | mariecurie  | /deleted/node/add/event |
-      | mariecurie  | /deleted/node/add/document |
-      | mariecurie  | /deleted/node/add/discussion |
-      | mariecurie  | /deleted/node/add/wiki-page |
-
-  @permission
-  Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of deleted private group.
+  Scenario Outline:  As non member, member, group admin, group owner and site admin, access create content form, with purl prefix of deleted private group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
     Then   I should not have access to the page
@@ -864,6 +833,12 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /deleted/node/add/wiki-page |
       | turing      | /deleted/node/add/wiki-page |
       | alfrednobel | /deleted/node/add/wiki-page |
+      | mariecurie  |  /deleted/node/add/photoalbum |
+      | mariecurie  |  /deleted/node/add/photo |
+      | mariecurie  |  /deleted/node/add/event |
+      | mariecurie  |  /deleted/node/add/document |
+      | mariecurie  |  /deleted/node/add/discussion |
+      | mariecurie  |  /deleted/node/add/wiki-page |
 
   @permission
   Scenario: Restore "Deleted group" group state to 'Public'.
