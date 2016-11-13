@@ -242,6 +242,7 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $gid) {
     '#type' => 'value',
     '#value' => $group->nid,
   );
+  // str_replace result is the path to `Manage the group members`.
   $form['manage_group_people'] = array(
     '#type' => 'link',
     '#href' => str_replace('/invite-visitors', '', $_GET['q']),
@@ -367,10 +368,11 @@ function c4m_og_invite_visitors_determine_user_action($invitee_email, $gid) {
   // Do not invite a user who is already a member of the group.
   if ($og_membership = og_get_membership('node', $gid, 'user', $account->uid)) {
     // Member is blocked, display a link to the manage people page.
-    if ($og_membership->state == 3) {
-      drupal_set_message(t('%user is a blocked member of this group. <a href="@people-page">Manage the group members.</a>', array(
+    if ($og_membership->state == OG_STATE_BLOCKED) {
+      $link = l(t('Manage the group members.'), 'group/node/' . $og_membership->gid . '/admin/people');
+      drupal_set_message(t('%user is a blocked member of this group. !people-page', array(
         '%user' => format_username($account),
-        '@people-page' => url('group/node/' . $og_membership->gid . '/admin/people'),
+        '!people-page' => $link,
       )), 'error');
     }
     else {
