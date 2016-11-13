@@ -295,7 +295,14 @@ function c4m_user_og_get_groups(
   // Include requested groups (pending status).
   if ($allow_pending) {
     $pending_groups = c4m_og_get_pending_groups_by_user(NULL, NULL, TRUE);
-    $groups['node'] += $pending_groups['node'];
+    if (isset($groups['node'])) {
+      if (isset($pending_groups['node'])) {
+        $groups['node'] += $pending_groups['node'];
+      }
+    }
+    else {
+      $groups = $pending_groups;
+    }
   }
 
   if (empty($groups)) {
