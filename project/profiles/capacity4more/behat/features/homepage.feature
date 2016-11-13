@@ -83,7 +83,7 @@ Feature: Test homepage content and blocks
 
   @api
   Scenario: Logged in, member user should see "Featured projects" block
-    Given I am logged in as user "mariecurie"
+    Given I am logged in as user "president"
     When  I visit the site homepage
     Then  I should see "Featured projects"
 
