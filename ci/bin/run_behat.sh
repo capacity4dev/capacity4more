@@ -26,6 +26,11 @@ if [ "$BEHAT_TAG" = "api" ]; then
   ./bin/behat --tags='@api&&~@wip'
 fi
 
+# Run tests for the permission tag.
+if [ "$BEHAT_TAG" = "permission" ]; then
+  ./bin/behat --tags='@permission&&~@wip'
+fi
+
 # Run tests for the javascript tag.
 if [ "$BEHAT_TAG" = "javascript" ]; then
   ./bin/behat -p phantomjs --tags='@javascript&&~@wip'
