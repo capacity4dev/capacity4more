@@ -762,7 +762,6 @@ function c4m_user_og_c4m_invite_cta($group) {
 
   return array(
     '#theme' => 'c4m_group_text_cta',
-//    '#button_label' => t('Invite a member'),
     '#icon' => 'fa-user-plus',
     '#text' => l(t('Invite a member'), $url),
     '#weight' => 15,
