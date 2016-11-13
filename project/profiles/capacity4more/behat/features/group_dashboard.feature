@@ -47,7 +47,7 @@ Feature: Group dashboard
     When  I visit the dashboard of group "Music Lovers"
     And   I click "Join this group"
     And   I click "Invite a member"
-    Then  I should see the text "Invite People to Join"
+    Then  I should see the text "Invite new users"
     And   I should not see the text "Manage all group memberships"
 
   @api
@@ -74,7 +74,7 @@ Feature: Group dashboard
     Given I am logged in as user "alfrednobel"
     When  I visit the dashboard of group "Tennis Group"
     And   I click "Invite a member"
-    Then  I should see the text "Invite People to Join"
+    Then  I should see the text "Invite new users"
     And   I should see the text "Manage all group memberships"
 
   @api
@@ -82,7 +82,7 @@ Feature: Group dashboard
     Given I am logged in as user "survivalofthefittest"
     When  I visit the dashboard of group "Architecture"
     And   I click "Invite a member"
-    Then  I should see the text "Invite People to Join"
+    Then  I should see the text "Invite new users"
     And   I should see the text "Manage all group memberships"
 
   @javascript
