@@ -326,7 +326,7 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
       case 'invite_user':
         // Invoke the invite_user functionality.
         $field_name = key(og_get_group_audience_fields());
-        og_invite_invite('node', $gid, $field_name, $action['uid']);
+        c4m_og_invite_users_invite($gid, $field_name, $action['uid'], $form_fields['body'], $form_fields['subject']);
         drupal_set_message(t('An email notification was sent to %address.', array('%address' => $invitee_email)));
         break;
     }
