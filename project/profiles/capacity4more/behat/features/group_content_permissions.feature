@@ -13,7 +13,7 @@ Feature: Test creation of the content permissions.
     When  I am logged in as user "isaacnewton"
     Then  I should be allowed to create a "event" in group "Discussion Insert 4"
 
-  @api
+  @permission
   Scenario Outline: As admin, access create content form, without purl prefix.
     Given I am logged in as user "<user>"
     When  I go to "<path>"
@@ -28,7 +28,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /node/add/discussion |
       | mariecurie  | /node/add/wiki-page |
       | mariecurie  | /node/add/news |
-  @api
+  @permission
   Scenario: Set "Pending" group state to 'Public'. Anonymous user asked to log in.
     Given I am logged in as user "mariecurie"
     When  I change access of group "Pending group" to "Public"
@@ -36,7 +36,7 @@ Feature: Test creation of the content permissions.
     And   I go to "pending"
     And   I should see "Please log in"
 
-  @api
+  @permission
   Scenario Outline: As non member, member, group admin, group owner and site admin, access create content form, with purl prefix of pending public group.
     Given  I am logged in as user "<user>"
     When  I go to "<path>"
@@ -75,7 +75,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  |  /pending/node/add/discussion |
       | mariecurie  |  /pending/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario: Set "Pending group" group state to 'Restricted'. Anonymous user asked to log in.
     Given I am logged in as user "mariecurie"
     When  I change access of group "Pending group" to "Restricted"
@@ -83,7 +83,7 @@ Feature: Test creation of the content permissions.
     And   I go to "pending"
     And   I should see "Please log in"
 
-  @api
+  @permission
   Scenario Outline: As non member, member, group admin, group owner and site admin, access create content form, with purl prefix of pending restricted group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -122,7 +122,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  |  /pending/node/add/discussion |
       | mariecurie  |  /pending/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario: Set "Pending group" group state to 'Private'. Anonymous user asked to log in.
     Given  I am logged in as user "mariecurie"
     When   I change access of group "Pending group" to "Private"
@@ -130,7 +130,7 @@ Feature: Test creation of the content permissions.
     And    I go to "pending"
     And    I should see "Please log in"
 
-  @api
+  @permission
   Scenario Outline: AAs non member, member, group admin, group owner and site admin, access create content form, with purl prefix of pending private group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -169,13 +169,13 @@ Feature: Test creation of the content permissions.
       | mariecurie  |  /pending/node/add/discussion |
       | mariecurie  |  /pending/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario: Restore "Pending group" group state to 'Public'.
     Given  I am logged in as user "mariecurie"
     When   I change access of group "Pending group" to "Public"
     And   I am an anonymous user
 
-  @api
+  @permission
   Scenario: Set "Draft group" group state to 'Public'. Anonymous user asked to log in.
     Given  I am logged in as user "mariecurie"
     When   I change access of group "Draft group" to "Public"
@@ -183,7 +183,7 @@ Feature: Test creation of the content permissions.
     And    I go to "draft"
     And    I should see "Please log in"
 
-  @api
+  @permission
   Scenario Outline: As member, group admin, group owner and site admin, access create content form, with purl prefix of draft public group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -215,7 +215,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /draft/node/add/discussion |
       | mariecurie  | /draft/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario Outline: As non member, member (for wiki-page only) access create content form, with purl prefix of draft public group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -231,7 +231,7 @@ Feature: Test creation of the content permissions.
       | badhairday  | /draft/node/add/wiki-page |
       | isaacnewton | /draft/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario: Set "Draft group" group state to 'Restricted'. Anonymous user asked to log in.
     Given  I am logged in as user "mariecurie"
     When   I change access of group "Draft group" to "Restricted"
@@ -239,7 +239,7 @@ Feature: Test creation of the content permissions.
     And    I go to "draft"
     And    I should see "Please log in"
 
-  @api
+  @permission
   Scenario Outline:  As member, group admin, group owner and site admin, access create content form, with purl prefix of draft restricted group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -271,7 +271,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /draft/node/add/discussion |
       | mariecurie  | /draft/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario Outline: As non member, member (for wiki-page only) access create content form, with purl prefix of draft restricted group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -287,7 +287,7 @@ Feature: Test creation of the content permissions.
       | badhairday  | /draft/node/add/wiki-page |
       | isaacnewton | /draft/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario: Set "Draft group" group state to 'Private'. Anonymous user asked to log in.
     Given  I am logged in as user "mariecurie"
     When   I change access of group "Draft group" to "Private"
@@ -295,7 +295,7 @@ Feature: Test creation of the content permissions.
     And    I go to "draft"
     And    I should see "Please log in"
 
-  @api
+  @permission
   Scenario Outline: As member, group admin, group owner and site admin, access create content form, with purl prefix of draft private group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -327,7 +327,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /draft/node/add/discussion |
       | mariecurie  | /draft/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario Outline: As non member, member (for wiki-page only) access create content form, with purl prefix of draft private group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -343,13 +343,13 @@ Feature: Test creation of the content permissions.
       | badhairday  | /draft/node/add/wiki-page |
       | isaacnewton | /draft/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario: Restore "Draft group" group state to 'Public'.
     Given  I am logged in as user "mariecurie"
     When   I change access of group "Draft group" to "Public"
     And   I am an anonymous user
 
-  @api
+  @permission
   Scenario: Set "Published group" group state to 'Public'. Anonymous user asked to log in.
     Given  I am logged in as user "mariecurie"
     When   I change access of group "Published group" to "Public"
@@ -357,7 +357,7 @@ Feature: Test creation of the content permissions.
     And    I go to "published"
     And    I should see "Please log in"
 
-  @api
+  @permission
   Scenario Outline: As member, group admin, group owner and site admin, access create content form, with purl prefix of published public group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -389,7 +389,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /published/node/add/discussion |
       | mariecurie  | /published/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario Outline: As non member, member (for wiki-page only) access create content form, with purl prefix of published public group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -405,7 +405,7 @@ Feature: Test creation of the content permissions.
       | badhairday  | /published/node/add/wiki-page |
       | isaacnewton | /published/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario: Set "Published group" group state to 'Restricted'. Anonymous user asked to log in.
     Given  I am logged in as user "mariecurie"
     When   I change access of group "Published group" to "Restricted"
@@ -413,7 +413,7 @@ Feature: Test creation of the content permissions.
     And    I go to "published"
     And    I should see "Please log in"
 
-  @api
+  @permission
   Scenario Outline:  As member, group admin, group owner and site admin, access create content form, with purl prefix of published restricted group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -445,7 +445,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /published/node/add/discussion |
       | mariecurie  | /published/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario Outline: As non member, member (for wiki-page only) access create content form, with purl prefix of published restricted group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -461,7 +461,7 @@ Feature: Test creation of the content permissions.
       | badhairday  | /published/node/add/wiki-page |
       | isaacnewton | /published/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario: Set "Published group" group state to 'Private'. Anonymous user asked to log in.
     Given  I am logged in as user "mariecurie"
     When   I change access of group "Published group" to "Private"
@@ -469,7 +469,7 @@ Feature: Test creation of the content permissions.
     And    I go to "published"
     And    I should see "Please log in"
 
-  @api
+  @permission
   Scenario Outline: As member, group admin, group owner and site admin, access create content form, with purl prefix of published private group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -501,7 +501,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /published/node/add/discussion |
       | mariecurie  | /published/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario Outline: As non member, member (for wiki-page only) access create content form, with purl prefix of published private group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -517,13 +517,13 @@ Feature: Test creation of the content permissions.
       | badhairday  | /published/node/add/wiki-page |
       | isaacnewton | /published/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario: Restore "Published group" group state to 'Public'.
     Given  I am logged in as user "mariecurie"
     When   I change access of group "Published group" to "Public"
     And   I am an anonymous user
 
-  @api
+  @permission
   Scenario: Set "Archived group" group state to 'Public'. Anonymous user asked to log in.
     Given I am logged in as user "mariecurie"
     When  I change access of group "Archived group" to "Public"
@@ -531,7 +531,7 @@ Feature: Test creation of the content permissions.
     And   I go to "archived"
     And   I should see "Please log in"
 
-  @api
+  @permission
   Scenario Outline: As site admin, access create content form, with purl prefix of archived public group.
     Given I am logged in as user "<user>"
     When  I go to "<path>"
@@ -546,7 +546,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  |  /archived/node/add/discussion |
       | mariecurie  |  /archived/node/add/wiki-page | 
 
-  @api
+  @permission
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of archived public group.
     Given  I am logged in as user "<user>"
     When  I go to "<path>"
@@ -579,7 +579,7 @@ Feature: Test creation of the content permissions.
       | turing      | /archived/node/add/wiki-page |
       | alfrednobel | /archived/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario: Set "Archived group" group state to 'Restricted'. Anonymous user asked to log in.
     Given I am logged in as user "mariecurie"
     When  I change access of group "Archived group" to "Restricted"
@@ -587,7 +587,7 @@ Feature: Test creation of the content permissions.
     And   I go to "archived"
     And   I should see "Please log in"
 
-  @api
+  @permission
   Scenario Outline: As site admin, access create content form, with purl prefix of archived restricted group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -602,7 +602,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /archived/node/add/discussion |
       | mariecurie  | /archived/node/add/wiki-page |
     
-  @api
+  @permission
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of archived restricted group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -635,7 +635,7 @@ Feature: Test creation of the content permissions.
       | turing      | /archived/node/add/wiki-page |
       | alfrednobel | /archived/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario: Set "Archived group" group state to 'Private'. Anonymous user asked to log in.
     Given  I am logged in as user "mariecurie"
     When   I change access of group "Archived group" to "Private"
@@ -643,7 +643,7 @@ Feature: Test creation of the content permissions.
     And    I go to "archived"
     And    I should see "Please log in"
 
-  @api
+  @permission
   Scenario Outline: As site admin, access create content form, with purl prefix of archived private group.
     Given  I am logged in as user "<user>"
     When  I go to "<path>"
@@ -658,7 +658,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /archived/node/add/discussion |
       | mariecurie  | /archived/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of archived private group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -691,13 +691,13 @@ Feature: Test creation of the content permissions.
       | turing      | /archived/node/add/wiki-page |
       | alfrednobel | /archived/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario: Restore "Archived group" group state to 'Public'.
     Given  I am logged in as user "mariecurie"
     When   I change access of group "Archived group" to "Public"
     And    I am an anonymous user
 
-  @api
+  @permission
   Scenario: Set "Deleted group" group state to 'Public'. Anonymous user asked to log in.
     Given I am logged in as user "mariecurie"
     When  I change access of group "Deleted group" to "Public"
@@ -705,7 +705,7 @@ Feature: Test creation of the content permissions.
     And   I go to "deleted"
     And   I should see "Please log in"
 
-  @api
+  @permission
   Scenario Outline: As site admin, access create content form, with purl prefix of deleted public group.
     Given I am logged in as user "<user>"
     When  I go to "<path>"
@@ -720,7 +720,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  |  /deleted/node/add/discussion |
       | mariecurie  |  /deleted/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of deleted public group.
     Given  I am logged in as user "<user>"
     When  I go to "<path>"
@@ -753,7 +753,7 @@ Feature: Test creation of the content permissions.
       | turing      | /deleted/node/add/wiki-page |
       | alfrednobel | /deleted/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario: Set "Deleted group" group state to 'Restricted'. Anonymous user asked to log in.
     Given I am logged in as user "mariecurie"
     When  I change access of group "Deleted group" to "Restricted"
@@ -761,7 +761,7 @@ Feature: Test creation of the content permissions.
     And   I go to "deleted"
     And   I should see "Please log in"
 
-  @api
+  @permission
   Scenario Outline: As site admin, access create content form, with purl prefix of deleted restricted group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -776,7 +776,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /deleted/node/add/discussion |
       | mariecurie  | /deleted/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of deleted restricted group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -809,7 +809,7 @@ Feature: Test creation of the content permissions.
       | turing      | /deleted/node/add/wiki-page |
       | alfrednobel | /deleted/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario: Set "Deleted group" group state to 'Private'. Anonymous user asked to log in.
     Given  I am logged in as user "mariecurie"
     When   I change access of group "Deleted group" to "Private"
@@ -817,7 +817,7 @@ Feature: Test creation of the content permissions.
     And    I go to "deleted"
     And    I should see "Please log in"
 
-  @api
+  @permission
   Scenario Outline: As site admin, access create content form, with purl prefix of deleted private group.
     Given  I am logged in as user "<user>"
     When  I go to "<path>"
@@ -832,7 +832,7 @@ Feature: Test creation of the content permissions.
       | mariecurie  | /deleted/node/add/discussion |
       | mariecurie  | /deleted/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario Outline: As non member, member, group admin and group owner, access create content form, with purl prefix of deleted private group.
     Given  I am logged in as user "<user>"
     When   I go to "<path>"
@@ -865,7 +865,7 @@ Feature: Test creation of the content permissions.
       | turing      | /deleted/node/add/wiki-page |
       | alfrednobel | /deleted/node/add/wiki-page |
 
-  @api
+  @permission
   Scenario: Restore "Deleted group" group state to 'Public'.
     Given  I am logged in as user "mariecurie"
     When   I change access of group "Deleted group" to "Public"
