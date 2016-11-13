@@ -2204,6 +2204,27 @@ function c4m_og_get_group_status($group) {
 }
 
 /**
+ * Implements hook_node_access().
+ */
+function c4m_og_node_access($node, $op, $account) {
+
+  switch ($op) {
+    case 'view':
+      return c4m_og_view_node_access($node, $account);
+
+    case 'create':
+      return c4m_og_create_node_access($node, $account);
+
+    case 'update':
+      return c4m_og_update_node_access($node, $account);
+
+    case 'delete':
+      return c4m_og_delete_node_access($node, $account);
+
+  }
+}
+
+/**
  * Handles 'view' operation of hook_node_access().
  */
 function c4m_og_view_node_access($node, $account) {
@@ -2435,27 +2456,6 @@ function c4m_og_delete_node_access($node, $account) {
 
   // The content is not OG. For example: article.
   return NODE_ACCESS_IGNORE;
-}
-
-/**
- * Implements hook_node_access().
- */
-function c4m_og_node_access($node, $op, $account) {
-
-  switch ($op) {
-    case 'view':
-      return c4m_og_view_node_access($node, $account);
-
-    case 'create':
-      return c4m_og_create_node_access($node, $account);
-
-    case 'update':
-      return c4m_og_update_node_access($node, $account);
-
-    case 'delete':
-      return c4m_og_delete_node_access($node, $account);
-
-  }
 }
 
 /**
