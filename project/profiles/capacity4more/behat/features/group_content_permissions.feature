@@ -69,12 +69,17 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /pending/node/add/wiki-page |
       | turing      | /pending/node/add/wiki-page |
       | alfrednobel | /pending/node/add/wiki-page |
-      | mariecurie  |  /pending/node/add/photoalbum |
-      | mariecurie  |  /pending/node/add/photo |
-      | mariecurie  |  /pending/node/add/event |
-      | mariecurie  |  /pending/node/add/document |
-      | mariecurie  |  /pending/node/add/discussion |
-      | mariecurie  |  /pending/node/add/wiki-page |
+      | mariecurie  | /pending/node/add/photoalbum |
+      | mariecurie  | /pending/node/add/photo |
+      | mariecurie  | /pending/node/add/event |
+      | mariecurie  | /pending/node/add/document |
+      | mariecurie  | /pending/node/add/discussion |
+      | mariecurie  | /pending/node/add/wiki-page |
+      | badhairday  | /pending/node/add/news |
+      | isaacnewton | /pending/node/add/news |
+      | turing      | /pending/node/add/news |
+      | alfrednobel | /pending/node/add/news |
+      | mariecurie  | /pending/node/add/news |
 
   @permission
   Scenario: Set "Pending group" group state to 'Restricted'. Anonymous user asked to log in.
@@ -116,12 +121,17 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /pending/node/add/wiki-page |
       | turing      | /pending/node/add/wiki-page |
       | alfrednobel | /pending/node/add/wiki-page |
-      | mariecurie  |  /pending/node/add/photoalbum |
-      | mariecurie  |  /pending/node/add/photo |
-      | mariecurie  |  /pending/node/add/event |
-      | mariecurie  |  /pending/node/add/document |
-      | mariecurie  |  /pending/node/add/discussion |
-      | mariecurie  |  /pending/node/add/wiki-page |
+      | mariecurie  | /pending/node/add/photoalbum |
+      | mariecurie  | /pending/node/add/photo |
+      | mariecurie  | /pending/node/add/event |
+      | mariecurie  | /pending/node/add/document |
+      | mariecurie  | /pending/node/add/discussion |
+      | mariecurie  | /pending/node/add/wiki-page |
+      | badhairday  | /pending/node/add/news |
+      | isaacnewton | /pending/node/add/news |
+      | turing      | /pending/node/add/news |
+      | alfrednobel | /pending/node/add/news |
+      | mariecurie  | /pending/node/add/news |
 
   @permission
   Scenario: Set "Pending group" group state to 'Private'. Anonymous user asked to log in.
@@ -163,12 +173,17 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /pending/node/add/wiki-page |
       | turing      | /pending/node/add/wiki-page |
       | alfrednobel | /pending/node/add/wiki-page |
-      | mariecurie  |  /pending/node/add/photoalbum |
-      | mariecurie  |  /pending/node/add/photo |
-      | mariecurie  |  /pending/node/add/event |
-      | mariecurie  |  /pending/node/add/document |
-      | mariecurie  |  /pending/node/add/discussion |
-      | mariecurie  |  /pending/node/add/wiki-page |
+      | mariecurie  | /pending/node/add/photoalbum |
+      | mariecurie  | /pending/node/add/photo |
+      | mariecurie  | /pending/node/add/event |
+      | mariecurie  | /pending/node/add/document |
+      | mariecurie  | /pending/node/add/discussion |
+      | mariecurie  | /pending/node/add/wiki-page |
+      | badhairday  | /pending/node/add/news |
+      | isaacnewton | /pending/node/add/news |
+      | turing      | /pending/node/add/news |
+      | alfrednobel | /pending/node/add/news |
+      | mariecurie  | /pending/node/add/news |
 
   @permission
   Scenario: Restore "Pending group" group state to 'Public'.
@@ -203,12 +218,12 @@ Feature: Test creation of the content permissions.
       | turing      | /draft/node/add/document |
       | turing      | /draft/node/add/discussion |
       | turing      | /draft/node/add/wiki-page |
-      | alfrednobel  | /draft/node/add/photoalbum |
-      | alfrednobel  | /draft/node/add/photo |
-      | alfrednobel  | /draft/node/add/event |
-      | alfrednobel  | /draft/node/add/document |
-      | alfrednobel  | /draft/node/add/discussion |
-      | alfrednobel  | /draft/node/add/wiki-page |
+      | alfrednobel | /draft/node/add/photoalbum |
+      | alfrednobel | /draft/node/add/photo |
+      | alfrednobel | /draft/node/add/event |
+      | alfrednobel | /draft/node/add/document |
+      | alfrednobel | /draft/node/add/discussion |
+      | alfrednobel | /draft/node/add/wiki-page |
       | mariecurie  | /draft/node/add/photoalbum |
       | mariecurie  | /draft/node/add/photo |
       | mariecurie  | /draft/node/add/event |
@@ -231,6 +246,11 @@ Feature: Test creation of the content permissions.
       | badhairday  | /draft/node/add/discussion |
       | badhairday  | /draft/node/add/wiki-page |
       | isaacnewton | /draft/node/add/wiki-page |
+      | badhairday  | /draft/node/add/news |
+      | isaacnewton | /draft/node/add/news |
+      | turing      | /draft/node/add/news |
+      | alfrednobel | /draft/node/add/news |
+      | mariecurie  | /draft/node/add/news |
 
   @permission
   Scenario: Set "Draft group" group state to 'Restricted'. Anonymous user asked to log in.
@@ -259,12 +279,12 @@ Feature: Test creation of the content permissions.
       | turing      | /draft/node/add/document |
       | turing      | /draft/node/add/discussion |
       | turing      | /draft/node/add/wiki-page |
-      | alfrednobel  | /draft/node/add/photoalbum |
-      | alfrednobel  | /draft/node/add/photo |
-      | alfrednobel  | /draft/node/add/event |
-      | alfrednobel  | /draft/node/add/document |
-      | alfrednobel  | /draft/node/add/discussion |
-      | alfrednobel  | /draft/node/add/wiki-page |
+      | alfrednobel | /draft/node/add/photoalbum |
+      | alfrednobel | /draft/node/add/photo |
+      | alfrednobel | /draft/node/add/event |
+      | alfrednobel | /draft/node/add/document |
+      | alfrednobel | /draft/node/add/discussion |
+      | alfrednobel | /draft/node/add/wiki-page |
       | mariecurie  | /draft/node/add/photoalbum |
       | mariecurie  | /draft/node/add/photo |
       | mariecurie  | /draft/node/add/event |
@@ -287,6 +307,11 @@ Feature: Test creation of the content permissions.
       | badhairday  | /draft/node/add/discussion |
       | badhairday  | /draft/node/add/wiki-page |
       | isaacnewton | /draft/node/add/wiki-page |
+      | badhairday  | /draft/node/add/news |
+      | isaacnewton | /draft/node/add/news |
+      | turing      | /draft/node/add/news |
+      | alfrednobel | /draft/node/add/news |
+      | mariecurie  | /draft/node/add/news |
 
   @permission
   Scenario: Set "Draft group" group state to 'Private'. Anonymous user asked to log in.
@@ -315,12 +340,12 @@ Feature: Test creation of the content permissions.
       | turing      | /draft/node/add/document |
       | turing      | /draft/node/add/discussion |
       | turing      | /draft/node/add/wiki-page |
-      | alfrednobel  | /draft/node/add/photoalbum |
-      | alfrednobel  | /draft/node/add/photo |
-      | alfrednobel  | /draft/node/add/event |
-      | alfrednobel  | /draft/node/add/document |
-      | alfrednobel  | /draft/node/add/discussion |
-      | alfrednobel  | /draft/node/add/wiki-page |
+      | alfrednobel | /draft/node/add/photoalbum |
+      | alfrednobel | /draft/node/add/photo |
+      | alfrednobel | /draft/node/add/event |
+      | alfrednobel | /draft/node/add/document |
+      | alfrednobel | /draft/node/add/discussion |
+      | alfrednobel | /draft/node/add/wiki-page |
       | mariecurie  | /draft/node/add/photoalbum |
       | mariecurie  | /draft/node/add/photo |
       | mariecurie  | /draft/node/add/event |
@@ -343,6 +368,11 @@ Feature: Test creation of the content permissions.
       | badhairday  | /draft/node/add/discussion |
       | badhairday  | /draft/node/add/wiki-page |
       | isaacnewton | /draft/node/add/wiki-page |
+      | badhairday  | /draft/node/add/news |
+      | isaacnewton | /draft/node/add/news |
+      | turing      | /draft/node/add/news |
+      | alfrednobel | /draft/node/add/news |
+      | mariecurie  | /draft/node/add/news |
 
   @permission
   Scenario: Restore "Draft group" group state to 'Public'.
@@ -377,12 +407,12 @@ Feature: Test creation of the content permissions.
       | turing      | /published/node/add/document |
       | turing      | /published/node/add/discussion |
       | turing      | /published/node/add/wiki-page |
-      | alfrednobel  | /published/node/add/photoalbum |
-      | alfrednobel  | /published/node/add/photo |
-      | alfrednobel  | /published/node/add/event |
-      | alfrednobel  | /published/node/add/document |
-      | alfrednobel  | /published/node/add/discussion |
-      | alfrednobel  | /published/node/add/wiki-page |
+      | alfrednobel | /published/node/add/photoalbum |
+      | alfrednobel | /published/node/add/photo |
+      | alfrednobel | /published/node/add/event |
+      | alfrednobel | /published/node/add/document |
+      | alfrednobel | /published/node/add/discussion |
+      | alfrednobel | /published/node/add/wiki-page |
       | mariecurie  | /published/node/add/photoalbum |
       | mariecurie  | /published/node/add/photo |
       | mariecurie  | /published/node/add/event |
@@ -405,6 +435,11 @@ Feature: Test creation of the content permissions.
       | badhairday  | /published/node/add/discussion |
       | badhairday  | /published/node/add/wiki-page |
       | isaacnewton | /published/node/add/wiki-page |
+      | badhairday  | /published/node/add/news |
+      | isaacnewton | /published/node/add/news |
+      | turing      | /published/node/add/news |
+      | alfrednobel | /published/node/add/news |
+      | mariecurie  | /published/node/add/news |
 
   @permission
   Scenario: Set "Published group" group state to 'Restricted'. Anonymous user asked to log in.
@@ -433,12 +468,12 @@ Feature: Test creation of the content permissions.
       | turing      | /published/node/add/document |
       | turing      | /published/node/add/discussion |
       | turing      | /published/node/add/wiki-page |
-      | alfrednobel  | /published/node/add/photoalbum |
-      | alfrednobel  | /published/node/add/photo |
-      | alfrednobel  | /published/node/add/event |
-      | alfrednobel  | /published/node/add/document |
-      | alfrednobel  | /published/node/add/discussion |
-      | alfrednobel  | /published/node/add/wiki-page |
+      | alfrednobel | /published/node/add/photoalbum |
+      | alfrednobel | /published/node/add/photo |
+      | alfrednobel | /published/node/add/event |
+      | alfrednobel | /published/node/add/document |
+      | alfrednobel | /published/node/add/discussion |
+      | alfrednobel | /published/node/add/wiki-page |
       | mariecurie  | /published/node/add/photoalbum |
       | mariecurie  | /published/node/add/photo |
       | mariecurie  | /published/node/add/event |
@@ -461,6 +496,11 @@ Feature: Test creation of the content permissions.
       | badhairday  | /published/node/add/discussion |
       | badhairday  | /published/node/add/wiki-page |
       | isaacnewton | /published/node/add/wiki-page |
+      | badhairday  | /published/node/add/news |
+      | isaacnewton | /published/node/add/news |
+      | turing      | /published/node/add/news |
+      | alfrednobel | /published/node/add/news |
+      | mariecurie  | /published/node/add/news |
 
   @permission
   Scenario: Set "Published group" group state to 'Private'. Anonymous user asked to log in.
@@ -489,12 +529,12 @@ Feature: Test creation of the content permissions.
       | turing      | /published/node/add/document |
       | turing      | /published/node/add/discussion |
       | turing      | /published/node/add/wiki-page |
-      | alfrednobel  | /published/node/add/photoalbum |
-      | alfrednobel  | /published/node/add/photo |
-      | alfrednobel  | /published/node/add/event |
-      | alfrednobel  | /published/node/add/document |
-      | alfrednobel  | /published/node/add/discussion |
-      | alfrednobel  | /published/node/add/wiki-page |
+      | alfrednobel | /published/node/add/photoalbum |
+      | alfrednobel | /published/node/add/photo |
+      | alfrednobel | /published/node/add/event |
+      | alfrednobel | /published/node/add/document |
+      | alfrednobel | /published/node/add/discussion |
+      | alfrednobel | /published/node/add/wiki-page |
       | mariecurie  | /published/node/add/photoalbum |
       | mariecurie  | /published/node/add/photo |
       | mariecurie  | /published/node/add/event |
@@ -517,6 +557,11 @@ Feature: Test creation of the content permissions.
       | badhairday  | /published/node/add/discussion |
       | badhairday  | /published/node/add/wiki-page |
       | isaacnewton | /published/node/add/wiki-page |
+      | badhairday  | /published/node/add/news |
+      | isaacnewton | /published/node/add/news |
+      | turing      | /published/node/add/news |
+      | alfrednobel | /published/node/add/news |
+      | mariecurie  | /published/node/add/news |
 
   @permission
   Scenario: Restore "Published group" group state to 'Public'.
@@ -579,6 +624,11 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /archived/node/add/wiki-page |
       | turing      | /archived/node/add/wiki-page |
       | alfrednobel | /archived/node/add/wiki-page |
+      | badhairday  | /archived/node/add/news |
+      | isaacnewton | /archived/node/add/news |
+      | turing      | /archived/node/add/news |
+      | alfrednobel | /archived/node/add/news |
+      | mariecurie  | /archived/node/add/news |
 
   @permission
   Scenario: Set "Archived group" group state to 'Restricted'. Anonymous user asked to log in.
@@ -635,6 +685,11 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /archived/node/add/wiki-page |
       | turing      | /archived/node/add/wiki-page |
       | alfrednobel | /archived/node/add/wiki-page |
+      | badhairday  | /archived/node/add/news |
+      | isaacnewton | /archived/node/add/news |
+      | turing      | /archived/node/add/news |
+      | alfrednobel | /archived/node/add/news |
+      | mariecurie  | /archived/node/add/news |
 
   @permission
   Scenario: Set "Archived group" group state to 'Private'. Anonymous user asked to log in.
@@ -691,6 +746,11 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /archived/node/add/wiki-page |
       | turing      | /archived/node/add/wiki-page |
       | alfrednobel | /archived/node/add/wiki-page |
+      | badhairday  | /archived/node/add/news |
+      | isaacnewton | /archived/node/add/news |
+      | turing      | /archived/node/add/news |
+      | alfrednobel | /archived/node/add/news |
+      | mariecurie  | /archived/node/add/news |
 
   @permission
   Scenario: Restore "Archived group" group state to 'Public'.
@@ -738,12 +798,17 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /deleted/node/add/wiki-page |
       | turing      | /deleted/node/add/wiki-page |
       | alfrednobel | /deleted/node/add/wiki-page |
-      | mariecurie  |  /deleted/node/add/photoalbum |
-      | mariecurie  |  /deleted/node/add/photo |
-      | mariecurie  |  /deleted/node/add/event |
-      | mariecurie  |  /deleted/node/add/document |
-      | mariecurie  |  /deleted/node/add/discussion |
-      | mariecurie  |  /deleted/node/add/wiki-page |
+      | mariecurie  | /deleted/node/add/photoalbum |
+      | mariecurie  | /deleted/node/add/photo |
+      | mariecurie  | /deleted/node/add/event |
+      | mariecurie  | /deleted/node/add/document |
+      | mariecurie  | /deleted/node/add/discussion |
+      | mariecurie  | /deleted/node/add/wiki-page |
+      | badhairday  | /deleted/node/add/news |
+      | isaacnewton | /deleted/node/add/news |
+      | turing      | /deleted/node/add/news |
+      | alfrednobel | /deleted/node/add/news |
+      | mariecurie  | /deleted/node/add/news |
 
 
   @permission
@@ -786,12 +851,18 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /deleted/node/add/wiki-page |
       | turing      | /deleted/node/add/wiki-page |
       | alfrednobel | /deleted/node/add/wiki-page |
-      | mariecurie  |  /deleted/node/add/photoalbum |
-      | mariecurie  |  /deleted/node/add/photo |
-      | mariecurie  |  /deleted/node/add/event |
-      | mariecurie  |  /deleted/node/add/document |
-      | mariecurie  |  /deleted/node/add/discussion |
-      | mariecurie  |  /deleted/node/add/wiki-page |
+      | mariecurie  | /deleted/node/add/photoalbum |
+      | mariecurie  | /deleted/node/add/photo |
+      | mariecurie  | /deleted/node/add/event |
+      | mariecurie  | /deleted/node/add/document |
+      | mariecurie  | /deleted/node/add/discussion |
+      | mariecurie  | /deleted/node/add/wiki-page |
+      | badhairday  | /deleted/node/add/news |
+      | isaacnewton | /deleted/node/add/news |
+      | turing      | /deleted/node/add/news |
+      | alfrednobel | /deleted/node/add/news |
+      | mariecurie  | /deleted/node/add/news |
+
 
   @permission
   Scenario: Set "Deleted group" group state to 'Private'. Anonymous user asked to log in.
@@ -833,12 +904,18 @@ Feature: Test creation of the content permissions.
       | isaacnewton | /deleted/node/add/wiki-page |
       | turing      | /deleted/node/add/wiki-page |
       | alfrednobel | /deleted/node/add/wiki-page |
-      | mariecurie  |  /deleted/node/add/photoalbum |
-      | mariecurie  |  /deleted/node/add/photo |
-      | mariecurie  |  /deleted/node/add/event |
-      | mariecurie  |  /deleted/node/add/document |
-      | mariecurie  |  /deleted/node/add/discussion |
-      | mariecurie  |  /deleted/node/add/wiki-page |
+      | mariecurie  | /deleted/node/add/photoalbum |
+      | mariecurie  | /deleted/node/add/photo |
+      | mariecurie  | /deleted/node/add/event |
+      | mariecurie  | /deleted/node/add/document |
+      | mariecurie  | /deleted/node/add/discussion |
+      | mariecurie  | /deleted/node/add/wiki-page |
+      | badhairday  | /deleted/node/add/news |
+      | isaacnewton | /deleted/node/add/news |
+      | turing      | /deleted/node/add/news |
+      | alfrednobel | /deleted/node/add/news |
+      | mariecurie  | /deleted/node/add/news |
+
 
   @permission
   Scenario: Restore "Deleted group" group state to 'Public'.
