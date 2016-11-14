@@ -460,6 +460,64 @@ function _c4m_features_og_members_is_power_user($group = NULL, $user = NULL) {
 }
 
 /**
+ * Returns the type of user, globally, or within a group.
+ *
+ * Possible types:
+ * - C4M_USER_TYPE_SA -> site administrator.
+ * - C4M_USER_TYPE_GO -> group owner.
+ * - C4M_USER_TYPE_GA -> group administrator.
+ * - C4M_USER_TYPE_GM -> group member.
+ * - C4M_USER_TYPE_NON_MEMBER -> authenticated, not a group member.
+ * - C4M_USER_TYPE_VISITOR -> anonymous user.
+ *
+ * @param object $group
+ *   The group for which we want to check the user.
+ * @param object $user
+ *   The user object.
+ *
+ * @return string|false
+ *   Type of user, globally, or within the group.
+ *   FALSE, if type could not be resolve.
+ */
+function _c4m_features_og_members_get_user_type($group = NULL, $user = NULL) {
+  if (!isset($user)) {
+    global $user;
+  }
+
+  if (user_is_anonymous()) {
+    return C4M_USER_TYPE_VISITOR;
+  }
+
+  // The user has the site wide role 'administrator'.
+  if (in_array('administrator', $user->roles)) {
+    return C4M_USER_TYPE_SA;
+  }
+
+  if (!isset($group)) {
+    $group = c4m_og_current_group();
+  }
+
+  // Currently we're not in a group context, and at that point the user is not
+  // an administrator.
+  if (!$group) {
+    return FALSE;
+  }
+
+  // The user is the group owner.
+  // What is a group owner? see https://www.drupal.org/node/1114858.
+  if ($group->uid === $user->uid) {
+    return C4M_USER_TYPE_GO;
+  }
+
+  // The user has the group role 'administrator member'.
+  if (in_array('administrator member', og_get_user_roles('node', $group->nid, $user->uid))) {
+    return C4M_USER_TYPE_GA;
+  }
+
+  return og_is_member('node', $group->nid) ? C4M_USER_TYPE_GM : C4M_USER_TYPE_NON_MEMBER;
+}
+
+/**
  * Implements hook_entity_property_info_alter().
  */
 function c4m_features_og_members_entity_property_info_alter(&$info) {

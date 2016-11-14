@@ -38,12 +38,11 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   global $user;
   $account = user_load($user->uid);
 
-  $user_wrapper = entity_metadata_wrapper('user', $account->uid);
-  $interests = $user_wrapper->c4m_vocab_topic->raw();
   // Can't suggest groups for user that got no interests.
-  if (empty($interests)) {
+  if (!$interests = c4m_user_profile_get_interests()) {
     return;
   }
+
   $user_groups = og_get_groups_by_user($account, NULL, TRUE);
 
   $query = new EntityFieldQuery();
@@ -90,7 +89,9 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
  *   Rendered HTML of featured groups.
  */
 function c4m_features_homepage_c4m_featured_groups_get_groups() {
-  $groups = c4m_features_homepage_c4m_get_featured_og_groups('group');
+  if (!$groups = c4m_features_homepage_c4m_get_featured_og_groups('group')) {
+    return '';
+  }
 
   $variables = array(
     'groups' => $groups,
@@ -125,6 +126,14 @@ function c4m_features_homepage_c4m_featured_projects_get_projects() {
  *   NULL | List of nodes of OG.
  */
 function c4m_features_homepage_c4m_get_featured_og_groups($type) {
+  $get_query = drupal_get_query_parameters();
+  $filter = !empty($get_query['filter']) ? $get_query['filter'] : '';
+
+  // Suggested groups block should appear when a user has interests.
+  if (c4m_features_homepage_c4m_suggested_groups_get_groups() && $filter != 'showAll') {
+    return;
+  }
+
   $query = new EntityFieldQuery();
 
   $query
