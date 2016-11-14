@@ -641,6 +641,7 @@ function c4m_content_highlightable_node_types() {
     'wiki_page',
     'photo',
     'photoalbum',
+    'news',
   );
 }
 
