@@ -1026,8 +1026,20 @@ function c4m_content_create_group_content_access() {
     c4m_content_deny_access();
   }
 
-  // We allow access only for draft / published groups.
   $group = node_load($context['gid']);
+  $bundle = explode('/', $item['path'])[2];
+
+  // Content type 'news' is not allowed at group.
+  if ($group->type == 'group' && $bundle == 'news') {
+    c4m_content_deny_access();
+  }
+
+  // Content type 'discussion' is not allowed at project.
+  if ($group->type == 'project' && $bundle == 'discussion') {
+    c4m_content_deny_access();
+  }
+
+  // We allow access only for draft / published groups.
   $group_state = c4m_og_get_group_status($group);
 
   // Site admin may not add content to pending/deleted group.
@@ -1056,8 +1068,7 @@ function c4m_content_create_group_content_access() {
     );
 
     // If content is not wiki page, allow it's creation by group member.
-    $bundle = explode('/', $item['path']);
-    if ($bundle[2] != 'wiki-page') {
+    if ($bundle != 'wiki-page') {
       $allowed_user_types[] = C4M_USER_TYPE_GM;
     }
 
