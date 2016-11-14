@@ -140,10 +140,9 @@ function c4m_content_news_field_default_field_instances() {
       ),
       'block_list' => array(
         'label' => 'hidden',
-        'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 3,
+        'type' => 'hidden',
+        'weight' => 2,
       ),
       'default' => array(
         'label' => 'above',
@@ -682,7 +681,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 39,
+        'weight' => 29,
       ),
       'default' => array(
         'label' => 'above',
