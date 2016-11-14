@@ -310,7 +310,8 @@ function c4m_user_og_get_groups(
   }
 
   // Load groups of bundle type.
-  $group_nodes = node_load_multiple($groups['node'], array('type' => $bundle));
+  $conditions = is_null($bundle) ? array() : array('type' => $bundle);
+  $group_nodes = node_load_multiple($groups['node'], $conditions);
 
   if (empty($group_nodes)) {
     return array();

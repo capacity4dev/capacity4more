@@ -105,13 +105,9 @@ function _c4m_user_profile_my_groups_top_bar() {
 
   $max_groups_to_display = 3;
   $user_groups = array();
+
   foreach (c4m_features_homepage_get_user_groups_grouped_by_membership($user) as $group_list) {
     foreach ($group_list as $group) {
-      // Deleted groups should not appear on the top bar list.
-      if (c4m_og_get_group_status($group) == 'deleted') {
-        continue;
-      }
-
       // The max groups to display on the top bar is 3 by definition.
       if (count($user_groups) >= $max_groups_to_display) {
         break;
