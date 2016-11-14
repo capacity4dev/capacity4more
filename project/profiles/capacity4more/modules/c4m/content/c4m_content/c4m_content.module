@@ -1027,7 +1027,10 @@ function c4m_content_create_group_content_access() {
   }
 
   $group = node_load($context['gid']);
-  $bundle = explode('/', $item['path'])[2];
+  // Split path string ('node/add/<bundle>') into array.
+  $bundle = explode('/', $item['path']);
+  // The bundle is on third position at array.
+  $bundle = $bundle[2];
 
   // Content type 'news' is not allowed at group.
   if ($group->type == 'group' && $bundle == 'news') {
