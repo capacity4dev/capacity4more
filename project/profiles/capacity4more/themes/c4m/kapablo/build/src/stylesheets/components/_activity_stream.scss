@@ -158,3 +158,9 @@
         margin-top: 0;
     }
 }
+
+.pane-global-activity-stream-no-js-fallback {
+    .pane-title {
+        display: none;
+    }
+}
