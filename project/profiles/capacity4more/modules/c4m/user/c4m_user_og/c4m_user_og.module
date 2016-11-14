@@ -774,7 +774,7 @@ function c4m_user_og_c4m_join_cta($group) {
  * existing users or new people to join the group.
  */
 function c4m_user_og_c4m_invite_cta($group) {
-  $url = url('group/node/' . $group->nid . '/admin/people/invite-users', array('absolute' => TRUE));
+  $url = url('group/node/' . $group->nid . '/admin/people/invite-visitors', array('absolute' => TRUE));
 
   return array(
     '#theme' => 'c4m_group_text_cta',
