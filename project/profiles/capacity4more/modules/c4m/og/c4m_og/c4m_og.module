@@ -2566,11 +2566,13 @@ function c4m_og_edit_author_autocomplete($string = '') {
     return;
   }
 
+  // Resolve group id from auto complte path, which is set to
+  // 'edit-author/autocomplete/<$gid>'.
   $destination = drupal_get_destination();
   $destination = explode('/', $destination['destination']);
   $gid = $destination[2];
 
-  // Return early if there is no group context.
+  // Return group id was not resolved.
   if (!$gid) {
     return;
   }
