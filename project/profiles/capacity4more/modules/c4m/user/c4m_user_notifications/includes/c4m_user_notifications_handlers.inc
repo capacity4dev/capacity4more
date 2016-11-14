@@ -44,7 +44,7 @@ function _c4m_user_notifications_moderated_group_admin_new_membership_request($m
  * Email notification to user that his membership request awaits approval.
  */
 function c4m_user_notifications_notify_user_membership_pending($membership) {
-  $message = message_create('c4m_notify_user_membership_pending', array('uid' => $$membership->uid));
+  $message = message_create('c4m_notify_user_membership_pending', array('uid' => $membership->etid));
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_notify_user_membership_pending($message);
 
