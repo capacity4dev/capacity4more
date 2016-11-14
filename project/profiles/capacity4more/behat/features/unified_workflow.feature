@@ -17,7 +17,7 @@ Feature: Unified Workflow
      And   I fill in "name" with "unified_workflow"
      And   I fill in "edit-pass-pass1" with "drupal"
      And   I fill in "edit-pass-pass2" with "drupal"
-     And   I press "Register to join"
+     And   I press "Request membership for group"
      And   I enable the captcha field
     Then   I should see "Hey New User, thank you for submitting your details. Please activate your account by clicking the link sent to your e-mail to join the Nobel Prize group."
 
