@@ -660,6 +660,10 @@ function theme_c4m_ds_node_promote(array $field) {
     return NULL;
   }
 
+  if ($group->type == 'project') {
+    return;
+  }
+
   // Only power users can promote a node.
   if (!_c4m_features_og_members_is_power_user($group)) {
     return NULL;
