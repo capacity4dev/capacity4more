@@ -1660,7 +1660,7 @@ function c4m_content_event_field_default_field_instances() {
           'wrap' => 'none',
         ),
         'type' => 'term_reference_checked_inline_tree',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1769,7 +1769,7 @@ function c4m_content_event_field_default_field_instances() {
           'wrap' => 'none',
         ),
         'type' => 'term_reference_checked_inline_tree',
-        'weight' => 1,
+        'weight' => 2,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1877,7 +1877,7 @@ function c4m_content_event_field_default_field_instances() {
           'wrap' => 'none',
         ),
         'type' => 'term_reference_checked_inline_tree',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2131,7 +2131,7 @@ function c4m_content_event_field_default_field_instances() {
           'concatenate' => 0,
         ),
         'type' => 'og_vocab',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
