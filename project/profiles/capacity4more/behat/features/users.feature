@@ -26,10 +26,9 @@ Feature: Testing user creation/manipulations.
       Then I should see "Type"
       Then I should see "Filter by status"
       Then I should see "Topics"
-      Then I should not see "Medals"
       When I fill in "search" with "medals"
       And  I press "edit-submit-my-content"
-      Then I should see "Medals"
+      Then I should see "2 in total, 1 - 2 shown"
 
   @api
   Scenario: The user tries to leave the platform but still has groups.
