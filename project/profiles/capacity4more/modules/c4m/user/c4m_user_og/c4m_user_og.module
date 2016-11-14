@@ -450,6 +450,25 @@ function c4m_user_og_c4m_content_statistics_info() {
         ),
       ),
     ),
+    'project' => array(
+      'c4m_og_user' => array(
+        'type' => 'user',
+        'entity_type' => 'user',
+        'bundles' => array(),
+        'singular' => 'Administrator',
+        'plural' => 'Administrators',
+        'state' => 1,
+        'c4m_status' => array(1),
+        'scope' => 'group',
+        'aggregate' => array(),
+        'weight' => 7,
+        'feature_name' => 'c4m_features_og_members',
+        'attributes' => array(
+          'class' => array('og-users'),
+        ),
+        'link' => array(),
+      ),
+    ),
   );
 }
 
