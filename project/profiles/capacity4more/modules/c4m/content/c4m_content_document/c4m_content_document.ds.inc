@@ -78,7 +78,7 @@ function c4m_content_document_ds_field_settings_info() {
     'c4m_ds_content_footer_stats' => array(
       'weight' => '4',
       'label' => 'hidden',
-      'format' => 'default',
+      'format' => 'downloads',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -114,7 +114,7 @@ function c4m_content_document_ds_field_settings_info() {
     'c4m_ds_content_footer_stats' => array(
       'weight' => '3',
       'label' => 'hidden',
-      'format' => 'default',
+      'format' => 'downloads',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -557,7 +557,7 @@ function c4m_content_document_ds_field_settings_info() {
     'c4m_ds_content_footer_stats' => array(
       'weight' => '5',
       'label' => 'hidden',
-      'format' => 'default',
+      'format' => 'downloads',
     ),
     'c4m_ds_node_highlight' => array(
       'weight' => '6',
@@ -592,7 +592,7 @@ function c4m_content_document_ds_field_settings_info() {
     'c4m_ds_content_footer_stats' => array(
       'weight' => '4',
       'label' => 'hidden',
-      'format' => 'default',
+      'format' => 'downloads',
     ),
     'c4m_ds_node_highlight' => array(
       'weight' => '5',
@@ -743,7 +743,11 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_document' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
@@ -778,7 +782,11 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_document' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
