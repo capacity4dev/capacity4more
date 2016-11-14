@@ -2006,12 +2006,9 @@ function c4m_content_event_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'inline',
-        'module' => 'c4m_og_purl',
-        'settings' => array(
-          'link' => 'purl_auto',
-        ),
-        'type' => 'c4m_og_purl_entityreference_link',
-        'weight' => 2,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 27,
       ),
       'teaser_group' => array(
         'label' => 'above',
