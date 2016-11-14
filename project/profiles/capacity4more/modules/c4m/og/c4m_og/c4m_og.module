@@ -2527,8 +2527,11 @@ function c4m_og_add_content_author_options_to_power_users(&$form) {
     return;
   }
 
-  // Show authoring information tab to GAs and GO when editing group content.
-  $form['author']['#access'] = _c4m_features_og_members_is_power_user();
+  // Show authoring information tab to GAs and GO, when editing group content.
+  if (_c4m_features_og_members_is_power_user()) {
+    $form['author']['#access'] = TRUE;
+    $form['author']['date']['#access'] = FALSE;
+  }
 
   // Limit possible authors to members of the group only.
   $form['author']['name']['#autocomplete_path'] = 'edit-author/autocomplete/' . $gid;
@@ -2563,29 +2566,26 @@ function c4m_og_edit_author_autocomplete($string = '') {
     return;
   }
 
-  $gid = c4m_og_current_group_id();
+  $destination = drupal_get_destination();
+  $destination = explode('/', $destination['destination']);
+  $gid = $destination[2];
+
   // Return early if there is no group context.
   if (!$gid) {
     return;
   }
 
   $query = db_select('users', 'u');
-  $query
-    ->condition('u.status', C4M_USER_STATUS_ACTIVE, '=')
-    ->condition('u.name', '%' . db_like($string) . '%', 'LIKE')
-    ->fields('u', array('uid', 'name'))
-    ->fields('ogm', array('state'))
-    ->join('og_membership', 'ogm', "ogm.gid = :gid AND u.uid = ogm.etid AND ogm.entity_type = 'user'", array(':gid' => $gid));
-  $result = $query->execute();
+  $query->join('og_membership', 'ogm', 'u.uid = ogm.etid');
+  $query->fields('u', array('name'))
+    ->condition('ogm.group_type', 'node', '=')
+    ->condition('ogm.gid', $gid, '=')
+    ->condition('ogm.entity_type', 'user', '=')
+    ->condition('ogm.state', OG_STATE_ACTIVE, '=')
+    ->condition('u.name', '%' . db_like($string) . '%', 'LIKE');
+  $result = $query->execute()->fetchAllKeyed(0,0);
 
-  foreach ($result as $member) {
-    if ($member->state == OG_STATE_ACTIVE) {
-      $user[$member->name] = $member->name;
-    }
-  }
-
-  // Convert to object to prevent drupal bug, see http://drupal.org/node/175361
-  drupal_json_output((object) $user);
+  drupal_json_output($result);
 }
 
 /**
