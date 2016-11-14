@@ -197,7 +197,7 @@ function c4m_content_wiki_page_strongarm() {
             'visible' => FALSE,
           ),
           'block_list' => array(
-            'weight' => '10',
+            'weight' => '34',
             'visible' => FALSE,
           ),
           'pinned_content' => array(

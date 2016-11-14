@@ -753,7 +753,10 @@ function c4m_og_og_features_default_permissions() {
 
   // Exported og permission: 'node:project:view unpublished group content'
   $permissions['node:project:view unpublished group content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'member' => 'member',
+    ),
   );
 
   return $permissions;

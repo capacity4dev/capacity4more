@@ -1007,31 +1007,73 @@ function _c4m_content_taxonomy_extract_root_item(&$items) {
 /**
  * Manages access to 'create group content' form.
  *
- * For OG type 'group', allows access for group members and power users.
+ * Allows access for group power users. Members allowed access, when creating
+ * all content types, besides wiki page.
  */
 function c4m_content_create_group_content_access() {
   $item = menu_get_item();
 
+  $regex = '/node\/add\/(discussion|document|event|news|photo|photoalbum|wiki-page)/';
+
   // Making sure the current request is for the node/add form.
-  preg_match('/node\/add\/(discussion|document|event|news|photo(album)?|wiki-page)/', $item['path'], $matches);
+  preg_match($regex, $item['path'], $matches);
   if (empty($matches[0])) {
     return;
   }
 
-  // If not under og context, return early.
+  // If not under og context, deny access.
   if (!$context = og_context()) {
-    drupal_access_denied();
-    drupal_exit();
+    c4m_content_deny_access();
   }
 
-  // Resolve OG group type.
-  $group_type = c4m_og_get_group_type($context);
+  // We allow access only for draft / published groups.
+  $group = node_load($context['gid']);
+  $group_state = c4m_og_get_group_status($group);
 
-  // For type 'group' allow access only to it's members and site admin.
-  if ($group_type == 'group' && !og_is_member('node', $context['gid']) && !c4m_user_is_site_admin()) {
-    drupal_access_denied();
-    drupal_exit();
+  // Site admin may not add content to pending/deleted group.
+  // No other restrictions.
+  if (c4m_user_is_site_admin()) {
+
+    if ($group_state == 'pending' || $group_state == 'deleted') {
+      c4m_content_deny_access();
+    }
+    else {
+      return;
+    }
   }
+
+  $allowed_states = array('draft', 'published');
+  // Deny access, if group state is not allowed.
+  if (!in_array($group_state, $allowed_states)) {
+    c4m_content_deny_access();
+  }
+  else {
+    $user_type = _c4m_features_og_members_get_user_type();
+
+    $allowed_user_types = array(
+      C4M_USER_TYPE_GA,
+      C4M_USER_TYPE_GO,
+    );
+
+    // If content is not wiki page, allow it's creation by group member.
+    $bundle = explode('/', $item['path']);
+    if ($bundle[2] != 'wiki-page') {
+      $allowed_user_types[] = C4M_USER_TYPE_GM;
+    }
+
+    // We allow access to power users, and members, when creating content.
+    if (!in_array($user_type, $allowed_user_types)) {
+      c4m_content_deny_access();
+    }
+  }
+}
+
+/**
+ * Redirects to page 'Access denied'.
+ */
+function c4m_content_deny_access() {
+  drupal_access_denied();
+  drupal_exit();
 }
 
 /**
@@ -1195,4 +1237,26 @@ function c4m_content_toggle_group_notification($group, $ajax = 'nojs') {
   $commands[] = ajax_command_replace('#toggle-group-notifications', $link);
   $page = array('#type' => 'ajax', '#commands' => $commands);
   ajax_deliver($page);
+}
+
+/**
+ * Gets all node IDs of a specific type (bundle).
+ *
+ * @param string $type
+ *   The node type.
+ *
+ * @return array
+ *   The IDs of the nodes.
+ */
+function _c4m_content_get_all_node_ids_by_type($type) {
+  $cache = &drupal_static(__FUNCTION__ . $type);
+  if (!isset($cache)) {
+    $cache = db_select('node', 'n')
+      ->fields('n', array('nid'))
+      ->condition('type', $type)
+      ->execute()
+      ->fetchAllKeyed(0, 0);
+  }
+
+  return $cache;
 }

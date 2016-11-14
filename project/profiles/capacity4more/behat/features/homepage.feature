@@ -83,23 +83,23 @@ Feature: Test homepage content and blocks
 
   @api
   Scenario: Logged in, member user should see "Featured projects" block
-    Given I am logged in as user "mariecurie"
+    Given I am logged in as user "president"
     When  I visit the site homepage
     Then  I should see "Featured projects"
 
   @api
-  Scenario: Anonymous user should see only one "Upcoming event"
+  Scenario: Anonymous user should see maximum three "Upcoming events"
     Given I am an anonymous user
     When  I visit the site homepage
     Then  I should see "Upcoming events" in the "div.sidebarblock.upcoming-events" element
-    And   I should see only "1" events
+    And   I should see only "2" events
 
   @api
-  Scenario: Logged in user should see more than one "Upcoming event"
+  Scenario: Logged in user should see more than one "Upcoming events"
     Given I am logged in as user "mariecurie"
     When  I visit the site homepage
     Then  I should see "Upcoming events" in the "div.sidebarblock.upcoming-events" element
-    And   I should see only "3" events
+    And   I should see only "2" events
 
   @api
   Scenario: Check featured block is displayed correctly.

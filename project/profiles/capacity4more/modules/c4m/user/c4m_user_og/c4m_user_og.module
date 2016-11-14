@@ -278,6 +278,8 @@ function c4m_user_og_has_groups(
  *   Optional status of the groups to filter on, default published.
  * @param bool $sort
  *   Optional sort boolean (sort by group status).
+ * @param bool $allow_pending
+ *   Optional include requested groups (pending status).
  *
  * @return array|void
  *   An array with the groups or an empty array.
@@ -286,16 +288,30 @@ function c4m_user_og_get_groups(
   $account = NULL,
   $bundle = 'group',
   $status = NODE_PUBLISHED,
-  $sort = TRUE
+  $sort = TRUE,
+  $allow_pending = FALSE
 ) {
   $groups = og_get_groups_by_user($account);
+  // Include requested groups (pending status).
+  if ($allow_pending) {
+    $pending_groups = c4m_og_get_pending_groups_by_user(NULL, NULL, TRUE);
+    if (isset($groups['node'])) {
+      if (isset($pending_groups['node'])) {
+        $groups['node'] += $pending_groups['node'];
+      }
+    }
+    else {
+      $groups = $pending_groups;
+    }
+  }
 
   if (empty($groups)) {
     return array();
   }
 
   // Load groups of bundle type.
-  $group_nodes = node_load_multiple($groups['node'], array('type' => $bundle));
+  $conditions = is_null($bundle) ? array() : array('type' => $bundle);
+  $group_nodes = node_load_multiple($groups['node'], $conditions);
 
   if (empty($group_nodes)) {
     return array();
@@ -771,7 +787,7 @@ function c4m_user_og_c4m_invite_cta($group) {
     '#button_label' => t('Invite a member'),
     '#button_icon' => 'fa-user-plus',
     '#url' => url(
-      'group/node/' . $group->nid . '/admin/people/invite-users',
+      'group/node/' . $group->nid . '/admin/people/invite-visitors',
       array('absolute' => TRUE)
     ),
     '#weight' => 15,
@@ -823,7 +839,7 @@ function c4m_user_og_c4m_leave_group_cta($group) {
   $link = 'group/node/' . $group->nid . '/unsubscribe';
   return array(
     '#theme' => 'c4m_group_text_cta',
-    '#icon' => 'fa-user-plus',
+    '#icon' => 'fa-pencil-square-o',
     '#text' => l(t('Edit membership'), $link, array('absolute' => TRUE)),
   );
 }
