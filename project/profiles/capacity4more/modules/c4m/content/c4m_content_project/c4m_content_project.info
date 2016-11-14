@@ -89,6 +89,7 @@ features[field_group][] = c4m_metadata|node|project|form
 features[field_group][] = c4m_project_cris|node|project|form
 features[field_group][] = c4m_project_details|node|project|form
 features[field_group][] = c4m_related_content|node|project|form
+features[field_group][] = group_iconbar_project_views|node|project|teaser
 features[field_group][] = group_page_content|node|project|form
 features[field_instance][] = comment-comment_node_project-comment_body
 features[field_instance][] = node-project-c4m_banner

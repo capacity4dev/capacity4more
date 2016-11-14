@@ -167,7 +167,6 @@ function _c4m_field_og_set_status_flow(&$form, $form_state, $type) {
     $unallowed_values = array(
       'pending' => array(
         'archived',
-        'published',
       ),
       'draft' => array(
         'pending',
@@ -185,8 +184,14 @@ function _c4m_field_og_set_status_flow(&$form, $form_state, $type) {
       ),
     );
 
-    if ($type == 'group' && $wrapper->{OG_ACCESS_FIELD}->value()) {
-      unset($unallowed_values['pending']['published']);
+    // For private groups, allow admin user to change group state from pending
+    // to published.
+    if ($type == 'group') {
+      $group_access = c4m_og_get_access_type($entity);
+
+      if ($group_access['type'] != 'private') {
+        $unallowed_values['pending'][] = 'published';
+      }
     }
 
     if (!empty($unallowed_values[$value])) {

@@ -152,7 +152,7 @@ function c4m_content_discussion_strongarm() {
         'custom_settings' => TRUE,
       ),
       'block_list' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'pinned_content' => array(
         'custom_settings' => TRUE,
@@ -203,6 +203,10 @@ function c4m_content_discussion_strongarm() {
             'weight' => '1',
             'visible' => TRUE,
           ),
+          'block_list' => array(
+            'weight' => '31',
+            'visible' => FALSE,
+          ),
         ),
         'highlighted' => array(
           'full' => array(
@@ -217,6 +221,7 @@ function c4m_content_discussion_strongarm() {
             'weight' => '7',
             'visible' => TRUE,
           ),
+          'block_list' => NULL,
         ),
         'promoted' => array(
           'teaser_group' => array(
@@ -227,6 +232,7 @@ function c4m_content_discussion_strongarm() {
             'weight' => '0',
             'visible' => FALSE,
           ),
+          'block_list' => NULL,
         ),
       ),
     ),

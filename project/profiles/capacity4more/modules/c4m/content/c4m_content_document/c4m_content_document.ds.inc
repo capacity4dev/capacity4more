@@ -159,7 +159,7 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_field_og_group' => array(
-      'weight' => '3',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -168,9 +168,17 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_submitted_by_and_on' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'j F Y',
+    ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
     ),
     'c4m_content_document_icon' => array(
       'weight' => '0',
@@ -551,6 +559,16 @@ function c4m_content_document_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_promote' => array(
+      'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_content_document_icon' => array(
       'weight' => '0',
       'label' => 'hidden',
@@ -573,6 +591,16 @@ function c4m_content_document_ds_field_settings_info() {
     ),
     'c4m_ds_content_footer_stats' => array(
       'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '5',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_promote' => array(
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -777,17 +805,23 @@ function c4m_content_document_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'title',
-        2 => 'c4m_ds_submitted_by_and_on',
-        3 => 'c4m_field_og_group',
+        2 => 'c4m_ds_node_highlight',
+        3 => 'c4m_ds_submitted_by_and_on',
+        4 => 'c4m_field_og_group',
       ),
     ),
     'fields' => array(
       'c4m_content_document_icon' => 'left',
       'title' => 'right',
+      'c4m_ds_node_highlight' => 'right',
       'c4m_ds_submitted_by_and_on' => 'right',
       'c4m_field_og_group' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'left' => 'div',
       'right' => 'div',
@@ -975,6 +1009,8 @@ function c4m_content_document_ds_layout_settings_info() {
         3 => 'c4m_body',
         4 => 'c4m_document',
         5 => 'c4m_ds_content_footer_stats',
+        6 => 'c4m_ds_node_highlight',
+        7 => 'c4m_ds_node_promote',
       ),
     ),
     'fields' => array(
@@ -984,8 +1020,14 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_body' => 'right',
       'c4m_document' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
+      'c4m_ds_node_highlight' => 'right',
+      'c4m_ds_node_promote' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'left' => 'div',
       'right' => 'div',
@@ -1016,8 +1058,8 @@ function c4m_content_document_ds_layout_settings_info() {
         2 => 'c4m_body',
         3 => 'c4m_document',
         4 => 'c4m_ds_content_footer_stats',
-        5 => 'highlighted',
-        6 => 'promoted',
+        5 => 'c4m_ds_node_highlight',
+        6 => 'c4m_ds_node_promote',
       ),
     ),
     'fields' => array(
@@ -1026,10 +1068,14 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_body' => 'right',
       'c4m_document' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
-      'highlighted' => 'right',
-      'promoted' => 'right',
+      'c4m_ds_node_highlight' => 'right',
+      'c4m_ds_node_promote' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'left' => 'div',
       'right' => 'div',
