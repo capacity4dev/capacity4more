@@ -2587,7 +2587,7 @@ function c4m_og_edit_author_autocomplete($string = '') {
     ->condition('ogm.entity_type', 'user', '=')
     ->condition('ogm.state', OG_STATE_ACTIVE, '=')
     ->condition('u.name', '%' . db_like($string) . '%', 'LIKE');
-  $result = $query->execute()->fetchAllKeyed(0,0);
+  $result = $query->execute()->fetchAllKeyed(0, 0);
 
   drupal_json_output($result);
 }
