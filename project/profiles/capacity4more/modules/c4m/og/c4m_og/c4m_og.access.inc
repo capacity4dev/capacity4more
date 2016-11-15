@@ -314,6 +314,9 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     ),
   );
 
+  // Add validation handler for restricted groups.
+  $form['#validate'][] = 'c4m_og_pluggable_node_access_restricted_group_validation';
+
   // Adds submit handler.
   $form['#submit'][] = 'c4m_og_group_form_submit';
 
@@ -376,6 +379,42 @@ function c4m_og_select2_widget_after_build($element, &$form_state) {
 
   drupal_add_js(array('select2_widget' => $setting), 'setting');
   return $element;
+}
+
+/**
+ * Validation handler; Handle restricted group validation.
+ *
+ * If a user try to set a group as restricted then an organisation or a domain
+ * must be set as well.
+ */
+function c4m_og_pluggable_node_access_restricted_group_validation($form, &$form_state) {
+  $group_access = $form_state['values']['pluggable_group_access'];
+
+  if ($group_access != 'restricted') {
+    return;
+  }
+
+  // Extract the organisations from the form.
+  $organisations = array_keys(
+    array_filter($form_state['values']['restricted_organisations'])
+  );
+
+  // Extract the domains from the form.
+  $domains = array_map(
+    'trim',
+    explode(' ', $form_state['values']['restricted_by_domain'])
+  );
+
+  // Remove any empty element.
+  foreach ($domains as $index => $domain) {
+    if (empty($domain)) {
+      unset($domains[$index]);
+    }
+  }
+
+  if (empty($organisations) && empty($domains)) {
+    form_set_error('pluggable_group_access', t('You must choose an organisation or adding a custom domain in order to set this group as restricted.'));
+  }
 }
 
 /**

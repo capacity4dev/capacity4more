@@ -24,7 +24,7 @@ Feature: Testing user creation/manipulations.
       And  I click "My content"
        And I should see "Sort by:"
       Then I should see "Type"
-      Then I should see "Filter by status"
+      Then I should see "Status"
       Then I should see "Topics"
       When I fill in "search" with "medals"
       And  I press "edit-submit-my-content"

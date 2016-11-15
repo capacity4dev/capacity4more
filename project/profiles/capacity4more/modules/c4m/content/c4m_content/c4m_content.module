@@ -28,6 +28,9 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     );
   };
 
+  // Allow power users to create revisions.
+  $form['revision_information']['revision']['#access'] = _c4m_features_og_members_is_power_user();
+
   // Hide Book tab for all content types.
   if (isset($form['book'])) {
     $form['book']['#access'] = FALSE;
@@ -248,7 +251,9 @@ function c4m_content_get_group_statistics($og_context = NULL) {
     return array();
   }
 
-  $list = c4m_content_statistics_info('group');
+  $group = node_load($og_context['gid']);
+
+  $list = c4m_content_statistics_info($group->type);
 
   // Filter the list & limit to only content types that are enabled for the
   // given group.
@@ -404,8 +409,7 @@ function c4m_content_get_og_image_markup($group) {
   $wrapper = entity_metadata_wrapper('node', $group);
 
   $menu_item = menu_get_item();
-  if (drupal_is_front_page(
-    ) || ($menu_item['path'] == 'manage' && og_user_access(
+  if (drupal_is_front_page() || ($menu_item['path'] == 'manage' && og_user_access(
         'node',
         $group->nid,
         'administer group'
@@ -637,6 +641,7 @@ function c4m_content_highlightable_node_types() {
     'wiki_page',
     'photo',
     'photoalbum',
+    'news',
   );
 }
 
@@ -799,7 +804,15 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
     NODE_PROMOTED => 'fa-star',
   );
   $star = '<i class="fa ' . $star_class[$highlight] . '" aria-hidden="true"></i>';
-  $link_text = $star . '<span class="highlight-link-text">' . t('Highlight') . '</span>';
+
+  if ($gid === $nid) {
+    $action_text = $highlight ? t('Featured') : t('Feature');
+  }
+  else {
+    $action_text = $highlight ? t('Highlighted') : t('Highlight');
+  }
+
+  $link_text = $star . '<span class="highlight-link-text">' . $action_text . '</span>';
 
   return l($link_text, $url, $options);
 }
@@ -900,7 +913,7 @@ function c4m_content_taxonomy_build_tree(
           'f[0]' => $link_term_to_facet['vocabulary_name'] . ':' . $taxonomy->tid,
         );
 
-        $link = l($taxonomy->name, 'groups', $options);
+        $link = l($taxonomy->name, 'search', $options);
       }
 
       $local_tree[] = $link;

@@ -178,6 +178,7 @@ function c4m_og_menu() {
   // Auto-completes active group member's user names.
   $items['edit-author/autocomplete/%node'] = array(
     'page callback' => 'c4m_og_edit_author_autocomplete',
+    'page arguments' => array(2, 3),
     'access callback' => '_c4m_features_og_members_is_power_user',
     'access arguments' => array(2),
     'title' => 'Replace Author',
@@ -224,6 +225,26 @@ function c4m_og_menu() {
 function c4m_og_menu_alter(&$items) {
   // Adding a member should be allow to SA only (CFM-1292).
   $items['group/%/%/admin/people/add-user']['access callback'] = 'c4m_og_add_member_to_group_access';
+
+  // Assign access to Node Gallery API features, if user has permission to
+  // edit the gallery.
+  $node_galery_api_features = array('upload', 'items', 'manage', 'sort');
+  foreach ($node_galery_api_features as $suffix) {
+    $items['node/%node_gallery_api_gallery/' . $suffix]['access callback'] = 'node_access';
+    $items['node/%node_gallery_api_gallery/' . $suffix]['access arguments'] = array('update', 1);
+  }
+
+  // Assign access to upload Node Gallery API item types, per upload access
+  // function.
+  // Node Gallery API item types are resolve in same manner
+  // as at node_gallery_api_menu().
+  $relationship_types = node_gallery_api_get_relationship_type(NULL, NULL, NULL, TRUE);
+  foreach ($relationship_types as $relationship) {
+    foreach ($relationship->item_types as $item_type) {
+      $items['node/%node_gallery_api_gallery/upload/' . $item_type]['access callback'] = 'c4m_og_node_gallery_access';
+      $items['node/%node_gallery_api_gallery/upload/' . $item_type]['access arguments'] = array(1, $item_type);
+    }
+  }
 }
 
 /**
@@ -2248,8 +2269,11 @@ function c4m_og_view_node_access($node, $account) {
     // Group content is saved as draft.
     if ($node->status == NODE_NOT_PUBLISHED) {
 
+      $user_type = _c4m_features_og_members_get_user_type($group, $account);
+      $allowed_wiki_page = $node->type == 'wiki_page' && $user_type == C4M_USER_TYPE_GM && c4m_content_wiki_page_is_editable_by_members($node);
+
       // Only power user or content author may view the node.
-      if (_c4m_features_og_members_is_power_user($group) || $node->uid == $account->uid) {
+      if (_c4m_features_og_members_is_power_user($group) || $node->uid == $account->uid || $allowed_wiki_page) {
         return NODE_ACCESS_ALLOW;
       }
       else {
@@ -2346,7 +2370,7 @@ function c4m_og_update_node_access($node, $account) {
 
     // When updating published wiki page, deny access to group members,
     // if 'editable by members' option is not enabled for this page.
-    if ($node->type == 'wiki_page' && $node->status == NODE_PUBLISHED) {
+    if ($node->type == 'wiki_page') {
       if ($user_type == C4M_USER_TYPE_GM && !c4m_content_wiki_page_is_editable_by_members($node)) {
         return NODE_ACCESS_DENY;
       }
@@ -2507,8 +2531,13 @@ function c4m_og_add_content_author_options_to_power_users(&$form) {
     return;
   }
 
-  // Show authoring information tab to GAs and GO when editing group content.
-  $form['author']['#access'] = _c4m_features_og_members_is_power_user();
+  // Show authoring information tab to GAs and GO, when editing group content.
+  if (_c4m_features_og_members_is_power_user()) {
+    $form['author']['#access'] = TRUE;
+    // Per https://issuetracker.amplexor.com/jira/browse/CFM-1248, there's
+    // no need to present the 'Authored on' date field.
+    $form['author']['date']['#access'] = FALSE;
+  }
 
   // Limit possible authors to members of the group only.
   $form['author']['name']['#autocomplete_path'] = 'edit-author/autocomplete/' . $gid;
@@ -2526,7 +2555,9 @@ function c4m_og_form_valid_author($form, &$form_state) {
     form_set_error('name', 'There was an error validating the author for this group.');
   }
 
-  if ($user && !c4m_user_is_site_admin($user) && !og_is_member('node', $gid, 'user', $user)) {
+  // Author may be anonymous (when a user cancel its account and choose to
+  // anonymize the content.
+  if ($user && $user->uid && !c4m_user_is_site_admin($user) && !og_is_member('node', $gid, 'user', $user)) {
     form_set_error('name', $form_state['values']['name'] . ' is not an active member of this group.');
   }
 }
@@ -2537,35 +2568,23 @@ function c4m_og_form_valid_author($form, &$form_state) {
  * Returns a JSON of all active members of an OG group where the username
  * contains the search string (for autocomplete author field).
  */
-function c4m_og_edit_author_autocomplete($string = '') {
+function c4m_og_edit_author_autocomplete($group, $string = '') {
   // Return early if no search string was received.
   if (!trim($string)) {
     return;
   }
 
-  $gid = c4m_og_current_group_id();
-  // Return early if there is no group context.
-  if (!$gid) {
-    return;
-  }
-
   $query = db_select('users', 'u');
-  $query
-    ->condition('u.status', C4M_USER_STATUS_ACTIVE, '=')
-    ->condition('u.name', '%' . db_like($string) . '%', 'LIKE')
-    ->fields('u', array('uid', 'name'))
-    ->fields('ogm', array('state'))
-    ->join('og_membership', 'ogm', "ogm.gid = :gid AND u.uid = ogm.etid AND ogm.entity_type = 'user'", array(':gid' => $gid));
-  $result = $query->execute();
+  $query->join('og_membership', 'ogm', 'u.uid = ogm.etid');
+  $query->fields('u', array('name'))
+    ->condition('ogm.group_type', 'node', '=')
+    ->condition('ogm.gid', $group->nid, '=')
+    ->condition('ogm.entity_type', 'user', '=')
+    ->condition('ogm.state', OG_STATE_ACTIVE, '=')
+    ->condition('u.name', '%' . db_like($string) . '%', 'LIKE');
+  $result = $query->execute()->fetchAllKeyed(0, 0);
 
-  foreach ($result as $member) {
-    if ($member->state == OG_STATE_ACTIVE) {
-      $user[$member->name] = $member->name;
-    }
-  }
-
-  // Convert to object to prevent drupal bug, see http://drupal.org/node/175361
-  drupal_json_output((object) $user);
+  drupal_json_output($result);
 }
 
 /**
@@ -2708,4 +2727,17 @@ function c4m_og_invite_access($group_type, $gid) {
 
   // If we got so far, user is allowed to invite.
   return TRUE;
+}
+
+/**
+ * Access function for gallery items uploads.
+ *
+ * @see node_gallery_api_upload_access()
+ */
+function c4m_og_node_gallery_access($gallery, $item_type = NULL) {
+  $relationship_types = node_gallery_api_get_relationship_type($gallery->type, $item_type);
+
+  // Assign access to Node Gallery API item type upload, there's a relationship
+  // for gallery item type, and user got permission to edit the gallery.
+  return (!empty($relationship_types) && node_access('update', $gallery));
 }
