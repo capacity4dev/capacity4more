@@ -39,7 +39,7 @@ angular.module('c4mApp')
       angular.forEach(submitData, function (values, field) {
         // Get the IDs of the selected references.
         // Prepare data to send to RESTful.
-        if (Request.resourceFields[field] && field != 'tags') {
+        if (Request.resourceFields[field] && field != 'tags' && field != 'notification') {
           var fieldType = Request.resourceFields[field].data.type;
           if (values && (fieldType == "entityreference" || fieldType == "taxonomy_term_reference")) {
             submitData[field] = [];
@@ -102,7 +102,7 @@ angular.module('c4mApp')
       var errorData = angular.copy(data);
 
       angular.forEach(errorData, function (values, field) {
-        if (field == "tags") {
+        if (field == "tags" || field == 'notification') {
           return;
         }
         // Check that title has the right length.
@@ -138,7 +138,7 @@ angular.module('c4mApp')
       angular.forEach(cleanData, function (values, field) {
 
         // Keep only the status field.
-        if (!resourceFields[field] && field != "tags") {
+        if (!resourceFields[field] && field != "tags" && field != 'notification') {
           delete this[field];
         }
 
