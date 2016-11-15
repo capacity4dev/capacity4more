@@ -182,7 +182,7 @@ function c4m_content_photo_field_default_field_instances() {
         'weight' => 6,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'smart_trim',
         'settings' => array(
           'more_link' => FALSE,
@@ -359,7 +359,7 @@ function c4m_content_photo_field_default_field_instances() {
         'weight' => 7,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => 'content',
@@ -489,7 +489,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 29,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -585,7 +585,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 28,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -688,7 +688,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 26,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -792,7 +792,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 27,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -861,9 +861,9 @@ function c4m_content_photo_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Body');
   t('Comment');
   t('Date');
-  t('Description');
   t('Galleries');
   t('Groups');
   t('Image');
