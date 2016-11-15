@@ -125,12 +125,7 @@ function c4m_content_group_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_group_administer_link' => array(
-      'weight' => '15',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
-    'c4m_ds_group_notification_toggle' => array(
+    'c4m_ds_node_highlight' => array(
       'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
@@ -291,6 +286,16 @@ function c4m_content_group_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
     'c4m_body' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -404,36 +409,36 @@ function c4m_content_group_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'c4m_body',
-        1 => 'highlighted',
-        2 => 'c4m_ds_creation_date',
-        3 => 'group_access_info',
-        4 => 'c4m_ds_group_notification_toggle',
-        5 => 'c4m_content_group_statistics',
-        6 => 'c4m_user_first_and_last_name',
-        7 => 'group_admins',
-        8 => 'c4m_vocab_topic',
-        9 => 'c4m_vocab_geo',
-        10 => 'c4m_ds_content_actions',
-        11 => 'c4m_ds_group_administer_link',
-        12 => 'group_extra_info',
+        1 => 'c4m_ds_creation_date',
+        2 => 'group_access_info',
+        3 => 'c4m_ds_node_highlight',
+        4 => 'c4m_content_group_statistics',
+        5 => 'c4m_user_first_and_last_name',
+        6 => 'group_admins',
+        7 => 'c4m_vocab_topic',
+        8 => 'c4m_vocab_geo',
+        9 => 'c4m_ds_content_actions',
+        10 => 'group_extra_info',
       ),
     ),
     'fields' => array(
       'c4m_body' => 'ds_content',
-      'highlighted' => 'ds_content',
       'c4m_ds_creation_date' => 'ds_content',
       'group_access_info' => 'ds_content',
-      'c4m_ds_group_notification_toggle' => 'ds_content',
+      'c4m_ds_node_highlight' => 'ds_content',
       'c4m_content_group_statistics' => 'ds_content',
       'c4m_user_first_and_last_name' => 'ds_content',
       'group_admins' => 'ds_content',
       'c4m_vocab_topic' => 'ds_content',
       'c4m_vocab_geo' => 'ds_content',
       'c4m_ds_content_actions' => 'ds_content',
-      'c4m_ds_group_administer_link' => 'ds_content',
       'group_extra_info' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
@@ -460,7 +465,7 @@ function c4m_content_group_ds_layout_settings_info() {
         1 => 'c4m_ds_group_type_icon',
         3 => 'c4m_ds_group_membership_type',
         6 => 'c4m_og_status',
-        10 => 'title',
+        8 => 'title',
       ),
       'left' => array(
         2 => 'c4m_media',
@@ -469,11 +474,12 @@ function c4m_content_group_ds_layout_settings_info() {
         4 => 'group_teaser_author_information',
         5 => 'c4m_ds_group_access_info',
         7 => 'c4m_body',
-        8 => 'group_iconbar_comments_views',
         9 => 'c4m_user_first_and_last_name',
-        11 => 'c4m_ds_group_members_count',
+        10 => 'c4m_ds_group_members_count',
+        11 => 'group_iconbar_comments_views',
         12 => 'c4m_ds_creation_date',
         13 => 'c4m_ds_group_posts_count',
+        14 => 'c4m_ds_node_highlight',
       ),
     ),
     'fields' => array(
@@ -485,14 +491,19 @@ function c4m_content_group_ds_layout_settings_info() {
       'c4m_ds_group_access_info' => 'right',
       'c4m_og_status' => 'header',
       'c4m_body' => 'right',
-      'group_iconbar_comments_views' => 'right',
-      'c4m_user_first_and_last_name' => 'right',
       'title' => 'header',
+      'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_group_members_count' => 'right',
+      'group_iconbar_comments_views' => 'right',
       'c4m_ds_creation_date' => 'right',
       'c4m_ds_group_posts_count' => 'right',
+      'c4m_ds_node_highlight' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'header' => 'div',
       'left' => 'div',

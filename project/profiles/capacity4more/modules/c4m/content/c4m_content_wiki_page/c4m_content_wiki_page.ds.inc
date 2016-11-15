@@ -148,6 +148,11 @@ function c4m_content_wiki_page_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
   );
   $export['node|wiki_page|block_list'] = $ds_fieldsetting;
 
@@ -227,6 +232,11 @@ function c4m_content_wiki_page_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_ds_content_shared_to' => array(
       'weight' => '4',
       'label' => 'hidden',
@@ -263,7 +273,7 @@ function c4m_content_wiki_page_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_content_actions' => array(
-      'weight' => '6',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -536,6 +546,16 @@ function c4m_content_wiki_page_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '8',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_promote' => array(
+      'weight' => '9',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
   );
   $export['node|wiki_page|teaser'] = $ds_fieldsetting;
 
@@ -599,6 +619,16 @@ function c4m_content_wiki_page_ds_field_settings_info() {
     ),
     'c4m_ds_content_footer_stats' => array(
       'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_promote' => array(
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -787,12 +817,18 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'title',
+        1 => 'c4m_ds_node_highlight',
       ),
     ),
     'fields' => array(
       'title' => 'ds_content',
+      'c4m_ds_node_highlight' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
@@ -846,47 +882,48 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
-        0 => 'c4m_content_wiki_page_collapse',
-        1 => 'c4m_content_wiki_page_navigation',
+        0 => 'c4m_content_wiki_page_navigation',
+        1 => 'c4m_content_wiki_page_collapse',
         2 => 'c4m_vocab_topic',
         3 => 'c4m_content_wiki_page_add_links',
-        4 => 'group_pages',
-        5 => 'group_node_actions',
-        6 => 'c4m_vocab_date',
-        7 => 'group_details',
-        8 => 'c4m_vocab_language',
-        9 => 'c4m_vocab_geo',
-        10 => 'c4m_ds_content_shared_to',
-        12 => 'highlighted',
-        13 => 'c4m_ds_content_actions',
-        21 => 'og_vocabulary',
+        4 => 'c4m_vocab_date',
+        5 => 'group_pages',
+        6 => 'group_node_actions',
+        7 => 'c4m_vocab_language',
+        8 => 'group_details',
+        9 => 'c4m_ds_node_highlight',
+        10 => 'c4m_ds_content_actions',
+        11 => 'c4m_ds_content_shared_to',
+        12 => 'c4m_vocab_geo',
+        13 => 'og_vocabulary',
       ),
       'right' => array(
-        11 => 'c4m_ds_content_status',
-        14 => 'title',
-        15 => 'c4m_ds_submitted_by_and_on',
-        16 => 'c4m_ds_content_footer_stats',
-        17 => 'c4m_body',
-        18 => 'c4m_related_document',
-        19 => 'book_navigation',
-        20 => 'comments',
+        14 => 'c4m_ds_content_status',
+        15 => 'title',
+        16 => 'c4m_ds_submitted_by_and_on',
+        17 => 'c4m_ds_content_footer_stats',
+        18 => 'c4m_body',
+        19 => 'c4m_related_document',
+        20 => 'book_navigation',
+        21 => 'comments',
       ),
     ),
     'fields' => array(
-      'c4m_content_wiki_page_collapse' => 'left',
       'c4m_content_wiki_page_navigation' => 'left',
+      'c4m_content_wiki_page_collapse' => 'left',
       'c4m_vocab_topic' => 'left',
       'c4m_content_wiki_page_add_links' => 'left',
+      'c4m_vocab_date' => 'left',
       'group_pages' => 'left',
       'group_node_actions' => 'left',
-      'c4m_vocab_date' => 'left',
-      'group_details' => 'left',
       'c4m_vocab_language' => 'left',
-      'c4m_vocab_geo' => 'left',
-      'c4m_ds_content_shared_to' => 'left',
-      'c4m_ds_content_status' => 'right',
-      'highlighted' => 'left',
+      'group_details' => 'left',
+      'c4m_ds_node_highlight' => 'left',
       'c4m_ds_content_actions' => 'left',
+      'c4m_ds_content_shared_to' => 'left',
+      'c4m_vocab_geo' => 'left',
+      'og_vocabulary' => 'left',
+      'c4m_ds_content_status' => 'right',
       'title' => 'right',
       'c4m_ds_submitted_by_and_on' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
@@ -894,9 +931,12 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
       'c4m_related_document' => 'right',
       'book_navigation' => 'right',
       'comments' => 'right',
-      'og_vocabulary' => 'left',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'header' => 'div',
       'left' => 'div',
@@ -973,6 +1013,8 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
         5 => 'c4m_field_og_group',
         6 => 'c4m_body',
         7 => 'c4m_ds_content_footer_stats',
+        8 => 'c4m_ds_node_highlight',
+        9 => 'c4m_ds_node_promote',
       ),
     ),
     'fields' => array(
@@ -984,8 +1026,14 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
       'c4m_field_og_group' => 'ds_content',
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
+      'c4m_ds_node_highlight' => 'ds_content',
+      'c4m_ds_node_promote' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
@@ -1015,8 +1063,8 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
         4 => 'c4m_ds_creation_date',
         5 => 'c4m_body',
         6 => 'c4m_ds_content_footer_stats',
-        7 => 'highlighted',
-        8 => 'promoted',
+        7 => 'c4m_ds_node_highlight',
+        8 => 'c4m_ds_node_promote',
       ),
     ),
     'fields' => array(
@@ -1027,10 +1075,14 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
       'c4m_ds_creation_date' => 'ds_content',
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
-      'highlighted' => 'ds_content',
-      'promoted' => 'ds_content',
+      'c4m_ds_node_highlight' => 'ds_content',
+      'c4m_ds_node_promote' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),

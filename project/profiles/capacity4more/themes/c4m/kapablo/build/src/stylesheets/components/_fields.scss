@@ -25,13 +25,17 @@
   }
 }
 
-.field-name-c4m-og-status {
+.field-name-c4m-og-status, .field-name-c4m-project-stage {
   float: right;
+  margin-left: 0.25em;
+
+  .page-node-edit & {
+    float: none;
+  }
 
   .field-item {
     @extend .label;
     @extend .label-default;
-
   }
 
   & + .field-name-title {

@@ -33,21 +33,6 @@ function capacity4more_install_tasks() {
     'display' => FALSE,
   );
 
-  $tasks['capacity4more_setup_set_permissions'] = array(
-    'display_name' => st('Set permissions'),
-    'display' => FALSE,
-  );
-
-  $tasks['capacity4more_setup_set_og_permissions'] = array(
-    'display_name' => st('Set OG permissions'),
-    'display' => FALSE,
-  );
-
-  $tasks['capacity4more_setup_set_terms_og_permissions'] = array(
-    'display_name' => st('Set terms OG permissions'),
-    'display' => FALSE,
-  );
-
   $tasks['capacity4more_setup_set_menu_purl'] = array(
     'display_name' => st('Set menu purl modifiers (main menu)'),
     'display' => FALSE,
@@ -108,141 +93,6 @@ function capacity4more_setup_set_variables(&$install_state) {
 }
 
 /**
- * Task callback; Create permissions.
- */
-function capacity4more_setup_set_permissions(&$install_state) {
-  // Enable default permissions for authenticated users.
-  $permissions = array(
-    'access content',
-    'create group content',
-    'edit own group content',
-    'delete own group content',
-    'create new books',
-    'add content to books',
-    'create files',
-    'view own files',
-    'edit own photo content',
-  );
-
-  $content_types = array(
-    'discussion',
-    'document',
-    'event',
-    'photo',
-    'photoalbum',
-    'news',
-  );
-
-  foreach ($content_types as $content_type) {
-    $permissions[] = "create $content_type content";
-  }
-
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
-}
-
-/**
- * Task callback; Setting OG permissions.
- */
-function capacity4more_setup_set_og_permissions() {
-  // Set OG_AUTHENTICATED_ROLE permissions.
-  $content_types = array(
-    'discussion',
-    'document',
-    'event',
-    'photo',
-    'photoalbum',
-    'share',
-  );
-
-  $permissions = array(
-    'invite visitors',
-    'invite any user',
-  );
-  foreach ($content_types as $content_type) {
-    $permissions = array_merge($permissions, array(
-      "create $content_type content",
-      "update own $content_type content",
-      "delete own $content_type content",
-    ));
-  }
-
-  $roles = og_roles('node', 'group');
-  $auth_rid = array_search(OG_AUTHENTICATED_ROLE, $roles);
-  og_role_grant_permissions($auth_rid, $permissions);
-
-  // Set OG_ADMINISTRATOR_ROLE permissions.
-  $content_types = array(
-    'wiki_page',
-  );
-
-  $permissions = array(
-    'invite visitors',
-    'invite any user',
-  );
-  foreach ($content_types as $content_type) {
-    $permissions = array_merge($permissions, array(
-      "create $content_type content",
-      "update own $content_type content",
-      "update any $content_type content",
-    ));
-  }
-
-  // OG Flag permissions.
-  $og_flag_perms = array(
-    'c4m_og_content_promote',
-    'c4m_og_content_depromote',
-    'c4m_og_content_recommend',
-    'c4m_og_content_unrecommend',
-  );
-  $permissions = array_merge($permissions, $og_flag_perms);
-
-  $roles = og_roles('node', 'group');
-  $admin_member_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
-  og_role_grant_permissions($admin_member_rid, $permissions);
-
-  // Set OG_AUTHENTICATED_ROLE permissions by project.
-  $content_types = array(
-    'share',
-  );
-
-  $permissions = array();
-  foreach ($content_types as $content_type) {
-    $permissions = array_merge($permissions, array(
-      "create $content_type content",
-      "update own $content_type content",
-      "delete own $content_type content",
-    ));
-  }
-
-  $roles = og_roles('node', 'project');
-  $auth_rid = array_search(OG_AUTHENTICATED_ROLE, $roles);
-  og_role_grant_permissions($auth_rid, $permissions);
-
-  // Set OG_ADMINISTRATOR_ROLE permissions by project.
-  $content_types = array(
-    'document',
-    'event',
-    'share',
-    'news',
-  );
-
-  $permissions = array();
-  foreach ($content_types as $content_type) {
-    $permissions = array_merge($permissions, array(
-      "create $content_type content",
-      "update own $content_type content",
-      "update any $content_type content",
-      "delete own $content_type content",
-      "delete any $content_type content",
-    ));
-  }
-
-  $roles = og_roles('node', 'project');
-  $auth_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
-  og_role_grant_permissions($auth_rid, $permissions);
-}
-
-/**
  * Task callback; Setting purl modifiers for main menu.
  */
 function capacity4more_setup_set_menu_purl() {
@@ -251,21 +101,4 @@ function capacity4more_setup_set_menu_purl() {
   foreach ($menus as $menu) {
     variable_set('purl_menu_behavior_' . $menu, 'disabled');
   }
-}
-
-/**
- * Task callback; Setting terms OG permissions.
- */
-function capacity4more_setup_set_terms_og_permissions() {
-  $permissions = array(
-    'edit terms',
-    'delete terms',
-  );
-
-  $roles = og_roles('node', 'group');
-  $auth_rid = array_search(OG_AUTHENTICATED_ROLE, $roles);
-  $admin_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
-  og_role_grant_permissions($auth_rid, $permissions);
-  $permissions[] = 'manage variables';
-  og_role_grant_permissions($admin_rid, $permissions);
 }

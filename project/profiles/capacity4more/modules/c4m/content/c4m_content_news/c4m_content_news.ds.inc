@@ -191,16 +191,7 @@ function c4m_content_news_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'fi' => TRUE,
-          'fi-el' => 'div',
-          'fi-cl' => 'label label-primary',
-          'fi-at' => '',
-          'fi-def-at' => FALSE,
-          'fi-odd-even' => FALSE,
-          'fi-first-last' => FALSE,
-        ),
+        'ft' => array(),
       ),
     ),
     'c4m_ds_content_footer_stats' => array(
@@ -224,13 +215,18 @@ function c4m_content_news_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_ds_content_shared_to' => array(
       'weight' => '9',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'c4m_ds_content_actions' => array(
-      'weight' => '11',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -503,6 +499,11 @@ function c4m_content_news_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '8',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
   );
   $export['node|news|teaser'] = $ds_fieldsetting;
 
@@ -694,36 +695,39 @@ function c4m_content_news_ds_layout_settings_info() {
   $ds_layout->layout = 'c4m_ds_8_4_fluid';
   $ds_layout->settings = array(
     'regions' => array(
-      'left' => array(
-        0 => 'c4m_ds_content_type_label',
-        1 => 'c4m_ds_content_status',
-        2 => 'title',
-        3 => 'c4m_ds_content_footer_stats',
-        4 => 'c4m_body',
-        5 => 'c4m_related_document',
-        6 => 'comments',
-      ),
       'right' => array(
-        7 => 'group_node_meta',
-        8 => 'group_node_actions',
-        9 => 'c4m_ds_content_shared_to',
-        10 => 'group_node_details',
-        11 => 'c4m_ds_content_actions',
-        12 => 'c4m_user_first_and_last_name',
-        13 => 'c4m_ds_creation_date',
-        14 => 'c4m_ds_type_insert_action',
-        15 => 'c4m_user_picture',
-        16 => 'group_meta_author',
-        17 => 'c4m_vocab_topic',
-        18 => 'c4m_vocab_date',
-        19 => 'c4m_vocab_language',
-        20 => 'c4m_vocab_geo',
-        21 => 'og_vocabulary',
+        0 => 'c4m_ds_node_highlight',
+        3 => 'c4m_ds_content_actions',
+        9 => 'group_node_meta',
+        10 => 'group_node_actions',
+        11 => 'c4m_ds_content_shared_to',
+        12 => 'group_node_details',
+        13 => 'c4m_user_first_and_last_name',
+        14 => 'c4m_ds_creation_date',
+        15 => 'c4m_ds_type_insert_action',
+        16 => 'c4m_user_picture',
+        17 => 'group_meta_author',
+        18 => 'c4m_vocab_topic',
+        19 => 'c4m_vocab_date',
+        20 => 'c4m_vocab_language',
+        21 => 'c4m_vocab_geo',
+        22 => 'og_vocabulary',
+      ),
+      'left' => array(
+        1 => 'c4m_ds_content_type_label',
+        2 => 'c4m_ds_content_status',
+        4 => 'title',
+        5 => 'c4m_ds_content_footer_stats',
+        6 => 'c4m_body',
+        7 => 'c4m_related_document',
+        8 => 'comments',
       ),
     ),
     'fields' => array(
+      'c4m_ds_node_highlight' => 'right',
       'c4m_ds_content_type_label' => 'left',
       'c4m_ds_content_status' => 'left',
+      'c4m_ds_content_actions' => 'right',
       'title' => 'left',
       'c4m_ds_content_footer_stats' => 'left',
       'c4m_body' => 'left',
@@ -733,7 +737,6 @@ function c4m_content_news_ds_layout_settings_info() {
       'group_node_actions' => 'right',
       'c4m_ds_content_shared_to' => 'right',
       'group_node_details' => 'right',
-      'c4m_ds_content_actions' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_creation_date' => 'right',
       'c4m_ds_type_insert_action' => 'right',
@@ -745,11 +748,16 @@ function c4m_content_news_ds_layout_settings_info() {
       'c4m_vocab_geo' => 'right',
       'og_vocabulary' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'header' => 'div',
       'left' => 'div',
       'right' => 'div',
+      'footer' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
@@ -819,6 +827,7 @@ function c4m_content_news_ds_layout_settings_info() {
         5 => 'c4m_field_og_group',
         6 => 'c4m_body',
         7 => 'c4m_ds_content_footer_stats',
+        8 => 'c4m_ds_node_highlight',
       ),
     ),
     'fields' => array(
@@ -830,8 +839,13 @@ function c4m_content_news_ds_layout_settings_info() {
       'c4m_field_og_group' => 'ds_content',
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
+      'c4m_ds_node_highlight' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),

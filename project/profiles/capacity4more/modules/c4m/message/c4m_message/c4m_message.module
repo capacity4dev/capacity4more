@@ -72,6 +72,7 @@ function c4m_message_mail_alter(&$message) {
   _c4m_message_format_group_soft_deleted_from_field($message, $message_entity);
   _c4m_message_format_membership_request_rejected_from_field($message, $message_entity);
   _c4m_message_format_group_request_approved_from_field($message, $message_entity);
+  _c4m_message_format_notify_user_membership_pending_from_field($message, $message_entity);
 }
 
 /**
@@ -86,6 +87,21 @@ function _c4m_message_format_group_request_approved_from_field(&$message, $messa
   }
 
   _c4m_message_format_from_field_to_simple_pattern($message, TRUE);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_notify_user_membership_pending' message From field,
+ * per MT48 template.
+ */
+function _c4m_message_format_notify_user_membership_pending_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_notify_user_membership_pending') {
+    // For message type other than c4m_group_archived - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_simple_pattern($message);
 }
 
 /**
@@ -726,6 +742,32 @@ function c4m_message_load_tokens__c4m_new_membership_request(Message $message) {
 }
 
 /**
+ * Add callbacks to c4m_notify_user_membership_pending message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_notify_user_membership_pending(Message $message) {
+  $message->arguments['@member_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+}
+
+/**
  * Add callbacks to c4m_new_member_joined message arguments.
  *
  * For each token at email template, assigns a function that will be used
@@ -1119,7 +1161,7 @@ function c4m_message_load_tokens__c4m_notify_content_recommendation(Message $mes
   );
 
   $message->arguments['!user_unsubscribe_recommend_url'] = array(
-    'callback' => 'c4m_message_format_node_unsubscribe_url',
+    'callback' => 'c4m_message_format_unsubscribe_content_url',
     'pass message' => TRUE,
   );
 
@@ -1516,8 +1558,8 @@ function c4m_message_load_tokens__c4m_group_request_submitted(Message $message) 
     'pass message' => TRUE,
   );
 
-  $message->arguments['!group_edit_status_url'] = array(
-    'callback' => 'c4m_message_format_group_edit_status_url',
+  $message->arguments['!pending_groups_overview'] = array(
+    'callback' => 'c4m_message_format_pending_groups_overview',
     'pass message' => TRUE,
   );
 }
@@ -1938,16 +1980,16 @@ function c4m_message_format_group_message_to_admins(Message $message) {
  * @return string
  *   Return group edit url.
  */
-function c4m_message_format_group_edit_status_url(Message $message) {
+function c4m_message_format_pending_groups_overview(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $nid = $wrapper->field_group_node->value(array('identifier' => TRUE));
+  $group = $wrapper->field_group_node->value();
 
   $options = array(
     'absolute' => TRUE,
     'purl' => array('disabled' => TRUE),
   );
 
-  return url('node/' . $nid . '/edit#edit-c4m-og-status', $options);
+  return url('admin/c4m/' . $group->type . 's/pending', $options);
 }
 
 /**
@@ -2158,7 +2200,7 @@ function c4m_message_format_node_recommend_count(Message $message) {
 }
 
 /**
- * Returns a teaser of nodes body.
+ * Returns a teaser of content's body (intro text, if it's an article).
  *
  * @param Message $message
  *   The Message entity.
@@ -2169,11 +2211,13 @@ function c4m_message_format_node_recommend_count(Message $message) {
 function c4m_message_format_node_body_teaser(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $node = $wrapper->field_node->value();
-  if (empty($node->c4m_body)) {
+
+  $teaser_field = ($node->type == 'article') ? 'c4m_intro_text' : 'c4m_body';
+  if (empty($node->{$teaser_field})) {
     return '';
   }
 
-  $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
+  $body_teaser = field_view_field('node', $node, $teaser_field, 'teaser');
 
   return strip_tags($body_teaser[0]['#markup']);
 }
@@ -2360,14 +2404,6 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
     $entity->_skip_message = TRUE;
   }
 
-  // Do not create a message for a photo that is associated with a photo album.
-  // Some entity types don't have the type parameter. So we need to check if
-  // it's a node first.
-  if ($entity_type == 'node' && $entity->type == 'photo') {
-    $wrapper = entity_metadata_wrapper('node', $entity);
-    $entity->_skip_message = $wrapper->c4m_created_with_photo_album->value();
-  }
-
   if (!empty($entity->_skip_message)) {
     // Entity should not create a message.
     return FALSE;
@@ -2394,6 +2430,16 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
   if ($entity_type == 'node' && !in_array($entity->type, $valid_node_types)) {
     // Don't have to create message for this node type.
     return NULL;
+  }
+
+  // When a new photo is being uploaded to a photo album, we should create an
+  // update message of the photo album itself instead of a message of the
+  // photo (CFM-1456).
+  if ($entity_type == 'node' && $photo_album = c4m_content_photo_get_photo_album($entity)) {
+    // Update the correct time.
+    $photo_album->timestamp = $entity->timestamp;
+    $op = 'update';
+    $entity = $photo_album;
   }
 
   $message = NULL;
@@ -2480,11 +2526,8 @@ function c4m_messages_group_info(Message $message) {
       && is_array($get_query['group'])))
   ) {
     if (isset($message->field_group_node) && !empty($message->field_group_node)) {
-      $wrapper = entity_metadata_wrapper(
-        'node',
-        $message->field_group_node[LANGUAGE_NONE][0]['target_id']
-      );
-      $link = l($wrapper->label(), $wrapper->value()->purl);
+      $wrapper = entity_metadata_wrapper('message', $message);
+      $link = l($wrapper->field_group_node->label(), $wrapper->field_group_node->value()->purl);
       $group_info = t('Group: !link', array('!link' => $link));
     }
   }
@@ -2689,6 +2732,11 @@ function c4m_message_load__c4m_insert__node__share(Message $message) {
     'pass message' => TRUE,
   );
 
+  $message->arguments['!group_type'] = array(
+    'callback' => 'c4m_message_format_original_group_type',
+    'pass message' => TRUE,
+  );
+
   $message->arguments['!group_original'] = array(
     'callback' => 'c4m_message_format_original_group_share',
     'pass message' => TRUE,
@@ -2860,13 +2908,19 @@ function c4m_message_format_rendered_node(Message $message) {
   $get_query = drupal_get_query_parameters();
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  $handler = og_purl_og_context_handler();
-  if ((empty($get_query['homepage'])) && !empty($handler)) {
-    $view = node_view($wrapper->field_node->value(), 'activity_group');
+  // Determine if the current display is for homepage.
+  if (isset($get_query['homepage'])) {
+    $homepage = $get_query['homepage'] == '1';
   }
   else {
-    $view = node_view($wrapper->field_node->value(), 'activity_global');
+    $homepage = drupal_is_front_page() && !og_context();
   }
+
+  $object = menu_get_object();
+  $is_topic_page = !empty($object->type) && $object->type == 'topic';
+
+  $view_mode = $homepage || $is_topic_page ? 'activity_global' : 'activity_group';
+  $view = node_view($wrapper->field_node->value(), $view_mode);
 
   return drupal_render($view);
 }
@@ -2967,6 +3021,30 @@ function c4m_message_format_original_group_share(Message $message) {
 }
 
 /**
+ * Return the original group type (group|project).
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The group type.
+ */
+function c4m_message_format_original_group_type(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $original_entity = entity_metadata_wrapper(
+    'node',
+    $wrapper->field_node->c4m_source_entity->value()
+  );
+  $group_wrapper = entity_metadata_wrapper(
+    'node',
+    $original_entity->og_group_ref->value()
+  );
+
+  return $group_wrapper->getBundle();
+}
+
+/**
  * Return the formatted share operation.
  *
  * Retrieve proper icon for a content type (and maybe subtype).
@@ -3001,10 +3079,22 @@ function c4m_message_format_node_share(Message $message) {
  */
 function c4m_message_format_rendered_comment(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
+  $get_query = drupal_get_query_parameters();
+
+  // Determine if the current display is for a group or homepage.
+  $view_mode = 'activity_global';
+
+  // Determine if the current display is within a group context.
+  $context = og_context();
+
+  if (isset($get_query['homepage']) && $get_query['homepage'] == '0' || $context) {
+    $view_mode = 'activity_group';
+  }
+
   $view = comment_view(
     $wrapper->field_comment->value(),
     $wrapper->field_node->value(),
-    'activity_global'
+    $view_mode
   );
 
   return drupal_render($view);
@@ -3367,9 +3457,8 @@ function c4m_message_load_homepage_activity_stream() {
 
       case 'showAll':
       default:
-        $groups = c4m_og_get_user_group_ids_by_bundle('showAll');
+        $groups = array();
         break;
-
     }
   }
 
@@ -3615,4 +3704,73 @@ function c4m_message_get_user_last_activity($uid) {
   else {
     return '';
   }
+}
+
+/**
+ * Gets the specified condition index in the query where hierarchy.
+ *
+ * @param array $query_filter
+ *   The query->where array to search.
+ * @param string $field
+ *   The specific field name we wish to find.
+ *
+ * @return array
+ *   An associative array of the filter group and index of the requested
+ *   condition.
+ */
+function c4m_message_get_query_condition_index_by_field_name($query_filter, $field) {
+  foreach ($query_filter as $group_index => $group) {
+    foreach ($group['conditions'] as $condition_index => $condition) {
+      if (is_string($condition['field']) && $condition['field'] == $field) {
+        return array(
+          'group' => $group_index,
+          'index' => $condition_index,
+        );
+      }
+    }
+  }
+  return array();
+}
+
+/**
+ * Implements hook_views_query_alter().
+ *
+ * Filter the activity stream by the user's choice.
+ */
+function c4m_message_views_query_alter(&$view, &$query) {
+  if ($view->name != 'global_activity_stream_no_js_fallback') {
+    return;
+  }
+
+  $filter_by = filter_input(INPUT_GET, 'filter', FILTER_SANITIZE_STRING);
+
+  if ($filter_by == 'groups' || $filter_by == 'projects') {
+    // `rtrim` removes plural 's' from the query string value to get the bundle.
+    $groups = c4m_og_get_user_group_ids_by_bundle(rtrim($filter_by, 's'));
+    $condition = c4m_message_get_query_condition_index_by_field_name($query->where, 'field_data_field_group_node.field_group_node_target_id');
+    $query->where[$condition['group']]['conditions'][$condition['index']]['value'] = $groups;
+    $query->where[$condition['group']]['conditions'][$condition['index']]['operator'] = 'IN';
+  }
+  else {
+    // Remove the filter criteria when the users chooses to show all activity or
+    // filter by interests rather than by groups or projects.
+    $condition = c4m_message_get_query_condition_index_by_field_name($query->where, 'field_data_field_group_node.field_group_node_target_id');
+    unset($query->where[$condition['group']]);
+  }
+}
+
+/**
+ * Redirect the user to the homepage + query string ?filter=.
+ *
+ * For the global activity stream, when JS is not enabled, this function will
+ * redirect to the correct path when filtering the content by groups, projects
+ * or interests.
+ */
+function c4m_features_homepage_filter_form_create_submit(&$form, &$form_state) {
+  $options = array(
+    'query' => array(
+      'filter' => $form_state['values']['homepage-filter'],
+    ),
+  );
+  $form_state['redirect'] = array('<front>', $options);
 }

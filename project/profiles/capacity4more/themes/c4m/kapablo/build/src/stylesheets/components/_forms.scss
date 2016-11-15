@@ -195,6 +195,16 @@
       margin: 0;
     }
   }
+
+  &.node-discussion-form {
+
+    #edit-c4m-discussion-type-und {
+
+      .radio + .radio {
+        margin-top: 10px;
+      }
+    }
+  }
 }
 
 #views-form-c4m-overview-og-members-page {

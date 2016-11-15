@@ -42,14 +42,43 @@
   }
 
   &.node-share {
-    .field-name-c4m-source-entity {
+    .group-shared-content {
       background: $color-background;
-      margin-left: 2em;
+      margin: 0 0 0 2em;
       padding: 1em;
+    }
 
+    > .content {
       h2 {
         margin-top: 0;
       }
+
+      .field-name-c4m-field-og-group {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+.message-c4m-insert--node--share {
+  margin-top: 25px;
+}
+
+body {
+  &:not(.no-js) {
+    .field-name-activity-stream-by-topic-nojs-fallback,
+    .pane-global-activity-stream-no-js-fallback,
+    .view-group-activity-stream,
+    #c4m_activity_stream_filter {
+      display: none;
+    }
+  }
+
+  &.no-js {
+    .pane-quick-form,
+    .field-name-activity-stream-by-topic,
+    .pane-content .activity-stream {
+      display: none;
     }
   }
 }

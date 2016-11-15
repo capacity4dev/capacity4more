@@ -9,9 +9,8 @@ Feature: Group Invitations
     When  I visit the dashboard of group "Music Lovers"
     # charlesbabbage joined Music Lovers in a previous test.
     And   I click "Invite a member"
-    And   I click "Invite Visitors"
     Then  I should not see "Access denied"
-    And   I should see the text "Invite Visitors"
+    And   I should see the text "Invite new users"
 
   @api
     Scenario: Check access denied for inviting visitors to a private group to GMs
@@ -30,7 +29,6 @@ Feature: Group Invitations
     Given I am logged in as user "galileo"
     When  I visit the dashboard of group "Music Lovers"
     And   I click "Invite a member"
-    And   I click "Invite Visitors"
     And   I send an invitation to "emailexample.com"
     Then  I should see the text "Invalid email emailexample.com"
 
@@ -39,6 +37,5 @@ Feature: Group Invitations
     Given I am logged in as user "galileo"
     When  I visit the dashboard of group "Music Lovers"
     And   I click "Invite a member"
-    And   I click "Invite Visitors"
     And   I send an invitation to "email@example.com"
     Then  I should see the text "An email notification was sent to email@example.com."

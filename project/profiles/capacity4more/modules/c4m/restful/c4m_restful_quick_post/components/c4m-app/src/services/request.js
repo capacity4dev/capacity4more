@@ -73,6 +73,12 @@ angular.module('c4mApp')
       var categories = submitData.categories;
       delete(submitData.categories);
       delete(submitData.tags);
+
+      // Make sure 'categories' is defined.
+      if (!categories) {
+        categories = [];
+      }
+
       submitData.categories = categories.concat(tags);
 
       return jQuery.param(submitData);
@@ -134,6 +140,11 @@ angular.module('c4mApp')
         // Keep only the status field.
         if (!resourceFields[field] && field != "tags") {
           delete this[field];
+        }
+
+        // If there're related documents, add them.
+        if (field == 'relatedDocuments') {
+          this['related_document'] = values;
         }
       }, cleanData);
 

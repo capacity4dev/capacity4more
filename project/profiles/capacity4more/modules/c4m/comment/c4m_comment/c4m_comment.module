@@ -86,6 +86,21 @@ function c4m_comment_c4m_content_statistics_info() {
         ),
       ),
     ),
+    'project' => array(
+      'c4m_og_comment' => array(
+        'type' => 'comment',
+        'entity_type' => 'comment',
+        'bundles' => array(),
+        'singular' => 'Comment',
+        'plural' => 'Comments',
+        'state' => 1,
+        'aggregate' => array(),
+        'weight' => 6,
+        'attributes' => array(
+          'class' => array('og-comments'),
+        ),
+      ),
+    ),
   );
 }
 
@@ -199,7 +214,7 @@ function c4m_comment_c4m_helper_entity_label_info() {
  * comments manually as well.
  */
 function c4m_comment_user_cancel($edit, $account, $method) {
-  if ($method != 'user_block_reassign') {
+  if (!in_array($method, c4m_user_profile_get_cancel_methods_to_reassign())) {
     return;
   }
 
