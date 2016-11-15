@@ -592,7 +592,9 @@ function c4m_og_og_features_default_permissions() {
 
   // Exported og permission: 'node:project:edit terms'
   $permissions['node:project:edit terms'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
   );
 
   // Exported og permission: 'node:project:invite visitors'
