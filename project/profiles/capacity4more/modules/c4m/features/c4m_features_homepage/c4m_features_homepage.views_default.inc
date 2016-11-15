@@ -82,7 +82,7 @@ function c4m_features_homepage_views_default_views() {
     'image_style' => 'thumbnail',
     'image_link' => '',
   );
-  /* Field: Content: Group members count */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['members_count']['id'] = 'members_count';
   $handler->display->display_options['fields']['members_count']['table'] = 'node';
   $handler->display->display_options['fields']['members_count']['field'] = 'members_count';

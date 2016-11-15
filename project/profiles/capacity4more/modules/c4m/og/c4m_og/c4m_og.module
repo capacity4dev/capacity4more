@@ -2269,8 +2269,11 @@ function c4m_og_view_node_access($node, $account) {
     // Group content is saved as draft.
     if ($node->status == NODE_NOT_PUBLISHED) {
 
+      $user_type = _c4m_features_og_members_get_user_type($group, $account);
+      $allowed_wiki_page = $node->type == 'wiki_page' && $user_type == C4M_USER_TYPE_GM && c4m_content_wiki_page_is_editable_by_members($node);
+
       // Only power user or content author may view the node.
-      if (_c4m_features_og_members_is_power_user($group) || $node->uid == $account->uid) {
+      if (_c4m_features_og_members_is_power_user($group) || $node->uid == $account->uid || $allowed_wiki_page) {
         return NODE_ACCESS_ALLOW;
       }
       else {
@@ -2367,7 +2370,7 @@ function c4m_og_update_node_access($node, $account) {
 
     // When updating published wiki page, deny access to group members,
     // if 'editable by members' option is not enabled for this page.
-    if ($node->type == 'wiki_page' && $node->status == NODE_PUBLISHED) {
+    if ($node->type == 'wiki_page') {
       if ($user_type == C4M_USER_TYPE_GM && !c4m_content_wiki_page_is_editable_by_members($node)) {
         return NODE_ACCESS_DENY;
       }
