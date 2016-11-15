@@ -604,11 +604,6 @@ function c4m_user_og_c4m_cta_block() {
     if ($item = c4m_user_og_follow_group_cta($group)) {
       $items['follow'] = $item;
     }
-    // Add a link to the CTA block
-    // if the user is permitted to invite new members.
-    if (!user_is_anonymous() && c4m_user_og_invite_access($group)) {
-      $items['invite'] = c4m_user_og_c4m_invite_cta($group);
-    }
   }
 
   return $items;
@@ -688,31 +683,29 @@ function c4m_user_og_group_actions_cta($group) {
     return;
   }
 
-  if ($access['type'] == 'public') {
-    // CTAs for members of the group: Amount of unpublished content.
-    $variables = array(
-      'bundles' => array(
-        'wiki_page',
-        'photoalbum',
-        'discussion',
-        'event',
-        'document',
-      ),
-      'state' => NODE_NOT_PUBLISHED,
-      'entity_type' => 'node',
-      'og_id' => $group->nid,
-    );
+  // CTAs for members of the group: Amount of unpublished content.
+  $variables = array(
+    'bundles' => array(
+      'wiki_page',
+      'photoalbum',
+      'discussion',
+      'event',
+      'document',
+    ),
+    'state' => NODE_NOT_PUBLISHED,
+    'entity_type' => 'node',
+    'og_id' => $group->nid,
+  );
 
-    if ($unpublished_content = c4m_helper_entity_get_number_of_entities($variables)) {
-      $items['new-content'] = array(
-        '#theme' => 'c4m_group_text_cta',
-        '#icon' => 'fa-exclamation-triangle',
-        '#text' => t(
-          'You have %count draft content items',
-          array('%count' => $unpublished_content)
-        ),
-      );
-    }
+  if ($unpublished_content = c4m_helper_entity_get_number_of_entities($variables)) {
+    $items['new-content'] = array(
+      '#theme' => 'c4m_group_text_cta',
+      '#icon' => 'fa-exclamation-triangle',
+      '#text' => t(
+        'You have %count draft content items',
+        array('%count' => $unpublished_content)
+      ),
+    );
   }
 
   // Help & guidance.
@@ -750,6 +743,10 @@ function c4m_user_og_group_management_cta($group) {
 
   if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
     $items['#links'][] = $item;
+  }
+
+  if ($item = c4m_user_og_c4m_invite_cta($group)) {
+    $items['#links']['invite'] = $item;
   }
 
   if (isset($items['#links'])) {
@@ -794,6 +791,10 @@ function c4m_user_og_c4m_join_cta($group) {
  * existing users or new people to join the group.
  */
 function c4m_user_og_c4m_invite_cta($group) {
+  if (user_is_anonymous() || !c4m_user_og_invite_access($group)) {
+    return;
+  }
+
   $url = url('group/node/' . $group->nid . '/admin/people/invite-visitors', array('absolute' => TRUE));
 
   return array(
