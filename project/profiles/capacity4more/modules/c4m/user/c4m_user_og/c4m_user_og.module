@@ -553,6 +553,7 @@ function c4m_user_og_theme() {
     'template' => 'c4m_unified_workflow_register',
     'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
     'variables' => array(
+      'join_phrase' => NULL,
       'group_title' => NULL,
       'login_link' => NULL,
     ),
@@ -991,7 +992,19 @@ function c4m_user_og_form_user_register_form_alter(
   }
 
   $wrapper = entity_metadata_wrapper('node', $gid);
+  // Get membership request type (open/moderated).
+  $membership_type = $wrapper->field_membership_open_request->value();
+  if ($membership_type == C4M_OG_MODERATED_GROUP) {
+    $join_phrase = t('request membership for');
+    $button_label = t('Request membership for group');
+  }
+  else {
+    $join_phrase = t('join the');
+    $button_label = t('Register to join');
+  }
+
   $variables = array(
+    'join_phrase' => $join_phrase,
     'group_title' => $wrapper->label(),
     'login_link' => l(t('Log in.'), 'user/login'),
   );
@@ -1001,7 +1014,8 @@ function c4m_user_og_form_user_register_form_alter(
   );
 
   $form['#submit'][] = 'c4m_user_og_unified_workflow_register_submit';
-  $form['actions']['submit']['#value'] = t('Register to join');
+
+  $form['actions']['submit']['#value'] = $button_label;
 }
 
 /**
