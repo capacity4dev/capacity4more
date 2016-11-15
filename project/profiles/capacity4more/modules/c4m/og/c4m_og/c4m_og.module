@@ -178,6 +178,7 @@ function c4m_og_menu() {
   // Auto-completes active group member's user names.
   $items['edit-author/autocomplete/%node'] = array(
     'page callback' => 'c4m_og_edit_author_autocomplete',
+    'page arguments' => array(2, 3),
     'access callback' => '_c4m_features_og_members_is_power_user',
     'access arguments' => array(2),
     'title' => 'Replace Author',
@@ -2562,20 +2563,9 @@ function c4m_og_form_valid_author($form, &$form_state) {
  * Returns a JSON of all active members of an OG group where the username
  * contains the search string (for autocomplete author field).
  */
-function c4m_og_edit_author_autocomplete($string = '') {
+function c4m_og_edit_author_autocomplete($group, $string = '') {
   // Return early if no search string was received.
   if (!trim($string)) {
-    return;
-  }
-
-  // Resolve group id from auto complete path, which is set to
-  // 'edit-author/autocomplete/<$gid>'.
-  $destination = drupal_get_destination();
-  $destination = explode('/', $destination['destination']);
-  $gid = $destination[2];
-
-  // Return group id was not resolved.
-  if (!$gid) {
     return;
   }
 
@@ -2583,7 +2573,7 @@ function c4m_og_edit_author_autocomplete($string = '') {
   $query->join('og_membership', 'ogm', 'u.uid = ogm.etid');
   $query->fields('u', array('name'))
     ->condition('ogm.group_type', 'node', '=')
-    ->condition('ogm.gid', $gid, '=')
+    ->condition('ogm.gid', $group->nid, '=')
     ->condition('ogm.entity_type', 'user', '=')
     ->condition('ogm.state', OG_STATE_ACTIVE, '=')
     ->condition('u.name', '%' . db_like($string) . '%', 'LIKE');
