@@ -63,7 +63,7 @@ function c4m_features_homepage_get_suggested_items($bundle) {
     ->addTag('random')
     ->execute();
 
-  return !empty($result['node']) ? $result['node'] : FALSE ;
+  return !empty($result['node']) ? $result['node'] : FALSE;
 }
 
 /**
