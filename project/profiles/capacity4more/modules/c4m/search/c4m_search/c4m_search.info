@@ -61,6 +61,7 @@ features[facetapi][] = search_api@c4m_search_users:block:uid
 features[features_api][] = api:2
 features[search_api_index][] = c4m_search_nodes
 features[search_api_index][] = c4m_search_users
+features[search_api_index][] = search_comments
 features[search_api_sort][] = c4m_search_nodes__c4m_datetime_end:value
 features[search_api_sort][] = c4m_search_nodes__comment_count
 features[search_api_sort][] = c4m_search_nodes__created
