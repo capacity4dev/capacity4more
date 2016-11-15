@@ -186,7 +186,7 @@ function c4m_content_photoalbum_strongarm() {
             'visible' => TRUE,
           ),
           'teaser' => array(
-            'weight' => '20',
+            'weight' => '25',
             'visible' => FALSE,
           ),
           'teaser_group' => array(
