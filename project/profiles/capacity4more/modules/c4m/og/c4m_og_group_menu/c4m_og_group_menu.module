@@ -109,7 +109,7 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
 
   // The select element of the wiki pages should not be displayed on a default
   // menu link.
-  if ($form['link_path']['#value'] != 'wiki') {
+  if ($form['link_path']['#type'] == 'value') {
     return;
   }
 

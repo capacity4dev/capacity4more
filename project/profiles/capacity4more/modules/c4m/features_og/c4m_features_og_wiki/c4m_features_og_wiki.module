@@ -190,9 +190,10 @@ function c4m_features_og_wiki_block_view_alter(&$data, $block) {
     $wiki['#attributes']['class'][] = 'active-trail';
   }
 
-  // todo: replace ..... .
-  foreach($data['content'] as &$item) {
+  // Replace wiki default item with the one that was generated.
+  foreach ($data['content'] as &$item) {
     if (isset($item['#href']) && $item['#href'] == 'wiki') {
+      // Preserve the theme of default item.
       $wiki['#theme'] = $item['#theme'];
       $item = $wiki;
       break;
