@@ -412,3 +412,30 @@ function c4m_og_purl_get_destination() {
 
   return $destination;
 }
+
+/**
+ * Implements hook_tokens_alter().
+ *
+ * Alter the comments url via tokens to display the purl.
+ */
+function c4m_og_purl_tokens_alter(array &$replacements, array $context) {
+  if (empty($replacements['[message:field-comment:url]']) || empty($context['data']['comment'])) {
+    return;
+  }
+
+  $comment = $context['data']['comment'];
+  if (!$gid = c4m_comment_get_group_id($comment)) {
+    return;
+  }
+
+  $url_options = array(
+    'absolute' => TRUE,
+    'fragment' => 'comment-' . $comment->cid,
+    'purl' => array(
+      'provider' => 'og_purl|node',
+      'id' => $gid,
+    ),
+  );
+
+  $replacements['[message:field-comment:url]'] = url('comment/' . $comment->cid, $url_options);
+}
