@@ -190,9 +190,12 @@ function c4m_features_og_wiki_block_view_alter(&$data, $block) {
     $wiki['#attributes']['class'][] = 'active-trail';
   }
 
-  $first_value = array_shift($data['content']);
-  // Use same theming function for our link as for the other OG links.
-  $wiki['#theme'] = $first_value['#theme'];
-  array_unshift($data['content'], $wiki);
-  array_unshift($data['content'], $first_value);
+  // todo: replace ..... .
+  foreach($data['content'] as &$item) {
+    if (isset($item['#href']) && $item['#href'] == 'wiki') {
+      $wiki['#theme'] = $item['#theme'];
+      $item = $wiki;
+      break;
+    }
+  }
 }
