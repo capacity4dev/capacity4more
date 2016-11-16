@@ -439,3 +439,12 @@ function c4m_og_purl_tokens_alter(array &$replacements, array $context) {
 
   $replacements['[message:field-comment:url]'] = url('comment/' . $comment->cid, $url_options);
 }
+/**
+ * Render the access deny page if the current page has context.
+ */
+function c4m_og_purl_deny_purl_access() {
+  if ($context = og_context()) {
+    c4m_content_deny_access();
+  }
+}
+
