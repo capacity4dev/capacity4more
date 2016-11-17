@@ -96,6 +96,7 @@ function c4m_features_homepage_get_project_type_title($type) {
   $titles = array(
     'owner' => t('Owner of the following Project(s)'),
     'member' => t("Administrator of the following Project(s)"),
+    'administrator' => t("Administrator of the following Project(s)"),
     'pending' => t('Membership requested in the following Project(s)'),
   );
 

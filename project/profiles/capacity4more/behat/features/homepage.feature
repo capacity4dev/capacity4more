@@ -28,7 +28,7 @@ Feature: Test homepage content and blocks
     Then  I should see "My Groups"
     And   I should see "My Projects"
     And   I should see "Owner of the following Group(s)"
-    And   I should see "Owner of the following Project(s)"
+    And   I should see "Administrator of the following Project(s)"
 
   @api
   Scenario: Anonymous user should see button to open the introduction video.
@@ -60,7 +60,7 @@ Feature: Test homepage content and blocks
     When  I visit the site homepage
     Then  I should see "My Groups"
     And   I should see "My Projects"
-    And   I should see "Architecture" in the "div.my-groups" element
+    And   I should see "Tennis Group" in the "div.my-groups" element
     And   I should see "Show more" in the "div.my-groups" element
     And   I should see "Lusail City" in the "div.my-projects" element
     And   I should see "Show more" in the "div.my-projects" element
