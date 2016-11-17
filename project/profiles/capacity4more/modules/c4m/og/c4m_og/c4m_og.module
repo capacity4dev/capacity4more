@@ -1808,10 +1808,15 @@ function c4m_og_open_group_access_activate_pending_members($node) {
  *   The IDs of the invited memberships.
  */
 function c4m_og_get_invited_memberships_ids() {
-  $query = db_select('field_data_og_membership_invitation', 'ogm');
-  $query->fields('ogm', array('entity_id'));
+  $cache = &drupal_static(__FUNCTION__);
+  if (!isset($cache)) {
+    $query = db_select('field_data_og_membership_invitation', 'ogm');
+    $query->fields('ogm', array('entity_id'));
 
-  return array_keys($query->execute()->fetchAllAssoc(0, 0));
+    $cache = array_keys($query->execute()->fetchAllAssoc(0, 0));
+  }
+
+  return $cache;
 }
 
 /**
