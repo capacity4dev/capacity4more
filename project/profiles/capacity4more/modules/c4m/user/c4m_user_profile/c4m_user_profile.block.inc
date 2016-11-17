@@ -453,3 +453,53 @@ function _c4m_user_profile_block_user_my_profile_groups() {
 
   return $block;
 }
+
+/**
+ * Block definition for the user_my_profile_projects block.
+ *
+ * @return array
+ *   The rendered "my projects" block.
+ */
+function _c4m_user_profile_block_user_my_profile_projects() {
+  module_load_include('inc', 'c4m_features_homepage', 'plugins/content_types/my_projects/my_projects');
+
+  $block = array();
+  $block['subject'] = '';
+  $block['content'] = '';
+
+  // Gets the user of the profile being viewed.
+  $account = menu_get_object('user');
+
+  // Prevent the block to be rendered if the block is added by mistake in a non
+  // user profile page.
+  if (is_null($account)) {
+    return $block;
+  }
+
+  $projects = c4m_features_homepage_get_user_projects_grouped_by_membership($account);
+
+  // Prevent the block to be rendered if the user has no projects.
+  if (empty($projects)) {
+    return $block;
+  }
+
+  $rendered_projects = '';
+  // Render node views for each project.
+  foreach ($projects as $type => $project_list) {
+    $title = c4m_features_homepage_get_project_type_title($type);
+    $rendered_projects .= '<h4>' . $title . '</h4>';
+
+    foreach ($project_list as $project) {
+      $node_view = node_view($project, 'block_list');
+      $rendered_projects .= drupal_render($node_view);
+    }
+  }
+
+  $variables = array(
+    'projects' => $rendered_projects,
+  );
+
+  $block['content'] = !empty($rendered_projects) ? theme('c4m_user_profile_my_profile_projects', $variables) : FALSE;
+
+  return $block;
+}
