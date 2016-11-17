@@ -27,3 +27,18 @@ function _c4m_user_block_c4m_block_contact_members() {
     'content' => $markup,
   );
 }
+
+/**
+ * Callback for the c4m_my_comments_link block.
+ */
+function _c4m_user_block_c4m_my_comments_link() {
+  global $user;
+
+  $count_user_comments = c4m_user_count_comments($user->uid, FALSE);
+  $link = l(t('My comments (@count)', array('@count' => $count_user_comments)), "user/$user->uid/comments");
+
+  return array(
+    'subject' => '',
+    'content' => $link,
+  );
+}
