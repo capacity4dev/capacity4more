@@ -11,6 +11,79 @@ function c4m_user_views_default_views() {
   $export = array();
 
   $view = new view();
+  $view->name = 'my_comments';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'search_api_index_c4m_search_comments';
+  $view->human_name = 'My Comments';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'My Comments';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* Header: Search: Spellcheck */
+  $handler->display->display_options['header']['search_api_spellcheck']['id'] = 'search_api_spellcheck';
+  $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_comments';
+  $handler->display->display_options['header']['search_api_spellcheck']['field'] = 'search_api_spellcheck';
+  /* Header: Global: Add Search API Sorts */
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
+  /* Field: Indexed Comment: Comment ID */
+  $handler->display->display_options['fields']['cid']['id'] = 'cid';
+  $handler->display->display_options['fields']['cid']['table'] = 'search_api_index_c4m_search_comments';
+  $handler->display->display_options['fields']['cid']['field'] = 'cid';
+  $handler->display->display_options['fields']['cid']['label'] = '';
+  $handler->display->display_options['fields']['cid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['cid']['link_to_entity'] = 1;
+  /* Contextual filter: Author: User ID (indexed) */
+  $handler->display->display_options['arguments']['author_uid']['id'] = 'author_uid';
+  $handler->display->display_options['arguments']['author_uid']['table'] = 'search_api_index_c4m_search_comments';
+  $handler->display->display_options['arguments']['author_uid']['field'] = 'author_uid';
+  $handler->display->display_options['arguments']['author_uid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['author_uid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['author_uid']['title'] = '%1\'s comments';
+  $handler->display->display_options['arguments']['author_uid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['author_uid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['author_uid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['author_uid']['validate']['type'] = 'user';
+  $handler->display->display_options['arguments']['author_uid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['author_uid']['not'] = 0;
+  /* Filter criterion: Search form */
+  $handler->display->display_options['filters']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['table'] = 'search_api_index_c4m_search_comments';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['field'] = 'search_api_views_fulltext';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['ui_name'] = 'Search form';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator_id'] = 'search_api_views_fulltext_op';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['label'] = 'Search';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator'] = 'search_api_views_fulltext_op';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['identifier'] = 'text';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    4 => 0,
+    3 => 0,
+  );
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['exposed_block'] = TRUE;
+  $handler->display->display_options['path'] = 'user/%/comments';
+  $export['my_comments'] = $view;
+
+  $view = new view();
   $view->name = 'my_content';
   $view->description = 'Overview of user content.';
   $view->tag = 'default';

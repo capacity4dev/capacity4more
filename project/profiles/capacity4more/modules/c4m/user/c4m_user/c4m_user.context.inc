@@ -13,6 +13,40 @@ function c4m_user_context_default_contexts() {
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
+  $context->name = 'c4m_user_comments';
+  $context->description = '"my comments" page';
+  $context->tag = 'cap4more - User comments';
+  $context->conditions = array(
+    'views' => array(
+      'values' => array(
+        'my_comments' => 'my_comments',
+        'my_comments:page' => 'my_comments:page',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'block' => array(
+      'blocks' => array(
+        'views--exp-my_comments-page' => array(
+          'module' => 'views',
+          'delta' => '-exp-my_comments-page',
+          'region' => 'sidebar_first',
+          'weight' => '-9',
+        ),
+      ),
+    ),
+  );
+  $context->condition_mode = 0;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('"my comments" page');
+  t('cap4more - User comments');
+  $export['c4m_user_comments'] = $context;
+
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
   $context->name = 'c4m_user_content';
   $context->description = '"my content" page';
   $context->tag = 'cap4more - User';
