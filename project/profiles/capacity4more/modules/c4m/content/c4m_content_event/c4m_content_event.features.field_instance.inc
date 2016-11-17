@@ -375,7 +375,7 @@ function c4m_content_event_field_default_field_instances() {
           'show_remaining_days' => 0,
         ),
         'type' => 'date_default',
-        'weight' => 7,
+        'weight' => 6,
       ),
       'teaser_group' => array(
         'label' => 'inline',
@@ -1331,7 +1331,7 @@ function c4m_content_event_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 6,
+        'weight' => 8,
       ),
       'teaser_group' => array(
         'label' => 'inline',
