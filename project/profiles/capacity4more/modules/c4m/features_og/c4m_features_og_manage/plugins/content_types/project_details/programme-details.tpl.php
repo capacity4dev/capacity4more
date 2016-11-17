@@ -17,8 +17,12 @@
         <div class="col-md-9"><?php print $details['owner']; ?></div>
       </div>
       <div class="row">
-        <div class="col-md-3"><?php print t('Members') ?> (<a href="<?php print $details['members_edit']; ?>"><?php print t('Edit') ?></a>)</div>
-        <div class="col-md-9"><?php print $details['members']; ?></div>
+        <div class="col-md-3"><?php print t('Administrators') ?> (<a
+            href="<?php print $details['admins_edit']; ?>"><?php print t(
+              'Edit'
+            ) ?></a>)
+        </div>
+        <div class="col-md-9"><?php print $details['admins']; ?></div>
       </div>
     </div>
     <div class="project-details">
