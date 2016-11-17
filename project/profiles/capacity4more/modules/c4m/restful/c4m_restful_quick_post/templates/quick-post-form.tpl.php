@@ -89,7 +89,7 @@
   <a href="" id="full-from-button" ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('the advanced form'); ?></a>
 instead.</span>
 
-<div class="form-group btn-group clearfix btn-group-selectors topics-section" ng-class="{ 'has-error' : errors.topic }">
+<div class="form-group btn-group clearfix btn-group-selectors topics-section" id="topic" ng-class="{ 'has-error' : errors.topic == true }">
   <div class="label-wrapper">
     <span id="topic_description" class="description">
       {{fieldSchema.resources[selectedResource].topic.info.description}}
@@ -114,6 +114,7 @@ instead.</span>
       </div>
     </div>
   </div>
+  {{ error.topic }}
 </div>
 
   <div class="actions-row">
