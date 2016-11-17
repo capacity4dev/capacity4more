@@ -36,17 +36,28 @@ function c4m_user_views_default_views() {
   $handler->display->display_options['header']['search_api_spellcheck']['id'] = 'search_api_spellcheck';
   $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_comments';
   $handler->display->display_options['header']['search_api_spellcheck']['field'] = 'search_api_spellcheck';
-  /* Header: Global: Add Search API Sorts */
+  /* Header: Sorts */
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
-  /* Field: Indexed Comment: Comment ID */
-  $handler->display->display_options['fields']['cid']['id'] = 'cid';
-  $handler->display->display_options['fields']['cid']['table'] = 'search_api_index_c4m_search_comments';
-  $handler->display->display_options['fields']['cid']['field'] = 'cid';
-  $handler->display->display_options['fields']['cid']['label'] = '';
-  $handler->display->display_options['fields']['cid']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['cid']['link_to_entity'] = 1;
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sorts';
+  /* Header: Number of items */
+  $handler->display->display_options['header']['c4m_views_result']['id'] = 'c4m_views_result';
+  $handler->display->display_options['header']['c4m_views_result']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_result']['field'] = 'c4m_views_result';
+  $handler->display->display_options['header']['c4m_views_result']['ui_name'] = 'Number of items';
+  $handler->display->display_options['header']['c4m_views_result']['content'] = '@total in total, @start - @end shown';
+  $handler->display->display_options['header']['c4m_views_result']['classes'] = 'c4m-total-comments';
+  /* Field: Comment: Rendered Comment */
+  $handler->display->display_options['fields']['rendered_entity']['id'] = 'rendered_entity';
+  $handler->display->display_options['fields']['rendered_entity']['table'] = 'views_entity_comment';
+  $handler->display->display_options['fields']['rendered_entity']['field'] = 'rendered_entity';
+  $handler->display->display_options['fields']['rendered_entity']['label'] = '';
+  $handler->display->display_options['fields']['rendered_entity']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['rendered_entity']['link_to_entity'] = 1;
+  $handler->display->display_options['fields']['rendered_entity']['display'] = 'view';
+  $handler->display->display_options['fields']['rendered_entity']['view_mode'] = 'activity_global';
+  $handler->display->display_options['fields']['rendered_entity']['bypass_access'] = 0;
   /* Contextual filter: Author: User ID (indexed) */
   $handler->display->display_options['arguments']['author_uid']['id'] = 'author_uid';
   $handler->display->display_options['arguments']['author_uid']['table'] = 'search_api_index_c4m_search_comments';
