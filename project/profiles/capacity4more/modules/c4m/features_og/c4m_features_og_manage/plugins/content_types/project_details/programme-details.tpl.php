@@ -13,7 +13,11 @@
         <h2><?php print t('Programme administration') ?></h2>
       </div>
       <div class="row">
-        <div class="col-md-3"><?php print t('Owner') ?> (<a href="<?php print $details['owner_edit']; ?>"><?php print t('Edit') ?></a>)</div>
+        <div class="col-md-3"><?php print t('Owner') ?> (<a
+            href="<?php print $details['owner_edit']; ?>"><?php print t(
+              'Edit'
+            ) ?></a>)
+        </div>
         <div class="col-md-9"><?php print $details['owner']; ?></div>
       </div>
       <div class="row">
