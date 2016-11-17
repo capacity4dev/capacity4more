@@ -15,6 +15,12 @@ Feature: Global access
     | nobelprize/about         |
     | nobelprize/help-guidance |
     | nobelprize/legal-notices |
+    | nobelprize/user          |
+    | nobelprize/user/5        |
+    | nobelprize/user/login    |
+    | nobelprize/user/logout   |
+    | nobelprize/search        |
+    | searchgroup              |
 
   @api
   Scenario Outline: Verify global pages can be seeing without the context.
@@ -23,10 +29,14 @@ Feature: Global access
     Then I should have access to the page
 
     Examples:
-    | url           |
-    | groups        |
-    | people        |
-    | learning      |
-    | about         |
-    | help-guidance |
-    | legal-notices |
+    | url                    |
+    | groups                 |
+    | people                 |
+    | learning               |
+    | about                  |
+    | help-guidance          |
+    | legal-notices          |
+    | user                   |
+    | user/5                 |
+    | search                 |
+    | nobelprize/searchgroup |
