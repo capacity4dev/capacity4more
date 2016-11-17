@@ -935,6 +935,50 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
 }
 
 /**
+ * Returns all group member ids.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ * @param bool $verify_owner_added
+ *   Whether to return group owner id, even if group owner does not
+ *   have 'member' role.
+ * @param bool $filter_event_user
+ *   Whether to filter out current user ID from result, or not.
+ * @param string $group_type
+ *   The group node type to filter for, defaults to "group".
+ *
+ * @return array
+ *   An array of all group admins ids.
+ */
+function c4m_og_get_group_member_ids($gid, $verify_owner_added = FALSE, $filter_event_user = FALSE, $group_type = 'group') {
+  $group_member_role = c4m_og_user_role_load_by_name('member', $group_type);
+  $members = c4m_og_get_users_by_roles($gid, array($group_member_role->rid));
+  foreach ($members as &$member) {
+    $member = $member->uid;
+  }
+
+  if ($verify_owner_added) {
+    $group = node_load($gid);
+    if ($group && og_is_group('node', $group)) {
+      if (!in_array($group->uid, $members)) {
+        $members[] = $group->uid;
+      }
+    }
+  }
+
+  if ($filter_event_user) {
+    // Filter current user ID from array with admins ids.
+    global $user;
+
+    if (($index = array_search($user->uid, $members)) !== FALSE) {
+      unset($members[$index]);
+    }
+  }
+
+  return $members;
+}
+
+/**
  * Returns all group admins ids.
  *
  * @param int $gid
@@ -1023,6 +1067,24 @@ function c4m_og_get_group_admins_and_owner_ids_for_notification($gid) {
  */
 function c4m_og_get_group_admins($gid, $verify_owner_added = FALSE, $group_type = 'group') {
   return user_load_multiple(c4m_og_get_group_admins_ids($gid, $verify_owner_added, FALSE, $group_type));
+}
+
+/**
+ * Returns all group members.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ * @param bool $verify_owner_added
+ *   Whether to return group owner, even if group owner does not
+ *   have 'member' role.
+ * @param string $group_type
+ *   The group node type to filter for, defaults to "group".
+ *
+ * @return array
+ *   An array of all group admins.
+ */
+function c4m_og_get_group_members($gid, $verify_owner_added = FALSE, $group_type = 'group') {
+  return user_load_multiple(c4m_og_get_group_member_ids($gid, $verify_owner_added, FALSE, $group_type));
 }
 
 /**
