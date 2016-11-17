@@ -27,13 +27,8 @@ Feature: Test homepage content and blocks
     When  I visit the site homepage
     Then  I should see "My Groups"
     And   I should see "My Projects"
-    Then  I should see "Owner of the following Group(s)"
+    And   I should see "Owner of the following Group(s)"
     And   I should see "Owner of the following Project(s)"
-
-  @api
-  Scenario: Logged in user should see group owner in "My Groups" and "My Projects" in sidebar.
-    Given I am logged in as user "isaacnewton"
-    When  I visit the site homepage
 
   @api
   Scenario: Anonymous user should see button to open the introduction video.
@@ -47,7 +42,7 @@ Feature: Test homepage content and blocks
     When  I visit the site homepage
     Then  I should not see "My Groups"
     And   I should not see "My Projects"
-    Then  I should not see "Owner of the following Group(s)"
+    And   I should not see "Owner of the following Group(s)"
     And   I should not see "Owner of the following Project(s)"
 
   @api
@@ -56,7 +51,7 @@ Feature: Test homepage content and blocks
     When  I visit the site homepage
     Then  I should not see "My Groups"
     And   I should not see "My Projects"
-    Then  I should not see "Owner of the following Group(s)"
+    And   I should not see "Owner of the following Group(s)"
     And   I should not see "Owner of the following Project(s)"
 
   @api
