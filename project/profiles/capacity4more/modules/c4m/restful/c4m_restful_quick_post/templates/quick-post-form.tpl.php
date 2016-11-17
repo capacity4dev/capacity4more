@@ -56,7 +56,7 @@
   <div>
     <input type="file" name="document-file" id="c4m-related-document" class="document_file" ng-file-select="onQuickPostFileSelect($files, 'c4m-related-document')">
     <a href="" class="hidden" ng-click="browseFiles('c4m-related-document')"></a>
-    <span class="body-attachment-link">
+    <span class="body-attachment-link" ng-show="!data.relatedDocuments || data.relatedDocuments.length < 1">
       <label for="c4m-related-document"><?php print t('File to attach'); ?>
         <i class="fa fa-paperclip"></i>
       </label>
