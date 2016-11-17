@@ -369,7 +369,7 @@ function c4m_content_article_field_default_field_instances() {
     'bundle' => 'article',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Create a summary/intro text that will be displayed on the search page and the overview page.',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -1110,6 +1110,7 @@ function c4m_content_article_field_default_field_instances() {
   t('Comment');
   t('Content of the Article (HTML).');
   t('Contributors');
+  t('Create a summary/intro text that will be displayed on the search page and the overview page.');
   t('Enter group(s) that are related to this article.');
   t('Enter the name(s) of registered users.');
   t('Enter the names of non-registered contributors.');
