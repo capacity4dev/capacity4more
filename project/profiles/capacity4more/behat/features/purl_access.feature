@@ -10,6 +10,9 @@ Feature: Global access
     Examples:
     | url                      |
     | nobelprize/groups        |
+    | nobelprize/projects      |
+    | nobelprize/articles      |
+    | nobelprize/topics        |
     | nobelprize/people        |
     | nobelprize/learning      |
     | nobelprize/about         |
@@ -31,6 +34,9 @@ Feature: Global access
     Examples:
     | url                    |
     | groups                 |
+    | projects               |
+    | articles               |
+    | topics                 |
     | people                 |
     | learning               |
     | about                  |
