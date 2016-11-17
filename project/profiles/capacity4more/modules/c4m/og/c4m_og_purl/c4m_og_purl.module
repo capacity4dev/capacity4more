@@ -448,3 +448,29 @@ function c4m_og_purl_deny_purl_access() {
   }
 }
 
+/**
+ * Implements hook_views_access_callbacks().
+ */
+function c4m_og_purl_views_access_callbacks() {
+  return array(
+    'c4m_og_purl_global_content_access' => t('C4M Global content access'),
+  );
+}
+
+/**
+ * Global content should not be displayed under og_context.
+ *
+ * @return bool
+ *   TRUE if context is not present, otherwise returns FALSE.
+ */
+function c4m_og_purl_global_content_access() {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+    return TRUE;
+  }
+
+  return !og_context() && user_access('access content');
+}
