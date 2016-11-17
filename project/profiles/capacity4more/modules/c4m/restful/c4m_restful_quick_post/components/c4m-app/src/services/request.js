@@ -124,7 +124,9 @@ angular.module('c4mApp')
             empty = !termIsChecked;
           });
 
-          this[field] = empty;
+          if (empty) {
+            this[field] = 1;
+          }
         }
 
         // Check required fields for validations, except for datetime field because we checked it earlier.
