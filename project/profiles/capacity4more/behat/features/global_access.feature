@@ -10,6 +10,7 @@ Feature: Global access
     Examples:
     | url               |
     | nobelprize/groups |
+    | nobelprize/people |
 
   @api
   Scenario Outline: Verify global pages can be seeing without the context.
@@ -20,3 +21,4 @@ Feature: Global access
     Examples:
     | url    |
     | groups |
+    | people |
