@@ -144,7 +144,10 @@ function c4m_features_homepage_get_user_projects_grouped_by_membership($account 
   );
   foreach ($projects as $project) {
     $membership = c4m_user_og_get_role_in_group($account, $project);
-    $grouped_projects[$membership][$project->nid] = $project;
+
+    if ($project->c4m_is_template[LANGUAGE_NONE][0]['value'] != '1') {
+      $grouped_projects[$membership][$project->nid] = $project;
+    }
   }
 
   // Remove empty list of projects so the block is not rendered if there are no
