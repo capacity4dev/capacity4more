@@ -52,7 +52,7 @@
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Programme description') ?></div>
-        <div class="col-md-9"><?php print isset($details['description']['safe_value']) ? $details['description']['safe_value'] : ''; ?></div>
+        <div class="col-md-9"><?php print isset($details['description']['value']) ? $details['description']['value'] : ''; ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Duration') ?></div>
