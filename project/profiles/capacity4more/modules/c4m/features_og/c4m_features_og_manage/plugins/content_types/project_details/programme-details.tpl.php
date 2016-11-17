@@ -43,6 +43,14 @@
         <div class="col-md-9"><?php print (isset($details['purl'])) ? $details['purl'] : ''; ?></div>
       </div>
       <div class="row">
+        <div class="col-md-3"><?php print t('Programme tag line') ?></div>
+        <div class="col-md-9"><?php print isset($details['tagline']) ? $details['tagline'] : ''; ?></div>
+      </div>
+      <div class="row">
+        <div class="col-md-3"><?php print t('Programme stage') ?></div>
+        <div class="col-md-9"><?php print isset($details['stage']) ? $details['stage'] : ''; ?></div>
+      </div>
+      <div class="row">
         <div class="col-md-3"><?php print t('Programme description') ?></div>
         <div class="col-md-9"><?php print isset($details['description']['safe_value']) ? $details['description']['safe_value'] : ''; ?></div>
       </div>
@@ -53,6 +61,10 @@
       <div class="row">
         <div class="col-md-3"><?php print t('Total budget') ?></div>
         <div class="col-md-9"><?php print (isset($details['total_budget'])) ? $details['total_budget'] : ''; ?></div>
+      </div>
+      <div class="row">
+        <div class="col-md-3"><?php print t('Programme stakeholders') ?></div>
+        <div class="col-md-9"><?php print isset($details['stakeholders']) ? $details['stakeholders'] : ''; ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Source of funding') ?></div>
@@ -99,7 +111,13 @@
         <?php print $details['taxonomy_manage_link'] ?>
       </div>
       <div class="row">
-        <div class="col-md-12"><?php print t('This project has <strong>@cat_count Categories</strong> and <strong>@term_count Terms</strong>', array('@cat_count' => $details['categories_count'], '@term_count' => $details['terms_count'])) ?></div>
+        <div class="col-md-12"><?php print t(
+            'This programme has <strong>@cat_count Categories</strong> and <strong>@term_count Terms</strong>',
+            array(
+              '@cat_count' => $details['categories_count'],
+              '@term_count' => $details['terms_count'],
+            )
+          ) ?></div>
       </div>
     </div>
     <div class="project-features">
