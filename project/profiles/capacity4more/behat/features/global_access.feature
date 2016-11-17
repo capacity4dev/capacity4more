@@ -8,9 +8,13 @@ Feature: Global access
     Then I should not have access to the page
 
     Examples:
-    | url               |
-    | nobelprize/groups |
-    | nobelprize/people |
+    | url                      |
+    | nobelprize/groups        |
+    | nobelprize/people        |
+    | nobelprize/learning      |
+    | nobelprize/about         |
+    | nobelprize/help-guidance |
+    | nobelprize/legal-notices |
 
   @api
   Scenario Outline: Verify global pages can be seeing without the context.
@@ -19,6 +23,10 @@ Feature: Global access
     Then I should have access to the page
 
     Examples:
-    | url    |
-    | groups |
-    | people |
+    | url           |
+    | groups        |
+    | people        |
+    | learning      |
+    | about         |
+    | help-guidance |
+    | legal-notices |
