@@ -48,14 +48,28 @@ function c4m_og_purl_init() {
     drupal_goto($node->purl);
   }
 
-  // Menu items prefixes, which we allow to be accessed under OG context.
-  $group_allowed_path = _c4m_og_purl_allowed_paths();
-
-  if (og_context() && !_c4m_og_purl_starts_with_in_array($group_allowed_path, $item['path'])) {
-    // Under OG context, but menu item prefix is not part of allowed array.
+  if (c4m_og_purl_context_conflict_page()) {
+    // Conflict between menu item and context.
     drupal_access_denied();
     drupal_exit();
   }
+}
+
+/**
+ * Check whether there is a conflict between the current menu item and context.
+ *
+ * A conflict between the menu item and context happens when adding a purl path
+ * to a global page.
+ *
+ * @return bool
+ *   TRUE if there is a conflict, otherwise returns FALSE.
+ */
+function c4m_og_purl_context_conflict_page() {
+  $item = menu_get_item();
+  // Menu items prefixes, which we allow to be accessed under OG context.
+  $group_allowed_path = _c4m_og_purl_allowed_paths();
+
+  return og_context() && !_c4m_og_purl_starts_with_in_array($group_allowed_path, $item['path']);
 }
 
 /**
