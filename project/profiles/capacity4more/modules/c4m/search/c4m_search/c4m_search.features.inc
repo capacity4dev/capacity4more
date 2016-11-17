@@ -380,9 +380,9 @@ function c4m_search_default_search_api_index() {
     "entity_type" : "search_api_index",
     "rdf_mapping" : []
   }');
-  $items['search_comments'] = entity_import('search_api_index', '{
+  $items['c4m_search_comments'] = entity_import('search_api_index', '{
     "name" : "Search Comments",
-    "machine_name" : "search_comments",
+    "machine_name" : "c4m_search_comments",
     "description" : "Search index for all comments.",
     "server" : "c4m_solr",
     "item_type" : "comment",
