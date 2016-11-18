@@ -20,7 +20,9 @@ function c4m_features_og_group_dashboard_og_features_default_permissions() {
 
   // Exported og permission: 'node:project:invite any user'
   $permissions['node:project:invite any user'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   return $permissions;

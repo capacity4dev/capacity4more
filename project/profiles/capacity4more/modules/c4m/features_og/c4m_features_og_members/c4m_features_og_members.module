@@ -454,6 +454,12 @@ function _c4m_features_og_members_is_power_user($group = NULL, $user = NULL) {
     return TRUE;
   }
 
+  // No administrator member role in projects.
+  // All project members are power users.
+  if ($group->type === 'project') {
+    return og_is_member('node', $group->nid, 'user', $user->uid);
+  }
+
   // The user has the group role 'administrator member'.
   return in_array('administrator member',
     og_get_user_roles('node', $group->nid, $user->uid));
