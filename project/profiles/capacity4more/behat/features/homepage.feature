@@ -63,7 +63,6 @@ Feature: Test homepage content and blocks
     And   I should see "Tennis Group" in the "div.my-groups" element
     And   I should see "Show more" in the "div.my-groups" element
     And   I should see "Lusail City" in the "div.my-projects" element
-    And   I should see "Show more" in the "div.my-projects" element
 
   @api
   Scenario: Anonymous user can't see "Suggested Groups" block
