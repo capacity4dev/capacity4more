@@ -170,7 +170,7 @@ function c4m_og_menu() {
 
   $items['project/%/%/admin/owner'] = array(
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_og_replace_owner_build_form', 1, 2),
+    'page arguments' => array('c4m_og_replace_project_owner_build_form', 1, 2),
     'access callback' => 'c4m_og_user_is_owner',
     'access arguments' => array(1, 2),
     'title' => 'Replace Owner',
@@ -804,6 +804,69 @@ function c4m_og_replace_owner_build_form_submit($form, &$form_state) {
 }
 
 /**
+ * Form builder.
+ *
+ * Project owner replace form.
+ */
+function c4m_og_replace_project_owner_build_form($form, $form_state, $entity_type, $etid) {
+  og_set_breadcrumb($entity_type, $etid, array(l(t('Project'), "$entity_type/$etid/project")));
+
+  // Setting the list of the group admins.
+  $admins = array();
+  foreach (c4m_og_get_group_members($etid) as $admin) {
+    $admins[$admin->uid] = c4m_user_name($admin);
+  }
+
+  if (!empty($admins)) {
+    $form['new_owner'] = array(
+      '#type' => 'select',
+      '#required' => TRUE,
+      '#options' => $admins,
+      '#title' => t('Select new owner'),
+      '#description' => t('Select the name of the project admin you wish to be the new owner.'),
+    );
+
+    $form['group'] = array(
+      '#type' => 'value',
+      '#value' => $etid,
+    );
+
+    $form['type'] = array(
+      '#type' => 'value',
+      '#value' => $entity_type,
+    );
+
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Replace'),
+    );
+  }
+  else {
+    $link = l(t('Visit the members admin page'), 'group/node/' . $etid . '/admin/people');
+    $message = t('The project does not have any site admin to be the new owner. !link', array('!link' => $link));
+    drupal_set_message($message, 'warning');
+  }
+
+  return $form;
+}
+
+/**
+ * Submit handler.
+ *
+ * Replacing the owner of a group.
+ */
+function c4m_og_replace_project_owner_build_form_submit($form, &$form_state) {
+  $new_owner = array(
+    'uid' => $form_state['values']['new_owner'],
+    'name' => $form['new_owner']['#options'][$form_state['values']['new_owner']],
+  );
+  c4m_og_replace_owner($form_state['values']['type'], $form_state['values']['group'], $new_owner);
+
+  // Redirect back to the group page.
+  $form_state['redirect'] = $form_state['values']['type'] . '/' . $form_state['values']['group'] . '/project';
+}
+
+/**
  * Replacing the owner of a group.
  *
  * After replacing the owner of the group we grant "group administrator member"
@@ -858,7 +921,7 @@ function c4m_og_user_is_owner($group_type, $gid) {
   }
 
   // Make sure the current user is the group manager.
-  return $user->uid == $group->uid;
+  return user_access('administer groups') || $user->uid == $group->uid;
 }
 
 /**
@@ -932,6 +995,63 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
   }
 
   return $cache;
+}
+
+/**
+ * Returns all group member ids.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ * @param bool $verify_owner_added
+ *   Whether to return group owner id, even if group owner does not
+ *   have 'member' role.
+ * @param bool $filter_event_user
+ *   Whether to filter out current user ID from result, or not.
+ *
+ * @return array
+ *   An array of all group admins ids.
+ */
+function c4m_og_get_group_member_ids($gid, $verify_owner_added = FALSE, $filter_event_user = FALSE) {
+  $membership_ids = c4m_og_get_all_group_memberships_by_state($gid, OG_STATE_ACTIVE);
+  $memberships = og_membership_load_multiple($membership_ids);
+
+  $group = node_load($gid);
+  $members = array();
+
+  foreach ($memberships as $membership) {
+    if ($membership->etid == $group->uid) {
+      if ($verify_owner_added) {
+        $members[] = $membership->etid;
+      }
+    }
+    else {
+      $members[] = $membership->etid;
+    }
+  }
+
+  if ($filter_event_user) {
+    // Filter current user ID from array with member ids.
+    global $user;
+
+    if (($index = array_search($user->uid, $members)) !== FALSE) {
+      unset($members[$index]);
+    }
+  }
+
+  return $members;
+}
+
+/**
+ * Returns all group members.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ *
+ * @return array
+ *   An array of all group admins.
+ */
+function c4m_og_get_group_members($gid) {
+  return user_load_multiple(c4m_og_get_group_member_ids($gid));
 }
 
 /**
@@ -1961,13 +2081,19 @@ function c4m_og_get_content_recommendations($og_id = NULL) {
  *
  * @param array $group
  *   The group to get the type from.
+ * @param bool $subtype
+ *   Return node bundle or dive deeper for subtypes.
  *
  * @return string
  *   Group type (project|group).
  */
-function c4m_og_get_group_type($group) {
+function c4m_og_get_group_type($group, $subtype = FALSE) {
   if (!empty($group)) {
     if ($group_node = node_load($group['gid'])) {
+      if ($subtype && $group_node->type == 'project') {
+        return $group_node->c4m_project_type[LANGUAGE_NONE][0]['value'];
+      }
+
       return $group_node->type;
     }
   }

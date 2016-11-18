@@ -54,6 +54,11 @@ function c4m_user_profile_block_info() {
     'cache' => DRUPAL_CACHE_PER_USER,
   );
 
+  $blocks['user_my_profile_projects'] = array(
+    'info' => t('My projects/programmes'),
+    'cache' => DRUPAL_CACHE_PER_USER,
+  );
+
   return $blocks;
 }
 
@@ -207,6 +212,14 @@ function c4m_user_profile_theme() {
     ),
     'path' => drupal_get_path('module', 'c4m_user_profile') . '/templates',
     'template' => 'my-profile-groups',
+  );
+
+  $theme['c4m_user_profile_my_profile_projects'] = array(
+    'variables' => array(
+      'projects' => NULL,
+    ),
+    'path' => drupal_get_path('module', 'c4m_user_profile') . '/templates',
+    'template' => 'my-profile-projects',
   );
 
   return $theme;
