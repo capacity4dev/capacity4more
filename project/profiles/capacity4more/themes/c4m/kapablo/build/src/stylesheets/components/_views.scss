@@ -110,10 +110,10 @@
 }
 
 .view-overview-og-related-groups,
-.view-overview-og-related-projects
-{
+.view-overview-og-related-projects {
 
   .views-row + .views-row {
+
     &:not(.no-border) {
       border-top: none;
       margin-top: 0px;
@@ -127,19 +127,16 @@
   }
 }
 
-.view-overview-og-related-projects
-{
+.view-overview-og-related-projects {
 
   .text-muted {
     margin-top: 8px;
   }
 }
 
-.view-overview-og-related-groups
-{
+.view-overview-og-related-groups {
 
   .group-members-count {
     margin-top: 8px;
   }
 }
-
