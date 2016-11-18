@@ -10,7 +10,7 @@
  */
 class C4mDemoContentCreatePageElements extends C4mDemoContentCreateOgContent {
   public $bundle = 'page_element';
-  protected $textFormat = 'default_html';
+  protected $textFormat = 'filtered_html';
 
   /**
    * CSV column mapping.

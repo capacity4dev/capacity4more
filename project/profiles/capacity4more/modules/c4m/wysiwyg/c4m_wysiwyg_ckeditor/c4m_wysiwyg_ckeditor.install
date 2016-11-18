@@ -53,10 +53,6 @@ function c4m_wysiwyg_ckeditor_install_update_wysiwyg_filter($format) {
 
   $wysiwyg_settings = &$format->filters['wysiwyg']['settings'];
   switch ($format->format) {
-    case 'default_html':
-      $wysiwyg_settings = c4m_wysiwyg_ckeditor_install_default_html_wysiwyg_filter($wysiwyg_settings);
-      break;
-
     case 'filtered_html':
       $wysiwyg_settings = c4m_wysiwyg_ckeditor_install_default_html_wysiwyg_filter($wysiwyg_settings);
       break;
@@ -75,8 +71,7 @@ function c4m_wysiwyg_ckeditor_install_set_ckeditor_profiles() {
 
   // C4m ckeditor profiles.
   $c4m_profiles = array(
-    'c4m_simple'    => 'filtered_html',
-    'c4m_default'   => 'default_html',
+    'c4m_default'   => 'filtered_html',
     'c4m_advanced'  => 'full_html',
   );
 

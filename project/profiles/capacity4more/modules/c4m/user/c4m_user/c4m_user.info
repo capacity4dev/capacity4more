@@ -343,7 +343,6 @@ features[user_permission][] = use panels dashboard
 features[user_permission][] = use panels in place editing
 features[user_permission][] = use panels locks
 features[user_permission][] = use search_api_sorts
-features[user_permission][] = use text format default_html
 features[user_permission][] = use text format filtered_html
 features[user_permission][] = use text format full_html
 features[user_permission][] = use text format mail
