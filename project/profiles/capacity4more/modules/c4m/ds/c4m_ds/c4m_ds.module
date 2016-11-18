@@ -497,6 +497,32 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
+  $fields['node']['c4m_ds_node_highlight'] = array(
+    'title' => t('Highlight node'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_ds.theme.node.inc',
+    'function' => 'theme_c4m_ds_node_highlight',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['node']['c4m_ds_node_promote'] = array(
+    'title' => t('Promote node'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_ds.theme.node.inc',
+    'function' => 'theme_c4m_ds_node_promote',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
   $fields['node']['c4m_ds_content_shared_to'] = array(
     'title' => t('Overview list of places the content is shared TO.'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
@@ -616,6 +642,19 @@ function c4m_ds_ds_fields_info($entity_type) {
     'ui_limit' => array('*|*'),
     'file' => $path . '/includes/c4m_ds.theme.user.inc',
     'function' => 'theme_c4m_ds_user_my_groups',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['user']['c4m_ds_user_my_projects'] = array(
+    'title' => t('My projects/programmes'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_ds.theme.user.inc',
+    'function' => 'theme_c4m_ds_user_my_projects',
     'properties' => array(
       'formatters' => array(
         'default' => t('Default'),

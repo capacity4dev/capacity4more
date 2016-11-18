@@ -575,131 +575,104 @@
   @media (min-width: $screen-tablet) {
     float: right;
     margin: 20px 0 0;
+    position: relative;
   }
 }
 
 .group-indications--access {
-  position: relative;
   float: left;
-  height: 25px;
-  margin-right: 20px;
+  position: relative;
+  @media (min-width: $screen-tablet) {
+    margin-right: 20px;
+  }
+  .node-icon[class*="as-group-"] {
+    margin-bottom: 0;
+  }
 }
 
 .group-type,
 .group-status {
-  display: inline-block;
+  float: left;
   margin-left: 10px;
   height: 25px;
 }
 
-.group-access {
-  display: none;
+.group-status {
   @media (min-width: $screen-tablet) {
-    display: inline-block;
-    margin-left: 5px;
-    height: 25px;
-    border-radius: 4px;
+    position: absolute;
+    top: 31px;
+    right: 0;
   }
 }
 
-.group-status {
-  @media (min-width: $screen-tablet) {
-    float: right;
-    display: block;
-    clear: left;
-    margin-top: 6px;
-  }
+.group-access {
+  float: right;
+  margin-left: 5px;
+  height: 25px;
+  border-radius: 4px;
 }
 
 .restricted-organisation-icons {
   border: 1px solid $color-accent;
   border-radius: 4px;
-  float: left;
   height: 25px;
   text-align: center;
+  float: right;
+  clear: both;
+  position: relative;
+  margin-top: 6px;
+  width: 125px;
+  display: table;
 
-  .restricted-organisation-icon {
-    display: none;
-  }
-
-  span {
+  > span {
+    padding: 0;
     display: table-cell;
-    padding: 2px 8px;
-    position: relative;
     text-align: center;
-
-    span {
-      padding: 2px;
+    &:not(:first-child) {
+      border-left: 1px solid $color-accent;
     }
+  }
+  span span {
+    padding: 2px;
   }
 
   .group-organisation--more {
-    align-items: center;
     cursor: pointer;
-    display: flex;
     font-size: 0;
     height: 100%;
-    text-align: center;
-  }
-
-  .group-organisation--more span {
-    background: $color-link;
-    display: inline-block;
-    height: 4px;
-    width: 4px;
-
-    &:not(:first-of-type) {
-      margin-left: 2px;
-    }
-  }
-
-  @media (min-width: $screen-tablet) {
-    display: flex;
-    height: 25px;
-    left: 0;
-    margin-top: 6px;
-    position: absolute;
-    right: 0;
-    width: 125px;
-
-    img {
+    span {
+      background: $color-link;
       display: inline-block;
-      height: 18px;
-      margin: 0 auto;
-      width: 18px;
-    }
+      height: 4px;
+      width: 4px;
 
-    > span {
-      flex: 1;
-      justify-content: center;
-      padding: 0;
       &:not(:first-of-type) {
-        border-left: 1px solid $color-accent;
+        margin-left: 2px;
       }
     }
+  }
 
-    .restricted-organisation-icon {
-      align-items: center;
-      display: flex;
-    }
+  img {
+    height: 18px;
+    width: 18px;
+  }
 
-    &::before,
-    &::after {
-      position: absolute;
-      top: -7px;
-      display: inline-block;
-      content: "";
-      width: 1px;
-      background: $color-accent;
-    }
-    &::before {
-      left: 15px;
-      height: 7px;
-    }
-    &::after {
-      right: 15px;
-      height: 7px;
-    }
+  &::before,
+  &::after {
+    position: absolute;
+    top: -7px;
+    display: inline-block;
+    content: "";
+    width: 1px;
+    background: $color-accent;
+  }
+  &::before {
+    left: 15px;
+    height: 7px;
+  }
+  &::after {
+    right: 15px;
+    height: 7px;
   }
 }
 
@@ -713,6 +686,7 @@
   padding: 15px;
   position: absolute;
   transform: translateX(0) translateY(30px);
+  top: 31px;
   width: 300px;
   z-index: 1;
 
@@ -852,7 +826,33 @@
   }
 }
 
+.view-mode-full,
+.view-mode-group_dashboard {
+
+  .c4m-node-highlight {
+    margin-top: 10px;
+
+    .highlight-link-text {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.pane-c4m-overview-og-highlights {
+
+  .c4m-node-highlight {
+    text-align: right;
+    margin-bottom: 5px;
+
+    .highlight-link-text {
+      display: none;
+    }
+  }
+}
+
 .view-mode-teaser {
+  .field-name-c4m-ds-node-promote,
+  .field-name-c4m-ds-node-highlight,
   .field-name-c4m-ds-content-footer-stats,
   .form-type-item {
     display: inline-block;
@@ -860,12 +860,33 @@
       font-size: $font-size-h3;
     }
   }
-  .highlight-link,
+
   .flag-c4m-og-content-highlight {
     margin-left: 1rem;
   }
-  .highlight-link-text {
-    display: none;
+
+  .field-name-c4m-ds-node-highlight {
+    margin-left: 1rem;
+
+    .highlight-link-text {
+      display: none;
+    }
+  }
+}
+
+.view-id-c4m_overview_projects,
+.view-id-c4m_overview_groups {
+
+  .c4m-node-highlight {
+    float: right;
+
+    .highlight-link {
+      margin: 0 2px;
+
+      .highlight-link-text {
+        display: none;
+      }
+    }
   }
 }
 

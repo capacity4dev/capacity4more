@@ -15,6 +15,7 @@ function c4m_features_theme_bootstrap_colorize_text_alter(&$texts) {
   $texts['matches'][t('Log in')] = 'primary';
   $texts['matches'][t('Login to join')] = 'primary';
   $texts['matches'][t('Register to join')] = 'success';
+  $texts['matches'][t('Request membership for group')] = 'success';
 }
 
 /**

@@ -319,9 +319,11 @@ trait Group {
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
 
     if ($access == 'Restricted') {
-      if ($domains) {
-        $steps[] = new Step\When('I fill in "edit-restricted-by-domain" with "' . $domains . '"');
+      if (!$domains) {
+        // Restricted groups must have a domain or organisation.
+        $domains = 'dummy@behat';
       }
+      $steps[] = new Step\When('I fill in "edit-restricted-by-domain" with "' . $domains . '"');
     }
 
     $steps[] = new Step\When('I press "Save"');

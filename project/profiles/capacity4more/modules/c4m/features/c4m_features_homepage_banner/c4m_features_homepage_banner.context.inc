@@ -67,14 +67,17 @@ function c4m_features_homepage_banner_context_default_contexts() {
   $context->description = 'Adds the capacity4more intro banner to the header to all pages except the homepage for anonymous users';
   $context->tag = 'cap4more - Homepage';
   $context->conditions = array(
+    'context_og_condition_group_type' => array(
+      'values' => array(
+        '_none_' => '_none_',
+      ),
+      'options' => array(
+        'node_form' => 1,
+      ),
+    ),
     'path' => array(
       'values' => array(
         '~<front>' => '~<front>',
-      ),
-    ),
-    'user' => array(
-      'values' => array(
-        'anonymous user' => 'anonymous user',
       ),
     ),
   );
