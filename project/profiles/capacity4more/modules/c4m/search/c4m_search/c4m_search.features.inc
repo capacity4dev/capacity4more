@@ -506,6 +506,20 @@ function c4m_search_default_search_api_index() {
  */
 function c4m_search_default_search_api_sort() {
   $items = array();
+  $items['c4m_search_comments__created'] = entity_import('search_api_sort', '{
+    "index_id" : "c4m_search_comments",
+    "field" : "created",
+    "name" : "Date created",
+    "enabled" : "1",
+    "weight" : "0",
+    "identifier" : "c4m_search_comments__created",
+    "default_sort" : "1",
+    "default_sort_no_terms" : "1",
+    "default_order" : "desc",
+    "options" : { "field_name" : "Date created" },
+    "entity_type" : "search_api_sort",
+    "rdf_mapping" : []
+  }');
   $items['c4m_search_nodes__c4m_datetime_end:value'] = entity_import('search_api_sort', '{
     "index_id" : "c4m_search_nodes",
     "field" : "c4m_datetime_end:value",
