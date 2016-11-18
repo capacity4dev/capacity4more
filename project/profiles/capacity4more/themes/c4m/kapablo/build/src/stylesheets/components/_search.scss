@@ -69,7 +69,9 @@
 
 .search-api-sort,
 .search-api-sort.open {
-  float: right;
+  // float: right;
+  text-align: right;
+  display: block;
 
   button.dropdown-toggle {
     color: $link-color;
@@ -325,6 +327,11 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
     @extend .facetapi-link;
   }
 
+  .facetapi-link--programme::before {
+    content: "\f12e";
+    @extend .facetapi-link;
+  }
+
   .facetapi-link--project::before {
     content: "\f11e";
     @extend .facetapi-link;
@@ -456,10 +463,6 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
     border-bottom: 1px dashed $color-gray-light;
     min-height: 30px;
   }
-}
-
-.node-teaser .field-name-c4m-field-og-group {
-  display: none;
 }
 
 .view-mode-teaser:not(.user-profile) .user-name a,

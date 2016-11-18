@@ -9,6 +9,27 @@
     font-size: 0.7rem;
   }
 
+  .group-members-count {
+    padding-left: 10px;
+  }
+
+  .field-name-c4m-ds-group-type-icon,
+  .field-name-c4m-ds-project-type-icon {
+    display: inline;
+    float: left;
+
+    .fa {
+      display: inline-block;
+      float: left;
+      height: 1em;
+      line-height: 100%;
+      margin: 2px;
+      text-align: center;
+      vertical-align: baseline;
+      width: 25px;
+    }
+  }
+
   .field-name-c4m-field-og-group {
     @extend .text-copy--muted;
 
@@ -45,6 +66,10 @@
       padding: 0;
       margin: 0;
     }
+  }
+
+  h2 {
+    margin: 0;
   }
 
   &.node-document {

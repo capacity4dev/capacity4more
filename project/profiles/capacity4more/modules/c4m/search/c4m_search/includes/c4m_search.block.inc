@@ -23,6 +23,8 @@ function _c4m_search_block_facetapi_view_alter(&$data, $block) {
     'C1uZlhNqghipCSyxxgucWQMdVsq4ppY5' => t('Date'),
     '4Erg9yLvJMABad12YSuX81wXLf2eoV17' => t('Language'),
     'lcuW9WS3uMIsaaA0uZQgyEVGKcC2RDWB' => t('OG Vocab'),
+    'q300p1xON0icJkyRehKpatIQn7Zfnugr' => t('Status'),
+    'dgkhc10y2qjpsm5ad2fq7ss0yaauvzxg' => t('Group or Project'),
 
     // Geographical.
     'JQeEQzhfJJBhHcXpX4531H7GTXL1viNU' => t('Regions & Countries'),
@@ -49,6 +51,10 @@ function _c4m_search_block_facetapi_view_alter(&$data, $block) {
     '2qrTnbxWr0rI2lmcQR6mBDryPwkuS1PH' => t('Type'),
     // Event type.
     'ajPbeoCHay77liOuYn2HrFBMw0VZUgCz' => t('Type'),
+    // Project type.
+    'S9qne31IKDd1jhPm8FHFcpVq9mtX65DM' => t('Type'),
+    // Project stage.
+    'OK4Vyc0ny8QpANDSYVhonW7ExFGaGeb5' => t('Stage'),
   );
 
   // Check if we have an override for the block delta.

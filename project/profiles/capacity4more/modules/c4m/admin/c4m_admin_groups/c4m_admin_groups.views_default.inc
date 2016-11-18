@@ -285,6 +285,7 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['group_moderators']['field'] = 'group_moderators';
   $handler->display->display_options['fields']['group_moderators']['label'] = 'Group moderator(s)';
   $handler->display->display_options['fields']['group_moderators']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_moderators']['c4m_admin_groups_group_type'] = 'group';
   /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics']['id'] = 'group_metrics';
   $handler->display->display_options['fields']['group_metrics']['table'] = 'node';
@@ -575,8 +576,24 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
-  $handler->display->display_options['fields']['edit_node']['label'] = 'Edit';
+  $handler->display->display_options['fields']['edit_node']['label'] = '';
+  $handler->display->display_options['fields']['edit_node']['exclude'] = TRUE;
   $handler->display->display_options['fields']['edit_node']['element_label_colon'] = FALSE;
+  /* Field: Content: Group approve link */
+  $handler->display->display_options['fields']['group_approve']['id'] = 'group_approve';
+  $handler->display->display_options['fields']['group_approve']['table'] = 'node';
+  $handler->display->display_options['fields']['group_approve']['field'] = 'group_approve';
+  $handler->display->display_options['fields']['group_approve']['label'] = '';
+  $handler->display->display_options['fields']['group_approve']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['group_approve']['element_label_colon'] = FALSE;
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['label'] = 'Actions';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '[group_approve] or [edit_node]';
+  $handler->display->display_options['fields']['nothing']['alter']['trim_whitespace'] = TRUE;
+  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';

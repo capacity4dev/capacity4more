@@ -132,10 +132,13 @@ function c4m_content_photo_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '7',
+          'weight' => '8',
         ),
         'locations' => array(
           'weight' => '8',
+        ),
+        'redirect' => array(
+          'weight' => '9',
         ),
       ),
       'display' => array(
@@ -157,7 +160,7 @@ function c4m_content_photo_strongarm() {
             'visible' => TRUE,
           ),
           'teaser' => array(
-            'weight' => '22',
+            'weight' => '25',
             'visible' => FALSE,
           ),
           'teaser_group' => array(
@@ -167,6 +170,12 @@ function c4m_content_photo_strongarm() {
           'pinned_content' => array(
             'weight' => '28',
             'visible' => FALSE,
+          ),
+        ),
+        'highlighted' => array(
+          'full' => array(
+            'weight' => '0',
+            'visible' => TRUE,
           ),
         ),
       ),

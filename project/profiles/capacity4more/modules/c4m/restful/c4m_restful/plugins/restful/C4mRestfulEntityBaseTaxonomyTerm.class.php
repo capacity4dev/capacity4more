@@ -67,8 +67,8 @@ class C4mRestfulEntityBaseTaxonomyTerm extends \RestfulEntityBaseTaxonomyTerm {
       if (!$node) {
         throw new \RestfulBadRequestException('The "group" parameter is not a node.');
       }
-      elseif ($node->type != 'group') {
-        throw new \RestfulBadRequestException('The "group" parameter is not a of type "group".');
+      elseif (!in_array($node->type, array('group', 'project'))) {
+        throw new \RestfulBadRequestException('The "group" parameter is not a of type "group" or "project".');
       }
 
       $vocab_name = $resource_name == 'tags' ? 'Tags' : 'Categories';

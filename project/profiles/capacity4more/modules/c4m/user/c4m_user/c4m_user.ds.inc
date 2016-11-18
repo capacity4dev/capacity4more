@@ -56,7 +56,7 @@ function c4m_user_ds_field_settings_info() {
       'format' => 'thumbnail',
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'linked_user_with_icon',
       'formatter_settings' => array(
@@ -66,7 +66,7 @@ function c4m_user_ds_field_settings_info() {
       ),
     ),
     'c4m_user_country' => array(
-      'weight' => '4',
+      'weight' => '5',
       'label' => 'inline',
       'format' => 'default',
       'formatter_settings' => array(
@@ -84,12 +84,17 @@ function c4m_user_ds_field_settings_info() {
       ),
     ),
     'c4m_user_contact_link' => array(
-      'weight' => '7',
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_features_og_members_admin_actions' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'membership_level',
+    ),
     'c4m_features_og_members_since' => array(
-      'weight' => '5',
+      'weight' => '6',
       'label' => 'inline',
       'format' => 'j F Y',
       'formatter_settings' => array(
@@ -107,12 +112,7 @@ function c4m_user_ds_field_settings_info() {
       ),
     ),
     'c4m_features_og_members_activity_summary' => array(
-      'weight' => '6',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
-    'c4m_ds_user_membership_type' => array(
-      'weight' => '1',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -266,7 +266,7 @@ function c4m_user_ds_layout_settings_info() {
         0 => 'c4m_user_picture',
       ),
       'right' => array(
-        1 => 'c4m_ds_user_membership_type',
+        1 => 'c4m_features_og_members_admin_actions',
         2 => 'c4m_user_first_and_last_name',
         3 => 'c4m_organisation',
         4 => 'c4m_user_country',
@@ -277,7 +277,7 @@ function c4m_user_ds_layout_settings_info() {
     ),
     'fields' => array(
       'c4m_user_picture' => 'left',
-      'c4m_ds_user_membership_type' => 'right',
+      'c4m_features_og_members_admin_actions' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'c4m_organisation' => 'right',
       'c4m_user_country' => 'right',

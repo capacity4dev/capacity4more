@@ -21,7 +21,7 @@ function c4m_admin_groups_groups_export_page() {
   if (file_exists($permanent_file_path)) {
     $date = _c4m_admin_groups_get_group_report_last_generated_date();
 
-    $output .= t('<p>User report was last generated on @date.</p>', array('@date' => $date));
+    $output .= t('<p>Groups export file was last generated on @date.</p>', array('@date' => $date));
 
     $permanent_file_path = file_create_url($permanent_file_path);
     $output .= l(t('Download report'), $permanent_file_path, array('attributes' => array('id' => 'edit-cancel')));
@@ -34,7 +34,7 @@ function c4m_admin_groups_groups_export_page() {
 }
 
 /**
- * Returns the time & date when the group report was last generated.
+ * Returns the time & date when the groups export file was last generated.
  *
  * @return string
  *   Date & time.

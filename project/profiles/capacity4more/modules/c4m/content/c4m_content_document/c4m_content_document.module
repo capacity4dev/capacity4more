@@ -26,9 +26,11 @@ function c4m_content_document_c4m_og_vocab_info_content() {
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * Add our own submit handler as the last one.
+ * Verifies user has access to the form.
+ * Adds our own submit handler as the last one.
  */
 function c4m_content_document_form_document_node_form_alter(&$form, $form_state) {
+  c4m_content_create_group_content_access();
   // Hide field Add to library from user.
   $form['c4m_document_add_to_library']['#access'] = FALSE;
 
@@ -37,6 +39,10 @@ function c4m_content_document_form_document_node_form_alter(&$form, $form_state)
   if (strpos(url(current_path()), 'overlay')) {
     // If this is overlay page - add our own submit handler.
     $form['actions']['submit']['#submit'][] = 'c4m_content_document_form_document_node_form_submit';
+
+    // Documents created via the overlay (document widget) should not render an
+    // activity stream (indirect document addition).
+    $form_state['node']->_skip_message = TRUE;
   }
 }
 
@@ -125,7 +131,7 @@ function c4m_content_document_get_number_of_downloads($og_id = NULL) {
   $query->addTag('node_access');
 
   if ($og_id) {
-    $query->join('og_membership', 'og', "'n.nid = og.etid AND og.entity_type = 'node''");
+    $query->join('og_membership', 'og', "n.nid = og.etid AND og.entity_type = 'node'");
     $query->condition('og.gid', $og_id);
   }
 
@@ -162,6 +168,25 @@ function c4m_content_document_c4m_content_statistics_info() {
       ),
     ),
     'group' => array(
+      'c4m_og_documents' => array(
+        'type'          => 'document',
+        'entity_type'   => 'node',
+        'bundles'       => array('document'),
+        'singular'      => 'Document',
+        'plural'        => 'Documents',
+        'state'         => 1,
+        'aggregate'     => array(),
+        'weight'        => 2,
+        'feature_name'  => 'c4m_features_og_documents',
+        'attributes'    => array(
+          'class' => array('og-documents'),
+        ),
+        'link'          => array(
+          'path' => 'documents',
+        ),
+      ),
+    ),
+    'project' => array(
       'c4m_og_documents' => array(
         'type'          => 'document',
         'entity_type'   => 'node',

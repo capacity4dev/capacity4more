@@ -12,6 +12,11 @@
 
   transition: transform 0.5s;
   -webkit-transition: -webkit-transform 0.5s;
+
+  .modal-open & {
+    z-index: auto;
+    perspective: none;
+  }
 }
 
 .container--push::after,
@@ -176,7 +181,7 @@
 
 // Navigation effect slideOn (from the right)
 // specific for group (and other pages using the panels?)
-.panel-panel.right,
+.dashboard.group-right,
 .offCanvasNavigation--right {
 
   @media (max-width: $screen-tablet) {
@@ -229,7 +234,7 @@
   }
 }
 
-.offCanvasNavigation--visible.animation--slideOn .panel-panel.right,
+.offCanvasNavigation--visible.animation--slideOn .dashboard.group-right,
 .offCanvasNavigation--visible.animation--slideOn .offCanvasNavigation--left,
 .offCanvasNavigation--visible.animation--slideOn .offCanvasNavigation--right {
   visibility: visible;

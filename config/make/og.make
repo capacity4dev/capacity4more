@@ -6,6 +6,9 @@ api = 2
 projects[og][version] = "2.9"
 projects[og][subdir] = "contrib"
 projects[og][patch][] = "https://www.drupal.org/files/issues/access_check_when_getting_groups.patch"
+projects[og][patch][] = "https://www.drupal.org/files/issues/og-fix_return_value_of_og_get_groups_by_user-2569471-3.patch"
+projects[og][patch][] = "https://www.drupal.org/files/issues/og_context_is_not_part_of_menu_access_callbacks-2804591-3.patch"
+projects[og][patch][] = "https://patch-diff.githubusercontent.com/raw/Gizra/og/pull/213.patch"
 
 projects[og_purl][subdir] = "contrib"
 projects[og_purl][version] = "1.x-dev"

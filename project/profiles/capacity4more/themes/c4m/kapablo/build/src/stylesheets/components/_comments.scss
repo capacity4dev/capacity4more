@@ -1,20 +1,83 @@
 #comments {
+  $icon-size: 64px;
+  $icon-size-small: 48px;
   clear: both;
   margin-top: 2em;
   overflow: hidden;
-}
+  clear: both;
+  margin-top: 2em;
+  overflow: hidden;
 
-.comment-wrapper .comment {
-  margin: 15px 0;
-
-  .icon-col {
-    @media (max-width: $screen-tablet) {
-      width: 60px;
-    }
+  .comment_forbidden {
+    font-size: 0.85rem;
+    color: $color-gray-light;
   }
 
-  .content-col {
-    float: left;
-    margin-left: 15px;
+  .indented {
+    margin-left: 10%;
+  }
+
+  .comment {
+    border-bottom: 1px dashed $color-gray-light;
+    margin-top: 20px;
+    padding-bottom: 5px;
+
+    .links {
+      &.list-inline {
+        clear: both;
+        float: right;
+      }
+    }
+
+    /* do not display the add comment link for lower levels as it clutters the view */
+    .indented .comment_forbidden {
+      display: none;
+    }
+
+    .indented {
+      margin-left: $icon-size;
+      @media (max-width: $screen-tablet) {
+        margin-left: $icon-size-small / 2;
+      }
+      margin-bottom: 1em;
+    }
+
+    .icon-col {
+      width: $icon-size;
+      @media (max-width: $screen-tablet) {
+        width: $icon-size-small;
+      }
+    }
+
+    .content-col {
+      margin-top: 0px;
+      margin-left: $icon-size + $base-spacing-small;
+      min-height: $icon-size + $base-spacing-tiny;
+      @media (max-width: $screen-tablet) {
+        margin-left: $icon-size-small + $base-spacing-small;
+        min-height: $icon-size-small + $base-spacing-tiny;
+      }
+      .field,
+      .field-items,
+      .field-item {
+        display: inline;
+      }
+      .field-name-post-date {
+        margin-left: 5px;
+        margin-bottom: 17px;
+        font-size: 0.85rem;
+        color: $color-gray-light;
+        &:before {
+          display: inline;
+          content: '|';
+          color: $color-gray-light;
+          margin-right: 5px;
+        }
+      }
+      .field-name-comment-body {
+        display: block;
+        margin-top: 5px;
+      }
+    }
   }
 }

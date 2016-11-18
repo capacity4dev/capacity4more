@@ -37,16 +37,26 @@ function c4m_features_homepage_filter_content_type_render($subtype, $conf, $args
  *   The element array.
  */
 function c4m_features_homepage_filter_form_create() {
-  $options = c4m_og_get_user_group_ids_by_bundle('group') ? array('groups' => t('My groups')) : array();
+  $options = array();
+
+  if (c4m_og_get_user_group_ids_by_bundle('group')) {
+    $options['groups'] = t('My groups');
+  }
 
   if (c4m_og_get_user_group_ids_by_bundle('project')) {
     $options['projects'] = t('My projects');
   }
 
-  $options += array(
-    'interests' => t('My interests'),
-    'showAll' => t('Show all'),
-  );
+  if (c4m_user_profile_get_interests()) {
+    $options['interests'] = t('My interests');
+  }
+
+  // No options, show all anyway, hence we can drop this form.
+  if (!$options) {
+    return array();
+  }
+
+  $options['showAll'] = t('Show all');
 
   $get_query = drupal_get_query_parameters();
   $default_value = !empty($get_query['filter'])
@@ -57,16 +67,25 @@ function c4m_features_homepage_filter_form_create() {
     $default_value = 'showAll';
   }
 
-  $element['homepage-filter'] = array(
+  $form['homepage-filter'] = array(
     '#type' => 'radios',
     '#title' => t('Filter by'),
     '#options' => $options,
     '#default_value' => $default_value,
   );
 
-  $element['#attached']['js'][] = drupal_get_path('module', 'c4m_features_homepage') . '/plugins/content_types/filter/filter_homepage.js';
+  $form['#attached']['js'][] = drupal_get_path('module', 'c4m_features_homepage') . '/plugins/content_types/filter/filter_homepage.js';
 
-  return $element;
+  $form['action'] = array(
+    '#type' => 'actions',
+    'submit' => array(
+      '#type' => 'submit',
+      '#value' => t('Filter'),
+      '#id' => 'c4m_activity_stream_filter',
+    ),
+  );
+
+  return $form;
 }
 
 /**

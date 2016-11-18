@@ -256,6 +256,31 @@ function c4m_features_og_manage_list_simple($list) {
 }
 
 /**
+ * Rebuild taxonomy array to fit our taxonomy_build_tree function.
+ *
+ * @param array $terms
+ *   The list of terms to rebuild.
+ *
+ * @return array
+ *   Rebuild list of terms.
+ */
+function c4m_features_og_manage_rebuild_taxonomy($terms) {
+  if (!empty($terms)) {
+    $taxonomy_rebuild = array();
+    foreach ($terms as $term) {
+      $taxonomy_rebuild[] = array(
+        'tid' => $term->tid,
+        'taxonomy_term' => $term,
+      );
+    }
+
+    return $taxonomy_rebuild;
+  }
+
+  return FALSE;
+}
+
+/**
  * Transforms given values into themed HTML list.
  *
  * @param array $topics
@@ -265,29 +290,8 @@ function c4m_features_og_manage_list_simple($list) {
  *   Rendered HTML list.
  */
 function c4m_features_og_manage_list_related_topics($topics) {
-  if (!empty($topics)) {
-    $topic_list = array(
-      'title' => NULL,
-      'type' => 'ul',
-      'items' => array(),
-      'attributes' => array(),
-    );
-    foreach ($topics as $topic) {
-      $options = array(
-        'purl' => array(
-          'disabled' => TRUE,
-        ),
-        'absolute' => TRUE,
-        'query' => array(
-          'f[0]' => 'c4m_vocab_topic:' . $topic->tid,
-        ),
-      );
-      $topic_list['items'][] = l($topic->name, url('search', $options));
-    }
-
-    if (count($topic_list['items']) > 0) {
-      return theme_item_list($topic_list);
-    }
+  if ($topics_rebuild = c4m_features_og_manage_rebuild_taxonomy($topics)) {
+    return c4m_content_taxonomy_build_tree($topics_rebuild);
   }
 
   return FALSE;
@@ -303,29 +307,8 @@ function c4m_features_og_manage_list_related_topics($topics) {
  *   Rendered HTML list.
  */
 function c4m_features_og_manage_list_regions_countries($geo) {
-  if (!empty($geo)) {
-    $geo_list = array(
-      'title' => NULL,
-      'type' => 'ul',
-      'items' => array(),
-      'attributes' => array(),
-    );
-    foreach ($geo as $location) {
-      $options = array(
-        'purl' => array(
-          'disabled' => TRUE,
-        ),
-        'absolute' => TRUE,
-        'query' => array(
-          'f[0]' => 'c4m_vocab_geo:' . $location->tid,
-        ),
-      );
-      $geo_list['items'][] = l($location->name, url('search', $options));
-    }
-
-    if (count($geo_list['items']) > 0) {
-      return theme_item_list($geo_list);
-    }
+  if ($geo_rebuild = c4m_features_og_manage_rebuild_taxonomy($geo)) {
+    return c4m_content_taxonomy_build_tree($geo_rebuild);
   }
 
   return FALSE;
@@ -444,7 +427,13 @@ function c4m_features_og_manage_list_taxonomy($group, &$details) {
   $details['terms_count'] = $terms_count;
 
   // Get features settings.
-  $details['features_available'] = c4m_og_feature_info();
+  // Filter out features not applicable to the current group type.
+  foreach ($available_features = c4m_og_feature_info() as $key => $value) {
+    if (!in_array($group->type, $value['group_types'])) {
+      unset($available_features[$key]);
+    }
+  }
+  $details['features_available'] = $available_features;
   $details['features_manage_link'] = l(
     t('Edit'),
     url('manage/features', array('absolute' => TRUE))
@@ -564,12 +553,13 @@ function c4m_features_og_manage_project_details() {
   $options = array('purl' => $purl, 'absolute' => TRUE);
 
   $details = array(
+    'type' => NULL,
     'edit_link' => url(
       'node/' . $project->nid . '/edit',
       array('absolute' => TRUE)
     ),
     'menu_link' => url(
-      'group/node/' . $project->nid . '/admin/menus',
+      'group/node/' . $project->nid . '/admin/menus/menu-og-' . $project->nid,
       array('absolute' => TRUE)
     ),
     'owner' => c4m_user_name(user_load($project->uid)),
@@ -577,13 +567,15 @@ function c4m_features_og_manage_project_details() {
       'project/node/' . $project->nid . '/admin/owner',
       array('absolute' => TRUE)
     ),
-    'members' => t('No members'),
-    'members_edit' => url('members', $options),
+    'admins' => t('No administrators'),
+    'admins_edit' => url('group/node/' . $project->nid . '/admin/people', $options),
     'purl' => url($wrapper->value()->purl, array('absolute' => TRUE)),
     'title' => '<strong>' . $wrapper->label() . '</strong>',
+    'tagline' => t('No tag line'),
     'description' => $wrapper->c4m_body->value(),
     'duration' => t('No duration'),
     'total_budget' => t('No total budget'),
+    'stakeholders' => t('No stakeholders'),
     'source_funding' => t('No source of funding'),
     'partners' => t('No partners'),
     'cris_decision_number' => t('No CRIS Decision number'),
@@ -593,6 +585,11 @@ function c4m_features_og_manage_project_details() {
     'related_groups' => t('No Related Groups'),
     'related_projects' => t('No Related Projects'),
   );
+
+  // Type: Project or Programme.
+  if ($type = $wrapper->c4m_project_type->value()) {
+    $details['type'] = $type;
+  }
 
   // List of related topics.
   $topics = $wrapper->c4m_vocab_topic->value();
@@ -607,7 +604,7 @@ function c4m_features_og_manage_project_details() {
   }
 
   // Administrators.
-  $admins = c4m_og_get_group_admins($project->nid);
+  $admins = c4m_og_get_group_members($project->nid, FALSE, 'project');
   if ($list = c4m_features_og_manage_list_group_admins($admins)) {
     $details['admins'] = $list;
   }
@@ -626,16 +623,30 @@ function c4m_features_og_manage_project_details() {
     $details['total_budget'] = $total_budget[0]['#markup'];
   }
 
+  // Tag line.
+  $tagline = $wrapper->c4m_project_tag_line->value();
+  if (!empty($tagline)) {
+    $tagline = field_view_field('node', $project, 'c4m_project_tag_line');
+    $details['tagline'] = $tagline[0]['#markup'];
+  }
+
+  // Stage.
+  $stage = $wrapper->c4m_project_stage->value();
+  if (!empty($stage)) {
+    $stage = field_view_field('node', $project, 'c4m_project_stage');
+    $details['stage'] = $stage[0]['#markup'];
+  }
+
+  // Stakeholders.
+  $stakeholders = $wrapper->c4m_project_stakeholders->value();
+  if ($list = c4m_features_og_manage_list_simple($stakeholders)) {
+    $details['stakeholders'] = $list;
+  }
+
   // Source of funding.
   $c4m_sources_of_funding = $wrapper->c4m_source_of_funding->value();
   if ($list = c4m_features_og_manage_list_simple($c4m_sources_of_funding)) {
     $details['source_funding'] = $list;
-  }
-
-  // Implemented by.
-  $implementers = $wrapper->c4m_implemented_by->value();
-  if ($list = c4m_features_og_manage_list_simple($implementers)) {
-    $details['implemented_by'] = $list;
   }
 
   // CRIS Decision numbers.
@@ -660,6 +671,16 @@ function c4m_features_og_manage_project_details() {
   $related_projects = $wrapper->c4m_related_projects->value();
   if ($list = c4m_features_og_manage_list_related($related_projects)) {
     $details['related_projects'] = $list;
+  }
+
+  // List of partners.
+  $partners = $wrapper->c4m_partners->value();
+  if (!empty($partners)) {
+    $partner_titles = array();
+    foreach ($partners as $partner) {
+      $partner_titles[] = $partner->c4m_heading[LANGUAGE_NONE][0]['safe_value'];
+    }
+    $details['partners'] = c4m_features_og_manage_list_simple($partner_titles);
   }
 
   // Get categories and terms count for current group.
@@ -832,6 +853,39 @@ function c4m_features_og_manage_form_variable_realm_edit_variables_form_alter(
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#type'] = 'div';
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsible'] = FALSE;
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsed'] = FALSE;
+
+  // Remove features not applicable for the active group.
+  foreach ($form['variables']['c4m_og']['c4m_og_features_[group_type]']['c4m_og_features_group']['#options'] as $key => $value) {
+    if (!c4m_og_feature_available($key)) {
+      unset($form['variables']['c4m_og']['c4m_og_features_[group_type]']['c4m_og_features_group']['#options'][$key]);
+    }
+  }
+
+  // Extra submit handler to jump back to the manage dashboard for the group.
+  $form['#submit'][] = 'c4m_features_og_manage_variable_realm_edit_submit';
+
+  // Remove unnecessary buttons.
+  unset($form['variables']['c4m_og']['save_c4m_og']);
+  unset($form['variables']['c4m_og']['reset_c4m_og']);
+}
+
+/**
+ * Make sure our form_alter is called last.
+ */
+function c4m_features_og_manage_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter') {
+    $group = $implementations['c4m_features_og_manage'];
+    unset($implementations['c4m_features_og_manage']);
+    $implementations['c4m_features_og_manage'] = $group;
+  }
+}
+
+/**
+ * Extra submit handler for variable realm form.
+ */
+function c4m_features_og_manage_variable_realm_edit_submit($form, &$form_state) {
+  // Back to the manage dashboard for the group.
+  $_GET['destination'] = 'manage';
 }
 
 /**

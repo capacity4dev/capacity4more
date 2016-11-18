@@ -17,6 +17,11 @@ function c4m_content_news_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'comment_node_news';
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
+    'links' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'post_date' => array(
       'weight' => '2',
       'label' => 'hidden',
@@ -113,6 +118,32 @@ function c4m_content_news_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|news|block_list';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'news';
+  $ds_fieldsetting->view_mode = 'block_list';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => 'purl_auto',
+        'wrapper' => 'h2',
+        'class' => '',
+        'ft' => array(),
+      ),
+    ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+  );
+  $export['node|news|block_list'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|news|full';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'news';
@@ -186,16 +217,7 @@ function c4m_content_news_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'fi' => TRUE,
-          'fi-el' => 'div',
-          'fi-cl' => 'label label-primary',
-          'fi-at' => '',
-          'fi-def-at' => FALSE,
-          'fi-odd-even' => FALSE,
-          'fi-first-last' => FALSE,
-        ),
+        'ft' => array(),
       ),
     ),
     'c4m_ds_content_footer_stats' => array(
@@ -219,13 +241,18 @@ function c4m_content_news_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_ds_content_shared_to' => array(
       'weight' => '9',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'c4m_ds_content_actions' => array(
-      'weight' => '11',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -351,6 +378,83 @@ function c4m_content_news_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|news|pinned_content';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'news';
+  $ds_fieldsetting->view_mode = 'pinned_content';
+  $ds_fieldsetting->settings = array(
+    'c4m_rendered_content' => array(
+      'weight' => '5',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'show_title' => 0,
+        'title_wrapper' => '',
+        'ctools' => 'a:3:{s:4:"conf";a:5:{s:9:"view_mode";s:14:"activity_group";s:7:"context";s:25:"argument_entity_id:node_1";s:14:"override_title";i:0;s:19:"override_title_text";s:0:"";s:22:"override_title_heading";s:2:"h2";}s:4:"type";s:11:"entity_view";s:7:"subtype";s:4:"node";}',
+        'load_terms' => 0,
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'title' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '1',
+        'wrapper' => 'h2',
+        'class' => '',
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_user_first_and_last_name' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'linked_user',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_type_insert_action' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_content_type_icon' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+  );
+  $export['node|news|pinned_content'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|news|teaser';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'news';
@@ -418,6 +522,11 @@ function c4m_content_news_ds_field_settings_info() {
     ),
     'c4m_ds_content_footer_stats' => array(
       'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -515,6 +624,7 @@ function c4m_content_news_ds_layout_settings_info() {
         1 => 'c4m_user_first_and_last_name',
         2 => 'post_date',
         3 => 'comment_body',
+        4 => 'links',
       ),
     ),
     'fields' => array(
@@ -522,6 +632,7 @@ function c4m_content_news_ds_layout_settings_info() {
       'c4m_user_first_and_last_name' => 'right',
       'post_date' => 'right',
       'comment_body' => 'right',
+      'links' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -603,6 +714,41 @@ function c4m_content_news_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|news|block_list';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'news';
+  $ds_layout->view_mode = 'block_list';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'title',
+        1 => 'c4m_ds_node_highlight',
+      ),
+    ),
+    'fields' => array(
+      'title' => 'ds_content',
+      'c4m_ds_node_highlight' => 'ds_content',
+    ),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['node|news|block_list'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
   $ds_layout->id = 'node|news|full';
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'news';
@@ -610,36 +756,39 @@ function c4m_content_news_ds_layout_settings_info() {
   $ds_layout->layout = 'c4m_ds_8_4_fluid';
   $ds_layout->settings = array(
     'regions' => array(
-      'left' => array(
-        0 => 'c4m_ds_content_type_label',
-        1 => 'c4m_ds_content_status',
-        2 => 'title',
-        3 => 'c4m_ds_content_footer_stats',
-        4 => 'c4m_body',
-        5 => 'c4m_related_document',
-        6 => 'comments',
-      ),
       'right' => array(
-        7 => 'group_node_meta',
-        8 => 'group_node_actions',
-        9 => 'c4m_ds_content_shared_to',
-        10 => 'group_node_details',
-        11 => 'c4m_ds_content_actions',
-        12 => 'c4m_user_first_and_last_name',
-        13 => 'c4m_ds_creation_date',
-        14 => 'c4m_ds_type_insert_action',
-        15 => 'c4m_user_picture',
-        16 => 'group_meta_author',
-        17 => 'c4m_vocab_topic',
-        18 => 'c4m_vocab_date',
-        19 => 'c4m_vocab_language',
-        20 => 'c4m_vocab_geo',
-        21 => 'og_vocabulary',
+        0 => 'c4m_ds_node_highlight',
+        3 => 'c4m_ds_content_actions',
+        9 => 'group_node_meta',
+        10 => 'group_node_actions',
+        11 => 'c4m_ds_content_shared_to',
+        12 => 'group_node_details',
+        13 => 'c4m_user_first_and_last_name',
+        14 => 'c4m_ds_creation_date',
+        15 => 'c4m_ds_type_insert_action',
+        16 => 'c4m_user_picture',
+        17 => 'group_meta_author',
+        18 => 'c4m_vocab_topic',
+        19 => 'c4m_vocab_date',
+        20 => 'c4m_vocab_language',
+        21 => 'c4m_vocab_geo',
+        22 => 'og_vocabulary',
+      ),
+      'left' => array(
+        1 => 'c4m_ds_content_type_label',
+        2 => 'c4m_ds_content_status',
+        4 => 'title',
+        5 => 'c4m_ds_content_footer_stats',
+        6 => 'c4m_body',
+        7 => 'c4m_related_document',
+        8 => 'comments',
       ),
     ),
     'fields' => array(
+      'c4m_ds_node_highlight' => 'right',
       'c4m_ds_content_type_label' => 'left',
       'c4m_ds_content_status' => 'left',
+      'c4m_ds_content_actions' => 'right',
       'title' => 'left',
       'c4m_ds_content_footer_stats' => 'left',
       'c4m_body' => 'left',
@@ -649,7 +798,6 @@ function c4m_content_news_ds_layout_settings_info() {
       'group_node_actions' => 'right',
       'c4m_ds_content_shared_to' => 'right',
       'group_node_details' => 'right',
-      'c4m_ds_content_actions' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_creation_date' => 'right',
       'c4m_ds_type_insert_action' => 'right',
@@ -661,11 +809,16 @@ function c4m_content_news_ds_layout_settings_info() {
       'c4m_vocab_geo' => 'right',
       'og_vocabulary' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'header' => 'div',
       'left' => 'div',
       'right' => 'div',
+      'footer' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
@@ -677,6 +830,45 @@ function c4m_content_news_ds_layout_settings_info() {
     'page_option_title' => '',
   );
   $export['node|news|full'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|news|pinned_content';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'news';
+  $ds_layout->view_mode = 'pinned_content';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'title',
+        1 => 'c4m_ds_content_type_icon',
+        2 => 'c4m_user_first_and_last_name',
+        3 => 'c4m_ds_type_insert_action',
+        4 => 'c4m_ds_creation_date',
+        5 => 'c4m_rendered_content',
+      ),
+    ),
+    'fields' => array(
+      'title' => 'ds_content',
+      'c4m_ds_content_type_icon' => 'ds_content',
+      'c4m_user_first_and_last_name' => 'ds_content',
+      'c4m_ds_type_insert_action' => 'ds_content',
+      'c4m_ds_creation_date' => 'ds_content',
+      'c4m_rendered_content' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['node|news|pinned_content'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
@@ -696,6 +888,7 @@ function c4m_content_news_ds_layout_settings_info() {
         5 => 'c4m_field_og_group',
         6 => 'c4m_body',
         7 => 'c4m_ds_content_footer_stats',
+        8 => 'c4m_ds_node_highlight',
       ),
     ),
     'fields' => array(
@@ -707,8 +900,13 @@ function c4m_content_news_ds_layout_settings_info() {
       'c4m_field_og_group' => 'ds_content',
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
+      'c4m_ds_node_highlight' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),

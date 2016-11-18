@@ -32,9 +32,109 @@ function c4m_content_news_c4m_helper_entity_label_info() {
       'article' => t('a'),
       'singular' => t('news'),
       'plural' => t('news'),
-      'insert action' => t('create news'),
+      'insert action' => t('posted news'),
       'update action' => t('updated the news'),
-      'icon' => 'fa-comments',
+      'icon' => 'fa-newspaper-o',
     ),
   );
+}
+
+/**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_content_news_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_og_news' => array(
+      'type' => 'news',
+      'context' => 'group',
+      'callback' => 'c4m_og_group_node_metric',
+      'arguments' => array(array('news')),
+      'weight' => 6,
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_content_statistics_info().
+ */
+function c4m_content_news_c4m_content_statistics_info() {
+  return array(
+    'global' => array(
+      'c4m_news' => array(
+        'type' => 'news',
+        'entity_type' => 'node',
+        'bundles' => array('news'),
+        'singular' => 'News',
+        'plural' => 'News',
+        'state' => 1,
+        'skip_access_check' => TRUE,
+        'aggregate' => array(
+          'type' => 'posts',
+        ),
+        'weight' => 1,
+        'attributes' => array(
+          'class' => array('posts'),
+        ),
+        'link' => array(
+          'path' => 'search',
+        ),
+      ),
+    ),
+    'project' => array(
+      'c4m_og_news' => array(
+        'type' => 'news',
+        'entity_type' => 'node',
+        'bundles' => array('news'),
+        'singular' => 'News item',
+        'plural' => 'News items',
+        'state' => 1,
+        'aggregate' => array(),
+        'weight' => 1,
+        'feature_name' => 'c4m_features_og_news',
+        'attributes' => array(
+          'class' => array('og-news'),
+        ),
+        'link' => array(
+          'path' => 'news',
+        ),
+      ),
+    ),
+    'topic' => array(
+      'c4m_topic_news' => array(
+        'type' => 'news',
+        'entity_type' => 'node',
+        'bundles' => array('news'),
+        'singular' => 'News item',
+        'plural' => 'News items',
+        'state' => 1,
+        'aggregate' => array(),
+        'weight' => 4,
+        'attributes' => array(
+          'class' => array('topic-news'),
+        ),
+        'link' => array(
+          'path' => 'search',
+          'options' => array(
+            'query' => array(
+              'f' => array(
+                'c4m_vocab_topic:@TOPIC_ID',
+                'type:news',
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Verifies user has access to the form.
+ * Adds author information to the edit discussion form.
+ */
+function c4m_content_discussion_form_news_node_form_alter(&$form, $form_state) {
+  c4m_content_create_group_content_access();
+  c4m_og_add_content_author_options_to_power_users($form);
 }

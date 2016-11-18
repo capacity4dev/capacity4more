@@ -35,17 +35,17 @@ function c4m_content_project_c4m_content_statistics_info() {
   return array(
     'global' => array(
       'c4m_projects' => array(
-        'type'        => 'project',
+        'type' => 'project',
         'entity_type' => 'node',
-        'bundles'     => array('project'),
-        'singular'    => 'Project',
-        'plural'      => 'Projects',
-        'state'       => 1,
+        'bundles' => array('project'),
+        'singular' => 'Project',
+        'plural' => 'Projects',
+        'state' => 1,
         'skip_access_check' => TRUE,
-        'c4m_status'  => array('published', 'archived'),
-        'aggregate'   => array(),
-        'weight'      => -3,
-        'attributes'  => array(
+        'c4m_status' => array('published', 'archived'),
+        'aggregate' => array(),
+        'weight' => -3,
+        'attributes' => array(
           'class' => array('projects'),
         ),
         'link' => array(
@@ -55,15 +55,15 @@ function c4m_content_project_c4m_content_statistics_info() {
     ),
     'topic' => array(
       'c4m_topic_projects' => array(
-        'type'        => 'project',
+        'type' => 'project',
         'entity_type' => 'node',
-        'bundles'     => array('project'),
-        'singular'    => 'Project',
-        'plural'      => 'Projects',
-        'state'       => 1,
-        'aggregate'   => array(),
-        'weight'      => 1,
-        'attributes'  => array(
+        'bundles' => array('project'),
+        'singular' => 'Project',
+        'plural' => 'Projects',
+        'state' => 1,
+        'aggregate' => array(),
+        'weight' => 1,
+        'attributes' => array(
           'class' => array('topic-projects'),
         ),
         'link' => array(
@@ -102,6 +102,11 @@ function c4m_content_project_block_info() {
     'cache' => DRUPAL_NO_CACHE,
   );
 
+  $blocks['c4m_block_project_about'] = array(
+    'info' => t('Project: About'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
   return $blocks;
 }
 
@@ -127,11 +132,19 @@ function c4m_content_project_block_view($delta) {
  */
 function c4m_content_project_form_project_node_form_alter(&$form, &$form_state) {
   $type = '';
+
   if (preg_match('/node\/add\/(project|programme)/', $_SERVER['REQUEST_URI'], $matches)) {
     $type = $matches[1];
     $form['c4m_project_type'][LANGUAGE_NONE]['#value'] = $type;
   }
+
   _c4m_og_alter_group_form($form, $form_state, $type);
+
+  // Type specific title for the field "c4m_related_projects".
+  $form['c4m_related_projects'][LANGUAGE_NONE]['#title']
+    = ($type == 'programme') ?
+      t('Projects in this Programme') :
+      t('Related Projects');
 
   c4m_content_project_set_number_of_items_states($form, 'c4m_left_column');
   c4m_content_project_set_number_of_items_states($form, 'c4m_right_column');
@@ -164,11 +177,17 @@ function c4m_content_project_set_number_of_items_states(&$form, $element) {
     }
   }
   $form['c4m_project_type']['#access'] = FALSE;
+
+  // There's no node ID at form => form is for new project creation.
+  // Hide status field, for it to get default value of Pending, once created.
+  if (is_null($form['nid']['#value'])) {
+    $form['c4m_og_status']['#access'] = FALSE;
+  }
   $form['c4m_is_template']['#access'] = FALSE;
 }
 
 /**
- * Returns the administered groups count for an user.
+ * Returns the administered projects count for an user.
  *
  * @param int $uid
  *   User id.
@@ -177,7 +196,46 @@ function c4m_content_project_set_number_of_items_states(&$form, $element) {
  *   Count.
  */
 function c4m_content_project_get_administered_projects_count($uid) {
-  return c4m_og_get_user_administered_groups_count($uid, 'project');
+  return c4m_og_get_user_project_memberships_count($uid, OG_STATE_ACTIVE, 'project');
+}
+
+/**
+ * Returns the administered programmes count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_content_project_get_administered_programmes_count($uid) {
+  return c4m_og_get_user_project_memberships_count($uid, OG_STATE_ACTIVE, 1);
+}
+
+/**
+ * Returns the pending projects count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_content_project_get_pending_projects_count($uid) {
+  return c4m_og_get_user_project_memberships_count($uid, OG_STATE_PENDING, 'project');
+}
+
+/**
+ * Returns the pending programmes count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_content_project_get_pending_programmes_count($uid) {
+  return c4m_og_get_user_project_memberships_count($uid, OG_STATE_PENDING, 1);
 }
 
 /**
@@ -201,10 +259,31 @@ function c4m_content_project_c4m_helper_entity_label_info() {
  */
 function c4m_content_project_c4m_helper_entity_metrics_info() {
   return array(
+    'c4m_og_projects' => array(
+      'type' => 'project',
+      'context' => 'group',
+      'callback' => 'c4m_content_project_related_metric',
+      'weight' => 8,
+    ),
     'c4m_user_projects_administered' => array(
       'type' => 'projects_administered',
       'context' => 'user',
       'callback' => 'c4m_content_project_get_administered_projects_count',
+    ),
+    'c4m_user_programmes_administered' => array(
+      'type' => 'programmes_administered',
+      'context' => 'user',
+      'callback' => 'c4m_content_project_get_administered_programmes_count',
+    ),
+    'c4m_user_projects_pending' => array(
+      'type' => 'projects_pending',
+      'context' => 'user',
+      'callback' => 'c4m_content_project_get_pending_projects_count',
+    ),
+    'c4m_user_programmes_pending' => array(
+      'type' => 'programmes_pending',
+      'context' => 'user',
+      'callback' => 'c4m_content_project_get_pending_programmes_count',
     ),
   );
 }
@@ -217,7 +296,7 @@ function c4m_content_project_field_formatter_info() {
     'c4m_partner_formatter' => array(
       'label' => t('C4M Partner'),
       'field types' => array('image'),
-      'settings'  => array(),
+      'settings' => array(),
     ),
   );
 }
@@ -225,7 +304,15 @@ function c4m_content_project_field_formatter_info() {
 /**
  * Implements hook_field_formatter_view().
  */
-function c4m_content_project_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+function c4m_content_project_field_formatter_view(
+  $entity_type,
+  $entity,
+  $field,
+  $instance,
+  $langcode,
+  $items,
+  $display
+) {
   $element = array();
 
   foreach ($items as $delta => $item) {
@@ -234,20 +321,27 @@ function c4m_content_project_field_formatter_view($entity_type, $entity, $field,
     $url = isset($entity->c4m_link[LANGUAGE_NONE][0]) ? $entity->c4m_link[LANGUAGE_NONE][0] : FALSE;
 
     // Create image element + link if available.
-    $source = theme('image_style', array(
-      'style_name' => 'thumbnail',
-      'path' => $item['uri'],
-      'title' => $title['safe_value'],
-    ));
+    $source = theme(
+      'image_style',
+      array(
+        'style_name' => 'thumbnail',
+        'path' => $item['uri'],
+        'title' => $title['safe_value'],
+      )
+    );
 
     if ($url) {
       $element[] = array(
-        '#markup' => l($source, $url['display_url'], array(
-          'html' => TRUE,
-          'attributes' => array(
-            'target' => $url['attributes']['target'],
-          ),
-        )),
+        '#markup' => l(
+          $source,
+          $url['display_url'],
+          array(
+            'html' => TRUE,
+            'attributes' => array(
+              'target' => $url['attributes']['target'],
+            ),
+          )
+        ),
       );
     }
     else {
@@ -259,17 +353,56 @@ function c4m_content_project_field_formatter_view($entity_type, $entity, $field,
 }
 
 /**
+ * Metrics helper function to retrieve number of related projects.
+ *
+ * @param int $nid
+ *   Node entity id.
+ *
+ * @return int
+ *   Number of related projects.
+ */
+function c4m_content_project_related_metric($nid) {
+  $node = node_load($nid);
+
+  // 2 base fields that can be used to select related projects.
+  if (empty($node->c4m_related_projects) && empty($node->c4m_related_projects_unlimited)) {
+    return 0;
+  }
+
+  $count = 0;
+
+  if (isset($node->c4m_related_projects)) {
+    $count += count($node->c4m_related_projects[LANGUAGE_NONE]);
+  }
+
+  if (isset($node->c4m_related_projects_unlimited)) {
+    $count += count($node->c4m_related_projects_unlimited[LANGUAGE_NONE]);
+  }
+
+  return $count;
+}
+
+/**
  * Alter referenceable blocks, BEFORE the autocomplete match.
  *
  * @see hook_blockreference_blocks_pre_alter()
  */
-function c4m_content_project_blockreference_blocks_pre_alter(&$blocks, $context) {
-  $whitelist = module_invoke_all('c4m_content_project_blockreference_whitelist');
+function c4m_content_project_blockreference_blocks_pre_alter(
+  &$blocks,
+  $context
+) {
+  $whitelist = module_invoke_all(
+    'c4m_content_project_blockreference_whitelist'
+  );
 
   // Remove blocks which are not whitelisted.
   foreach ($blocks as $id => $block) {
     $block_string = $block->module . ':' . $block->delta;
-    if (!in_array($block_string, $whitelist) && !array_key_exists($block_string, $whitelist)) {
+    if (!in_array($block_string, $whitelist) && !array_key_exists(
+        $block_string,
+        $whitelist
+      )
+    ) {
       unset($blocks[$id]);
     }
     else {
@@ -297,6 +430,9 @@ function c4m_content_project_c4m_content_project_blockreference_whitelist() {
     'views:c4m_project_highlights-block' => array(
       'label' => t('Project highlights'),
     ),
+    'c4m_content_project:c4m_block_project_about' => array(
+      'label' => t('Project about'),
+    ),
   );
 }
 
@@ -304,60 +440,31 @@ function c4m_content_project_c4m_content_project_blockreference_whitelist() {
  * Implements hook_ds_fields_info().
  */
 function c4m_content_project_ds_fields_info($entity_type) {
-  // Special field to render the block reference according to type of block.
-  $fields = array(
-    'c4m_system_block_renderer' => array(
+  $fields = array();
+
+  $path = drupal_get_path('module', 'c4m_content_project');
+
+  if ($entity_type == 'paragraphs_item') {
+    // Special field to render the block reference according to type of block.
+    $fields['c4m_system_block_renderer'] = array(
       'title' => t('C4M System Block Renderer'),
       'field_type' => DS_FIELD_TYPE_FUNCTION,
-      'ui_limit' => array(),
-      'function' => 'c4m_content_project_system_block_renderer',
-    ),
-  );
-  return array($entity_type => $fields);
-}
+      'ui_limit' => array('c4m_paragraph_system_block|*'),
+      'file' => $path . '/c4m_content_project.ds_fields.inc',
+      'function' => '_c4m_content_project_system_block_renderer',
+    );
 
-/**
- * Callback for the system block renderer field.
- *
- * @param string $field
- *   The field which to render.
- *
- * @return array
- *   Rendered output.
- */
-function c4m_content_project_system_block_renderer($field) {
-  if ($paragraph_id = $field['entity']->item_id) {
-    if ($paragraphs_item = paragraphs_item_load_multiple(array($paragraph_id))) {
-      $paragraphs_item = reset($paragraphs_item);
-      $block_info = explode(':', $paragraphs_item->c4m_block[LANGUAGE_NONE][0]['moddelta']);
-
-      // If the referenced block is NOT a View.
-      if ($block_info[0] != 'views') {
-        // Simply render the block.
-        $rendered_block = c4m_helper_block_render($block_info[0], $block_info[1]);
-        return render($rendered_block);
-      }
-
-      // If a View, take into account the number of items parameter.
-      $number_of_items = isset($paragraphs_item->c4m_number_of_items) ? $paragraphs_item->c4m_number_of_items : 5;
-
-      // Get info for the View.
-      $views_info = explode('-', $block_info[1]);
-      $view = views_get_view($views_info[0]);
-
-      // Set number of items.
-      $number_of_items = $number_of_items[LANGUAGE_NONE][0]['value'];
-      $view->set_items_per_page($number_of_items);
-
-      // Render the View.
-      $output = $view->preview($views_info[1], array());
-      $view->destroy();
-
-      return $output;
-    }
+    // Twitter widget.
+    $fields['c4m_ds_field_twitter_widget'] = array(
+      'title' => t('Twitter widget'),
+      'field_type' => DS_FIELD_TYPE_FUNCTION,
+      'ui_limit' => array('c4m_paragraph_twitter|*'),
+      'file' => $path . '/c4m_content_project.ds_fields.inc',
+      'function' => '_c4m_content_project_field_twitter_ds_widget',
+    );
   }
 
-  return '';
+  return array($entity_type => $fields);
 }
 
 /**
@@ -384,7 +491,9 @@ function c4m_content_project_theme() {
  *
  * Using hook_c4m_offcanvas_trigger_label_left_alter().
  */
-function c4m_content_project_c4m_offcanvas_trigger_label_left_alter(&$trigger_label) {
+function c4m_content_project_c4m_offcanvas_trigger_label_left_alter(
+  &$trigger_label
+) {
   if (arg(0) == 'projects' && empty(arg(1))) {
     $trigger_label['label'] = t('Filter results');
     $trigger_label['icon'] = 'filter';
@@ -395,18 +504,33 @@ function c4m_content_project_c4m_offcanvas_trigger_label_left_alter(&$trigger_la
  * Implements hook_c4m_cta_block().
  */
 function c4m_content_project_c4m_cta_block() {
+  global $user;
+
+  // Only add items if there is an OG group.
+  if (!$group = c4m_og_current_group()) {
+    return;
+  }
+
+  // Prevent from 'group' nodes to run this logic.
+  if ($group->type != 'project') {
+    return;
+  }
+
+  // A blocked (banned) user should not be able to see the CTA block.
+  $user_role = c4m_user_og_get_role_in_group($user, $group);
+  if ($user_role == 'blocked') {
+    return;
+  }
+
   $items = array();
 
   if (!drupal_is_front_page() || user_is_anonymous()) {
     return $items;
   }
 
-  $items['create-programme'] = array(
-    '#theme' => 'c4m_group_visitor_cta',
-    '#button_label' => t('Create programme'),
-    '#button_icon' => 'fa-plus',
-    '#url' => url('/node/add/programme'),
-  );
+  if ($item = c4m_user_og_follow_group_cta($group)) {
+    $items['follow'] = $item;
+  }
 
   return $items;
 }
@@ -483,7 +607,10 @@ function c4m_content_project_choose_template_form($form, &$form_state) {
   );
 
   $form['actions']['#type'] = 'actions';
-  $form['actions']['submit'] = array('#type' => 'submit', '#value' => t('Save'));
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );
 
   return $form;
 }
@@ -504,7 +631,10 @@ function c4m_content_project_choose_template_form_submit($form, &$form_state) {
  * @param string $project_type
  *   Project type. 'project' | 'programme'.
  */
-function c4m_content_project_choose_template_form_save_info(&$form_state, $project_type) {
+function c4m_content_project_choose_template_form_save_info(
+  &$form_state,
+  $project_type
+) {
   if ($form_state['values'][$project_type]) {
     $value = $form_state['values'][$project_type];
     if (preg_match('/\((\d+)\)$/', $value, $matches)) {
@@ -558,7 +688,11 @@ function c4m_content_project_get_node_template($type) {
   $query->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'project')
     ->fieldCondition('c4m_is_template', 'value', 1)
-    ->fieldCondition('c4m_project_type', 'value', $type == 'programme' ? 'programme' : 'project');
+    ->fieldCondition(
+      'c4m_project_type',
+      'value',
+      $type == 'programme' ? 'programme' : 'project'
+    );
   $result = $query->execute();
 
   if (isset($result['node'])) {
@@ -591,7 +725,11 @@ function c4m_content_project_autocomplete($type, $title = '') {
     $query->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', 'project')
       ->fieldCondition('c4m_is_template', 'value', 0);
-    $query->fieldCondition('c4m_project_type', 'value', $type == 'programme' ? 'programme' : 'project');
+    $query->fieldCondition(
+      'c4m_project_type',
+      'value',
+      $type == 'programme' ? 'programme' : 'project'
+    );
 
     // Select rows that match by title.
     $result = $query
@@ -621,7 +759,11 @@ function c4m_content_project_autocomplete($type, $title = '') {
 /**
  * Implements hook_url_inbound_alter().
  */
-function c4m_content_project_url_inbound_alter(&$path, $original_path, $path_language) {
+function c4m_content_project_url_inbound_alter(
+  &$path,
+  $original_path,
+  $path_language
+) {
   if (!preg_match('/node\/add\/(project|programme)/', $path, $matches)) {
     return;
   }
@@ -656,7 +798,10 @@ function c4m_content_project_clone_template($original_node) {
   $node = _c4m_content_project_clone_template_prepare($original_node);
   drupal_set_title($node->title);
   // Let other modules do special fixing up.
-  $context = array('method' => 'prepopulate', 'original_node' => $original_node);
+  $context = array(
+    'method' => 'prepopulate',
+    'original_node' => $original_node,
+  );
   drupal_alter('clone_node', $node, $context);
   // Make sure the file defining the node form is loaded.
   $form_state = array();

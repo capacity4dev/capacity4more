@@ -9,6 +9,8 @@ namespace FeatureContext;
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Context\Step;
+use Behat\Mink\Exception\ElementTextException;
+use Drupal\Exception\Exception;
 
 
 trait Activity {
@@ -102,4 +104,39 @@ trait Activity {
 
     return $steps;
   }
+
+  /**
+   * @Given /^I load all activities$/
+   */
+  public function iLoadAllActivities() {
+    while ($link = $this->getSession()->getPage()->findLink('load-more-button')) {
+      $link->click();
+      sleep(3);
+    }
+  }
+
+  /**
+   * @Given /^I load all activities until I see "([^"]*)"$/
+   */
+  public function iLoadAllActivitiesUntilISee($text) {
+    $done = FALSE;
+
+    while (!$done) {
+      try {
+        $this->assertElementContainsText('div.activity-stream', $text);
+        $done = TRUE;
+      }
+      catch (ElementTextException $e) {
+        if (!$link = $this->getSession()->getPage()->findLink('load-more-button')) {
+          // All activities has been loaded but the text was not found.
+          throw new \Exception($e->getMessage());
+        }
+
+        $link->click();
+        // Wait for the spinner to disappear.
+        $this->waitForXpathNode("//*[contains(@class, 'spinner')]", FALSE);
+      }
+    }
+  }
+
 }

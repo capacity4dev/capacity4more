@@ -25,26 +25,38 @@
   }
 }
 
+.field-name-c4m-og-status, .field-name-c4m-project-stage {
+  float: right;
+  margin-left: 0.25em;
+
+  .page-node-edit & {
+    float: none;
+  }
+
+  .field-item {
+    @extend .label;
+    @extend .label-default;
+  }
+
+  & + .field-name-title {
+    display: inline;
+  }
+}
+
+.field-name-c4m-ds-group-membership-type {
+  float: right;
+
+  & + .field-name-c4m-og-status {
+    margin-right: .5em;
+  }
+}
+
 .popover {
   display: block;
   min-width: 250px;
 
   .popover-content > ul {
     padding-left: 0;
-  }
-}
-
-.group-teaser-header-inline, .group-footer {
-  position: relative;
-
-  .field-name-title {
-    margin: 0 9rem 0 30px;
-  }
-
-  .label {
-    position: absolute;
-    right: 0;
-    top: 0;
   }
 }
 

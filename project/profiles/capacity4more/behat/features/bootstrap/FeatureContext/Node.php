@@ -256,4 +256,19 @@ trait Node {
     return preg_replace('@[^a-z0-9_]+@', $delimiter, strtolower(trim($title)));
   }
 
+  /**
+   * @Then /^I should not be able to see the edit link$/
+   */
+  public function iShouldNotBeAbleToSeeTheEditLink() {
+    try {
+      $this->assertLinkRegion('Edit', 'primary tabs');
+    }
+    catch (\Exception $e) {
+      // The edit link was not found on the page.
+      return;
+    }
+
+    throw new \Exception('The edit link was found on this page.');
+  }
+
 }

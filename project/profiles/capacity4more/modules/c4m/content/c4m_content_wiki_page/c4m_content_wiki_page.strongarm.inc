@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_wiki_page.strongarm.inc
@@ -167,6 +166,9 @@ function c4m_content_wiki_page_strongarm() {
         'path' => array(
           'weight' => '10',
         ),
+        'redirect' => array(
+          'weight' => '30',
+        ),
       ),
       'display' => array(
         'flag_c4m_og_content_highlight' => array(
@@ -183,11 +185,11 @@ function c4m_content_wiki_page_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '30',
+            'weight' => '34',
             'visible' => FALSE,
           ),
           'teaser_group' => array(
-            'weight' => '30',
+            'weight' => '34',
             'visible' => FALSE,
           ),
           'activity_group' => array(
@@ -195,11 +197,35 @@ function c4m_content_wiki_page_strongarm() {
             'visible' => FALSE,
           ),
           'block_list' => array(
-            'weight' => '10',
+            'weight' => '34',
             'visible' => FALSE,
           ),
           'pinned_content' => array(
             'weight' => '1',
+            'visible' => TRUE,
+          ),
+        ),
+        'highlighted' => array(
+          'full' => array(
+            'weight' => '5',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '8',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '7',
+            'visible' => TRUE,
+          ),
+        ),
+        'promoted' => array(
+          'teaser' => array(
+            'weight' => '9',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '8',
             'visible' => TRUE,
           ),
         ),

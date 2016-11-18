@@ -96,6 +96,7 @@ dependencies[] = c4m_admin_organisations
 dependencies[] = c4m_admin_projects
 
 ; Helpers
+;dependencies[] = c4m_helper_captcha
 dependencies[] = c4m_helper_comment
 dependencies[] = c4m_helper_cron
 dependencies[] = c4m_helper_block
@@ -202,6 +203,7 @@ dependencies[] = c4m_document_widget
 ; Organic Groups
 dependencies[] = c4m_og_purl
 dependencies[] = c4m_og_invite_users
+dependencies[] = c4m_og_invite_visitors
 
 ; Email Domains
 dependencies[] = c4m_domain

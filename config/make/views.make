@@ -4,7 +4,7 @@ api = 2
 ; Views
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.13"
+projects[views][version] = "3.14"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
@@ -21,3 +21,6 @@ projects[draggableviews][patch][] = "https://www.drupal.org/files/issues/draggab
 
 projects[views_contextual_filters_or][subdir] = "contrib"
 projects[views_contextual_filters_or][version] = "1.x-dev"
+
+projects[views_access_callback][subdir] = "contrib"
+projects[views_access_callback][version] = "1.x-dev"

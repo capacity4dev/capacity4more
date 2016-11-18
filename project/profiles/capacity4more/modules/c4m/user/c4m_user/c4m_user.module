@@ -7,6 +7,13 @@
 
 include_once 'c4m_user.features.inc';
 
+define('C4M_USER_TYPE_VISITOR', 'visitor');
+define('C4M_USER_TYPE_NON_MEMBER', 'non member');
+define('C4M_USER_TYPE_GM', 'member');
+define('C4M_USER_TYPE_GO', 'owner');
+define('C4M_USER_TYPE_GA', 'admin');
+define('C4M_USER_TYPE_SA', 'site admin');
+
 /**
  * Define active user status.
  */
@@ -290,7 +297,8 @@ function c4m_user_get_initials($name) {
 function c4m_user_name($user) {
   $wrapper = entity_metadata_wrapper('user', $user);
 
-  if ($user->uid == 0) {
+  // When an user is created, this function is called without uid.
+  if (!isset($user->uid) || $user->uid == 0) {
     return t('Anonymous');
   }
 
@@ -669,27 +677,6 @@ function c4m_user_menu() {
     'page callback' => 'c4m_user_access_denied',
     'access callback' => 'user_is_anonymous',
   );
-  $items['access-denied/login'] = array(
-    'title' => 'Log in',
-    'access callback' => 'user_is_anonymous',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-  );
-  $items['access-denied/register'] = array(
-    'title' => 'Create new account',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('user_register_form'),
-    'access callback' => 'user_register_access',
-    'type' => MENU_LOCAL_TASK,
-  );
-  $items['access-denied/password'] = array(
-    'title' => 'Request new password',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('user_pass'),
-    'access callback' => TRUE,
-    'type' => MENU_LOCAL_TASK,
-    'file path' => drupal_get_path('module', 'user'),
-    'file' => 'user.pages.inc',
-  );
 
   return $items;
 }
@@ -729,6 +716,30 @@ function c4m_user_menu_alter(&$items) {
     'access callback' => 'c4m_user_contact_form_access',
     'access arguments' => array(1),
   );
+}
+
+/**
+ * Implements hook_views_access_callbacks().
+ */
+function c4m_user_views_access_callbacks() {
+  return array(
+    'c4m_user_my_content_access' => t('My content access'),
+  );
+}
+
+/**
+ * Prevent from users to see other users content on "my content" page.
+ *
+ * @param int $uid
+ *   The argument of the user ID from the url.
+ *
+ * @return bool
+ *   TRUE if the logged in user try to see his own content.
+ */
+function c4m_user_my_content_access($uid = NULL) {
+  global $user;
+
+  return user_is_logged_in() && $uid == $user->uid;
 }
 
 /**
@@ -826,9 +837,10 @@ function c4m_user_contact_form_submit($form, $form_state) {
 
   if ($form_state['values']['c4m_contact_user_self_copy']) {
     // Sending a copy of the mail to the sender since the user checked
-    // the "Send me a copy" checkbox on the form.
+    // the "Send me a copy" checkbox on the form. Do not display status
+    // message for it.
     $user_language = user_preferred_language($user);
-    _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body, $user_language);
+    _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body, $user_language, TRUE);
   }
 }
 
@@ -1067,7 +1079,7 @@ function c4m_user_user_logout($account) {
     $user_temp = $user;
     $user = drupal_anonymous_user();
     $item = menu_get_item($_GET['destination']);
-    if (empty($item) || empty($item['access'])) {
+    if (!empty($item) && empty($item['access'])) {
       // If anonymous user has no access, remove destination.
       unset($_GET['destination']);
     }
@@ -1379,4 +1391,23 @@ function c4m_user_form_alter(&$form, &$form_state, $form_id) {
 function c4m_user_registrationpassword_confirmation_url($account) {
   $timestamp = REQUEST_TIME;
   return url("user/registrationpassword/$account->uid/$timestamp/" . user_pass_rehash($account->pass, $timestamp, $account->name, $account->uid), array('absolute' => TRUE, 'purl' => array('disabled' => TRUE)));
+}
+
+/**
+ * Checks if user is site administrator.
+ *
+ * @param mixed $user
+ *   The user object. If not passed, current user is used.
+ *
+ * @return bool
+ *   Whether user is site administrator.
+ */
+function c4m_user_is_site_admin($user = NULL) {
+  if (is_null($user)) {
+    global $user;
+  }
+
+  $site_admin_role = user_role_load_by_name('administrator');
+
+  return user_has_role($site_admin_role->rid, $user);
 }

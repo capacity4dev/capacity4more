@@ -17,6 +17,11 @@ function c4m_content_article_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'comment_node_article';
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
+    'links' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'post_date' => array(
       'weight' => '2',
       'label' => 'hidden',
@@ -111,11 +116,6 @@ function c4m_content_article_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'article';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
-    'title' => array(
-      'weight' => '1',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'comments' => array(
       'weight' => '8',
       'label' => 'hidden',
@@ -413,6 +413,7 @@ function c4m_content_article_ds_layout_settings_info() {
         1 => 'c4m_user_first_and_last_name',
         2 => 'post_date',
         3 => 'comment_body',
+        4 => 'links',
       ),
     ),
     'fields' => array(
@@ -420,6 +421,7 @@ function c4m_content_article_ds_layout_settings_info() {
       'c4m_user_first_and_last_name' => 'right',
       'post_date' => 'right',
       'comment_body' => 'right',
+      'links' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -582,46 +584,37 @@ function c4m_content_article_ds_layout_settings_info() {
     'regions' => array(
       'header' => array(
         0 => 'c4m_banner',
-        2 => 'title',
       ),
       'right' => array(
         1 => 'c4m_vocab_topic',
-        3 => 'c4m_vocab_geo',
+        2 => 'c4m_vocab_geo',
         4 => 'c4m_related_group',
-        7 => 'c4m_related_articles',
-        13 => 'c4m_related_user',
-        14 => 'c4m_link_multiple',
-        15 => 'group_node_actions',
-        16 => 'group_node_meta',
-        17 => 'c4m_ds_content_shared_to',
-        18 => 'c4m_ds_content_actions',
-      ),
-      'header' => array(
-        1 => 'c4m_banner',
+        5 => 'c4m_related_articles',
+        11 => 'c4m_related_user',
+        12 => 'c4m_link_multiple',
+        13 => 'group_node_actions',
+        14 => 'group_node_meta',
+        15 => 'c4m_ds_content_shared_to',
+        16 => 'c4m_ds_content_actions',
       ),
       'left' => array(
-        5 => 'c4m_ds_content_status',
+        3 => 'c4m_ds_content_status',
         6 => 'c4m_ds_creation_date',
-        8 => 'c4m_ds_content_footer_stats',
-        9 => 'c4m_intro_text',
-        10 => 'c4m_body',
-        11 => 'c4m_content_article_disclaimer',
-        12 => 'comments',
+        7 => 'c4m_ds_content_footer_stats',
+        8 => 'c4m_body',
+        9 => 'c4m_content_article_disclaimer',
+        10 => 'comments',
       ),
     ),
     'fields' => array(
-      'c4m_vocab_topic' => 'right',
       'c4m_banner' => 'header',
       'c4m_vocab_topic' => 'right',
-      'title' => 'header',
       'c4m_vocab_geo' => 'right',
       'c4m_ds_content_status' => 'left',
       'c4m_related_group' => 'right',
-      'c4m_ds_content_status' => 'left',
-      'c4m_ds_creation_date' => 'left',
       'c4m_related_articles' => 'right',
+      'c4m_ds_creation_date' => 'left',
       'c4m_ds_content_footer_stats' => 'left',
-      'c4m_intro_text' => 'left',
       'c4m_body' => 'left',
       'c4m_content_article_disclaimer' => 'left',
       'comments' => 'left',
@@ -632,11 +625,16 @@ function c4m_content_article_ds_layout_settings_info() {
       'c4m_ds_content_shared_to' => 'right',
       'c4m_ds_content_actions' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'header' => 'div',
       'left' => 'div',
       'right' => 'div',
+      'footer' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',

@@ -22,7 +22,8 @@
 }
 
 .field-name-c4m-vocab-topic,
-.field-name-c4m-vocab-geo {
+.field-name-c4m-vocab-geo,
+.c4m-taxonomy-tree {
   .item {
     margin-bottom: 10px;
 
@@ -50,4 +51,12 @@
     text-align: center;
     width: 2em;
   }
+
+  .text-copy--small {
+    margin-top: 5px;
+  }
+}
+
+.highlight-link {
+  font-size: 1rem;
 }
