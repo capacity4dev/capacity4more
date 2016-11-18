@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_user_admin.views_default.inc
@@ -672,15 +673,43 @@ Last access : [access]';
   $handler->display->display_options['fields']['c4m_last_name']['alter']['path'] = 'user/[uid]';
   $handler->display->display_options['fields']['c4m_last_name']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['c4m_last_name']['empty'] = '<a href="user/[uid]">[name]</a>';
-  /* Field: User: Link */
+  /* Field: User: Country */
+  $handler->display->display_options['fields']['c4m_country']['id'] = 'c4m_country';
+  $handler->display->display_options['fields']['c4m_country']['table'] = 'field_data_c4m_country';
+  $handler->display->display_options['fields']['c4m_country']['field'] = 'c4m_country';
+  $handler->display->display_options['fields']['c4m_country']['label'] = '';
+  $handler->display->display_options['fields']['c4m_country']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['c4m_country']['element_label_colon'] = FALSE;
+  /* Field: Name */
   $handler->display->display_options['fields']['view_user']['id'] = 'view_user';
   $handler->display->display_options['fields']['view_user']['table'] = 'users';
   $handler->display->display_options['fields']['view_user']['field'] = 'view_user';
+  $handler->display->display_options['fields']['view_user']['ui_name'] = 'Name';
   $handler->display->display_options['fields']['view_user']['label'] = 'Name';
   $handler->display->display_options['fields']['view_user']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['view_user']['alter']['text'] = '[c4m_last_name]<br>
-[name]<br>
-[mail]';
+  $handler->display->display_options['fields']['view_user']['alter']['text'] = '[c4m_last_name]<br />
+[name]<br />
+[mail]<br />
+[c4m_country]';
+  /* Field: User: Organisation */
+  $handler->display->display_options['fields']['c4m_organisation']['id'] = 'c4m_organisation';
+  $handler->display->display_options['fields']['c4m_organisation']['table'] = 'field_data_c4m_organisation';
+  $handler->display->display_options['fields']['c4m_organisation']['field'] = 'c4m_organisation';
+  $handler->display->display_options['fields']['c4m_organisation']['label'] = '';
+  $handler->display->display_options['fields']['c4m_organisation']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['c4m_organisation']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_organisation']['element_default_classes'] = FALSE;
+  /* Field: Organisation info */
+  $handler->display->display_options['fields']['c4m_organisation_type']['id'] = 'c4m_organisation_type';
+  $handler->display->display_options['fields']['c4m_organisation_type']['table'] = 'field_data_c4m_organisation_type';
+  $handler->display->display_options['fields']['c4m_organisation_type']['field'] = 'c4m_organisation_type';
+  $handler->display->display_options['fields']['c4m_organisation_type']['ui_name'] = 'Organisation info';
+  $handler->display->display_options['fields']['c4m_organisation_type']['label'] = 'Organisation';
+  $handler->display->display_options['fields']['c4m_organisation_type']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['c4m_organisation_type']['alter']['text'] = '[c4m_organisation]<br />
+[c4m_organisation_type]';
+  $handler->display->display_options['fields']['c4m_organisation_type']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_organisation_type']['element_default_classes'] = FALSE;
   /* Field: User: Is spammer */
   $handler->display->display_options['fields']['c4m_is_spammer']['id'] = 'c4m_is_spammer';
   $handler->display->display_options['fields']['c4m_is_spammer']['table'] = 'field_data_c4m_is_spammer';

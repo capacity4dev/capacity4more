@@ -92,7 +92,8 @@ function c4m_features_overview_groups_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Groups';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['type'] = 'views_access_callback';
+  $handler->display->display_options['access']['views_access_callback'] = 'c4m_og_purl_global_content_access';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['search_api_bypass_access'] = 0;

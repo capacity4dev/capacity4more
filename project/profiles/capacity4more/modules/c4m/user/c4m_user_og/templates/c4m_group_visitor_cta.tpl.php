@@ -10,4 +10,5 @@
     <i class="fa <?php print $button_icon; ?>"></i>
     <?php print $button_label; ?>
   </a>
+  <div class="c4m-visitor-login-link"><?php print $login_url; ?></div>
 </div>

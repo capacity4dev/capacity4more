@@ -221,6 +221,7 @@ function c4m_search_default_search_api_index() {
     },
     "enabled" : "1",
     "read_only" : "0",
+    "entity_type" : "search_api_index",
     "rdf_mapping" : []
   }');
   $items['c4m_search_users'] = entity_import('search_api_index', '{
@@ -376,6 +377,7 @@ function c4m_search_default_search_api_index() {
     },
     "enabled" : "1",
     "read_only" : "0",
+    "entity_type" : "search_api_index",
     "rdf_mapping" : []
   }');
   return $items;
@@ -397,6 +399,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "asc",
     "options" : { "field_name" : "Date \\u00bb Start date" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_nodes__comment_count'] = entity_import('search_api_sort', '{
@@ -410,6 +413,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "desc",
     "options" : { "field_name" : "Comment count" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_nodes__created'] = entity_import('search_api_sort', '{
@@ -423,6 +427,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "1",
     "default_order" : "desc",
     "options" : { "field_name" : "Date created" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_nodes__flag_c4m_og_content_recommend_count'] = entity_import('search_api_sort', '{
@@ -436,6 +441,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "desc",
     "options" : { "field_name" : "The flag count of type c4m_og_content_recommend for an inthe_picture entity" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_nodes__search_api_relevance'] = entity_import('search_api_sort', '{
@@ -449,6 +455,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "desc",
     "options" : { "field_name" : "search_api_relevance" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_nodes__views'] = entity_import('search_api_sort', '{
@@ -462,6 +469,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "desc",
     "options" : { "field_name" : "Number of views" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_users__c4m_first_name'] = entity_import('search_api_sort', '{
@@ -475,6 +483,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "asc",
     "options" : { "field_name" : "First Name" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_users__c4m_last_name'] = entity_import('search_api_sort', '{
@@ -488,6 +497,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "asc",
     "options" : { "field_name" : "Last Name" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_users__c4m_user_contributions'] = entity_import('search_api_sort', '{
@@ -501,6 +511,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "desc",
     "options" : { "field_name" : "Total number of contributions of the user (posts + comments)" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_users__created'] = entity_import('search_api_sort', '{
@@ -514,6 +525,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "1",
     "default_order" : "desc",
     "options" : { "field_name" : "Created" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   return $items;

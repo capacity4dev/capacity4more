@@ -1,5 +1,4 @@
 .c4m-wide-gothic-btn {
-  text-align: center;
   margin: 10px 0;
 
   .btn {
@@ -7,5 +6,9 @@
     background-color: $color-text-alternative;
     white-space: normal;
     width: 100%;
+  }
+
+  .c4m-visitor-login-link {
+    margin-top: 10px;
   }
 }

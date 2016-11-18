@@ -26,14 +26,17 @@ function c4m_features_og_events_upcoming_events_content_type_render($subtype, $c
   $block->title = '';
 
   if ($user->uid) {
-    $events = c4m_features_og_events_upcoming_events_loggedin();
+    list($events, $display_see_more) = c4m_features_og_events_upcoming_events_loggedin();
   }
   else {
-    $events = c4m_features_og_events_upcoming_events_anonymous();
+    list($events, $display_see_more) = c4m_features_og_events_upcoming_events_anonymous();
   }
 
   if ($events) {
-    $block->content = theme('c4m_features_og_events_upcoming_events', array('events' => $events));
+    $block->content = theme('c4m_features_og_events_upcoming_events', array(
+      'events' => $events,
+      'display_see_more' => $display_see_more,
+    ));
   }
 
   return $block;
@@ -53,6 +56,7 @@ function c4m_features_og_events_upcoming_events_content_type_theme(&$theme, $plu
   $theme['c4m_features_og_events_upcoming_events'] = array(
     'variables' => array(
       'events' => NULL,
+      'display_see_more' => NULL,
     ),
     'path' => $plugin['path'],
     'template' => 'upcoming_events',

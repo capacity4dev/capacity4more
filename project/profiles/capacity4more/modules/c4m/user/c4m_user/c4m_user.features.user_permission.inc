@@ -81,6 +81,8 @@ function c4m_user_user_default_permissions() {
     'name' => 'access devel information',
     'roles' => array(
       'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'devel',
   );
@@ -583,7 +585,9 @@ function c4m_user_user_default_permissions() {
   // Exported permission: 'administer taxonomy'.
   $permissions['administer taxonomy'] = array(
     'name' => 'administer taxonomy',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'taxonomy',
   );
 
@@ -1521,6 +1525,7 @@ function c4m_user_user_default_permissions() {
     'name' => 'edit any wiki_page content',
     'roles' => array(
       'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -2427,6 +2432,7 @@ function c4m_user_user_default_permissions() {
     'name' => 'view own unpublished content',
     'roles' => array(
       'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'node',
   );
