@@ -22,11 +22,13 @@ Feature: Test homepage content and blocks
     Then I should see the site homepage
 
   @api
-  Scenario: Logged in user should see group owner in "My Groups" block.
+  Scenario: Logged in user should see group owner in "My Groups" and "My Projects".
     Given I am logged in as user "isaacnewton"
     When  I visit the site homepage
     Then  I should see "My Groups"
     And   I should see "My Projects"
+    And   I should see "Owner of the following Group(s)"
+    And   I should see "Administrator of the following Project(s)"
 
   @api
   Scenario: Anonymous user should see button to open the introduction video.
@@ -40,6 +42,8 @@ Feature: Test homepage content and blocks
     When  I visit the site homepage
     Then  I should not see "My Groups"
     And   I should not see "My Projects"
+    And   I should not see "Owner of the following Group(s)"
+    And   I should not see "Owner of the following Project(s)"
 
   @api
   Scenario: Logged in, non member user can't see "My Groups" block
@@ -47,15 +51,18 @@ Feature: Test homepage content and blocks
     When  I visit the site homepage
     Then  I should not see "My Groups"
     And   I should not see "My Projects"
+    And   I should not see "Owner of the following Group(s)"
+    And   I should not see "Owner of the following Project(s)"
 
   @api
   Scenario: Logged in, member user should see "My Groups" block
-    Given I am logged in as user "mariecurie"
+    Given I am logged in as user "isaacnewton"
     When  I visit the site homepage
     Then  I should see "My Groups"
     And   I should see "My Projects"
-    And   I should see "Architecture" in the "div.my-groups" element
+    And   I should see "Tennis Group" in the "div.my-groups" element
     And   I should see "Show more" in the "div.my-groups" element
+    And   I should see "Lusail City" in the "div.my-projects" element
 
   @api
   Scenario: Anonymous user can't see "Suggested Groups" block
@@ -83,23 +90,23 @@ Feature: Test homepage content and blocks
 
   @api
   Scenario: Logged in, member user should see "Featured projects" block
-    Given I am logged in as user "mariecurie"
+    Given I am logged in as user "president"
     When  I visit the site homepage
     Then  I should see "Featured projects"
 
   @api
-  Scenario: Anonymous user should see only one "Upcoming event"
+  Scenario: Anonymous user should see maximum three "Upcoming events"
     Given I am an anonymous user
     When  I visit the site homepage
     Then  I should see "Upcoming events" in the "div.sidebarblock.upcoming-events" element
-    And   I should see only "1" events
+    And   I should see only "2" events
 
   @api
-  Scenario: Logged in user should see more than one "Upcoming event"
+  Scenario: Logged in user should see more than one "Upcoming events"
     Given I am logged in as user "mariecurie"
     When  I visit the site homepage
     Then  I should see "Upcoming events" in the "div.sidebarblock.upcoming-events" element
-    And   I should see only "3" events
+    And   I should see only "2" events
 
   @api
   Scenario: Check featured block is displayed correctly.

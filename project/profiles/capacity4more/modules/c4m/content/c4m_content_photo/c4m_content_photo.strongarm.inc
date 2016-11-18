@@ -160,7 +160,7 @@ function c4m_content_photo_strongarm() {
             'visible' => TRUE,
           ),
           'teaser' => array(
-            'weight' => '22',
+            'weight' => '25',
             'visible' => FALSE,
           ),
           'teaser_group' => array(

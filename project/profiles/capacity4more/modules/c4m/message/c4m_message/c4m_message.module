@@ -72,6 +72,7 @@ function c4m_message_mail_alter(&$message) {
   _c4m_message_format_group_soft_deleted_from_field($message, $message_entity);
   _c4m_message_format_membership_request_rejected_from_field($message, $message_entity);
   _c4m_message_format_group_request_approved_from_field($message, $message_entity);
+  _c4m_message_format_notify_user_membership_pending_from_field($message, $message_entity);
 }
 
 /**
@@ -86,6 +87,21 @@ function _c4m_message_format_group_request_approved_from_field(&$message, $messa
   }
 
   _c4m_message_format_from_field_to_simple_pattern($message, TRUE);
+}
+
+/**
+ * Helper function.
+ *
+ * Formats 'c4m_notify_user_membership_pending' message From field,
+ * per MT48 template.
+ */
+function _c4m_message_format_notify_user_membership_pending_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_notify_user_membership_pending') {
+    // For message type other than c4m_group_archived - return early.
+    return;
+  }
+
+  _c4m_message_format_from_field_to_simple_pattern($message);
 }
 
 /**
@@ -721,6 +737,32 @@ function c4m_message_load_tokens__c4m_new_membership_request(Message $message) {
 
   $message->arguments['!membership_reject_url'] = array(
     'callback' => 'c4m_message_format_autologin_reject_membership_link',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Add callbacks to c4m_notify_user_membership_pending message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_notify_user_membership_pending(Message $message) {
+  $message->arguments['@member_full_name'] = array(
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
   );
 }
@@ -2484,11 +2526,8 @@ function c4m_messages_group_info(Message $message) {
       && is_array($get_query['group'])))
   ) {
     if (isset($message->field_group_node) && !empty($message->field_group_node)) {
-      $wrapper = entity_metadata_wrapper(
-        'node',
-        $message->field_group_node[LANGUAGE_NONE][0]['target_id']
-      );
-      $link = l($wrapper->label(), $wrapper->value()->purl);
+      $wrapper = entity_metadata_wrapper('message', $message);
+      $link = l($wrapper->field_group_node->label(), $wrapper->field_group_node->value()->purl);
       $group_info = t('Group: !link', array('!link' => $link));
     }
   }
@@ -2877,7 +2916,10 @@ function c4m_message_format_rendered_node(Message $message) {
     $homepage = drupal_is_front_page() && !og_context();
   }
 
-  $view_mode = $homepage ? 'activity_global' : 'activity_group';
+  $object = menu_get_object();
+  $is_topic_page = !empty($object->type) && $object->type == 'topic';
+
+  $view_mode = $homepage || $is_topic_page ? 'activity_global' : 'activity_group';
   $view = node_view($wrapper->field_node->value(), $view_mode);
 
   return drupal_render($view);
@@ -3041,7 +3083,11 @@ function c4m_message_format_rendered_comment(Message $message) {
 
   // Determine if the current display is for a group or homepage.
   $view_mode = 'activity_global';
-  if (isset($get_query['homepage']) && $get_query['homepage'] == '0') {
+
+  // Determine if the current display is within a group context.
+  $context = og_context();
+
+  if (isset($get_query['homepage']) && $get_query['homepage'] == '0' || $context) {
     $view_mode = 'activity_group';
   }
 

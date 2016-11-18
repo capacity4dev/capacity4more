@@ -174,6 +174,12 @@ function kapablo_preprocess_page(&$variables) {
 
   $variables['offcanvas_trigger_label_left'] = $offcanvas_trigger_label_left;
   $variables['offcanvas_trigger_label_right'] = $offcanvas_trigger_label_right;
+
+  // Remove any og content on a conflict.
+  if (c4m_og_purl_context_conflict_page()) {
+    unset($variables['page']['content_top']['c4m_content_group_header_name_banner_group']);
+    unset($variables['page']['content_top']['og_menu_og_single_menu_block']);
+  }
 }
 
 /**

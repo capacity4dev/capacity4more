@@ -208,7 +208,7 @@
       font-weight: normal;
     }
 
-    .user-name {
+    .group-left .user-name {
       @extend h1;
 
       .organisation-icon {
@@ -254,10 +254,13 @@
     }
   }
 
-  .view-mode-member_overview,
-  .view-mode-teaser {
-    .field-name-c4m-ds-content-footer-stats {
-      display: none;
+  &:not(.paragraphs-item-c4m-paragraph-system-block) {
+    .view-mode-member_overview,
+    .view-mode-teaser {
+      .field-name-c4m-ds-content-footer-stats {
+        display: none;
+
+      }
     }
   }
 }

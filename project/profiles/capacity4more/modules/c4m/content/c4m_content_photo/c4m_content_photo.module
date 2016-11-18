@@ -129,6 +129,25 @@ function c4m_content_photo_c4m_content_statistics_info() {
         ),
       ),
     ),
+    'project' => array(
+      'c4m_og_media' => array(
+        'type' => 'photo',
+        'entity_type' => 'node',
+        'bundles' => array('photo', 'photoalbum'),
+        'singular' => 'Media item',
+        'plural' => 'Media items',
+        'state' => 1,
+        'aggregate' => NULL,
+        'weight' => 5,
+        'feature_name' => 'c4m_features_og_media',
+        'attributes' => array(
+          'class' => array('og-media'),
+        ),
+        'link' => array(
+          'path' => 'media',
+        ),
+      ),
+    ),
   );
 }
 

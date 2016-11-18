@@ -54,6 +54,11 @@ function c4m_user_profile_block_info() {
     'cache' => DRUPAL_CACHE_PER_USER,
   );
 
+  $blocks['user_my_profile_projects'] = array(
+    'info' => t('My projects/programmes'),
+    'cache' => DRUPAL_CACHE_PER_USER,
+  );
+
   return $blocks;
 }
 
@@ -209,6 +214,14 @@ function c4m_user_profile_theme() {
     'template' => 'my-profile-groups',
   );
 
+  $theme['c4m_user_profile_my_profile_projects'] = array(
+    'variables' => array(
+      'projects' => NULL,
+    ),
+    'path' => drupal_get_path('module', 'c4m_user_profile') . '/templates',
+    'template' => 'my-profile-projects',
+  );
+
   return $theme;
 }
 
@@ -309,7 +322,12 @@ function c4m_user_profile_form_user_register_form_alter(
   &$form_state,
   $form_id
 ) {
-  drupal_set_title(t('Registration'));
+
+  // Set the title to `Registration` only if the user did not get to this page
+  // via an invitation to join a group.
+  if (empty($_SESSION['c4m_og_invite_visitors_gid_join'])) {
+    drupal_set_title(t('Registration'));
+  }
 
   c4m_user_profile_alter_user_form($form, $form_state, TRUE);
 
@@ -1476,25 +1494,6 @@ function c4m_user_profile_get_expertise_topics($uid) {
 }
 
 /**
- * Implements hook_user_cancel_methods_alter().
- *
- * Adds a new cancellation method that reassigns the content to the anonymous
- * user without deleting the user account.
- */
-function c4m_user_profile_user_cancel_methods_alter(&$methods) {
-  $methods['user_block_reassign'] = array(
-    'title' => t(
-      'Block the account and make its content belong to the %anonymous-name user.',
-      array('%anonymous-name' => variable_get('anonymous', t('Anonymous')))
-    ),
-    'description' => t(
-      'Your account will be blocked. All of your content will be assigned to the %anonymous-name user.',
-      array('%anonymous-name' => variable_get('anonymous', t('Anonymous')))
-    ),
-  );
-}
-
-/**
  * Gets the custom cancellations methods we should reassign the content.
  *
  * @return array
@@ -1503,7 +1502,6 @@ function c4m_user_profile_user_cancel_methods_alter(&$methods) {
 function c4m_user_profile_get_cancel_methods_to_reassign() {
   return array(
     'c4m_user_admin_block_anonymous',
-    'user_block_reassign',
   );
 }
 

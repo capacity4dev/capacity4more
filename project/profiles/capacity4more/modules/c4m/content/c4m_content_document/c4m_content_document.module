@@ -39,6 +39,10 @@ function c4m_content_document_form_document_node_form_alter(&$form, $form_state)
   if (strpos(url(current_path()), 'overlay')) {
     // If this is overlay page - add our own submit handler.
     $form['actions']['submit']['#submit'][] = 'c4m_content_document_form_document_node_form_submit';
+
+    // Documents created via the overlay (document widget) should not render an
+    // activity stream (indirect document addition).
+    $form_state['node']->_skip_message = TRUE;
   }
 }
 
@@ -164,6 +168,25 @@ function c4m_content_document_c4m_content_statistics_info() {
       ),
     ),
     'group' => array(
+      'c4m_og_documents' => array(
+        'type'          => 'document',
+        'entity_type'   => 'node',
+        'bundles'       => array('document'),
+        'singular'      => 'Document',
+        'plural'        => 'Documents',
+        'state'         => 1,
+        'aggregate'     => array(),
+        'weight'        => 2,
+        'feature_name'  => 'c4m_features_og_documents',
+        'attributes'    => array(
+          'class' => array('og-documents'),
+        ),
+        'link'          => array(
+          'path' => 'documents',
+        ),
+      ),
+    ),
+    'project' => array(
       'c4m_og_documents' => array(
         'type'          => 'document',
         'entity_type'   => 'node',

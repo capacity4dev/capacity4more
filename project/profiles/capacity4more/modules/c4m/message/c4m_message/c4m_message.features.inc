@@ -48,6 +48,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_group_admin_demoted'] = entity_import('message_type', '{
@@ -73,6 +74,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_group_archived'] = entity_import('message_type', '{
@@ -98,6 +100,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_group_content_updated'] = entity_import('message_type', '{
@@ -123,6 +126,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_group_hard_deleted'] = entity_import('message_type', '{
@@ -148,6 +152,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_group_published'] = entity_import('message_type', '{
@@ -173,6 +178,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_group_republished'] = entity_import('message_type', '{
@@ -198,6 +204,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_group_request_approved'] = entity_import('message_type', '{
@@ -223,6 +230,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_group_request_submitted'] = entity_import('message_type', '{
@@ -248,6 +256,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_group_requested'] = entity_import('message_type', '{
@@ -273,6 +282,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_group_soft_deleted'] = entity_import('message_type', '{
@@ -298,6 +308,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_group_unpublished'] = entity_import('message_type', '{
@@ -323,6 +334,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_insert__comment'] = entity_import('message_type', '{
@@ -339,11 +351,12 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-comment:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] commented on @node_type | !date\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
+          "value" : "\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] commented on @node_type | !date\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-comment:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
           "format" : "full_html"
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_insert__node__article'] = entity_import('message_type', '{
@@ -365,6 +378,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_insert__node__discussion'] = entity_import('message_type', '{
@@ -386,6 +400,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_insert__node__document'] = entity_import('message_type', '{
@@ -407,6 +422,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_insert__node__event'] = entity_import('message_type', '{
@@ -428,6 +444,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_insert__node__news'] = entity_import('message_type', '{
@@ -449,6 +466,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_insert__node__photo'] = entity_import('message_type', '{
@@ -470,6 +488,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_insert__node__photoalbum'] = entity_import('message_type', '{
@@ -491,6 +510,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_insert__node__share'] = entity_import('message_type', '{
@@ -512,6 +532,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_insert__node__wiki_page'] = entity_import('message_type', '{
@@ -533,6 +554,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_log_group_state_change'] = entity_import('message_type', '{
@@ -555,6 +577,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_membership_request_rejected'] = entity_import('message_type', '{
@@ -580,6 +603,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_new_content_published'] = entity_import('message_type', '{
@@ -605,6 +629,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_new_member_joined'] = entity_import('message_type', '{
@@ -630,6 +655,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_new_membership_request'] = entity_import('message_type', '{
@@ -655,6 +681,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_notify_admins_membership_approved'] = entity_import('message_type', '{
@@ -680,6 +707,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_notify_content_followers_new_comment'] = entity_import('message_type', '{
@@ -705,6 +733,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_notify_content_recommendation'] = entity_import('message_type', '{
@@ -730,6 +759,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_notify_editors_group_content_updated'] = entity_import('message_type', '{
@@ -755,6 +785,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_notify_promoted_member'] = entity_import('message_type', '{
@@ -780,6 +811,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_notify_subscribers_new_comment'] = entity_import('message_type', '{
@@ -805,6 +837,33 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
+    "rdf_mapping" : []
+  }');
+  $items['c4m_notify_user_membership_pending'] = entity_import('message_type', '{
+    "name" : "c4m_notify_user_membership_pending",
+    "description" : "c4m Notify User Membership Pending",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003EYour request to join\\u0026nbsp;@group_node_title\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n",
+          "format" : "default_html"
+        },
+        {
+          "value" : "\\u003Cp\\u003EDear @member_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr\\u003E\\r\\nThank you for requesting membership to @group_node_title at [site:name].\\r\\n\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\r\\nYour membership is currently waiting to be approved by one of the @group_node_type\\u2019s administrators, and should be processed shortly. \\r\\n\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\r\\nIf you have any questions, please feel free to \\u003Ca href=\\u0022mailto:capacity4dev@ec.europa.eu\\u0022\\u003Econtact us\\u003C\\/a\\u003E; we will be happy to help.\\r\\n\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\r\\nThe [site:name] team\\r\\n\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html"
+        }
+      ]
+    },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   $items['c4m_welcome_to_group'] = entity_import('message_type', '{
@@ -830,6 +889,7 @@ function c4m_message_default_message_type() {
         }
       ]
     },
+    "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
   return $items;

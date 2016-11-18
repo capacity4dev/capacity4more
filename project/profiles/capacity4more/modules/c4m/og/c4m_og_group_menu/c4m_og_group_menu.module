@@ -95,3 +95,77 @@ function c4m_og_group_menu_page_access() {
 
   return og_menu_access('node', $gid);
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Adds Wiki select element for projects.
+ */
+function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_state, $form_id) {
+  $group = c4m_og_current_group();
+  if (!$group || $group->type != 'project' || !isset($group->book['menu_name'])) {
+    return;
+  }
+
+  // The select element of the wiki pages should not be displayed on a default
+  // menu link.
+  if ($form['link_path']['#type'] == 'value') {
+    return;
+  }
+
+  $tree = menu_build_tree($group->book['menu_name']);
+  // Resolve top level wiki pages.
+  $top_wiki_pages = array_shift($tree)['below'];
+
+  // Default select option.
+  $wiki_options = array('' => t('Select a Wiki'));
+
+  // Generate page details for each page at tree.
+  foreach ($top_wiki_pages as $top_wiki_page) {
+    _c4m_og_group_menu_process_page($top_wiki_page, $wiki_options);
+  }
+
+  // Add select element to form.
+  $form['wiki_select'] = array(
+    '#title' => t('Wiki Page'),
+    '#type' => 'select',
+    '#options' => $wiki_options,
+    '#weight' => -1,
+  );
+
+  // If path is provided, set selected Wiki Page as a default value.
+  if (in_array($form['link_path']['#default_value'], array_keys($wiki_options))) {
+    $form['wiki_select']['#default_value'] = $form['link_path']['#default_value'];
+  }
+
+  // Place wiki title and wiki path fields above select element.
+  $form['link_title']['#weight'] = -3;
+  $form['link_path']['#weight'] = -2;
+
+  drupal_add_js(drupal_get_path('module', 'c4m_og_group_menu') . '/js/c4m-wiki-select.js');
+}
+
+/**
+ * Generates 'options' input, for 'Wiki Page' select element.
+ *
+ * @param array $page
+ *   Details of current page, and pages bellow it.
+ * @param array $wiki_options
+ *   Contains options (path link => title) of all wiki pages.
+ * @param string $prefix
+ *   Indicates wiki page hierarchy. First level got none, second gets
+ *   level '--', third '----', etc.
+ */
+function _c4m_og_group_menu_process_page($page, &$wiki_options, $prefix = '') {
+  // Add details of current page to wiki options.
+  $page_link = $page['link'];
+  $wiki_options[$page_link['link_path']] = $prefix . ' ' . $page_link['link_title'];
+
+  // For each page on level below, generate the details - recursive
+  // activation of this function.
+  $below_pages = $page['below'];
+  $prefix = $prefix . '--';
+  foreach ($below_pages as $below_page) {
+    _c4m_og_group_menu_process_page($below_page, $wiki_options, $prefix);
+  }
+}
