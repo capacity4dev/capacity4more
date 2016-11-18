@@ -57,6 +57,11 @@ function c4m_user_profile_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_ds_user_my_projects' => array(
+      'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_vocab_geo' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -120,6 +125,7 @@ function c4m_user_profile_ds_layout_settings_info() {
       ),
       'right' => array(
         15 => 'c4m_ds_user_my_groups',
+        18 => 'c4m_ds_user_my_projects',
       ),
     ),
     'fields' => array(
@@ -139,6 +145,7 @@ function c4m_user_profile_ds_layout_settings_info() {
       'c4m_body' => 'left',
       'c4m_user_organisation_full' => 'left',
       'c4m_ds_user_my_groups' => 'right',
+      'c4m_ds_user_my_projects' => 'right',
       'c4m_user_country' => 'left',
       'c4m_user_contact_link' => 'left',
     ),
