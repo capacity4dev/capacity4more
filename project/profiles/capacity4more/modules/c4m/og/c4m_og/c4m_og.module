@@ -1850,8 +1850,10 @@ function c4m_og_get_all_group_memberships_by_state($gid, $state, $exclude_invita
     ->propertyCondition('entity_type', 'user');
 
   if ($exclude_invitations) {
-    $invited_memberships = c4m_og_get_invited_memberships_ids();
-    $query->propertyCondition('id', $invited_memberships, 'NOT IN');
+    // Add the condition only if there are invited memberships.
+    if ($invited_memberships = c4m_og_get_invited_memberships_ids()) {
+      $query->propertyCondition('id', $invited_memberships, 'NOT IN');
+    }
   }
 
   $result = $query
