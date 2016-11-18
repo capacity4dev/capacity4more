@@ -2081,13 +2081,19 @@ function c4m_og_get_content_recommendations($og_id = NULL) {
  *
  * @param array $group
  *   The group to get the type from.
+ * @param bool $subtype
+ *   Return node bundle or dive deeper for subtypes.
  *
  * @return string
  *   Group type (project|group).
  */
-function c4m_og_get_group_type($group) {
+function c4m_og_get_group_type($group, $subtype = FALSE) {
   if (!empty($group)) {
     if ($group_node = node_load($group['gid'])) {
+      if ($subtype && $group_node->type == 'project') {
+        return $group_node->c4m_project_type[LANGUAGE_NONE][0]['value'];
+      }
+
       return $group_node->type;
     }
   }
