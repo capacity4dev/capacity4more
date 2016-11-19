@@ -231,3 +231,21 @@
 #block-c4m-user-c4m-my-comments-link {
   margin-top: 15px;
 }
+
+.view-my-comments {
+
+  .view-content {
+    margin-top: 20px;
+
+    .view-mode-my_comments {
+
+      .icon-col + .content-col {
+        margin-left: 90px;
+
+        .field-name-post-date {
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}
