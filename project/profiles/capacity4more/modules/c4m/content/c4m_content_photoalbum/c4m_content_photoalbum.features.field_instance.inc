@@ -77,6 +77,13 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 4,
       ),
+      'my_comments' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
+      ),
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'comment',
