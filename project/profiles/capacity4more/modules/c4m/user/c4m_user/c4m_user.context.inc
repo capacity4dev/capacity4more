@@ -27,6 +27,12 @@ function c4m_user_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'c4m_user-c4m_back_to_my_content_link' => array(
+          'module' => 'c4m_user',
+          'delta' => 'c4m_back_to_my_content_link',
+          'region' => 'sidebar_first',
+          'weight' => '-10',
+        ),
         'views--exp-my_comments-page' => array(
           'module' => 'views',
           'delta' => '-exp-my_comments-page',
