@@ -234,31 +234,12 @@ function c4m_comment_user_cancel($edit, $account, $method) {
  * links only once, hence we remove it from all threads besides the main one.
  */
 function c4m_comment_comment_view($comment, $view_mode, $langcode) {
-
-  // Alter the comment for "My comment" view.
-  c4m_comment_my_comments_view_alter($comment);
-
   // The comment is not forbidden for actions.
   if (empty($comment->content['links']['comment']['#links']['comment_forbidden'])) {
     return;
   }
 
   unset($comment->content['links']['comment']['#links']['comment_forbidden']);
-}
-
-/**
- * @param $comment
- */
-function c4m_comment_my_comments_view_alter(&$comment) {
-  $item = menu_get_item();
-
-  // My comments view should not display the links.
-  if (empty($item['path']) || $item['path'] != 'user/%/comments') {
-    return;
-  }
-
-  unset($comment->content['c4m_user_first_and_last_name']);
-  unset($comment->content['links']);
 }
 
 /**
