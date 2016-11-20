@@ -129,6 +129,7 @@
       display: block;
     }
   }
+
   .cfm-file-upload-wrapper {
     display: flex;
     flex-direction: column;
@@ -204,6 +205,13 @@
       .radio + .radio {
         margin-top: 10px;
       }
+    }
+  }
+
+  .c4m-metadata {
+
+    .btn-primary {
+      background-color: $color-gray;
     }
   }
 }
