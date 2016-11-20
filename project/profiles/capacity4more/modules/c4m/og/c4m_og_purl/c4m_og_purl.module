@@ -36,8 +36,15 @@ function c4m_og_purl_init() {
     if (!og_is_group_type('node', $node->type)) {
 
       $context = og_context();
-      if (!og_is_group_content_type('node', $node->type) && $context) {
+      $group = c4m_og_get_group_of_content($node);
+
+      if ($group xor $context) {
         // We should never have context for a node that is not part of og.
+        c4m_content_deny_access();
+      }
+
+      // Group content must be displayed within its group context.
+      if ($group && $group->nid != $context['gid']) {
         c4m_content_deny_access();
       }
 
