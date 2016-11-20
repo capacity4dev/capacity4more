@@ -1922,18 +1922,38 @@ function c4m_og_open_group_access_activate_pending_members($node) {
 }
 
 /**
+ * Gets all the IDs of membership that has been added by invitation.
+ *
+ * @return array
+ *   The IDs of the invited memberships.
+ */
+function c4m_og_get_invited_memberships_ids() {
+  $cache = &drupal_static(__FUNCTION__);
+  if (!isset($cache)) {
+    $query = db_select('field_data_og_membership_invitation', 'ogm');
+    $query->fields('ogm', array('entity_id'));
+
+    $cache = array_keys($query->execute()->fetchAllAssoc(0, 0));
+  }
+
+  return $cache;
+}
+
+/**
  * Get the group membership entity by user, group and state.
  *
  * @param int $gid
  *   The group ID.
  * @param int $state
  *   The user current state.
+ * @param bool $exclude_invitations
+ *   A flag to determine if to exclude invited memberships.
  *
  * @return array
  *   Array of members UIDs, or an empty array.
  */
-function c4m_og_get_all_group_memberships_by_state($gid, $state) {
-  $cache = &drupal_static(__FUNCTION__, array());
+function c4m_og_get_all_group_memberships_by_state($gid, $state, $exclude_invitations = FALSE) {
+  $cache = &drupal_static(__FUNCTION__ . (string) $exclude_invitations, array());
 
   $identifier = $gid . ':' . $state;
 
@@ -1942,12 +1962,21 @@ function c4m_og_get_all_group_memberships_by_state($gid, $state) {
   }
 
   $query = new EntityFieldQuery();
-  $result = $query
+  $query
     ->entityCondition('entity_type', 'og_membership')
     ->propertyCondition('gid', $gid)
     ->propertyCondition('state', $state)
     ->propertyCondition('group_type', 'node')
-    ->propertyCondition('entity_type', 'user')
+    ->propertyCondition('entity_type', 'user');
+
+  if ($exclude_invitations) {
+    // Add the condition only if there are invited memberships.
+    if ($invited_memberships = c4m_og_get_invited_memberships_ids()) {
+      $query->propertyCondition('id', $invited_memberships, 'NOT IN');
+    }
+  }
+
+  $result = $query
     ->execute();
 
   $cache[$identifier] = !empty($result['og_membership']) ? array_keys($result['og_membership']) : array();
