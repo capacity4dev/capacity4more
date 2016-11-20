@@ -19,10 +19,8 @@
           array('@name' => $vocabulary_label)
         ); ?></button>
       <?php if ($required): ?>
-        <label class="control-label">
-          <span class="form-required"
-                title="<?php print t('This field is required.'); ?>">*</span>
-        </label>
+        <span class="form-required"
+              title="<?php print t('This field is required.'); ?>">*</span>
       <?php endif; ?>
     </div>
     <div class="selected-values"
