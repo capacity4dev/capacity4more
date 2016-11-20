@@ -75,10 +75,26 @@ body {
   }
 
   &.no-js {
+    .c4m_vocab_topic,
+    .c4m_vocab_language,
+    .c4m_vocab_geo,
+    .c4m_vocab_description,
     .pane-quick-form,
     .field-name-activity-stream-by-topic,
     .pane-content .activity-stream {
       display: none;
+    }
+
+    .btn-group {
+      &.categories {
+        display: none;
+      }
+    }
+
+    .input-wrapper {
+      &.tags {
+        display: none;
+      }
     }
   }
 }
