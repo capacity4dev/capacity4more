@@ -265,3 +265,31 @@ function c4m_features_og_events_upcoming_events_get_events($range, $topics = arr
 
   return array($events, $display_see_more);
 }
+
+/**
+ * Gets the number of events per group via it's original view.
+ *
+ * @param $type
+ *   The type of events (upcoming / past).
+ *
+ * @return int
+ *   The number of events.
+ */
+function _c4m_features_og_events_count_via_views($type) {
+  // Mapping by the original name of the display.
+  $mapped_views = array(
+    'upcoming' => 'page',
+    'past' => 'page_1',
+  );
+
+  $view = views_get_view('c4m_overview_og_events');
+
+  // Disabled the pagination.
+  $view->set_items_per_page(0);
+
+  $view->set_display($mapped_views[$type]);
+  $view->pre_execute();
+  $view->execute();
+
+  return count($view->result);
+}
