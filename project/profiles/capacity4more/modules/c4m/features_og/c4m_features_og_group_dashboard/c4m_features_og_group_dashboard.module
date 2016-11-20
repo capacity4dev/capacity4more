@@ -171,15 +171,21 @@ function c4m_features_og_group_dashboard_form_alter(&$form, &$form_state, $form_
     // Get group of the entity.
     $group_id   = c4m_og_get_gid_from_entity($entity);
 
-    $url_options = array(
-      'purl' => array(
-        'provider' => 'og_purl|node',
-        'id' => $group_id,
-      ),
-    );
+    if ($_GET['destination'] == 'node') {
+      // When destination is 'node' it actually means the group homepage.
+      $_GET['destination'] = 'node/' . $group_id;
+    }
+    else {
+      $url_options = array(
+        'purl' => array(
+          'provider' => 'og_purl|node',
+          'id' => $group_id,
+        ),
+      );
 
-    // Override the destination so we'll get the purl.
-    $_GET['destination'] = url($_GET['destination'], $url_options);
+      // Override the destination so we'll get the purl.
+      $_GET['destination'] = url($_GET['destination'], $url_options);
+    }
 
     if ($flag->name === 'c4m_og_content_highlight' && $form['action']['#value'] == 'flag') {
       $flag_id = $flag->fid;
