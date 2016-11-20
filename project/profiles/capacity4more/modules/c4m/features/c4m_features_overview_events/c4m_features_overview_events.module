@@ -218,3 +218,34 @@ function c4m_features_overview_events_form_alter(&$form, &$form_state, $form_id)
     unset($form['form_id'], $form['#token'], $form['form_build_id'], $form['#build_id']);
   }
 }
+
+/**
+ * Implements hook_node_view_alter().
+ *
+ * On the events overviews we should not display the author of the event.
+ */
+function c4m_features_overview_events_node_view_alter(&$build) {
+  if (empty($build['#bundle']) || $build['#bundle'] != 'event') {
+    return;
+  }
+
+  if (empty($build['#view_mode']) || $build['#view_mode'] != 'teaser') {
+    return;
+  }
+
+  $allowed_paths = array(
+    'events',
+    'events/upcoming',
+    'events/past',
+  );
+
+  $item = menu_get_item();
+  if (empty($item['path']) || !in_array($item['path'], $allowed_paths)) {
+    return;
+  }
+
+  // Removing the author line.
+  $build['c4m_user_first_and_last_name']['#access'] = FALSE;
+  $build['c4m_ds_type_insert_action']['#access'] = FALSE;
+  $build['c4m_ds_content_type_icon']['#access'] = FALSE;
+}
