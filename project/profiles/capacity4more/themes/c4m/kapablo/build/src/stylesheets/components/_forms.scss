@@ -159,11 +159,11 @@
     font-family: Arial;
     color: white;
     border-radius: 90px;
-    background-color: $color-text-alternative;
+    background-color: $color-gray;
     cursor: pointer;
 
     &:hover {
-      background-color: $color-link;
+      background-color: $color-gray-darker;
     }
 
     a {
