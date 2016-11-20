@@ -80,6 +80,9 @@ function c4m_content_document_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
+      'my_comments' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(),
