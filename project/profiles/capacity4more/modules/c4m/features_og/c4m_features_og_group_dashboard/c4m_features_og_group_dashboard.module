@@ -261,7 +261,8 @@ function c4m_features_og_group_dashboard_menu_alter(&$items) {
 function c4m_features_og_group_dashboard_promote_flag_access($action, $flag, $entity_id) {
   if ($flag->name == 'c4m_og_content_highlight') {
     if (!og_context_is_init()) {
-      // OG context was not determined yet, so register the path and return early.
+      // OG context was not determined yet, so register the path and return
+      // early.
       // The next time this access callback will be called, it will not enter
       // here.
       og_context_access_callback_register_path($_GET['q']);
