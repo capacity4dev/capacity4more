@@ -6,7 +6,7 @@
  */
 ?>
 <div class="input-wrapper tags c4m-tags-vocab-widget" ng-class="{ 'has-error' : errors.tags }">
-  <label class="control-label"><?php print t('Tags') ?></label>
+  <span class="control-label"><?php print t('Tags') ?></span>
   <?php if ($required): ?>
     <span class="form-required" title="<?php print t('This field is required.'); ?>">*</span>
   <?php endif; ?>
