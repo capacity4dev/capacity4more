@@ -5,7 +5,7 @@
  * Template to render the Vocabulary widget.
  */
 ?>
-<div class="c4m_vocab_description"
+<div class="c4m-vocab-description"
   ng-show="data.field_info.<?php print $vocabulary_machine_name ?>.description">
   {{data.field_info.<?php print $vocabulary_machine_name ?>.description}}
 </div>

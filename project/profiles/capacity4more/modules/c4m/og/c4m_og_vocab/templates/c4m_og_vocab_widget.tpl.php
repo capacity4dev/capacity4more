@@ -5,7 +5,7 @@
  * Template for the Vocabulary widget.
  */
 ?>
-<div class="input-wrapper tags" ng-class="{ 'has-error' : errors.tags }">
+<div class="input-wrapper tags c4m-tags-vocab-widget" ng-class="{ 'has-error' : errors.tags }">
   <label class="control-label"><?php print t('Tags') ?></label>
   <?php if ($required): ?>
     <span class="form-required" title="<?php print t('This field is required.'); ?>">*</span>

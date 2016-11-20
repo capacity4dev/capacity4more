@@ -5,7 +5,7 @@
  * Template for the Categories vocabulary widget.
  */
 ?>
-<div class="form-group btn-group <?php print $vocabulary_machine_name; ?>">
+<div class="form-group btn-group <?php print $vocabulary_machine_name; ?> c4m-categories-vocab-widget">
   <div class="checkboxes-wrapper">
     <div>
       <button name="<?php print $vocabulary_machine_name ?>" type="button"
