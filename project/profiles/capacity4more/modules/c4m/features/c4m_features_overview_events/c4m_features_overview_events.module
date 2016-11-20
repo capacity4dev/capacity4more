@@ -249,3 +249,22 @@ function c4m_features_overview_events_node_view_alter(&$build) {
   $build['c4m_ds_type_insert_action']['#access'] = FALSE;
   $build['c4m_ds_content_type_icon']['#access'] = FALSE;
 }
+
+/**
+ * Gets the number of events per group via it's original view.
+ *
+ * @param string $type
+ *   The type of events (upcoming / past).
+ *
+ * @return int
+ *   The number of events.
+ */
+function _c4m_features_overview_events_count_via_views($type) {
+  // Mapping by the original name of the display.
+  $mapped_views = array(
+    'upcoming' => 'block_1',
+    'past' => 'block_2',
+  );
+
+  return _c4m_helper_entity_total_count_via_views('c4m_overview_events_landing', $mapped_views[$type]);
+}
