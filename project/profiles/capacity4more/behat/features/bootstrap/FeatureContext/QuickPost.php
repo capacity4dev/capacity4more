@@ -34,26 +34,46 @@ trait QuickPost {
   }
 
   /**
+   * @Given /^I check the "([^"]*)" topic on quickpost$/
+   */
+  public function iCheckTheTopicOnQuickPost($title) {
+    // Using javascript script to check the checkbox over Angular to invoke its
+    // change callback.
+    $js_to_check_topic = "jQuery('#quick-post-form .popover-content-list [title=\"$title\"]').click()";
+    $this->getSession()->executeScript($js_to_check_topic);
+
+    // Apparently the first time doesn't trigger it.
+    $this->getSession()->executeScript($js_to_check_topic);
+  }
+
+  /**
    * Helper function to create a new discussion via the quick post form.
    */
-  public function iStartNewDiscussionOnQuickPost($title, $body, $group) {
+  public function iStartNewDiscussionOnQuickPost($title, $body, $group, $include_topic = TRUE) {
     $steps = array();
     $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
     $steps[] = new Step\When('I focus on "label" element');
-    $steps[] = new Step\When('I should wait to see "Create a post with additional details"');
+    $steps[] = new Step\When('I wait for the text "Create a post with additional details" to appear in "quick-post-form" id');
     $steps[] = new Step\When('I should see "Notify members of the group about this post"');
     $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
     $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
     $steps[] = new Step\When('I press the "idea" button');
 
+    if ($include_topic) {
+      $steps[] = new Step\When('I press the "Select Topic" button');
+      $steps[] = new Step\When('I fill in "list-terms-search" with "gas"');
+      $steps[] = new Step\When('I check the "Gas" topic on quickpost');
+      $steps[] = new Step\When('I press the "Select Topic" button');
+    }
+
     return $steps;
   }
 
   /**
-   * @When /^I create a discussion quick post with title "([^"]*)" and body "([^"]*)" in "([^"]*)"$/
+   * @When /^I create a discussion quick post with title "([^"]*)" and body "([^"]*)" in "([^"]*)" (with|without) topic$/
    */
-  public function iCreateDiscussionQuickPost($title, $body, $group) {
-    $steps = $this->iStartNewDiscussionOnQuickPost($title, $body, $group);
+  public function iCreateDiscussionQuickPost($title, $body, $group, $topic) {
+    $steps = $this->iStartNewDiscussionOnQuickPost($title, $body, $group, $topic == 'with');
     $steps[] = new Step\When('I press the "quick-submit" button');
 
     return $steps;

@@ -37,6 +37,31 @@ function c4m_content_photo_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'comment|comment_node_photo|my_comments';
+  $ds_fieldsetting->entity_type = 'comment';
+  $ds_fieldsetting->bundle = 'comment_node_photo';
+  $ds_fieldsetting->view_mode = 'my_comments';
+  $ds_fieldsetting->settings = array(
+    'post_date' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'ds_post_date_c4m_long_without_time',
+    ),
+    'c4m_user_picture' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'linked_c4m_user_author_thumb_image',
+    ),
+    'c4m_ds_comment_node_link' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+  );
+  $export['comment|comment_node_photo|my_comments'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|photo|activity_global';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'photo';
@@ -181,6 +206,11 @@ function c4m_content_photo_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_ds_content_shared_to' => array(
       'weight' => '9',
       'label' => 'hidden',
@@ -272,6 +302,21 @@ function c4m_content_photo_ds_field_settings_info() {
           'func' => 'theme_ds_field_reset',
         ),
       ),
+    ),
+    'c4m_ds_content_footer_stats' => array(
+      'weight' => '8',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '9',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_promote' => array(
+      'weight' => '10',
+      'label' => 'hidden',
+      'format' => 'default',
     ),
   );
   $export['node|photo|teaser'] = $ds_fieldsetting;
@@ -428,7 +473,11 @@ function c4m_content_photo_ds_layout_settings_info() {
       'post_date' => 'right',
       'comment_body' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'left' => 'div',
       'right' => 'div',
@@ -441,6 +490,48 @@ function c4m_content_photo_ds_layout_settings_info() {
     'layout_disable_css' => FALSE,
   );
   $export['comment|comment_node_photo|default'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'comment|comment_node_photo|my_comments';
+  $ds_layout->entity_type = 'comment';
+  $ds_layout->bundle = 'comment_node_photo';
+  $ds_layout->view_mode = 'my_comments';
+  $ds_layout->layout = 'c4m_ds_2col_icon_left';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'left' => array(
+        0 => 'c4m_user_picture',
+      ),
+      'right' => array(
+        1 => 'c4m_ds_comment_node_link',
+        2 => 'post_date',
+        3 => 'comment_body',
+      ),
+    ),
+    'fields' => array(
+      'c4m_user_picture' => 'left',
+      'c4m_ds_comment_node_link' => 'right',
+      'post_date' => 'right',
+      'comment_body' => 'right',
+    ),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
+    'wrappers' => array(
+      'left' => 'div',
+      'right' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['comment|comment_node_photo|my_comments'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
@@ -573,7 +664,7 @@ function c4m_content_photo_ds_layout_settings_info() {
     'regions' => array(
       'left' => array(
         0 => 'c4m_ds_content_type_label',
-        2 => 'title',
+        3 => 'title',
         4 => 'c4m_ds_content_footer_stats',
         5 => 'node_gallery_navigation',
         6 => 'c4m_media',
@@ -581,8 +672,8 @@ function c4m_content_photo_ds_layout_settings_info() {
         8 => 'c4m_ds_photo_download',
       ),
       'right' => array(
-        1 => 'highlighted',
-        3 => 'c4m_ds_content_actions',
+        1 => 'c4m_ds_node_highlight',
+        2 => 'c4m_ds_content_actions',
         9 => 'group_node_meta',
         10 => 'group_node_actions',
         11 => 'c4m_ds_content_shared_to',
@@ -593,9 +684,9 @@ function c4m_content_photo_ds_layout_settings_info() {
     ),
     'fields' => array(
       'c4m_ds_content_type_label' => 'left',
-      'highlighted' => 'right',
-      'title' => 'left',
+      'c4m_ds_node_highlight' => 'right',
       'c4m_ds_content_actions' => 'right',
+      'title' => 'left',
       'c4m_ds_content_footer_stats' => 'left',
       'node_gallery_navigation' => 'left',
       'c4m_media' => 'left',
@@ -652,6 +743,9 @@ function c4m_content_photo_ds_layout_settings_info() {
       ),
       'right' => array(
         7 => 'c4m_body',
+        8 => 'c4m_ds_content_footer_stats',
+        9 => 'c4m_ds_node_highlight',
+        10 => 'c4m_ds_node_promote',
       ),
     ),
     'fields' => array(
@@ -663,8 +757,15 @@ function c4m_content_photo_ds_layout_settings_info() {
       'c4m_field_og_group' => 'header',
       'c4m_media' => 'left',
       'c4m_body' => 'right',
+      'c4m_ds_content_footer_stats' => 'right',
+      'c4m_ds_node_highlight' => 'right',
+      'c4m_ds_node_promote' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'header' => 'div',
       'left' => 'div',

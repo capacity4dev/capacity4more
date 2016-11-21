@@ -153,7 +153,7 @@ function c4m_content_project_strongarm() {
       'display' => array(
         'highlighted' => array(
           'group_dashboard' => array(
-            'weight' => '14',
+            'weight' => '34',
             'visible' => FALSE,
           ),
           'block_list' => array(

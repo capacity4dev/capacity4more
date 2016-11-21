@@ -1,5 +1,5 @@
 <form action="#" class="search">
-  <input ng-model="searchTerm" ng-change="updateSearch()" class="form-control" type="text" placeholder="Search"/>
+  <input ng-model="searchTerm" name="list-terms-search" ng-change="updateSearch()" class="form-control" type="text" placeholder="Search"/>
 </form>
 <ul class="popover-content-list">
   <li class="checkbox" ng-repeat="item in filteredTerms">

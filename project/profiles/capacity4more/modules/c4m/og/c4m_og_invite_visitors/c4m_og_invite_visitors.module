@@ -13,7 +13,7 @@
 function c4m_og_invite_visitors_menu() {
   $items = array();
   $items['group/%/%/admin/people/invite-visitors'] = array(
-    'title' => 'Invite Visitors',
+    'title' => 'Invite group members',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('_c4m_og_invite_visitors_new_users_form', 2),
     'type' => MENU_LOCAL_TASK,
@@ -154,8 +154,8 @@ function c4m_og_invite_visitors_og_ui_get_group_admin($group_type, $gid) {
   $items = array();
   if (og_user_access($group_type, $gid, 'invite visitors')) {
     $items['c4m_og_invite_visitors'] = array(
-      'title' => t('Invite visitors'),
-      'description' => t('Create new users and add them as group members.'),
+      'title' => t('Invite group members'),
+      'description' => t('Invite users or create new users and add them as group members.'),
       'href' => 'admin/people/invite-visitors',
     );
   }
@@ -176,30 +176,8 @@ function c4m_og_invite_visitors_og_ui_get_group_admin($group_type, $gid) {
  *   Grand/deny access for inviting visitors.
  */
 function c4m_og_invite_visitors_user_access($gid) {
-  $group = node_load($gid);
 
-  // SAs, GOs and GAs can invite new members.
-  if (_c4m_features_og_members_is_power_user($group)) {
-    return TRUE;
-  }
-
-  // OG permission.
-  if (!og_user_access('node', $group->nid, 'invite visitors')) {
-    return FALSE;
-  }
-
-  // Get request type (open/moderated).
-  $membership_request_value = c4m_og_get_group_membership_request($group);
-  // Get access type (public/private).
-  $access_type = c4m_og_get_access_type($group);
-
-  // Non power users are not allowed to invite visitors to a private / moderated
-  // group.
-  if ($access_type['type'] == 'private' || $membership_request_value == 'moderated') {
-    return FALSE;
-  }
-
-  return og_is_member('node', $group->nid);
+  return c4m_og_invite_access('node', $gid);
 }
 
 /**
@@ -242,7 +220,13 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $gid) {
     '#type' => 'value',
     '#value' => $group->nid,
   );
-
+  // str_replace result is the path to `Manage the group members`.
+  $form['manage_group_people'] = array(
+    '#type' => 'link',
+    '#href' => str_replace('/invite-visitors', '', $_GET['q']),
+    '#title' => 'Manage all group memberships',
+    '#access' => _c4m_features_og_members_is_power_user(),
+  );
   $form['c4m_og_invite_visitors'] = array(
     '#type' => 'fieldset',
     '#title' => t('Invite new users to %group', array('%group' => $label)),
@@ -326,7 +310,7 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
       case 'invite_user':
         // Invoke the invite_user functionality.
         $field_name = key(og_get_group_audience_fields());
-        og_invite_invite('node', $gid, $field_name, $action['uid']);
+        c4m_og_invite_users_invite($gid, $field_name, $action['uid'], $form_fields['body'], $form_fields['subject']);
         drupal_set_message(t('An email notification was sent to %address.', array('%address' => $invitee_email)));
         break;
     }
@@ -361,7 +345,17 @@ function c4m_og_invite_visitors_determine_user_action($invitee_email, $gid) {
 
   // Do not invite a user who is already a member of the group.
   if ($og_membership = og_get_membership('node', $gid, 'user', $account->uid)) {
-    drupal_set_message(t('%user is already a member of this group.', array('%user' => format_username($account))), 'error');
+    // Member is blocked, display a link to the manage people page.
+    if ($og_membership->state == OG_STATE_BLOCKED) {
+      $link = l(t('Manage the group members.'), 'group/node/' . $og_membership->gid . '/admin/people');
+      drupal_set_message(t('%user is a blocked member of this group. !people-page-link', array(
+        '%user' => $invitee_email,
+        '!people-page-link' => $link,
+      )), 'error');
+    }
+    else {
+      drupal_set_message(t('%user is already a member of this group.', array('%user' => $invitee_email)), 'warning');
+    }
 
     return $action;
   }
@@ -523,6 +517,13 @@ function c4m_og_invite_visitors_form_user_register_form_alter(&$form, &$form_sta
     return;
   }
 
+  $wrapper = entity_metadata_wrapper('node', $_SESSION['c4m_og_invite_visitors_gid_join']);
+  $variables = array(
+    'group_title' => $wrapper->label(),
+    'login_link' => l(t('Log in.'), 'user/login'),
+  );
+  drupal_set_title(theme('c4m_unified_workflow_register', $variables), PASS_THROUGH);
+
   $form['#submit'][] = 'c4m_og_invite_visitors_register_submit';
   $form['actions']['submit']['#value'] = t('Register to join');
 }
@@ -537,26 +538,12 @@ function c4m_og_invite_visitors_register_submit($form, &$form_state) {
     return;
   }
 
-  $group = node_load($gid);
-  // Removing the original message of the user_register_form.
-  drupal_get_messages('status');
-  $message = t('Welcome to group @group_title.', array('@group_title' => $group->title));
-
-  drupal_set_message($message);
-  $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
-
-  // Add the user to the group.
-  og_group('node', $group, array('entity' => $form_state['user']));
-
   // Void the invitation token in the database after registration completes and
   // add the new user ID.
   c4m_og_invite_visitors_void_invitation($form_state['user']->uid, $form_state['user']->mail, $gid);
 
   // drupal_goto has a fallback to the 'destination' so we must remove it.
   unset($_GET['destination']);
-
-  // User is registered, the session variable should be destroyed.
-  unset($_SESSION['c4m_og_invite_visitors_gid_join']);
 }
 
 /**
@@ -589,6 +576,45 @@ function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
   }
 
   return $num_updated;
+}
+
+/**
+ * Implements hook_user_update().
+ *
+ * When account is activated, add the user, as active member,
+ * to the group he was invited into.
+ */
+function c4m_og_invite_visitors_user_update(&$edit, $account, $category) {
+  // Original status was "Active".
+  // For some reason the status in the original object is string.
+  if ($account->original->status != '0') {
+    return;
+  }
+
+  // Current status is "Not active".
+  if ($account->status != 1) {
+    return;
+  }
+
+  if (!isset($_SESSION['c4m_og_invite_visitors_gid_join']) || !$gid = $_SESSION['c4m_og_invite_visitors_gid_join']) {
+    return;
+  }
+
+  $account = user_load($account->uid);
+
+  $group = node_load($gid);
+  // Removing the original message of the user_register_form.
+  drupal_get_messages('status');
+  $message = t('Welcome to group @group_title.', array('@group_title' => $group->title));
+
+  drupal_set_message($message);
+  $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
+
+  // Add the user to the group.
+  og_group('node', $group, array('entity' => $account));
+
+  // User is registered, the session variable should be destroyed.
+  unset($_SESSION['c4m_og_invite_visitors_gid_join']);
 }
 
 /**

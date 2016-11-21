@@ -77,6 +77,13 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 4,
       ),
+      'my_comments' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
+      ),
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'comment',
@@ -387,7 +394,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 26,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -465,7 +472,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 24,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -560,7 +567,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 29,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -662,7 +669,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 28,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -766,7 +773,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 27,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -902,7 +909,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 30,
       ),
       'teaser_group' => array(
         'label' => 'above',

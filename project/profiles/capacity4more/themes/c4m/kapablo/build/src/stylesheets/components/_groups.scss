@@ -826,6 +826,7 @@
   }
 }
 
+.view-mode-full,
 .view-mode-group_dashboard {
 
   .c4m-node-highlight {
@@ -833,6 +834,18 @@
 
     .highlight-link-text {
       margin-left: 1rem;
+    }
+  }
+}
+
+.pane-c4m-overview-og-highlights {
+
+  .c4m-node-highlight {
+    text-align: right;
+    margin-bottom: 5px;
+
+    .highlight-link-text {
+      display: none;
     }
   }
 }

@@ -11,13 +11,11 @@ define('C4M_CONTENT_GROUP_STATUS_VIEW_PENDING', 0);
 define('C4M_CONTENT_GROUP_STATUS_VIEW_DRAFT', 1);
 define('C4M_CONTENT_GROUP_STATUS_VIEW_PUBLISHED', 2);
 define('C4M_CONTENT_GROUP_STATUS_VIEW_ARCHIVED', 3);
-define('C4M_CONTENT_GROUP_STATUS_VIEW_REJECTED', 4);
 define('C4M_CONTENT_GROUP_STATUS_VIEW_DELETED', 5);
 define('C4M_CONTENT_GROUP_STATUS_UPDATE_PENDING', 6);
 define('C4M_CONTENT_GROUP_STATUS_UPDATE_DRAFT', 7);
 define('C4M_CONTENT_GROUP_STATUS_UPDATE_PUBLISHED', 8);
 define('C4M_CONTENT_GROUP_STATUS_UPDATE_ARCHIVED', 9);
-define('C4M_CONTENT_GROUP_STATUS_UPDATE_REJECTED', 10);
 define('C4M_CONTENT_GROUP_STATUS_UPDATE_DELETED', 11);
 
 include_once 'c4m_content_group.features.inc';
@@ -207,13 +205,11 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
       C4M_CONTENT_GROUP_STATUS_VIEW_DRAFT,
       C4M_CONTENT_GROUP_STATUS_VIEW_PUBLISHED,
       C4M_CONTENT_GROUP_STATUS_VIEW_ARCHIVED,
-      C4M_CONTENT_GROUP_STATUS_VIEW_REJECTED,
       C4M_CONTENT_GROUP_STATUS_VIEW_DELETED,
       C4M_CONTENT_GROUP_STATUS_UPDATE_PENDING,
       C4M_CONTENT_GROUP_STATUS_UPDATE_DRAFT,
       C4M_CONTENT_GROUP_STATUS_UPDATE_PUBLISHED,
       C4M_CONTENT_GROUP_STATUS_UPDATE_ARCHIVED,
-      C4M_CONTENT_GROUP_STATUS_UPDATE_REJECTED,
       C4M_CONTENT_GROUP_STATUS_UPDATE_DELETED,
     );
     return $grants;
@@ -759,7 +755,7 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
     '#type' => 'item',
     '#title' => t('Group administrators'),
     '#title_display' => 'above',
-    '#suffix' => implode(",", $links),
+    '#suffix' => implode(', ', $links),
   );
 
   $node->content['#pre_render'][] = 'c4m_content_group_theme_topics_and_regions';
