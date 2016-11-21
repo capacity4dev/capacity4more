@@ -59,3 +59,9 @@ Feature: Group access
     And I should not see an ".field-name-c4m-related-group" element
     And I should not see an ".node-form .field-name-c4m-og-status" element
     And I should not see an ".tabbable.tabs-left.vertical-tabs" element
+
+  @api
+  Scenario: check access
+    Given I am logged in with a temporal user with email domain "gizra.com"
+    When  I visit "groups"
+    Then  I follow "Restricted group with partner access"

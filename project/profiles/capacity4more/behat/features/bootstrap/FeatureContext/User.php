@@ -42,16 +42,16 @@ trait User {
   }
 
   /**
-   * @Given /^I am logged in with a temporal user$/
+   * @Given /^I am logged in with a temporal user( with email domain "([^"]*)")?$/
    */
-  public function iAmLoggedInWithATemporalUser() {
+  public function iAmLoggedInWithATemporalUser($with_email_domain = NULL, $domain = 'example.com') {
     $username = 'temporaluser' . md5(microtime());
     $password = 'drupal';
 
     $temporal_user = array(
       'name' => $username,
       'pass' => $password,
-      'mail' => "{$username}@example.com",
+      'mail' => "{$username}@{$domain}",
       'status' => 1,
       'legal_accept' => 1,
     );
