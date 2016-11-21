@@ -60,14 +60,6 @@
   @include looped_backgrounds($archive, '../images/icons/document-zip.svg');
 }
 
-.flag-c4m-og-content-recommend {
-  .flag-action {
-    .fa-thumbs-o-up {
-      color: $color-text;
-    }
-  }
-}
-
 .social-actions-share {
   .wtShareNetworks {
     text-align: center;
@@ -126,4 +118,10 @@
 
 .page-content .fa {
   line-height: 1.1;
+}
+
+.flag-outer-c4m-og-content-highlight {
+  .fa {
+    margin-right: 0.5em;
+  }
 }
