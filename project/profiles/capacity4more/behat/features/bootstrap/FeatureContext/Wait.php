@@ -55,6 +55,16 @@ trait Wait {
     $this->waitForXpathNode(".//*[contains(@name, \"$element_name\")]//*[contains(normalize-space(string(text())), \"$text\")]", $appear == 'appear');
   }
 
+  /**
+   * @Given /^I wait for the text "([^"]+)" to (appear|disappear) (in|from) "([^"]+)" (id|class|name)$/
+   *
+   * Ths $syntax is not really important, but Behat requires it to be a
+   * parameter because of the choice in|from.
+   */
+  public function iWaitForTextLookByProperty($text, $appear, $syntax, $element_name, $property) {
+    $this->waitForXpathNode(".//*[contains(@$property, \"$element_name\")]//*[contains(normalize-space(string(text())), \"$text\")]", $appear == 'appear');
+  }
+
   private function waitFor($fn, $timeout = 30000) {
     $start = microtime(true);
     $end = $start + $timeout / 1000.0;

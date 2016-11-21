@@ -2,14 +2,14 @@
   margin: 20px 18px 10px;
 
   @media (min-width: $screen-tablet) {
-    display: inline-block;
     margin: 20px 0 10px;
   }
 }
 
 .project-indications {
-  float: left;
-  margin: 0 0 0 18px;
+  display: block;
+  margin: 20px 0 0 18px;
+  overflow: hidden;
 
   .project-icon {
     display: inline-block;
@@ -41,7 +41,6 @@
 
   @media (min-width: $screen-tablet) {
     float: right;
-    margin-top: 20px;
   }
 }
 
@@ -51,6 +50,7 @@
   height: 25px;
 }
 
+.programme-type,
 .project-type,
 .project-status {
   display: inline-block;
@@ -77,6 +77,17 @@
     display: block;
     clear: left;
     margin-top: 6px;
+  }
+}
+
+.field-name-c4m-related-group,
+.field-name-c4m-related-projects {
+  .node-project, .node-group {
+    border-bottom: 1px dotted $color-gray-light;
+  }
+
+  div:last-child {
+    border-bottom: 0;
   }
 }
 

@@ -456,17 +456,26 @@ function c4m_user_count_nodes($uid) {
  *
  * @param int $uid
  *   The User ID.
+ * @param bool $node_published
+ *   Determine if to get only comments of published nodes.
  *
  * @return int
  *    Number of comments.
  */
-function c4m_user_count_comments($uid) {
+function c4m_user_count_comments($uid, $node_published = TRUE) {
   $query = db_select('comment', 'c');
-  $query->join('node', 'n', 'c.nid = n.nid');
+
+  if ($node_published) {
+    $query->join('node', 'n', 'c.nid = n.nid');
+  }
+
   $query->fields('c', array('cid'))
     ->condition('c.status', 1)
-    ->condition('n.status', 1)
     ->condition('c.uid', (int) $uid);
+
+  if ($node_published) {
+    $query->condition('n.status', 1);
+  }
 
   return (int) $query->countQuery()->execute()->fetchField();
 }
@@ -894,6 +903,16 @@ function c4m_user_block_info() {
 
   $blocks['c4m_block_contact_members'] = array(
     'info' => t('User: contact members'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  $blocks['c4m_my_comments_link'] = array(
+    'info' => t('User: Link to My comments view'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  $blocks['c4m_back_to_my_content_link'] = array(
+    'info' => t('User: Link Back to My content view'),
     'cache' => DRUPAL_NO_CACHE,
   );
 

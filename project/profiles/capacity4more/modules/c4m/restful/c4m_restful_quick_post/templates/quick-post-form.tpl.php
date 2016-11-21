@@ -56,7 +56,7 @@
   <div>
     <input type="file" name="document-file" id="c4m-related-document" class="document_file" ng-file-select="onQuickPostFileSelect($files, 'c4m-related-document')">
     <a href="" class="hidden" ng-click="browseFiles('c4m-related-document')"></a>
-    <span class="body-attachment-link">
+    <span class="body-attachment-link" ng-show="!data.relatedDocuments || data.relatedDocuments.length < 1">
       <label for="c4m-related-document"><?php print t('File to attach'); ?>
         <i class="fa fa-paperclip"></i>
       </label>
@@ -89,7 +89,7 @@
   <a href="" id="full-from-button" ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('the advanced form'); ?></a>
 instead.</span>
 
-<div class="form-group btn-group clearfix btn-group-selectors topics-section" ng-class="{ 'has-error' : errors.topic }">
+<div class="form-group btn-group clearfix btn-group-selectors topics-section" id="topic" ng-class="{ 'has-error' : errors.topic == true }">
   <div class="label-wrapper">
     <span id="topic_description" class="description">
       {{fieldSchema.resources[selectedResource].topic.info.description}}
@@ -114,6 +114,7 @@ instead.</span>
       </div>
     </div>
   </div>
+  {{ error.topic }}
 </div>
 
   <div class="actions-row">

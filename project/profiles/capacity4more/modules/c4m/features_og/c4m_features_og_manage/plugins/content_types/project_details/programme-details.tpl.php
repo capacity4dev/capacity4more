@@ -80,7 +80,7 @@
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('CRIS Contact number') ?></div>
-        <div class="col-md-9"><?php print (isset($details['cris_contact_number'])) ? $details['cris_contact_number'] : ''; ?></div>
+        <div class="col-md-9"><?php print (isset($details['cris_contract_number'])) ? $details['cris_contract_number'] : ''; ?></div>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Programme topics') ?></div>
@@ -101,7 +101,7 @@
         <div class="col-md-9"><?php print (isset($details['related_groups'])) ? $details['related_groups'] : ''; ?></div>
       </div>
       <div class="row">
-        <div class="col-md-3"><?php print t('Related Initiatives') ?></div>
+        <div class="col-md-3"><?php print t('Projects in this Programme') ?></div>
         <div class="col-md-9"><?php print (isset($details['related_projects'])) ? $details['related_projects'] : ''; ?></div>
       </div>
     </div>
