@@ -77,5 +77,5 @@ Feature: Group access
     Then  I should see "Drink water out of the faucet" on the "groups" overview
     When  I am an anonymous user
     Then  I should not see "Drink water out of the faucet" on the "groups" overview
-    When  I am logged in as "mariecurie"
+    When  I am logged in as user "mariecurie"
     Then  I should see "Drink water out of the faucet" on the "groups" overview
