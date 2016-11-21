@@ -65,3 +65,17 @@ Feature: Group access
     Given I am logged in with a temporal user with email domain "gizra.com"
     When  I visit "groups"
     Then  I follow "Restricted group with partner access"
+
+  @javascript
+  Scenario: check access
+    Given I am logged in with a temporal user with email domain "ec.europa.eu"
+    Then  a non moderated restricted group "Drink water out of the faucet" with "ec.europa.eu muppets.co.uk" domains and with "Gizra,Amplexor" organizations is created by the temporal user
+    Then  I should see "Drink water out of the faucet" on the "groups" overview
+    Given I am logged in with a temporal user with email domain "eeas.europa.eu"
+    Then  I should not see "Drink water out of the faucet" on the "groups" overview
+    When  I am logged in with a temporal user with email domain "ec.europa.eu"
+    Then  I should see "Drink water out of the faucet" on the "groups" overview
+    When  I am an anonymous user
+    Then  I should not see "Drink water out of the faucet" on the "groups" overview
+    When  I am logged in as "mariecurie"
+    Then  I should see "Drink water out of the faucet" on the "groups" overview

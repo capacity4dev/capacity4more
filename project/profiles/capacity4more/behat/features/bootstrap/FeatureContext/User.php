@@ -23,9 +23,23 @@ trait User {
    * @Given /^I am logged in as user "([^"]*)"$/
    */
   public function iAmLoggedInAsUser($username) {
+    if (!empty($this->user->name) && $this->user->name == $username && $this->loggedIn()) {
+      // $username is already logged in.
+      return;
+    }
+
     $this->user = new \stdClass();
     $this->user->name = $username;
-    $this->user->pass = $this->drupal_users[$username];
+
+    try {
+      $password = $this->drupal_users[$username];
+    }
+    catch (\Exception $e) {
+      // For cases like when temporal user try to login.
+      $password = 'drupal';
+    }
+
+    $this->user->pass = $password;
     $this->login();
   }
 

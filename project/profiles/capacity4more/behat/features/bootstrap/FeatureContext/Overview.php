@@ -75,4 +75,64 @@ trait Overview {
       throw new \Exception("No $field found in the overview.");
     }
   }
+
+  /**
+   * @Then /^I should( not)? see "([^"]*)" on that overview$/
+   */
+  public function iShouldSeeOnThatOverview($should_not_see = FALSE, $text) {
+    $last_page = FALSE;
+
+    while (!$last_page) {
+      try {
+        // Check if the text exists on the page.
+        $this->assertPageContainsText($text);
+
+        if ($should_not_see) {
+          // Found, but should not, set as last page cause found anyway.
+          $last_page = TRUE;
+
+          $message = sprintf('The text "%s" appears in the text of this page, but it should not.', $text);
+          throw new ResponseTextException($message, $this->session);
+        }
+
+        // Text has found and should be found.
+        return;
+      }
+      catch (\Exception $text_exception) {
+        // Might be in case we should not see the text but we did.
+        if ($should_not_see && $last_page) {
+          throw $text_exception;
+        }
+
+        try {
+          $this->clickLink('Next');
+        }
+        catch (\Exception $e) {
+          // We are in the last page, stop the loop.
+          $last_page = TRUE;
+        }
+      }
+    }
+
+    // Text was not found, as expected.
+    if ($should_not_see) {
+      return;
+    }
+
+    // Text was not found, but should have.
+    throw $text_exception;
+  }
+
+  /**
+   * @Then /^I should( not)? see "([^"]*)" on the "([^"]*)" overview$/
+   */
+  public function iShouldSeeOnTheOverview($not = FALSE, $text, $uri) {
+    $see = $not ? ' not' : '';
+
+    $steps[] = new Step\When('I visit "' . $uri . '"');
+    $steps[] = new Step\When('I should' . $see . ' see "' . $text . '" on that overview');
+
+    return $steps;
+  }
+
 }
