@@ -48,7 +48,7 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['header']['result']['field'] = 'result';
   $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
   $handler->display->display_options['header']['result']['empty'] = TRUE;
-  $handler->display->display_options['header']['result']['content'] = '@total in total';
+  $handler->display->display_options['header']['result']['content'] = 'Events (@total in total, @start - @end shown)';
   /* Header: Sort results */
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
@@ -117,6 +117,25 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '5';
   $handler->display->display_options['exposed_block'] = TRUE;
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Search: Spellcheck */
+  $handler->display->display_options['header']['search_api_spellcheck']['id'] = 'search_api_spellcheck';
+  $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['header']['search_api_spellcheck']['field'] = 'search_api_spellcheck';
+  $handler->display->display_options['header']['search_api_spellcheck']['empty'] = TRUE;
+  /* Header: Number of items */
+  $handler->display->display_options['header']['result']['id'] = 'result';
+  $handler->display->display_options['header']['result']['table'] = 'views';
+  $handler->display->display_options['header']['result']['field'] = 'result';
+  $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
+  $handler->display->display_options['header']['result']['empty'] = TRUE;
+  $handler->display->display_options['header']['result']['content'] = 'Upcoming events (@total in total, @start - @end shown)';
+  /* Header: Sort results */
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sort results';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['empty'] = TRUE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Node is published */
@@ -183,6 +202,25 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '5';
   $handler->display->display_options['exposed_block'] = TRUE;
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Search: Spellcheck */
+  $handler->display->display_options['header']['search_api_spellcheck']['id'] = 'search_api_spellcheck';
+  $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['header']['search_api_spellcheck']['field'] = 'search_api_spellcheck';
+  $handler->display->display_options['header']['search_api_spellcheck']['empty'] = TRUE;
+  /* Header: Number of items */
+  $handler->display->display_options['header']['result']['id'] = 'result';
+  $handler->display->display_options['header']['result']['table'] = 'views';
+  $handler->display->display_options['header']['result']['field'] = 'result';
+  $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
+  $handler->display->display_options['header']['result']['empty'] = TRUE;
+  $handler->display->display_options['header']['result']['content'] = 'Past events (@total in total, @start - @end shown)';
+  /* Header: Sort results */
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sort results';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['empty'] = TRUE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Node is published */
@@ -282,7 +320,7 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['header']['result']['field'] = 'result';
   $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
   $handler->display->display_options['header']['result']['empty'] = TRUE;
-  $handler->display->display_options['header']['result']['content'] = '@total in total';
+  $handler->display->display_options['header']['result']['content'] = '@total in total, @start - @end shown';
   /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_c4m_search_nodes';
