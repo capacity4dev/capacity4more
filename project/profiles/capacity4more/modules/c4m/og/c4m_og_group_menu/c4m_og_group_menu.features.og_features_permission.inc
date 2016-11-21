@@ -20,7 +20,7 @@ function c4m_og_group_menu_og_features_default_permissions() {
   // Exported og permission: 'node:project:administer og menu'
   $permissions['node:project:administer og menu'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'member' => 'member',
     ),
   );
 

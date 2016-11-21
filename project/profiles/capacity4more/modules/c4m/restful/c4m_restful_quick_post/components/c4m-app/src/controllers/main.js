@@ -73,6 +73,9 @@ angular.module('c4mApp')
 
       $scope.data['add_to_library'] = 1;
 
+      // Uncheck notification checkbox.
+      $scope.data.notification = false;
+
       // Default location is empty.
       $scope.data.location = {};
       $scope.data.location.street = '';
@@ -349,11 +352,10 @@ angular.module('c4mApp')
           this[field] = value;
         }, $scope.errors);
         // Scroll up upon discovering an error.
-        // The last error is the point of reference to scroll.
-        var errorName = Object.keys(errors)[Object.keys(errors).length - 1];
-        // In the body input we point to the parent div because of textAngular.
-        var errorInput = errorName == 'body' ? angular.element('#' + errorName + '-wrapper').offset() : angular.element('#' + errorName).offset();
-        angular.element('html, body').animate({scrollTop:errorInput.top}, '500', 'swing');
+        var quickPost = angular.element('#quick-post-form').offset();
+        // Admins has the admin menu, so we take some extra pixels.
+        var extraOffset = 50;
+        angular.element('html, body').animate({scrollTop:quickPost.top - extraOffset}, '500', 'swing');
         return false;
       }
 

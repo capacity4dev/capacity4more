@@ -579,7 +579,7 @@ function c4m_features_og_manage_project_details() {
     'source_funding' => t('No source of funding'),
     'partners' => t('No partners'),
     'cris_decision_number' => t('No CRIS Decision number'),
-    'cris_contact_number' => t('No CRIS Contact number'),
+    'cris_contract_number' => t('No CRIS Contact number'),
     'topics' => t('No Group Topics'),
     'locations' => t('No Group Regions & Countries'),
     'related_groups' => t('No Related Groups'),
@@ -604,7 +604,7 @@ function c4m_features_og_manage_project_details() {
   }
 
   // Administrators.
-  $admins = c4m_og_get_group_admins($project->nid);
+  $admins = c4m_og_get_group_members($project->nid, FALSE, 'project');
   if ($list = c4m_features_og_manage_list_group_admins($admins)) {
     $details['admins'] = $list;
   }

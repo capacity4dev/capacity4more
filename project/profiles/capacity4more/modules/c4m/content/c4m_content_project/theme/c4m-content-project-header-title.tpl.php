@@ -8,14 +8,7 @@
  */
 ?>
 
-<?php if ($title): ?>
-  <h1 class="project-title">
-    <?php print $title; ?>
-  </h1>
-<?php endif; ?>
-
 <div class="project-indications">
-
   <div class="project-indications--stage">
     <?php if ($project_stage): ?>
       <i class="fa <?php print $flag_icon; ?> top-buffer project-icon project-<?php print $project_stage; ?> node-icon as-project-<?php print $project_stage; ?>"></i>
@@ -33,3 +26,14 @@
     <span class="top-buffer indication label label-default project-status"><?php print $status; ?></span>
   <?php endif; ?>
 </div>
+
+<?php if ($title): ?>
+  <h1 class="project-title">
+    <?php print $title; ?>
+  </h1>
+<?php endif; ?>
+<?php if ($tagline): ?>
+  <h2 class="project-subtitle">
+    <?php print $tagline; ?>
+  </h2>
+<?php endif; ?>

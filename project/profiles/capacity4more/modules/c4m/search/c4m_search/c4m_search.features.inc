@@ -25,6 +25,124 @@ function c4m_search_views_api($module = NULL, $api = NULL) {
  */
 function c4m_search_default_search_api_index() {
   $items = array();
+  $items['c4m_search_comments'] = entity_import('search_api_index', '{
+    "name" : "Search Comments",
+    "machine_name" : "c4m_search_comments",
+    "description" : "Search index for all comments.",
+    "server" : "c4m_solr",
+    "item_type" : "comment",
+    "options" : {
+      "datasource" : { "bundles" : [
+          "comment_node_article",
+          "comment_node_banner",
+          "comment_node_book",
+          "comment_node_discussion",
+          "comment_node_document",
+          "comment_node_event",
+          "comment_node_featured",
+          "comment_node_feed",
+          "comment_node_group",
+          "comment_node_inthe_picture",
+          "comment_node_news",
+          "comment_node_organisation",
+          "comment_node_page_element",
+          "comment_node_photo",
+          "comment_node_photoalbum",
+          "comment_node_project",
+          "comment_node_share",
+          "comment_node_topic",
+          "comment_node_wiki_page"
+        ]
+      },
+      "index_directly" : 1,
+      "cron_limit" : "50",
+      "fields" : {
+        "author:uid" : { "type" : "integer" },
+        "cid" : { "type" : "integer" },
+        "comment_body:format" : { "type" : "string" },
+        "comment_body:value" : { "type" : "text" },
+        "created" : { "type" : "date" },
+        "node:c4m_vocab_topic" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "node:title" : { "type" : "text" },
+        "node:type" : { "type" : "string" },
+        "search_api_access_node" : { "type" : "list\\u003Cstring\\u003E" },
+        "search_api_language" : { "type" : "string" },
+        "search_api_viewed" : { "type" : "text" },
+        "status" : { "type" : "boolean" },
+        "subject" : { "type" : "text" }
+      },
+      "data_alter_callbacks" : {
+        "search_api_alter_bundle_filter" : {
+          "status" : 1,
+          "weight" : "-10",
+          "settings" : { "default" : "1", "bundles" : [] }
+        },
+        "search_api_alter_comment_access" : { "status" : 1, "weight" : "0", "settings" : [] },
+        "search_api_attachments_alter_settings" : {
+          "status" : 0,
+          "weight" : "0",
+          "settings" : {
+            "excluded_extensions" : "aif art avi bmp gif ico mov oga ogv png psd ra ram rgb flv",
+            "number_indexed" : "0",
+            "max_file_size" : "0",
+            "excluded_private" : 1
+          }
+        },
+        "search_api_alter_add_hierarchy" : { "status" : 1, "weight" : "0", "settings" : { "fields" : [] } },
+        "search_api_alter_add_viewed_entity" : { "status" : 1, "weight" : "0", "settings" : { "mode" : "full" } },
+        "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] },
+        "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] }
+      },
+      "processors" : {
+        "search_api_case_ignore" : {
+          "status" : 1,
+          "weight" : "0",
+          "settings" : { "fields" : { "status" : true, "author:uid" : true } }
+        },
+        "search_api_html_filter" : {
+          "status" : 1,
+          "weight" : "10",
+          "settings" : {
+            "fields" : [],
+            "title" : 0,
+            "alt" : 1,
+            "tags" : "h1 = 5\\r\\nh2 = 3\\r\\nh3 = 2\\r\\nstrong = 2\\r\\nb = 2\\r\\nem = 1.5\\r\\nu = 1.5"
+          }
+        },
+        "search_api_transliteration" : { "status" : 1, "weight" : "15", "settings" : { "fields" : [] } },
+        "search_api_tokenizer" : {
+          "status" : 0,
+          "weight" : "20",
+          "settings" : { "fields" : [], "spaces" : "[^[:alnum:]]", "ignorable" : "[\\u0027]" }
+        },
+        "search_api_stopwords" : {
+          "status" : 0,
+          "weight" : "30",
+          "settings" : {
+            "fields" : [],
+            "file" : "",
+            "stopwords" : "but\\r\\ndid\\r\\nthe this that those\\r\\netc"
+          }
+        },
+        "search_api_highlighting" : {
+          "status" : 0,
+          "weight" : "35",
+          "settings" : {
+            "prefix" : "\\u003Cstrong\\u003E",
+            "suffix" : "\\u003C\\/strong\\u003E",
+            "excerpt" : 1,
+            "excerpt_length" : "256",
+            "exclude_fields" : [],
+            "highlight" : "always"
+          }
+        }
+      }
+    },
+    "enabled" : "1",
+    "read_only" : "0",
+    "entity_type" : "search_api_index",
+    "rdf_mapping" : []
+  }');
   $items['c4m_search_nodes'] = entity_import('search_api_index', '{
     "name" : "Search Nodes",
     "machine_name" : "c4m_search_nodes",
@@ -221,6 +339,7 @@ function c4m_search_default_search_api_index() {
     },
     "enabled" : "1",
     "read_only" : "0",
+    "entity_type" : "search_api_index",
     "rdf_mapping" : []
   }');
   $items['c4m_search_users'] = entity_import('search_api_index', '{
@@ -376,6 +495,7 @@ function c4m_search_default_search_api_index() {
     },
     "enabled" : "1",
     "read_only" : "0",
+    "entity_type" : "search_api_index",
     "rdf_mapping" : []
   }');
   return $items;
@@ -386,6 +506,20 @@ function c4m_search_default_search_api_index() {
  */
 function c4m_search_default_search_api_sort() {
   $items = array();
+  $items['c4m_search_comments__created'] = entity_import('search_api_sort', '{
+    "index_id" : "c4m_search_comments",
+    "field" : "created",
+    "name" : "Date created",
+    "enabled" : "1",
+    "weight" : "0",
+    "identifier" : "c4m_search_comments__created",
+    "default_sort" : "1",
+    "default_sort_no_terms" : "1",
+    "default_order" : "desc",
+    "options" : { "field_name" : "Date created" },
+    "entity_type" : "search_api_sort",
+    "rdf_mapping" : []
+  }');
   $items['c4m_search_nodes__c4m_datetime_end:value'] = entity_import('search_api_sort', '{
     "index_id" : "c4m_search_nodes",
     "field" : "c4m_datetime_end:value",
@@ -397,6 +531,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "asc",
     "options" : { "field_name" : "Date \\u00bb Start date" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_nodes__comment_count'] = entity_import('search_api_sort', '{
@@ -410,6 +545,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "desc",
     "options" : { "field_name" : "Comment count" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_nodes__created'] = entity_import('search_api_sort', '{
@@ -423,6 +559,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "1",
     "default_order" : "desc",
     "options" : { "field_name" : "Date created" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_nodes__flag_c4m_og_content_recommend_count'] = entity_import('search_api_sort', '{
@@ -436,6 +573,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "desc",
     "options" : { "field_name" : "The flag count of type c4m_og_content_recommend for an inthe_picture entity" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_nodes__search_api_relevance'] = entity_import('search_api_sort', '{
@@ -449,6 +587,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "desc",
     "options" : { "field_name" : "search_api_relevance" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_nodes__views'] = entity_import('search_api_sort', '{
@@ -462,6 +601,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "desc",
     "options" : { "field_name" : "Number of views" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_users__c4m_first_name'] = entity_import('search_api_sort', '{
@@ -475,6 +615,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "asc",
     "options" : { "field_name" : "First Name" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_users__c4m_last_name'] = entity_import('search_api_sort', '{
@@ -488,6 +629,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "asc",
     "options" : { "field_name" : "Last Name" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_users__c4m_user_contributions'] = entity_import('search_api_sort', '{
@@ -501,6 +643,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "desc",
     "options" : { "field_name" : "Total number of contributions of the user (posts + comments)" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   $items['c4m_search_users__created'] = entity_import('search_api_sort', '{
@@ -514,6 +657,7 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "1",
     "default_order" : "desc",
     "options" : { "field_name" : "Created" },
+    "entity_type" : "search_api_sort",
     "rdf_mapping" : []
   }');
   return $items;

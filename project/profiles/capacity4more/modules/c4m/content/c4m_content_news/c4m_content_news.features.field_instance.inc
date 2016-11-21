@@ -38,6 +38,13 @@ function c4m_content_news_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 3,
       ),
+      'my_comments' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
+      ),
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'comment',
@@ -140,10 +147,9 @@ function c4m_content_news_field_default_field_instances() {
       ),
       'block_list' => array(
         'label' => 'hidden',
-        'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 3,
+        'type' => 'hidden',
+        'weight' => 2,
       ),
       'default' => array(
         'label' => 'above',
@@ -313,7 +319,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 21,
+        'weight' => 24,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -398,7 +404,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 28,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -477,7 +483,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 27,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -553,7 +559,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 26,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -632,7 +638,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 22,
+        'weight' => 25,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -682,7 +688,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 39,
+        'weight' => 29,
       ),
       'default' => array(
         'label' => 'above',
@@ -704,12 +710,9 @@ function c4m_content_news_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'inline',
-        'module' => 'c4m_og_purl',
-        'settings' => array(
-          'link' => 'purl_auto',
-        ),
-        'type' => 'c4m_og_purl_entityreference_link',
-        'weight' => 2,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 23,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -821,7 +824,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 29,
       ),
       'teaser_group' => array(
         'label' => 'above',

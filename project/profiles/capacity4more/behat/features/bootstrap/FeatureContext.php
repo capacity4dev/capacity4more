@@ -153,4 +153,17 @@ class FeatureContext extends DrupalContext {
     }
   }
 
+  /**
+   * @Then /^I click the "([^"]*)" element$/
+   */
+  public function iClickOn($selector) {
+    $page = $this->getSession()->getPage();
+    $element = $page->find('css', $selector);
+
+    if (!$element) {
+      throw new Exception("$selector could not be found");
+    }
+
+    $element->click();
+  }
 }

@@ -176,8 +176,8 @@ function c4m_features_og_events_upcoming_events_loggedin() {
       break;
 
     case 'projects':
-      $groups = c4m_og_get_user_group_ids_by_bundle('project');
-      break;
+      // When filtering by projects the block should not be displayed.
+      return array('', FALSE);
   }
 
   $events = c4m_features_og_events_upcoming_events_get_events($range, $interests, $groups);
@@ -192,12 +192,12 @@ function c4m_features_og_events_upcoming_events_loggedin() {
  *   HTML of rendered upcoming events, FALSE if there's no events.
  */
 function c4m_features_og_events_upcoming_events_anonymous() {
-  $range = 1;
+  $range = 3;
   return c4m_features_og_events_upcoming_events_get_events($range);
 }
 
 /**
- * Get all upcoming events.
+ * Get all upcoming events (excluding projects events).
  *
  * @param int $range
  *   Count of events should be taken.
@@ -230,20 +230,57 @@ function c4m_features_og_events_upcoming_events_get_events($range, $topics = arr
     $query->fieldCondition('c4m_vocab_topic', 'tid', $topics, 'IN');
   }
 
+  // Filter out all projects events.
+  $all_projects_ids = _c4m_content_get_all_node_ids_by_type('project');
+  if ($all_projects_ids) {
+    $query->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $all_projects_ids, 'NOT IN');
+  }
+
   $result = $query
     ->fieldOrderBy('c4m_datetime_end', 'value', 'ASC')
-    ->range(0, $range)
+    // Try to get at least one more in order to check if we need to display the
+    // "See more" button.
+    ->range(0, $range + 1)
     ->execute();
 
   if (empty($result['node'])) {
     return FALSE;
   }
 
+  // If we did get one more result then we should display the button.
+  $display_see_more = count($result['node']) > $range;
+
+  $nodes = node_load_multiple(array_keys($result['node']));
+
   // Render events.
-  foreach ($result['node'] as $event) {
-    $node = node_view(node_load($event->nid), 'block_list');
+  foreach (array_values($nodes) as $index => $event) {
+    if ($index >= $range) {
+      // We shouldn't display more events than the requested range.
+      continue;
+    }
+
+    $node = node_view($event, 'block_list');
     $events .= drupal_render($node);
   }
 
-  return $events;
+  return array($events, $display_see_more);
+}
+
+/**
+ * Gets the number of events per group via it's original view.
+ *
+ * @param string $type
+ *   The type of events (upcoming / past).
+ *
+ * @return int
+ *   The number of events.
+ */
+function _c4m_features_og_events_count_via_views($type) {
+  // Mapping by the original name of the display.
+  $mapped_views = array(
+    'upcoming' => 'page',
+    'past' => 'page_1',
+  );
+
+  return _c4m_helper_entity_total_count_via_views('c4m_overview_og_events', $mapped_views[$type]);
 }

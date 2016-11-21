@@ -7,6 +7,13 @@
 
 include_once 'c4m_user.features.inc';
 
+define('C4M_USER_TYPE_VISITOR', 'visitor');
+define('C4M_USER_TYPE_NON_MEMBER', 'non member');
+define('C4M_USER_TYPE_GM', 'member');
+define('C4M_USER_TYPE_GO', 'owner');
+define('C4M_USER_TYPE_GA', 'admin');
+define('C4M_USER_TYPE_SA', 'site admin');
+
 /**
  * Define active user status.
  */
@@ -463,17 +470,26 @@ function c4m_user_count_nodes($uid) {
  *
  * @param int $uid
  *   The User ID.
+ * @param bool $node_published
+ *   Determine if to get only comments of published nodes.
  *
  * @return int
  *    Number of comments.
  */
-function c4m_user_count_comments($uid) {
+function c4m_user_count_comments($uid, $node_published = TRUE) {
   $query = db_select('comment', 'c');
-  $query->join('node', 'n', 'c.nid = n.nid');
+
+  if ($node_published) {
+    $query->join('node', 'n', 'c.nid = n.nid');
+  }
+
   $query->fields('c', array('cid'))
     ->condition('c.status', 1)
-    ->condition('n.status', 1)
     ->condition('c.uid', (int) $uid);
+
+  if ($node_published) {
+    $query->condition('n.status', 1);
+  }
 
   return (int) $query->countQuery()->execute()->fetchField();
 }
@@ -670,27 +686,6 @@ function c4m_user_menu() {
     'page callback' => 'c4m_user_access_denied',
     'access callback' => 'user_is_anonymous',
   );
-  $items['access-denied/login'] = array(
-    'title' => 'Log in',
-    'access callback' => 'user_is_anonymous',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-  );
-  $items['access-denied/register'] = array(
-    'title' => 'Create new account',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('user_register_form'),
-    'access callback' => 'user_register_access',
-    'type' => MENU_LOCAL_TASK,
-  );
-  $items['access-denied/password'] = array(
-    'title' => 'Request new password',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('user_pass'),
-    'access callback' => TRUE,
-    'type' => MENU_LOCAL_TASK,
-    'file path' => drupal_get_path('module', 'user'),
-    'file' => 'user.pages.inc',
-  );
 
   return $items;
 }
@@ -851,9 +846,10 @@ function c4m_user_contact_form_submit($form, $form_state) {
 
   if ($form_state['values']['c4m_contact_user_self_copy']) {
     // Sending a copy of the mail to the sender since the user checked
-    // the "Send me a copy" checkbox on the form.
+    // the "Send me a copy" checkbox on the form. Do not display status
+    // message for it.
     $user_language = user_preferred_language($user);
-    _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body, $user_language);
+    _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body, $user_language, TRUE);
   }
 }
 
@@ -921,6 +917,16 @@ function c4m_user_block_info() {
 
   $blocks['c4m_block_contact_members'] = array(
     'info' => t('User: contact members'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  $blocks['c4m_my_comments_link'] = array(
+    'info' => t('User: Link to My comments view'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  $blocks['c4m_back_to_my_content_link'] = array(
+    'info' => t('User: Link Back to My content view'),
     'cache' => DRUPAL_NO_CACHE,
   );
 

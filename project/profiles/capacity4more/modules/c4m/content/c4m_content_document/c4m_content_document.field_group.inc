@@ -51,8 +51,9 @@ function c4m_content_document_field_group_info() {
     'label' => 'Do more through capacity4dev',
     'weight' => '10',
     'children' => array(
-      0 => 'highlighted',
-      1 => 'c4m_ds_content_actions',
+      0 => 'c4m_ds_node_highlight',
+      1 => 'c4m_ds_node_promote',
+      2 => 'c4m_ds_content_actions',
     ),
     'format_type' => 'div',
     'format_settings' => array(
