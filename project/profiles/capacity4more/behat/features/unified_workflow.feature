@@ -34,3 +34,11 @@ Feature: Unified Workflow
     Then  I should not see the text "Join this group"
     When  I try to join the "Football Talk" group via url
     Then  I should not have access to the page
+
+  @api
+  Scenario: A user should not be able join archived groups.
+    Given I am logged in as user "president"
+    When  I visit the dashboard of group "Archived group"
+    Then  I should not see "Join this group" in the ".group-right.dashboard" element
+    And   I should not see "Request membership for this group" in the ".group-right.dashboard" element
+    But   I should see "About the group" in the ".group-right.dashboard" element
