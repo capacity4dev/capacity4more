@@ -859,6 +859,9 @@
     .fa {
       font-size: $font-size-h3;
     }
+    .action {
+      display: none;
+    }
   }
 
   .flag-c4m-og-content-highlight {
@@ -875,7 +878,8 @@
 }
 
 .view-id-c4m_overview_projects,
-.view-id-c4m_overview_groups {
+.view-id-c4m_overview_groups,
+.sidebarblock {
 
   .c4m-node-highlight {
     float: right;
