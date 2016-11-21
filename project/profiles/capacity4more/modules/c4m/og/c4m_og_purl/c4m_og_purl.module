@@ -207,6 +207,7 @@ function _c4m_og_purl_allowed_paths() {
     'searchgroup',
     'overlay-file',
     'overlay-node',
+    'flag/confirm/%/%/%',
   );
 }
 
