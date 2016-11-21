@@ -490,7 +490,8 @@ function _c4m_features_og_members_get_user_type($group = NULL, $user = NULL) {
     global $user;
   }
 
-  if (user_is_anonymous()) {
+  // Anonymous user.
+  if ($user->uid == 0) {
     return C4M_USER_TYPE_VISITOR;
   }
 
