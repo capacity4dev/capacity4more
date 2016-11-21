@@ -983,6 +983,11 @@ function c4m_user_og_unified_workflow_access($group) {
     return FALSE;
   }
 
+  $wrapper = entity_metadata_wrapper('node', $group);
+  if ($wrapper->c4m_og_status->value() == 'archived') {
+    return FALSE;
+  }
+
   return node_access('view', $group);
 }
 
