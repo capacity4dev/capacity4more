@@ -71,23 +71,11 @@ angular.module('c4mApp')
         }, true);
 
         // Removing document from related documents.
-        scope.removeDocument = function (id) {
-          var index = scope.relatedDocuments.indexOf(id.toString());
-          if (index != -1) {
-            scope.relatedDocuments.splice(index, 1);
-          }
-
-          // Remove value from the widget's inputs.
-          var value = angular.element('#edit-' + scope.fieldName + '-und').val();
-          value = value.replace('(' + id + '), ', '');
-          value = value.replace('(' + id + ')', '');
-
-          var ids = angular.element('#input-' + scope.fieldName).val();
-          ids = ids.replace(id + ',', '');
-          ids = ids.replace(id, '');
-
-          angular.element('#edit-' + scope.fieldName + '-und').val(value);
-          angular.element('#input-' + scope.fieldName).val(ids);
+        scope.removeDocument = function () {
+          scope.relatedDocuments = [];
+          // Make sure the element is empty so we can select the same file
+          // again.
+          angular.element('#' + scope.fieldName).val('');
         };
       }
     };
