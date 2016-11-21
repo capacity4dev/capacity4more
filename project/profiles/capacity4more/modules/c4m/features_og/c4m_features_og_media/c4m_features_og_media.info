@@ -19,4 +19,7 @@ features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[variable][] = file_default_scheme
+features[variable][] = file_entity_file_upload_wizard_skip_fields
+features[variable][] = file_entity_file_upload_wizard_skip_file_type
+features[variable][] = file_entity_file_upload_wizard_skip_scheme
 features[views_view][] = overview_og_media
