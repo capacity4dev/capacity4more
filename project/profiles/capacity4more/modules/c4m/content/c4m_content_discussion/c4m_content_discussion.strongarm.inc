@@ -204,7 +204,7 @@ function c4m_content_discussion_strongarm() {
           ),
           'pinned_content' => array(
             'weight' => '1',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
           'block_list' => array(
             'weight' => '31',
