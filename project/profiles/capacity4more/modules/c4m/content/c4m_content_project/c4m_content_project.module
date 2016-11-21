@@ -477,6 +477,7 @@ function c4m_content_project_theme() {
   $theme['c4m_content_project_header_title'] = array(
     'variables' => array(
       'title' => '',
+      'tagline' => '',
       'stage' => '',
       'type' => '',
       'status' => '',
