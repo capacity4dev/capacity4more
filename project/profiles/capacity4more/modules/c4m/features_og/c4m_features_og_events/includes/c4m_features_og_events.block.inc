@@ -23,13 +23,15 @@ function _c4m_features_og_events_block_event_views_links() {
     'class' => array('leaf'),
   );
 
+  $upcoming_events_count = _c4m_features_og_events_count_via_views('upcoming');
+  $past_events_count = _c4m_features_og_events_count_via_views('past');
   // Links to the upcoming and past events page.
   $pages = array(
     'upcoming' => array(
-      'text' => t('Upcoming'),
+      'text' => t('Upcoming (@count)', array('@count' => $upcoming_events_count)),
     ),
     'past' => array(
-      'text' => t('Past'),
+      'text' => t('Past (@count)', array('@count' => $past_events_count)),
     ),
   );
 
