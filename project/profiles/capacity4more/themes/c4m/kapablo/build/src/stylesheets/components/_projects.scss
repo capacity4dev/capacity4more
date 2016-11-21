@@ -2,14 +2,14 @@
   margin: 20px 18px 10px;
 
   @media (min-width: $screen-tablet) {
-    display: inline-block;
     margin: 20px 0 10px;
   }
 }
 
 .project-indications {
-  float: left;
-  margin: 0 0 0 18px;
+  display: block;
+  margin: 20px 0 0 18px;
+  overflow: hidden;
 
   .project-icon {
     display: inline-block;
@@ -41,7 +41,6 @@
 
   @media (min-width: $screen-tablet) {
     float: right;
-    margin-top: 20px;
   }
 }
 
