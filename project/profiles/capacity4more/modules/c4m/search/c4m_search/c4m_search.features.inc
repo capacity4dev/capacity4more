@@ -322,6 +322,7 @@ function c4m_search_default_search_api_index() {
         "comment_count" : { "type" : "integer" },
         "created" : { "type" : "date" },
         "flag_c4m_og_content_recommend_count" : { "type" : "integer" },
+        "group_access" : { "type" : "boolean" },
         "group_group" : { "type" : "boolean" },
         "is_new" : { "type" : "boolean" },
         "nid" : { "type" : "integer" },

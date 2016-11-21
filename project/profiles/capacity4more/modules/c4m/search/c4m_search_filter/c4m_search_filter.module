@@ -203,6 +203,13 @@ function _c4m_search_filter_view_access_filter_query_alter(&$query) {
   $filter->condition('search_api_access_node', 'node_access__all');
   // Add filter.
   $query->filter($filter);
+
+  // Filter out restricted and private groups for anonymous.
+  if (user_is_anonymous()) {
+    $anonymous_filter = $query->createFilter('AND');
+    $anonymous_filter->condition('group_access', 0);
+    $query->filter($anonymous_filter);
+  }
 }
 
 /**
