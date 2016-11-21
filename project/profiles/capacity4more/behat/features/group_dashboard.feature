@@ -47,7 +47,7 @@ Feature: Group dashboard
     When  I visit the dashboard of group "Music Lovers"
     And   I click "Join this group"
     And   I click "Invite a member"
-    Then  I should see the text "Invite People to Join"
+    Then  I should see the text "Invite new users"
     And   I should not see the text "Manage all group memberships"
 
   @api
@@ -74,7 +74,7 @@ Feature: Group dashboard
     Given I am logged in as user "alfrednobel"
     When  I visit the dashboard of group "Tennis Group"
     And   I click "Invite a member"
-    Then  I should see the text "Invite People to Join"
+    Then  I should see the text "Invite new users"
     And   I should see the text "Manage all group memberships"
 
   @api
@@ -82,7 +82,7 @@ Feature: Group dashboard
     Given I am logged in as user "survivalofthefittest"
     When  I visit the dashboard of group "Architecture"
     And   I click "Invite a member"
-    Then  I should see the text "Invite People to Join"
+    Then  I should see the text "Invite new users"
     And   I should see the text "Manage all group memberships"
 
   @javascript
@@ -90,7 +90,7 @@ Feature: Group dashboard
     Given I am logged in as user "<username>"
     And   The window is maximized
     When  I visit the dashboard of group "Nobel Prize"
-    Then  I should be able to toggle the highlight link
+    Then  I should be able to toggle the group highlight link
 
     Examples:
     | username             |
@@ -102,7 +102,7 @@ Feature: Group dashboard
     Given I am logged in as user "<username>"
     And   The window is maximized
     When  I go to "/groups?text=nobel"
-    Then  I should be able to toggle the highlight link
+    Then  I should be able to toggle the group highlight link
 
     Examples:
     | username             |
@@ -114,20 +114,20 @@ Feature: Group dashboard
     Given I am an anonymous user
     When  I visit the dashboard of group "Nobel Prize"
     Then  I should see the text "Nobel Prize"
-    And   I should not see the ".c4m-node-highlight" element
+    And   I should not see the ".c4m-group-node-highlight" element
     When  I go to "/groups?text=nobel"
     Then  I should see the text "Nobel Prize"
-    And   I should not see the ".c4m-node-highlight" element
+    And   I should not see the ".c4m-group-node-highlight" element
 
   @api
   Scenario Outline: GO / GA / Member / User should not be able to highlight a group.
     Given I am logged in as user "<username>"
     When  I visit the dashboard of group "Nobel Prize"
     Then  I should see the text "Nobel Prize"
-    And   I should not see the ".c4m-node-highlight" element
+    And   I should not see the ".c4m-group-node-highlight" element
     When  I go to "/groups?text=nobel"
     Then  I should see the text "Nobel Prize"
-    And   I should not see the ".c4m-node-highlight" element
+    And   I should not see the ".c4m-group-node-highlight" element
 
     Examples:
     | username    |

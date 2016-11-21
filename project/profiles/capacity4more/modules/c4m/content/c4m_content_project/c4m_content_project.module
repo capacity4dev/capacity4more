@@ -419,19 +419,22 @@ function c4m_content_project_blockreference_blocks_pre_alter(
 function c4m_content_project_c4m_content_project_blockreference_whitelist() {
   return array(
     'c4m_content_project:c4m_block_project_partners' => array(
-      'label' => t('Project partners'),
+      'label' => t('Project/programme partners'),
     ),
     'views:c4m_project_news-block' => array(
-      'label' => t('Project news'),
+      'label' => t('Project/programme news'),
     ),
     'views:c4m_project_events-block' => array(
-      'label' => t('Project events'),
+      'label' => t('Project/programme events'),
     ),
     'views:c4m_project_highlights-block' => array(
-      'label' => t('Project highlights'),
+      'label' => t('Project/programme highlights'),
     ),
     'c4m_content_project:c4m_block_project_about' => array(
-      'label' => t('Project about'),
+      'label' => t('Project/programme about'),
+    ),
+    'c4m_search_og:c4m_search_group_form' => array(
+      'label' => t('Project/programme search'),
     ),
   );
 }

@@ -56,6 +56,31 @@ function c4m_content_photoalbum_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'comment|comment_node_photoalbum|my_comments';
+  $ds_fieldsetting->entity_type = 'comment';
+  $ds_fieldsetting->bundle = 'comment_node_photoalbum';
+  $ds_fieldsetting->view_mode = 'my_comments';
+  $ds_fieldsetting->settings = array(
+    'post_date' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'ds_post_date_c4m_long_without_time',
+    ),
+    'c4m_user_picture' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'linked_c4m_user_author_thumb_image',
+    ),
+    'c4m_ds_comment_node_link' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+  );
+  $export['comment|comment_node_photoalbum|my_comments'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|photoalbum|activity_global';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'photoalbum';
@@ -222,6 +247,11 @@ function c4m_content_photoalbum_ds_field_settings_info() {
     ),
     'c4m_ds_content_footer_stats' => array(
       'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -413,6 +443,21 @@ function c4m_content_photoalbum_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_ds_content_footer_stats' => array(
+      'weight' => '8',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '9',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_promote' => array(
+      'weight' => '10',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_ds_photoalbum_cover_image' => array(
       'weight' => '6',
       'label' => 'hidden',
@@ -590,7 +635,11 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
       'post_date' => 'right',
       'comment_body' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'left' => 'div',
       'right' => 'div',
@@ -603,6 +652,48 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
     'layout_disable_css' => FALSE,
   );
   $export['comment|comment_node_photoalbum|default'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'comment|comment_node_photoalbum|my_comments';
+  $ds_layout->entity_type = 'comment';
+  $ds_layout->bundle = 'comment_node_photoalbum';
+  $ds_layout->view_mode = 'my_comments';
+  $ds_layout->layout = 'c4m_ds_2col_icon_left';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'left' => array(
+        0 => 'c4m_user_picture',
+      ),
+      'right' => array(
+        1 => 'c4m_ds_comment_node_link',
+        2 => 'post_date',
+        3 => 'comment_body',
+      ),
+    ),
+    'fields' => array(
+      'c4m_user_picture' => 'left',
+      'c4m_ds_comment_node_link' => 'right',
+      'post_date' => 'right',
+      'comment_body' => 'right',
+    ),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
+    'wrappers' => array(
+      'left' => 'div',
+      'right' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['comment|comment_node_photoalbum|my_comments'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
@@ -735,20 +826,20 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
     'regions' => array(
       'left' => array(
         0 => 'c4m_ds_content_type_label',
-        2 => 'title',
+        3 => 'title',
         4 => 'c4m_ds_content_footer_stats',
         5 => 'c4m_body',
         6 => 'node_gallery_view',
       ),
       'right' => array(
-        1 => 'highlighted',
-        3 => 'c4m_ds_content_actions',
+        1 => 'c4m_ds_node_highlight',
+        2 => 'c4m_ds_content_actions',
         7 => 'group_node_meta',
         8 => 'c4m_user_picture',
         9 => 'group_node_actions',
         10 => 'c4m_user_first_and_last_name',
-        11 => 'c4m_vocab_topic',
-        12 => 'c4m_ds_creation_date',
+        11 => 'c4m_ds_creation_date',
+        12 => 'c4m_vocab_topic',
         13 => 'c4m_vocab_date',
         14 => 'c4m_vocab_language',
         15 => 'c4m_vocab_geo',
@@ -758,9 +849,9 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
     ),
     'fields' => array(
       'c4m_ds_content_type_label' => 'left',
-      'highlighted' => 'right',
-      'title' => 'left',
+      'c4m_ds_node_highlight' => 'right',
       'c4m_ds_content_actions' => 'right',
+      'title' => 'left',
       'c4m_ds_content_footer_stats' => 'left',
       'c4m_body' => 'left',
       'node_gallery_view' => 'left',
@@ -768,8 +859,8 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
       'c4m_user_picture' => 'right',
       'group_node_actions' => 'right',
       'c4m_user_first_and_last_name' => 'right',
-      'c4m_vocab_topic' => 'right',
       'c4m_ds_creation_date' => 'right',
+      'c4m_vocab_topic' => 'right',
       'c4m_vocab_date' => 'right',
       'c4m_vocab_language' => 'right',
       'c4m_vocab_geo' => 'right',
@@ -820,6 +911,9 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
       ),
       'right' => array(
         7 => 'c4m_body',
+        8 => 'c4m_ds_content_footer_stats',
+        9 => 'c4m_ds_node_highlight',
+        10 => 'c4m_ds_node_promote',
       ),
     ),
     'fields' => array(
@@ -831,8 +925,15 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
       'c4m_field_og_group' => 'header',
       'c4m_ds_photoalbum_cover_image' => 'left',
       'c4m_body' => 'right',
+      'c4m_ds_content_footer_stats' => 'right',
+      'c4m_ds_node_highlight' => 'right',
+      'c4m_ds_node_promote' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'header' => 'div',
       'left' => 'div',

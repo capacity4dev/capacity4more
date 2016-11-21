@@ -71,6 +71,7 @@ body {
   }
 
   &.no-js {
+    .pane-quick-form,
     .field-name-activity-stream-by-topic,
     .pane-content .activity-stream {
       display: none;

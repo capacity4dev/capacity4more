@@ -32,6 +32,7 @@ function theme_c4m_website_statistics_summary(array $variables) {
     'project' => 'fa-flag-checkered',
     'posts' => 'fa-comments-o',
     'event' => 'fa-calendar',
+    'news' => 'fa-newspaper-o',
     'user' => 'fa-user',
     'wiki_page' => 'fa-wikipedia-w',
     'photo' => 'fa-file-image-o',

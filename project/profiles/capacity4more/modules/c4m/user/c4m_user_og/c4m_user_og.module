@@ -278,6 +278,8 @@ function c4m_user_og_has_groups(
  *   Optional status of the groups to filter on, default published.
  * @param bool $sort
  *   Optional sort boolean (sort by group status).
+ * @param bool $allow_pending
+ *   Optional include requested groups (pending status).
  *
  * @return array|void
  *   An array with the groups or an empty array.
@@ -286,16 +288,30 @@ function c4m_user_og_get_groups(
   $account = NULL,
   $bundle = 'group',
   $status = NODE_PUBLISHED,
-  $sort = TRUE
+  $sort = TRUE,
+  $allow_pending = FALSE
 ) {
   $groups = og_get_groups_by_user($account);
+  // Include requested groups (pending status).
+  if ($allow_pending) {
+    $pending_groups = c4m_og_get_pending_groups_by_user(NULL, NULL, TRUE);
+    if (isset($groups['node'])) {
+      if (isset($pending_groups['node'])) {
+        $groups['node'] += $pending_groups['node'];
+      }
+    }
+    else {
+      $groups = $pending_groups;
+    }
+  }
 
   if (empty($groups)) {
     return array();
   }
 
   // Load groups of bundle type.
-  $group_nodes = node_load_multiple($groups['node'], array('type' => $bundle));
+  $conditions = is_null($bundle) ? array() : array('type' => $bundle);
+  $group_nodes = node_load_multiple($groups['node'], $conditions);
 
   if (empty($group_nodes)) {
     return array();
@@ -434,6 +450,25 @@ function c4m_user_og_c4m_content_statistics_info() {
         ),
       ),
     ),
+    'project' => array(
+      'c4m_og_user' => array(
+        'type' => 'user',
+        'entity_type' => 'user',
+        'bundles' => array(),
+        'singular' => 'Administrator',
+        'plural' => 'Administrators',
+        'state' => 1,
+        'c4m_status' => array(1),
+        'scope' => 'group',
+        'aggregate' => array(),
+        'weight' => 7,
+        'feature_name' => 'c4m_features_og_members',
+        'attributes' => array(
+          'class' => array('og-users'),
+        ),
+        'link' => array(),
+      ),
+    ),
   );
 }
 
@@ -480,6 +515,7 @@ function c4m_user_og_theme() {
       'url' => NULL,
       'button_label' => NULL,
       'button_icon' => NULL,
+      'login_url' => NULL,
     ),
   );
 
@@ -517,6 +553,7 @@ function c4m_user_og_theme() {
     'template' => 'c4m_unified_workflow_register',
     'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
     'variables' => array(
+      'join_phrase' => NULL,
       'group_title' => NULL,
       'login_link' => NULL,
     ),
@@ -527,16 +564,6 @@ function c4m_user_og_theme() {
     'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
     'variables' => array(
       'group_title' => NULL,
-    ),
-  );
-
-  $theme['c4m_group_invite_cta'] = array(
-    'template' => 'c4m_group_invite_cta',
-    'path' => drupal_get_path('module', 'c4m_user_og') . '/templates',
-    'variables' => array(
-      'url' => NULL,
-      'button_label' => NULL,
-      'button_icon' => NULL,
     ),
   );
 
@@ -577,11 +604,6 @@ function c4m_user_og_c4m_cta_block() {
     if ($item = c4m_user_og_follow_group_cta($group)) {
       $items['follow'] = $item;
     }
-    // Add a link to the CTA block
-    // if the user is permitted to invite new members.
-    if (!user_is_anonymous() && c4m_user_og_invite_access($group)) {
-      $items['invite'] = c4m_user_og_c4m_invite_cta($group);
-    }
   }
 
   return $items;
@@ -602,12 +624,19 @@ function c4m_user_og_c4m_visitor_cta($group) {
     ),
   );
 
+  $login_url = '';
+  if (!user_is_logged_in()) {
+    $login_link = l(t('log in'), 'user/login', array('query' => array('destination' => request_path())));
+    $login_url = t('Please !login-link first if you have a C4D account', array('!login-link' => $login_link));
+  }
+
   if ($membership_request_value = c4m_og_get_group_membership_request($group)) {
     return array(
       '#theme' => 'c4m_group_visitor_cta',
       '#button_label' => $types[$membership_request_value]['button_label'],
       '#button_icon' => $types[$membership_request_value]['button_icon'],
       '#url' => url('group/join/' . $group->nid, array('absolute' => TRUE)),
+      '#login_url' => $login_url,
       '#weight' => 10,
     );
   }
@@ -620,19 +649,13 @@ function c4m_user_og_c4m_visitor_cta($group) {
  */
 function c4m_user_og_group_actions_cta($group) {
   $items = array();
-  $access = c4m_og_get_access_type($group);
   global $user;
 
   // CTAs for the group owner and administrators: Manage group and number or
   // new membership requests.
   if (_c4m_features_og_members_is_power_user($group, $user)) {
-    $items['manage'] = array(
-      '#theme' => 'c4m_group_text_cta',
-      '#icon' => 'fa-cog',
-      '#text' => l(t('Manage this group'), 'manage'),
-    );
-
-    if ($pending_requests = c4m_og_get_all_group_memberships_by_state($group->nid, OG_STATE_PENDING)) {
+    $exclude_invited_memberships = TRUE;
+    if ($pending_requests = c4m_og_get_all_group_memberships_by_state($group->nid, OG_STATE_PENDING, $exclude_invited_memberships)) {
       $pending_id = $group->nid . '_pending';
 
       $link_text = format_plural(
@@ -660,31 +683,29 @@ function c4m_user_og_group_actions_cta($group) {
     return;
   }
 
-  if ($access['type'] == 'public') {
-    // CTAs for members of the group: Amount of unpublished content.
-    $variables = array(
-      'bundles' => array(
-        'wiki_page',
-        'photoalbum',
-        'discussion',
-        'event',
-        'document',
-      ),
-      'state' => NODE_NOT_PUBLISHED,
-      'entity_type' => 'node',
-      'og_id' => $group->nid,
-    );
+  // CTAs for members of the group: Amount of unpublished content.
+  $variables = array(
+    'bundles' => array(
+      'wiki_page',
+      'photoalbum',
+      'discussion',
+      'event',
+      'document',
+    ),
+    'state' => NODE_NOT_PUBLISHED,
+    'entity_type' => 'node',
+    'og_id' => $group->nid,
+  );
 
-    if ($unpublished_content = c4m_helper_entity_get_number_of_entities($variables)) {
-      $items['new-content'] = array(
-        '#theme' => 'c4m_group_text_cta',
-        '#icon' => 'fa-exclamation-triangle',
-        '#text' => t(
-          'You have %count draft content items',
-          array('%count' => $unpublished_content)
-        ),
-      );
-    }
+  if ($unpublished_content = c4m_helper_entity_get_number_of_entities($variables)) {
+    $items['new-content'] = array(
+      '#theme' => 'c4m_group_text_cta',
+      '#icon' => 'fa-exclamation-triangle',
+      '#text' => t(
+        'You have %count draft content items',
+        array('%count' => $unpublished_content)
+      ),
+    );
   }
 
   // Help & guidance.
@@ -722,6 +743,10 @@ function c4m_user_og_group_management_cta($group) {
 
   if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
     $items['#links'][] = $item;
+  }
+
+  if ($item = c4m_user_og_c4m_invite_cta($group)) {
+    $items['#links']['invite'] = $item;
   }
 
   if (isset($items['#links'])) {
@@ -766,14 +791,16 @@ function c4m_user_og_c4m_join_cta($group) {
  * existing users or new people to join the group.
  */
 function c4m_user_og_c4m_invite_cta($group) {
+  if (user_is_anonymous() || !c4m_user_og_invite_access($group)) {
+    return;
+  }
+
+  $url = url('group/node/' . $group->nid . '/admin/people/invite-visitors', array('absolute' => TRUE));
+
   return array(
-    '#theme' => 'c4m_group_invite_cta',
-    '#button_label' => t('Invite a member'),
-    '#button_icon' => 'fa-user-plus',
-    '#url' => url(
-      'group/node/' . $group->nid . '/admin/people/invite-users',
-      array('absolute' => TRUE)
-    ),
+    '#theme' => 'c4m_group_text_cta',
+    '#icon' => 'fa-user-plus',
+    '#text' => l(t('Invite a member'), $url),
     '#weight' => 15,
   );
 }
@@ -816,7 +843,8 @@ function c4m_user_og_c4m_membership_cta($group) {
  * Sets the CTA to leave a group.
  */
 function c4m_user_og_c4m_leave_group_cta($group) {
-  if (!og_is_member('node', $group->nid)) {
+  // Non members and power users should not see this link.
+  if (!og_is_member('node', $group->nid) || _c4m_features_og_members_is_power_user($group)) {
     return;
   }
 
@@ -965,7 +993,19 @@ function c4m_user_og_form_user_register_form_alter(
   }
 
   $wrapper = entity_metadata_wrapper('node', $gid);
+  // Get membership request type (open/moderated).
+  $membership_type = $wrapper->field_membership_open_request->value();
+  if ($membership_type == C4M_OG_MODERATED_GROUP) {
+    $join_phrase = t('request membership for');
+    $button_label = t('Request membership for group');
+  }
+  else {
+    $join_phrase = t('join the');
+    $button_label = t('Register to join');
+  }
+
   $variables = array(
+    'join_phrase' => $join_phrase,
     'group_title' => $wrapper->label(),
     'login_link' => l(t('Log in.'), 'user/login'),
   );
@@ -975,7 +1015,8 @@ function c4m_user_og_form_user_register_form_alter(
   );
 
   $form['#submit'][] = 'c4m_user_og_unified_workflow_register_submit';
-  $form['actions']['submit']['#value'] = t('Register to join');
+
+  $form['actions']['submit']['#value'] = $button_label;
 }
 
 /**

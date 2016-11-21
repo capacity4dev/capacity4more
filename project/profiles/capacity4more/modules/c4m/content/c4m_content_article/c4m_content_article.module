@@ -212,6 +212,9 @@ function c4m_content_article_node_view_alter(&$build) {
     return;
   }
 
+  // Displaying article should be with context.
+  c4m_og_purl_deny_purl_access();
+
   if ($build['#view_mode'] != 'full') {
     return;
   }

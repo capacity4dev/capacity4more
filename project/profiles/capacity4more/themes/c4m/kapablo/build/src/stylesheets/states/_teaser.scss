@@ -88,4 +88,23 @@
       margin-left: 0.5em;
     }
   }
+
+  &.node-event {
+    .paragraphs-item-c4m-paragraph-system-block & {
+      .user-name, .posted-by, .teaser-date .label-inline {
+        display: none;
+      }
+      
+      .organiser {
+        color: $color-gray-light;
+        display: inline;
+
+        &:before {
+          color: $color-text;
+          content: "\2022";
+          margin: 0 0.5em 0 0.25em;
+        }
+      }
+    }
+  }
 }
