@@ -9,6 +9,7 @@ namespace FeatureContext;
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Context\Step;
+use Exception;
 
 
 trait Overview {
@@ -92,7 +93,7 @@ trait Overview {
           $last_page = TRUE;
 
           $message = sprintf('The text "%s" appears in the text of this page, but it should not.', $text);
-          throw new ResponseTextException($message, $this->session);
+          throw new Exception($message);
         }
 
         // Text has found and should be found.

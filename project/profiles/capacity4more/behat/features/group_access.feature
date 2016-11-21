@@ -60,6 +60,16 @@ Feature: Group access
     And I should not see an ".node-form .field-name-c4m-og-status" element
     And I should not see an ".tabbable.tabs-left.vertical-tabs" element
 
+  @javascript
+  Scenario: Visitor should not see a private group
+    Given I am an anonymous user
+    Then  I should not see "Architecture" on the "groups" overview
+
+  @javascript
+  Scenario: Visitor should not see a restricted group
+    Given I am an anonymous user
+    Then  I should not see "Restricted group with EC/EEAS" on the "groups" overview
+
   @api
   Scenario: check access
     Given I am logged in with a temporal user with email domain "gizra.com"
