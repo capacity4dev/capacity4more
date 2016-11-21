@@ -466,7 +466,11 @@ function c4m_content_project_ds_layout_settings_info() {
       'c4m_related_group' => 'ds_content',
       'c4m_related_projects' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
