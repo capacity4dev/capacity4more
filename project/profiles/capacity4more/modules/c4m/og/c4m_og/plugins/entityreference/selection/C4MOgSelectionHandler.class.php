@@ -125,26 +125,44 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
     }
 
-    $group = og_context();
-    $node_type = $this->instance['bundle'];
-    if (!og_user_access($group_type, $group['gid'], "create $node_type content")) {
-      // User does not have permission, falsify the query.
-      $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
-      return $query;
+    // If group id present at POST data, we got here from document widget,
+    // that creates group content (AJAX POST).
+    // If not, try to resolve group id from context.
+    if (!$group['gid'] = filter_input(INPUT_POST, 'group', FILTER_VALIDATE_INT)) {
+      $group = og_context();
     }
 
-    $unallowed_values = array(
-      'pending',
-      'archived',
-      'deleted',
-    );
+    // If group id was resolved, check that user got permissions to add content
+    // to resolved group.
+    if ($group['gid']) {
+      $node_type = $this->instance['bundle'];
+
+      $target_access = og_user_access($group_type, $group['gid'], "create $node_type content");
+      // Any member can edit a wiki page unless a power user has changed it
+      // specifically for a specific node.
+      if (!empty($this->entity->nid) && $node_type == 'wiki_page') {
+        $target_access = og_user_access($group_type, $group['gid'], "update any wiki_page content");
+      }
+
+      if (!_c4m_features_og_members_is_power_user() && !$target_access) {
+        // User is not group member and can't add content. Falsify the query.
+        $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
+        return $query;
+      }
+    }
+
+    // Adding condition that verifying that group state allows adding content
+    // member can add content to groups at draft or published state.
+    $allowed_states = array('draft', 'published');
     $query->fieldCondition(
       'c4m_og_status',
       'value',
-      $unallowed_values,
-      'NOT IN'
+      $allowed_states,
+      'IN'
     );
 
+    // No additional modifications to query. If creating content from a form,
+    // permissions will be rechecked at form access.
     return $query;
   }
 

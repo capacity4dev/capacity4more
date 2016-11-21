@@ -187,13 +187,19 @@
   }
 
   &.node-article {
-    .field-name-c4m-ds-type-posted-by {
-      display: inline-block;
 
+    .field-name-c4m-ds-type-posted-by,
+    .field-name-c4m-ds-creation-date {
+      display: inline-block;
+      font-size: 0.85rem;
+      color: $color-gray-light;
       & + .field-name-c4m-ds-creation-date {
         display: inline-block;
         margin-left: 0.3em;
+        color: $color-gray-light;
+        font-size: 0.85rem;
       }
+
     }
   }
 
@@ -202,7 +208,7 @@
       font-weight: normal;
     }
 
-    .user-name {
+    .group-left .user-name {
       @extend h1;
 
       .organisation-icon {
@@ -248,10 +254,13 @@
     }
   }
 
-  .view-mode-member_overview,
-  .view-mode-teaser {
-    .field-name-c4m-ds-content-footer-stats {
-      display: none;
+  &:not(.paragraphs-item-c4m-paragraph-system-block) {
+    .view-mode-member_overview,
+    .view-mode-teaser {
+      .field-name-c4m-ds-content-footer-stats {
+        display: none;
+
+      }
     }
   }
 }

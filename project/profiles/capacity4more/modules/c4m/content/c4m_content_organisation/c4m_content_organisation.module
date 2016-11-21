@@ -382,3 +382,53 @@ function c4m_content_organisation_type_value($organisation_key) {
 
   return NULL;
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add our own validation handler.
+ */
+function c4m_content_organisation_form_organisation_node_form_alter(&$form, $form_state) {
+  $form['#validate'][] = 'c4m_content_organisation_form_organisation_node_form_validate';
+}
+
+/**
+ * Organisation node form validation handler.
+ *
+ * @param array $form
+ *   Form render array.
+ * @param array $form_state
+ *   Form state array.
+ *
+ * @ingroup forms
+ */
+function c4m_content_organisation_form_organisation_node_form_validate($form, $form_state) {
+  $values = $form_state['values'];
+
+  if (
+    isset($values['c4m_domain'][LANGUAGE_NONE]) &&
+    is_array($values['c4m_domain'][LANGUAGE_NONE]) &&
+    count($values['c4m_domain'][LANGUAGE_NONE])
+  ) {
+    $domains = $values['c4m_domain'][LANGUAGE_NONE];
+    foreach ($domains as $key => $domain) {
+      if (
+        isset($domain['c4m_domain']['domain']) &&
+        !empty($domain['c4m_domain']['domain'])
+      ) {
+        $domain = trim($domain['c4m_domain']['domain']);
+
+        // Check if the string starts with "@" and return error if so.
+        if (stripos($domain, '@') === 0) {
+          $form_key = 'c4m_domain][' . LANGUAGE_NONE . '][' . $key . '][c4m_domain][domain';
+          form_set_error($form_key, t('The domain name should not start with an "@".'));
+        }
+        // Use a fake mail address just for validation of the domain.
+        elseif (!valid_email_address('fake@' . $domain)) {
+          $form_key = 'c4m_domain][' . LANGUAGE_NONE . '][' . $key . '][c4m_domain][domain';
+          form_set_error($form_key, t('Not a valid domain name.'));
+        }
+      }
+    }
+  }
+}

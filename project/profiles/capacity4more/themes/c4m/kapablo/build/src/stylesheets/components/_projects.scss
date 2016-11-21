@@ -80,9 +80,54 @@
   }
 }
 
+.field-name-c4m-related-group,
+.field-name-c4m-related-projects {
+  .node-project, .node-group {
+    border-bottom: 1px dotted $color-gray-light;
+  }
+
+  div:last-child {
+    border-bottom: 0;
+  }
+}
+
 #block-c4m-content-project-c4m-block-create-project {
   .btn + .btn {
     // We assume here that due to design buttons will sit one below the other.
     margin-top: 1rem;
+  }
+}
+
+.field-name-field-c4m-free-map {
+  #geofield_geojson_map {
+    height: 500px;
+
+    .leaflet-top, .leaflet-bottom {
+      // Make sure Leaflet map controls do not float above Drupal Overlay.
+      z-index: 500;
+    }
+  }
+  #geofield_geojson_map_wrapper {
+    .label_title {
+      margin-right: 10px;
+    }
+    .label_description {
+      textarea {
+        width: 60%;
+      }
+    }
+    .label_title, .label_description {
+      label {
+        margin-right: 10px;
+        vertical-align: top;
+      }
+    }
+  }
+}
+
+.field-name-c4m-system-block-renderer {
+  .more-link {
+    @include dashed_separator(top);
+    margin-top: 2rem;
   }
 }

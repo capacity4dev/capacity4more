@@ -186,7 +186,7 @@ function c4m_content_photoalbum_strongarm() {
             'visible' => TRUE,
           ),
           'teaser' => array(
-            'weight' => '20',
+            'weight' => '25',
             'visible' => FALSE,
           ),
           'teaser_group' => array(
@@ -196,6 +196,12 @@ function c4m_content_photoalbum_strongarm() {
           'pinned_content' => array(
             'weight' => '8',
             'visible' => FALSE,
+          ),
+        ),
+        'highlighted' => array(
+          'full' => array(
+            'weight' => '0',
+            'visible' => TRUE,
           ),
         ),
       ),

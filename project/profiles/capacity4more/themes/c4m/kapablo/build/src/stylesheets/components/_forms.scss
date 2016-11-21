@@ -99,7 +99,7 @@
 .node-form {
   .control-label {
     clear: both;
-    display: block;
+    display: inline-block;
   }
 
   .form-control:not(textarea) {
@@ -195,6 +195,16 @@
       margin: 0;
     }
   }
+
+  &.node-discussion-form {
+
+    #edit-c4m-discussion-type-und {
+
+      .radio + .radio {
+        margin-top: 10px;
+      }
+    }
+  }
 }
 
 #views-form-c4m-overview-og-members-page {
@@ -222,7 +232,15 @@
     float: left;
   }
 
-  .field-name-c4m-ds-user-membership-type {
+  .field-name-c4m-ds-user-membership-type, .field-name-c4m-features-og-members-admin-actions {
     float: right;
+
+    .fa-cog {
+      color: $color-white;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 }

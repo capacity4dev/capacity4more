@@ -82,7 +82,7 @@ function c4m_features_homepage_views_default_views() {
     'image_style' => 'thumbnail',
     'image_link' => '',
   );
-  /* Field: Content: Group members count */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['members_count']['id'] = 'members_count';
   $handler->display->display_options['fields']['members_count']['table'] = 'node';
   $handler->display->display_options['fields']['members_count']['field'] = 'members_count';
@@ -243,6 +243,13 @@ function c4m_features_homepage_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Status (c4m_og_status) */
+  $handler->display->display_options['filters']['c4m_og_status_value']['id'] = 'c4m_og_status_value';
+  $handler->display->display_options['filters']['c4m_og_status_value']['table'] = 'field_data_c4m_og_status';
+  $handler->display->display_options['filters']['c4m_og_status_value']['field'] = 'c4m_og_status_value';
+  $handler->display->display_options['filters']['c4m_og_status_value']['value'] = array(
+    'published' => 'published',
+  );
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');

@@ -9,9 +9,15 @@
 ?>
 
 <?php if ($title): ?>
-  <h1 class="group-title">
-    <?php print $title; ?>
-  </h1>
+  <?php if ($homepage): ?>
+    <h1 class="group-title">
+      <?php print $title; ?>
+    </h1>
+  <?php else: ?>
+    <div class="group-title">
+      <?php print $title; ?>
+    </div>
+  <?php endif; ?>
 <?php endif; ?>
 
 <div class="group-indications">
@@ -73,7 +79,10 @@
   </div>
 
   <?php if ($group_type): ?>
-    <span class="top-buffer indication label label-default group-type"><?php print $group_type; ?></span><?php
-  endif; ?><?php if ($group_status): ?><span class="top-buffer indication label label-default group-status"><?php print $group_status; ?></span>
+    <span class="top-buffer indication label label-default group-type"><?php print $group_type; ?></span>
+  <?php endif; ?>
+
+  <?php if ($group_status): ?>
+    <span class="top-buffer indication label label-default group-status"><?php print $group_status; ?></span>
   <?php endif; ?>
 </div>

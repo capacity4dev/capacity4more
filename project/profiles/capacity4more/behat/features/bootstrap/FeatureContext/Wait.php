@@ -29,7 +29,7 @@ trait Wait {
    *
    * @throws Exception
    */
-  private function waitForXpathNode($xpath, $appear) {
+  public function waitForXpathNode($xpath, $appear) {
     $this->waitFor(function($context) use ($xpath, $appear) {
         try {
           $nodes = $context->getSession()->getDriver()->find($xpath);

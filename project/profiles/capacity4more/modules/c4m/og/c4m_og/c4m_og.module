@@ -56,6 +56,20 @@ function c4m_og_current_group_id() {
 }
 
 /**
+ * Helper to get the current active group purl (based on og_context()).
+ *
+ * @return string
+ *   The group purl, or empty string if no context was found.
+ */
+function c4m_og_current_group_purl() {
+  if (!$group = c4m_og_current_group()) {
+    return '';
+  }
+
+  return $group->purl;
+}
+
+/**
  * Helper to get the current value of the group membership request.
  *
  * @param object $group
@@ -156,7 +170,7 @@ function c4m_og_menu() {
 
   $items['project/%/%/admin/owner'] = array(
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_og_replace_owner_build_form', 1, 2),
+    'page arguments' => array('c4m_og_replace_project_owner_build_form', 1, 2),
     'access callback' => 'c4m_og_user_is_owner',
     'access arguments' => array(1, 2),
     'title' => 'Replace Owner',
@@ -164,6 +178,7 @@ function c4m_og_menu() {
   // Auto-completes active group member's user names.
   $items['edit-author/autocomplete/%node'] = array(
     'page callback' => 'c4m_og_edit_author_autocomplete',
+    'page arguments' => array(2, 3),
     'access callback' => '_c4m_features_og_members_is_power_user',
     'access arguments' => array(2),
     'title' => 'Replace Author',
@@ -185,7 +200,302 @@ function c4m_og_menu() {
     'access arguments' => array(1, 2),
   );
 
+  // Menu item for approval of group request url.
+  $items['node/%node/approve-group'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_og_approve_group_request', 1),
+    'access callback' => 'c4m_og_control_group_request_access',
+    'access arguments' => array(1),
+  );
+
+  // Menu item for rejection of group request url.
+  $items['node/%node/reject-group'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_og_reject_group_request', 1),
+    'access callback' => 'c4m_og_control_group_request_access',
+    'access arguments' => array(1),
+  );
+
   return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function c4m_og_menu_alter(&$items) {
+  // Adding a member should be allow to SA only (CFM-1292).
+  $items['group/%/%/admin/people/add-user']['access callback'] = 'c4m_og_add_member_to_group_access';
+
+  // Assign access to Node Gallery API features, if user has permission to
+  // edit the gallery.
+  $node_galery_api_features = array('upload', 'items', 'manage', 'sort');
+  foreach ($node_galery_api_features as $suffix) {
+    $items['node/%node_gallery_api_gallery/' . $suffix]['access callback'] = 'node_access';
+    $items['node/%node_gallery_api_gallery/' . $suffix]['access arguments'] = array('update', 1);
+  }
+
+  // Assign access to upload Node Gallery API item types, per upload access
+  // function.
+  // Node Gallery API item types are resolve in same manner
+  // as at node_gallery_api_menu().
+  $relationship_types = node_gallery_api_get_relationship_type(NULL, NULL, NULL, TRUE);
+  foreach ($relationship_types as $relationship) {
+    foreach ($relationship->item_types as $item_type) {
+      $items['node/%node_gallery_api_gallery/upload/' . $item_type]['access callback'] = 'c4m_og_node_gallery_access';
+      $items['node/%node_gallery_api_gallery/upload/' . $item_type]['access arguments'] = array(1, $item_type);
+    }
+  }
+}
+
+/**
+ * Access callback; Adding a member to a group is allowed for SA only.
+ *
+ * @see og_ui_user_access_group()
+ */
+function c4m_og_add_member_to_group_access($perm, $group_type, $gid) {
+  return c4m_user_is_site_admin() && og_ui_user_access_group($perm, $group_type, $gid);
+}
+
+/**
+ * Access to control group requests.
+ *
+ * Site administrators can access, as long as $node is OG group.
+ *
+ * @param object $node
+ *   Group node.
+ *
+ * @return bool
+ *   Whether access is allowed.
+ */
+function c4m_og_control_group_request_access($node) {
+  if (!c4m_user_is_site_admin()) {
+    // Current user is not site admin.
+    return FALSE;
+  }
+
+  return og_is_group('node', $node);
+}
+
+/**
+ * Function initializes form with input values, and returns confirm form.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ * @param object $node
+ *   Group node.
+ *
+ * @return object
+ *   Approve group form.
+ */
+function c4m_og_approve_group_request($form, &$form_state, $node) {
+  if (!_c4m_og_group_at_initial_state($node->nid)) {
+    // If group is not at initial state, present form with failure reason.
+    $message = _c4m_og_format_group_request_failure_reason_message($node->nid);
+    drupal_set_message($message, 'warning');
+
+    return $form;
+  }
+
+  $form['message_from_admin'] = array(
+    '#type' => 'textarea',
+  );
+
+  $form['gid'] = array(
+    '#type' => 'value',
+    '#value' => $node->nid,
+  );
+
+  $form['#submit'][] = 'c4m_og_approve_group_request_submit';
+  $form['#submit'][] = 'c4m_og_notify_user_group_approved';
+  $form['#submit'][] = 'c4m_user_notifications_log_group_approved';
+  $form['#submit'][] = 'c4m_og_route_to_group';
+
+  return confirm_form($form, t('Please enter your comments:'), 'node/' . $node->nid . '/group', '', t('Approve'), t('Cancel'));
+}
+
+/**
+ * Function initializes form with input values, and returns confirm form.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ * @param object $node
+ *   Group node.
+ *
+ * @return object
+ *   Approve group request form.
+ */
+function c4m_og_reject_group_request($form, &$form_state, $node) {
+  if (!_c4m_og_group_at_initial_state($node->nid)) {
+    // If group is not at initial state, present form with failure reason.
+    $message = _c4m_og_format_group_request_failure_reason_message($node->nid);
+    drupal_set_message($message, 'warning');
+
+    return $form;
+  }
+
+  $form['message_from_admin'] = array(
+    '#type' => 'textarea',
+  );
+
+  $form['gid'] = array(
+    '#type' => 'value',
+    '#value' => $node->nid,
+  );
+
+  $form['#submit'][] = 'c4m_og_reject_group_request_submit';
+  $form['#submit'][] = 'c4m_user_notifications_log_group_rejected';
+  $form['#submit'][] = 'c4m_og_route_to_group';
+
+  return confirm_form($form, t('Please enter a reason:'), 'node/' . $node->nid . '/group', '', t('Reject'), t('Cancel'));
+}
+
+/**
+ * Submits approve group request form.
+ *
+ * Gets inputs from form, and activates c4m_og_control_group_request() function
+ * with action = 'approve'.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ */
+function c4m_og_approve_group_request_submit($form, &$form_state) {
+  $gid = $form_state['values']['gid'];
+
+  c4m_og_control_group_request('approve', $gid);
+}
+
+/**
+ * Submits reject group request form.
+ *
+ * Gets inputs from form, and activates c4m_og_control_group_request() function
+ * with action = 'reject'.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ */
+function c4m_og_reject_group_request_submit($form, &$form_state) {
+  $gid = $form_state['values']['gid'];
+
+  c4m_og_control_group_request('reject', $gid);
+}
+
+/**
+ * Changes group state to approved / rejected (per $action).
+ *
+ * @param string $action
+ *   Use 'approve' when group is approved.
+ *   Use 'reject' when group is rejected.
+ * @param int $gid
+ *   Group ID.
+ */
+function c4m_og_control_group_request($action, $gid) {
+  // If group is not at initial state => request was already handled.
+  if (!_c4m_og_group_at_initial_state($gid)) {
+    $message = _c4m_og_format_group_request_failure_reason_message($gid);
+
+    drupal_set_message($message, 'warning');
+    return;
+  }
+
+  $group_state = array(
+    'approve' => 'draft',
+    'reject' => 'deleted',
+  );
+
+  $message_action = array(
+    'approve' => 'approved',
+    'reject' => 'rejected',
+  );
+
+  $group = node_load($gid);
+  $wrapper = entity_metadata_wrapper('node', $group);
+
+  // Property instructs c4m_user_notification model to abort sending
+  // 'group approved' notification, since is sent by
+  // c4m_og_notify_user_group_approved().
+  $group->abort_group_approved_notification = TRUE;
+  $wrapper->c4m_og_status->set($group_state[$action]);
+
+  // Save group and present success message.
+  $wrapper->save();
+  $message = t('@bundle request @action', array(
+    '@bundle' => ucfirst($wrapper->getBundle()),
+    '@action' => $message_action[$action],
+  ));
+
+  drupal_set_message($message);
+}
+
+/**
+ * Invokes notification about approved group.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ */
+function c4m_og_notify_user_group_approved(&$form, &$form_state) {
+  $gid = $form_state['values']['gid'];
+  $admin_comment = $form_state['values']['message_from_admin'];
+
+  c4m_user_notifications_notify_user_group_approved($gid, $admin_comment);
+}
+
+/**
+ * Returns groups state.
+ *
+ * @param int $gid
+ *   Group ID.
+ *
+ * @return string
+ *   Group state.
+ */
+function _c4m_og_get_group_state($gid) {
+  // Check that group is at initial ('pending') state.
+  $wrapper = entity_metadata_wrapper('node', $gid);
+
+  return $wrapper->c4m_og_status->value();
+}
+
+/**
+ * Returns whether group is at initial ('pending') state.
+ *
+ * @param int $gid
+ *   Group ID.
+ *
+ * @return bool
+ *   Whether the group is at initial state.
+ */
+function _c4m_og_group_at_initial_state($gid) {
+  return _c4m_og_get_group_state($gid) == 'pending';
+}
+
+/**
+ * Returns a failure reason message for invalid group request.
+ *
+ * @param int $gid
+ *   Group ID.
+ *
+ * @return bool
+ *   Failure reason message if for invalid group request.
+ */
+function _c4m_og_format_group_request_failure_reason_message($gid) {
+  $state = _c4m_og_get_group_state($gid);
+  $wrapper = entity_metadata_wrapper('node', $gid);
+
+  return t('@bundle request was already @action', array(
+    '@bundle' => ucfirst($wrapper->getBundle()),
+    // State is other than 'deleted' => group was approved.
+    '@action' => ($state == 'deleted') ? ' rejected' : 'approved',
+  ));
 }
 
 /**
@@ -299,6 +609,20 @@ function c4m_og_route_to_group_people($form, &$form_state) {
   $gid = $form_state['values']['gid'];
 
   drupal_goto('group/node/' . $gid . '/admin/people');
+}
+
+/**
+ * Forwards the page to group admin page.
+ *
+ * @param object $form
+ *   Form array to populate.
+ * @param object $form_state
+ *   Form state array.
+ */
+function c4m_og_route_to_group($form, &$form_state) {
+  $gid = $form_state['values']['gid'];
+
+  drupal_goto('node/' . $gid . '/group');
 }
 
 /**
@@ -430,28 +754,35 @@ function c4m_og_replace_owner_build_form($form, $form_state, $entity_type, $etid
     $admins[$admin->uid] = c4m_user_name($admin);
   }
 
-  $form['new_owner'] = array(
-    '#type' => 'select',
-    '#required' => TRUE,
-    '#options' => $admins,
-    '#title' => t('Select new owner'),
-    '#description' => t('Select the name of the member you wish to be the new owner.'),
-  );
+  if (!empty($admins)) {
+    $form['new_owner'] = array(
+      '#type' => 'select',
+      '#required' => TRUE,
+      '#options' => $admins,
+      '#title' => t('Select new owner'),
+      '#description' => t('Select the name of the group admin you wish to be the new owner.'),
+    );
 
-  $form['group'] = array(
-    '#type' => 'value',
-    '#value' => $etid,
-  );
+    $form['group'] = array(
+      '#type' => 'value',
+      '#value' => $etid,
+    );
 
-  $form['type'] = array(
-    '#type' => 'value',
-    '#value' => $entity_type,
-  );
+    $form['type'] = array(
+      '#type' => 'value',
+      '#value' => $entity_type,
+    );
 
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Replace'),
-  );
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Replace'),
+    );
+  }
+  else {
+    $link = l(t('Visit the members admin page'), 'group/node/' . $etid . '/admin/people');
+    $message = t('The group does not have any site admin to be the new owner. !link', array('!link' => $link));
+    drupal_set_message($message, 'warning');
+  }
 
   return $form;
 }
@@ -470,6 +801,69 @@ function c4m_og_replace_owner_build_form_submit($form, &$form_state) {
 
   // Redirect back to the group page.
   $form_state['redirect'] = $form_state['values']['type'] . '/' . $form_state['values']['group'] . '/group';
+}
+
+/**
+ * Form builder.
+ *
+ * Project owner replace form.
+ */
+function c4m_og_replace_project_owner_build_form($form, $form_state, $entity_type, $etid) {
+  og_set_breadcrumb($entity_type, $etid, array(l(t('Project'), "$entity_type/$etid/project")));
+
+  // Setting the list of the group admins.
+  $admins = array();
+  foreach (c4m_og_get_group_members($etid) as $admin) {
+    $admins[$admin->uid] = c4m_user_name($admin);
+  }
+
+  if (!empty($admins)) {
+    $form['new_owner'] = array(
+      '#type' => 'select',
+      '#required' => TRUE,
+      '#options' => $admins,
+      '#title' => t('Select new owner'),
+      '#description' => t('Select the name of the project admin you wish to be the new owner.'),
+    );
+
+    $form['group'] = array(
+      '#type' => 'value',
+      '#value' => $etid,
+    );
+
+    $form['type'] = array(
+      '#type' => 'value',
+      '#value' => $entity_type,
+    );
+
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Replace'),
+    );
+  }
+  else {
+    $link = l(t('Visit the members admin page'), 'group/node/' . $etid . '/admin/people');
+    $message = t('The project does not have any site admin to be the new owner. !link', array('!link' => $link));
+    drupal_set_message($message, 'warning');
+  }
+
+  return $form;
+}
+
+/**
+ * Submit handler.
+ *
+ * Replacing the owner of a group.
+ */
+function c4m_og_replace_project_owner_build_form_submit($form, &$form_state) {
+  $new_owner = array(
+    'uid' => $form_state['values']['new_owner'],
+    'name' => $form['new_owner']['#options'][$form_state['values']['new_owner']],
+  );
+  c4m_og_replace_owner($form_state['values']['type'], $form_state['values']['group'], $new_owner);
+
+  // Redirect back to the group page.
+  $form_state['redirect'] = $form_state['values']['type'] . '/' . $form_state['values']['group'] . '/project';
 }
 
 /**
@@ -527,7 +921,7 @@ function c4m_og_user_is_owner($group_type, $gid) {
   }
 
   // Make sure the current user is the group manager.
-  return user_access('administer groups', $user) || $user->uid == $group->uid;
+  return user_access('administer groups') || $user->uid == $group->uid;
 }
 
 /**
@@ -559,7 +953,7 @@ function c4m_og_user_is_member($group_type = NULL, $gid = NULL) {
   }
 
   // Make sure the current user is the group manager.
-  return user_access('administer groups') || og_is_member('node', $gid);
+  return user_access('administer group') || og_is_member('node', $gid);
 }
 
 /**
@@ -604,6 +998,63 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
 }
 
 /**
+ * Returns all group member ids.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ * @param bool $verify_owner_added
+ *   Whether to return group owner id, even if group owner does not
+ *   have 'member' role.
+ * @param bool $filter_event_user
+ *   Whether to filter out current user ID from result, or not.
+ *
+ * @return array
+ *   An array of all group admins ids.
+ */
+function c4m_og_get_group_member_ids($gid, $verify_owner_added = FALSE, $filter_event_user = FALSE) {
+  $membership_ids = c4m_og_get_all_group_memberships_by_state($gid, OG_STATE_ACTIVE);
+  $memberships = og_membership_load_multiple($membership_ids);
+
+  $group = node_load($gid);
+  $members = array();
+
+  foreach ($memberships as $membership) {
+    if ($membership->etid == $group->uid) {
+      if ($verify_owner_added) {
+        $members[] = $membership->etid;
+      }
+    }
+    else {
+      $members[] = $membership->etid;
+    }
+  }
+
+  if ($filter_event_user) {
+    // Filter current user ID from array with member ids.
+    global $user;
+
+    if (($index = array_search($user->uid, $members)) !== FALSE) {
+      unset($members[$index]);
+    }
+  }
+
+  return $members;
+}
+
+/**
+ * Returns all group members.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ *
+ * @return array
+ *   An array of all group admins.
+ */
+function c4m_og_get_group_members($gid) {
+  return user_load_multiple(c4m_og_get_group_member_ids($gid));
+}
+
+/**
  * Returns all group admins ids.
  *
  * @param int $gid
@@ -613,12 +1064,14 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
  *   have 'administrator member' role.
  * @param bool $filter_event_user
  *   Whether to filter out current user ID from result, or not.
+ * @param string $group_type
+ *   The group node type to filter for, defaults to "group".
  *
  * @return array
  *   An array of all group admins ids.
  */
-function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_event_user = FALSE) {
-  $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
+function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_event_user = FALSE, $group_type = 'group') {
+  $group_admin_role = c4m_og_user_role_load_by_name('administrator member', $group_type);
   $admins = c4m_og_get_users_by_roles($gid, array($group_admin_role->rid));
   foreach ($admins as &$admin) {
     $admin = $admin->uid;
@@ -646,7 +1099,9 @@ function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_
 }
 
 /**
- * Returns the ids of group owner and group admins. Filters out current user.
+ * Returns the ids of group owner and group admins.
+ *
+ * Filters out current user, and admins that are blocked at that group.
  *
  * @param int $gid
  *   The ID of the group.
@@ -655,7 +1110,21 @@ function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_
  *   An array of all group admins ids.
  */
 function c4m_og_get_group_admins_and_owner_ids_for_notification($gid) {
-  return c4m_og_get_group_admins_ids($gid, TRUE, TRUE);
+  $admins_ids = c4m_og_get_group_admins_ids($gid, FALSE, TRUE);
+  $group = node_load($gid);
+  $admins = user_load_multiple($admins_ids);
+
+  $index = 0;
+  foreach ($admins as $admin) {
+    // Do not return users that are blocked (banned from group).
+    if (c4m_user_og_get_role_in_group($admin, $group) == 'blocked') {
+      unset($admins_ids[$index]);
+    }
+
+    $index++;
+  }
+
+  return $admins_ids;
 }
 
 /**
@@ -666,12 +1135,14 @@ function c4m_og_get_group_admins_and_owner_ids_for_notification($gid) {
  * @param bool $verify_owner_added
  *   Whether to return group owner, even if group owner does not
  *   have 'administrator member' role.
+ * @param string $group_type
+ *   The group node type to filter for, defaults to "group".
  *
  * @return array
  *   An array of all group admins.
  */
-function c4m_og_get_group_admins($gid, $verify_owner_added = FALSE) {
-  return user_load_multiple(c4m_og_get_group_admins_ids($gid, $verify_owner_added));
+function c4m_og_get_group_admins($gid, $verify_owner_added = FALSE, $group_type = 'group') {
+  return user_load_multiple(c4m_og_get_group_admins_ids($gid, $verify_owner_added, FALSE, $group_type));
 }
 
 /**
@@ -1030,19 +1501,46 @@ function c4m_og_get_posts_count($group) {
 }
 
 /**
- * Implements hook_entity_property_info_alter().
+ * Gets all group content bundles by entity type.
+ *
+ * @param string $entity_type
+ *   Entity type (optional).
+ *
+ * @return array
+ *   Bundles which are defined as group content.
  */
-function c4m_og_entity_property_info_alter(&$info) {
-  $info['node']['properties']['c4m_og_group_type'] = array(
-    'type' => 'text',
-    'label' => t('Group type'),
-    'sanitized' => TRUE,
-    'getter callback' => '_c4m_og_group_type_getter_callback',
-  );
+function c4m_og_get_all_group_content_bundles($entity_type = NULL) {
+  $bundles = og_get_all_group_content_bundle();
+
+  return $entity_type ? $bundles[$entity_type] : $bundles;
 }
 
 /**
- * Getter callback for created_week_day property.
+ * Implements hook_entity_property_info_alter().
+ */
+function c4m_og_entity_property_info_alter(&$info) {
+  $info['node']['properties']['c4m_og_group_access_type'] = array(
+    'type' => 'text',
+    'label' => t('Group access type'),
+    'sanitized' => TRUE,
+    'getter callback' => '_c4m_og_group_access_type_getter_callback',
+  );
+
+  // Adding c4m_og_group_type to all group content bundles.
+  $bundles = c4m_og_get_all_group_content_bundles('node');
+  foreach (array_keys($bundles) as $bundle) {
+    $info['node']['bundles'][$bundle]['properties']['c4m_og_group_type'] = array(
+      'type' => 'text',
+      'label' => t('Group type'),
+      'description' => t('The type of the group a content belongs to (group/project).'),
+      'sanitized' => TRUE,
+      'getter callback' => '_c4m_og_group_type_getter_callback',
+    );
+  }
+}
+
+/**
+ * Getter callback for c4m_og_group_access_type property.
  *
  * @param object $item
  *    The group object.
@@ -1050,12 +1548,29 @@ function c4m_og_entity_property_info_alter(&$info) {
  * @return string
  *    Type of group access.
  */
-function _c4m_og_group_type_getter_callback($item) {
+function _c4m_og_group_access_type_getter_callback($item) {
   // Get group type information.
   $group_access = c4m_og_get_access_type($item);
   if (!empty($group_access['type'])) {
     return ucfirst($group_access['type']);
   }
+}
+
+/**
+ * Getter callback for c4m_og_group_type property.
+ *
+ * @param object $node
+ *    A node object.
+ *
+ * @return string
+ *    Type of group the node belongs to (group/project).
+ */
+function _c4m_og_group_type_getter_callback($node) {
+  if (!$group = c4m_og_get_group_of_content($node)) {
+    return '';
+  }
+
+  return $group->type;
 }
 
 /**
@@ -1123,15 +1638,15 @@ function c4m_og_feature_info($feature = NULL) {
 }
 
 /**
- * Check if a given feature is enabled.
+ * Check if a given feature is available for the active group.
  *
  * @param string $feature
  *   The feature to check.
  *
  * @return bool
- *   True if the feature is enabled for the active group.
+ *   True if the feature is available for the active group.
  */
-function c4m_og_feature_enabled($feature) {
+function c4m_og_feature_available($feature) {
   // Check if the feature exists.
   $og_feature = c4m_og_feature_info($feature);
   if (!isset($og_feature['machine_name'])) {
@@ -1146,10 +1661,25 @@ function c4m_og_feature_enabled($feature) {
     }
   }
 
-  // Check if the feature is enabled.
-  $settings = variable_get('c4m_og_features_group', array());
-  if (isset($settings[$feature]) && $settings[$feature] === $feature) {
-    return TRUE;
+  return TRUE;
+}
+
+/**
+ * Check if a given feature is enabled.
+ *
+ * @param string $feature
+ *   The feature to check.
+ *
+ * @return bool
+ *   True if the feature is enabled for the active group.
+ */
+function c4m_og_feature_enabled($feature) {
+  if (c4m_og_feature_available($feature)) {
+    // Check if the feature is enabled.
+    $settings = variable_get('c4m_og_features_group', array());
+    if (isset($settings[$feature]) && $settings[$feature] === $feature) {
+      return TRUE;
+    }
   }
 
   return FALSE;
@@ -1578,9 +2108,11 @@ function c4m_og_get_group_type($group) {
 function c4m_og_get_user_group_memberships_count($uid, $state = OG_STATE_ACTIVE) {
   $query = db_select('og_membership', 'm');
   $query->fields('m', array('id'));
-  $query->condition('entity_type', 'user');
-  $query->condition('etid', $uid);
-  $query->condition('state', $state);
+  $query->join('node', 'n', 'n.nid = m.gid');
+  $query->condition('m.entity_type', 'user');
+  $query->condition('m.etid', $uid);
+  $query->condition('m.state', $state);
+  $query->condition('n.type', 'group');
 
   $query = $query->execute();
   $amount = $query->rowCount();
@@ -1606,22 +2138,102 @@ function c4m_og_get_user_group_pending_memberships_count($uid) {
  *
  * @param int $uid
  *   User id.
- * @param string $node_type
- *   Node type.
+ *   Differentiate between projects and programmes.
  *
  * @return int
  *   Count.
  */
-function c4m_og_get_user_administered_groups_count($uid, $node_type) {
+function c4m_og_get_user_administered_groups_count($uid) {
   $query = db_select('og_users_roles', 'ur');
   $query->fields('ur');
   $query->join('og_role', 'r', "ur.rid = r.rid AND name = 'administrator member' AND ur.uid = $uid");
-  $query->join('node', 'n', "ur.gid = n.nid AND ur.group_type = 'node' AND n.type = '$node_type'");
+  $query->join('node', 'n', "ur.gid = n.nid AND ur.group_type = 'node' AND n.type = 'group'");
 
   $query = $query->execute();
   $amount = $query->rowCount();
 
   return $amount;
+}
+
+/**
+ * Returns the memberships in projects/programmes count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ * @param int $is_programme
+ *   Differentiate between projects and programmes.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_og_get_user_project_memberships_count($uid, $state = OG_STATE_ACTIVE, $is_programme = 0) {
+  $query = db_select('og_membership', 'm');
+  $query->fields('m', array('id'));
+  $query->join('node', 'n', 'n.nid = m.gid');
+  $query->condition('m.entity_type', 'user');
+  $query->condition('m.etid', $uid);
+  $query->condition('m.state', $state);
+  $query->condition('n.type', 'project');
+
+  $query->leftJoin('field_data_c4m_project_type', 'pt', 'pt.entity_id = n.nid');
+
+  if ($is_programme) {
+    $query->condition('pt.c4m_project_type_value', 'programme', '=');
+  }
+  else {
+    $query->condition('pt.c4m_project_type_value', 'project', '=');
+  }
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
+}
+
+/**
+ * Returns the administered projects/programmes count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ * @param int $is_programme
+ *   Differentiate between projects and programmes.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_og_get_user_administered_projects_count($uid, $is_programme = 0) {
+  $query = db_select('og_users_roles', 'ur');
+  $query->fields('ur');
+  $query->join('og_role', 'r', "ur.rid = r.rid AND name = 'administrator member' AND ur.uid = $uid");
+  $query->join('node', 'n', "ur.gid = n.nid AND ur.group_type = 'node' AND n.type = 'project'");
+  $query->leftJoin('field_data_c4m_project_type', 'pt', 'pt.entity_id = n.nid');
+
+  if ($is_programme) {
+    $query->condition('pt.c4m_project_type_value', 'programme', '=');
+  }
+  else {
+    $query->condition('pt.c4m_project_type_value', 'project', '=');
+  }
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
+}
+
+/**
+ * Returns an array of all OG Group content bundles, of type 'node'.
+ *
+ * @return array
+ *   OG Group content bundles, of type 'node'.
+ */
+function c4m_og_get_group_content_bundles() {
+  $node_bundles = c4m_og_get_all_group_content_bundles('node');
+
+  unset($node_bundles['news']);
+  unset($node_bundles['share']);
+
+  return array_keys($node_bundles);
 }
 
 /**
@@ -1631,7 +2243,22 @@ function c4m_og_get_user_administered_groups_count($uid, $node_type) {
  *   Notification types.
  */
 function c4m_og_get_group_content_notification_types() {
-  return array('discussion', 'document', 'event', 'wiki_page');
+  return array('discussion', 'document', 'event', 'wiki_page', 'news');
+}
+
+/**
+ * Returns extended list of content types that require notification.
+ *
+ * All group content types, and global content 'article'.
+ *
+ * @return array
+ *   Content types (group and global), that require notifications.
+ */
+function c4m_og_get_extended_content_notification_types() {
+  $comment_notification_types = c4m_og_get_group_content_notification_types();
+  $comment_notification_types[] = 'article';
+
+  return $comment_notification_types;
 }
 
 /**
@@ -1681,17 +2308,328 @@ function c4m_og_get_user_owned_groups($uid, $node_type) {
 }
 
 /**
- * Implements hook_node_access().
+ * Gets the group node of the given node.
  *
- * Prevents anyone besides site administrators to delete Group/Project.
- * Blocks access to 'node/%node/delete'.
+ * @param object $node
+ *   A node we wish to get its group node.
+ *
+ * @return bool|mixed
+ *   The object of the group, FALSE if no results found.
  */
-function c4m_og_node_access($node, $op, $account) {
-  if ($op == 'delete' && og_is_group('node', $node) && !user_access('administer nodes')) {
-    return NODE_ACCESS_DENY;
+function c4m_og_get_group_of_content($node) {
+  $result = og_get_entity_groups('node', $node);
+  if (empty($result['node'])) {
+    return FALSE;
   }
 
+  $gid = reset($result['node']);
+
+  return node_load($gid);
+}
+
+/**
+ * Gets the state of a given group.
+ *
+ * Assuming the given group is a node with the type 'group'.
+ *
+ * @param object $group
+ *   The object of the group.
+ *
+ * @return string
+ *   The state of the group.
+ */
+function c4m_og_get_group_status($group) {
+  $wrapper = entity_metadata_wrapper('node', $group);
+
+  return $wrapper->c4m_og_status->value();
+}
+
+/**
+ * Handles 'view' operation of hook_node_access().
+ */
+function c4m_og_view_node_access($node, $account) {
+  if (og_is_group('node', $node)) {
+
+    $allowed_states = array(
+      C4M_USER_TYPE_VISITOR => array(),
+      C4M_USER_TYPE_NON_MEMBER => array(),
+      C4M_USER_TYPE_GM => array('draft', 'archived', 'published'),
+      C4M_USER_TYPE_GA => array('draft', 'archived', 'published'),
+      C4M_USER_TYPE_GO => array('pending', 'draft', 'archived', 'published'),
+    );
+
+    $group_access = c4m_og_get_access_type($node);
+
+    if ($group_access['type'] == 'public') {
+      // Archived and published states are allowed for public group.
+      $allowed_states[C4M_USER_TYPE_VISITOR] = $allowed_states[C4M_USER_TYPE_NON_MEMBER] = array('archived', 'published');
+    }
+    elseif ($group_access['type'] == 'restricted') {
+      // User is not a member, but can access restricted group.
+      if (c4m_og_user_can_access_restricted_group($node, $account, 'view')) {
+        // Published state is allowed for restricted group.
+        $allowed_states[C4M_USER_TYPE_NON_MEMBER][] = 'published';
+      }
+    }
+
+    $user_type = _c4m_features_og_members_get_user_type($node, $account);
+    $group_state = c4m_og_get_group_status($node);
+
+    // If group's state appears at allowed states array, for logged in
+    // user type, access is allowed.
+    return in_array($group_state, $allowed_states[$user_type]) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+  }
+  elseif (og_is_group_content_type('node', $node->type)) {
+
+    // Couldn't resolve the group of the content.
+    if (!$group = c4m_og_get_group_of_content($node)) {
+      return NODE_ACCESS_IGNORE;
+    }
+
+    // Group content is saved as draft.
+    if ($node->status == NODE_NOT_PUBLISHED) {
+
+      $user_type = _c4m_features_og_members_get_user_type($group, $account);
+      $allowed_wiki_page = $node->type == 'wiki_page' && $user_type == C4M_USER_TYPE_GM && c4m_content_wiki_page_is_editable_by_members($node);
+
+      // Only power user or content author may view the node.
+      if (_c4m_features_og_members_is_power_user($group) || $node->uid == $account->uid || $allowed_wiki_page) {
+        return NODE_ACCESS_ALLOW;
+      }
+      else {
+        return NODE_ACCESS_DENY;
+      }
+    }
+
+    // View access of content is same as view access of group it belongs to.
+    $group_access = node_access('view', $group, $account);
+
+    return $group_access ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+  }
+
+  // The content is not OG. For example: article.
   return NODE_ACCESS_IGNORE;
+}
+
+/**
+ * Handles 'create' operation of hook_node_access().
+ */
+function c4m_og_create_node_access($node, $account) {
+  // When creating, $node is string that indicates bundle name.
+  if (og_is_group_type('node', $node)) {
+
+    return user_is_anonymous() ? NODE_ACCESS_DENY : NODE_ACCESS_ALLOW;
+  }
+  elseif (og_is_group_content_type('node', $node)) {
+
+    $group = c4m_og_current_group();
+    $user_type = _c4m_features_og_members_get_user_type($group, $account);
+    // Can't resolve user type - couldn't get OG context to resolve group.
+    if (!$user_type) {
+      return NODE_ACCESS_IGNORE;
+    }
+
+    // Only group members or power users may create content.
+    if ($user_type == C4M_USER_TYPE_VISITOR || $user_type == C4M_USER_TYPE_NON_MEMBER) {
+      return NODE_ACCESS_DENY;
+    }
+
+    // We allow access only for draft / published groups.
+    $group_state = c4m_og_get_group_status($group);
+    $allowed_states = array('draft', 'published');
+
+    // Group state is not allowed.
+    if (!in_array($group_state, $allowed_states)) {
+      return NODE_ACCESS_DENY;
+    }
+
+    // We know that the user is member or power member.
+    return NODE_ACCESS_ALLOW;
+  }
+
+  // The content is not OG. For example: article.
+  return NODE_ACCESS_IGNORE;
+}
+
+/**
+ * Handles 'update' operation of hook_node_access().
+ */
+function c4m_og_update_node_access($node, $account) {
+
+  if (og_is_group('node', $node)) {
+    // GA and GO get access to draft and published groups.
+    // GO also gets access to pending groups.
+    $allowed_states = array(
+      C4M_USER_TYPE_VISITOR => array(),
+      C4M_USER_TYPE_NON_MEMBER => array(),
+      C4M_USER_TYPE_GM => array(),
+      C4M_USER_TYPE_GA => array('draft', 'published'),
+      C4M_USER_TYPE_GO => array('pending', 'draft', 'published'),
+    );
+
+    $user_type = _c4m_features_og_members_get_user_type($node, $account);
+    $group_state = c4m_og_get_group_status($node);
+
+    // If group's state appears at allowed states array, for logged in
+    // user type, access is allowed.
+    return in_array($group_state, $allowed_states[$user_type]) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+  }
+  elseif (og_is_group_content_type('node', $node->type)) {
+
+    $group = c4m_og_get_group_of_content($node);
+    $user_type = _c4m_features_og_members_get_user_type($group, $account);
+    // Can't resolve user type - couldn't get OG context to resolve group.
+    if (!$user_type) {
+      return NODE_ACCESS_IGNORE;
+    }
+
+    // Only group members or power users may update content.
+    if ($user_type == C4M_USER_TYPE_VISITOR || $user_type == C4M_USER_TYPE_NON_MEMBER) {
+      return NODE_ACCESS_DENY;
+    }
+
+    // When updating published wiki page, deny access to group members,
+    // if 'editable by members' option is not enabled for this page.
+    if ($node->type == 'wiki_page') {
+      if ($user_type == C4M_USER_TYPE_GM && !c4m_content_wiki_page_is_editable_by_members($node)) {
+        return NODE_ACCESS_DENY;
+      }
+      else {
+        return NODE_ACCESS_ALLOW;
+      }
+    }
+
+    // We allow access only for draft / published groups.
+    $group_state = c4m_og_get_group_status($group);
+    $allowed_states = array('draft', 'published');
+
+    // Group state is not allowed.
+    if (!in_array($group_state, $allowed_states)) {
+      return NODE_ACCESS_DENY;
+    }
+
+    // We allow access to power users, and member that is also content author.
+    $allowed_user_types = array(
+      C4M_USER_TYPE_GA,
+      C4M_USER_TYPE_GO,
+      C4M_USER_TYPE_SA,
+    );
+
+    if (in_array($user_type, $allowed_user_types)) {
+      return NODE_ACCESS_ALLOW;
+    }
+    elseif ($user_type == C4M_USER_TYPE_GM) {
+      // User is content author, or not.
+      return ($node->uid == $account->uid) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+    }
+  }
+
+  // The content is not OG. For example: article.
+  return NODE_ACCESS_IGNORE;
+}
+
+/**
+ * Handles 'delete' operation of hook_node_access().
+ */
+function c4m_og_delete_node_access($node, $account) {
+
+  if (og_is_group('node', $node)) {
+
+    // Only site admin may delete groups.
+    return c4m_user_is_site_admin($account) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+  }
+  elseif (og_is_group_content_type('node', $node->type)) {
+
+    $group = c4m_og_get_group_of_content($node);
+    $user_type = _c4m_features_og_members_get_user_type($group, $account);
+    // Can't resolve user type - couldn't get OG context to resolve group.
+    if (!$user_type) {
+      return NODE_ACCESS_IGNORE;
+    }
+
+    // Only group members or power users may delete content.
+    if ($user_type == C4M_USER_TYPE_VISITOR || $user_type == C4M_USER_TYPE_NON_MEMBER) {
+      return NODE_ACCESS_DENY;
+    }
+
+    // We allow access only for draft / published groups.
+    $group_state = c4m_og_get_group_status($group);
+    $allowed_states = array('draft', 'published');
+
+    // Group state is not allowed.
+    if (!in_array($group_state, $allowed_states)) {
+      return NODE_ACCESS_DENY;
+    }
+
+    // We allow access to power user, and member that is also content author.
+    $allowed_user_types = array(
+      C4M_USER_TYPE_GA,
+      C4M_USER_TYPE_GO,
+      C4M_USER_TYPE_SA,
+    );
+
+    if (in_array($user_type, $allowed_user_types)) {
+      return NODE_ACCESS_ALLOW;
+    }
+    elseif ($user_type == C4M_USER_TYPE_GM) {
+      // User is content author, or not.
+      return ($node->uid == $account->uid) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+    }
+  }
+
+  // The content is not OG. For example: article.
+  return NODE_ACCESS_IGNORE;
+}
+
+/**
+ * Implements hook_node_access().
+ */
+function c4m_og_node_access($node, $op, $account) {
+
+  switch ($op) {
+    case 'view':
+      return c4m_og_view_node_access($node, $account);
+
+    case 'create':
+      return c4m_og_create_node_access($node, $account);
+
+    case 'update':
+      return c4m_og_update_node_access($node, $account);
+
+    case 'delete':
+      return c4m_og_delete_node_access($node, $account);
+
+  }
+}
+
+/**
+ * Returns true is user has access to restricted group.
+ *
+ * @param object $group
+ *   Restricted group, to which access is required.
+ * @param object $account
+ *   User that requests access.
+ * @param string $op
+ *   Operation, for which user requested the access.
+ *
+ * @return bool
+ *   True if user got access to group.
+ */
+function c4m_og_user_can_access_restricted_group($group, $account, $op) {
+  $node_grants = array_keys(pluggable_node_access_node_grants($account, $op));
+  $node_access_records = pluggable_node_access_node_access_records($group);
+
+  // If one of node grants matches a realm of node access record,
+  // access is allowed.
+  foreach ($node_grants as $node_grant) {
+    foreach ($node_access_records as $node_access_record) {
+      if ($node_grant == $node_access_record['realm']) {
+        return TRUE;
+      }
+    }
+  }
+
+  return FALSE;
 }
 
 /**
@@ -1713,8 +2651,13 @@ function c4m_og_add_content_author_options_to_power_users(&$form) {
     return;
   }
 
-  // Show authoring information tab to GAs and GO when editing group content.
-  $form['author']['#access'] = _c4m_features_og_members_is_power_user();
+  // Show authoring information tab to GAs and GO, when editing group content.
+  if (_c4m_features_og_members_is_power_user()) {
+    $form['author']['#access'] = TRUE;
+    // Per https://issuetracker.amplexor.com/jira/browse/CFM-1248, there's
+    // no need to present the 'Authored on' date field.
+    $form['author']['date']['#access'] = FALSE;
+  }
 
   // Limit possible authors to members of the group only.
   $form['author']['name']['#autocomplete_path'] = 'edit-author/autocomplete/' . $gid;
@@ -1732,7 +2675,9 @@ function c4m_og_form_valid_author($form, &$form_state) {
     form_set_error('name', 'There was an error validating the author for this group.');
   }
 
-  if ($user && !og_is_member('node', $gid, 'user', $user)) {
+  // Author may be anonymous (when a user cancel its account and choose to
+  // anonymize the content.
+  if ($user && $user->uid && !c4m_user_is_site_admin($user) && !og_is_member('node', $gid, 'user', $user)) {
     form_set_error('name', $form_state['values']['name'] . ' is not an active member of this group.');
   }
 }
@@ -1743,35 +2688,23 @@ function c4m_og_form_valid_author($form, &$form_state) {
  * Returns a JSON of all active members of an OG group where the username
  * contains the search string (for autocomplete author field).
  */
-function c4m_og_edit_author_autocomplete($string = '') {
+function c4m_og_edit_author_autocomplete($group, $string = '') {
   // Return early if no search string was received.
   if (!trim($string)) {
     return;
   }
 
-  $gid = c4m_og_current_group_id();
-  // Return early if there is no group context.
-  if (!$gid) {
-    return;
-  }
-
   $query = db_select('users', 'u');
-  $query
-    ->condition('u.status', C4M_USER_STATUS_ACTIVE, '=')
-    ->condition('u.name', '%' . db_like($string) . '%', 'LIKE')
-    ->fields('u', array('uid', 'name'))
-    ->fields('ogm', array('state'))
-    ->join('og_membership', 'ogm', "ogm.gid = :gid AND u.uid = ogm.etid AND ogm.entity_type = 'user'", array(':gid' => $gid));
-  $result = $query->execute();
+  $query->join('og_membership', 'ogm', 'u.uid = ogm.etid');
+  $query->fields('u', array('name'))
+    ->condition('ogm.group_type', 'node', '=')
+    ->condition('ogm.gid', $group->nid, '=')
+    ->condition('ogm.entity_type', 'user', '=')
+    ->condition('ogm.state', OG_STATE_ACTIVE, '=')
+    ->condition('u.name', '%' . db_like($string) . '%', 'LIKE');
+  $result = $query->execute()->fetchAllKeyed(0, 0);
 
-  foreach ($result as $member) {
-    if ($member->state == OG_STATE_ACTIVE) {
-      $user[$member->name] = $member->name;
-    }
-  }
-
-  // Convert to object to prevent drupal bug, see http://drupal.org/node/175361
-  drupal_json_output((object) $user);
+  drupal_json_output($result);
 }
 
 /**
@@ -1785,4 +2718,146 @@ function c4m_og_edit_author_autocomplete($string = '') {
  */
 function c4m_og_human_to_machine_readable($title, $delimiter = '-') {
   return preg_replace('@[^a-z0-9_]+@', $delimiter, strtolower(trim($title)));
+}
+
+/**
+ * Comparison function for groups, will prioritize group statuses.
+ *
+ * @param object $a
+ *   Group entity A to compare.
+ * @param object $b
+ *   Group entity B to compare.
+ *
+ * @return int
+ *   Comparison value (-1 or 0 or 1).
+ */
+function _c4m_og_sort_by_status($a, $b) {
+  $priorities = array(
+    'published',
+    'archived',
+    'draft',
+    'pending',
+    'deleted',
+  );
+
+  $status_a = $a->c4m_og_status[LANGUAGE_NONE][0]['value'];
+  $status_b = $b->c4m_og_status[LANGUAGE_NONE][0]['value'];
+
+  $rank_a = array_search($status_a, $priorities);
+  $rank_b = array_search($status_b, $priorities);
+
+  if ($rank_a == $rank_b) {
+    return strcmp($a->title, $b->title);
+  }
+  return ($rank_a < $rank_b) ? -1 : 1;
+}
+
+/**
+ * Get the group IDs of all the groups a user is a pending member of.
+ *
+ * Function og_user_access() returns active memberships. This function returns
+ * pending memberships.
+ *
+ * @see og_user_access()
+ *
+ * @return array
+ *   An array with the group IDs or an empty array.
+ */
+function c4m_og_get_pending_groups_by_user($account = NULL, $group_type = NULL, $access_check = FALSE) {
+  if (empty($account)) {
+    global $user;
+    $account = $user;
+  }
+
+  $gids = array();
+
+  if (!og_get_group_audience_fields()) {
+    // User entity doesn't have group audience fields.
+    return $gids;
+  }
+
+  // Get all active OG membership that belong to the user.
+  $wrapper = entity_metadata_wrapper('user', $account->uid);
+  $og_memberships = $wrapper->{'og_membership__' . OG_STATE_PENDING}->value();
+  if (!$og_memberships) {
+    return $gids;
+  }
+
+  $groups = array();
+  foreach ($og_memberships as $og_membership) {
+    if (empty($og_membership)) {
+      // OG membership might have been just deleted.
+      continue;
+    }
+    $groups[$og_membership->group_type][] = $og_membership->gid;
+  }
+
+  foreach ($groups as $entity_type => $ids) {
+    foreach (entity_load($entity_type, $ids) as $entity) {
+      if ($access_check && !entity_access('view', $entity_type, $entity, $account)) {
+        // User doesn't have access to the group.
+        continue;
+      }
+      list($id) = entity_extract_ids($entity_type, $entity);
+      $gids[$entity_type][$id] = $id;
+    }
+  }
+
+  if (empty($group_type)) {
+    return $gids;
+  }
+  elseif (!empty($gids[$group_type])) {
+    return $gids[$group_type];
+  }
+}
+
+/**
+ * Return true if the user is allowed to invite, and false if he isn't.
+ *
+ * Checks by og_permissions, group state and moderation type.
+ */
+function c4m_og_invite_access($group_type, $gid) {
+  if (c4m_user_is_site_admin()) {
+    return TRUE;
+  }
+
+  // OG invite access is allowed for group members and administrators.
+  if (!_og_invite_access($group_type, $gid)) {
+    return FALSE;
+  }
+
+  $group = node_load($gid);
+  $allowed_group_states = array('draft', 'published');
+  $group_state = c4m_og_get_group_status($group);
+
+  // Invite is allowed at groups with Draft/Published state.
+  if (!in_array($group_state, $allowed_group_states)) {
+    return FALSE;
+  }
+
+  // Either 'open' or 'moderated'.
+  $group_moderation_state = c4m_og_get_group_membership_request($group);
+  $user_type = _c4m_features_og_members_get_user_type($group);
+  $group_access = c4m_og_get_access_type($group);
+
+  // Group members can't invite to private group, or group that is moderated.
+  if ($user_type == C4M_USER_TYPE_GM && ($group_access == 'private' || $group_moderation_state != 'open')) {
+    return FALSE;
+  }
+
+  // If we got so far, user is allowed to invite.
+  return TRUE;
+}
+
+/**
+ * Access function for gallery items uploads.
+ *
+ * @see node_gallery_api_upload_access()
+ */
+function c4m_og_node_gallery_access($gallery, $item_type = NULL) {
+  $relationship_types = node_gallery_api_get_relationship_type($gallery->type, $item_type);
+
+  // Assign access to Node Gallery API item type upload, there's a relationship
+  // for gallery item type, and user got permission to edit the gallery.
+  return (!empty($relationship_types) && node_access('update', $gallery));
 }

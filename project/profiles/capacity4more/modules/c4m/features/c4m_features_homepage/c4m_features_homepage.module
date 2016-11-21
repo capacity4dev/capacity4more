@@ -25,56 +25,67 @@ function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
+ * Returns suggested items (groups / projects) for the current user.
+ *
+ * @param string $bundle
+ *   The bundle of the items to get.
+ */
+function c4m_features_homepage_get_suggested_items($bundle) {
+  if (user_is_anonymous()) {
+    return;
+  }
+
+  global $user;
+  $account = user_load($user->uid);
+
+  // Can't suggest groups for user that got no interests.
+  if (!$interests = c4m_user_profile_get_interests()) {
+    return;
+  }
+
+  $user_groups = og_get_groups_by_user($account, 'node', TRUE);
+
+  $query = new EntityFieldQuery();
+
+  $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', $bundle)
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->fieldCondition('c4m_og_status', 'value', 'published');
+
+  if (!empty($user_groups['node'])) {
+    $query->propertyCondition('nid', $user_groups['node'], 'NOT IN');
+  }
+
+  $query->fieldCondition('c4m_vocab_topic', 'tid', $interests, 'IN');
+
+  $result = $query
+    ->addTag('random')
+    ->execute();
+
+  return !empty($result['node']) ? $result['node'] : FALSE;
+}
+
+/**
  * Renders suggested groups for the user.
  *
- * Suggest 5 random groups for the user which he is not subscribed to.
- * When interests filter is applied : select groups which has at least one
- * common topic of interest with the user.
+ * Suggests 3 random groups for the user which he is not subscribed to.
+ * Select groups which have at least one common topic of interest with the
+ * user.
  * Interests are taken from user's profile.
  *
  * @return mixed
  *   Rendered HTML of suggested groups.
  */
 function c4m_features_homepage_c4m_suggested_groups_get_groups() {
-  global $user;
-  $account = user_load($user->uid);
-
-  $user_wrapper = entity_metadata_wrapper('user', $account->uid);
-  $interests = $user_wrapper->c4m_vocab_topic->raw();
-
-  $get_query = drupal_get_query_parameters();
-  $filter = !empty($get_query['filter'])
-    ? $get_query['filter']
-    : NULL;
-
-  $user_groups = og_get_groups_by_user($account, NULL, TRUE);
-
-  $query = new EntityFieldQuery();
-
-  $query
-    ->entityCondition('entity_type', 'node')
-    ->entityCondition('bundle', 'group')
-    ->propertyCondition('status', NODE_PUBLISHED)
-    ->fieldCondition('c4m_og_status', 'value', 'published');
-
-  if (!empty($user_groups['node'])) {
-    $query
-      ->propertyCondition('nid', $user_groups['node'], 'NOT IN');
-  }
-
-  if (!empty($interests)) {
-    $query->fieldCondition('c4m_vocab_topic', 'tid', $interests, 'IN');
-  }
-
-  $result = $query
-    ->addTag('random')
-    ->execute();
-
-  if (empty($result['node'])) {
+  if (!$suggested_groups = c4m_features_homepage_get_suggested_items('group')) {
     return;
   }
 
-  $groups = c4m_features_homepage_alphabetically_render_node_list($result['node']);
+  // Determine if to display the "show more" button.
+  $display_more_button = count($suggested_groups) > C4M_FEATURES_HOMEPAGE_MAX_GROUPS_PER_BLOCK;
+
+  $groups = c4m_features_homepage_alphabetically_render_node_list($suggested_groups);
 
   $variables['groups'] = $groups;
   $link_options = array(
@@ -84,8 +95,43 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
     ),
   );
   $variables['link'] = url('groups', $link_options);
+  $variables['display_more_button'] = $display_more_button;
 
   return theme('c4m_features_homepage_c4m_suggested_groups', $variables);
+}
+
+/**
+ * Renders suggested projects for the user.
+ *
+ * Suggests 3 random projects for the user which he is not subscribed to.
+ * Select projects which have at least one common topic of interest with the
+ * user.
+ * Interests are taken from user's profile.
+ *
+ * @return mixed
+ *   Rendered HTML of suggested projects.
+ */
+function c4m_features_homepage_c4m_suggested_projects_get_projects() {
+  if (!$suggested_projects = c4m_features_homepage_get_suggested_items('project')) {
+    return;
+  }
+
+  // Determine if to display the "show more" button.
+  $display_more_button = count($suggested_projects) > C4M_FEATURES_HOMEPAGE_MAX_GROUPS_PER_BLOCK;
+
+  $projects = c4m_features_homepage_alphabetically_render_node_list($suggested_projects);
+
+  $variables['projects'] = $projects;
+  $link_options = array(
+    'absolute' => TRUE,
+    'query' => array(
+      'filter' => 'interests',
+    ),
+  );
+  $variables['link'] = url('projects', $link_options);
+  $variables['display_more_button'] = $display_more_button;
+
+  return theme('c4m_features_homepage_c4m_suggested_projects', $variables);
 }
 
 /**
@@ -95,7 +141,9 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
  *   Rendered HTML of featured groups.
  */
 function c4m_features_homepage_c4m_featured_groups_get_groups() {
-  $groups = c4m_features_homepage_c4m_get_featured_og_groups('group');
+  if (!$groups = c4m_features_homepage_c4m_get_featured_og_groups('group')) {
+    return '';
+  }
 
   $variables = array(
     'groups' => $groups,
@@ -111,7 +159,9 @@ function c4m_features_homepage_c4m_featured_groups_get_groups() {
  *   Rendered HTML of 3 featured projects.
  */
 function c4m_features_homepage_c4m_featured_projects_get_projects() {
-  $projects = c4m_features_homepage_c4m_get_featured_og_groups('project');
+  if (!$projects = c4m_features_homepage_c4m_get_featured_og_groups('project')) {
+    return '';
+  }
 
   $variables = array(
     'projects' => $projects,
@@ -123,18 +173,26 @@ function c4m_features_homepage_c4m_featured_projects_get_projects() {
 /**
  * Gets the list of featured OG.
  *
- * @param string $type
+ * @param string $bundle
  *   The type of the OG. Can be 'group' or 'project'.
  *
  * @return mixed
  *   NULL | List of nodes of OG.
  */
-function c4m_features_homepage_c4m_get_featured_og_groups($type) {
+function c4m_features_homepage_c4m_get_featured_og_groups($bundle) {
+  $get_query = drupal_get_query_parameters();
+  $filter = !empty($get_query['filter']) ? $get_query['filter'] : '';
+
+  // Suggested groups block should appear when a user has interests.
+  if (c4m_features_homepage_get_suggested_items($bundle) && $filter != 'showAll') {
+    return;
+  }
+
   $query = new EntityFieldQuery();
 
   $query
     ->entityCondition('entity_type', 'node')
-    ->entityCondition('bundle', $type)
+    ->entityCondition('bundle', $bundle)
     ->propertyCondition('status', NODE_PUBLISHED)
     ->propertyCondition('promote', NODE_PROMOTED);
 

@@ -14,7 +14,7 @@ function c4m_content_share_menu() {
   $items = array();
 
   $items['node/%node/share'] = array(
-    'title' => 'Share content to another group',
+    'title' => 'Share content to another group or project',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_content_share_form'),
     'access callback' => 'c4m_content_share_access',
@@ -228,7 +228,14 @@ function c4m_content_share_node_access_records_alter(&$grants, $node) {
       $original_na = $query->execute()->fetchAllAssoc('nid', PDO::FETCH_ASSOC);
 
       if (!empty($original_na) && array_key_exists($original_node->nid->value(), $original_na)) {
-        $grants = array((array) $original_na[$original_node->nid->value()]);
+        // Create proper array structure.
+        // Add priority to prevent undefined index field.
+        $grants = array(
+          array_merge(
+            $original_na[$original_node->nid->value()],
+            array('priority' => 10)
+          ),
+        );
       }
     }
   }

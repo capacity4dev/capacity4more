@@ -102,4 +102,28 @@ class C4mRestfulDiscussionsResource extends C4mRestfulEntityBaseNode {
     return $public_fields;
   }
 
+  /**
+   * Overrides \RestfulEntityBase::setPropertyValues().
+   *
+   * Determine if we should send a notification.
+   */
+  protected function setPropertyValues(EntityMetadataWrapper $wrapper, $null_missing_fields = FALSE) {
+    $request = $this->getRequest();
+    static::cleanRequest($request);
+
+    if (isset($request['notification'])) {
+      $node = $wrapper->value();
+
+      // The app will send 'true' as string if the user checked the checkbox.
+      $node->c4m_send_notification = $request['notification'] == 'true';
+
+      // Remove the custom field from the request to prevent errors since this
+      // one is not under the public fields info.
+      unset($request['notification']);
+      $this->setRequest($request);
+    }
+
+    parent::setPropertyValues($wrapper, $null_missing_fields);
+  }
+
 }

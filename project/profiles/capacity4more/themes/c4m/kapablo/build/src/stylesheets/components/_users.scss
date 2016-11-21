@@ -63,6 +63,37 @@
         color: $color-white;
       }
     }
+
+    .sidebarblock__content--multiple {
+      border: none;
+      padding: 0;
+    }
+
+    &.right-menu-section .dropdown-menu {
+      padding: 0;
+
+      li {
+        border-bottom: 1px dashed $color-white;
+        margin: 0 15px;
+        padding: 15px 0;
+
+        &.last {
+          border: none;
+        }
+      }
+
+      .text-muted {
+        color: $color-white;
+      }
+
+      .view-mode-block_list {
+        img {
+          border: 1px solid $color-gray-light;
+          border-radius: 5px;
+          padding: 2px;
+        }
+      }
+    }
   }
 
   .fullname-picture-wrapper {
@@ -104,7 +135,7 @@
         text-align: center;
       }
 
-      .fa-users {
+      .fa-users, .fa-flag-checkered {
         margin-right: 0.5rem;
         color: $color-white;
       }
@@ -134,7 +165,8 @@
     float: right;
   }
 
-  .user-groups {
+  .user-groups,
+  .user-projects {
     @include grain_dark;
     min-width: 280px;
     margin-top: 6.5px;
@@ -156,14 +188,8 @@
       width: auto;
     }
 
-    .group-right {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-    }
-
     .group-left {
-      margin: 0 10px;
+      margin: 0 20px 0 0;
 
       .img-responsive {
         min-width: 60px;
@@ -171,17 +197,15 @@
     }
 
     li {
-
       &.last {
-
         .view-mode-block_list {
-
           .content {
             border-bottom: none;
           }
         }
 
-        .c4m-explore-all-my-groups-link {
+        .c4m-explore-all-my-groups-link,
+        .c4m-explore-all-my-projects-link {
           padding-left: 15px;
           margin-bottom: 5px;
 

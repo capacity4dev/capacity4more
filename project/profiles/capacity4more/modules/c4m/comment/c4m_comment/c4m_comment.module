@@ -86,6 +86,21 @@ function c4m_comment_c4m_content_statistics_info() {
         ),
       ),
     ),
+    'project' => array(
+      'c4m_og_comment' => array(
+        'type' => 'comment',
+        'entity_type' => 'comment',
+        'bundles' => array(),
+        'singular' => 'Comment',
+        'plural' => 'Comments',
+        'state' => 1,
+        'aggregate' => array(),
+        'weight' => 6,
+        'attributes' => array(
+          'class' => array('og-comments'),
+        ),
+      ),
+    ),
   );
 }
 
@@ -154,7 +169,7 @@ function c4m_comment_node_view_alter(&$build) {
         )
       );
 
-      $text = '<p>' . t(
+      $text = '<p class="margin--top">' . t(
           '!register or !login to comment',
           array(
             '!register' => $register_link,
@@ -190,4 +205,87 @@ function c4m_comment_c4m_helper_entity_label_info() {
       'icon' => 'fa-comments',
     ),
   );
+}
+
+/**
+ * Implements hook_user_cancel().
+ *
+ * Since we use a different method, we should cover the anonymize content for
+ * comments manually as well.
+ */
+function c4m_comment_user_cancel($edit, $account, $method) {
+  if (!in_array($method, c4m_user_profile_get_cancel_methods_to_reassign())) {
+    return;
+  }
+
+  $comments = comment_load_multiple(array(), array('uid' => $account->uid));
+  foreach ($comments as $comment) {
+    $comment->uid = 0;
+    // The comment instance saves the original username as well.
+    $comment->name = t('Anonymous');
+    comment_save($comment);
+  }
+}
+
+/**
+ * Implements hook_comment_view().
+ *
+ * When a user is forbidden to take actions on a comment we should display the
+ * links only once, hence we remove it from all threads besides the main one.
+ */
+function c4m_comment_comment_view($comment, $view_mode, $langcode) {
+  // The comment is not forbidden for actions.
+  if (empty($comment->content['links']['comment']['#links']['comment_forbidden'])) {
+    return;
+  }
+
+  unset($comment->content['links']['comment']['#links']['comment_forbidden']);
+}
+
+/**
+ * Gets the ID of the group context of the comment.
+ *
+ * @param object $comment
+ *   The object of the comment.
+ *
+ * @return bool|int
+ *   The ID of the group or FALSE if not part of a group.
+ */
+function c4m_comment_get_group_id($comment) {
+  if (og_is_group('node', $comment->nid)) {
+    return $comment->nid;
+  }
+  elseif ($group = c4m_og_get_group_of_content($comment->nid)) {
+    return $group->nid;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function c4m_comment_menu_alter(&$items) {
+  // Alter the comment callback to check the purl access.
+  $items['comment/%']['page callback'] = 'c4m_comment_permalink';
+}
+
+/**
+ * Access callback for comments.
+ *
+ * A comment that is part of a group content must be seeing under its context.
+ */
+function c4m_comment_permalink($cid) {
+  if ($comment = comment_load($cid)) {
+    if ($gid = c4m_comment_get_group_id($comment)) {
+      // This is a comment of a group content and must be seeing under its
+      // relevant context (group) only.
+      $context = og_context();
+      if (!$context || $gid !== $context['gid']) {
+        c4m_content_deny_access();
+      }
+    }
+  }
+
+  return comment_permalink($cid);
 }

@@ -579,6 +579,103 @@ function theme_c4m_ds_group_membership_type(array $field) {
 /**
  * DS function field.
  *
+ * Render the highlight node link.
+ *
+ * @param array $field
+ *   The field that needs to be rendered.
+ *
+ * @return mixed
+ *   The rendered field.
+ */
+function theme_c4m_ds_node_highlight(array $field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+
+  $node = $field['entity'];
+
+  // Make sure the node is a group content.
+  if (!$group = c4m_og_get_group_of_content($node)) {
+    // The node is not a group content, might be the group itself, hence we
+    // manipulate the parameter so the access callback will handle it.
+    $group = $node;
+  }
+
+  if (!c4m_content_toggle_highlight_access($group, $node, $node->promote)) {
+    return NULL;
+  }
+
+  // We should allow block-list view mode to display the highlight button only
+  // withing og context().
+  $block_list_view_mode = !empty($field['view_mode']) && $field['view_mode'] == 'block_list';
+  if ($block_list_view_mode || !empty($field['formatter_settings']['ft']['lb-cl']) && $field['formatter_settings']['ft']['lb-cl'] == 'block-list') {
+    if (!og_context()) {
+      return NULL;
+    }
+  }
+
+  // Add Drupal's ajax system to the current page.
+  drupal_add_library('system', 'drupal.ajax');
+
+  $link = c4m_content_create_highlight_link(
+    $group->nid,
+    $node->nid,
+    $node->promote
+  );
+
+  $tag['element'] = array(
+    '#tag' => 'div',
+    '#value' => $link,
+    '#attributes' => array(
+      'class' => array('c4m-node-highlight', "c4m-{$node->type}-node-highlight"),
+    ),
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
+ * Render the promote node link.
+ *
+ * @param array $field
+ *   The field that needs to be rendered.
+ *
+ * @return mixed
+ *   The rendered field.
+ */
+function theme_c4m_ds_node_promote(array $field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+
+  $node = $field['entity'];
+
+  if (!in_array($node->type, c4m_content_promotable_node_types())) {
+    return NULL;
+  }
+
+  // Make sure the node has a group.
+  if (!$group = c4m_og_get_group_of_content($node)) {
+    return NULL;
+  }
+
+  if ($group->type == 'project') {
+    return;
+  }
+
+  // Only power users can promote a node.
+  if (!_c4m_features_og_members_is_power_user($group)) {
+    return NULL;
+  }
+
+  return flag_create_link('c4m_og_content_highlight', $node->nid);
+}
+
+/**
+ * DS function field.
+ *
  * Render members of a group with particular role.
  *
  * @param array $field
@@ -793,24 +890,35 @@ function theme_c4m_ds_content_shared_to(array $field) {
 }
 
 /**
- * Themes toggle group notifications link
+ * DS function field.
+ *
+ * Render project type icon.
  *
  * @param array $field
- *  The field definition.
+ *   The field that needs to be rendered.
  *
- * @return \Html|void
- *   Rendered html for field.
+ * @return mixed
+ *   The rendered field.
  */
-function theme_c4m_ds_group_notification_toggle(array $field) {
-  global $user;
-
-  if (!($group = c4m_og_current_group())) {
-    return '';
+function theme_c4m_ds_project_type_icon(array $field) {
+  if (!isset($field['entity'])) {
+    return NULL;
   }
 
-  if (!og_is_member('node', $group->nid)) {
-    return '';
-  }
+  $entity = entity_metadata_wrapper('node', $field['entity']);
+  $project_type = $entity->c4m_project_type->value();
 
-  return c4m_content_group_create_toggle_notification_link($user, $group);
+  $tag['element'] = array(
+    '#tag' => 'i',
+    '#attributes' => array(
+      'class' => array(
+        'fa',
+        ($project_type == 'programme') ? 'fa-puzzle-piece' : 'fa-flag-checkered',
+        'project-type-' . $project_type,
+      ),
+    ),
+    '#value' => '',
+  );
+
+  return theme_html_tag($tag);
 }

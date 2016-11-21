@@ -64,13 +64,35 @@ function c4m_content_photo_node_presave($node) {
 }
 
 /**
+ * Determine if a photo is part of a photo album.
+ *
+ * @param object $node
+ *   The photo object.
+ *
+ * @return mixed
+ *   The photo album object if exists, otherwise returns FALSE.
+ */
+function c4m_content_photo_get_photo_album($node) {
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  if ($node->type != 'photo' || !$photo_album = $wrapper->node_gallery_ref_1->value()) {
+    // Photo is not part of an album.
+    return FALSE;
+  }
+
+  return $photo_album;
+}
+
+/**
  * Implements form_FORM_ID_alter().
  *
+ * Verifies user has access to the form.
  * Indicate a node is being created via the regular node form.
  *
  * @see c4m_content_photo_node_presave()
  */
 function c4m_content_photo_form_photo_node_form_alter(&$form, $form_state) {
+  c4m_content_create_group_content_access();
   // Add author information to the edit discussion form.
   c4m_og_add_content_author_options_to_power_users($form);
 
@@ -89,6 +111,25 @@ function c4m_content_photo_form_photo_node_form_alter(&$form, $form_state) {
 function c4m_content_photo_c4m_content_statistics_info() {
   return array(
     'group' => array(
+      'c4m_og_media' => array(
+        'type' => 'photo',
+        'entity_type' => 'node',
+        'bundles' => array('photo', 'photoalbum'),
+        'singular' => 'Media item',
+        'plural' => 'Media items',
+        'state' => 1,
+        'aggregate' => NULL,
+        'weight' => 5,
+        'feature_name' => 'c4m_features_og_media',
+        'attributes' => array(
+          'class' => array('og-media'),
+        ),
+        'link' => array(
+          'path' => 'media',
+        ),
+      ),
+    ),
+    'project' => array(
       'c4m_og_media' => array(
         'type' => 'photo',
         'entity_type' => 'node',
@@ -182,4 +223,26 @@ function c4m_content_photo_preprocess(&$variables, $hook) {
   if (isset($variables['prev_link'])) {
     $variables['prev_link'] = url($variables['prev_link'], $options);
   }
+}
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function c4m_content_photo_entity_property_info_alter(&$info) {
+  $info['node']['bundles']['photo']['properties']['c4m_photo_is_part_of_photo_album'] = array(
+    'type' => 'boolean',
+    'label' => t('Part of photo album'),
+    'description' => t('Indicates if a photo is part of a photo album.'),
+    'getter callback' => '_c4m_photo_is_part_of_photo_album_getter_callback',
+  );
+}
+
+/**
+ * Getter callback.
+ *
+ * @see c4m_content_photo_get_photo_album()
+ */
+function _c4m_photo_is_part_of_photo_album_getter_callback($item) {
+  // Using !! to always return a boolean.
+  return !!c4m_content_photo_get_photo_album($item);
 }

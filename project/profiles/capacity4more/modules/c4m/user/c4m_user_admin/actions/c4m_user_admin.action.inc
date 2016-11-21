@@ -35,10 +35,15 @@ function _c4m_user_admin_action_info() {
  *   The user object.
  */
 function c4m_user_admin_activate_action($user) {
-  $edit['status'] = 1;
-  $edit['c4m_is_spammer'][LANGUAGE_NONE][0]['value'] = 0;
-  $edit['c4m_is_deleted'][LANGUAGE_NONE][0]['value'] = 0;
-  user_save($user, $edit);
+  $wrapper = entity_metadata_wrapper('user', $user);
+
+  $wrapper->status->set(C4M_USER_STATUS_ACTIVE);
+  $wrapper->c4m_is_spammer->set(FALSE);
+  $wrapper->c4m_is_deleted->set(FALSE);
+  $wrapper->c4m_is_deleted_anonymous->set(FALSE);
+  $wrapper->c4m_is_deleted_by_uid->set(NULL);
+
+  $wrapper->save();
 }
 
 /**
@@ -52,6 +57,8 @@ function c4m_user_admin_resend_activation_email_action($account) {
   if (!$account_wrapper->status->value() && !$account_wrapper->c4m_is_spammer->value() && !$account_wrapper->c4m_is_deleted->value()) {
     $params['account'] = $account;
     drupal_mail('user_registrationpassword', 'register', $account->mail, user_preferred_language($account), $params);
+
+    drupal_set_message(t('Activation mail was sent.'));
   }
   else {
     drupal_set_message(t('Account of @first_name @last_name is either active or deleted or marked as spammer.', array(

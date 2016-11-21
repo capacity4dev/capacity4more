@@ -2,6 +2,7 @@
  * COLOR DEFINITIONS
  */
 $color-black: #000000;
+// $color-black: #4A4A4A;
 $color-blue-dark: #2C4A59;
 $color-gray-darkThree: #6F6F6F;
 $color-gray-dark: $color-gray-darkThree;
@@ -13,7 +14,8 @@ $color-logo-blue: #1484C6;
 $color-red: #D0021B;
 $color-white: #FFFFFF;
 $color-blue: #004494;
-$color-gray: #6E969F;
+$color-gray: #53757d;
+$color-gray-darker: #47646a;
 $color-blue-light: #1484C6;
 
 $color-accent: #FFBB6D;
@@ -36,6 +38,13 @@ $brand-primary: $color-text-alternative;
 $brand-success: $color-green;
 $brand-warning: $color-highlight;
 
+
+
+$base-accent: #6E969F;
+$base-spacing-large: 25px;
+$base-spacing-medium: 16px;
+$base-spacing-small: 12px;
+$base-spacing-tiny: 6px;
 
 /*
  * FONT STACKS

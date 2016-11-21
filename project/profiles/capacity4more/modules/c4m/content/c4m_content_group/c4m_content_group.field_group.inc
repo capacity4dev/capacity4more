@@ -48,7 +48,7 @@ function c4m_content_group_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'More details',
-    'weight' => '34',
+    'weight' => '35',
     'children' => array(
       0 => 'c4m_user_picture',
     ),
@@ -77,9 +77,7 @@ function c4m_content_group_field_group_info() {
   $field_group->data = array(
     'label' => '',
     'weight' => '20',
-    'children' => array(
-      0 => 'c4m_ds_group_administer_link',
-    ),
+    'children' => array(),
     'format_type' => 'html5',
     'format_settings' => array(
       'label' => '',
@@ -103,10 +101,11 @@ function c4m_content_group_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Icons',
-    'weight' => '4',
+    'weight' => '5',
     'children' => array(
       0 => 'c4m_ds_group_members_count',
       1 => 'c4m_ds_group_posts_count',
+      2 => 'c4m_ds_node_highlight',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -172,9 +171,10 @@ function c4m_content_group_field_group_info() {
     'label' => 'Header inline',
     'weight' => '0',
     'children' => array(
-      0 => 'title',
-      1 => 'c4m_ds_group_type_icon',
-      2 => 'c4m_ds_group_membership_type',
+      0 => 'c4m_og_status',
+      1 => 'title',
+      2 => 'c4m_ds_group_type_icon',
+      3 => 'c4m_ds_group_membership_type',
     ),
     'format_type' => 'div',
     'format_settings' => array(

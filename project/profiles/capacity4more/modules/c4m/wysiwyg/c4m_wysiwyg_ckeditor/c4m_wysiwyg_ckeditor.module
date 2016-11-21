@@ -54,3 +54,38 @@ function c4m_wysiwyg_ckeditor_ckeditor_plugin() {
 
   return $plugins;
 }
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Hide the URL settings in the popup.
+ */
+function c4m_wysiwyg_ckeditor_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id !== 'file_entity_add_upload' && $form_id !== 'media_wysiwyg_format_form') {
+    return;
+  }
+
+  // Don't present the redirects options on a file upload.
+  if (isset($form['redirect'])) {
+    unset($form['redirect']);
+  }
+
+  if (isset($form['#formats'])) {
+    unset($form['#formats']['node_gallery_api_admin_thumbnail']);
+    unset($form['#formats']['c4m_preview']);
+  }
+}
+
+/**
+ * Implements hook_media_wysiwyg_format_form_prepare_alter().
+ *
+ * @see https://www.drupal.org/node/2460885
+ */
+function c4m_wysiwyg_ckeditor_media_wysiwyg_format_form_prepare_alter(
+  &$form,
+  &$form_state,
+  $file
+) {
+  // Attach JavaScript to automatically embed files.
+  $form['#attached']['js'][] = drupal_get_path('module', 'c4m_wysiwyg_ckeditor') . '/c4m_wysiwyg_ckeditor.js';
+}

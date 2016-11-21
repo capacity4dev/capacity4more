@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_discussion.field_group.inc
@@ -57,7 +56,8 @@ function c4m_content_discussion_field_group_info() {
     'label' => 'Do more through capacity4dev',
     'weight' => '8',
     'children' => array(
-      0 => 'c4m_ds_content_actions',
+      0 => 'c4m_ds_node_highlight',
+      1 => 'c4m_ds_content_actions',
     ),
     'format_type' => 'div',
     'format_settings' => array(

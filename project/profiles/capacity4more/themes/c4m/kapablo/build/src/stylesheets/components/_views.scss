@@ -74,6 +74,14 @@
   }
 }
 
+.view-c4m-overview-articles,
+.view-c4m-overview-groups,
+.view-c4m-overview-projects,
+.view-c4m-overview-events-landing,
+.view-c4m-overview-events {
+  margin-bottom: 2rem;
+}
+
 .view-items-with-dashed-separator .views-row,
 .view-c4m-overview-articles .views-row,
 .view-c4m-overview-groups .views-row,
@@ -99,4 +107,36 @@
   padding: 0;
 
   text-align: center;
+}
+
+.view-overview-og-related-groups,
+.view-overview-og-related-projects {
+
+  .views-row + .views-row {
+
+    &:not(.no-border) {
+      border-top: none;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      padding-top: 0px;
+    }
+  }
+
+  .text-muted {
+    margin-top: 8px;
+  }
+}
+
+.view-overview-og-related-projects {
+
+  .text-muted {
+    margin-top: 8px;
+  }
+}
+
+.view-overview-og-related-groups {
+
+  .group-members-count {
+    margin-top: 8px;
+  }
 }

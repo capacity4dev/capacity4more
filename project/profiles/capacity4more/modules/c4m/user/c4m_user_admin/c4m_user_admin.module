@@ -79,7 +79,8 @@ function c4m_user_admin_menu() {
     'title' => 'Resend activation email',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_user_admin_resend_activation_email_form', 1),
-    'access arguments' => array('administer users'),
+    'access callback' => array('c4m_user_resend_activation_access'),
+    'access arguments' => array(1),
     'file' => 'c4m_user_admin.pages.inc',
   );
 
@@ -118,6 +119,32 @@ function c4m_user_admin_user_cancel_methods_alter(&$methods) {
 }
 
 /**
+ * Custom access callback to check if user can re-send an activation mail.
+ *
+ * @param object $account
+ *   User entity to send activation link for.
+ *
+ * @return bool
+ *   Access status.
+ */
+function c4m_user_resend_activation_access($account) {
+  if ($account->login && $account->access) {
+    return FALSE;
+  }
+
+  if (user_access('administer users')) {
+    return TRUE;
+  }
+
+  if (!user_is_anonymous()) {
+    // User is already logged in, and not an administrator.
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
  * Implements hook_user_cancel().
  *
  * @see node_user_cancel()
@@ -144,48 +171,14 @@ function c4m_user_admin_user_cancel($edit, $account, $method) {
         ->condition('uid', $account->uid)
         ->execute();
 
-      // Anonymize comments.
-      $comments = comment_load_multiple(array(), array('uid' => $account->uid));
-      foreach ($comments as $comment) {
-        $comment->uid = 0;
-        $comment->_skip_message = TRUE;
-        unset($comment->name);
-        comment_save($comment);
-      }
-
       // Anonymize messages.
-      anonymize_messages_for_user($account);
+      c4m_user_admin_anonymize_messages_for_user($account);
 
-      // Set the flag "Is deleted" for this user.
-      $changes = array(
-        'c4m_is_deleted' => array(
-          'und' => array(
-            0 => array(
-              'value' => 1,
-            ),
-          ),
-        ),
-      );
-      user_save($account, $changes);
       break;
 
     case 'user_cancel_reassign':
       // Anonymize messages.
-      anonymize_messages_for_user($account);
-      break;
-
-    case 'user_cancel_block':
-      // Set the flag "Is deleted" for this user.
-      $changes = array(
-        'c4m_is_deleted' => array(
-          'und' => array(
-            0 => array(
-              'value' => 1,
-            ),
-          ),
-        ),
-      );
-      user_save($account, $changes);
+      c4m_user_admin_anonymize_messages_for_user($account);
       break;
   }
 }
@@ -196,7 +189,7 @@ function c4m_user_admin_user_cancel($edit, $account, $method) {
  * @param object $account
  *   User account for which to anonymize messages.
  */
-function anonymize_messages_for_user($account) {
+function c4m_user_admin_anonymize_messages_for_user($account) {
   db_update('message')
     ->fields(array('uid' => 0))
     ->condition('uid', $account->uid)
@@ -267,6 +260,14 @@ function c4m_user_admin_form_user_cancel_confirm_form_alter(&$form, &$form_state
           ':input[name=user_cancel_method]' => array('value' => 'user_cancel_block'),
         ),
       ),
+      'enabled' => array(
+        array(
+          ':input[name=user_cancel_method]' => array('value' => 'c4m_user_admin_block_anonymous'),
+        ),
+        array(
+          ':input[name=user_cancel_method]' => array('value' => 'user_cancel_block'),
+        ),
+      ),
     ),
   );
 
@@ -285,4 +286,20 @@ function c4m_user_admin_form_user_cancel_confirm_form_submit($form, &$form_state
   $account = $form_state['values']['_account'];
   $edit['c4m_is_spammer'][LANGUAGE_NONE][0]['value'] = 1;
   user_save($account, $edit);
+}
+
+/**
+ * Implements hook_user_presave().
+ */
+function c4m_user_admin_user_presave(&$edit, $account, $category) {
+  if (!isset($account->reactivate_submit)) {
+    // If invocation was not from reactivate user, return early.
+    return;
+  }
+
+  if (!$account->reactivate_notification) {
+    // Reactivate user notification is not required. Cancel notification of
+    // user model, by forcing  $account->original->status == $account->status.
+    $account->original->status = 1;
+  }
 }

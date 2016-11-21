@@ -47,7 +47,8 @@ Feature: Group dashboard
     When  I visit the dashboard of group "Music Lovers"
     And   I click "Join this group"
     And   I click "Invite a member"
-    Then  I should see the text "Invite People to Join"
+    Then  I should see the text "Invite new users"
+    And   I should not see the text "Manage all group memberships"
 
   @api
   Scenario: Check Invite a member link is not available for a member of a private group.
@@ -62,15 +63,75 @@ Feature: Group dashboard
     Then  I should not see the link "Invite a member"
 
   @api
+  Scenario: Check notifications toggle link is not available for a non-member of a group.
+    Given I am logged in as user "president"
+    When  I visit the dashboard of group "Movie Popcorn Corner"
+    Then  I should not see the link "Enable notifications"
+    And   I should not see the link "Disable notifications"
+
+  @api
   Scenario: Check Invite a member link is available for an administrator of a private group.
     Given I am logged in as user "alfrednobel"
     When  I visit the dashboard of group "Tennis Group"
     And   I click "Invite a member"
-    Then  I should see the text "Invite People to Join"
+    Then  I should see the text "Invite new users"
+    And   I should see the text "Manage all group memberships"
 
   @api
   Scenario: Check Invite a member link is available for a site administrator who is a non-member of a private group.
     Given I am logged in as user "survivalofthefittest"
     When  I visit the dashboard of group "Architecture"
     And   I click "Invite a member"
-    Then  I should see the text "Invite People to Join"
+    Then  I should see the text "Invite new users"
+    And   I should see the text "Manage all group memberships"
+
+  @javascript
+  Scenario Outline: SA highlight a group via its dashboard.
+    Given I am logged in as user "<username>"
+    And   The window is maximized
+    When  I visit the dashboard of group "Nobel Prize"
+    Then  I should be able to toggle the group highlight link
+
+    Examples:
+    | username             |
+    | mariecurie           |
+    | survivalofthefittest |
+
+  @javascript
+  Scenario Outline: SA highlight a group via the groups overview.
+    Given I am logged in as user "<username>"
+    And   The window is maximized
+    When  I go to "/groups?text=nobel"
+    Then  I should be able to toggle the group highlight link
+
+    Examples:
+    | username             |
+    | mariecurie           |
+    | survivalofthefittest |
+
+  @api
+  Scenario: Visitor should not be able to highlight a group.
+    Given I am an anonymous user
+    When  I visit the dashboard of group "Nobel Prize"
+    Then  I should see the text "Nobel Prize"
+    And   I should not see the ".c4m-group-node-highlight" element
+    When  I go to "/groups?text=nobel"
+    Then  I should see the text "Nobel Prize"
+    And   I should not see the ".c4m-group-node-highlight" element
+
+  @api
+  Scenario Outline: GO / GA / Member / User should not be able to highlight a group.
+    Given I am logged in as user "<username>"
+    When  I visit the dashboard of group "Nobel Prize"
+    Then  I should see the text "Nobel Prize"
+    And   I should not see the ".c4m-group-node-highlight" element
+    When  I go to "/groups?text=nobel"
+    Then  I should see the text "Nobel Prize"
+    And   I should not see the ".c4m-group-node-highlight" element
+
+    Examples:
+    | username    |
+    | alfrednobel |
+    | galileo     |
+    | badhairday  |
+    | president   |

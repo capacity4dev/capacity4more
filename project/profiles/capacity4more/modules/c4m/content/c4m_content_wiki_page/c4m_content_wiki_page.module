@@ -152,14 +152,22 @@ function c4m_content_wiki_page_form_node_form_alter(&$form, &$form_state, $form_
   if (og_is_group('node', $node)) {
     $form['book']['bid']['#disabled'] = TRUE;
   }
+
+  // Only power users should be allowed to set this field.
+  if (!empty($form['c4m_edit_by_members'])) {
+    $form['c4m_edit_by_members']['#access'] = _c4m_features_og_members_is_power_user();
+  }
 }
 
 /**
  * Implements hook_form_FORM_ID_alter().
  *
+ * Verifies user has access to the form.
  * Prevent the creation of more than 6 levels in a book, including level 0.
  */
 function c4m_content_wiki_page_form_wiki_page_node_form_alter(&$form, &$form_state, $form_id) {
+  c4m_content_create_group_content_access();
+
   $node = $form['#node'];
   // If the form is being processed during the Ajax callback of our book bid
   // dropdown, then $form_state will hold the value that was selected.
@@ -428,6 +436,25 @@ function c4m_content_wiki_page_c4m_content_statistics_info() {
         ),
       ),
     ),
+    'project' => array(
+      'c4m_og_wiki_pages' => array(
+        'type'          => 'wiki_page',
+        'entity_type'   => 'node',
+        'bundles'       => array('wiki_page'),
+        'singular'      => 'Page',
+        'plural'        => 'Pages',
+        'state'         => 1,
+        'aggregate'     => array(),
+        'weight'        => 0,
+        'feature_name'  => 'c4m_features_og_wiki',
+        'attributes'    => array(
+          'class' => array('og-wiki-pages'),
+        ),
+        'link' => array(
+          'path' => 'wiki',
+        ),
+      ),
+    ),
     'topic' => array(
       'c4m_topic_wiki_pages' => array(
         'type'          => 'wiki_page',
@@ -518,4 +545,23 @@ function c4m_content_wiki_page_module_implements_alter(&$implementations, $hook)
   $group = $implementations['book'];
   unset($implementations['book']);
   $implementations['book'] = $group;
+}
+
+/**
+ * Determine if a members are allowed to edit the wiki page.
+ *
+ * @param object $node
+ *   The wiki page node object.
+ *
+ * @return bool
+ *   TRUE if the wiki page is editable by members, FALSE otherwise.
+ */
+function c4m_content_wiki_page_is_editable_by_members($node) {
+  if ($node->type != 'wiki_page') {
+    return FALSE;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  return $wrapper->c4m_edit_by_members->value();
 }

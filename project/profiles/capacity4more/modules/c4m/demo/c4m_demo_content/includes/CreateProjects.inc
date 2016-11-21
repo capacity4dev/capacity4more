@@ -25,6 +25,7 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
     array('uid', 'UID'),
     array('title', 'Title'),
     array('purl', 'PURL'),
+    array('promote', 'Promote'),
     array('image', 'Image'),
     array('banner', 'Banner'),
     array('duration', 'Duration'),
@@ -32,7 +33,6 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
     array('budget_currency', 'Currency'),
     array('funding', 'Funding'),
     array('partner', 'Partner'),
-    array('implementation', 'Implementation'),
     array('cris_decision', 'CRIS Decision'),
     array('cris_contract', 'CRIS Contract'),
     array('body', 'Body'),
@@ -53,9 +53,6 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
       ->separator(';');
 
     $this->addFieldMapping('c4m_partner', 'partner')
-      ->separator(';');
-
-    $this->addFieldMapping('c4m_implemented_by', 'implementation')
       ->separator(';');
 
     $this->addFieldMapping('c4m_cris_decision_number', 'cris_decision')
@@ -110,6 +107,9 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
       'id' => $entity->nid,
     );
     purl_save($modifier);
+
+    // Make sure an og_menu is created.
+    node_save($entity);
   }
 
   /**

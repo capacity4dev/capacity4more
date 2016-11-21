@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install, update and uninstall functions.
@@ -34,10 +35,7 @@ function capacity4more_install() {
   module_enable(array('c4m_wysiwyg_ckeditor'));
 
   // ROLES & PERMISSIONS.
-  _capacity4more_install_save_default_permissions(
-    $default_html_format,
-    $filtered_html_format
-  );
+  _capacity4more_install_save_default_permissions();
 
   // MENU.
   _capacity4more_install_save_default_menu();
@@ -211,50 +209,10 @@ function _capacity4more_install_get_full_html_format() {
 
 /**
  * Save the default permissions.
- *
- * @param object $default_html_format
- *    The default_html text format.
- * @param object $filtered_html_format
- *    The filtered_html text format.
  */
-function _capacity4more_install_save_default_permissions(
-  $default_html_format,
-  $filtered_html_format
-) {
+function _capacity4more_install_save_default_permissions() {
   // Visitors can register accounts.
   variable_set('user_register', 1);
-
-  // Enable default permissions for system roles.
-  $default_html_permission = filter_permission_name($default_html_format);
-  $filtered_html_permission = filter_permission_name($filtered_html_format);
-
-  $permissions = array(
-    'access content',
-    'access comments',
-    'access user profiles',
-    'create messages',
-    'access site-wide contact form',
-    'display EU Cookie Compliance popup',
-    $default_html_permission,
-    $filtered_html_permission,
-  );
-  // Enable default permissions for anonymous users.
-  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, $permissions);
-
-  $permissions += array(
-    'post comments',
-    'skip comment approval',
-    'access user profiles',
-    'create group content',
-    'edit own group content',
-    'create messages',
-    'access media browser',
-    'access overlay',
-    // 'save draft',.
-    'access user contact forms',
-  );
-  // Enable default permissions for authenticated users.
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 
   // Create a default role for site administrators,
   // with all available permissions assigned.
@@ -262,10 +220,7 @@ function _capacity4more_install_save_default_permissions(
   $admin_role->name = 'administrator';
   $admin_role->weight = 2;
   user_role_save($admin_role);
-  user_role_grant_permissions(
-    $admin_role->rid,
-    array_keys(module_invoke_all('permission'))
-  );
+
   // Set this as the administrator role.
   variable_set('user_admin_role', $admin_role->rid);
 
@@ -337,9 +292,9 @@ function _capacity4more_install_add_default_pages() {
  *   Content bundle type.
  * @param string $title
  *   Node title.
- * @param string|NULL $path
+ * @param string|null $path
  *   Optionally: Path alias.
- * @param srtring|NULL $menu
+ * @param srtring|null $menu
  *   Optionally: Menu to attach node to.
  * @param string $menu_title
  *   Optionally: Title in the menu.
