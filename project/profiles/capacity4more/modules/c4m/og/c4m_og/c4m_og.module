@@ -1110,7 +1110,7 @@ function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_
  *   An array of all group admins ids.
  */
 function c4m_og_get_group_admins_and_owner_ids_for_notification($gid) {
-  $admins_ids = c4m_og_get_group_admins_ids($gid, FALSE, TRUE);
+  $admins_ids = c4m_og_get_group_admins_ids($gid, TRUE, TRUE);
   $group = node_load($gid);
   $admins = user_load_multiple($admins_ids);
 
