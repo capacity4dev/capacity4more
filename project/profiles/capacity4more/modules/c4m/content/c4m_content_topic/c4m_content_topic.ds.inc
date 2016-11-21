@@ -83,12 +83,7 @@ function c4m_content_topic_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
     'activity_stream_by_topic' => array(
-      'weight' => '3',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
-    'activity_stream_by_topic_nojs_fallback' => array(
-      'weight' => '3',
+      'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -430,17 +425,16 @@ function c4m_content_topic_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'header' => array(
-        0 => 'c4m_ds_topic_content_stats',
-        1 => 'c4m_banner',
-        2 => 'c4m_vocab_topic_mapping',
+        0 => 'c4m_banner',
+        1 => 'c4m_ds_topic_content_stats',
         3 => 'c4m_header_meta',
-        4 => 'c4m_header_bottom',
+        4 => 'c4m_vocab_topic_mapping',
         5 => 'title',
+        6 => 'c4m_header_bottom',
         7 => 'c4m_body',
       ),
       'left' => array(
-        6 => 'activity_stream_by_topic',
-        13 => 'activity_stream_by_topic_nojs_fallback',
+        2 => 'activity_stream_by_topic',
       ),
       'right' => array(
         8 => 'related_events_by_topic',
@@ -451,14 +445,13 @@ function c4m_content_topic_ds_layout_settings_info() {
       ),
     ),
     'fields' => array(
-      'c4m_ds_topic_content_stats' => 'header',
       'c4m_banner' => 'header',
-      'c4m_vocab_topic_mapping' => 'header',
-      'c4m_header_meta' => 'header',
-      'c4m_header_bottom' => 'header',
-      'title' => 'header',
+      'c4m_ds_topic_content_stats' => 'header',
       'activity_stream_by_topic' => 'left',
-      'activity_stream_by_topic_nojs_fallback' => 'left',
+      'c4m_header_meta' => 'header',
+      'c4m_vocab_topic_mapping' => 'header',
+      'title' => 'header',
+      'c4m_header_bottom' => 'header',
       'c4m_body' => 'header',
       'related_events_by_topic' => 'right',
       'related_groups_by_topic' => 'right',
@@ -466,11 +459,16 @@ function c4m_content_topic_ds_layout_settings_info() {
       'related_articles_by_topic' => 'right',
       'expert_users_by_topic' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'header' => 'div',
       'left' => 'div',
       'right' => 'div',
+      'footer' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',

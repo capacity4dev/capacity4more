@@ -62,7 +62,6 @@
 
 body {
   &:not(.no-js) {
-    .field-name-activity-stream-by-topic-nojs-fallback,
     .pane-global-activity-stream-no-js-fallback,
     .view-group-activity-stream,
     #c4m_activity_stream_filter {
@@ -72,7 +71,6 @@ body {
 
   &.no-js {
     .pane-quick-form,
-    .field-name-activity-stream-by-topic,
     .pane-content .activity-stream {
       display: none;
     }
