@@ -263,7 +263,8 @@ function _c4m_search_filter_view_access_filter_grants($account, $op = 'view') {
   }
 
   // Remove pluggable_node_access module from the list of implementing modules.
-  // These grants will be added at another function, as they require
+  // These grants will be added at
+  // _c4m_search_filter_view_access_filter_query_alter(), as they require
   // additional condition on group status.
   if (($key = array_search('pluggable_node_access', $implementing_modules)) !== FALSE) {
     unset($implementing_modules[$key]);
