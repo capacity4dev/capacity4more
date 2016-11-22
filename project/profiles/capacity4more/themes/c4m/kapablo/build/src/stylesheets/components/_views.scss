@@ -67,9 +67,31 @@
   padding: 1em;
 
   .node {
-    h2, .field-name-c4m-ds-content-footer-stats div {
-      margin: 0;
+    h2 {
+      margin: 0 0 6px 0;
       padding: 0;
+    }
+
+    .field-name-c4m-ds-content-footer-stats div {
+      margin: 25px 0 0 0;
+      padding: 0;
+    }
+  }
+
+  .user-name {
+    a {
+      color: $color-text;
+    }
+  }
+
+  .node-event {
+    .icon-col {
+      width: auto;
+      max-width: 56px;
+    }
+
+    .content-col {
+      margin-left: 56px;
     }
   }
 }
@@ -107,4 +129,36 @@
   padding: 0;
 
   text-align: center;
+}
+
+.view-overview-og-related-groups,
+.view-overview-og-related-projects {
+
+  .views-row + .views-row {
+
+    &:not(.no-border) {
+      border-top: none;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      padding-top: 0px;
+    }
+  }
+
+  .text-muted {
+    margin-top: 8px;
+  }
+}
+
+.view-overview-og-related-projects {
+
+  .text-muted {
+    margin-top: 8px;
+  }
+}
+
+.view-overview-og-related-groups {
+
+  .group-members-count {
+    margin-top: 8px;
+  }
 }

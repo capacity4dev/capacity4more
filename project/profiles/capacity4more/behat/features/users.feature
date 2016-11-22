@@ -24,11 +24,35 @@ Feature: Testing user creation/manipulations.
       And  I click "My content"
        And I should see "Sort by:"
       Then I should see "Type"
-      Then I should see "Filter by status"
+      Then I should see "Status"
       Then I should see "Topics"
       When I fill in "search" with "medals"
       And  I press "edit-submit-my-content"
       Then I should see "2 in total, 1 - 2 shown"
+
+  @javascript
+  Scenario: Testing "my comments" page
+     Given I am logged in as user "badhairday"
+      When I click "Hello Albert Einstein"
+      And  I click "My content"
+      And  I follow "My comments (2)"
+      Then I should see "Type"
+      And  I should see "Topics"
+      And  I should see "Sort by:"
+      And  I should see "2 in total, 1 - 2 shown"
+      Then I follow "Back to my content"
+      And  I follow "My comments (2)"
+      When I follow "Fire (1)"
+      Then I should see "1 in total, 1 - 1 shown"
+      And  I should see "Act only according to that maxim whereby you can at the same time will that it should become a universal law without contradiction"
+      When I fill in "search" with "world"
+      And  I press "edit-submit-my-comments"
+      Then I should not see "1 in total, 1 - 1 shown"
+      But  I click the "span.facetapi-deactivate" element
+      Then I should see "1 in total, 1 - 1 shown"
+      And  I should see "What is the world?"
+      When I follow "Nobel Prize ceremony"
+      Then I should see "Add new comment"
 
   @api
   Scenario: The user tries to leave the platform but still has groups.

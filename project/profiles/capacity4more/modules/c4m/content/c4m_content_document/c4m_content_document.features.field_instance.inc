@@ -58,6 +58,13 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 3,
       ),
+      'my_comments' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
+      ),
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'comment',
@@ -619,7 +626,7 @@ function c4m_content_document_field_default_field_instances() {
           'token_display_unselected' => '',
         ),
         'type' => 'term_reference_tree',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -734,7 +741,7 @@ function c4m_content_document_field_default_field_instances() {
           'wrap' => 'none',
         ),
         'type' => 'term_reference_checked_inline_tree',
-        'weight' => 1,
+        'weight' => 2,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -849,7 +856,7 @@ function c4m_content_document_field_default_field_instances() {
           'wrap' => 'none',
         ),
         'type' => 'term_reference_checked_inline_tree',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -961,7 +968,7 @@ function c4m_content_document_field_default_field_instances() {
           'token_display_unselected' => '',
         ),
         'type' => 'term_reference_tree',
-        'weight' => 4,
+        'weight' => 5,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1332,7 +1339,7 @@ function c4m_content_document_field_default_field_instances() {
           'concatenate' => FALSE,
         ),
         'type' => 'og_vocab',
-        'weight' => 5,
+        'weight' => 6,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

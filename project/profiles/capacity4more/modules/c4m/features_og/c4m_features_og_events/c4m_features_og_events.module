@@ -232,7 +232,9 @@ function c4m_features_og_events_upcoming_events_get_events($range, $topics = arr
 
   // Filter out all projects events.
   $all_projects_ids = _c4m_content_get_all_node_ids_by_type('project');
-  $query->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $all_projects_ids, 'NOT IN');
+  if ($all_projects_ids) {
+    $query->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $all_projects_ids, 'NOT IN');
+  }
 
   $result = $query
     ->fieldOrderBy('c4m_datetime_end', 'value', 'ASC')
@@ -262,4 +264,23 @@ function c4m_features_og_events_upcoming_events_get_events($range, $topics = arr
   }
 
   return array($events, $display_see_more);
+}
+
+/**
+ * Gets the number of events per group via it's original view.
+ *
+ * @param string $type
+ *   The type of events (upcoming / past).
+ *
+ * @return int
+ *   The number of events.
+ */
+function _c4m_features_og_events_count_via_views($type) {
+  // Mapping by the original name of the display.
+  $mapped_views = array(
+    'upcoming' => 'page',
+    'past' => 'page_1',
+  );
+
+  return _c4m_helper_entity_total_count_via_views('c4m_overview_og_events', $mapped_views[$type]);
 }

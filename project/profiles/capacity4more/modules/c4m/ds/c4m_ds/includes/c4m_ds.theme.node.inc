@@ -607,7 +607,8 @@ function theme_c4m_ds_node_highlight(array $field) {
 
   // We should allow block-list view mode to display the highlight button only
   // withing og context().
-  if (!empty($field['formatter_settings']['ft']['lb-cl']) && $field['formatter_settings']['ft']['lb-cl'] == 'block-list') {
+  $block_list_view_mode = !empty($field['view_mode']) && $field['view_mode'] == 'block_list';
+  if ($block_list_view_mode || !empty($field['formatter_settings']['ft']['lb-cl']) && $field['formatter_settings']['ft']['lb-cl'] == 'block-list') {
     if (!og_context()) {
       return NULL;
     }
@@ -658,6 +659,10 @@ function theme_c4m_ds_node_promote(array $field) {
   // Make sure the node has a group.
   if (!$group = c4m_og_get_group_of_content($node)) {
     return NULL;
+  }
+
+  if ($group->type == 'project') {
+    return;
   }
 
   // Only power users can promote a node.

@@ -119,7 +119,11 @@ function c4m_field_og_field_access($op, $field, $entity_type, $entity, $account)
  * Hides certain status values at form, according to users access rights.
  */
 function c4m_field_og_form_group_node_form_alter(&$form, &$form_state, $form_id) {
-  _c4m_field_og_set_status_flow($form, $form_state, 'group');
+  // If editing node, set allowed values at 'c4m_og_status' field.
+  // On create, there's no access to this field. It's always set to 'pending'.
+  if (isset($form['nid']['#value'])) {
+    _c4m_field_og_set_status_flow($form, $form_state, 'group');
+  }
 }
 
 /**
@@ -129,7 +133,15 @@ function c4m_field_og_form_group_node_form_alter(&$form, &$form_state, $form_id)
  * Hides certain status values at form, according to users access rights.
  */
 function c4m_field_og_form_project_node_form_alter(&$form, &$form_state, $form_id) {
-  _c4m_field_og_set_status_flow($form, $form_state, 'project');
+  // If editing node, set allowed values at 'c4m_og_status' field.
+  // On create, there's no access to this field. It's always set to 'pending'.
+  if (isset($form['nid']['#value'])) {
+    _c4m_field_og_set_status_flow($form, $form_state, 'project');
+  }
+  // Node is being created, set initial state.
+  else {
+    $form['c4m_og_status'][LANGUAGE_NONE]['#default_value'][0] = 'pending';
+  }
 }
 
 /**

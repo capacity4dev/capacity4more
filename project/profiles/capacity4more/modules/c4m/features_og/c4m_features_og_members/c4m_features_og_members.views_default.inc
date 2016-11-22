@@ -47,11 +47,11 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sorts';
-  /* Header: Global: Result summary */
-  $handler->display->display_options['header']['result']['id'] = 'result';
-  $handler->display->display_options['header']['result']['table'] = 'views';
-  $handler->display->display_options['header']['result']['field'] = 'result';
-  $handler->display->display_options['header']['result']['content'] = '<span class="total-items">@total members</span>';
+  /* Header: Global: Result summary (with optional classes) */
+  $handler->display->display_options['header']['c4m_views_result']['id'] = 'c4m_views_result';
+  $handler->display->display_options['header']['c4m_views_result']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_result']['field'] = 'c4m_views_result';
+  $handler->display->display_options['header']['c4m_views_result']['content'] = '<span class="total-items">@total members</span>';
   /* Field: User: Rendered User */
   $handler->display->display_options['fields']['rendered_entity']['id'] = 'rendered_entity';
   $handler->display->display_options['fields']['rendered_entity']['table'] = 'views_entity_user';

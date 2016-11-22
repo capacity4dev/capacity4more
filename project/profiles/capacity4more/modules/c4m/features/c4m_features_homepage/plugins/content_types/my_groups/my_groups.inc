@@ -33,29 +33,34 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
   $rendered_groups = '';
   $count = 0;
   $max_groups_to_display = 5;
-  $display_see_more = FALSE;
+  $total_groups = 0;
 
   // Render node views for each group.
   foreach ($groups as $type => $group_list) {
+    $total_groups += count($group_list);
+
+    if ($count >= $max_groups_to_display) {
+      continue;
+    }
+
     $title = c4m_features_homepage_get_group_type_title($type);
     $rendered_groups .= '<h4>' . $title . '</h4>';
 
     foreach ($group_list as $group) {
+      if ($count >= $max_groups_to_display) {
+        continue;
+      }
+
       $node_view = node_view($group, 'block_list');
       $rendered_groups .= drupal_render($node_view);
 
       $count++;
-      if ($count >= $max_groups_to_display) {
-        $display_see_more = TRUE;
-        break;
-      }
-    }
-
-    if ($count >= $max_groups_to_display) {
-      $display_see_more = TRUE;
-      break;
     }
   }
+
+  // When total groups are greater than the max groups to display then we
+  // should display the "show more" button.
+  $display_see_more = $total_groups > $max_groups_to_display;
 
   $link_options = array(
     'query' => array(

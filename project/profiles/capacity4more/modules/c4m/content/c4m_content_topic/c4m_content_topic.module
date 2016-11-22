@@ -382,7 +382,7 @@ function c4m_content_topic_field_formatter_view(
       // Make sure there are terms before adding to $element.
       if (count($terms)) {
         foreach ($terms as &$term) {
-          c4more_content_topic_array_to_tree($terms, $term);
+          c4m_content_topic_array_to_tree($terms, $term);
         }
 
         // Prepare theme variables.
@@ -446,7 +446,7 @@ function c4m_content_topic_field_formatter_view(
       // Make sure there are terms before adding to $element.
       if (count($terms)) {
         foreach ($terms as &$term) {
-          c4more_content_topic_array_to_tree($terms, $term);
+          c4m_content_topic_array_to_tree($terms, $term);
         }
 
         $separator = filter_xss_admin($settings['separator']);
@@ -627,7 +627,7 @@ function c4m_content_topic_tree_to_string($item, $separator = ' > ', $glue = ', 
  * @param array $term
  *   Current term.
  */
-function c4more_content_topic_array_to_tree(&$terms, &$term) {
+function c4m_content_topic_array_to_tree(&$terms, &$term) {
   if (!$term['children']) {
     return;
   }
@@ -636,7 +636,7 @@ function c4more_content_topic_array_to_tree(&$terms, &$term) {
       unset($term['children'][$key]);
     }
     else {
-      c4more_content_topic_array_to_tree($terms, $terms[$child->tid]);
+      c4m_content_topic_array_to_tree($terms, $terms[$child->tid]);
       $term['children'][$key] = $terms[$child->tid];
       unset($terms[$child->tid]);
     }

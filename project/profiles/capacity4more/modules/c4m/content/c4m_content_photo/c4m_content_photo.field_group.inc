@@ -23,7 +23,7 @@ function c4m_content_photo_field_group_info() {
     'label' => 'Do more through capacity4dev',
     'weight' => '8',
     'children' => array(
-      0 => 'highlighted',
+      0 => 'c4m_ds_node_highlight',
       1 => 'c4m_ds_content_actions',
     ),
     'format_type' => 'div',
