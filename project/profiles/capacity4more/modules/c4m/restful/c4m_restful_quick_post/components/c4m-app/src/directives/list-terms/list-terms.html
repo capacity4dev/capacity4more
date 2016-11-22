@@ -1,20 +1,20 @@
 <form action="#" class="search">
-  <input ng-model="searchTerm" ng-change="updateSearch()" class="form-control" type="text" placeholder="Search"/>
+  <input ng-model="searchTerm" name="list-terms-search" ng-change="updateSearch()" class="form-control" type="text" placeholder="Search" title="Search a term"/>
 </form>
 <ul class="popover-content-list">
   <li class="checkbox" ng-repeat="item in filteredTerms">
-    <label>
+    <label title="{{item.label}}">
       <input type="checkbox" ng-name="type" title="{{item.label}}" ng-model="model[item.id]" ng-change="updateSelectedTerms(key, item)"> {{item.label}}
     </label>
     <ul ng-show="item.children && model[item.id] == true" class="indent">
       <li ng-repeat="child in item.children">
-        <label>
-          <input type="checkbox" ng-name="type" ng-model="model[child.id]" ng-change="updateSelectedTerms()"> {{child.label}}
+        <label title="{{child.label}}">
+          <input type="checkbox" ng-name="type" title="{{child.label}}" ng-model="model[child.id]" ng-change="updateSelectedTerms()"> {{child.label}}
         </label>
         <ul ng-show="child.children && model[child.id] == true" class="indent">
           <li ng-repeat="childChild in child.children">
-            <label>
-              <input type="checkbox" ng-name="type" ng-model="model[childChild.id]"> {{childChild.label}}
+            <label title="{{childChild.label}}">
+              <input type="checkbox" title="{{childChild.label}}" ng-name="type" ng-model="model[childChild.id]"> {{childChild.label}}
             </label>
           </li>
         </ul>

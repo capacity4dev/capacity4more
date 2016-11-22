@@ -109,6 +109,26 @@ angular.module('c4mApp')
         if (field == 'label' && values.length < 3) {
           this[field] = 1;
         }
+
+        if (field == 'topic') {
+          // Assume topics are always empty.
+          var empty = true;
+          // Check all terms whether any of them is checked by the user.
+          angular.forEach(values, function (termIsChecked, tid) {
+            // If we already found out topics are not empty we should skip.
+            if (!empty) {
+              return;
+            }
+
+            // When term is checked it will change the empty to be NOT empty.
+            empty = !termIsChecked;
+          });
+
+          if (empty) {
+            this[field] = 1;
+          }
+        }
+
         // Check required fields for validations, except for datetime field because we checked it earlier.
         var fieldRequired = resourceFields[field].data.required;
         if (fieldRequired && (!values) && field != "datetime") {

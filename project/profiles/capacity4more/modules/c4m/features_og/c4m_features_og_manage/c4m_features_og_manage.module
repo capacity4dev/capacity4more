@@ -579,7 +579,7 @@ function c4m_features_og_manage_project_details() {
     'source_funding' => t('No source of funding'),
     'partners' => t('No partners'),
     'cris_decision_number' => t('No CRIS Decision number'),
-    'cris_contact_number' => t('No CRIS Contact number'),
+    'cris_contract_number' => t('No CRIS Contact number'),
     'topics' => t('No Group Topics'),
     'locations' => t('No Group Regions & Countries'),
     'related_groups' => t('No Related Groups'),

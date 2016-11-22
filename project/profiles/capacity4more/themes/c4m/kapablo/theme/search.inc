@@ -173,3 +173,10 @@ function kapablo_search_api_sorts_sort(array $variables) {
 
   return $return_html;
 }
+
+/**
+ * Implements theme_facetapi_count().
+ */
+function kapablo_facetapi_count($variables) {
+  return '(' . c4m_content_ec_number_format((int) $variables['count']) . ')';
+}

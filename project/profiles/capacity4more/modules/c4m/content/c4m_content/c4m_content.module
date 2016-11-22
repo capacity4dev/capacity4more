@@ -1041,6 +1041,17 @@ function c4m_content_create_group_content_access() {
 
   // We allow access only for draft / published groups.
   $group = node_load($context['gid']);
+
+  // News should not be added to a group.
+  if ($matches[1] == 'news' && $group->type == 'group') {
+    c4m_content_deny_access();
+  }
+
+  // Discussion should not be added to a project.
+  if ($matches[1] == 'discussion' && $group->type == 'project') {
+    c4m_content_deny_access();
+  }
+
   $group_state = c4m_og_get_group_status($group);
 
   // Site admin may not add content to pending/deleted group.
