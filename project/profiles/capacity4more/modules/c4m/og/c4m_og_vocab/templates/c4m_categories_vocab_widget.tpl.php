@@ -52,14 +52,14 @@
         <form action="#" class="search" ng-show="categoriesLength">
           <input ng-model="searchTerms.<?php print $vocabulary_machine_name; ?>"
                  ng-change="updateSearch('<?php print $vocabulary_machine_name; ?>')"
-                 class="form-control" type="text" placeholder="Search"/>
+                 class="form-control" type="text" placeholder="Search" title="Search"/>
         </form>
         <ul ng-if="categoriesLength">
           <li class="checkbox table-display"
               ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?>">
             <label ng-show="{{item.children.length}}"
                    ng-click="updateSelected(item);"
-                   class="parent-select">
+                   class="parent-select" title="{{item.label}}">
               <i class="fa fa-angle-down" ng-show="item.selected"></i>
               <i class="fa fa-angle-right" ng-show="!item.selected"></i>
               {{item.label}}
@@ -70,7 +70,8 @@
                   <input type="checkbox" data-target="{{item.id}}"
                          ng-name="type"
                          ng-model="model.<?php print $vocabulary_machine_name; ?>[child.id]"
-                         ng-change="updateSelectedTerms(child.id, '<?php print $vocabulary_machine_name; ?>')">
+                         ng-change="updateSelectedTerms(child.id, '<?php print $vocabulary_machine_name; ?>')"
+                         title="{{child.label}}">
                   {{child.label}}
                 </label>
               </li>
