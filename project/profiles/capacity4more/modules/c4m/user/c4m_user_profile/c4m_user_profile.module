@@ -383,9 +383,13 @@ function c4m_user_profile_form_user_register_form_alter(
     $form['account']['status']['#access'] = FALSE;
     // Alter 'notify user' checkbox title.
     $form['account']['notify']['#title'] = t('Send password reset link');
-    // Hide roles fields - SA may not create administrator right away.
-    // Can edit user to assign him administrator role.
-    $form['account']['roles']['#access'] = FALSE;
+
+    // When SA creates a user from 'admin/people/create' path, hide roles field,
+    // as SA may not create administrator. SA can edit user to assign him
+    // administrator role though.
+    if (drupal_get_path_alias() == 'admin/people/create') {
+      $form['account']['roles']['#access'] = FALSE;
+    }
   }
 }
 
