@@ -197,8 +197,12 @@ function c4m_content_photoalbum_strongarm() {
             'visible' => FALSE,
           ),
           'pinned_content' => array(
-            'weight' => '8',
+            'weight' => '25',
             'visible' => FALSE,
+          ),
+          'block_list' => array(
+            'weight' => '1',
+            'visible' => TRUE,
           ),
         ),
         'highlighted' => array(
@@ -206,6 +210,7 @@ function c4m_content_photoalbum_strongarm() {
             'weight' => '0',
             'visible' => TRUE,
           ),
+          'block_list' => NULL,
         ),
       ),
     ),

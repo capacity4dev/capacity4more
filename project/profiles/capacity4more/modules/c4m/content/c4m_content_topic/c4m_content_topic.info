@@ -83,7 +83,6 @@ features[variable][] = node_preview_topic
 features[variable][] = node_submitted_topic
 features[variable][] = pathauto_node_topic_pattern
 features[views_view][] = c4m_expert_users
-features[views_view][] = c4m_message_with_related_topics_no_js_fallback
 features[views_view][] = c4m_related_content
 features[views_view][] = c4m_related_events
 features[views_view][] = c4m_related_nodes

@@ -1083,6 +1083,13 @@ Last access : [access]';
   $handler->display->display_options['fields']['user_metrics_13']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['user_metrics_13']['c4m_user_admin_user_metric'] = 'user::projects_pending';
   /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_1']['id'] = 'user_metrics_1';
+  $handler->display->display_options['fields']['user_metrics_1']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_1']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_1']['label'] = 'Projects ownded';
+  $handler->display->display_options['fields']['user_metrics_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['user_metrics_1']['c4m_user_admin_user_metric'] = 'user::projects';
+  /* Field: Content: User metrics */
   $handler->display->display_options['fields']['user_metrics_10']['id'] = 'user_metrics_10';
   $handler->display->display_options['fields']['user_metrics_10']['table'] = 'users';
   $handler->display->display_options['fields']['user_metrics_10']['field'] = 'user_metrics';
@@ -1096,6 +1103,13 @@ Last access : [access]';
   $handler->display->display_options['fields']['user_metrics_14']['label'] = 'Programmes pending membership';
   $handler->display->display_options['fields']['user_metrics_14']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['user_metrics_14']['c4m_user_admin_user_metric'] = 'user::programmes_pending';
+  /* Field: Content: User metrics */
+  $handler->display->display_options['fields']['user_metrics_15']['id'] = 'user_metrics_15';
+  $handler->display->display_options['fields']['user_metrics_15']['table'] = 'users';
+  $handler->display->display_options['fields']['user_metrics_15']['field'] = 'user_metrics';
+  $handler->display->display_options['fields']['user_metrics_15']['label'] = 'Programmes owned';
+  $handler->display->display_options['fields']['user_metrics_15']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['user_metrics_15']['c4m_user_admin_user_metric'] = 'user::programmes';
   /* Field: Content: User metrics */
   $handler->display->display_options['fields']['user_metrics_12']['id'] = 'user_metrics_12';
   $handler->display->display_options['fields']['user_metrics_12']['table'] = 'users';

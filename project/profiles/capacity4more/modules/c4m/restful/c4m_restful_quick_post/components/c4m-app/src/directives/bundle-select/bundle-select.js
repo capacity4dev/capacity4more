@@ -17,7 +17,7 @@
 angular.module('c4mApp')
   .directive('bundleSelect', function ($window, DrupalSettings) {
     return {
-      templateUrl: DrupalSettings.getBasePath() + 'profiles/capacity4more/libraries/bower_components/c4m-app/dist/directives/bundle-select/bundle-select.html',
+      templateUrl: DrupalSettings.getBasePath() + 'profiles/capacity4more/modules/c4m/restful/c4m_restful_quick_post/components/c4m-app/dist/directives/bundle-select/bundle-select.html',
       restrict: 'E',
       scope: {
         items: '=',
