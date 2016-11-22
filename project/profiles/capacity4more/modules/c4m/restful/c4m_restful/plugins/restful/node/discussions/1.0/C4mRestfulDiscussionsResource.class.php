@@ -126,4 +126,20 @@ class C4mRestfulDiscussionsResource extends C4mRestfulEntityBaseNode {
     parent::setPropertyValues($wrapper, $null_missing_fields);
   }
 
+  /**
+   * Overrides \RestfulEntityBase::propertyValuesPreprocessText().
+   *
+   * Make sure that the body field format is always set as 'default_html'.
+   */
+  protected function propertyValuesPreprocessText($property_name, $value, $field_info) {
+    if ($property_name == 'c4m_body') {
+      return array (
+        'value' => $value,
+        'format' => 'default_html',
+      );
+    }
+
+    return parent::propertyValuesPreprocessText($property_name, $value, $field_info);
+  }
+
 }
