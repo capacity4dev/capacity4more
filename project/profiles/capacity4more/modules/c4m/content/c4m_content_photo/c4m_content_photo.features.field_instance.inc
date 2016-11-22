@@ -144,6 +144,12 @@ function c4m_content_photo_field_default_field_instances() {
         'type' => 'smart_trim_format',
         'weight' => 22,
       ),
+      'block_list' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 25,
+      ),
       'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
@@ -186,7 +192,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -310,10 +316,20 @@ function c4m_content_photo_field_default_field_instances() {
         'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
-          'image_style' => 'large',
+          'image_style' => 'c4m_image_medium',
         ),
         'type' => 'image',
         'weight' => 1,
+      ),
+      'block_list' => array(
+        'label' => 'hidden',
+        'module' => 'c4m_field_media',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'thumbnail',
+        ),
+        'type' => 'image',
+        'weight' => 0,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -363,7 +379,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -450,6 +466,12 @@ function c4m_content_photo_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 21,
       ),
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 26,
+      ),
       'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
@@ -490,7 +512,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 18,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -546,6 +568,12 @@ function c4m_content_photo_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 20,
       ),
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 27,
+      ),
       'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
@@ -586,7 +614,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 26,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -643,6 +671,12 @@ function c4m_content_photo_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 18,
       ),
+      'block_list' => array(
+        'label' => 'inline',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 30,
+      ),
       'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
@@ -689,7 +723,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 30,
+        'weight' => 29,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -753,6 +787,12 @@ function c4m_content_photo_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 19,
       ),
+      'block_list' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
+      ),
       'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
@@ -793,7 +833,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 28,
+        'weight' => 27,
       ),
       'teaser' => array(
         'label' => 'above',
