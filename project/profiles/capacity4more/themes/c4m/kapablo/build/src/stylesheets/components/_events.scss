@@ -22,6 +22,33 @@
   }
 }
 
+.event-views-links {
+  list-style: none;
+  padding: 0;
+
+  li {
+    padding: 0;
+    margin-top: 10px;
+  }
+
+  a {
+    text-transform: capitalize;
+
+    &::before {
+      content: "\f03a";
+      @extend .facetapi-link;
+    }
+
+    &.upcoming-events::before {
+      content: "\f017";
+    }
+
+    &.past-events::before {
+      content: "\f1da";
+    }
+  }
+}
+
 .node-event {
   &.view-mode-full .node-document.node-teaser {
     $icon-size: 40px;
