@@ -272,11 +272,6 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['header']['c4m_views_node_add']['node_type'] = 'event';
   $handler->display->display_options['header']['c4m_views_node_add']['link_text'] = 'Add an event';
   $handler->display->display_options['header']['c4m_views_node_add']['icon'] = 'fa-calendar';
-  /* Header: Search: Spellcheck */
-  $handler->display->display_options['header']['search_api_spellcheck']['id'] = 'search_api_spellcheck';
-  $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_nodes';
-  $handler->display->display_options['header']['search_api_spellcheck']['field'] = 'search_api_spellcheck';
-  $handler->display->display_options['header']['search_api_spellcheck']['empty'] = TRUE;
   /* Header: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';

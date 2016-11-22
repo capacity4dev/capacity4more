@@ -340,10 +340,6 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['title'] = 'Events';
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['defaults']['header'] = FALSE;
-  /* Header: Search: Spellcheck */
-  $handler->display->display_options['header']['search_api_spellcheck']['id'] = 'search_api_spellcheck';
-  $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_nodes';
-  $handler->display->display_options['header']['search_api_spellcheck']['field'] = 'search_api_spellcheck';
   /* Header: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
