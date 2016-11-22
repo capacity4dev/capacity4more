@@ -37,6 +37,29 @@
       width: $icon-size;
     }
   }
+
+  .organiser {
+    color: $color-gray-light;
+    display: inline;
+
+    &:before {
+      color: $color-text;
+      content: "\2022";
+      margin: 0 0.5em 0 0.25em;
+    }
+  }
+
+  .date-display-range {
+    display: inline-block;
+
+    &:after {
+      content: ' ';
+    }
+  }
+
+  .event-location {
+    display: inline;
+  }
 }
 
 .event-location {
