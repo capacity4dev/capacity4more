@@ -238,7 +238,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'weight' => 23,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'smart_trim',
         'settings' => array(
           'more_link' => FALSE,
@@ -255,7 +255,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'weight' => 7,
       ),
       'teaser_group' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'smart_trim',
         'settings' => array(
           'more_link' => FALSE,

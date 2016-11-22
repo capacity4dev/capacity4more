@@ -1105,7 +1105,11 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
       'c4m_ds_photoalbum_cover_image' => 'left',
       'c4m_body' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'header' => 'div',
       'left' => 'div',
