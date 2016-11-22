@@ -239,8 +239,8 @@ function c4m_features_overview_events_node_view_alter(&$build) {
 function _c4m_features_overview_events_count_via_views($type) {
   // Mapping by the original name of the display.
   $mapped_views = array(
-    'upcoming' => 'block_1',
-    'past' => 'block_2',
+    'upcoming' => 'page',
+    'past' => 'attachment_1',
   );
 
   return _c4m_helper_entity_total_count_via_views('c4m_overview_events_landing', $mapped_views[$type]);
