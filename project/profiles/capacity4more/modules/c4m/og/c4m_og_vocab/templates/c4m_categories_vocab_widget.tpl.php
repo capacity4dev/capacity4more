@@ -26,17 +26,20 @@
            ng-repeat="(key, value) in data.<?php print $vocabulary_machine_name; ?>">
         <div class="level-1"
              ng-show="termHasChildrenSelected('<?php print $vocabulary_machine_name; ?>',key,'null')">
-          {{ findLabel(data.<?php print $vocabulary_machine_name; ?>, key) }}
+          <span title="{{ findLabel(data.<?php print $vocabulary_machine_name; ?>, key) }}">
+            {{ findLabel(data.<?php print $vocabulary_machine_name; ?>, key) }}
+          </span>
         </div>
         <div class="level-2">
           <div
             ng-show="model.<?php print $vocabulary_machine_name; ?>[child.id] === true"
             ng-repeat="(childkey, child) in data.<?php print $vocabulary_machine_name; ?>[key].children">
-            <i
-              ng-click="removeTaxonomyValue(child.id, '<?php print $vocabulary_machine_name; ?>')"
-              class="fa fa-times remove-taxonomy" title="Remove"></i>
-            {{ findLabel(data.<?php print $vocabulary_machine_name; ?>,
-            child.id) }}
+            <span title="{{ findLabel(data.<?php print $vocabulary_machine_name; ?>, child.id) }}">
+              <i
+                ng-click="removeTaxonomyValue(child.id, '<?php print $vocabulary_machine_name; ?>')"
+                class="fa fa-times remove-taxonomy" title="Remove"></i>
+              {{ findLabel(data.<?php print $vocabulary_machine_name; ?>, child.id) }}
+            </span>
           </div>
         </div>
       </div>
@@ -47,7 +50,9 @@
       <div class="arrow"></div>
       <div class="popover-content">
         <div ng-if="!categoriesLength">
-          <?php print t('No categories have been defined yet.') ?>
+          <span title="<?php print t('No categories have been defined yet.') ?>">
+            <?php print t('No categories have been defined yet.') ?>
+          </span>
         </div>
         <form action="#" class="search" ng-show="categoriesLength">
           <input ng-model="searchTerms.<?php print $vocabulary_machine_name; ?>"
@@ -59,19 +64,20 @@
               ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?>">
             <label ng-show="{{item.children.length}}"
                    ng-click="updateSelected(item);"
-                   class="parent-select" title="{{item.label}}">
+                   class="parent-select" title="{{item.label}}"
+                   title="{{item.label}}">
               <i class="fa fa-angle-down" ng-show="item.selected"></i>
               <i class="fa fa-angle-right" ng-show="!item.selected"></i>
               {{item.label}}
             </label>
             <ul ng-show="item.selected == true" class="indent">
               <li ng-repeat="child in item.children">
-                <label>
+                <label title="{{child.label}}">
                   <input type="checkbox" data-target="{{item.id}}"
                          ng-name="type"
                          ng-model="model.<?php print $vocabulary_machine_name; ?>[child.id]"
                          ng-change="updateSelectedTerms(child.id, '<?php print $vocabulary_machine_name; ?>')"
-                         title="{{child.label}}">
+                         title="Check">
                   {{child.label}}
                 </label>
               </li>
