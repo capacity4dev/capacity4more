@@ -60,3 +60,26 @@ function c4m_features_og_media_wysiwyg_filter_elements_blacklist_alter(&$blackli
   }
   $blacklist = $new_blacklist;
 }
+
+/**
+ * Implements hook_media_browser_params_alter().
+ *
+ * Make sure Media Browser settings are picked up correctly.
+ */
+function c4m_features_og_media_media_browser_params_alter(&$stored_params) {
+  // Set the default browser params from settings form if not already set.
+  if (empty($stored_params['enabledPlugins'])) {
+    $stored_params['enabledPlugins'] = variable_get('media_wysiwyg_wysiwyg_browser_plugins', array());
+  }
+  if (empty($stored_params['file_directory'])) {
+    $stored_params['file_directory'] = variable_get('media_wysiwyg_wysiwyg_upload_directory', '');
+  }
+  if (empty($stored_params['types'])) {
+    $stored_params['types'] = variable_get('media_wysiwyg_wysiwyg_allowed_types', array(
+      'audio',
+      'image',
+      'video',
+      'document'
+    ));
+  }
+}
