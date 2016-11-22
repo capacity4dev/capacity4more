@@ -11,7 +11,7 @@ Feature: Test quick post
   Scenario: Check Quick post form validation.
     Given I am logged in as user "mariecurie"
     When  I create a discussion quick post with title "N" and body "" in "Tennis Group" without topic
-    And   I should see "Title is too short." in the "form#quick-post-form" element
+    And   I should see "Title is missing or too short." in the "form#quick-post-form" element
     And   I should see "Body is required." in the "form#quick-post-form" element
     And   I should see "Topic is required." in the "form#quick-post-form" element
 

@@ -594,16 +594,6 @@ function c4m_content_document_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'downloads',
     ),
-    'c4m_ds_node_highlight' => array(
-      'weight' => '6',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
-    'c4m_ds_node_promote' => array(
-      'weight' => '7',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'c4m_content_document_icon' => array(
       'weight' => '0',
       'label' => 'hidden',
@@ -623,6 +613,12 @@ function c4m_content_document_ds_field_settings_info() {
       'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'link' => 'purl_auto',
+        'wrapper' => 'h3',
+        'class' => '',
+        'ft' => array(),
+      ),
     ),
     'c4m_ds_content_footer_stats' => array(
       'weight' => '4',
@@ -1104,8 +1100,6 @@ function c4m_content_document_ds_layout_settings_info() {
         3 => 'c4m_body',
         4 => 'c4m_document',
         5 => 'c4m_ds_content_footer_stats',
-        6 => 'c4m_ds_node_highlight',
-        7 => 'c4m_ds_node_promote',
       ),
     ),
     'fields' => array(
@@ -1115,14 +1109,8 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_body' => 'right',
       'c4m_document' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
-      'c4m_ds_node_highlight' => 'right',
-      'c4m_ds_node_promote' => 'right',
     ),
-    'classes' => array(
-      'layout_class' => array(
-        '' => '',
-      ),
-    ),
+    'classes' => array(),
     'wrappers' => array(
       'left' => 'div',
       'right' => 'div',
