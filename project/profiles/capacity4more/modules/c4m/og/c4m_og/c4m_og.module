@@ -2171,9 +2171,10 @@ function c4m_og_get_user_group_pending_memberships_count($uid) {
 /**
  * Returns the administered groups count for an user.
  *
+ * Differentiate between projects and programmes.
+ *
  * @param int $uid
  *   User id.
- *   Differentiate between projects and programmes.
  *
  * @return int
  *   Count.
