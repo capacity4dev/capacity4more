@@ -57,12 +57,12 @@ function c4m_features_og_discussions_views_default_views() {
   $handler->display->display_options['header']['c4m_views_node_add']['link_text'] = 'Add a new Discussion';
   $handler->display->display_options['header']['c4m_views_node_add']['icon'] = 'fa-pencil';
   /* Header: Number of items */
-  $handler->display->display_options['header']['result']['id'] = 'result';
-  $handler->display->display_options['header']['result']['table'] = 'views';
-  $handler->display->display_options['header']['result']['field'] = 'result';
-  $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
-  $handler->display->display_options['header']['result']['empty'] = TRUE;
-  $handler->display->display_options['header']['result']['content'] = '<span class="total-items">@total items</span>';
+  $handler->display->display_options['header']['c4m_views_result']['id'] = 'c4m_views_result';
+  $handler->display->display_options['header']['c4m_views_result']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_result']['field'] = 'c4m_views_result';
+  $handler->display->display_options['header']['c4m_views_result']['ui_name'] = 'Number of items';
+  $handler->display->display_options['header']['c4m_views_result']['empty'] = TRUE;
+  $handler->display->display_options['header']['c4m_views_result']['content'] = '<span class="total-items">@total items</span>';
   /* Header: Sort results */
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
