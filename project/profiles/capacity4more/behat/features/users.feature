@@ -71,7 +71,7 @@ Feature: Testing user creation/manipulations.
       # For some reason travis can not handle the batch operation that
       # triggered when an account is being canceled, hence we skip the last
       # step.
-    # Then I should not be able to log in with the temporal user again
+#     Then I should not be able to log in with the temporal user again
 
   @api
   Scenario: System administrator creates a user.
