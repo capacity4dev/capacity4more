@@ -77,7 +77,7 @@
                          ng-name="type"
                          ng-model="model.<?php print $vocabulary_machine_name; ?>[child.id]"
                          ng-change="updateSelectedTerms(child.id, '<?php print $vocabulary_machine_name; ?>')"
-                         title="Check">
+                         title="Check {{childChild.label}}">
                   {{child.label}}
                 </label>
               </li>

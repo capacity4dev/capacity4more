@@ -15,7 +15,8 @@
 
     <br/>
     <label class="control-label" for="edit-title" title="Title">Title <span class="form-required" title="This field is required.">*</span></label>
-    <input id="label" class="form-control" name="label" type="text" placeholder="<?php print t('Add document title'); ?>" ng-minlength=3 ng-model="data.label" required>
+    <input id="label" class="form-control" name="label" type="text" placeholder="<?php print t('Add document title'); ?>"
+           title="<?php print t('Add document title'); ?>" ng-minlength=3 ng-model="data.label" required>
     <br/>
     <p>Add this document also to the group Library?</p>
     <button type="submit" id="save-edit" ng-click="addToLibrary = true" class="btn btn-primary" tabindex="100" title="Save and add to the group library"><?php print t('YES'); ?></button>

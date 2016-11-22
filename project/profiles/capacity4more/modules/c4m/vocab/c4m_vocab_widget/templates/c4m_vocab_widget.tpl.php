@@ -85,7 +85,7 @@
           <li class="checkbox"
               ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?>">
             <label title="{{item.label}}">
-              <input type="checkbox" data-target="{{item.id}}" ng-name="type" title="Check"
+              <input type="checkbox" data-target="{{item.id}}" ng-name="type" title="Check {{item.label}}"
                      ng-model="model.<?php print $vocabulary_machine_name; ?>[item.id]"
                      ng-change="updateSelectedTerms(item.id, '<?php print $vocabulary_machine_name; ?>')">
               {{item.label}}
@@ -95,7 +95,7 @@
               class="indent">
               <li ng-repeat="child in item.children">
                 <label title="{{child.label}}">
-                  <input type="checkbox" data-target="{{item.id}}"  title="Check"
+                  <input type="checkbox" data-target="{{item.id}}"  title="Check {{child.label}}"
                          ng-name="type"
                          ng-model="model.<?php print $vocabulary_machine_name; ?>[child.id]"
                          ng-change="updateSelectedTerms(child.id, '<?php print $vocabulary_machine_name; ?>')">
@@ -106,7 +106,7 @@
                   class="indent">
                   <li ng-repeat="childChild in child.children">
                     <label title="{{childChild.label}}">
-                      <input type="checkbox" ng-name="type" title="Check"
+                      <input type="checkbox" ng-name="type" title="Check {{childChild.label}}"
                              ng-model="model.<?php print $vocabulary_machine_name; ?>[childChild.id]"
                              ng-change="updateSelectedTerms(childChild.id, '<?php print $vocabulary_machine_name; ?>')">
                       {{childChild.label}}
