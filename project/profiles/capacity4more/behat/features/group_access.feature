@@ -66,22 +66,53 @@ Feature: Group access
     And I should not see an ".node-form .field-name-c4m-og-status" element
     And I should not see an ".tabbable.tabs-left.vertical-tabs" element
 
-  @javascript
+  @api
   Scenario: Visitor should not see a private group
     Given I am an anonymous user
     Then  I should not see "Architecture" on the "groups" overview
+    When  I visit "Architecture" node of type "group"
+    Then  I should not have access to the page
+    And   I should see "Please log in to continue"
 
-  @javascript
+  @api
   Scenario: Visitor should not see a restricted group
     Given I am an anonymous user
     Then  I should not see "Restricted group with EC/EEAS" on the "groups" overview
+    When  I visit "Restricted group with EC/EEAS" node of type "group"
+    Then  I should not have access to the page
+    And   I should see "Please log in to continue"
+
+  @api
+  Scenario: Non member should not see a private group
+    Given I am logged in as user "president"
+    Then  I should not see "Architecture" on the "groups" overview
+    When  I visit "Architecture" node of type "group"
+    Then  I should not have access to the page
+    And   I should see "Access denied"
+
+  @api
+  Scenario: Non member without restrictions bypass should not see a restricted group
+    Given I am logged in as user "president"
+    Then  I should not see "Restricted group with EC/EEAS" on the "groups" overview
+    When  I visit "Restricted group with EC/EEAS" node of type "group"
+    Then  I should not have access to the page
+    And   I should see "Access denied"
+
+  @api
+  Scenario: Non member with restrictions bypass should see the restricted group
+    Given I am logged in as user "president"
+    Then  I should see "Restricted group with EU" on the "groups" overview
+    When  I visit "Restricted group with EU" node of type "group"
+    Then  I should have access to the page
+    And   I should not see "Access denied"
 
   @api
   Scenario: New user with organization domain should have access to organization restriction group.
     Given I am logged in with a temporal user with email domain "gizra.com"
     Then  I should see "Restricted group with partner access" on the "groups" overview
     When  I visit "Restricted group with partner access" node of type "group"
-    Then  I should not see "Access denied"
+    Then  I should have access to the page
+    And   I should not see "Access denied"
 
   @javascript
   Scenario: Restricted group by organization and domains access for new users.
