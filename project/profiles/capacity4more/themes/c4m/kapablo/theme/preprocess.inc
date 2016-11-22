@@ -309,7 +309,7 @@ function kapablo_preprocess_field(&$variables, $hook) {
 
         $link_to_photo = l($node->title, 'node/' . $node->nid);
         foreach ($element['#items'] as $key => $item) {
-          $variables['items'][$key]['#markup'] = '<h1 class="text--inline">' . $album_title . '</h1><h3 class="text--inline">' . $album_separator . $link_to_photo . '</h3>';
+          $variables['items'][$key]['#markup'] = '<h2 class="text--inline">' . $album_title . '</h2><h3 class="text--inline">' . $album_separator . $link_to_photo . '</h3><div class="clearfix"> </div>';
         }
       }
 

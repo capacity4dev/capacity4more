@@ -218,3 +218,53 @@ function c4m_features_overview_events_form_alter(&$form, &$form_state, $form_id)
     unset($form['form_id'], $form['#token'], $form['form_build_id'], $form['#build_id']);
   }
 }
+
+/**
+ * Implements hook_node_view_alter().
+ *
+ * On the events overviews we should not display the author of the event.
+ */
+function c4m_features_overview_events_node_view_alter(&$build) {
+  if (empty($build['#bundle']) || $build['#bundle'] != 'event') {
+    return;
+  }
+
+  if (empty($build['#view_mode']) || $build['#view_mode'] != 'teaser') {
+    return;
+  }
+
+  $allowed_paths = array(
+    'events',
+    'events/upcoming',
+    'events/past',
+  );
+
+  $item = menu_get_item();
+  if (empty($item['path']) || !in_array($item['path'], $allowed_paths)) {
+    return;
+  }
+
+  // Removing the author line.
+  $build['c4m_user_first_and_last_name']['#access'] = FALSE;
+  $build['c4m_ds_type_insert_action']['#access'] = FALSE;
+  $build['c4m_ds_content_type_icon']['#access'] = FALSE;
+}
+
+/**
+ * Gets the number of events per group via it's original view.
+ *
+ * @param string $type
+ *   The type of events (upcoming / past).
+ *
+ * @return int
+ *   The number of events.
+ */
+function _c4m_features_overview_events_count_via_views($type) {
+  // Mapping by the original name of the display.
+  $mapped_views = array(
+    'upcoming' => 'block_1',
+    'past' => 'block_2',
+  );
+
+  return _c4m_helper_entity_total_count_via_views('c4m_overview_events_landing', $mapped_views[$type]);
+}

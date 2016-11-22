@@ -80,6 +80,9 @@ function c4m_content_discussion_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
+      'my_comments' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(),
@@ -201,7 +204,7 @@ function c4m_content_discussion_strongarm() {
           ),
           'pinned_content' => array(
             'weight' => '1',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
           'block_list' => array(
             'weight' => '31',

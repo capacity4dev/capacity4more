@@ -493,3 +493,30 @@ function c4m_helper_entity_entity_load($entities, $type) {
     }
   }
 }
+
+/**
+ * Gets the total number of results per view and display.
+ *
+ * We use it because some views are using solr but also has a pager, and we
+ * need the total results.
+ *
+ * @param string $view_name
+ *   The view's machine name.
+ * @param string $display_id
+ *   The id of the display.
+ *
+ * @return int
+ *   The count of the total results.
+ */
+function _c4m_helper_entity_total_count_via_views($view_name, $display_id) {
+  $view = views_get_view($view_name);
+
+  // Disabled the pagination.
+  $view->set_items_per_page(0);
+
+  $view->set_display($display_id);
+  $view->pre_execute();
+  $view->execute();
+
+  return count($view->result);
+}

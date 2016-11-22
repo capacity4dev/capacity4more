@@ -16,6 +16,7 @@ function c4m_vocab_document_type_taxonomy_default_vocabularies() {
       'hierarchy' => 0,
       'module' => 'taxonomy',
       'weight' => 0,
+      'entity_type' => 'taxonomy_vocabulary',
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',

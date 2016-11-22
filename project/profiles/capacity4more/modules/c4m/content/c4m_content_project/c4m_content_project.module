@@ -135,14 +135,14 @@ function c4m_content_project_form_project_node_form_alter(&$form, &$form_state) 
 
   if (preg_match('/node\/add\/(project|programme)/', $_SERVER['REQUEST_URI'], $matches)) {
     $type = $matches[1];
-    $form['c4m_project_type'][LANGUAGE_NONE]['#value'] = $type;
+    $form['c4m_project_type'][LANGUAGE_NONE]['#default_value'] = array($type);
   }
 
   _c4m_og_alter_group_form($form, $form_state, $type);
 
   // Type specific title for the field "c4m_related_projects".
   $form['c4m_related_projects'][LANGUAGE_NONE]['#title']
-    = ($type == 'programme') ?
+    = ($form['c4m_project_type'][LANGUAGE_NONE]['#default_value'][0] == 'programme') ?
       t('Projects in this Programme') :
       t('Related Projects');
 
@@ -196,7 +196,9 @@ function c4m_content_project_set_number_of_items_states(&$form, $element) {
  *   Count.
  */
 function c4m_content_project_get_administered_projects_count($uid) {
-  return c4m_og_get_user_project_memberships_count($uid, OG_STATE_ACTIVE, 'project');
+  // We are counting the memberships as there are no roles in Projects /
+  // Programmes.
+  return c4m_content_project_get_user_project_memberships_count($uid, OG_STATE_ACTIVE, 0);
 }
 
 /**
@@ -209,7 +211,9 @@ function c4m_content_project_get_administered_projects_count($uid) {
  *   Count.
  */
 function c4m_content_project_get_administered_programmes_count($uid) {
-  return c4m_og_get_user_project_memberships_count($uid, OG_STATE_ACTIVE, 1);
+  // We are counting the memberships as there are no roles in Projects /
+  // Programmes.
+  return c4m_content_project_get_user_project_memberships_count($uid, OG_STATE_ACTIVE, 1);
 }
 
 /**
@@ -222,7 +226,7 @@ function c4m_content_project_get_administered_programmes_count($uid) {
  *   Count.
  */
 function c4m_content_project_get_pending_projects_count($uid) {
-  return c4m_og_get_user_project_memberships_count($uid, OG_STATE_PENDING, 'project');
+  return c4m_content_project_get_user_project_memberships_count($uid, OG_STATE_PENDING, 0);
 }
 
 /**
@@ -235,7 +239,104 @@ function c4m_content_project_get_pending_projects_count($uid) {
  *   Count.
  */
 function c4m_content_project_get_pending_programmes_count($uid) {
-  return c4m_og_get_user_project_memberships_count($uid, OG_STATE_PENDING, 1);
+  return c4m_content_project_get_user_project_memberships_count($uid, OG_STATE_PENDING, 1);
+}
+
+/**
+ * Returns the memberships in projects/programmes count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ * @param int $state
+ *   OG state.
+ * @param int $is_programme
+ *   Differentiate between projects and programmes.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_content_project_get_user_project_memberships_count($uid, $state = OG_STATE_ACTIVE, $is_programme = 0) {
+  $query = db_select('og_membership', 'm');
+  $query->fields('m', array('id'));
+  $query->join('node', 'n', 'n.nid = m.gid');
+  $query->condition('m.group_type', 'node');
+  $query->condition('m.entity_type', 'user');
+  $query->condition('m.etid', $uid);
+  $query->condition('m.state', $state);
+  $query->condition('n.type', 'project');
+
+  $query->leftJoin('field_data_c4m_project_type', 'pt', "pt.entity_id = n.nid AND pt.entity_type = 'node'");
+
+  if ($is_programme) {
+    $query->condition('pt.c4m_project_type_value', 'programme');
+  }
+  else {
+    $query->condition('pt.c4m_project_type_value', 'project');
+  }
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
+}
+
+/**
+ * Returns the owned projects count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_content_project_owned_projects_count($uid) {
+  return c4m_content_project_get_owned_projects_count($uid, 0);
+}
+
+/**
+ * Returns the owned programmes count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_content_project_owned_programmes_count($uid) {
+  return c4m_content_project_get_owned_projects_count($uid, 1);
+}
+
+/**
+ * Returns the count of owned projects / programmes for an user.
+ *
+ * @param int $uid
+ *   User id.
+ * @param int $is_programme
+ *   Differentiate between projects and programmes.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_content_project_get_owned_projects_count($uid, $is_programme = 0) {
+  $query = db_select('node', 'n');
+  $query->fields('n', array('nid'));
+  $query->condition('n.uid', $uid);
+  $query->condition('n.status', NODE_PUBLISHED);
+  $query->condition('n.type', 'project');
+
+  $query->leftJoin('field_data_c4m_project_type', 'pt', "pt.entity_id = n.nid AND pt.entity_type = 'node'");
+
+  if ($is_programme) {
+    $query->condition('pt.c4m_project_type_value', 'programme');
+  }
+  else {
+    $query->condition('pt.c4m_project_type_value', 'project');
+  }
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
 }
 
 /**
@@ -284,6 +385,16 @@ function c4m_content_project_c4m_helper_entity_metrics_info() {
       'type' => 'programmes_pending',
       'context' => 'user',
       'callback' => 'c4m_content_project_get_pending_programmes_count',
+    ),
+    'c4m_user_projects_owned' => array(
+      'type' => 'projects',
+      'context'  => 'user',
+      'callback'  => 'c4m_content_project_owned_projects_count',
+    ),
+    'c4m_user_programmes_owned' => array(
+      'type' => 'programmes',
+      'context'  => 'user',
+      'callback'  => 'c4m_content_project_owned_programmes_count',
     ),
   );
 }
@@ -419,19 +530,22 @@ function c4m_content_project_blockreference_blocks_pre_alter(
 function c4m_content_project_c4m_content_project_blockreference_whitelist() {
   return array(
     'c4m_content_project:c4m_block_project_partners' => array(
-      'label' => t('Project partners'),
+      'label' => t('Project/programme partners'),
     ),
     'views:c4m_project_news-block' => array(
-      'label' => t('Project news'),
+      'label' => t('Project/programme news'),
     ),
     'views:c4m_project_events-block' => array(
-      'label' => t('Project events'),
+      'label' => t('Project/programme events'),
     ),
     'views:c4m_project_highlights-block' => array(
-      'label' => t('Project highlights'),
+      'label' => t('Project/programme highlights'),
     ),
     'c4m_content_project:c4m_block_project_about' => array(
-      'label' => t('Project about'),
+      'label' => t('Project/programme about'),
+    ),
+    'c4m_search_og:c4m_search_group_form' => array(
+      'label' => t('Project/programme search'),
     ),
   );
 }
@@ -474,6 +588,7 @@ function c4m_content_project_theme() {
   $theme['c4m_content_project_header_title'] = array(
     'variables' => array(
       'title' => '',
+      'tagline' => '',
       'stage' => '',
       'type' => '',
       'status' => '',

@@ -77,6 +77,13 @@ function c4m_content_photo_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 3,
       ),
+      'my_comments' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
+      ),
     ),
     'entity_type' => 'comment',
     'field_name' => 'comment_body',
@@ -179,7 +186,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 6,
+        'weight' => 24,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -303,7 +310,7 @@ function c4m_content_photo_field_default_field_instances() {
         'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
-          'image_style' => 'c4m_image_medium',
+          'image_style' => 'large',
         ),
         'type' => 'image',
         'weight' => 1,
@@ -356,7 +363,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 7,
+        'weight' => 25,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -483,7 +490,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 26,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -579,7 +586,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 27,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -682,7 +689,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 29,
+        'weight' => 30,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -786,7 +793,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 28,
       ),
       'teaser' => array(
         'label' => 'above',
