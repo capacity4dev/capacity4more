@@ -168,7 +168,7 @@ function c4m_content_photo_strongarm() {
             'visible' => FALSE,
           ),
           'pinned_content' => array(
-            'weight' => '28',
+            'weight' => '29',
             'visible' => FALSE,
           ),
         ),

@@ -207,7 +207,7 @@ function c4m_content_event_field_default_field_instances() {
           'trim_length' => 600,
         ),
         'type' => 'text_summary_or_trimmed',
-        'weight' => 9,
+        'weight' => 8,
       ),
       'upcoming_event' => array(
         'label' => 'hidden',
@@ -394,7 +394,7 @@ function c4m_content_event_field_default_field_instances() {
           'show_remaining_days' => 0,
         ),
         'type' => 'date_default',
-        'weight' => 7,
+        'weight' => 5,
       ),
       'upcoming_event' => array(
         'label' => 'hidden',
@@ -1345,7 +1345,7 @@ function c4m_content_event_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 6,
+        'weight' => 7,
       ),
       'upcoming_event' => array(
         'label' => 'inline',
@@ -1914,7 +1914,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 28,
+        'weight' => 27,
       ),
       'upcoming_event' => array(
         'label' => 'above',
