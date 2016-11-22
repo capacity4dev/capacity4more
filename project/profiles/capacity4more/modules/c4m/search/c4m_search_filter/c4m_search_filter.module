@@ -245,6 +245,9 @@ function _c4m_search_filter_view_access_filter_query_alter(&$query) {
  * _search_api_query_add_node_access(), besides activation of 'node_grants'
  * implementation by og_access and pluggable_node_access modules.
  *
+ * @param object $account
+ *   The user, for which grants are generated.
+ *
  * @param string $op
  *   Operation for which grants are generated. Defaults to 'view'.
  *
