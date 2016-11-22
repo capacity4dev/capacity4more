@@ -137,3 +137,20 @@ function hook_c4m_content_statistics_info() {
     ),
   );
 }
+
+/**
+ * Alter the bundle of a node.
+ *
+ * Modules may implement this hook to alter the bundle information that defines
+ * a node.
+ *
+ * @param string $bundle
+ *   The node's bundle.
+ * @param object $node_wrapper
+ *   The entity wrapper of node entity.
+ */
+function hook_c4m_content_bundle_alter(&$bundle, $node_wrapper) {
+  if ($bundle == 'some_bundle') {
+    $bundle = 'something_else';
+  }
+}

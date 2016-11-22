@@ -984,3 +984,12 @@ function c4m_content_project_node_view_alter(&$build) {
 
   $build['c4m_related_projects']['#title'] = t('Related Programmes');
 }
+
+/**
+ * Implements hook_c4m_content_bundle_alter().
+ */
+function c4m_content_project_c4m_content_bundle_alter(&$bundle, $node_wrapper) {
+  if ($bundle == 'project') {
+    $bundle = strtolower($node_wrapper->c4m_project_type->value());
+  }
+}

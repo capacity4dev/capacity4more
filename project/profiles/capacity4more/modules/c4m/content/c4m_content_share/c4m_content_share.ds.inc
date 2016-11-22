@@ -28,14 +28,10 @@ function c4m_content_share_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'c4m_field_og_group' => array(
+    'c4m_content_share_original_group' => array(
       'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
-      'formatter_settings' => array(
-        'show_group_type' => 1,
-        'ft' => array(),
-      ),
     ),
   );
   $export['node|share|activity_global'] = $ds_fieldsetting;
@@ -58,14 +54,10 @@ function c4m_content_share_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'c4m_field_og_group' => array(
+    'c4m_content_share_original_group' => array(
       'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
-      'formatter_settings' => array(
-        'show_group_type' => 1,
-        'ft' => array(),
-      ),
     ),
   );
   $export['node|share|activity_group'] = $ds_fieldsetting;
@@ -233,7 +225,7 @@ function c4m_content_share_ds_layout_settings_info() {
         0 => 'c4m_body',
         1 => 'group_shared_content',
         2 => 'title',
-        3 => 'c4m_field_og_group',
+        3 => 'c4m_content_share_original_group',
         4 => 'c4m_source_entity',
       ),
     ),
@@ -241,7 +233,7 @@ function c4m_content_share_ds_layout_settings_info() {
       'c4m_body' => 'ds_content',
       'group_shared_content' => 'ds_content',
       'title' => 'ds_content',
-      'c4m_field_og_group' => 'ds_content',
+      'c4m_content_share_original_group' => 'ds_content',
       'c4m_source_entity' => 'ds_content',
     ),
     'classes' => array(
@@ -274,7 +266,7 @@ function c4m_content_share_ds_layout_settings_info() {
         0 => 'c4m_body',
         1 => 'group_shared_content',
         2 => 'title',
-        3 => 'c4m_field_og_group',
+        3 => 'c4m_content_share_original_group',
         4 => 'c4m_source_entity',
       ),
     ),
@@ -282,7 +274,7 @@ function c4m_content_share_ds_layout_settings_info() {
       'c4m_body' => 'ds_content',
       'group_shared_content' => 'ds_content',
       'title' => 'ds_content',
-      'c4m_field_og_group' => 'ds_content',
+      'c4m_content_share_original_group' => 'ds_content',
       'c4m_source_entity' => 'ds_content',
     ),
     'classes' => array(
