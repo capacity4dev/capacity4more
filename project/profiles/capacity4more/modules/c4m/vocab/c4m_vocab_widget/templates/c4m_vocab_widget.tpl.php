@@ -29,11 +29,13 @@
       <div class="value taxonomy-term-selected"
            ng-show="value === true && data.<?php print $vocabulary_machine_name; ?>[key]"
            ng-repeat="(key, value) in model.<?php print $vocabulary_machine_name; ?>">
-        <div class="level-1">
-          <i
-            ng-click="removeTaxonomyValue(key, '<?php print $vocabulary_machine_name; ?>')"
-            class="fa fa-times remove-taxonomy" title="Remove"></i> {{
-          findLabel(data.<?php print $vocabulary_machine_name; ?>, key) }}
+        <div class="level-1" >
+          <span title="{{ findLabel(data.<?php print $vocabulary_machine_name; ?>, key) }}">
+            <i
+              ng-click="removeTaxonomyValue(key, '<?php print $vocabulary_machine_name; ?>')"
+              class="fa fa-times remove-taxonomy" title="Remove"></i>
+              {{ findLabel(data.<?php print $vocabulary_machine_name; ?>, key) }}
+            </span>
         </div>
         <div
           ng-show="data.<?php print $vocabulary_machine_name; ?>[key].children.length > 0"
@@ -42,7 +44,8 @@
             ng-repeat="(childkey, child) in data.<?php print $vocabulary_machine_name; ?>[key].children">
             <div>
               <span
-                ng-show="model.<?php print $vocabulary_machine_name; ?>[child.id] === true">
+                ng-show="model.<?php print $vocabulary_machine_name; ?>[child.id] === true"
+                title="{{ findLabel(data.<?php print $vocabulary_machine_name; ?>, child.id) }}">
                 <i
                   ng-click="removeTaxonomyValue(child.id, '<?php print $vocabulary_machine_name; ?>')"
                   class="fa fa-times remove-taxonomy" title="Remove"></i>
@@ -81,35 +84,31 @@
         <ul>
           <li class="checkbox"
               ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?>">
-            <label>
-              <input type="checkbox" data-target="{{item.id}}" ng-name="type"
-                     title="{{item.label}}"
+            <label title="{{item.label}}">
+              <input type="checkbox" data-target="{{item.id}}" ng-name="type" title="Check"
                      ng-model="model.<?php print $vocabulary_machine_name; ?>[item.id]"
-                     ng-change="updateSelectedTerms(item.id, '<?php print $vocabulary_machine_name; ?>')"
-                     title="{{item.label}}">
+                     ng-change="updateSelectedTerms(item.id, '<?php print $vocabulary_machine_name; ?>')">
               {{item.label}}
             </label>
             <ul
               ng-show="item.children && model.<?php print $vocabulary_machine_name; ?>[item.id] == true"
               class="indent">
               <li ng-repeat="child in item.children">
-                <label>
-                  <input type="checkbox" data-target="{{item.id}}"
+                <label title="{{child.label}}">
+                  <input type="checkbox" data-target="{{item.id}}"  title="Check"
                          ng-name="type"
                          ng-model="model.<?php print $vocabulary_machine_name; ?>[child.id]"
-                         ng-change="updateSelectedTerms(child.id, '<?php print $vocabulary_machine_name; ?>')"
-                         title="{{child.label}}">
+                         ng-change="updateSelectedTerms(child.id, '<?php print $vocabulary_machine_name; ?>')">
                   {{child.label}}
                 </label>
                 <ul
                   ng-show="child.children && model.<?php print $vocabulary_machine_name; ?>[child.id] == true"
                   class="indent">
                   <li ng-repeat="childChild in child.children">
-                    <label>
-                      <input type="checkbox" ng-name="type"
+                    <label title="{{childChild.label}}">
+                      <input type="checkbox" ng-name="type" title="Check"
                              ng-model="model.<?php print $vocabulary_machine_name; ?>[childChild.id]"
-                             ng-change="updateSelectedTerms(childChild.id, '<?php print $vocabulary_machine_name; ?>')"
-                             title="{{childChild.label}}">
+                             ng-change="updateSelectedTerms(childChild.id, '<?php print $vocabulary_machine_name; ?>')">
                       {{childChild.label}}
                     </label>
                   </li>
