@@ -10,6 +10,7 @@ Feature: Group access
       And I should not see "Access denied"
       And I visit "My content 111" node of type "discussion"
       And I should not see "Access denied"
+      And I should see "My bad hair day new group 111" on the "groups" overview
 
   @javascript
   Scenario: Check private group
@@ -18,6 +19,7 @@ Feature: Group access
      When I am logged in as user "isaacnewton"
      Then I visit "My bad hair day new group 2" node of type "group"
       And I should see "Access denied"
+      And I should not see "My bad hair day new group 2" on the "groups" overview
       And I visit "My content 2" node of type "discussion"
       And I should see "Access denied"
 
@@ -28,11 +30,13 @@ Feature: Group access
      When I am logged in as user "isaacnewton"
      Then I visit "My bad hair day new group 3" node of type "group"
       And I should not see "Access denied"
+      And I should see "My bad hair day new group 3" on the "groups" overview
       And I visit "My content 3" node of type "discussion"
       And I should not see "Access denied"
       And I am logged in as user "badhairday"
       And I visit "My bad hair day new group 3" node of type "group"
       And I should see "Access denied"
+      And I should not see "My bad hair day new group 3" on the "groups" overview
       And I visit "My content 3" node of type "discussion"
       And I should see "Access denied"
 
@@ -43,11 +47,13 @@ Feature: Group access
      When I am logged in as user "president"
      Then I visit "My bad hair day new group 5" node of type "group"
       And I should not see "Access denied"
+      And I should see "My bad hair day new group 5" on the "groups" overview
       And I visit "My content 5" node of type "discussion"
       And I should not see "Access denied"
       And I am logged in as user "isaacnewton"
       And I visit "My bad hair day new group 5" node of type "group"
       And I should see "Access denied"
+      And I should not see "My bad hair day new group 5" on the "groups" overview
       And I visit "My content 5" node of type "discussion"
       And I should see "Access denied"
 
@@ -71,13 +77,14 @@ Feature: Group access
     Then  I should not see "Restricted group with EC/EEAS" on the "groups" overview
 
   @api
-  Scenario: check access
+  Scenario: New user with organization domain should have access to organization restriction group.
     Given I am logged in with a temporal user with email domain "gizra.com"
-    When  I visit "groups"
-    Then  I follow "Restricted group with partner access"
+    Then  I should see "Restricted group with partner access" on the "groups" overview
+    When  I visit "Restricted group with partner access" node of type "group"
+    Then  I should not see "Access denied"
 
   @javascript
-  Scenario: check access
+  Scenario: Restricted group by organization and domains access for new users.
     Given I am logged in with a temporal user with email domain "ec.europa.eu"
     Then  a non moderated restricted group "Drink water out of the faucet" with "ec.europa.eu muppets.co.uk" domains and with "Gizra,Amplexor" organizations is created by the temporal user
     Then  I should see "Drink water out of the faucet" on the "groups" overview
