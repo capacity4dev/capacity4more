@@ -17,7 +17,7 @@
 angular.module('c4mApp')
   .directive('types', function ($window, DrupalSettings) {
     return {
-      templateUrl: DrupalSettings.getBasePath() + 'profiles/capacity4more/libraries/bower_components/c4m-app/dist/directives/types/types.html',
+      templateUrl: DrupalSettings.getBasePath() + 'profiles/capacity4more/modules/c4m/restful/c4m_restful_quick_post/components/c4m-app/dist/directives/types/types.html',
       restrict: 'E',
       scope: {
         fieldSchema: '=',
