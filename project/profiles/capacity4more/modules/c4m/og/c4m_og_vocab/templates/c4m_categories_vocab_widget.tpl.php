@@ -14,9 +14,8 @@
               title="<?php print t('Select @name', array('@name' => $vocabulary_label)); ?>">&nbsp;<?php print t(
               'Select @name', array('@name' => $vocabulary_label)); ?></button>
       <?php if ($required): ?>
-        <label class="control-label">
-          <span class="form-required"
-                title="<?php print t('This field is required.'); ?>">*</span>
+        <label class="control-label"  title="<?php print t('This field is required.'); ?>">
+          <span class="form-required">*</span>
         </label>
       <?php endif; ?>
     </div>
