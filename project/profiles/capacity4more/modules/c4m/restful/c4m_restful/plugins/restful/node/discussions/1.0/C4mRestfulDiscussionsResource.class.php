@@ -133,7 +133,7 @@ class C4mRestfulDiscussionsResource extends C4mRestfulEntityBaseNode {
    */
   protected function propertyValuesPreprocessText($property_name, $value, $field_info) {
     if ($property_name == 'c4m_body') {
-      return array (
+      return array(
         'value' => $value,
         'format' => 'default_html',
       );
