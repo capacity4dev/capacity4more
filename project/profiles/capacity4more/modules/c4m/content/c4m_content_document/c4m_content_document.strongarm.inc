@@ -220,7 +220,7 @@ function c4m_content_document_strongarm() {
           ),
           'pinned_content' => array(
             'weight' => '1',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
         ),
         'highlighted' => array(

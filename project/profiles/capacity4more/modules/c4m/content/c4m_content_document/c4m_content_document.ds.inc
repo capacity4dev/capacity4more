@@ -1052,24 +1052,26 @@ function c4m_content_document_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'title',
-        1 => 'flag_c4m_og_content_highlight',
-        2 => 'c4m_ds_content_type_icon',
-        3 => 'c4m_user_first_and_last_name',
-        4 => 'c4m_ds_type_insert_action',
-        5 => 'c4m_ds_creation_date',
-        6 => 'c4m_rendered_content',
+        1 => 'c4m_ds_content_type_icon',
+        2 => 'c4m_user_first_and_last_name',
+        3 => 'c4m_ds_type_insert_action',
+        4 => 'c4m_ds_creation_date',
+        5 => 'c4m_rendered_content',
       ),
     ),
     'fields' => array(
       'title' => 'ds_content',
-      'flag_c4m_og_content_highlight' => 'ds_content',
       'c4m_ds_content_type_icon' => 'ds_content',
       'c4m_user_first_and_last_name' => 'ds_content',
       'c4m_ds_type_insert_action' => 'ds_content',
       'c4m_ds_creation_date' => 'ds_content',
       'c4m_rendered_content' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
