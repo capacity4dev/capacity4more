@@ -281,7 +281,7 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['content'] = '<h2><i class="fa fa-clock-o"></i> First upcoming events</h2>';
+  $handler->display->display_options['header']['area']['content'] = '<h2><i class="fa fa-clock-o"></i> Next events</h2>';
   $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
@@ -366,7 +366,7 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['content'] = '<h2><i class="fa fa-history"></i> Latest past events</h2>';
+  $handler->display->display_options['header']['area']['content'] = '<h2><i class="fa fa-history"></i> Last events</h2>';
   $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Date: End date (indexed) */
