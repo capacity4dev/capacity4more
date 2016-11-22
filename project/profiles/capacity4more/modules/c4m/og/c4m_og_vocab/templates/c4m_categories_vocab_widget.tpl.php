@@ -34,7 +34,7 @@
             ng-repeat="(childkey, child) in data.<?php print $vocabulary_machine_name; ?>[key].children">
             <i
               ng-click="removeTaxonomyValue(child.id, '<?php print $vocabulary_machine_name; ?>')"
-              class="fa fa-times remove-taxonomy"></i>
+              class="fa fa-times remove-taxonomy" title="Remove"></i>
             {{ findLabel(data.<?php print $vocabulary_machine_name; ?>,
             child.id) }}
           </div>

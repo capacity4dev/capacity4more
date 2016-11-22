@@ -32,7 +32,7 @@
         <div class="level-1">
           <i
             ng-click="removeTaxonomyValue(key, '<?php print $vocabulary_machine_name; ?>')"
-            class="fa fa-times remove-taxonomy"></i> {{
+            class="fa fa-times remove-taxonomy" title="Remove"></i> {{
           findLabel(data.<?php print $vocabulary_machine_name; ?>, key) }}
         </div>
         <div
@@ -45,7 +45,7 @@
                 ng-show="model.<?php print $vocabulary_machine_name; ?>[child.id] === true">
                 <i
                   ng-click="removeTaxonomyValue(child.id, '<?php print $vocabulary_machine_name; ?>')"
-                  class="fa fa-times remove-taxonomy"></i>
+                  class="fa fa-times remove-taxonomy" title="Remove"></i>
                 {{ findLabel(data.<?php print $vocabulary_machine_name; ?>, child.id) }}
                 <i class="fa fa-chevron-right"
                    ng-show="termHasChildrenSelected('<?php print $vocabulary_machine_name; ?>', key, childkey)"></i>
@@ -55,12 +55,12 @@
               <div
                 ng-show="model.<?php print $vocabulary_machine_name; ?>[childChild.id] === true"
                 ng-repeat="(childChildkey, childChild) in data.<?php print $vocabulary_machine_name; ?>[key].children[childkey].children">
-                <i
-                  ng-click="removeTaxonomyValue(childChild.id, '<?php print $vocabulary_machine_name; ?>')"
-                  class="fa fa-times remove-taxonomy"></i>
-                {{ findLabel(data.<?php print $vocabulary_machine_name; ?>,
-                childChild.id) }}
-
+                <span title="{{ findLabel(data.<?php print $vocabulary_machine_name; ?>,childChild.id) }}">
+                  <i
+                    ng-click="removeTaxonomyValue(childChild.id, '<?php print $vocabulary_machine_name; ?>')"
+                    class="fa fa-times remove-taxonomy" title="Remove"></i>
+                    {{ findLabel(data.<?php print $vocabulary_machine_name; ?>, childChild.id) }}
+                </span>
               </div>
             </div>
           </div>

@@ -36,7 +36,7 @@
       <a href="JavaScript://" onclick="Drupal.media.popups.mediaBrowser(c4m_attachment_overlay,media_browser_options)"
          ng-click="setFieldName('<?php print $field_name; ?>')" id="link-<?php print $field_name; ?>"
          ng-class="{'active-library-link':fieldName === '<?php print $field_name; ?>'}"
-      title="<?php print t('Select a document from the library') ?>">
+         title="<?php print t('Select a document from the library') ?>">
         <?php print t('or select a document from the library') ?>
       </a>
     </div>
