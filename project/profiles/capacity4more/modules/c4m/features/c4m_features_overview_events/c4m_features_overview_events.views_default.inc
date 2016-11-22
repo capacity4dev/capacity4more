@@ -254,7 +254,6 @@ function c4m_features_overview_events_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Past Events';
-  $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'All upcoming events';
   $handler->display->display_options['link_display'] = 'custom_url';
@@ -276,7 +275,7 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['content'] = '<h3><i class="fa fa-history"></i> Past events</h3>';
+  $handler->display->display_options['header']['area']['content'] = '<h2><i class="fa fa-history"></i> Latest past events</h2>';
   $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
@@ -339,13 +338,6 @@ function c4m_features_overview_events_views_default_views() {
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Events';
-  $handler->display->display_options['defaults']['use_more'] = FALSE;
-  $handler->display->display_options['use_more'] = TRUE;
-  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
-  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['defaults']['use_more_text'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'All past events';
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['defaults']['header'] = FALSE;
   /* Header: Search: Spellcheck */
@@ -356,13 +348,9 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['content'] = '<h3><i class="fa fa-clock-o"></i> Upcoming events</h3>';
+  $handler->display->display_options['header']['area']['content'] = '<h2><i class="fa fa-clock-o"></i> First upcoming events</h2>';
   $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   $handler->display->display_options['defaults']['footer'] = FALSE;
-  /* Footer: Global: Add view pages links */
-  $handler->display->display_options['footer']['c4m_views_switch_page']['id'] = 'c4m_views_switch_page';
-  $handler->display->display_options['footer']['c4m_views_switch_page']['table'] = 'views';
-  $handler->display->display_options['footer']['c4m_views_switch_page']['field'] = 'c4m_views_switch_page';
   $handler->display->display_options['path'] = 'events';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Events';
@@ -373,16 +361,6 @@ function c4m_features_overview_events_views_default_views() {
 
   /* Display: Attachment */
   $handler = $view->new_display('attachment', 'Attachment', 'attachment_1');
-  $handler->display->display_options['defaults']['use_more'] = FALSE;
-  $handler->display->display_options['use_more'] = TRUE;
-  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
-  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['defaults']['use_more_text'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'All past events';
-  $handler->display->display_options['defaults']['link_display'] = FALSE;
-  $handler->display->display_options['link_display'] = 'custom_url';
-  $handler->display->display_options['link_url'] = 'events/past';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['pager']['options']['offset'] = '0';
