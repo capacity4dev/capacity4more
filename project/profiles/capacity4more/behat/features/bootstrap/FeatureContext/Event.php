@@ -53,8 +53,6 @@ trait Event {
     $steps[] = new Step\When('I should see the sidebar search');
     $steps[] = new Step\When('I should see a link to "upcoming" events in the "left sidebar"');
     $steps[] = new Step\When('I should see a link to "past" events in the "left sidebar"');
-    $steps[] = new Step\When('I should see a link to "upcoming" events in the "main content"');
-    $steps[] = new Step\When('I should see a link to "past" events in the "main content"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Type"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Topics"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Categories"');
