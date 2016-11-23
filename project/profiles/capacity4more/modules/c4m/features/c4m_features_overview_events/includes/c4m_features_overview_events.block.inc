@@ -53,3 +53,29 @@ function _c4m_features_overview_events_block_event_views_links() {
     'content' => $list,
   );
 }
+
+/**
+ * Total number of events.
+ *
+ * @return mixed
+ *   Block definition.
+ */
+function _c4m_features_overview_events_block_event_total_count() {
+
+  $upcoming_events_count = _c4m_features_overview_events_count_via_views('upcoming');
+  $past_events_count = _c4m_features_overview_events_count_via_views('past');
+
+  $total_events_count = $upcoming_events_count + $past_events_count;
+
+  $content = theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'h2',
+      '#value' => 'EVENTS (' . $total_events_count . ' in total)',
+    ),
+  ));
+
+  return array(
+    'subject' => '',
+    'content' =>  $content,
+  );
+}
