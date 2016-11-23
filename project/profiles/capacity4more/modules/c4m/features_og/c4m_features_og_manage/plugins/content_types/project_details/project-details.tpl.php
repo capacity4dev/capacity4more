@@ -59,6 +59,10 @@
         <div class="col-md-9"><?php print (isset($details['duration'])) ? $details['duration'] : ''; ?></div>
       </div>
       <div class="row">
+        <div class="col-md-3"><?php print t('External URL') ?></div>
+        <div class="col-md-9"><?php print (isset($details['url'])) ? $details['url'] : ''; ?></div>
+      </div>
+      <div class="row">
         <div class="col-md-3"><?php print t('Total budget') ?></div>
         <div class="col-md-9"><?php print (isset($details['total_budget'])) ? $details['total_budget'] : ''; ?></div>
       </div>
