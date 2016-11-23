@@ -27,29 +27,29 @@ function c4m_user_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'c4m_user-c4m_back_to_my_content_link' => array(
-          'module' => 'c4m_user',
-          'delta' => 'c4m_back_to_my_content_link',
-          'region' => 'sidebar_first',
-          'weight' => '-10',
-        ),
         'views--exp-my_comments-page' => array(
           'module' => 'views',
           'delta' => '-exp-my_comments-page',
           'region' => 'sidebar_first',
-          'weight' => '-9',
+          'weight' => '-85',
+        ),
+        'c4m_user-c4m_back_to_my_content_link' => array(
+          'module' => 'c4m_user',
+          'delta' => 'c4m_back_to_my_content_link',
+          'region' => 'sidebar_first',
+          'weight' => '-84',
         ),
         'facetapi-z0ZWdgkZbPLU1TJrbGrvIMR0OoqyvXRa' => array(
           'module' => 'facetapi',
           'delta' => 'z0ZWdgkZbPLU1TJrbGrvIMR0OoqyvXRa',
           'region' => 'sidebar_first',
-          'weight' => '-8',
+          'weight' => '-83',
         ),
         'facetapi-LCbhPBaJpwKclgI7jHQ9adTa9YUbXAO1' => array(
           'module' => 'facetapi',
           'delta' => 'LCbhPBaJpwKclgI7jHQ9adTa9YUbXAO1',
           'region' => 'sidebar_first',
-          'weight' => '-7',
+          'weight' => '-82',
         ),
       ),
     ),

@@ -53,8 +53,8 @@
 
         setTimeout(map.invalidateSize.bind(map), 1);
 
-        map.refresh = function(timeout){
-          window.setTimeout(function(){
+        map.refresh = function (timeout) {
+          window.setTimeout(function () {
             app.map.invalidateSize();
           },timeout);
         };
