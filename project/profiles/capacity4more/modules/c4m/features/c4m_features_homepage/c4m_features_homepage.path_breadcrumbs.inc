@@ -14,7 +14,7 @@ function c4m_features_homepage_path_breadcrumbs_settings_info() {
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'home';
   $path_breadcrumb->name = 'Home';
-  $path_breadcrumb->path = 'node';
+  $path_breadcrumb->path = 'dashboard';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Home',
