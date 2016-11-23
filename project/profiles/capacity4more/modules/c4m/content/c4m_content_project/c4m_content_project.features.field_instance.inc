@@ -93,7 +93,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 37,
+        'weight' => 38,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -223,7 +223,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 36,
+        'weight' => 37,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -377,7 +377,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 4,
+        'weight' => 5,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -485,7 +485,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 5,
+        'weight' => 6,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -708,7 +708,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 41,
+        'weight' => 42,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -768,7 +768,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 45,
+        'weight' => 46,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -876,7 +876,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 38,
+        'weight' => 39,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1011,7 +1011,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'c4m_content',
         'settings' => array(),
         'type' => 'c4m_formatter_ec_money',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1393,7 +1393,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 46,
+        'weight' => 47,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1453,7 +1453,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 44,
+        'weight' => 45,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1524,7 +1524,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 43,
+        'weight' => 44,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1606,7 +1606,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 39,
+        'weight' => 40,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1665,7 +1665,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1756,7 +1756,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 42,
+        'weight' => 43,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1851,7 +1851,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 47,
+        'weight' => 48,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1907,9 +1907,10 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
+        'module' => 'c4m_content_article',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 49,
+        'type' => 'c4m_formatter_title_link_abbreviation',
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -2017,7 +2018,7 @@ function c4m_content_project_field_default_field_instances() {
           'view_mode' => 'block_list',
         ),
         'type' => 'entityreference_entity_view',
-        'weight' => 11,
+        'weight' => 12,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2111,7 +2112,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 48,
+        'weight' => 49,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -2210,7 +2211,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 1,
+        'weight' => 2,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2318,7 +2319,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 7,
+        'weight' => 11,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2422,7 +2423,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 6,
+        'weight' => 8,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2531,7 +2532,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 40,
+        'weight' => 41,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

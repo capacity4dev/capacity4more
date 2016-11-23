@@ -309,6 +309,16 @@
   padding-top: 1em;
 }
 
+.field-name-c4m-project-url {
+  @include clearfix;
+
+  .content-col {
+    display: table-cell;
+    height: 60px;
+    vertical-align: middle;
+  }
+}
+
 .privacy-level {
   &--private {
     color: $brand-danger;
