@@ -16,8 +16,6 @@ Feature: Files upload
     Then  I should see "Upload a new file"
     When  I press "Next"
     Then  I should see "Upload a new file field is required"
-    Then  I follow "My files"
-    Then  I should see the "#media-tab-media_default--media_browser_my_files" element
 
     Examples:
       | user           |
