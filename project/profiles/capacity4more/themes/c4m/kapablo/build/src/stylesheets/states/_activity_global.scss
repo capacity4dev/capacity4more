@@ -70,6 +70,12 @@ body {
   }
 
   &.no-js {
+    .c4m_vocab_topic,
+    .c4m_vocab_language,
+    .c4m_vocab_geo,
+    .c4m-vocab-description,
+    .c4m-categories-vocab-widget,
+    .c4m-tags-vocab-widget,
     .pane-quick-form,
     .pane-content .activity-stream {
       display: none;
