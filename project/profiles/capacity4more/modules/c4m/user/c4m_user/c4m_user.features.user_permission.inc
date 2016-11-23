@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_user.features.user_permission.inc
@@ -2384,7 +2385,6 @@ function c4m_user_user_default_permissions() {
     'name' => 'use text format default_html',
     'roles' => array(
       'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'filter',
@@ -2395,7 +2395,6 @@ function c4m_user_user_default_permissions() {
     'name' => 'use text format filtered_html',
     'roles' => array(
       'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'filter',

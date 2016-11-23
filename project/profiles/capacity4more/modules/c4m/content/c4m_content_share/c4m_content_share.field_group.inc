@@ -25,7 +25,7 @@ function c4m_content_share_field_group_info() {
     'children' => array(
       0 => 'c4m_source_entity',
       1 => 'title',
-      2 => 'c4m_field_og_group',
+      2 => 'c4m_content_share_original_group',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -59,7 +59,7 @@ function c4m_content_share_field_group_info() {
     'children' => array(
       0 => 'c4m_source_entity',
       1 => 'title',
-      2 => 'c4m_field_og_group',
+      2 => 'c4m_content_share_original_group',
     ),
     'format_type' => 'div',
     'format_settings' => array(

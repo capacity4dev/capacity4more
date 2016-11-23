@@ -10,7 +10,7 @@
     padding-right: 0;
   }
 
-  .field-name-c4m-field-og-group, .user-name {
+  .user-name {
     @extend .text-copy--muted;
 
     margin: -1em 0 1em 0;
@@ -52,10 +52,6 @@
       h2 {
         margin-top: 0;
       }
-
-      .field-name-c4m-field-og-group {
-        margin-top: 0;
-      }
     }
   }
 }
@@ -66,7 +62,6 @@
 
 body {
   &:not(.no-js) {
-    .field-name-activity-stream-by-topic-nojs-fallback,
     .pane-global-activity-stream-no-js-fallback,
     .view-group-activity-stream,
     #c4m_activity_stream_filter {
@@ -75,8 +70,13 @@ body {
   }
 
   &.no-js {
+    .c4m_vocab_topic,
+    .c4m_vocab_language,
+    .c4m_vocab_geo,
+    .c4m-vocab-description,
+    .c4m-categories-vocab-widget,
+    .c4m-tags-vocab-widget,
     .pane-quick-form,
-    .field-name-activity-stream-by-topic,
     .pane-content .activity-stream {
       display: none;
     }
