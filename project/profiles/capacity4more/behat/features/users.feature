@@ -72,3 +72,19 @@ Feature: Testing user creation/manipulations.
       # triggered when an account is being canceled, hence we skip the last
       # step.
 #     Then I should not be able to log in with the temporal user again
+
+  @api
+  Scenario: System administrator creates a user.
+    Given I am logged in as user "mariecurie"
+    When I go to "admin/people/create"
+    And  I fill in "mail" with "tempuser@behat.com"
+    And  I fill in "c4m_first_name[und][0][value]" with "test"
+    And  I fill in "c4m_last_name[und][0][value]" with "user"
+    And  I fill in "c4m_organisation[und][0][value]" with "user organisation"
+    And  I select "government" from "c4m_organisation_type[und]"
+    And  I select "IL" from "c4m_country[und]"
+    And  I fill in "name" with "behatuser"
+    And  I fill in "pass[pass1]" with "1111"
+    And  I fill in "pass[pass2]" with "1111"
+    And  I press "Create new account"
+    Then I should see the text "Created a new user account for behatuser"
