@@ -20,7 +20,7 @@
 @mixin grey_box {
   @include grey_bar;
   border: 1px solid $color-gray-light;
-  border-radius: 5px;
+  border-radius: 2px;
   padding: 1rem;
 }
 
