@@ -44,6 +44,12 @@ function c4m_features_overview_events_context_default_contexts() {
           'region' => 'content',
           'weight' => '-10',
         ),
+        'c4m_features_overview_events-event_total_count' => array(
+          'module' => 'c4m_features_overview_events',
+          'delta' => 'event_total_count',
+          'region' => 'content',
+          'weight' => '-9',
+        ),
         'views-7bb1ca745e57e37fa0b09b237cb1086c' => array(
           'module' => 'views',
           'delta' => '7bb1ca745e57e37fa0b09b237cb1086c',
