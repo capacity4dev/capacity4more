@@ -201,6 +201,10 @@
   }
 }
 
+.navbar {
+  min-height: initial;
+}
+
 .navigation--primary {
   display: none;
   border-bottom: 1px solid $color-gray-light;
