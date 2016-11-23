@@ -257,6 +257,19 @@ trait Group {
   }
 
   /**
+   * @Given /^a (moderated|non moderated) restricted group "([^"]*)"( with "([^"]*)" domains)?( (and )?with "([^"]*)" organizations)? is created by the temporal user$/
+   */
+  public function aRestrictedGroupIsCreatedByTemporalUser($moderated, $title, $with_domains = NULL, $domains = NULL, $and = NULL, $with_organizations = NULL, $organizations = array()) {
+    $username = $this->getTemporalUsername();
+
+    if ($with_organizations) {
+      $organizations = explode(',', $organizations);
+    }
+
+    return $this->aGroupWithAccessIsCreatedWithGroupManager($title, 'Restricted', $username, $domains, $moderated == 'moderated', $organizations);
+  }
+
+  /**
    * @Given /^a group "([^"]*)" with "([^"]*)" access is created with group manager "([^"]*)"$/
    */
   public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE, $organizations = array()) {
@@ -294,11 +307,8 @@ trait Group {
 
     $steps[] = new Step\When('I press "Request"');
 
-    // Giving time for saving.
-    $steps[] = new Step\When('I wait');
-
     // Check there was no error.
-    $steps[] = new Step\When('I should not see "Group access"');
+    $steps[] = new Step\When('I wait for the text "Group access" to disappear from "edit-permissions" id');
     $steps[] = new Step\When('I should not see "There was an error"');
     $steps[] = new Step\When('I should be on the homepage');
     $steps[] = new Step\When('I should see "The group you requested is pending review by one of the administrators."');
@@ -598,7 +608,8 @@ trait Group {
     $steps[] = new Step\When('I visit "/node/' . $group->nid . '/edit"');
     $steps[] = new Step\When('I select "' . $status . '" from "edit-c4m-og-status-und"');
     $steps[] = new Step\When('I press "Save"');
-    $steps[] = new Step\When('I wait');
+    $steps[] = new Step\When('I wait for the text "Latest activity" to appear in "pane-activity-stream" class');
+    $steps[] = new Step\When('I should see "Group ' . $group_title . ' has been updated."');
     return $steps;
   }
 
