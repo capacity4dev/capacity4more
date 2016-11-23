@@ -8,6 +8,16 @@
   }
   #block-c4m-features-header-c4m-header-menu {
     display: none;
+    float: right;
+
+    ul {
+      @include horizontal_menu;
+      li {
+        a {
+          color: $color-gray-dark;
+        }
+      }
+    }
   }
   @media (min-width: $screen-tablet) {
     #block-c4m-features-header-c4m-header-menu {
@@ -22,17 +32,6 @@
     li {
       a {
         font-weight: bold;
-      }
-    }
-  }
-}
-
-#block-c4m-features-header-c4m-header-menu {
-  ul {
-    @include horizontal_menu;
-    li {
-      a {
-        color: $color-gray-dark;
       }
     }
   }
