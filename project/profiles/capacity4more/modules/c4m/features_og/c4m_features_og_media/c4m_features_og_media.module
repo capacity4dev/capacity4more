@@ -79,7 +79,7 @@ function c4m_features_og_media_media_browser_params_alter(&$stored_params) {
       'audio',
       'image',
       'video',
-      'document'
+      'document',
     ));
   }
 }
