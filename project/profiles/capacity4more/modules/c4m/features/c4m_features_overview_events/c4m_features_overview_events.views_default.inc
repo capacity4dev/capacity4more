@@ -48,7 +48,7 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['header']['c4m_views_result']['field'] = 'c4m_views_result';
   $handler->display->display_options['header']['c4m_views_result']['ui_name'] = 'Number of items';
   $handler->display->display_options['header']['c4m_views_result']['empty'] = TRUE;
-  $handler->display->display_options['header']['c4m_views_result']['content'] = '@total in total';
+  $handler->display->display_options['header']['c4m_views_result']['content'] = 'Events (@total in total, @start - @end shown)';
   /* Header: Sort results */
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
