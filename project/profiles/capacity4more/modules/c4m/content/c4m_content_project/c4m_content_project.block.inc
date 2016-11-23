@@ -87,14 +87,14 @@ function _c4m_content_project_block_header_name_banner_project() {
 }
 
 /**
- * Callback for the c4m_block_create_project block.
+ * Callback for the c4m_block_project_partners block.
  */
 function _c4m_content_project_block_c4m_block_project_partners() {
   $block = array();
 
-  if ($group = og_context()) {
-    if ($node = node_load($group['gid'])) {
-      $block['subject'] = '';
+  if ($node = c4m_og_current_group()) {
+    $block['subject'] = '';
+    if ($nodes = node_get_recent(variable_get('node_recent_block_count', 10))) {
       $block['content'] = field_view_field('node', $node, 'c4m_partners', array('label' => 'hidden'));
     }
   }
