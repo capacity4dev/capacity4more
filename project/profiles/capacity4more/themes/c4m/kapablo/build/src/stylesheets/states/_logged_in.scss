@@ -4,6 +4,6 @@
 
 @media (min-width: $screen-tablet) {
   .logged-in #top-menu {
-    display: block;
+    display: flex;
   }
 }

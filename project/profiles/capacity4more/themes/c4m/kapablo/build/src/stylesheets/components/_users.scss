@@ -46,7 +46,9 @@
 
 #user-bar {
   background-color: $color-text-alternative;
-  padding: 0.4rem 0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+  height: 40px;
+  padding: 5px 0;
 
   .userbar-userprofile {
     display: inline-flex;
