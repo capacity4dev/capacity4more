@@ -247,7 +247,6 @@ function _c4m_search_filter_view_access_filter_query_alter(&$query) {
  *
  * @param object $account
  *   The user, for which grants are generated.
- *
  * @param string $op
  *   Operation for which grants are generated. Defaults to 'view'.
  *
