@@ -150,3 +150,15 @@
     @include grain;
   }
 }
+
+.owl-theme .owl-controls .owl-buttons > div {
+  border-radius: 0;
+  top: 0;
+
+  &.owl-prev {
+    left: 0;
+  }
+  &.owl-next {
+    right: 0;
+  }
+}
