@@ -34,5 +34,8 @@ function theme_c4m_content_share_original_group(array $field) {
     url('node/' . $group_wrapper->get('nid')->value(), array('purl' => array('disabled' => FALSE)))
   );
 
-  return t('Original group: !group_link', array('!group_link' => $group_link));
+  $bundle = $group_wrapper->getBundle();
+  drupal_alter('c4m_content_bundle', $bundle, $group_wrapper);
+
+  return t('Original !bundle: !group_link', array('!bundle' => $bundle, '!group_link' => $group_link));
 }

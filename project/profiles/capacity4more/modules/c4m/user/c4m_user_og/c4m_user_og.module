@@ -701,9 +701,21 @@ function c4m_user_og_group_actions_cta($group) {
     $items['new-content'] = array(
       '#theme' => 'c4m_group_text_cta',
       '#icon' => 'fa-exclamation-triangle',
-      '#text' => t(
-        'You have %count draft content items',
-        array('%count' => $unpublished_content)
+      '#text' => t('You have <a href="@content_url">!content_number draft</a> @items',
+        array(
+          '@content_url' => url('user/' . $user->uid . '/content', array(
+            'query' => array(
+              'f' => array(
+                // Unpublished.
+                'status:0',
+                // Container reference.
+                'og_group_ref:' . $group->nid,
+              ),
+            ),
+          )),
+          '!content_number' => $unpublished_content,
+          '@items' => format_plural($unpublished_content, 'item', 'items'),
+        )
       ),
     );
   }
@@ -875,7 +887,7 @@ function c4m_user_og_c4m_leave_group_cta($group) {
  *   The settings for this flag, or FALSE if user should not see this.
  */
 function c4m_user_og_follow_group_cta($group) {
-  if ($group->type == 'group'  && !og_is_member('node', $group->nid)) {
+  if ($group->type == 'group' && !og_is_member('node', $group->nid)) {
     return FALSE;
   }
 

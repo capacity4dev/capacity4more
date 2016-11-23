@@ -49,7 +49,7 @@
     display: none;
   }
 
-  & a::after {
+  a::after {
     content: '';
     margin-left: 10px;
     @extend .arrow--right;
@@ -162,3 +162,14 @@
     margin-top: 8px;
   }
 }
+
+.view-c4m-overview-og-highlights {
+
+  .node-photo {
+
+    img {
+      margin: 0;
+    }
+  }
+}
+

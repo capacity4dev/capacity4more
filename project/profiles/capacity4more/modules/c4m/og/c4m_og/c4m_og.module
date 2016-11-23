@@ -780,7 +780,7 @@ function c4m_og_replace_owner_build_form($form, $form_state, $entity_type, $etid
   }
   else {
     $link = l(t('Visit the members admin page'), 'group/node/' . $etid . '/admin/people');
-    $message = t('The group does not have any site admin to be the new owner. !link', array('!link' => $link));
+    $message = t('The group does not have any administrators to be the new owner. !link', array('!link' => $link));
     drupal_set_message($message, 'warning');
   }
 
@@ -843,7 +843,7 @@ function c4m_og_replace_project_owner_build_form($form, $form_state, $entity_typ
   }
   else {
     $link = l(t('Visit the members admin page'), 'group/node/' . $etid . '/admin/people');
-    $message = t('The project does not have any site admin to be the new owner. !link', array('!link' => $link));
+    $message = t('The project does not have any administrators to be the new owner. !link', array('!link' => $link));
     drupal_set_message($message, 'warning');
   }
 
@@ -2754,6 +2754,33 @@ function c4m_og_edit_author_autocomplete($group, $string = '') {
  */
 function c4m_og_human_to_machine_readable($title, $delimiter = '-') {
   return preg_replace('@[^a-z0-9_]+@', $delimiter, strtolower(trim($title)));
+}
+
+/**
+ * Counts the content of a member in a given group.
+ *
+ * @param int $group_id
+ *    The group entity id.
+ * @param int $user_id
+ *    The user entity id.
+ * @param int $state
+ *    (optional) The node status. Defaults to published.
+ *
+ * @return int
+ *    The count of nodes of an user in the group.
+ */
+function c4m_og_get_content_count($group_id, $user_id, $state = NODE_PUBLISHED) {
+  $query = db_select('node', 'n');
+  // Draft.
+  $query->condition('n.status', $state);
+  $query->condition('n.uid', $user_id);
+  $query->join('og_membership', 'og', 'n.nid = og.etid');
+  $query->condition('og.entity_type', 'node');
+  $query->condition('og.gid', $group_id);
+  $query->addExpression('COUNT(n.nid)', 'nodes');
+  $count = $query->execute()->fetchField();
+
+  return $count;
 }
 
 /**
