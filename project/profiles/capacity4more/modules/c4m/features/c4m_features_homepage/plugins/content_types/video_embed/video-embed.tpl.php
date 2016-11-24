@@ -6,20 +6,20 @@
  */
 ?>
 
-<div class="sidebarblock video-embed">
+<div class="sidebarblock video-embed text-copy--small">
   <div class="sidebarblock__content">
     <div class="video-preview-wrapper">
-      <div class="video-preview" data-toggle="modal" data-target="#c4mVideoModal">
+      <div class="video-preview">
         <div class="video-details">
+          <div data-toggle="modal" data-target="#c4mVideoModal">
+            <?php print $video_thumbnail; ?>
+          </div>
           <span class="video-title">
-            <?php print $video_title ?>
+            <?php print $video_title; ?>
           </span>
           <span class="video-description">
-            <?php print $video_description ?>
+            <?php print $video_description; ?>
           </span>
-        </div>
-        <div>
-          <?php print $video_thumbnail ?>
         </div>
       </div>
     </div>
@@ -38,7 +38,7 @@
     </div>
     <div class="video-preview-cta">
       <div class="cta"> <?php print $cta; ?></div>
-      <div class="link"> <?php print l(t('More groups >'), '/groups'); ?></div>
+      <div class="link text-right"> <?php print l(t('More groups') . ' <i class="fa fa-chevron-right"></i>', '/groups', array('html' => TRUE)); ?></div>
     </div>
   </div>
 </div>
