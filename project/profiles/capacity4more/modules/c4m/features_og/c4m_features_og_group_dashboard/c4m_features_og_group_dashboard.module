@@ -194,12 +194,12 @@ function c4m_features_og_group_dashboard_form_alter(&$form, &$form_state, $form_
       $flagged_og_content = c4m_features_og_group_dashboard_get_flagged_group_content($group_id, $flag_id);
 
       if (!empty($flagged_og_content)) {
-        // Store the entities to be unflaged, as part of form state.
+        // Store the entities IDs to be unflaged, as part of form state.
         $form_state['flagged_og_content'] = array_keys($flagged_og_content);
-        // Add functions that executes unflaging.
-        $form['#submit'][] = 'c4m_features_og_group_dashboard_promote_flag_submit';
+        // The unflaging of group's other promoted content.
+        $form['#submit'][] = 'c4m_features_og_group_dashboard_demote_promoted_flag_submit';
 
-        // Show summary of entities who will be unflagged if you confirm.
+        // Show summary of entities who will be unflagged if the user confirms.
         $flagged_og_content = entity_load($flag->entity_type, array_keys($flagged_og_content));
         $list = array();
         foreach ($flagged_og_content as $flagged_entity) {
@@ -220,11 +220,14 @@ function c4m_features_og_group_dashboard_form_alter(&$form, &$form_state, $form_
 }
 
 /**
- * Submit handler for the flag confirm form.
+ * Additional submit handler for the flag confirm form.
  *
- * Executes unflagging of content flagged by c4m_og_content_highlight flag.
+ * Since only one content can be at promoted state per group, when promoting
+ * content, group's other promoted content must be demoted.
+ * Function executes unflagging of content, flagged by c4m_og_content_highlight
+ * flag.
  */
-function c4m_features_og_group_dashboard_promote_flag_submit(&$form, &$form_state) {
+function c4m_features_og_group_dashboard_demote_promoted_flag_submit(&$form, &$form_state) {
   $flagged_entities_ids = $form_state['flagged_og_content'];
 
   foreach ($flagged_entities_ids as $entity_id) {
