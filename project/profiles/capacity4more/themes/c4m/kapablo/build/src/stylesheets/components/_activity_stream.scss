@@ -153,8 +153,15 @@
 
 .pane-activity-stream {
     .pane-title {
-        margin-bottom: 10px;
+        margin-bottom: .5em;
         margin-top: 0;
+        text-transform: uppercase;
+    }
+}
+
+.form-item-homepage-filter {
+    label {
+        font-weight: normal;
     }
 }
 

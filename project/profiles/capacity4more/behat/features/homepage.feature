@@ -135,7 +135,7 @@ Feature: Test homepage content and blocks
   Scenario: Anonymous user can see article activities and doesn't see filter.
     Given I am an anonymous user
     When  I visit the site homepage
-    Then  I should wait not to see "Filter by"
+    Then  I should wait not to see "Display content based on"
     And   I should not see "Nobel Prize" in the "div.activity-stream" element
     And   I should see "posted" in the "div.activity-stream" element
 
@@ -143,7 +143,7 @@ Feature: Test homepage content and blocks
   Scenario: Logged in user can see article activities and filter.
     Given I am logged in as user "isaacnewton"
     When  I visit the site homepage
-    Then  I should wait to see "Filter by"
+    Then  I should wait to see "Display content based on"
     And   I should not see "Nobel Prize" in the "div.activity-stream" element
     And   I should see "My groups" in the "div.pane-filter" element
     And   I load more activities
@@ -172,7 +172,7 @@ Feature: Test homepage content and blocks
     Given I am logged in as user "president"
     When  I visit the site homepage
     Then  I should wait to see "Latest activity"
-    Then  I should not see "Filter by"
+    Then  I should not see "Display content based on"
     And   I should not see "My groups" in the "div.pane-filter" element
     And   I should not see "Nobel Prize" in the "div.activity-stream" element
     And   I should not see "uploaded" in the "div.activity-stream" element
