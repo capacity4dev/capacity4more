@@ -120,6 +120,14 @@
   }
 }
 
+@mixin border-bottom {
+  &:not(:last-of-type) {
+    border-bottom: 1px dashed $color-gray-light;
+    padding-bottom: 1.5em;
+  }
+  margin-bottom: 2em;
+}
+
 @mixin rotate_promote_flag {
   i {
     transform: rotate(0deg);

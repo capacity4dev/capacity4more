@@ -110,6 +110,10 @@
   margin-bottom: 35px;
 }
 
+.pane-activity-stream + .panel-separator {
+  display: none;
+}
+
 .node-event.view-mode-upcoming_event {
   .field-name-title {
     h3 {
