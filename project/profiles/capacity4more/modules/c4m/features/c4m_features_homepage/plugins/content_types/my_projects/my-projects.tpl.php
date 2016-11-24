@@ -6,7 +6,14 @@
  */
 ?>
 
-<div class="sidebarblock my-projects">
+<?php
+$classes = '';
+if ($display_see_more) {
+  $classes = ' pane--more';
+}
+?>
+
+<div class="sidebarblock my-projects<?php print $classes; ?>">
   <h2 class="sidebarblock__title closely">
     <?php print t('My Projects & Programmes') ?>
   </h2>

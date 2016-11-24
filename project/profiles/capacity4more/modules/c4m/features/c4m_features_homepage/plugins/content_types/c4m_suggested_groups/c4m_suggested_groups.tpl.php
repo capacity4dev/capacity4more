@@ -6,7 +6,14 @@
  */
 ?>
 
-<div class="sidebarblock suggested-groups">
+<?php
+$classes = '';
+if ($display_more_button) {
+  $classes = ' pane--more';
+}
+?>
+
+<div class="sidebarblock suggested-groups<?php print $classes; ?>">
   <h2 class="sidebarblock__title closely"><?php print t('Suggested Groups') ?></h2>
   <?php print $groups ?>
   <?php if ($display_more_button): ?>
