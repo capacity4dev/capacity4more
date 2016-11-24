@@ -1,7 +1,9 @@
 .activity-stream {
     .activities {
         padding-bottom: 12px;
-        border-bottom: 1px dashed $color-gray-light;
+        &:not(.last) {
+            border-bottom: 1px dashed $color-gray-light;
+        }
         position: relative;
         .c4m-og-power-user-actions-block {
             position: absolute;

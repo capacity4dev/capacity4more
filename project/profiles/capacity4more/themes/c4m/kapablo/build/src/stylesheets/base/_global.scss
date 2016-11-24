@@ -74,10 +74,10 @@ body {
   }
 
   &.label-stage {
-      color: $color-white;
-      border: 1px solid $color-white;
-      font-weight: normal;
-      text-transform: uppercase;
+    color: $color-white;
+    border: 1px solid $color-white;
+    font-weight: normal;
+    text-transform: uppercase;
 
     &.notstarted {
       background-color: $color-gray;
@@ -163,14 +163,14 @@ cite {
 *   </div>
 **/
 
-.sidebarblock {
-  &:not(:first-child) {
-    margin-top: $base-spacing-large / 2;
-  }
+.sidebarblock, .panel-pane {
   &:not(:last-child) {
-    margin-bottom: $base-spacing-large / 2;
+    &:not(.pane-activity-stream) {
+      &:not(.pane-featured-block) {
+        @include border-bottom;
+      }
+    }
   }
-  padding: 0;
 
   &__title {
     @extend .header-2;
@@ -182,7 +182,7 @@ cite {
     }
   }
 
-  &--small &__title{
+  &--small &__title {
     @extend .header-3;
     margin-top: 0px;
     margin-bottom: $base-spacing-small;
@@ -204,12 +204,19 @@ cite {
 
   &__content--multiple {
     @extend .sidebarblock__content;
-    padding: $base-spacing-large 0;
-    border-bottom: 1px dashed $color-gray;
+    @include border-bottom;
   }
 
   &--small &__content--multiple {
     @extend .sidebarblock__content--multiple;
     padding: $base-spacing-small 0;
+  }
+}
+
+.closely {
+  margin-bottom: 0;
+
+  + h1, + h2, + h3, + h4, + h5, + h6 {
+    margin: 1em 0 2em 0;
   }
 }
