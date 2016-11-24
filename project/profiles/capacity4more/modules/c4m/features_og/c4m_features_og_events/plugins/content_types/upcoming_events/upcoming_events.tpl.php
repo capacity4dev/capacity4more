@@ -6,7 +6,14 @@
  */
 ?>
 
-<div class="sidebarblock upcoming-events">
+<?php
+$classes = '';
+if ($display_see_more) {
+  $classes = ' pane--more';
+}
+?>
+
+<div class="sidebarblock upcoming-events<?php print $classes; ?>">
   <h2 class="sidebarblock__title closely"><?php print t('Upcoming events') ?></h2>
   <?php print $events; ?>
 

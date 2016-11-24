@@ -168,7 +168,9 @@ cite {
     &:not(.pane-activity-stream) {
       &:not(.pane-featured-block) {
         &:not(.pane-voices-views-carousel) {
-          @include border-bottom;
+          &:not(.pane--more) {
+            @include border-bottom;
+          }
         }
       }
     }
@@ -207,10 +209,19 @@ cite {
   &__content--multiple {
     @extend .sidebarblock__content;
     @include border-bottom;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    &+ .sidebarblock__viewmore {
+      margin-top: -1.5em;
+    }
   }
 
   &--small &__content--multiple {
     @extend .sidebarblock__content--multiple;
+
     padding: $base-spacing-small 0;
   }
 }
@@ -225,4 +236,8 @@ cite {
   + div {
     margin-top: 2em;
   }
+}
+
+.btn + .panel-separator {
+  margin-bottom: 2em;
 }
