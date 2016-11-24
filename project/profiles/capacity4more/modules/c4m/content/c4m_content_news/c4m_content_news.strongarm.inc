@@ -80,6 +80,9 @@ function c4m_content_news_strongarm() {
       'activity_group' => array(
         'custom_settings' => TRUE,
       ),
+      'my_comments' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(),

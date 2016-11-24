@@ -395,15 +395,13 @@ function c4m_og_og_features_default_permissions() {
 
   // Exported og permission: 'node:project:add user'
   $permissions['node:project:add user'] = array(
-    'roles' => array(
-      'administrator member' => 'administrator member',
-    ),
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:project:administer group'
   $permissions['node:project:administer group'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'member' => 'member',
     ),
   );
 
@@ -415,28 +413,36 @@ function c4m_og_og_features_default_permissions() {
   // Exported og permission: 'node:project:approve and deny subscription'
   $permissions['node:project:approve and deny subscription'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'member' => 'member',
     ),
   );
 
   // Exported og permission: 'node:project:c4m_og_content_depromote'
   $permissions['node:project:c4m_og_content_depromote'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:c4m_og_content_promote'
   $permissions['node:project:c4m_og_content_promote'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:c4m_og_content_recommend'
   $permissions['node:project:c4m_og_content_recommend'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:c4m_og_content_unrecommend'
   $permissions['node:project:c4m_og_content_unrecommend'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:create discussion content'
@@ -447,45 +453,50 @@ function c4m_og_og_features_default_permissions() {
   // Exported og permission: 'node:project:create document content'
   $permissions['node:project:create document content'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'member' => 'member',
     ),
   );
 
   // Exported og permission: 'node:project:create event content'
   $permissions['node:project:create event content'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'member' => 'member',
     ),
   );
 
   // Exported og permission: 'node:project:create news content'
   $permissions['node:project:create news content'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'member' => 'member',
     ),
   );
 
   // Exported og permission: 'node:project:create photo content'
   $permissions['node:project:create photo content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:create photoalbum content'
   $permissions['node:project:create photoalbum content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:create share content'
   $permissions['node:project:create share content'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
       'member' => 'member',
     ),
   );
 
   // Exported og permission: 'node:project:create wiki_page content'
   $permissions['node:project:create wiki_page content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:delete any discussion content'
@@ -495,23 +506,17 @@ function c4m_og_og_features_default_permissions() {
 
   // Exported og permission: 'node:project:delete any document content'
   $permissions['node:project:delete any document content'] = array(
-    'roles' => array(
-      'administrator member' => 'administrator member',
-    ),
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:project:delete any event content'
   $permissions['node:project:delete any event content'] = array(
-    'roles' => array(
-      'administrator member' => 'administrator member',
-    ),
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:project:delete any news content'
   $permissions['node:project:delete any news content'] = array(
-    'roles' => array(
-      'administrator member' => 'administrator member',
-    ),
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:project:delete any photo content'
@@ -526,9 +531,7 @@ function c4m_og_og_features_default_permissions() {
 
   // Exported og permission: 'node:project:delete any share content'
   $permissions['node:project:delete any share content'] = array(
-    'roles' => array(
-      'administrator member' => 'administrator member',
-    ),
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:project:delete any wiki_page content'
@@ -544,95 +547,98 @@ function c4m_og_og_features_default_permissions() {
   // Exported og permission: 'node:project:delete own document content'
   $permissions['node:project:delete own document content'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'member' => 'member',
     ),
   );
 
   // Exported og permission: 'node:project:delete own event content'
   $permissions['node:project:delete own event content'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'member' => 'member',
     ),
   );
 
   // Exported og permission: 'node:project:delete own news content'
   $permissions['node:project:delete own news content'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'member' => 'member',
     ),
   );
 
   // Exported og permission: 'node:project:delete own photo content'
   $permissions['node:project:delete own photo content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:delete own photoalbum content'
   $permissions['node:project:delete own photoalbum content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:delete own share content'
   $permissions['node:project:delete own share content'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
       'member' => 'member',
     ),
   );
 
   // Exported og permission: 'node:project:delete own wiki_page content'
   $permissions['node:project:delete own wiki_page content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:delete terms'
   $permissions['node:project:delete terms'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:edit terms'
   $permissions['node:project:edit terms'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'member' => 'member',
     ),
   );
 
   // Exported og permission: 'node:project:invite visitors'
   $permissions['node:project:invite visitors'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:manage members'
   $permissions['node:project:manage members'] = array(
-    'roles' => array(
-      'administrator member' => 'administrator member',
-    ),
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:project:manage permissions'
   $permissions['node:project:manage permissions'] = array(
-    'roles' => array(
-      'administrator member' => 'administrator member',
-    ),
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:project:manage roles'
   $permissions['node:project:manage roles'] = array(
-    'roles' => array(
-      'administrator member' => 'administrator member',
-    ),
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:project:manage variables'
   $permissions['node:project:manage variables'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:subscribe'
   $permissions['node:project:subscribe'] = array(
-    'roles' => array(
-      'non-member' => 'non-member',
-    ),
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:project:subscribe without approval'
@@ -654,23 +660,17 @@ function c4m_og_og_features_default_permissions() {
 
   // Exported og permission: 'node:project:update any document content'
   $permissions['node:project:update any document content'] = array(
-    'roles' => array(
-      'administrator member' => 'administrator member',
-    ),
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:project:update any event content'
   $permissions['node:project:update any event content'] = array(
-    'roles' => array(
-      'administrator member' => 'administrator member',
-    ),
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:project:update any news content'
   $permissions['node:project:update any news content'] = array(
-    'roles' => array(
-      'administrator member' => 'administrator member',
-    ),
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:project:update any photo content'
@@ -685,22 +685,18 @@ function c4m_og_og_features_default_permissions() {
 
   // Exported og permission: 'node:project:update any share content'
   $permissions['node:project:update any share content'] = array(
-    'roles' => array(
-      'administrator member' => 'administrator member',
-    ),
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:project:update any wiki_page content'
   $permissions['node:project:update any wiki_page content'] = array(
-    'roles' => array(
-      'member' => 'member',
-    ),
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:project:update group'
   $permissions['node:project:update group'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'member' => 'member',
     ),
   );
 
@@ -712,51 +708,55 @@ function c4m_og_og_features_default_permissions() {
   // Exported og permission: 'node:project:update own document content'
   $permissions['node:project:update own document content'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'member' => 'member',
     ),
   );
 
   // Exported og permission: 'node:project:update own event content'
   $permissions['node:project:update own event content'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'member' => 'member',
     ),
   );
 
   // Exported og permission: 'node:project:update own news content'
   $permissions['node:project:update own news content'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'member' => 'member',
     ),
   );
 
   // Exported og permission: 'node:project:update own photo content'
   $permissions['node:project:update own photo content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:update own photoalbum content'
   $permissions['node:project:update own photoalbum content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:update own share content'
   $permissions['node:project:update own share content'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
       'member' => 'member',
     ),
   );
 
   // Exported og permission: 'node:project:update own wiki_page content'
   $permissions['node:project:update own wiki_page content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:project:view unpublished group content'
   $permissions['node:project:view unpublished group content'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
       'member' => 'member',
     ),
   );

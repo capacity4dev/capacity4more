@@ -97,6 +97,7 @@
 // Event Form
 // ========================================================================== //
 .node-form {
+
   .control-label {
     clear: both;
     display: inline-block;
@@ -128,6 +129,7 @@
       display: block;
     }
   }
+
   .cfm-file-upload-wrapper {
     display: flex;
     flex-direction: column;
@@ -159,11 +161,11 @@
     font-family: Arial;
     color: white;
     border-radius: 90px;
-    background-color: $color-text-alternative;
+    background-color: $color-gray;
     cursor: pointer;
 
     &:hover {
-      background-color: $color-link;
+      background-color: $color-gray-darker;
     }
 
     a {
@@ -204,6 +206,10 @@
         margin-top: 10px;
       }
     }
+  }
+
+  .btn-primary {
+    background-color: $color-gray;
   }
 }
 

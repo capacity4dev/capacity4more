@@ -54,6 +54,11 @@ function c4m_user_profile_block_info() {
     'cache' => DRUPAL_CACHE_PER_USER,
   );
 
+  $blocks['user_my_profile_projects'] = array(
+    'info' => t('My projects/programmes'),
+    'cache' => DRUPAL_CACHE_PER_USER,
+  );
+
   return $blocks;
 }
 
@@ -209,6 +214,14 @@ function c4m_user_profile_theme() {
     'template' => 'my-profile-groups',
   );
 
+  $theme['c4m_user_profile_my_profile_projects'] = array(
+    'variables' => array(
+      'projects' => NULL,
+    ),
+    'path' => drupal_get_path('module', 'c4m_user_profile') . '/templates',
+    'template' => 'my-profile-projects',
+  );
+
   return $theme;
 }
 
@@ -251,8 +264,8 @@ function c4m_user_profile_menu() {
     'title' => 'Leave platform',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_user_profile_remove_account_form', 1),
-    'access callback' => 'user_is_logged_in',
-    'access arguments' => array(),
+    'access callback' => 'c4m_user_profile_leave_user_access',
+    'access arguments' => array(1),
     'file' => 'c4m_user_profile.pages.inc',
     'type' => MENU_CALLBACK,
   );
@@ -370,6 +383,14 @@ function c4m_user_profile_form_user_register_form_alter(
     $form['account']['status']['#access'] = FALSE;
     // Alter 'notify user' checkbox title.
     $form['account']['notify']['#title'] = t('Send password reset link');
+
+    // When SA creates a user from 'admin/people/create' path, hide roles field,
+    // as there's a Drupal bug when SA creates administrators.
+    // See: https://issuetracker.amplexor.com/jira/browse/CFM-159.
+    // SA can edit user to assign him administrator role though.
+    if (drupal_get_path_alias() == 'admin/people/create') {
+      $form['account']['roles']['#access'] = FALSE;
+    }
   }
 }
 
@@ -565,10 +586,12 @@ function c4m_user_profile_form_user_profile_form_alter(
     '#value' => t('Cancel'),
   );
 
-  $form['actions']['delete'] = array(
-    '#type' => 'markup',
-    '#markup' => l(t('Delete account'), 'user/' . $account->uid . '/leave'),
-  );
+  if ($account->uid == $user->uid) {
+    $form['actions']['delete'] = array(
+      '#type' => 'markup',
+      '#markup' => l(t('Delete account'), 'user/' . $account->uid . '/leave'),
+    );
+  }
 }
 
 /**
@@ -1307,6 +1330,25 @@ function c4m_user_profile_unsubscribe_user_access(
     }
   }
   catch (\EntityMetadataWrapperException $e) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
+ * Access callback for "Leave platform" page.
+ *
+ * @param object $account
+ *   The user object.
+ *
+ * @return bool
+ *   TRUE if user has access.
+ */
+function c4m_user_profile_leave_user_access($account) {
+  global $user;
+
+  if ($account->uid != $user->uid) {
     return FALSE;
   }
 

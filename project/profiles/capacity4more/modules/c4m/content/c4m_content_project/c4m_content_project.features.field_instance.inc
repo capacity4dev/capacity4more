@@ -93,7 +93,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 38,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -223,7 +223,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 37,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -374,9 +374,10 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 40,
+        'type' => 'text_default',
+        'weight' => 5,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -481,9 +482,10 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 39,
+        'type' => 'text_default',
+        'weight' => 6,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -874,7 +876,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => 39,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1009,7 +1011,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'c4m_content',
         'settings' => array(),
         'type' => 'c4m_formatter_ec_money',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1604,7 +1606,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 37,
+        'weight' => 40,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1660,9 +1662,10 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 38,
+        'type' => 'text_default',
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1904,9 +1907,10 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
+        'module' => 'c4m_content_article',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 50,
+        'type' => 'c4m_formatter_title_link_abbreviation',
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -2014,7 +2018,7 @@ function c4m_content_project_field_default_field_instances() {
           'view_mode' => 'block_list',
         ),
         'type' => 'entityreference_entity_view',
-        'weight' => 8,
+        'weight' => 12,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2204,22 +2208,10 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
-        'module' => 'smart_trim',
-        'settings' => array(
-          'more_link' => 0,
-          'more_text' => 'Read more',
-          'summary_handler' => 'full',
-          'trim_length' => 300,
-          'trim_link' => 0,
-          'trim_options' => array(
-            'text' => 0,
-          ),
-          'trim_preserve_tags' => '',
-          'trim_suffix' => '...',
-          'trim_type' => 'chars',
-        ),
-        'type' => 'smart_trim_format',
-        'weight' => 1,
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 2,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2327,7 +2319,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 4,
+        'weight' => 11,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2431,7 +2423,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 3,
+        'weight' => 8,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

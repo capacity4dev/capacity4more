@@ -574,12 +574,13 @@ function c4m_features_og_manage_project_details() {
     'tagline' => t('No tag line'),
     'description' => $wrapper->c4m_body->value(),
     'duration' => t('No duration'),
+    'url' => t('No external URL'),
     'total_budget' => t('No total budget'),
     'stakeholders' => t('No stakeholders'),
     'source_funding' => t('No source of funding'),
     'partners' => t('No partners'),
     'cris_decision_number' => t('No CRIS Decision number'),
-    'cris_contact_number' => t('No CRIS Contact number'),
+    'cris_contract_number' => t('No CRIS Contact number'),
     'topics' => t('No Group Topics'),
     'locations' => t('No Group Regions & Countries'),
     'related_groups' => t('No Related Groups'),
@@ -604,7 +605,7 @@ function c4m_features_og_manage_project_details() {
   }
 
   // Administrators.
-  $admins = c4m_og_get_group_admins($project->nid);
+  $admins = c4m_og_get_group_members($project->nid, FALSE, 'project');
   if ($list = c4m_features_og_manage_list_group_admins($admins)) {
     $details['admins'] = $list;
   }
@@ -614,6 +615,12 @@ function c4m_features_og_manage_project_details() {
   if (!empty($duration)) {
     $duration = field_view_field('node', $project, 'c4m_date_end');
     $details['duration'] = $duration[0]['#markup'];
+  }
+
+  // URL.
+  $url = $wrapper->c4m_project_url->value();
+  if (!empty($url)) {
+    $details['url'] = $url['url'] . ' (' . $url['title'] . ')';
   }
 
   // Total budget.

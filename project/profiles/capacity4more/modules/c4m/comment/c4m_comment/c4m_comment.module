@@ -150,6 +150,19 @@ function c4m_comment_get_comments_by_user($uid) {
 function c4m_comment_node_view_alter(&$build) {
   $node = $build['#node'];
   $view_mode = $build['#view_mode'];
+
+  // Remove the comment form on all archived group's content for non SA.
+  if (($group = c4m_og_get_group_of_content($node)) && $group->type == 'group') {
+    $group_wrapper = entity_metadata_wrapper('node', $group);
+    if ($group_wrapper->c4m_og_status->value() == 'archived') {
+      if (!c4m_user_is_site_admin()) {
+        unset($build['comments']);
+
+        return;
+      }
+    }
+  }
+
   // Only append comments when we are building a node on its own node detail
   // page. We compare $node and $page_node to ensure that comments are not
   // appended to other nodes shown on the page, for example a node_reference
@@ -240,4 +253,52 @@ function c4m_comment_comment_view($comment, $view_mode, $langcode) {
   }
 
   unset($comment->content['links']['comment']['#links']['comment_forbidden']);
+}
+
+/**
+ * Gets the ID of the group context of the comment.
+ *
+ * @param object $comment
+ *   The object of the comment.
+ *
+ * @return bool|int
+ *   The ID of the group or FALSE if not part of a group.
+ */
+function c4m_comment_get_group_id($comment) {
+  if (og_is_group('node', $comment->nid)) {
+    return $comment->nid;
+  }
+  elseif ($group = c4m_og_get_group_of_content($comment->nid)) {
+    return $group->nid;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function c4m_comment_menu_alter(&$items) {
+  // Alter the comment callback to check the purl access.
+  $items['comment/%']['page callback'] = 'c4m_comment_permalink';
+}
+
+/**
+ * Access callback for comments.
+ *
+ * A comment that is part of a group content must be seeing under its context.
+ */
+function c4m_comment_permalink($cid) {
+  if ($comment = comment_load($cid)) {
+    if ($gid = c4m_comment_get_group_id($comment)) {
+      // This is a comment of a group content and must be seeing under its
+      // relevant context (group) only.
+      $context = og_context();
+      if (!$context || $gid !== $context['gid']) {
+        c4m_content_deny_access();
+      }
+    }
+  }
+
+  return comment_permalink($cid);
 }

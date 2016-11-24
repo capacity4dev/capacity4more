@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_user_profile.features.field_instance.inc
@@ -95,11 +96,11 @@ function c4m_user_profile_field_default_field_instances() {
         'allowed_formats' => array(
           'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
-          'full_html' => 'full_html',
-          'mail' => 'mail',
+          'full_html' => 0,
+          'mail' => 0,
           'plain_text' => 'plain_text',
         ),
-        'allowed_formats_toggle' => 0,
+        'allowed_formats_toggle' => 1,
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(

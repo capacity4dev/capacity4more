@@ -3,6 +3,7 @@ description = Provides the Events functionality within Groups.
 core = 7.x
 package = capacity4more - Features Group
 dependencies[] = c4m_og
+dependencies[] = c4m_search_nodes
 dependencies[] = context
 dependencies[] = ctools
 dependencies[] = entity

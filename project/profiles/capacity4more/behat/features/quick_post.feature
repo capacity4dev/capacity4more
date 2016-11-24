@@ -8,24 +8,26 @@ Feature: Test quick post
     Given The window is maximized
 
   @javascript
-  Scenario: Check Quick post error validation.
+  Scenario: Check Quick post form validation.
     Given I am logged in as user "mariecurie"
-    When  I create a discussion quick post with title "Fo" and body "" in "Tennis Group"
-    Then  I should wait to see "Title is too short."
-    And   I should see "Body is required."
+    When  I create a discussion quick post with title "N" and body "" in "Tennis Group" without topic
+    And   I should see "Title is missing or too short." in the "form#quick-post-form" element
+    And   I should see "Body is required." in the "form#quick-post-form" element
+    And   I should see "Topic is required." in the "form#quick-post-form" element
 
   @javascript
   Scenario: Check Quick post "discussion" submit.
     Given I am logged in as user "mariecurie"
-    When  I create a discussion quick post with title "New discussion" and body "Some text in the body" in "Tennis Group"
-    Then  I should wait to see "New discussion"
-    And   I should not see "Create a post with additional details by using" in the "div#quick-post-fields" element
-    When   I click "New discussion"
-    Then  I should wait to see "Idea posted by"
+    When  I create a discussion quick post with title "New discussion" and body "Some text in the body" in "Tennis group" with topic
+    Then  I wait for the text "New discussion" to appear in "activity-stream" class
+    Then  I wait for the text "Create a post with additional details by using" to disappear from "quick-post-fields" id
+    When  I click "New discussion"
+    Then  I wait for the text "Idea posted by" to appear in "group-node-meta" class
 
   @javascript
   Scenario: Check Quick post advanced form.
     Given I am logged in as user "alfrednobel"
-    When  I create a discussion quick post in advanced form with title "New nobel" and body "Some text in the body" in "Nobel Prize"
-    Then  I should wait to see "Edit Discussion New nobel"
+    When  I create a discussion quick post in advanced form with title "New nobel for QP advanced form" and body "Some text in the body" in "Nobel Prize"
+    Then  I wait for the text "Type of Discussion" to appear in "form-item-c4m-discussion-type-und" class
     And   I should not see "Latest activity"
+    But   I should validate the body field format of "New nobel for QP advanced form" discussion node is "default_html"
