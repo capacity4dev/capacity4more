@@ -164,8 +164,12 @@ cite {
 **/
 
 .sidebarblock {
-  margin-top: $base-spacing-large / 2;
-  margin-bottom: $base-spacing-large / 2;
+  &:not(:first-child) {
+    margin-top: $base-spacing-large / 2;
+  }
+  &:not(:last-child) {
+    margin-bottom: $base-spacing-large / 2;
+  }
   padding: 0;
 
   &__title {

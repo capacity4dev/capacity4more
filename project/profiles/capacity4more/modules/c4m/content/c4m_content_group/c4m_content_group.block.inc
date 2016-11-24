@@ -125,15 +125,12 @@ function _c4m_content_group_block_c4m_block_create_group() {
       $btn = l(
         t('Create a group'),
         'node/add/group',
-        array('attributes' => array('class' => array('btn', 'btn-default')))
+        array('attributes' => array('class' => array('btn', 'btn-primary')))
       );
 
       $tag['element'] = array(
         '#tag' => 'div',
         '#value' => $btn,
-        '#attributes' => array(
-          'class' => 'c4m-wide-gothic-btn',
-        ),
       );
 
       $markup = theme_html_tag($tag);
