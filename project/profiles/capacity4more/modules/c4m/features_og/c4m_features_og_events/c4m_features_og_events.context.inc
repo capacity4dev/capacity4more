@@ -27,23 +27,11 @@ function c4m_features_og_events_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'views-3e9a9707eba7963ecaa8b99564d20039' => array(
-          'module' => 'views',
-          'delta' => '3e9a9707eba7963ecaa8b99564d20039',
+        'c4m_search_nodes-search_overview_no_summary' => array(
+          'module' => 'c4m_search_nodes',
+          'delta' => 'search_overview_no_summary',
           'region' => 'content',
-          'weight' => '1',
-        ),
-        'views-5218f8132a449400191061a0818719a1' => array(
-          'module' => 'views',
-          'delta' => '5218f8132a449400191061a0818719a1',
-          'region' => 'content',
-          'weight' => '2',
-        ),
-        'views-1616c88372ab872314baee532830c643' => array(
-          'module' => 'views',
-          'delta' => '1616c88372ab872314baee532830c643',
-          'region' => 'content',
-          'weight' => '3',
+          'weight' => '-10',
         ),
         'views-5cece47fc853c63eb27c1cd4604667de' => array(
           'module' => 'views',
