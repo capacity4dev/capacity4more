@@ -1,8 +1,15 @@
 #top-menu {
   align-items: center;
+  display: flex;
   height: 50px;
 
   .region-top-menu {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+
     .block {
       display: inline-block;
       margin-left: 3rem;
@@ -10,7 +17,6 @@
   }
   #block-c4m-features-header-c4m-header-menu {
     display: none;
-    float: right;
 
     ul {
       @include horizontal_menu;
