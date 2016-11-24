@@ -789,9 +789,12 @@ function c4m_content_photo_field_default_field_instances() {
       ),
       'block_list' => array(
         'label' => 'hidden',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 5,
+        'module' => 'c4m_og_purl',
+        'settings' => array(
+          'link' => 'purl_auto',
+        ),
+        'type' => 'c4m_og_purl_entityreference_link',
+        'weight' => 4,
       ),
       'c4m_related' => array(
         'label' => 'above',
