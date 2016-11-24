@@ -72,7 +72,7 @@ function c4m_search_filter_search_filter_form($form, &$form_state, $filter_type 
   $form = array();
   $form['filter'] = array(
     '#type' => 'radios',
-    '#title' => t('Filter by'),
+    '#title' => t('Display content based on'),
     '#options' => $options,
     '#default_value' => $default_filter,
     '#attributes' => array('onchange' => 'this.form.submit();'),
