@@ -16,6 +16,11 @@
 function _c4m_search_filter_block_search_filter() {
   // Get the filter form.
   module_load_include('inc', 'c4m_search_filter', 'includes/c4m_search_filter.form');
+
+  if (empty(c4m_search_filter_search_filter_form_options())) {
+    return array();
+  }
+
   $form = drupal_get_form('c4m_search_filter_search_filter_form');
 
   return array(
@@ -35,6 +40,11 @@ function _c4m_search_filter_block_search_filter() {
 function _c4m_search_filter_block_search_filter_groups() {
   // Get the filter form.
   module_load_include('inc', 'c4m_search_filter', 'includes/c4m_search_filter.form');
+
+  if (empty(c4m_search_filter_search_filter_form_options('groups'))) {
+    return array();
+  }
+
   $form = drupal_get_form('c4m_search_filter_search_filter_form', 'groups');
 
   return array(
@@ -54,6 +64,11 @@ function _c4m_search_filter_block_search_filter_groups() {
 function _c4m_search_filter_block_search_filter_groups_overview() {
   // Get the filter form.
   module_load_include('inc', 'c4m_search_filter', 'includes/c4m_search_filter.form');
+
+  if (empty(c4m_search_filter_search_filter_form_options('groups_overview'))) {
+    return array();
+  }
+
   $form = drupal_get_form('c4m_search_filter_search_filter_form', 'groups_overview');
 
   return array(
@@ -97,6 +112,11 @@ function _c4m_search_filter_block_search_filter_interests() {
 function _c4m_search_filter_block_search_filter_projects_overview() {
   // Get the filter form.
   module_load_include('inc', 'c4m_search_filter', 'includes/c4m_search_filter.form');
+
+  if (empty(c4m_search_filter_search_filter_form_options('projects_overview'))) {
+    return array();
+  }
+
   $form = drupal_get_form('c4m_search_filter_search_filter_form', 'projects_overview');
 
   return array(
