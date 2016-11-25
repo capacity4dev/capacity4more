@@ -695,6 +695,7 @@ function c4m_user_og_group_actions_cta($group) {
     'state' => NODE_NOT_PUBLISHED,
     'entity_type' => 'node',
     'og_id' => $group->nid,
+    'uid' => $user->uid,
   );
 
   if ($unpublished_content = c4m_helper_entity_get_number_of_entities($variables)) {

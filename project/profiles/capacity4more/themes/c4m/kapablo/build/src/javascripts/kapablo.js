@@ -247,6 +247,8 @@
 
   Drupal.behaviors.registration = {
     attach: function (context, settings) {
+      $('#user-register-form input[name="mail"]').focus();
+
       $('.use-another-email', context).click(function () {
         $('input[name="mail"]').val('').focus();
         return false;

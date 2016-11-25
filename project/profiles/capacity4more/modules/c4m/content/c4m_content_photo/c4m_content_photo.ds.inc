@@ -175,12 +175,12 @@ function c4m_content_photo_ds_field_settings_info() {
       ),
     ),
     'c4m_user_picture' => array(
-      'weight' => '13',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'linked_thumbnail',
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '14',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -190,7 +190,7 @@ function c4m_content_photo_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_creation_date' => array(
-      'weight' => '15',
+      'weight' => '3',
       'label' => 'inline',
       'format' => 'j F Y',
       'formatter_settings' => array(
@@ -205,6 +205,23 @@ function c4m_content_photo_ds_field_settings_info() {
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
+    ),
+    'c4m_ds_entity_type_label' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'fi' => TRUE,
+          'fi-el' => 'h3',
+          'fi-cl' => '',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
+      ),
     ),
     'c4m_ds_content_footer_stats' => array(
       'weight' => '2',
@@ -748,32 +765,37 @@ function c4m_content_photo_ds_layout_settings_info() {
   $ds_layout->layout = 'c4m_ds_8_4_fluid';
   $ds_layout->settings = array(
     'regions' => array(
-      'left' => array(
-        0 => 'c4m_ds_content_type_label',
-        3 => 'title',
-        4 => 'c4m_ds_content_footer_stats',
-        5 => 'node_gallery_navigation',
-        6 => 'c4m_media',
-        7 => 'c4m_body',
-        8 => 'c4m_ds_photo_download',
-      ),
       'right' => array(
-        1 => 'c4m_ds_node_highlight',
-        2 => 'c4m_ds_content_actions',
-        9 => 'group_node_meta',
-        10 => 'group_node_actions',
-        11 => 'c4m_ds_content_shared_to',
-        12 => 'c4m_user_picture',
-        13 => 'c4m_user_first_and_last_name',
-        14 => 'c4m_ds_creation_date',
+        0 => 'c4m_ds_node_highlight',
+        2 => 'c4m_ds_entity_type_label',
+        4 => 'c4m_user_picture',
+        5 => 'c4m_ds_content_actions',
+        7 => 'c4m_user_first_and_last_name',
+        8 => 'c4m_ds_creation_date',
+        13 => 'group_node_meta',
+        14 => 'group_node_actions',
+        15 => 'c4m_ds_content_shared_to',
+      ),
+      'left' => array(
+        1 => 'c4m_ds_content_type_label',
+        3 => 'title',
+        6 => 'c4m_ds_content_footer_stats',
+        9 => 'node_gallery_navigation',
+        10 => 'c4m_media',
+        11 => 'c4m_body',
+        12 => 'c4m_ds_photo_download',
       ),
     ),
     'fields' => array(
-      'c4m_ds_content_type_label' => 'left',
       'c4m_ds_node_highlight' => 'right',
-      'c4m_ds_content_actions' => 'right',
+      'c4m_ds_content_type_label' => 'left',
+      'c4m_ds_entity_type_label' => 'right',
       'title' => 'left',
+      'c4m_user_picture' => 'right',
+      'c4m_ds_content_actions' => 'right',
       'c4m_ds_content_footer_stats' => 'left',
+      'c4m_user_first_and_last_name' => 'right',
+      'c4m_ds_creation_date' => 'right',
       'node_gallery_navigation' => 'left',
       'c4m_media' => 'left',
       'c4m_body' => 'left',
@@ -781,9 +803,6 @@ function c4m_content_photo_ds_layout_settings_info() {
       'group_node_meta' => 'right',
       'group_node_actions' => 'right',
       'c4m_ds_content_shared_to' => 'right',
-      'c4m_user_picture' => 'right',
-      'c4m_user_first_and_last_name' => 'right',
-      'c4m_ds_creation_date' => 'right',
     ),
     'classes' => array(
       'layout_class' => array(

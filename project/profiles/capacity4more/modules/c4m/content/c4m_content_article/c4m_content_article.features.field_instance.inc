@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_article.features.field_instance.inc
@@ -103,6 +102,7 @@ function c4m_content_article_field_default_field_instances() {
   // Exported field_instance: 'node-article-c4m_banner'.
   $field_instances['node-article-c4m_banner'] = array(
     'bundle' => 'article',
+    'default_value' => array(),
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -195,11 +195,11 @@ function c4m_content_article_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'media',
+      'module' => 'image',
       'settings' => array(
         'allowed_schemes' => array(
-          'private' => 0,
-          'public' => 'public',
+          'private' => 'private',
+          'public' => 0,
         ),
         'allowed_types' => array(
           'audio' => 0,
@@ -213,8 +213,10 @@ function c4m_content_article_field_default_field_instances() {
           'media_default--media_browser_my_files' => 0,
           'upload' => 'upload',
         ),
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
       ),
-      'type' => 'media_generic',
+      'type' => 'image_image',
       'weight' => 3,
     ),
   );
@@ -580,6 +582,7 @@ function c4m_content_article_field_default_field_instances() {
   // Exported field_instance: 'node-article-c4m_media'.
   $field_instances['node-article-c4m_media'] = array(
     'bundle' => 'article',
+    'default_value' => array(),
     'deleted' => 0,
     'description' => 'A picture to use on the Article listings.',
     'display' => array(
@@ -680,10 +683,11 @@ function c4m_content_article_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'media',
+      'module' => 'image',
       'settings' => array(
         'allowed_schemes' => array(
-          'public' => 'public',
+          'private' => 'private',
+          'public' => 0,
         ),
         'allowed_types' => array(
           'audio' => 0,
@@ -697,8 +701,10 @@ function c4m_content_article_field_default_field_instances() {
           'media_default--media_browser_my_files' => 0,
           'upload' => 0,
         ),
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
       ),
-      'type' => 'media_generic',
+      'type' => 'image_image',
       'weight' => 2,
     ),
   );
