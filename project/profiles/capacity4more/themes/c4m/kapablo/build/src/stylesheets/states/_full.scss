@@ -3,14 +3,15 @@
     margin-top: 1em;
   }
 
-  &:not(.node-wiki-page) > .content > .group-right {
+  &:not(.node-wiki-page) > .content > .group-right,
+  &.node-wiki-page > .content > .group-left {
     > section, > div {
       @include border-bottom;
 
-      .views-row {
+      .views-row, .detail-element {
         @include border-bottom;
 
-        &:last-of-type {
+        &:last-child {
           margin-bottom: 0;
         }
       }
