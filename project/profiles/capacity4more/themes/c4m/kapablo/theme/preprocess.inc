@@ -103,17 +103,16 @@ function kapablo_preprocess_block(&$variables) {
       $variables['title_attributes_array']['class'][] = 'sidebarblock__title';
       array_unshift($variables['theme_hook_suggestions'], 'block__sidebarblock');
 
-      switch ($block_id) {
-        case 'views-c4m_learning_content-block':
-          $variables['title_attributes_array']['class'][] = 'closely';
-          break;
-
-        case 'views-c4m_learning_content-block_1':
-          $variables['content_attributes_array']['class'][] = 'sidebarblock__content';
-          break;
-      }
-
       break;
+  }
+}
+
+/**
+ * Implements theme_preprocess_views_view().
+ */
+function kapablo_preprocess_views_view(&$vars) {
+  if (!empty($vars['more'])) {
+    $vars['classes_array'][] = 'pane--more';
   }
 }
 
