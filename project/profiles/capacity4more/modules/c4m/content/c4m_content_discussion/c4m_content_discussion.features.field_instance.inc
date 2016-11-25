@@ -568,12 +568,9 @@ function c4m_content_discussion_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'term_reference_tree',
-        'settings' => array(
-          'token_display_selected' => '',
-          'token_display_unselected' => '',
-        ),
-        'type' => 'term_reference_tree',
+        'module' => 'c4m_vocab_widget',
+        'settings' => array(),
+        'type' => 'term_reference_tree_hierarchical',
         'weight' => 1,
       ),
       'inthe_picture_block' => array(
@@ -674,15 +671,9 @@ function c4m_content_discussion_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
-        'settings' => array(
-          'display' => 'all',
-          'glue' => ', ',
-          'link' => 1,
-          'separator' => ' > ',
-          'wrap' => 'none',
-        ),
-        'type' => 'term_reference_checked_inline_tree',
+        'module' => 'c4m_vocab_widget',
+        'settings' => array(),
+        'type' => 'term_reference_tree_hierarchical',
         'weight' => 3,
       ),
       'inthe_picture_block' => array(
@@ -783,12 +774,9 @@ function c4m_content_discussion_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'term_reference_tree',
-        'settings' => array(
-          'token_display_selected' => '',
-          'token_display_unselected' => '',
-        ),
-        'type' => 'term_reference_tree',
+        'module' => 'c4m_vocab_widget',
+        'settings' => array(),
+        'type' => 'term_reference_tree_hierarchical',
         'weight' => 2,
       ),
       'inthe_picture_block' => array(
@@ -888,15 +876,9 @@ function c4m_content_discussion_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
-        'settings' => array(
-          'display' => 'all',
-          'glue' => ', ',
-          'link' => 1,
-          'separator' => ' > ',
-          'wrap' => 'none',
-        ),
-        'type' => 'term_reference_checked_inline_tree',
+        'module' => 'c4m_vocab_widget',
+        'settings' => array(),
+        'type' => 'term_reference_tree_hierarchical',
         'weight' => 0,
       ),
       'inthe_picture_block' => array(
