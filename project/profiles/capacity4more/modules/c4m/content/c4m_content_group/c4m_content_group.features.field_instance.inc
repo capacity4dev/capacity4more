@@ -818,15 +818,9 @@ function c4m_content_group_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
-        'settings' => array(
-          'display' => 'all',
-          'exclude_top_parent' => FALSE,
-          'link' => 1,
-          'separator' => ', ',
-          'wrap' => 'none',
-        ),
-        'type' => 'term_reference_tree_children_expanded',
+        'module' => 'c4m_vocab_widget',
+        'settings' => array(),
+        'type' => 'term_reference_tree_hierarchical',
         'weight' => 8,
       ),
       'inthe_picture_block' => array(
@@ -951,15 +945,9 @@ function c4m_content_group_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
-        'settings' => array(
-          'display' => 'all',
-          'exclude_top_parent' => FALSE,
-          'link' => 1,
-          'separator' => ', ',
-          'wrap' => 'none',
-        ),
-        'type' => 'term_reference_tree_children_expanded',
+        'module' => 'c4m_vocab_widget',
+        'settings' => array(),
+        'type' => 'term_reference_tree_hierarchical',
         'weight' => 7,
       ),
       'inthe_picture_block' => array(
