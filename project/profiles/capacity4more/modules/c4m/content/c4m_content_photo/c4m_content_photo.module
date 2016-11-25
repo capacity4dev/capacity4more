@@ -64,6 +64,17 @@ function c4m_content_photo_node_presave($node) {
 }
 
 /**
+ * Implements hook_entity_type_label_alter().
+ */
+function c4m_content_photo_entity_type_label_alter(&$variables) {
+  if (empty($variables['entity']->type) ||
+    'photo' !== $variables['entity']->type) {
+    return;
+  }
+  $variables['label'] .= ' ' . ('uploaded by');
+}
+
+/**
  * Determine if a photo is part of a photo album.
  *
  * @param object $node
