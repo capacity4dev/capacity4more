@@ -46,6 +46,7 @@ function c4m_content_project_field_default_field_instances() {
   // Exported field_instance: 'node-project-c4m_banner'.
   $field_instances['node-project-c4m_banner'] = array(
     'bundle' => 'project',
+    'default_value' => array(),
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -136,6 +137,7 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_banner',
     'label' => 'Banner',
@@ -153,10 +155,11 @@ function c4m_content_project_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'media',
+      'module' => 'image',
       'settings' => array(
         'allowed_schemes' => array(
-          'public' => 'public',
+          'private' => 'private',
+          'public' => 0,
         ),
         'allowed_types' => array(
           'audio' => 0,
@@ -166,11 +169,14 @@ function c4m_content_project_field_default_field_instances() {
         ),
         'browser_plugins' => array(
           'media_default--media_browser_1' => 'media_default--media_browser_1',
+          'media_default--media_browser_2' => 0,
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'upload' => 'upload',
         ),
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
       ),
-      'type' => 'media_generic',
+      'type' => 'image_image',
       'weight' => 8,
     ),
   );
@@ -821,6 +827,7 @@ function c4m_content_project_field_default_field_instances() {
   // Exported field_instance: 'node-project-c4m_media'.
   $field_instances['node-project-c4m_media'] = array(
     'bundle' => 'project',
+    'default_value' => array(),
     'deleted' => 0,
     'description' => 'A picture to use on the Project dashboard and Project listings',
     'display' => array(
@@ -940,7 +947,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'media',
+      'module' => 'image',
       'settings' => array(
         'allowed_schemes' => array(
           'public' => 'public',
@@ -956,8 +963,10 @@ function c4m_content_project_field_default_field_instances() {
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'upload' => 'upload',
         ),
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
       ),
-      'type' => 'media_generic',
+      'type' => 'image_image',
       'weight' => 7,
     ),
   );
@@ -1907,9 +1916,9 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
-        'module' => 'c4m_content_article',
+        'module' => 'link',
         'settings' => array(),
-        'type' => 'c4m_formatter_title_link_abbreviation',
+        'type' => 'link_url',
         'weight' => 1,
       ),
       'teaser' => array(
@@ -2894,7 +2903,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'media',
+      'module' => 'image',
       'settings' => array(
         'allowed_schemes' => array(
           'private' => 0,
@@ -2912,8 +2921,10 @@ function c4m_content_project_field_default_field_instances() {
           'media_default--media_browser_my_files' => 0,
           'upload' => 'upload',
         ),
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
       ),
-      'type' => 'media_generic',
+      'type' => 'image_image',
       'weight' => 4,
     ),
   );

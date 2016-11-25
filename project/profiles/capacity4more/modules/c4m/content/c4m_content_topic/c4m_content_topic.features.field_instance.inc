@@ -140,11 +140,11 @@ function c4m_content_topic_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'media',
+      'module' => 'image',
       'settings' => array(
-        'allow_replace' => 0,
         'allowed_schemes' => array(
-          'public' => 'public',
+          'private' => 'private',
+          'public' => 0,
         ),
         'allowed_types' => array(
           'audio' => 0,
@@ -158,15 +158,10 @@ function c4m_content_topic_field_default_field_instances() {
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'upload' => 'upload',
         ),
-        'droppable_area_text' => 'Drop files here to upload',
-        'multiupload' => 0,
         'preview_image_style' => 'thumbnail',
         'progress_indicator' => 'throbber',
-        'standard_upload' => 1,
-        'upload_button_text' => 'Upload',
-        'upload_event' => 'manual',
       ),
-      'type' => 'media_generic',
+      'type' => 'image_image',
       'weight' => 3,
     ),
   );
@@ -384,11 +379,11 @@ function c4m_content_topic_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'media',
+      'module' => 'image',
       'settings' => array(
-        'allow_replace' => 0,
         'allowed_schemes' => array(
-          'public' => 'public',
+          'private' => 'private',
+          'public' => 0,
         ),
         'allowed_types' => array(
           'audio' => 0,
@@ -402,15 +397,10 @@ function c4m_content_topic_field_default_field_instances() {
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'upload' => 'upload',
         ),
-        'droppable_area_text' => 'Drop files here to upload',
-        'multiupload' => 0,
         'preview_image_style' => 'thumbnail',
         'progress_indicator' => 'throbber',
-        'standard_upload' => 1,
-        'upload_button_text' => 'Upload',
-        'upload_event' => 'manual',
       ),
-      'type' => 'media_generic',
+      'type' => 'image_image',
       'weight' => 4,
     ),
   );
