@@ -8,9 +8,9 @@
 
   .c4m-created-on-date {
     text-align: center;
-    padding: 8px 0;
-    border-top: 1px dashed;
-    border-bottom: 1px dashed;
+    padding: 1em 0;
+    border-top: 1px dashed $color-gray-light;
+    border-bottom: 1px dashed $color-gray-light;
   }
 
   .field-group-fieldset {
