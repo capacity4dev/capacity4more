@@ -1907,9 +1907,9 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
-        'module' => 'c4m_content_article',
+        'module' => 'link',
         'settings' => array(),
-        'type' => 'c4m_formatter_title_link_abbreviation',
+        'type' => 'link_url',
         'weight' => 1,
       ),
       'teaser' => array(
