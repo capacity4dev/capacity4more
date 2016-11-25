@@ -180,10 +180,6 @@ cite {
     @extend .header-2;
     margin-top: 0px;
     margin-bottom: $base-spacing-large;
-
-    &.closely {
-      margin-bottom: 0;
-    }
   }
 
   &--small &__title {
