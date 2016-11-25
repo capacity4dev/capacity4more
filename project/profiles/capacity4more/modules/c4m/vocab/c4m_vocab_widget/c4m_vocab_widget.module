@@ -251,3 +251,70 @@ function c4m_vocab_widget_theme() {
 
   return $theme;
 }
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function c4m_vocab_widget_field_formatter_info() {
+  return array(
+    'term_reference_tree_hierarchical' => array(
+      'label' => t('Term reference tree - hierarchical'),
+      'field types' => array('taxonomy_term_reference'),
+      'settings' => array(),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_prepare_view().
+ */
+function c4m_vocab_widget_field_formatter_prepare_view(
+  $entity_type,
+  $entities,
+  $field,
+  $instances,
+  $langcode,
+  &$items,
+  $displays
+) {
+  taxonomy_field_formatter_prepare_view(
+    $entity_type,
+    $entities,
+    $field,
+    $instances,
+    $langcode,
+    $items,
+    $displays
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function c4m_vocab_widget_field_formatter_view(
+  $entity_type,
+  $entity,
+  $field,
+  $instance,
+  $langcode,
+  $items,
+  $display
+) {
+  $settings = $display['settings'];
+
+  $element = array();
+
+  switch ($display['type']) {
+    case 'term_reference_tree_hierarchical':
+      if ($items) {
+        $element = array(
+          array(
+            '#markup' => c4m_content_taxonomy_build_tree($items, array('vocabulary_name' => $field['field_name'])),
+          ),
+        );
+      }
+      break;
+  }
+
+  return $element;
+}
