@@ -73,6 +73,11 @@ function _c4m_search_filter_block_search_filter_groups_overview() {
 function _c4m_search_filter_block_search_filter_interests() {
   // Get the filter form.
   module_load_include('inc', 'c4m_search_filter', 'includes/c4m_search_filter.form');
+
+  if (empty(c4m_search_filter_search_filter_form_options('interests'))) {
+    return array();
+  }
+
   $form = drupal_get_form('c4m_search_filter_search_filter_form', 'interests');
 
   return array(
