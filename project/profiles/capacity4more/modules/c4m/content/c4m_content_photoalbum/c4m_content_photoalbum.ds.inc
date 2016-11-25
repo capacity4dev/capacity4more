@@ -256,12 +256,12 @@ function c4m_content_photoalbum_ds_field_settings_info() {
       ),
     ),
     'c4m_user_picture' => array(
-      'weight' => '1',
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'linked_thumbnail',
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '2',
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -271,7 +271,7 @@ function c4m_content_photoalbum_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_creation_date' => array(
-      'weight' => '3',
+      'weight' => '7',
       'label' => 'inline',
       'format' => 'j F Y',
       'formatter_settings' => array(
