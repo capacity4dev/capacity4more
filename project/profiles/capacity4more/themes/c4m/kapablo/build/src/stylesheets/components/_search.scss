@@ -367,6 +367,21 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
     content: "\f0c0";
     @extend .facetapi-link;
   }
+
+  .facetapi-link--news::before {
+    content: "\f1ea";
+    @extend .facetapi-link;
+  }
+
+  .facetapi-link--photo::before {
+    content: "\f1c5";
+    @extend .facetapi-link;
+  }
+
+  .facetapi-link--photo-album::before {
+    content: "\f03e";
+    @extend .facetapi-link;
+  }
 }
 
 .block-c4m-search-nodes {
