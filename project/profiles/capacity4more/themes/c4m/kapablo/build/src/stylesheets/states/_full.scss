@@ -5,7 +5,15 @@
 
   &:not(.node-wiki-page) > .content > .group-right {
     > section, > div {
-      margin-bottom: 2em;
+      @include border-bottom;
+
+      .views-row {
+        @include border-bottom;
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
     }
   }
 
