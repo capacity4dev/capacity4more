@@ -121,7 +121,7 @@
 }
 
 @mixin border-bottom {
-  &:not(:last-of-type) {
+  &:not(:last-child) {
     border-bottom: 1px dashed $color-gray-light;
     padding-bottom: 1.5em;
   }
