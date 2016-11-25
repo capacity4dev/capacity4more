@@ -8,7 +8,7 @@
     > section, > div {
       @include border-bottom;
 
-      .views-row, .detail-element {
+      .views-row, .detail-element, .view-mode-block_list {
         @include border-bottom;
 
         &:last-child {
