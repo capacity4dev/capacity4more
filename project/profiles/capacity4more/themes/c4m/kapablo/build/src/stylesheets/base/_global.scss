@@ -169,7 +169,9 @@ cite {
       &:not(.pane-featured-block) {
         &:not(.pane-voices-views-carousel) {
           &:not(.pane--more) {
-            @include border-bottom;
+            &:not(.pane-c4m-search-og-c4m-search-group-form) {
+              @include border-bottom;
+            }
           }
         }
       }

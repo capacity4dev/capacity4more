@@ -7,7 +7,7 @@
 ?>
 <div class="c4m-group-cta">
   <?php if ($title): ?>
-    <h2 class="pane-title"><?php print $title; ?></h2>
+    <h3 class="pane-title"><?php print $title; ?></h3>
   <?php endif; ?>
   <?php foreach ($links as $link): ?>
     <?php print render($link); ?>
