@@ -1658,15 +1658,9 @@ function c4m_content_event_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
-        'settings' => array(
-          'display' => 'all',
-          'glue' => ', ',
-          'link' => 1,
-          'separator' => ' > ',
-          'wrap' => 'none',
-        ),
-        'type' => 'term_reference_checked_inline_tree',
+        'module' => 'c4m_vocab_widget',
+        'settings' => array(),
+        'type' => 'term_reference_tree_hierarchical',
         'weight' => 3,
       ),
       'inthe_picture_block' => array(
@@ -1767,15 +1761,9 @@ function c4m_content_event_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
-        'settings' => array(
-          'display' => 'all',
-          'glue' => ', ',
-          'link' => 1,
-          'separator' => ' > ',
-          'wrap' => 'none',
-        ),
-        'type' => 'term_reference_checked_inline_tree',
+        'module' => 'c4m_vocab_widget',
+        'settings' => array(),
+        'type' => 'term_reference_tree_hierarchical',
         'weight' => 2,
       ),
       'inthe_picture_block' => array(
@@ -1875,15 +1863,9 @@ function c4m_content_event_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
-        'settings' => array(
-          'display' => 'all',
-          'glue' => ', ',
-          'link' => 1,
-          'separator' => ' > ',
-          'wrap' => 'none',
-        ),
-        'type' => 'term_reference_checked_inline_tree',
+        'module' => 'c4m_vocab_widget',
+        'settings' => array(),
+        'type' => 'term_reference_tree_hierarchical',
         'weight' => 1,
       ),
       'inthe_picture_block' => array(
