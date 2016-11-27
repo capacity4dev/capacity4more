@@ -149,7 +149,7 @@ function c4m_content_photoalbum_strongarm() {
         'custom_settings' => TRUE,
       ),
       'block_list' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'group_dashboard' => array(
         'custom_settings' => FALSE,
@@ -201,8 +201,8 @@ function c4m_content_photoalbum_strongarm() {
             'visible' => FALSE,
           ),
           'block_list' => array(
-            'weight' => '1',
-            'visible' => TRUE,
+            'weight' => '4',
+            'visible' => FALSE,
           ),
         ),
         'highlighted' => array(
@@ -211,6 +211,16 @@ function c4m_content_photoalbum_strongarm() {
             'visible' => TRUE,
           ),
           'block_list' => NULL,
+        ),
+        'flag_c4m_og_content_highlight' => array(
+          'default' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'block_list' => array(
+            'weight' => '24',
+            'visible' => FALSE,
+          ),
         ),
       ),
     ),

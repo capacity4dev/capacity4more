@@ -184,7 +184,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 25,
       ),
       'c4m_related' => array(
         'label' => 'above',
