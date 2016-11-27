@@ -298,6 +298,21 @@ function c4m_user_profile_user_login(&$edit, $user) {
 }
 
 /**
+ * Implements hook_mail_alter().
+ *
+ * For users that requested email notifications format to be plaintext,
+ * sets 'email confirmation' mail format accordingly.
+ */
+function c4m_user_profile_mail_alter(&$message) {
+  if ($message['id'] != 'email_confirm_confirmation_email') {
+    return;
+  }
+
+  // Set 'plain text' format option, per definition at user profile.
+  $message['params']['plain'] = $message['params']['account']->data['mimemail_textonly'];
+}
+
+/**
  * Implements hook_email_confirm().
  *
  * Triggers the update info after the email change is confirmed.
