@@ -3208,6 +3208,17 @@ function c4m_message__update__node($node, $account = NULL) {
     $account = user_load($node->uid);
   }
 
+  // When a user unchecked the "create new revision" checkbox we should not
+  // create an activity stream message.
+  if (empty($node->revision)) {
+    // Of course on==if the node has just published we should skip the revision
+    // decision.
+    $just_published = $node->status == NODE_PUBLISHED && $node->original->status == NODE_NOT_PUBLISHED;
+    if (!$just_published) {
+      return FALSE;
+    }
+  }
+
   // If the "Send notification" on the form is checked then we should by pass
   // the threshold since the user explicitly wants to send a notification
   // (meaning creating a new message).
