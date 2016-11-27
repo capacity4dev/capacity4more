@@ -304,6 +304,12 @@ function c4m_user_profile_user_login(&$edit, $user) {
  * sets 'email confirmation' mail format accordingly.
  */
 function c4m_user_profile_mail_alter(&$message) {
+  // Mime mail module converts notification mails to 'plain text' format,
+  // in case user enabled this option at his profile (loads user profile by
+  // mail, and checks if 'mimemail_textonly' is enabled).
+  // 'change mail' confirmation notification is special case, since it's not
+  // possible to load user by the new email.
+  // Therefore, we handle this case explicitly here.
   if ($message['id'] != 'email_confirm_confirmation_email') {
     return;
   }
