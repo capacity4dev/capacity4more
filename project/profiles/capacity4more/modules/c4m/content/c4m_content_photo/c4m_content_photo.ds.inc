@@ -147,6 +147,12 @@ function c4m_content_photo_ds_field_settings_info() {
       'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'link' => 'purl_auto',
+        'wrapper' => 'h3',
+        'class' => '',
+        'ft' => array(),
+      ),
     ),
     'c4m_ds_submitted_by_and_on' => array(
       'weight' => '3',
