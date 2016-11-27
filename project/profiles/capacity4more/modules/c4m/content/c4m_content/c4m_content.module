@@ -615,9 +615,8 @@ function c4m_content_custom_node_delete_confirm($form, &$form_state) {
   $node = $form['#node'];
   $group = c4m_og_get_group_of_content($node);
 
-  // If anonymize is set and requested, update node author to anonymous user.
-  $anonymize_content = !empty($form_state['values']['anonymize']) && $form_state['values']['anonymize'];
-  if ($anonymize_content) {
+  // If anonymize is requested, update node author to anonymous user.
+  if (!empty($form_state['values']['anonymize'])) {
     $node->uid = 0;
 
     node_save($node);
