@@ -2426,6 +2426,7 @@ function c4m_og_view_node_access($node, $account) {
     if ($node->status == NODE_NOT_PUBLISHED) {
 
       $user_type = _c4m_features_og_members_get_user_type($group, $account);
+      // Not relevant for projects, as they do not have regular members.
       $allowed_wiki_page = $node->type == 'wiki_page' && $user_type == C4M_USER_TYPE_GM && c4m_content_wiki_page_is_editable_by_members($node);
 
       // Only power user or content author may view the node.
@@ -2454,7 +2455,8 @@ function c4m_og_create_node_access($node, $account) {
   // When creating, $node is string that indicates bundle name.
   if (og_is_group_type('node', $node)) {
 
-    return user_is_anonymous() ? NODE_ACCESS_DENY : NODE_ACCESS_ALLOW;
+    // Any authenticated user may create groups and projects.
+    return $account->uid == 0 ? NODE_ACCESS_DENY : NODE_ACCESS_ALLOW;
   }
   elseif (og_is_group_content_type('node', $node)) {
 
@@ -2526,7 +2528,8 @@ function c4m_og_update_node_access($node, $account) {
 
     // When updating published wiki page, deny access to group members,
     // if 'editable by members' option is not enabled for this page.
-    if ($node->type == 'wiki_page') {
+    // Not relevant for projects, as they do not have regular members.
+    if ($group->type == 'group' && $node->type == 'wiki_page') {
       if ($user_type == C4M_USER_TYPE_GM && !c4m_content_wiki_page_is_editable_by_members($node)) {
         return NODE_ACCESS_DENY;
       }
