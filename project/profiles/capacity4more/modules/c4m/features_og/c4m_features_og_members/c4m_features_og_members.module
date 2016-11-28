@@ -516,21 +516,19 @@ function _c4m_features_og_members_get_user_type($group = NULL, $user = NULL) {
     return C4M_USER_TYPE_GO;
   }
 
-  if ($group->type == 'group') {
-    // The user has the group role 'administrator member'.
-    if (in_array('administrator member', og_get_user_roles('node', $group->nid, $user->uid))) {
-      return C4M_USER_TYPE_GA;
-    }
-
-    return og_is_member('node', $group->nid) ? C4M_USER_TYPE_GM : C4M_USER_TYPE_NON_MEMBER;
-  }
-  // Group type is 'project'.
-  else {
+  if ($group->type == 'project') {
     // We are not using the "group administrator" role in projects. We give
     // the Project Members (so regular members, without og role) the same
     // permissions in a project as a GA would have in a group.
     return og_is_member('node', $group->nid) ? C4M_USER_TYPE_GA : C4M_USER_TYPE_NON_MEMBER;
   }
+
+  // The user has the group role 'administrator member'.
+  if (in_array('administrator member', og_get_user_roles('node', $group->nid, $user->uid))) {
+    return C4M_USER_TYPE_GA;
+  }
+
+  return og_is_member('node', $group->nid) ? C4M_USER_TYPE_GM : C4M_USER_TYPE_NON_MEMBER;
 }
 
 /**
