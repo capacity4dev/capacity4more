@@ -241,6 +241,9 @@ trait Node {
     $node = node_load($nid);
     // Changing the current node title.
     $node->title = $new_title;
+
+    // Adding a revision to create a new message on the activity stream.
+    $node->revision = TRUE;
     node_save($node);
   }
 
