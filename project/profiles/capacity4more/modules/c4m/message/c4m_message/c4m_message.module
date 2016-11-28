@@ -3587,11 +3587,13 @@ function c4m_message_query_activity_stream_entity_field_access_alter(
       $subquery = db_select('node_access', 'na')
         ->fields('na', array('nid'));
 
+      // Pluggable node access grunts will require extra condition, based on
+      // group state field. Hence, need to join, to resolve 'c4m_og_status'
+      // field.
       $subquery
         ->leftJoin('field_data_c4m_og_status', 'gst', 'na.nid = gst.entity_id');
-
+      // Store pluggable node access grunts to identify them latter.
       $pluggable_node_access_grants = pluggable_node_access_node_grants($account, $op);
-
 
       $grant_conditions = db_or();
       // If any grant exists for the specified user, then user has access
@@ -3602,6 +3604,8 @@ function c4m_message_query_activity_stream_entity_field_access_alter(
             ->condition('na.gid', $gid)
             ->condition('na.realm', $realm);
 
+          // For pluggable node access grants, add condition on 'c4m_og_status'
+          // field - set allowed values to published and archived.
           if (in_array($realm, array_keys($pluggable_node_access_grants))) {
             $grant_condition->condition(
               db_or()
