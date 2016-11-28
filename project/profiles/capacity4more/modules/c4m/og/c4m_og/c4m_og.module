@@ -2456,7 +2456,7 @@ function c4m_og_create_node_access($node, $account) {
   if (og_is_group_type('node', $node)) {
 
     // Any authenticated user may create groups and projects.
-    return $account->uid == 0 ? NODE_ACCESS_DENY : NODE_ACCESS_ALLOW;
+    return $account->uid === 0 ? NODE_ACCESS_DENY : NODE_ACCESS_ALLOW;
   }
   elseif (og_is_group_content_type('node', $node)) {
 

@@ -230,13 +230,13 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
           C4M_CONTENT_GROUP_STATUS_UPDATE_PENDING,
           C4M_CONTENT_GROUP_STATUS_UPDATE_DRAFT,
           C4M_CONTENT_GROUP_STATUS_UPDATE_PUBLISHED,
-          C4M_CONTENT_GROUP_STATUS_UPDATE_ARCHIVED,
         );
         continue;
       }
-      // Group admin or group member.
-      elseif (og_user_access('node', $gid, 'administer group', $account)) {
-        // Group admin.
+      // Group/Project admin or group member.
+      elseif ($node->type == 'project' || og_user_access('node', $gid, 'administer group', $account)) {
+        // Group/Project admin. Any project 'member' is considered to be
+        // project administrator.
         $grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_' . $gid] = array(
           C4M_CONTENT_GROUP_STATUS_VIEW_PUBLISHED,
           C4M_CONTENT_GROUP_STATUS_VIEW_ARCHIVED,
@@ -248,6 +248,7 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
         continue;
       }
       else {
+        // Group member. Project do not have members.
         $member_grant_ids = array(
           C4M_CONTENT_GROUP_STATUS_VIEW_PUBLISHED,
           C4M_CONTENT_GROUP_STATUS_VIEW_ARCHIVED,
@@ -258,6 +259,7 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
       }
     }
   }
+
   return $grants;
 }
 
@@ -299,13 +301,14 @@ function c4m_content_group_replace_mail_tokens(array &$replacements, array $data
 /**
  * Implements hook_node_access_records().
  *
- * Add grants based on group status field.
+ * Add grants based on group/project status field.
  */
 function c4m_content_group_node_access_records($node) {
-  // Only for group nodes.
-  if ($node->type != 'group') {
+  // Only for group and project nodes.
+  if ($node->type != 'group' && $node->type != 'project') {
     return;
   }
+
   $wrapper = entity_metadata_wrapper('node', $node);
   $grants = array();
   $realm_grants = array();
@@ -385,8 +388,8 @@ function c4m_content_group_node_access_records($node) {
         ),
       );
 
+      // For projects and public groups.
       if (!$wrapper->{OG_ACCESS_FIELD}->value()) {
-        // Only for public groups.
         $realm_grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_anon'] = array(
           array(
             'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_PUBLISHED,
@@ -425,8 +428,9 @@ function c4m_content_group_node_access_records($node) {
           ),
         ),
       );
+
+      // For projects and public groups.
       if (!$wrapper->{OG_ACCESS_FIELD}->value()) {
-        // Only for public groups.
         $realm_grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_anon'] = array(
           array(
             'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_ARCHIVED,
@@ -521,7 +525,6 @@ function c4m_content_group_get_latest_activity($og_id = NULL) {
     $query_nodes->condition('ogm.gid', (int) $og_id);
     $query_nodes->condition('ogm.entity_type', 'node');
   }
-
   $latest_updated_node = $query_nodes->execute()->fetchField();
 
   // Find last updated comment.
