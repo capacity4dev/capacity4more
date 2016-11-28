@@ -248,7 +248,7 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
         continue;
       }
       else {
-        // Group member. Project do not have members.
+        // Group member. Project do not have regular members.
         $member_grant_ids = array(
           C4M_CONTENT_GROUP_STATUS_VIEW_PUBLISHED,
           C4M_CONTENT_GROUP_STATUS_VIEW_ARCHIVED,
