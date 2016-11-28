@@ -235,7 +235,7 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
       }
       // Group/Project admin or group member.
       elseif ($node->type == 'project' || og_user_access('node', $gid, 'administer group', $account)) {
-        // Group/Project admin. Any project 'member' is considered to be
+        // Group/Project admin. Any active project 'member' is considered to be
         // project administrator.
         $grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_' . $gid] = array(
           C4M_CONTENT_GROUP_STATUS_VIEW_PUBLISHED,
