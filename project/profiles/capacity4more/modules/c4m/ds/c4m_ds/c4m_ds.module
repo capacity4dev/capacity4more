@@ -325,6 +325,17 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
+  $fields['node']['c4m_ds_type_insert_action_share_from'] = array(
+    'title' => t('Share specific insert string with source instead of destination'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('share|*'),
+    'file' => $path . '/includes/c4m_ds.theme.node.inc',
+    'function' => 'theme_c4m_ds_type_insert_action_share_from',
+    'properties' => array(
+      'default' => 'Default',
+    ),
+  );
+
   $fields['node']['c4m_ds_content_type_icon'] = array(
     'title' => t('Content type icon'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,

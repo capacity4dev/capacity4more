@@ -227,6 +227,7 @@ function theme_c4m_ds_type_insert_action(array $field) {
       'absolute' => TRUE,
       'purl' => array(
         'provider' => 'og_purl|node',
+
         'id' => $group_wrapper->nid->value(),
       ),
     );
@@ -261,6 +262,85 @@ function theme_c4m_ds_type_insert_action(array $field) {
       '#value' => $label_info['insert action'],
     );
   }
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
+ * Render Shared <content> FROM <source group>.
+ *
+ * @param array $field
+ *   The field that needs to be rendered.
+ *
+ * @return mixed
+ *   The rendered field.
+ */
+function theme_c4m_ds_type_insert_action_share_from(array $field) {
+  $output = '';
+
+  if (empty($field['entity'])) {
+    return $output;
+  }
+
+  $entity = $field['entity'];
+
+  if ($entity->type !== 'share') {
+    return $output;
+  }
+
+  $label_info = c4m_helper_entity_label_info($entity);
+
+  drupal_alter('c4m_helper_entity_label_info', $label_info, $entity);
+
+
+  $node = entity_metadata_wrapper(
+    'node',
+    $entity
+  );
+
+  // Retrieve original node.
+  $source_node = $node->c4m_source_entity->value();
+  $original_node = entity_metadata_wrapper('node', $source_node);
+
+  $group_wrapper = entity_metadata_wrapper(
+    'node',
+    $original_node->og_group_ref->value()
+  );
+
+  $group_type = $group_wrapper->getBundle();
+
+  $url_options = array(
+    'absolute' => TRUE,
+    'purl' => array(
+      'provider' => 'og_purl|node',
+
+      'id' => $group_wrapper->nid->value(),
+    ),
+  );
+
+  $group_url = l(
+    $group_wrapper->title->value(),
+    url('<front>', $url_options)
+  );
+
+  $tag['element'] = array(
+    '#tag' => 'span',
+    '#attributes' => array(
+      'class' => array('posted-by'),
+      '#html' => TRUE,
+    ),
+    '#value' => t(
+      'shared @article @original_type from the @group_type !group_link',
+      array(
+        '@article' => $label_info['article'],
+        '@original_type' => $label_info['singular'],
+        '@group_type' => $group_type,
+        '!group_link' => $group_url,
+      )
+    ),
+  );
 
   return theme_html_tag($tag);
 }
@@ -627,7 +707,10 @@ function theme_c4m_ds_node_highlight(array $field) {
     '#tag' => 'div',
     '#value' => $link,
     '#attributes' => array(
-      'class' => array('c4m-node-highlight', "c4m-{$node->type}-node-highlight"),
+      'class' => array(
+        'c4m-node-highlight',
+        "c4m-{$node->type}-node-highlight"
+      ),
     ),
   );
 
