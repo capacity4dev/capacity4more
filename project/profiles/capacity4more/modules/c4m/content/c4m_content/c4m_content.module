@@ -1083,7 +1083,7 @@ function c4m_content_create_group_content_access() {
     c4m_content_deny_access();
   }
   else {
-    $user_type = _c4m_features_og_members_get_user_type();
+    $user_type = _c4m_features_og_members_get_user_type($group);
 
     $allowed_user_types = array(
       C4M_USER_TYPE_GA,
