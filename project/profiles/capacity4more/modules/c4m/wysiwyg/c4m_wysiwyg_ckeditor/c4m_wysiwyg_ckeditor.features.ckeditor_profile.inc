@@ -9,22 +9,19 @@
  */
 function c4m_wysiwyg_ckeditor_ckeditor_profile_defaults() {
   $data = array(
-    'Advanced' => array(
-      'name' => 'Advanced',
+    'CKEditor Global Profile' => array(
+      'name' => 'CKEditor Global Profile',
+      'settings' => array(
+        'ckeditor_path' => '%l/ckeditor',
+      ),
+      'input_formats' => array(),
+    ),
+    'Default' => array(
+      'name' => 'Default',
       'settings' => array(
         'ss' => 2,
         'toolbar' => '[
-    [\'Source\'],
-    [\'Cut\',\'Copy\',\'Paste\',\'PasteText\',\'PasteFromWord\'],
-    [\'Undo\',\'Redo\',\'Find\',\'Replace\',\'-\',\'SelectAll\'],
-    [\'Image\',\'Media\',\'oembed\',\'Table\',\'HorizontalRule\',\'Smiley\',\'SpecialChar\'],
-    [\'Iframe\',\'Maximize\',\'ShowBlocks\'],
-    \'/\',
-    [\'Format\'],
-    [\'Bold\',\'Italic\',\'Underline\',\'Strike\',\'-\',\'Subscript\',\'Superscript\',\'-\',\'RemoveFormat\'],
-    [\'NumberedList\',\'BulletedList\',\'-\',\'Outdent\',\'Indent\',\'Blockquote\'],
-    [\'JustifyLeft\',\'JustifyCenter\',\'JustifyRight\',\'JustifyBlock\',\'-\',\'BidiLtr\',\'BidiRtl\'],
-    [\'Link\',\'Unlink\',\'Anchor\']
+    [\'Format\',\'Bold\',\'Italic\',\'-\',\'NumberedList\',\'BulletedList\',\'-\',\'Link\',\'Unlink\',\'Image\']
 ]',
         'expand' => 't',
         'default' => 't',
@@ -97,18 +94,6 @@ function c4m_wysiwyg_ckeditor_ckeditor_profile_defaults() {
             ),
             'default' => 'f',
           ),
-          'mediaembed' => array(
-            'name' => 'mediaembed',
-            'desc' => 'Plugin for inserting Drupal embeded media',
-            'path' => '%plugin_dir%mediaembed/',
-            'buttons' => array(
-              'MediaEmbed' => array(
-                'label' => 'MediaEmbed',
-                'icon' => 'images/icon.png',
-              ),
-            ),
-            'default' => 'f',
-          ),
           'oembed' => array(
             'name' => 'oembed',
             'desc' => 'CKEditor: Oembed plugin',
@@ -138,18 +123,28 @@ function c4m_wysiwyg_ckeditor_ckeditor_profile_defaults() {
         ),
       ),
       'input_formats' => array(
-        'full_html' => 'Full HTML',
+        'filtered_html' => 'Filtered HTML',
       ),
     ),
-    'Default' => array(
-      'name' => 'Default',
+    'Full' => array(
+      'name' => 'Full',
       'settings' => array(
         'ss' => 2,
         'toolbar' => '[
-    [\'Format\',\'Bold\',\'Italic\',\'Strike\',\'-\',\'BulletedList\',\'NumberedList\',\'Outdent\',\'Indent\'],
-    [\'Link\',\'Unlink\',\'Anchor\',\'-\',\'BidiLtr\',\'BidiRtl\',\'-\'],
-    [\'SpecialChar\',\'DrupalBreak\',\'-\',\'Table\',\'Image\',\'Media\',\'oembed\'],
-    [\'Maximize\']
+    [\'Source\'],
+    [\'Cut\',\'Copy\',\'Paste\',\'PasteText\',\'PasteFromWord\',\'-\',\'SpellChecker\',\'Scayt\'],
+    [\'Undo\',\'Redo\',\'Find\',\'Replace\',\'-\',\'SelectAll\'],
+    [\'Image\',\'Flash\',\'Table\',\'HorizontalRule\',\'Smiley\',\'SpecialChar\',\'Iframe\'],
+    \'/\',
+    [\'Bold\',\'Italic\',\'Underline\',\'Strike\',\'-\',\'Subscript\',\'Superscript\',\'-\',\'RemoveFormat\'],
+    [\'NumberedList\',\'BulletedList\',\'-\',\'Outdent\',\'Indent\',\'Blockquote\',\'CreateDiv\'],
+    [\'JustifyLeft\',\'JustifyCenter\',\'JustifyRight\',\'JustifyBlock\',\'-\',\'BidiLtr\',\'BidiRtl\',\'-\',\'Language\'],
+    [\'Link\',\'Unlink\',\'Anchor\'],
+    \'/\',
+    [\'Format\',\'FontSize\'],
+    [\'TextColor\',\'BGColor\'],
+    [\'Maximize\',\'ShowBlocks\'],
+    [\'DrupalBreak\']
 ]',
         'expand' => 't',
         'default' => 't',
@@ -251,7 +246,7 @@ function c4m_wysiwyg_ckeditor_ckeditor_profile_defaults() {
         ),
       ),
       'input_formats' => array(
-        'filtered_html' => 'Filtered HTML',
+        'full_html' => 'Full HTML',
       ),
     ),
   );
