@@ -22,6 +22,33 @@
   }
 }
 
+.event-views-links {
+  list-style: none;
+  padding: 0;
+
+  li {
+    padding: 0;
+    margin-top: 10px;
+  }
+
+  a {
+    text-transform: capitalize;
+
+    &::before {
+      content: "\f03a";
+      @extend .facetapi-link;
+    }
+
+    &.upcoming-events::before {
+      content: "\f017";
+    }
+
+    &.past-events::before {
+      content: "\f1da";
+    }
+  }
+}
+
 .node-event {
   &.view-mode-full .node-document.node-teaser {
     $icon-size: 40px;
@@ -37,8 +64,43 @@
       width: $icon-size;
     }
   }
+
+  .organiser {
+    color: $color-gray-light;
+    display: inline;
+
+    &:before {
+      color: $color-text;
+      content: "\2022";
+      margin: 0 0.5em 0 0.25em;
+    }
+  }
+
+  .date-display-range {
+    display: inline-block;
+
+    &:after {
+      content: ' ';
+    }
+  }
+
+  .event-location {
+    display: inline;
+    margin-left: .5em;
+  }
 }
 
 .event-location {
   margin-bottom: 10px;
+}
+
+.organiser {
+  color: $color-gray-light;
+  display: inline;
+
+  &:before {
+    color: $color-text;
+    content: "\2022";
+    margin: 0 0.5em 0 0.25em;
+  }
 }

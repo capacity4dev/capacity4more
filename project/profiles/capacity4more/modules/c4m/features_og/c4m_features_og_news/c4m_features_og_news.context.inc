@@ -44,7 +44,6 @@ function c4m_features_og_news_context_default_contexts() {
   $context->conditions = array(
     'views' => array(
       'values' => array(
-        'c4m_overview_og_discussions' => 'c4m_overview_og_discussions',
         'c4m_overview_og_news' => 'c4m_overview_og_news',
       ),
     ),

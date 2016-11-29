@@ -23,9 +23,23 @@ trait User {
    * @Given /^I am logged in as user "([^"]*)"$/
    */
   public function iAmLoggedInAsUser($username) {
+    if (!empty($this->user->name) && $this->user->name == $username && $this->loggedIn()) {
+      // $username is already logged in.
+      return;
+    }
+
     $this->user = new \stdClass();
     $this->user->name = $username;
-    $this->user->pass = $this->drupal_users[$username];
+
+    try {
+      $password = $this->drupal_users[$username];
+    }
+    catch (\Exception $e) {
+      // For cases like when temporal user try to login.
+      $password = 'drupal';
+    }
+
+    $this->user->pass = $password;
     $this->login();
   }
 
@@ -42,16 +56,16 @@ trait User {
   }
 
   /**
-   * @Given /^I am logged in with a temporal user$/
+   * @Given /^I am logged in with a temporal user( with email domain "([^"]*)")?$/
    */
-  public function iAmLoggedInWithATemporalUser() {
+  public function iAmLoggedInWithATemporalUser($with_email_domain = NULL, $domain = 'example.com') {
     $username = 'temporaluser' . md5(microtime());
     $password = 'drupal';
 
     $temporal_user = array(
       'name' => $username,
       'pass' => $password,
-      'mail' => "{$username}@example.com",
+      'mail' => "{$username}@{$domain}",
       'status' => 1,
       'legal_accept' => 1,
     );

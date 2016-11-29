@@ -40,8 +40,8 @@ function c4m_og_group_menu_context_default_contexts() {
   );
   $context->condition_mode = 0;
 
-// Translatables
-// Included for use with string extractors like potx.
+  // Translatables
+  // Included for use with string extractors like potx.
   t('Context for setting the sub menu inside OG');
   t('cap4more - OG');
   $export['c4m_context_og_menu'] = $context;

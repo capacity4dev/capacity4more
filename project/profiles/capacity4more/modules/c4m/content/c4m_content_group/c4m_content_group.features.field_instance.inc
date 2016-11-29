@@ -46,6 +46,7 @@ function c4m_content_group_field_default_field_instances() {
   // Exported field_instance: 'node-group-c4m_banner'.
   $field_instances['node-group-c4m_banner'] = array(
     'bundle' => 'group',
+    'default_value' => array(),
     'deleted' => 0,
     'description' => 'Select an image, photo that will be displayed in the header of the group page',
     'display' => array(
@@ -166,10 +167,11 @@ function c4m_content_group_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'media',
+      'module' => 'image',
       'settings' => array(
         'allowed_schemes' => array(
-          'public' => 'public',
+          'private' => 'private',
+          'public' => 0,
         ),
         'allowed_types' => array(
           'audio' => 0,
@@ -183,8 +185,10 @@ function c4m_content_group_field_default_field_instances() {
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'upload' => 'upload',
         ),
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
       ),
-      'type' => 'media_generic',
+      'type' => 'image_image',
       'weight' => 6,
     ),
   );
@@ -453,6 +457,7 @@ function c4m_content_group_field_default_field_instances() {
   // Exported field_instance: 'node-group-c4m_media'.
   $field_instances['node-group-c4m_media'] = array(
     'bundle' => 'group',
+    'default_value' => array(),
     'deleted' => 0,
     'description' => 'The image, photo or logo, is used in the group overview page.',
     'display' => array(
@@ -589,10 +594,11 @@ function c4m_content_group_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'media',
+      'module' => 'image',
       'settings' => array(
         'allowed_schemes' => array(
-          'public' => 'public',
+          'private' => 'private',
+          'public' => 0,
         ),
         'allowed_types' => array(
           'audio' => 0,
@@ -606,8 +612,10 @@ function c4m_content_group_field_default_field_instances() {
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'upload' => 'upload',
         ),
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
       ),
-      'type' => 'media_generic',
+      'type' => 'image_image',
       'weight' => 7,
     ),
   );

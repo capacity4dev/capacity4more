@@ -309,6 +309,16 @@
   padding-top: 1em;
 }
 
+.field-name-c4m-project-url {
+  @include clearfix;
+
+  .content-col {
+    display: table-cell;
+    height: 60px;
+    vertical-align: middle;
+  }
+}
+
 .privacy-level {
   &--private {
     color: $brand-danger;
@@ -321,6 +331,19 @@
   }
 }
 
+.field-name-c4m-ds-content-shared-to {
+  .field-name-c4m-ds-group-type-icon {
+    .group-icon.node-icon {
+      height: 1em;
+      width: 25px;
+    }
+  }
+
+  .field-name-c4m-ds-group-type-icon, .field-name-c4m-ds-project-type-icon {
+    margin-right: 0.25em;
+  }
+}
+
 .group-user-interests, .group-user-expertise {
   .field-label {
     color: $color-gray-dark;
@@ -328,12 +351,18 @@
   }
 }
 
-.group-node-actions {
+.group-node-actions,
+.group-actions-recommend {
   > h3 {
     margin-bottom: 0.2em;
   }
-}
 
-.group-actions-recommend {
-  margin: 0.5em 0;
+  .fa {
+    text-align: center;
+    width: 1rem;
+  }
+
+  .action {
+    margin-left: 1rem;
+  }
 }

@@ -73,8 +73,8 @@ function c4m_content_share_action_share($node) {
   );
 
   $output = '<div class="group-actions-share">' . l(
-      t('Share to your groups'),
-      $url
+      '<i class="fa fa-retweet"></i><span class="action">' . t('Share to your groups/projects') . '</span>',
+      $url, array('html' => TRUE)
     ) . '</div>';
   return $output;
 }
@@ -289,6 +289,7 @@ function c4m_content_share_c4m_helper_entity_label_info_alter(
     $original_label_info = c4m_helper_entity_label_info($original_node);
 
     $label_info['singular'] = $original_label_info['singular'];
+    $label_info['article'] = $original_label_info['article'];
   }
 }
 

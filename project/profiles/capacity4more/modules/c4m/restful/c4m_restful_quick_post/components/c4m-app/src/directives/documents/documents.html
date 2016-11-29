@@ -1,10 +1,10 @@
 <div ng-show="relatedDocuments.length > 0" class="row documents-uploaded">
     <ul>
         <li ng-repeat="document in data" class="document row">
-            <h3>{{document.label}}</h3>
-            <a href="javascript://" ng-click="removeDocument(document.id)">Remove this document</a>
+            <h3 title="{{document.label}}">{{document.label}}</h3>
+            <a href="javascript://" ng-click="removeDocument(document.id)" title="Remove {{document.label}} document">Remove this document</a>
 
-            <p>Filetype: {{document.document.filemime}} | Filesize: {{document.document.filesize}}</p>
+            <p title="Filetype: {{document.document.filemime}} | Filesize: {{document.document.filesize}}">Filetype: {{document.document.filemime}} | Filesize: {{document.document.filesize}}</p>
         </li>
     </ul>
 </div>

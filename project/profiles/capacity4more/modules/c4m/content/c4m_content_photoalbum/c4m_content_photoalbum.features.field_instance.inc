@@ -77,6 +77,13 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 4,
       ),
+      'my_comments' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
+      ),
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'comment',
@@ -169,6 +176,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'type' => 'smart_trim_format',
         'weight' => 2,
       ),
+      'block_list' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 25,
+      ),
       'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
@@ -220,7 +233,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'weight' => 7,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'smart_trim',
         'settings' => array(
           'more_link' => FALSE,
@@ -237,7 +250,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'weight' => 7,
       ),
       'teaser_group' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'smart_trim',
         'settings' => array(
           'more_link' => FALSE,
@@ -328,6 +341,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 24,
+      ),
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 28,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -428,6 +447,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 31,
+      ),
       'default' => array(
         'label' => 'above',
         'settings' => array(),
@@ -501,6 +526,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 23,
+      ),
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -600,6 +631,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 16,
+      ),
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 30,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -705,6 +742,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 22,
+      ),
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 26,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -844,6 +887,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 21,
+      ),
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 27,
       ),
       'c4m_related' => array(
         'label' => 'above',

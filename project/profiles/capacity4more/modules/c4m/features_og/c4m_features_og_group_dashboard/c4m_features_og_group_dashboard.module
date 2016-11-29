@@ -119,33 +119,12 @@ function c4m_unflag_nodes_action(&$object, $context = array()) {
  */
 function c4m_features_og_group_dashboard_c4m_content_actions_info() {
   return array(
-    'action_promote' => array(
-      'context'   => array('group'),
-      'callback'  => 'c4m_features_og_group_dashboard_action_promote',
-      'weight'    => '2',
-    ),
-
     'action_recommend' => array(
       'context'   => array('group', 'global'),
       'callback'  => 'c4m_features_og_group_dashboard_action_recommend',
       'weight'    => '3',
     ),
   );
-}
-
-/**
- * Callback to show the promote link.
- *
- * @param object $node
- *    The node object.
- *
- * @return string
- *    Rendered output of the promote link.
- */
-function c4m_features_og_group_dashboard_action_promote($node) {
-  $flag_link = flag_create_link('c4m_og_content_highlight', $node->nid);
-  $output = '<div class="group-actions-promote">' . $flag_link . '</div>';
-  return $output;
 }
 
 /**
@@ -192,28 +171,39 @@ function c4m_features_og_group_dashboard_form_alter(&$form, &$form_state, $form_
     // Get group of the entity.
     $group_id   = c4m_og_get_gid_from_entity($entity);
 
-    $url_options = array(
-      'purl' => array(
-        'provider' => 'og_purl|node',
-        'id' => $group_id,
-      ),
-    );
+    if ($_GET['destination'] == 'node') {
+      // When destination is 'node' it actually means the group homepage.
+      $_GET['destination'] = 'node/' . $group_id;
+    }
+    else {
+      $url_options = array(
+        'purl' => array(
+          'provider' => 'og_purl|node',
+          'id' => $group_id,
+        ),
+      );
 
-    // Override the destination so we'll get the purl.
-    $_GET['destination'] = url($_GET['destination'], $url_options);
+      // Override the destination so we'll get the purl.
+      $_GET['destination'] = url($_GET['destination'], $url_options);
+    }
 
     if ($flag->name === 'c4m_og_content_highlight' && $form['action']['#value'] == 'flag') {
       $flag_id = $flag->fid;
 
       // Get flagged content.
       $flagged_og_content = c4m_features_og_group_dashboard_get_flagged_group_content($group_id, $flag_id);
-      $flagged_og_content = entity_load($flag->entity_type, array_keys($flagged_og_content));
 
-      // Show summary of entities who will be unflagged if you confirm.
       if (!empty($flagged_og_content)) {
+        // Store the entities IDs to be unflaged, as part of form state.
+        $form_state['flagged_og_content'] = array_keys($flagged_og_content);
+        // The unflaging of group's other promoted content.
+        $form['#submit'][] = 'c4m_features_og_group_dashboard_demote_promoted_flag_submit';
+
+        // Show summary of entities who will be unflagged if the user confirms.
+        $flagged_og_content = entity_load($flag->entity_type, array_keys($flagged_og_content));
         $list = array();
         foreach ($flagged_og_content as $flagged_entity) {
-          $list[] = $flagged_entity->title;
+          $list[] = l($flagged_entity->title, 'node/' . $flagged_entity->nid);
         }
         $flagged_content_summary = array(
           '#theme'  => 'item_list',
@@ -222,11 +212,92 @@ function c4m_features_og_group_dashboard_form_alter(&$form, &$form_state, $form_
         $flagged_content_summary = render($flagged_content_summary);
 
         $form['flagged_content'] = array(
-          '#markup'   => '<strong>' . t('Following items will be depromoted:') . '</strong>' . $flagged_content_summary,
+          '#markup'   => '<strong>' . t('Following items will be demoted:') . '</strong>' . $flagged_content_summary,
         );
       }
     }
   }
+}
+
+/**
+ * Additional submit handler for the flag confirm form.
+ *
+ * Since only one content can be at promoted state per group, when promoting
+ * content, group's other promoted content must be demoted.
+ * Function executes unflagging of content, flagged by c4m_og_content_highlight
+ * flag.
+ */
+function c4m_features_og_group_dashboard_demote_promoted_flag_submit(&$form, &$form_state) {
+  $flagged_entities_ids = $form_state['flagged_og_content'];
+
+  foreach ($flagged_entities_ids as $entity_id) {
+    flag('unflag', 'c4m_og_content_highlight', $entity_id);
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Add PURL prefix of the group to the c4m_og_content_highlight flag.
+ */
+function c4m_features_og_group_dashboard_preprocess_flag(&$variables) {
+  if ($variables['flag']->name != 'c4m_og_content_highlight') {
+    return;
+  }
+
+  if (!$current_gid = c4m_og_current_group_id()) {
+    return;
+  }
+
+  $url_options = array(
+    'purl' => array(
+      'enabled' => TRUE,
+      'provider' => 'og_purl|node',
+      'id' => $current_gid,
+    ),
+  );
+
+  if (!empty($variables['link']['query'])) {
+    $url_options['query'] = $variables['link']['query'];
+  }
+
+  $url = url($variables['link']['href'], $url_options);
+  $variables['link_href'] = $url;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function c4m_features_og_group_dashboard_menu_alter(&$items) {
+  $items['flag/confirm/%/%flag/%']['access callback'] = 'c4m_features_og_group_dashboard_promote_flag_access';
+}
+
+/**
+ * Menu access callback for flagging pages.
+ *
+ * Allow power users only to promote group content.
+ *
+ * @see flag_page_access()
+ */
+function c4m_features_og_group_dashboard_promote_flag_access($action, $flag, $entity_id) {
+  if ($flag->name == 'c4m_og_content_highlight') {
+    if (!og_context_is_init()) {
+      // OG context was not determined yet, so register the path and return
+      // early.
+      // The next time this access callback will be called, it will not enter
+      // here.
+      og_context_access_callback_register_path($_GET['q']);
+      return FALSE;
+    }
+
+    $context = og_context();
+    $group = c4m_og_get_group_of_content($entity_id);
+
+    // Verify also that the group of promoted content is the current context.
+    return $context['gid'] == $group->nid && _c4m_features_og_members_is_power_user();
+  }
+
+  return flag_page_access($action, $flag, $entity_id);
 }
 
 /**
@@ -280,7 +351,16 @@ function c4m_features_og_group_dashboard_block_info() {
 function c4m_features_og_group_dashboard_block_view($delta = '') {
   $block = array();
 
-  $block['content'] = module_invoke_all('c4m_cta_block');
+  // This naming should be modified but there are tickets in progress dependent
+  // on this.
+  $block['content']['cta'] = module_invoke_all('c4m_cta_block');
+  $block['content']['links'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('c4m-group-dashboard-links'),
+    ),
+    'content' => module_invoke_all('c4m_group_dashboard_links'),
+  );
 
   return $block;
 }

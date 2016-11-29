@@ -16,6 +16,28 @@ include_once 'c4m_features_homepage.features.inc';
 define('C4M_FEATURES_HOMEPAGE_MAX_GROUPS_PER_BLOCK', 3);
 
 /**
+ * Implements hook_menu_alter().
+ *
+ * Remove access to certain standard Drupal paths.
+ */
+function c4m_features_homepage_menu_alter(&$items) {
+  // Disable node path.
+  if (isset($items['node'])) {
+    unset($items['node']);
+  }
+
+  // Disable default RSS feed.
+  if (isset($items['rss.xml'])) {
+    unset($items['rss.xml']);
+  }
+
+  // Disable filter tips.
+  if (isset($items['filter/tips'])) {
+    unset($items['filter/tips']);
+  }
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
@@ -180,11 +202,8 @@ function c4m_features_homepage_c4m_featured_projects_get_projects() {
  *   NULL | List of nodes of OG.
  */
 function c4m_features_homepage_c4m_get_featured_og_groups($bundle) {
-  $get_query = drupal_get_query_parameters();
-  $filter = !empty($get_query['filter']) ? $get_query['filter'] : '';
-
-  // Suggested groups block should appear when a user has interests.
-  if (c4m_features_homepage_get_suggested_items($bundle) && $filter != 'showAll') {
+  // Suggested $bundle block should appear when a user has interests.
+  if (c4m_features_homepage_get_suggested_items($bundle)) {
     return;
   }
 

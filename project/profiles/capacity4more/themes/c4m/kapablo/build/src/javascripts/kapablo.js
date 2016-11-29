@@ -258,6 +258,10 @@
     }
   };
 
+  $(window).bind("load", function () {
+    $('#user-register-form input[name="mail"]').focus();
+  });
+
   // Disable form buttons on AJAX calls.
   $(document)
     .ajaxStart(function () {
