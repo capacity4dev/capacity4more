@@ -103,12 +103,14 @@
     display: inline-block;
   }
 
-  .form-control:not(textarea) {
-    color: $color-gray-dark;
-    font-style: italic;
-    background-color: #EBEAE4;
-    border: 0;
-    border-radius: 20px;
+  .date-no-float {
+    .control-label {
+      display: block;
+    }
+  }
+
+  .form-control {
+    border-radius: 2px;
 
     &:focus {
       box-shadow: 0 0 8px rgba(0, 0, 0, .6);
@@ -128,6 +130,10 @@
     .input-group {
       display: block;
     }
+  }
+
+  .droppable-standard-upload {
+    min-height: auto;
   }
 
   .cfm-file-upload-wrapper {
