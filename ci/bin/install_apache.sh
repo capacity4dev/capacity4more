@@ -22,7 +22,7 @@ sudo a2enmod rewrite actions fastcgi alias
 
 # Config php-fpm.
 
-php_version = $(phpenv version-name)
+php_version=$(phpenv version-name)
 
 if [ $php_version == '7.0' ]; then
     sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/php-fpm.conf
