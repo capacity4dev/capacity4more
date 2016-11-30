@@ -41,6 +41,7 @@ if [ "$php_version" = 7.0.13 ]; then
     mkdir $TRAVIS_BUILD_DIR/web
 
     sudo cp -f $TRAVIS_BUILD_DIR/ci/config/apache-70.conf /etc/apache2/sites-available/default
+    sudo cp -f $TRAVIS_BUILD_DIR/ci/config/apache-70.conf ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/
 else
     # Install necesary php packages.
     sudo apt-get install -y --force-yes php5-cgi php5-mysql
