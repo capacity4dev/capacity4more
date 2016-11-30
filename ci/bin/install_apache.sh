@@ -29,6 +29,18 @@ if [ "$php_version" = 7.0.13 ]; then
     sudo apt-get install apache2 libapache2-mod-fastcgi
     sudo a2enmod rewrite actions fastcgi alias
 
+    echo "VERSION"
+
+    ls -al ~/.phpenv/versions/$(phpenv version-name)/
+
+    echo "VERSION/ETC"
+
+    ls -al ~/.phpenv/versions/$(phpenv version-name)/etc/
+
+    echo "VERSION/ETC/PHP-FPM.D"
+
+    ls -al ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/
+
     sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/php-fpm.conf
 
     echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
