@@ -22,9 +22,9 @@ sudo a2enmod rewrite actions fastcgi alias
 
 # Config php-fpm.
 
-PHP_VERSION = $(phpenv version-name)
+php_version = $(phpenv version-name)
 
-if [ PHP_VERSION == '7.0' ]; then
+if [ $php_version == '7.0' ]; then
     sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/php-fpm.conf
 else
     sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
@@ -40,7 +40,7 @@ echo "sendmail_path='true'" >> `php --ini | grep "Loaded Configuration" | awk '{
 mkdir $TRAVIS_BUILD_DIR/web
 
 # Create the default vhost config file.
-if [ PHP_VERSION == '7.0' ]; then
+if [ $php_version == '7.0' ]; then
     sudo cp -f $TRAVIS_BUILD_DIR/ci/config/apache-70.conf /etc/apache2/sites-available/default
 else
     sudo cp -f $TRAVIS_BUILD_DIR/ci/config/apache.conf /etc/apache2/sites-available/default
