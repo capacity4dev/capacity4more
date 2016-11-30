@@ -687,10 +687,12 @@ function c4m_user_og_group_actions_cta($group) {
   $variables = array(
     'bundles' => array(
       'wiki_page',
+      'photo',
       'photoalbum',
       'discussion',
       'event',
       'document',
+      'news',
     ),
     'state' => NODE_NOT_PUBLISHED,
     'entity_type' => 'node',
