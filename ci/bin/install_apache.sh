@@ -18,6 +18,7 @@ fi
 php_version=$(phpenv version-name)
 
 if [ "$php_version" = 7.0.13 ]; then
+
     # Install necesary php packages.
     sudo apt-add-repository -y ppa:ondrej/php
     sudo apt-get update
