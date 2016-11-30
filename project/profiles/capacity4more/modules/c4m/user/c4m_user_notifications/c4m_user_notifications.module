@@ -150,11 +150,7 @@ function c4m_user_notifications_og_membership_update($og_membership) {
  *   TRUE, if user was added as a result of invitation.
  */
 function _c4m_user_notifications_is_invite_membership($og_membership) {
-  if (empty($og_membership->og_membership_request) || empty($og_membership->og_membership_request[0])) {
-    return FALSE;
-  }
-
-  return TRUE;
+  return !empty($og_membership->og_membership_request) && !empty($og_membership->og_membership_request[0]);
 }
 
 /**
