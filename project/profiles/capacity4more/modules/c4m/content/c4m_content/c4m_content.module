@@ -8,19 +8,21 @@
 /**
  * Render a message to the user about the draft entity.
  *
- * @param $type
+ * @param string $type
  *   A bundle machine name.
  *
  * @return string
  *   The rendered message as an HTML element.
  */
 function _c4m_content_get_draft_message_rendered($type) {
+  $params = array('@type' => str_replace('_', ' ', $type));
+
   $tag['element'] = array(
     '#tag'       => 'span',
     '#attributes' => array(
       'class' => array('control-label'),
     ),
-    '#value' => t('By pressing \'Save\', you will save this @type as a draft - please press \'Publish\' to create and publish this @type.', array('@type' => str_replace('_', ' ', $type))),
+    '#value' => t("By pressing 'Save', you will save this @type as a draft - please press 'Publish' to create and publish this @type.", $params),
   );
 
   $tag['element'] = array(
