@@ -121,26 +121,22 @@ function c4m_user_notifications_og_membership_update($og_membership) {
     c4m_user_notifications_notify_user_membership_accepted($og_membership);
 
     if ($moderated == C4M_OG_MODERATED_GROUP) {
-      // Check membership entity was an invitation or membership request.
-      // If not invitation, at og_membership entity, og_membership_request
-      // field is either an empty array, or an array with one item which is
-      // an empty array.
+      // When user is invited, and approves the request through link
+      // at mail, there's no need to notify admins about new member.
+      // When not invitation, at og_membership entity,
+      // og_membership_request field is either an empty array, or an array
+      // with one item, which is an empty array.
       if (empty($og_membership->og_membership_request) || empty($og_membership->og_membership_request[0])) {
-        // Notify admins only if it's not an invitation to group.
-        // When user is invited, and approves the request through link
-        // at mail, there's no need to notify admins.
         c4m_user_notifications_moderated_group_notify_admins_membership_accepted($og_membership);
       }
     }
     elseif ($moderated == C4M_OG_OPEN_GROUP) {
-      // Check membership entity was an invitation or membership request.
-      // If not invitation, at og_membership entity, og_membership_request
-      // field is either an empty array, or an array with one item which is
-      // an empty array.
+      // When user is invited, and approves the request through link
+      // at mail, there's no need to notify admins about new member.
+      // When not invitation, at og_membership entity,
+      // og_membership_request field is either an empty array, or an array
+      // with one item, which is an empty array.
       if (empty($og_membership->og_membership_request) || empty($og_membership->og_membership_request[0])) {
-        // Notify admins only if it's not an invitation to group.
-        // When user is invited, and approves the request through link
-        // at mail, there's no need to notify admins.
         c4m_user_notifications_open_group_notify_admins_membership_accepted($og_membership);
       }
     }
