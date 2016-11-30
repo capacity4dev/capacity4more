@@ -21,7 +21,19 @@ sudo apt-get install apache2 libapache2-mod-fastcgi
 sudo a2enmod rewrite actions fastcgi alias
 
 # Config php-fpm.
-sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+
+echo "VERSION ::: $(phpenv version-name)"
+echo $(phpenv version-name)
+
+ls -al ~/.phpenv/versions/$(phpenv version-name)/etc/
+ls -al ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/
+
+if [ $(phpenv version-name) == 7.* ]; then
+    sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/php-fpm.conf
+else
+    sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+fi
+
 echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
 
@@ -32,7 +44,7 @@ echo "sendmail_path='true'" >> `php --ini | grep "Loaded Configuration" | awk '{
 mkdir $TRAVIS_BUILD_DIR/web
 
 # Create the default vhost config file.
-if [ $(phpenv version-name) == '7.0' ]; then
+if [ $(phpenv version-name) == 7.* ]; then
     sudo cp -f $TRAVIS_BUILD_DIR/ci/config/apache-70.conf /etc/apache2/sites-available/default
 else
     sudo cp -f $TRAVIS_BUILD_DIR/ci/config/apache.conf /etc/apache2/sites-available/default
