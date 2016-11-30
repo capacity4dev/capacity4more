@@ -760,7 +760,7 @@ function c4m_user_og_group_management_cta($group) {
         'entity' => $group,
         'view_mode' => 'block_list',
         'formatter_settings' => array(
-          'ft' => array('lb-cl' => 'block-list')
+          'ft' => array('lb-cl' => 'block-list'),
         ),
       );
 
