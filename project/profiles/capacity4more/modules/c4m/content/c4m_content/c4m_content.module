@@ -6,6 +6,35 @@
  */
 
 /**
+ * Render a message to the user about the draft entity.
+ *
+ * @param $type
+ *   A bundle machine name.
+ *
+ * @return string
+ *   The rendered message as an HTML element.
+ */
+function _c4m_content_get_draft_message_rendered($type) {
+  $tag['element'] = array(
+    '#tag'       => 'span',
+    '#attributes' => array(
+      'class' => array('control-label'),
+    ),
+    '#value' => t('By pressing \'Save\', you will save this @type as a draft - please press \'Publish\' to create and publish this @type.', array('@type' => str_replace('_', ' ', $type))),
+  );
+
+  $tag['element'] = array(
+    '#tag'       => 'div',
+    '#attributes' => array(
+      'class' => array('has-error'),
+    ),
+    '#value' => theme_html_tag($tag),
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
  * Implements hook_form_BASE_FORM_ID_alter().
  *
  * Hide Book tab for all content types.
@@ -18,6 +47,17 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     $form_state['node']->type,
     c4m_og_get_group_content_notification_types()
   )) {
+
+    $form['additional_settings']['#weight'] = 97;
+
+    // Adding the message to the user about the draft entity.
+    if (isset($form_state['node']->status) && $form_state['node']->status == NODE_NOT_PUBLISHED) {
+      $form['draft-content-message'] = array(
+        '#markup' => _c4m_content_get_draft_message_rendered($form['type']['#value']),
+        '#weight' => 99,
+      );
+    }
+
     $form['send-notification'] = array(
       '#type' => 'checkbox',
       '#title' => t('Send Notification'),
