@@ -309,6 +309,8 @@ function c4m_content_group_node_access_records($node) {
     return;
   }
 
+  $group_access = c4m_og_get_access_type($node);
+
   $wrapper = entity_metadata_wrapper('node', $node);
   $grants = array();
   $realm_grants = array();
@@ -389,7 +391,7 @@ function c4m_content_group_node_access_records($node) {
       );
 
       // For projects and public groups.
-      if (!$wrapper->{OG_ACCESS_FIELD}->value()) {
+      if ($group_access['type'] == 'public') {
         $realm_grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_anon'] = array(
           array(
             'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_PUBLISHED,
@@ -430,7 +432,7 @@ function c4m_content_group_node_access_records($node) {
       );
 
       // For projects and public groups.
-      if (!$wrapper->{OG_ACCESS_FIELD}->value()) {
+      if ($group_access['type'] == 'public') {
         $realm_grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_anon'] = array(
           array(
             'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_ARCHIVED,
