@@ -123,24 +123,38 @@ function c4m_user_notifications_og_membership_update($og_membership) {
     if ($moderated == C4M_OG_MODERATED_GROUP) {
       // When user is invited, and approves the request through link
       // at mail, there's no need to notify admins about new member.
-      // When not invited, at og_membership entity,
-      // og_membership_request field is either an empty array, or an array
-      // with one item, which is an empty array.
-      if (empty($og_membership->og_membership_request) || empty($og_membership->og_membership_request[0])) {
+      if (_c4m_user_notifications_is_invite_membership($og_membership)) {
         c4m_user_notifications_moderated_group_notify_admins_membership_accepted($og_membership);
       }
     }
     elseif ($moderated == C4M_OG_OPEN_GROUP) {
       // When user is invited, and approves the request through link
       // at mail, there's no need to notify admins about new member.
-      // When not invited, at og_membership entity,
-      // og_membership_request field is either an empty array, or an array
-      // with one item, which is an empty array.
-      if (empty($og_membership->og_membership_request) || empty($og_membership->og_membership_request[0])) {
+      if (_c4m_user_notifications_is_invite_membership($og_membership)) {
         c4m_user_notifications_open_group_notify_admins_membership_accepted($og_membership);
       }
     }
   }
+}
+
+/**
+ * Check if user was added as a result of invitation.
+ *
+ * When membership was not created as a result of invitation, at membership
+ * entity, og_membership_request field is either an empty array, or an array
+ * with one item, which is an empty array.
+ *
+ * @param object $og_membership
+ *   The membership object
+ * @return bool
+ *   TRUE, if user was added as a result of invitation.
+ */
+function _c4m_user_notifications_is_invite_membership($og_membership) {
+  if (empty($og_membership->og_membership_request) || empty($og_membership->og_membership_request[0])) {
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /**
