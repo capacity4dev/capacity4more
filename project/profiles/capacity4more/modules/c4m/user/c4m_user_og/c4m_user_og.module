@@ -546,6 +546,7 @@ function c4m_user_og_theme() {
     'variables' => array(
       'links' => NULL,
       'title' => NULL,
+      'highlight' => NULL,
     ),
   );
 
@@ -752,6 +753,20 @@ function c4m_user_og_group_management_cta($group) {
       '#icon' => 'fa-cogs',
       '#text' => l(t("Manage !group_type", array('!group_type' => $group->type)), 'manage'),
     );
+
+    // Add project highlight icon.
+    if (c4m_user_is_site_admin() && $group->type == 'project') {
+      $field = array(
+        'entity' => $group,
+        'view_mode' => 'block_list',
+        'formatter_settings' => array(
+          'ft' => array('lb-cl' => 'block-list')
+        ),
+      );
+
+      module_load_include('inc', 'c4m_ds', 'includes/c4m_ds.theme.node');
+      $items['#highlight'] = theme_c4m_ds_node_highlight($field);
+    }
   }
 
   if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
