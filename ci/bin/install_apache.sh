@@ -32,7 +32,12 @@ echo "sendmail_path='true'" >> `php --ini | grep "Loaded Configuration" | awk '{
 mkdir $TRAVIS_BUILD_DIR/web
 
 # Create the default vhost config file.
-sudo cp -f $TRAVIS_BUILD_DIR/ci/config/apache.conf /etc/apache2/sites-available/default
+if [ $(phpenv version-name) == '7.0' ]; then
+    sudo cp -f $TRAVIS_BUILD_DIR/ci/config/apache-70.conf /etc/apache2/sites-available/default
+else
+    sudo cp -f $TRAVIS_BUILD_DIR/ci/config/apache.conf /etc/apache2/sites-available/default
+fi
+
 sudo sed -e "s?%TRAVIS_BUILD_DIR%?$TRAVIS_BUILD_DIR?g" --in-place /etc/apache2/sites-available/default
 
 # Restart Apache
