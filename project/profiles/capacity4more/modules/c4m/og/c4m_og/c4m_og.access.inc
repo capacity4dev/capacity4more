@@ -73,6 +73,8 @@ function c4m_og_access_types() {
 /**
  * Get the group info (public/restricted/private) by the group.
  *
+ * If group is of type 'project', it's always public.
+ *
  * @param object $group
  *   The group entity.
  *
@@ -81,6 +83,10 @@ function c4m_og_access_types() {
  */
 function c4m_og_get_access_type($group) {
   $group_types = c4m_og_access_types();
+
+  if ($group->type == 'project') {
+    return $group_types['public'];
+  }
 
   // Check if the group_access field exists.
   if (!isset($group->group_access)) {
