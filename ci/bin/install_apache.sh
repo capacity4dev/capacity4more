@@ -19,6 +19,9 @@ php_version=$(phpenv version-name)
 
 if [ "$php_version" = 7.0.13 ]; then
     # Install necesary php packages.
+    sudo apt-add-repository -y ppa:ondrej/php
+    sudo apt-get update
+
     sudo apt-get install -y --force-yes php7.0-cgi php7.0-mysql
 
     # Install Apache.
