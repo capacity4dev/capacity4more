@@ -30,6 +30,9 @@ if [ "$php_version" = 7.0.13 ]; then
     sudo a2enmod rewrite actions fastcgi alias
 
     sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+    sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
+
+    cat ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
 
     echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
@@ -41,7 +44,7 @@ if [ "$php_version" = 7.0.13 ]; then
     mkdir $TRAVIS_BUILD_DIR/web
 
     sudo cp -f $TRAVIS_BUILD_DIR/ci/config/apache-70.conf /etc/apache2/sites-available/default
-    sudo cp -f $TRAVIS_BUILD_DIR/ci/config/apache-70.conf ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/
+
 else
     # Install necesary php packages.
     sudo apt-get install -y --force-yes php5-cgi php5-mysql
