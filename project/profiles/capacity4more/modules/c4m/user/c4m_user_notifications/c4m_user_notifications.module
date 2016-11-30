@@ -145,7 +145,8 @@ function c4m_user_notifications_og_membership_update($og_membership) {
  * only item is an empty array.
  *
  * @param object $og_membership
- *   The membership object
+ *   The membership object.
+ *
  * @return bool
  *   TRUE, if user was added as a result of invitation.
  */
