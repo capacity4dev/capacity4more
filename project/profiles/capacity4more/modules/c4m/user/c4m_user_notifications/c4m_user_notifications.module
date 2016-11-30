@@ -141,8 +141,8 @@ function c4m_user_notifications_og_membership_update($og_membership) {
  * Check if user was added as a result of invitation.
  *
  * When membership was not created as a result of invitation, at membership
- * entity, og_membership_request field is either an empty array, or an array
- * with one item, which is an empty array.
+ * entity, og_membership_request field is either an empty array, or it's
+ * only item is an empty array.
  *
  * @param object $og_membership
  *   The membership object
