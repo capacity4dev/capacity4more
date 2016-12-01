@@ -103,6 +103,8 @@ function c4m_content_share_search_api_index_items_alter(
         $item->{$field} = $original_node->{$field};
       }
 
+      $item->original_node_type = 'share';
+
       $items[$index] = $item;
     }
   }
@@ -208,6 +210,23 @@ function c4m_content_share_access() {
   }
 
   return c4m_og_user_is_member();
+}
+
+/**
+ * Implements hook_node_access().
+ */
+function c4m_content_share_node_access($node, $op, $account) {
+  if (!isset($node->original_node_type)) {
+    return NODE_ACCESS_IGNORE;
+  }
+
+  if ($node->original_node_type !== 'share') {
+    return NODE_ACCESS_IGNORE;
+  }
+
+  $node->type = 'share';
+
+  return node_access($node, $op);
 }
 
 /**
