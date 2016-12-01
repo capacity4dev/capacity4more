@@ -1,13 +1,11 @@
 <?php
 /**
  * @file
- * Context methods about Groups (view, create, update, delete).
+ * Context methods about Projects (view, create, update, delete).
  */
 
 namespace FeatureContext;
 
-use Behat\Behat\Context\Step\Given;
-use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Context\Step;
 
 
@@ -23,12 +21,16 @@ trait Project {
 
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
 
-    $steps[] = new Step\When('I fill in ckeditor field "edit-c4m-body-und-0-value" with "This is default summary."');
-
     // This is a required tag.
     $steps[] = new Step\When('I check the related topic checkbox');
 
- //   $steps[] = new Step\When('I press "Request"');
+    $steps[] = new Step\When('I fill in ckeditor field "edit-c4m-body-und-0-value" with "This is default summary."');
+
+
+
+    // This is the banner
+//
+    $steps[] = new Step\When('I press "Request"');
 
     // Check there was no error.
   //  $steps[] = new Step\When('I should not see "There was an error"');
