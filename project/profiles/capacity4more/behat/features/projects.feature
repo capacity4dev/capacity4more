@@ -22,7 +22,7 @@ Feature: Testing the projects overview page.
     And   I should not see "Lusail City Hotel"
 
   @api @my
-  Scenario: Verify that non member can see published project.
+  Scenario: Verify that regular user can see published projects.
     Given I am logged in as user "badhairday"
     When  The project "Lusail City Hotel" status is changed by admin to "Published"
     Then  I visit "projects"
