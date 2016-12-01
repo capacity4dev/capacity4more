@@ -1,0 +1,43 @@
+diff --git a/og_ui/includes/views/handlers/og_ui_handler_area_og_membership_overview.inc b/og_ui/includes/views/handlers/og_ui_handler_area_og_membership_overview.inc
+index ef3b25d..85d2ff9 100644
+--- a/og_ui/includes/views/handlers/og_ui_handler_area_og_membership_overview.inc
++++ b/og_ui/includes/views/handlers/og_ui_handler_area_og_membership_overview.inc
+@@ -115,10 +115,34 @@ class og_ui_handler_area_og_membership_overview extends views_handler_area {
+     if ($this->options['total_members']) {
+       // Total members.
+       $query = clone $base_query;
+-      $count = $query
+-        ->propertyCondition('entity_type', 'user', '=')
+-        ->execute();
+-      $items[] = array('data' => t('Total members: @count', array('@count' => $count)));
++      $query->propertyCondition('entity_type', 'user', '=');
++
++      $invited_count = FALSE;
++      $invited_memberships_ids = c4m_og_get_invited_memberships_ids();
++
++      // If there are any invitations, we should take them into count.
++      if ($invited_memberships_ids) {
++        $invited_query = clone $query;
++        $invited_count = $invited_query
++          ->propertyCondition('id', $invited_memberships_ids, 'IN')
++          ->execute();
++
++        // Filter out the invited memberships from the total count.
++        $query->propertyCondition('id', $invited_memberships_ids, 'NOT IN');
++      }
++
++      $count = $query->execute();
++
++      if ($invited_count) {
++        $params = array(
++          '@count' => $count,
++          '@invited' => $invited_count,
++        );
++        $items[] = array('data' => t('Total members: @count (+@invited invited)', $params));
++      }
++      else {
++        $items[] = array('data' => t('Total members: @count', array('@count' => $count)));
++      }
+     }
+ 
+    if ($this->options['total_content']) {
