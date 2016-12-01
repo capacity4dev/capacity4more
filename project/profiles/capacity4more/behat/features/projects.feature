@@ -10,3 +10,8 @@ Feature: Testing the projects overview page.
     And I should see the sidebar facet with title "Topics"
     And I should see the sidebar facet with title "Regions & Countries"
     And I should be able to sort the overview
+
+  @javascript @my
+  Scenario: WIP
+    Given I am an anonymous user
+    When a project "MyTestProject" is created with project manager "badhairday"
