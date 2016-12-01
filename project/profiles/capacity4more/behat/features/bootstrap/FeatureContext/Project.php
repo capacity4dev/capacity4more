@@ -23,6 +23,7 @@ trait Project {
     $steps[] = new Step\When('I select "' . $status . '" from "edit-c4m-og-status-und"');
     $steps[] = new Step\When('I press "Save"');
     $steps[] = new Step\When('I should see "Project ' . $group_title . ' has been updated."');
+
     return $steps;
   }
 }
