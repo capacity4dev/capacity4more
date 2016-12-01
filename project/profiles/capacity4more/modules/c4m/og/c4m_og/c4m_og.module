@@ -2416,6 +2416,11 @@ function c4m_og_view_node_access($node, $account) {
     return in_array($group_state, $allowed_states[$user_type]) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
   elseif (og_is_group_content_type('node', $node->type)) {
+    // We have a custom access handler for shares in.
+    // @seealso c4m_content_share_node_access_records_alter().
+    if ($node->type == 'share') {
+      return NODE_ACCESS_IGNORE;
+    }
 
     // Couldn't resolve the group of the content.
     if (!$group = c4m_og_get_group_of_content($node)) {
