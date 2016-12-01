@@ -12,34 +12,17 @@ use Behat\Behat\Context\Step;
 trait Project {
 
   /**
-   * @Given /^a project "([^"]*)" is created with project manager "([^"]*)"$/
+   * @Given /^The project "([^"]*)" status is changed by admin to "([^"]*)"$/
    */
-  public function aProjectIsCreatedWithGroupManager($title, $username) {
+  public function theProjectStatusIsChangedByAdminTo($group_title, $status) {
     $steps = array();
-    $steps[] = new Step\When('I am logged in as user "' . $username . '"');
-    $steps[] = new Step\When('I visit "node/add/project"');
 
-    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
-
-    // This is a required tag.
-    $steps[] = new Step\When('I check the related topic checkbox');
-
-    $steps[] = new Step\When('I fill in ckeditor field "edit-c4m-body-und-0-value" with "This is default summary."');
-
-
-
-    // This is the banner
-//
-    $steps[] = new Step\When('I press "Request"');
-
-    // Check there was no error.
-  //  $steps[] = new Step\When('I should not see "There was an error"');
- //   $steps[] = new Step\When('I should be on the homepage');
-    $steps[] = new Step\When('I should see "Project ' . $title . ' has been created."');
-
-//    $steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Draft"');
-//    $steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Published"');
-//    $steps[] = new Step\When('I am logged in as user "' . $username . '"');
+    $group = $this->loadGroupByTitleAndType($group_title, 'project');
+    $steps[] = new Step\When('I am logged in as user "admin"');
+    $steps[] = new Step\When('I visit "/node/' . $group->nid . '/edit"');
+    $steps[] = new Step\When('I select "' . $status . '" from "edit-c4m-og-status-und"');
+    $steps[] = new Step\When('I press "Save"');
+    $steps[] = new Step\When('I should see "Project ' . $group_title . ' has been updated."');
     return $steps;
   }
 }
