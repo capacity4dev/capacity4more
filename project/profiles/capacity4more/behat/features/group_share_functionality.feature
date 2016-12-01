@@ -30,7 +30,7 @@ Feature: Testing the sharing content between groups functionality and permission
     When I visit the group "share" detail page "Barclays ATP World Tour Finals"
     Then  I should see the event detail page
 
-  @share
+  @api
   Scenario: Check if we see the private event on the events overview page for non-member.
     Given I am an anonymous user
     When I visit the site homepage
@@ -38,7 +38,7 @@ Feature: Testing the sharing content between groups functionality and permission
     And I press "<i class=\"fa fa-search\"></i>"
     Then I should not see "shared event to the group"
 
-  @share
+  @api
   Scenario: Check if we see the private event on the events overview page for member.
     Given I am logged in as user "alfrednobel"
     When I visit the site homepage
