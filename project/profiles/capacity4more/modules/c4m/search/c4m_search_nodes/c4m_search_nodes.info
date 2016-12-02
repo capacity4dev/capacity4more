@@ -5,6 +5,7 @@ package = capacity4more - Search
 dependencies[] = c4m_search_filter
 dependencies[] = c4m_views
 dependencies[] = context
+dependencies[] = ctools
 dependencies[] = entity
 dependencies[] = facetapi
 dependencies[] = path_breadcrumbs
