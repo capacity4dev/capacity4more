@@ -92,6 +92,15 @@ function c4m_search_nodes_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'feed' => 'feed',
   );
+  /* Filter criterion: Indexed Node: Node access information */
+  $handler->display->display_options['filters']['search_api_access_node']['id'] = 'search_api_access_node';
+  $handler->display->display_options['filters']['search_api_access_node']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['search_api_access_node']['field'] = 'search_api_access_node';
+  /* Filter criterion: Indexed Node: Source Content */
+  $handler->display->display_options['filters']['c4m_source_entity']['id'] = 'c4m_source_entity';
+  $handler->display->display_options['filters']['c4m_source_entity']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['c4m_source_entity']['field'] = 'c4m_source_entity';
+  $handler->display->display_options['filters']['c4m_source_entity']['operator'] = 'empty';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
