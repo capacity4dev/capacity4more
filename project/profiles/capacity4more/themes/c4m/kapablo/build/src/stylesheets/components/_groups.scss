@@ -904,7 +904,10 @@
 .front.og-context {
   .sidebarblock {
     .c4m-node-highlight {
+      border-bottom: 1px dashed $color-gray-light;
       float: none;
+      padding-bottom: 1.5em;
+      margin-bottom: 2em;
 
       .highlight-link {
         .highlight-link-text {
