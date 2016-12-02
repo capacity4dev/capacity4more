@@ -31,17 +31,21 @@ Feature: Testing the sharing content between groups functionality and permission
     Then  I should see the event detail page
 
   @api
-  Scenario: Check if we see the private event on the events overview page for non-member.
+  Scenario: As an anonymous user I don't have access to the original content (private group),
+            I should not see it on overviews of the group it was shared to.
     Given I am an anonymous user
-    When I visit the site homepage
-    And I fill in "edit-keys" with "Barclays"
-    And I press "<i class=\"fa fa-search\"></i>"
-    Then I should not see "shared event to the group"
+    When I visit the past events overview of group "Nobel Prize"
+    Then I should not see "Barclays ATP World Tour Finals" on that overview
 
   @api
-  Scenario: Check if we see the private event on the events overview page for member.
+  Scenario: I'm not a group member of the (private) source group,
+            I should not see it on overviews of the group it was shared to.
     Given I am logged in as user "alfrednobel"
-    When I visit the site homepage
-    And I fill in "edit-keys" with "Barclays"
-    And I press "<i class=\"fa fa-search\"></i>"
-    Then I should see "shared event to the group"
+    When I visit the past events overview of group "Nobel Prize"
+    Then I should not see "Barclays ATP World Tour Finals" on that overview
+
+  @api
+  Scenario: As a Site Administrator I should have access to all shares.
+    Given I am logged in as user "mariecurie"
+    When I visit the past events overview of group "Nobel Prize"
+    Then I should see "Barclays ATP World Tour Finals" on that overview
