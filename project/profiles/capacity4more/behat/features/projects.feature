@@ -11,7 +11,7 @@ Feature: Testing the projects overview page.
     And I should see the sidebar facet with title "Regions & Countries"
     And I should be able to sort the overview
 
-  @api @my
+  @api
   Scenario: Verify that PO can see draft projects, while regular user can not.
     Given I am logged in as user "badhairday"
     When  The project "Lusail City Hotel" status is changed by admin to "Draft"
@@ -21,7 +21,7 @@ Feature: Testing the projects overview page.
     And   I visit "projects"
     And   I should not see "Lusail City Hotel"
 
-  @api @my
+  @api
   Scenario: Verify that regular user can see published projects.
     Given I am logged in as user "badhairday"
     When  The project "Lusail City Hotel" status is changed by admin to "Published"
