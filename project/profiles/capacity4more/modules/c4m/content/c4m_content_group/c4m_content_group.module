@@ -303,7 +303,7 @@ function c4m_content_group_replace_mail_tokens(array &$replacements, array $data
  */
 function c4m_content_group_node_access_records($node) {
   // Only for group nodes.
-  if ($node->type != 'group') {
+  if ($node->type != 'group' && $node->type != 'project') {
     return;
   }
   $wrapper = entity_metadata_wrapper('node', $node);
@@ -385,20 +385,22 @@ function c4m_content_group_node_access_records($node) {
         ),
       );
 
-      if (!$wrapper->{OG_ACCESS_FIELD}->value()) {
-        // Only for public groups.
-        $realm_grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_anon'] = array(
-          array(
-            'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_PUBLISHED,
-            'grant_update' => 0,
-          ),
-        );
-        $realm_grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_not_member'] = array(
-          array(
-            'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_PUBLISHED,
-            'grant_update' => 0,
-          ),
-        );
+      if ($node->type == 'group') {
+        if (!$wrapper->{OG_ACCESS_FIELD}->value()) {
+          // Only for public groups.
+          $realm_grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_anon'] = array(
+            array(
+              'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_PUBLISHED,
+              'grant_update' => 0,
+            ),
+          );
+          $realm_grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_not_member'] = array(
+            array(
+              'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_PUBLISHED,
+              'grant_update' => 0,
+            ),
+          );
+        }
       }
       break;
 
@@ -425,20 +427,23 @@ function c4m_content_group_node_access_records($node) {
           ),
         ),
       );
-      if (!$wrapper->{OG_ACCESS_FIELD}->value()) {
-        // Only for public groups.
-        $realm_grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_anon'] = array(
-          array(
-            'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_ARCHIVED,
-            'grant_update' => 0,
-          ),
-        );
-        $realm_grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_not_member'] = array(
-          array(
-            'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_ARCHIVED,
-            'grant_update' => 0,
-          ),
-        );
+
+      if ($node->type == 'group') {
+        if (!$wrapper->{OG_ACCESS_FIELD}->value()) {
+          // Only for public groups.
+          $realm_grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_anon'] = array(
+            array(
+              'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_ARCHIVED,
+              'grant_update' => 0,
+            ),
+          );
+          $realm_grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_not_member'] = array(
+            array(
+              'gid' => C4M_CONTENT_GROUP_STATUS_VIEW_ARCHIVED,
+              'grant_update' => 0,
+            ),
+          );
+        }
       }
       break;
 
