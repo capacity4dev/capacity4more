@@ -10,3 +10,4 @@ Feature: Testing the projects overview page.
     And I should see the sidebar facet with title "Topics"
     And I should see the sidebar facet with title "Regions & Countries"
     And I should be able to sort the overview
+
