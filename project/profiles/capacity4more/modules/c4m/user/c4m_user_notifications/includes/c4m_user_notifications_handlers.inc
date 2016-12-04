@@ -37,6 +37,8 @@ function _c4m_user_notifications_moderated_group_admin_new_membership_request($m
   $wrapper->field_group_node->set($membership->gid);
   $wrapper->field_related_user->set($membership->etid);
   $wrapper->field_group_membership->set($membership->id);
+
+  c4m_message_resolve_tokens($message);
   message_notify_send_message($wrapper->value());
 }
 
@@ -50,6 +52,8 @@ function c4m_user_notifications_notify_user_membership_pending($membership) {
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($membership->gid);
+
+  c4m_message_resolve_tokens($message);
   message_notify_send_message($wrapper->value());
 }
 
@@ -64,6 +68,7 @@ function c4m_user_notifications_notify_user_membership_accepted($membership) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($membership->gid);
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -101,6 +106,7 @@ function _c4m_user_notifications_moderated_group_notify_admins_membership_accept
   $wrapper->field_related_user->set($membership->etid);
   $wrapper->field_executing_user->set($user->uid);
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -131,6 +137,7 @@ function _c4m_user_notifications_open_group_notify_admin_membership_accepted($me
   $wrapper->field_related_user->set($membership->etid);
   $wrapper->field_group_membership->set($membership->id);
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved inside message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -150,6 +157,7 @@ function c4m_user_notifications_moderated_group_notify_user_membership_rejected(
   $wrapper->field_group_node->set($membership->gid);
   $wrapper->field_executing_user->set($user->uid);
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved inside message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -167,6 +175,7 @@ function c4m_user_notifications_notify_user_group_approved($gid, $admin_comment 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($gid);
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved inside message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -212,6 +221,7 @@ function _c4m_user_notifications_to_admin_group_status_set_published($node, $adm
   $wrapper->field_group_node->set($node->nid);
   $wrapper->field_executing_user->set($user->uid);
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -244,6 +254,7 @@ function _c4m_user_notifications_to_admin_group_status_set_republished($node, $a
   $wrapper->field_group_node->set($node->nid);
   $wrapper->field_executing_user->set($user->uid);
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -277,6 +288,7 @@ function _c4m_user_notifications_to_admin_group_status_set_unpublished($node, $a
   $wrapper->field_group_node->set($node->nid);
   $wrapper->field_executing_user->set($user->uid);
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -309,6 +321,7 @@ function _c4m_user_notifications_to_admin_group_status_set_archived($node, $admi
   $wrapper->field_group_node->set($node->nid);
   $wrapper->field_executing_user->set($user->uid);
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -345,6 +358,7 @@ function _c4m_user_notifications_to_site_admin_group_soft_deleted($node, $admin_
   $wrapper->field_group_node->set($node->nid);
   $wrapper->field_executing_user->set($user->uid);
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -382,6 +396,7 @@ function _c4m_user_notifications_to_admin_group_hard_deleted($node, $admin_id, $
   $wrapper->field_group_node->set($node->nid);
   $wrapper->field_executing_user->set($user->uid);
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -415,6 +430,7 @@ function _c4m_user_notifications_to_admin_group_permissions_changed($node, $admi
   $wrapper->field_group_node->set($node->nid);
   $wrapper->field_executing_user->set($user->uid);
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -485,6 +501,7 @@ function _c4m_user_notifications_notify_content_followers_of_comment($cid, $nid)
   );
 
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
+  c4m_message_resolve_tokens($message);
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
 }
@@ -518,6 +535,7 @@ function c4m_user_notifications_notify_user_admin_granted($gid, $uid) {
   $wrapper->field_group_node->set($gid);
   $wrapper->field_executing_user->set($user->uid);
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -552,6 +570,7 @@ function c4m_user_notifications_notify_user_admin_demoted($gid, $uid) {
   $wrapper->field_group_node->set($gid);
   $wrapper->field_executing_user->set($user->uid);
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -600,6 +619,7 @@ function c4m_user_notifications_content_recommended($nid) {
     'entity_id' => $nid,
   );
 
+  c4m_message_resolve_tokens($message);
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
@@ -699,6 +719,7 @@ function _c4m_user_notifications_notify_on_content($node, $action, $target_gid =
     'entity_id' => $gid,
   );
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $wrapper->value(), array(), array(), $context);
 }
@@ -768,6 +789,7 @@ function _c4m_user_notifications_notify_on_content_new_revision($node, $users_gr
     $context['entity_id'] = $node->nid;
   }
 
+  c4m_message_resolve_tokens($message);
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $message_wrapper->value(), array(), $subscribe_options, $context);
@@ -857,6 +879,7 @@ function _c4m_user_notifications_comment_on_content($cid, $nid) {
     'intergroup_operation' => 'diff',
   );
 
+  c4m_message_resolve_tokens($message);
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
@@ -873,6 +896,7 @@ function c4m_user_notifications_notify_new_group_pending($node) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->set($node->nid);
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
@@ -903,6 +927,7 @@ function _c4m_user_notifications_notify_admin_group_requested($node, $admin_id) 
   $wrapper->field_group_node->set($node->nid);
   $wrapper->field_executing_user->set($user->uid);
 
+  c4m_message_resolve_tokens($message);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
 }
