@@ -1932,6 +1932,12 @@ function c4m_message_format_group_node_title(Message $message) {
  */
 function c4m_message_format_group_welcome_message(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
+
+  // Projects do not have 'welcome message' field.
+  if ($wrapper->field_group_node->type->value() == 'project') {
+    return '';
+  }
+
   $group_message = $wrapper->field_group_node->c4m_group_welcome_message->value();
 
   return $group_message ? $group_message : '';
@@ -3587,36 +3593,16 @@ function c4m_message_query_activity_stream_entity_field_access_alter(
       $subquery = db_select('node_access', 'na')
         ->fields('na', array('nid'));
 
-      // Plugable_node_access model does not take into consideration restricted
-      // group status ('c4m_og_status' field), while non members that match the
-      // restriction, may view such a group, only if it's at published or
-      // archived states.
-      // To resolve 'c4m_og_status' of group, join with
-      // field_data_c4m_og_status table.
-      $subquery->leftJoin('field_data_c4m_og_status', 'gst', 'na.nid = gst.entity_id');
-      $pluggable_node_access_grants = pluggable_node_access_node_grants($account, $op);
-
       $grant_conditions = db_or();
       // If any grant exists for the specified user, then user has access
       // to the node for the specified operation.
       foreach ($grants as $realm => $gids) {
         foreach ($gids as $gid) {
-          $grant_condition = db_and()
-            ->condition('na.gid', $gid)
-            ->condition('na.realm', $realm);
-
-          // If grants is allocated by pluggable_node_access model,
-          // add group status condition - status may be either published
-          // or archived.
-          if (in_array($realm, array_keys($pluggable_node_access_grants))) {
-            $group_status_condition = db_or()
-              ->condition('gst.c4m_og_status_value', 'published')
-              ->condition('gst.c4m_og_status_value', 'archived');
-
-            $grant_condition->condition($group_status_condition);
-          }
-
-          $grant_conditions->condition($grant_condition);
+          $grant_conditions->condition(
+            db_and()
+              ->condition('na.gid', $gid)
+              ->condition('na.realm', $realm)
+          );
         }
       }
 

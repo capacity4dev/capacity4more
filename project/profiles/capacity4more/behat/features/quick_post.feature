@@ -31,4 +31,3 @@ Feature: Test quick post
     Then  I wait for the text "Type of Discussion" to appear in "form-item-c4m-discussion-type-und" class
     And   I should not see "Latest activity"
     But   I should validate the body field format of "New nobel for QP advanced form" discussion node is "default_html"
-    And   I should see "By pressing 'Save', you will save this discussion as a draft - please press 'Publish' to create and publish this discussion."

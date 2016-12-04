@@ -259,8 +259,7 @@
   };
 
   $(window).bind("load", function () {
-    // After ajax processing, the form often gets the id "user-register--2" or similar.
-    $('[id^=user-register] input[name="mail"]').focus();
+    $('#user-register-form input[name="mail"]').focus();
   });
 
   // Disable form buttons on AJAX calls.

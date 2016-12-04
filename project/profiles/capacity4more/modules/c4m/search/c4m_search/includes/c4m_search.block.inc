@@ -24,7 +24,7 @@ function _c4m_search_block_facetapi_view_alter(&$data, $block) {
     '4Erg9yLvJMABad12YSuX81wXLf2eoV17' => t('Language'),
     'lcuW9WS3uMIsaaA0uZQgyEVGKcC2RDWB' => t('OG Vocab'),
     'q300p1xON0icJkyRehKpatIQn7Zfnugr' => t('Status'),
-    'dGKhc10y2QJpsM5ad2fQ7SS0YaaUVZXg' => t('Group or Project'),
+    'dgkhc10y2qjpsm5ad2fq7ss0yaauvzxg' => t('Group or Project'),
 
     // Geographical.
     'JQeEQzhfJJBhHcXpX4531H7GTXL1viNU' => t('Regions & Countries'),

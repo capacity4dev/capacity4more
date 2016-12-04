@@ -73,6 +73,8 @@ function c4m_og_access_types() {
 /**
  * Get the group info (public/restricted/private) by the group.
  *
+ * If group is of type 'project', it's always public.
+ *
  * @param object $group
  *   The group entity.
  *
