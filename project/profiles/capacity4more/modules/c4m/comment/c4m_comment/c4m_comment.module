@@ -182,7 +182,7 @@ function c4m_comment_node_view_alter(&$build) {
         )
       );
 
-      $text = '<p class="margin--top">' . t(
+      $text = '<p class="comment-wrapper margin--top">' . t(
           '!register or !login to comment',
           array(
             '!register' => $register_link,
