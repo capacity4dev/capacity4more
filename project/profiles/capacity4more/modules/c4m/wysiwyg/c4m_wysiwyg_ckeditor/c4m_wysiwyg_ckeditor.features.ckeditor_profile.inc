@@ -160,13 +160,11 @@ function c4m_wysiwyg_ckeditor_ckeditor_profile_defaults() {
         'filebrowser' => 'none',
         'filebrowser_image' => '',
         'filebrowser_flash' => '',
-        'UserFilesPath' => '%b%f/',
-        'UserFilesAbsolutePath' => '%d%b%f/',
         'forcePasteAsPlainText' => 'f',
         'html_entities' => 'f',
         'scayt_autoStartup' => 'f',
         'theme_config_js' => 'f',
-        'js_conf' => 'config.extraAllowedContent = \'img{float;width;height}\'',
+        'js_conf' => 'config.extraAllowedContent = \'img{float;width;height}\';',
         'loadPlugins' => array(
           'drupalbreaks' => array(
             'name' => 'drupalbreaks',
@@ -283,8 +281,6 @@ function c4m_wysiwyg_ckeditor_ckeditor_profile_defaults() {
         'filebrowser' => 'none',
         'filebrowser_image' => '',
         'filebrowser_flash' => '',
-        'UserFilesPath' => '%b%f/',
-        'UserFilesAbsolutePath' => '%d%b%f/',
         'forcePasteAsPlainText' => 'f',
         'html_entities' => 'f',
         'scayt_autoStartup' => 'f',
