@@ -10,6 +10,7 @@ dependencies[] = filter
 dependencies[] = iframeremove
 dependencies[] = media_wysiwyg
 dependencies[] = wysiwyg_filter
+features[ckeditor_profile][] = Advanced
 features[ckeditor_profile][] = CKEditor Global Profile
 features[ckeditor_profile][] = Default
 features[ckeditor_profile][] = Full
