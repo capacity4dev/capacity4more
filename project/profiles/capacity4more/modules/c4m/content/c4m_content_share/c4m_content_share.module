@@ -243,6 +243,8 @@ function c4m_content_share_node_access($node, $op, $account) {
     if ($original_access === FALSE) {
       return NODE_ACCESS_DENY;
     }
+
+    return NODE_ACCESS_ALLOW;
   }
 }
 
