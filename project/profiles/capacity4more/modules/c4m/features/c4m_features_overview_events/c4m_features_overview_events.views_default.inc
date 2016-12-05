@@ -167,6 +167,11 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['operator'] = '>=';
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['value'] = 'now';
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['group'] = 1;
+  /* Filter criterion: Indexed Node: Source Content */
+  $handler->display->display_options['filters']['c4m_source_entity']['id'] = 'c4m_source_entity';
+  $handler->display->display_options['filters']['c4m_source_entity']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['c4m_source_entity']['field'] = 'c4m_source_entity';
+  $handler->display->display_options['filters']['c4m_source_entity']['operator'] = 'empty';
   $handler->display->display_options['path'] = 'events/upcoming';
   $handler->display->display_options['menu']['title'] = 'Events';
   $handler->display->display_options['menu']['weight'] = '1';
@@ -233,6 +238,11 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['operator'] = '<';
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['value'] = 'now';
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['group'] = 1;
+  /* Filter criterion: Indexed Node: Source Content */
+  $handler->display->display_options['filters']['c4m_source_entity']['id'] = 'c4m_source_entity';
+  $handler->display->display_options['filters']['c4m_source_entity']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['c4m_source_entity']['field'] = 'c4m_source_entity';
+  $handler->display->display_options['filters']['c4m_source_entity']['operator'] = 'empty';
   $handler->display->display_options['path'] = 'events/past';
   $handler->display->display_options['menu']['title'] = 'Events';
   $handler->display->display_options['menu']['weight'] = '1';
@@ -333,6 +343,11 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['field'] = 'c4m_datetime_end_value2';
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['operator'] = '>=';
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['value'] = 'now';
+  /* Filter criterion: Indexed Node: Source Content */
+  $handler->display->display_options['filters']['c4m_source_entity']['id'] = 'c4m_source_entity';
+  $handler->display->display_options['filters']['c4m_source_entity']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['c4m_source_entity']['field'] = 'c4m_source_entity';
+  $handler->display->display_options['filters']['c4m_source_entity']['operator'] = 'empty';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
@@ -416,6 +431,11 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['field'] = 'c4m_datetime_end_value2';
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['operator'] = '<';
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['value'] = 'now';
+  /* Filter criterion: Indexed Node: Source Content */
+  $handler->display->display_options['filters']['c4m_source_entity']['id'] = 'c4m_source_entity';
+  $handler->display->display_options['filters']['c4m_source_entity']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['c4m_source_entity']['field'] = 'c4m_source_entity';
+  $handler->display->display_options['filters']['c4m_source_entity']['operator'] = 'empty';
   $handler->display->display_options['displays'] = array(
     'page' => 'page',
     'default' => 0,
