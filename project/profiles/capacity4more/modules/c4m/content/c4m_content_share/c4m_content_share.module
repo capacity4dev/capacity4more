@@ -303,16 +303,9 @@ function c4m_content_share_node_access_records_alter(&$grants, $node) {
     // Reset default OG grants.
     $grants = array();
 
-    $node_wrapper = entity_metadata_wrapper('node', $node);
-    $original_node = $node_wrapper->c4m_source_entity->value();
-
-    if (!$original_node) {
-      return array();
-    }
-
     $grants[] = array(
       'realm' => C4M_CONTENT_SHARE_ACCESS_REALM,
-      'gid' => $original_node->nid,
+      'gid' => $node->nid,
       'grant_view' => 1,
       'grant_update' => 0,
       'grant_delete' => 0,
@@ -346,6 +339,11 @@ function c4m_content_share_node_grants($account, $op) {
         $group = c4m_og_get_group_of_content($node);
 
         $access = c4m_content_share_custom_node_access('view', $group, $account);
+
+        if (!$access) {
+          // No point in continuing if we already fail here.
+          continue;
+        }
 
         // Original node:
         $node_wrapper = entity_metadata_wrapper('node', $node);

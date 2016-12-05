@@ -40,9 +40,16 @@ Feature: Testing the sharing content between groups functionality and permission
   @api
   Scenario: I'm not a group member of the (private) source group,
             I should not see it on overviews of the group it was shared to.
-    Given I am logged in as user "alfrednobel"
+    Given I am logged in as user "president"
     When I visit the past events overview of group "Nobel Prize"
     Then I should not see "Barclays ATP World Tour Finals" on that overview
+
+  @api
+  Scenario: I'm a group member of the (private) source group,
+            I should see it on overviews of the group it was shared to.
+    Given I am logged in as user "alfrednobel"
+    When I visit the past events overview of group "Nobel Prize"
+    Then I should see "Barclays ATP World Tour Finals" on that overview
 
   @api
   Scenario: As a Site Administrator I should have access to all shares.
