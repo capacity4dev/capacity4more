@@ -1078,6 +1078,7 @@ function _c4m_user_notifications_log_group_state_change($from_state, $to_state, 
   $wrapper->field_group_node->set($gid);
   $wrapper->field_executing_user->set($user->uid);
 
+  c4m_message_resolve_tokens($message);
   // Save message.
   $wrapper->save();
 }
