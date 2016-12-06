@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_user.features.user_permission.inc
@@ -2378,16 +2377,6 @@ function c4m_user_user_default_permissions() {
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'search_api_sorts',
-  );
-
-  // Exported permission: 'use text format default_html'.
-  $permissions['use text format default_html'] = array(
-    'name' => 'use text format default_html',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'authenticated user' => 'authenticated user',
-    ),
-    'module' => 'filter',
   );
 
   // Exported permission: 'use text format filtered_html'.

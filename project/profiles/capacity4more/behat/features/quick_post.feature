@@ -30,5 +30,5 @@ Feature: Test quick post
     When  I create a discussion quick post in advanced form with title "New nobel for QP advanced form" and body "Some text in the body" in "Nobel Prize"
     Then  I wait for the text "Type of Discussion" to appear in "form-item-c4m-discussion-type-und" class
     And   I should not see "Latest activity"
-    But   I should validate the body field format of "New nobel for QP advanced form" discussion node is "default_html"
+    But   I should validate the body field format of "New nobel for QP advanced form" discussion node is "filtered_html"
     And   I should see "By pressing 'Save', you will save this discussion as a draft - please press 'Publish' to create and publish this discussion."
