@@ -30,7 +30,7 @@ abstract class C4mDemoContentCreateComments extends Migration {
    *
    * @var string
    */
-  protected $textFormat = 'default_html';
+  protected $textFormat = 'filtered_html';
 
   /**
    * Creation classes that should run before this one.

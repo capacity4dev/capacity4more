@@ -39,7 +39,7 @@ function c4m_wysiwyg_ckeditor_ckeditor_plugin() {
     'buttons' => array(
       'oembed' => array(
         'label' => 'Oembed',
-        'icon'  => 'icons/oembed.png',
+        'icon' => 'icons/oembed.png',
       ),
     ),
   );
