@@ -206,9 +206,9 @@ function c4m_content_share_form_submit($form, &$form_state) {
 
   $node_wrapper = entity_metadata_wrapper('node', $node);
 
-  $node_wrapper->og_group_ref = $values['og_group_ref'];
-  $node_wrapper->c4m_source_entity = $values['c4m_source_entity'];
-  $node_wrapper->c4m_body = $values['c4m_body'];
+  $node_wrapper->og_group_ref->set($values['og_group_ref']);
+  $node_wrapper->c4m_source_entity->set($values['c4m_source_entity']);
+  $node_wrapper->c4m_body->set($values['c4m_body']);
 
   // Add shared node bundle, to allow easy check if notification is required.
   $node->source_bundle = $original_node->getBundle();

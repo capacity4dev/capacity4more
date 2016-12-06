@@ -9,7 +9,7 @@
  * Class C4mDemoContentCreateOgGroups.
  */
 abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
-  protected $textFormat = 'default_html';
+  protected $textFormat = 'filtered_html';
 
   /**
    * Creation classes that should run before this one.

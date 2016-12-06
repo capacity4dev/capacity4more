@@ -9,6 +9,9 @@
   <?php if ($title): ?>
     <h3 class="pane-title"><?php print $title; ?></h3>
   <?php endif; ?>
+  <?php if ($highlight): ?>
+    <?php print $highlight; ?>
+  <?php endif; ?>
   <?php foreach ($links as $link): ?>
     <?php print render($link); ?>
   <?php endforeach; ?>

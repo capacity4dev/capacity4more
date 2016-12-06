@@ -247,8 +247,6 @@
 
   Drupal.behaviors.registration = {
     attach: function (context, settings) {
-      $('#user-register-form input[name="mail"]').focus();
-
       $('.use-another-email', context).click(function () {
         $('input[name="mail"]').val('').focus();
         return false;
@@ -259,6 +257,11 @@
       });
     }
   };
+
+  $(window).bind("load", function () {
+    // After ajax processing, the form often gets the id "user-register--2" or similar.
+    $('[id^=user-register] input[name="mail"]').focus();
+  });
 
   // Disable form buttons on AJAX calls.
   $(document)

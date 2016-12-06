@@ -505,6 +505,12 @@ function kapablo_item_list($variables) {
       if ($i == $num_items) {
         $attributes['class'][] = 'last';
       }
+
+      // og_menu sometimes doesn't provide the rendered item.
+      if (!empty($data['#theme'])) {
+        $data = render($data);
+      }
+
       $output .= '<li' . drupal_attributes(
           $attributes
         ) . '>' . $data . "</li>\n";

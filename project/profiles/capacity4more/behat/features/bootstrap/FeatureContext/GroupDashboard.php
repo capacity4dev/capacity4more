@@ -13,10 +13,10 @@ use Behat\Behat\Context\Step;
 
 trait GroupDashboard {
   /**
-   * @When /^I visit the dashboard of group "([^"]*)"$/
+   * @When /^I visit the dashboard of (group|project) "([^"]*)"$/
    */
-  public function iVisitTheDashboardOfGroup($title) {
-    $group = $this->loadGroupByTitleAndType($title, 'group');
+  public function iVisitTheDashboardOfGroup($type, $title) {
+    $group = $this->loadGroupByTitleAndType($title, $type);
     $uri = $this->createUriWithGroupContext($group, '<front>');
 
     return new Given("I go to \"$uri\"");

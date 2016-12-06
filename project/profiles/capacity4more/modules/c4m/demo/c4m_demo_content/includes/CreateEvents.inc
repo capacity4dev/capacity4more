@@ -10,7 +10,7 @@
  */
 class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
   public $bundle = 'event';
-  protected $textFormat = 'default_html';
+  protected $textFormat = 'filtered_html';
 
   /**
    * CSV column mapping.

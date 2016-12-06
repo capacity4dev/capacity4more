@@ -17,7 +17,6 @@ function c4m_user_install() {
  */
 function c4m_user_force_revoke_anonymous_user_text_format_permissions() {
   $permissions = array(
-    'use text format default_html',
     'use text format mail',
     'use text format filtered_html',
     'use text format full_html',

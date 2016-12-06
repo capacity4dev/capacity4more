@@ -148,7 +148,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 27,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -243,7 +243,6 @@ function c4m_content_photo_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 0,
@@ -253,9 +252,6 @@ function c4m_content_photo_field_default_field_instances() {
         'default_order_toggle' => 1,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => -50,
-            ),
             'filtered_html' => array(
               'weight' => -48,
             ),
@@ -476,7 +472,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 28,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -578,7 +574,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 29,
       ),
       'c4m_related' => array(
         'label' => 'above',
@@ -797,7 +793,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 5,
+        'weight' => 4,
       ),
       'c4m_related' => array(
         'label' => 'above',
