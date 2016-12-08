@@ -38,6 +38,13 @@ function c4m_content_news_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 3,
       ),
+      'my_comments' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
+      ),
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'comment',
@@ -47,7 +54,6 @@ function c4m_content_news_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 0,
           'mail' => 0,
@@ -57,9 +63,6 @@ function c4m_content_news_field_default_field_instances() {
         'default_order_toggle' => 1,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => -50,
-            ),
             'filtered_html' => array(
               'weight' => -49,
             ),
@@ -140,10 +143,9 @@ function c4m_content_news_field_default_field_instances() {
       ),
       'block_list' => array(
         'label' => 'hidden',
-        'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 3,
+        'type' => 'hidden',
+        'weight' => 2,
       ),
       'default' => array(
         'label' => 'above',
@@ -208,7 +210,6 @@ function c4m_content_news_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 'mail',
@@ -218,9 +219,6 @@ function c4m_content_news_field_default_field_instances() {
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => 0,
-            ),
             'filtered_html' => array(
               'weight' => 0,
             ),
@@ -682,7 +680,7 @@ function c4m_content_news_field_default_field_instances() {
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 39,
+        'weight' => 29,
       ),
       'default' => array(
         'label' => 'above',

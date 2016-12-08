@@ -53,6 +53,11 @@
         padding-right: 0;
     }
     .background-banner {
+        /* Since IE and FF doesn't respect all the effects, we hide it for now.
+           See CFM-1134 for more details.
+        */
+        display: none;
+
         position: absolute;
         bottom: 0;
         width: 100%;

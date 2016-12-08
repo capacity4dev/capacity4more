@@ -46,6 +46,9 @@ function _c4m_content_project_block_header_name_banner_project() {
   $markup = '';
 
   $title = $wrapper->title->value();
+
+  $tagline = $wrapper->c4m_project_tag_line->value();
+
   $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value() : 'published';
 
   $project_stage = $wrapper->c4m_project_stage->value();
@@ -68,6 +71,7 @@ function _c4m_content_project_block_header_name_banner_project() {
 
   $variables = [
     'title' => check_plain($title),
+    'tagline' => check_plain($tagline),
     'stage_label' => $stage_label,
     'project_stage' => $project_stage,
     'type' => $wrapper->c4m_project_type->value(),
@@ -83,14 +87,14 @@ function _c4m_content_project_block_header_name_banner_project() {
 }
 
 /**
- * Callback for the c4m_block_create_project block.
+ * Callback for the c4m_block_project_partners block.
  */
 function _c4m_content_project_block_c4m_block_project_partners() {
   $block = array();
 
-  if ($group = og_context()) {
-    if ($node = node_load($group['gid'])) {
-      $block['subject'] = '';
+  if ($node = c4m_og_current_group()) {
+    $block['subject'] = '';
+    if ($nodes = node_get_recent(variable_get('node_recent_block_count', 10))) {
       $block['content'] = field_view_field('node', $node, 'c4m_partners', array('label' => 'hidden'));
     }
   }

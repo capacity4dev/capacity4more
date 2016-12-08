@@ -55,12 +55,12 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['header']['c4m_views_node_add']['node_type'] = 'event';
   $handler->display->display_options['header']['c4m_views_node_add']['link_text'] = 'Add an Event';
   /* Header: Number of items */
-  $handler->display->display_options['header']['result']['id'] = 'result';
-  $handler->display->display_options['header']['result']['table'] = 'views';
-  $handler->display->display_options['header']['result']['field'] = 'result';
-  $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
-  $handler->display->display_options['header']['result']['empty'] = TRUE;
-  $handler->display->display_options['header']['result']['content'] = '@total in total';
+  $handler->display->display_options['header']['c4m_views_result']['id'] = 'c4m_views_result';
+  $handler->display->display_options['header']['c4m_views_result']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_result']['field'] = 'c4m_views_result';
+  $handler->display->display_options['header']['c4m_views_result']['ui_name'] = 'Number of items';
+  $handler->display->display_options['header']['c4m_views_result']['empty'] = TRUE;
+  $handler->display->display_options['header']['c4m_views_result']['content'] = '@total in total';
   /* Header: Sort results */
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
@@ -248,6 +248,8 @@ function c4m_features_og_events_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Past events';
   $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['use_more_text'] = 'All upcoming events';
+  $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'c4m_og_access_og_context';
   $handler->display->display_options['access']['feature'] = 'c4m_features_og_events';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -257,30 +259,33 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['query']['options']['parse_mode'] = 'direct';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['exposed_form']['options']['reset_button'] = TRUE;
-  $handler->display->display_options['pager']['type'] = 'mini';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '1';
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['total_pages'] = '1';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'teaser_group';
-  /* Header: Search: Spellcheck */
-  $handler->display->display_options['header']['search_api_spellcheck']['id'] = 'search_api_spellcheck';
-  $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_nodes';
-  $handler->display->display_options['header']['search_api_spellcheck']['field'] = 'search_api_spellcheck';
-  $handler->display->display_options['header']['search_api_spellcheck']['empty'] = TRUE;
-  /* Header: Number of items */
-  $handler->display->display_options['header']['result']['id'] = 'result';
-  $handler->display->display_options['header']['result']['table'] = 'views';
-  $handler->display->display_options['header']['result']['field'] = 'result';
-  $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
-  $handler->display->display_options['header']['result']['empty'] = TRUE;
-  $handler->display->display_options['header']['result']['content'] = '@total in total';
+  /* Header: Global: Add new Node link */
+  $handler->display->display_options['header']['c4m_views_node_add']['id'] = 'c4m_views_node_add';
+  $handler->display->display_options['header']['c4m_views_node_add']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_node_add']['field'] = 'c4m_views_node_add';
+  $handler->display->display_options['header']['c4m_views_node_add']['node_type'] = 'event';
+  $handler->display->display_options['header']['c4m_views_node_add']['link_text'] = 'Add an event';
+  $handler->display->display_options['header']['c4m_views_node_add']['icon'] = 'fa-calendar';
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['content'] = '<h2><i class="fa fa-clock-o"></i> Next events</h2>';
+  $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  /* Sort criterion: Date: Start date (indexed) */
+  $handler->display->display_options['sorts']['c4m_datetime_end_value']['id'] = 'c4m_datetime_end_value';
+  $handler->display->display_options['sorts']['c4m_datetime_end_value']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['sorts']['c4m_datetime_end_value']['field'] = 'c4m_datetime_end_value';
   /* Contextual filter: Only nodes in current OG Context */
   $handler->display->display_options['arguments']['og_group_ref']['id'] = 'og_group_ref';
   $handler->display->display_options['arguments']['og_group_ref']['table'] = 'search_api_index_c4m_search_nodes';
@@ -325,39 +330,19 @@ function c4m_features_og_events_views_default_views() {
     1 => 0,
     3 => 0,
   );
+  /* Filter criterion: Date: End date (indexed) */
+  $handler->display->display_options['filters']['c4m_datetime_end_value2']['id'] = 'c4m_datetime_end_value2';
+  $handler->display->display_options['filters']['c4m_datetime_end_value2']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['c4m_datetime_end_value2']['field'] = 'c4m_datetime_end_value2';
+  $handler->display->display_options['filters']['c4m_datetime_end_value2']['operator'] = '>=';
+  $handler->display->display_options['filters']['c4m_datetime_end_value2']['value'] = 'now';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Events';
   $handler->display->display_options['exposed_block'] = TRUE;
-  $handler->display->display_options['defaults']['header'] = FALSE;
-  /* Header: Search: Spellcheck */
-  $handler->display->display_options['header']['search_api_spellcheck']['id'] = 'search_api_spellcheck';
-  $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_nodes';
-  $handler->display->display_options['header']['search_api_spellcheck']['field'] = 'search_api_spellcheck';
-  $handler->display->display_options['header']['search_api_spellcheck']['empty'] = TRUE;
-  /* Header: Number of items */
-  $handler->display->display_options['header']['result']['id'] = 'result';
-  $handler->display->display_options['header']['result']['table'] = 'views';
-  $handler->display->display_options['header']['result']['field'] = 'result';
-  $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
-  $handler->display->display_options['header']['result']['empty'] = TRUE;
-  $handler->display->display_options['header']['result']['content'] = '@total in total';
-  /* Header: Add event link */
-  $handler->display->display_options['header']['c4m_views_node_add']['id'] = 'c4m_views_node_add';
-  $handler->display->display_options['header']['c4m_views_node_add']['table'] = 'views';
-  $handler->display->display_options['header']['c4m_views_node_add']['field'] = 'c4m_views_node_add';
-  $handler->display->display_options['header']['c4m_views_node_add']['ui_name'] = 'Add event link';
-  $handler->display->display_options['header']['c4m_views_node_add']['label'] = 'Add an event';
-  $handler->display->display_options['header']['c4m_views_node_add']['empty'] = TRUE;
-  $handler->display->display_options['header']['c4m_views_node_add']['node_type'] = 'event';
-  $handler->display->display_options['header']['c4m_views_node_add']['link_text'] = 'Add an event';
-  $handler->display->display_options['header']['c4m_views_node_add']['icon'] = 'fa-calendar';
   $handler->display->display_options['defaults']['footer'] = FALSE;
-  /* Footer: Global: Add view pages links */
-  $handler->display->display_options['footer']['c4m_views_switch_page']['id'] = 'c4m_views_switch_page';
-  $handler->display->display_options['footer']['c4m_views_switch_page']['table'] = 'views';
-  $handler->display->display_options['footer']['c4m_views_switch_page']['field'] = 'c4m_views_switch_page';
   $handler->display->display_options['path'] = 'calendar';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Events';
@@ -366,95 +351,24 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
 
-  /* Display: Upcoming events */
-  $handler = $view->new_display('block', 'Upcoming events', 'block_1');
-  $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Upcoming events';
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'mini';
+  /* Display: Attachment */
+  $handler = $view->new_display('attachment', 'Attachment', 'attachment_1');
+  $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['total_pages'] = '1';
-  $handler->display->display_options['defaults']['footer'] = FALSE;
-  /* Footer: Link to group upcoming events page */
-  $handler->display->display_options['footer']['c4m_views_custom_link']['id'] = 'c4m_views_custom_link';
-  $handler->display->display_options['footer']['c4m_views_custom_link']['table'] = 'views';
-  $handler->display->display_options['footer']['c4m_views_custom_link']['field'] = 'c4m_views_custom_link';
-  $handler->display->display_options['footer']['c4m_views_custom_link']['ui_name'] = 'Link to group upcoming events page';
-  $handler->display->display_options['footer']['c4m_views_custom_link']['link_path'] = 'calendar/upcoming';
-  $handler->display->display_options['footer']['c4m_views_custom_link']['link_text'] = 'Show all upcoming events';
-  $handler->display->display_options['footer']['c4m_views_custom_link']['link_class'] = 'upcoming-events, link-to-view';
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Node is published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'search_api_index_c4m_search_nodes';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['ui_name'] = 'Node is published';
-  $handler->display->display_options['filters']['status']['value'] = array(
-    1 => '1',
-  );
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  /* Filter criterion: Only Event nodes */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'search_api_index_c4m_search_nodes';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['ui_name'] = 'Only Event nodes';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'event' => 'event',
-  );
-  $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Search form */
-  $handler->display->display_options['filters']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
-  $handler->display->display_options['filters']['search_api_views_fulltext']['table'] = 'search_api_index_c4m_search_nodes';
-  $handler->display->display_options['filters']['search_api_views_fulltext']['field'] = 'search_api_views_fulltext';
-  $handler->display->display_options['filters']['search_api_views_fulltext']['ui_name'] = 'Search form';
-  $handler->display->display_options['filters']['search_api_views_fulltext']['group'] = 1;
-  $handler->display->display_options['filters']['search_api_views_fulltext']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator_id'] = 'search_api_views_fulltext_op';
-  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['label'] = 'Search';
-  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator'] = 'search_api_views_fulltext_op';
-  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['identifier'] = 'text';
-  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['remember_roles'] = array(
-    2 => '2',
-    1 => 0,
-    3 => 0,
-  );
-  /* Filter criterion: Date: End date (indexed) */
-  $handler->display->display_options['filters']['c4m_datetime_end_value2']['id'] = 'c4m_datetime_end_value2';
-  $handler->display->display_options['filters']['c4m_datetime_end_value2']['table'] = 'search_api_index_c4m_search_nodes';
-  $handler->display->display_options['filters']['c4m_datetime_end_value2']['field'] = 'c4m_datetime_end_value2';
-  $handler->display->display_options['filters']['c4m_datetime_end_value2']['operator'] = '>=';
-  $handler->display->display_options['filters']['c4m_datetime_end_value2']['value'] = 'now';
-  $handler->display->display_options['filters']['c4m_datetime_end_value2']['group'] = 1;
-
-  /* Display: Past events */
-  $handler = $view->new_display('block', 'Past events', 'block_2');
-  $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Past events';
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'mini';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '5';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['total_pages'] = '1';
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'teaser';
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['defaults']['footer'] = FALSE;
-  /* Footer: Link to group past events page */
-  $handler->display->display_options['footer']['c4m_views_custom_link']['id'] = 'c4m_views_custom_link';
-  $handler->display->display_options['footer']['c4m_views_custom_link']['table'] = 'views';
-  $handler->display->display_options['footer']['c4m_views_custom_link']['field'] = 'c4m_views_custom_link';
-  $handler->display->display_options['footer']['c4m_views_custom_link']['ui_name'] = 'Link to group past events page';
-  $handler->display->display_options['footer']['c4m_views_custom_link']['link_path'] = 'calendar/past';
-  $handler->display->display_options['footer']['c4m_views_custom_link']['link_text'] = 'Show all past events';
-  $handler->display->display_options['footer']['c4m_views_custom_link']['link_class'] = 'past-events, link-to-view';
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['content'] = '<h2><i class="fa fa-history"></i> Last events</h2>';
+  $handler->display->display_options['header']['area']['format'] = 'filtered_html';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Date: End date (indexed) */
+  $handler->display->display_options['sorts']['c4m_datetime_end_value2']['id'] = 'c4m_datetime_end_value2';
+  $handler->display->display_options['sorts']['c4m_datetime_end_value2']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['sorts']['c4m_datetime_end_value2']['field'] = 'c4m_datetime_end_value2';
+  $handler->display->display_options['sorts']['c4m_datetime_end_value2']['order'] = 'DESC';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Node is published */
@@ -497,10 +411,12 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['field'] = 'c4m_datetime_end_value2';
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['operator'] = '<';
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['value'] = 'now';
-
-  /* Display: Dummy view block to create facet filters */
-  $handler = $view->new_display('block', 'Dummy view block to create facet filters', 'block_3');
-  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['displays'] = array(
+    'page' => 'page',
+    'default' => 0,
+  );
+  $handler->display->display_options['attachment_position'] = 'after';
+  $handler->display->display_options['inherit_exposed_filters'] = TRUE;
   $export['c4m_overview_og_events_landing'] = $view;
 
   return $export;

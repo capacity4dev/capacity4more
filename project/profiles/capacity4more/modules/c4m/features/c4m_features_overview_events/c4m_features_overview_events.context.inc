@@ -32,35 +32,23 @@ function c4m_features_overview_events_context_default_contexts() {
           'region' => 'content_top',
           'weight' => '-10',
         ),
-        'c4m_views-views_page_title' => array(
-          'module' => 'c4m_views',
-          'delta' => 'views_page_title',
-          'region' => 'content_above',
-          'weight' => '-10',
-        ),
         'c4m_search_filter-search_filter' => array(
           'module' => 'c4m_search_filter',
           'delta' => 'search_filter',
           'region' => 'content_above',
           'weight' => '-8',
         ),
-        'views-22e892cecdd19333a8cbdbce3f0955a9' => array(
-          'module' => 'views',
-          'delta' => '22e892cecdd19333a8cbdbce3f0955a9',
+        'c4m_search_nodes-search_overview_no_summary' => array(
+          'module' => 'c4m_search_nodes',
+          'delta' => 'search_overview_no_summary',
+          'region' => 'content',
+          'weight' => '-10',
+        ),
+        'c4m_features_overview_events-event_total_count' => array(
+          'module' => 'c4m_features_overview_events',
+          'delta' => 'event_total_count',
           'region' => 'content',
           'weight' => '-9',
-        ),
-        'views-a293ba715040ddc0f8c58e830b5a412d' => array(
-          'module' => 'views',
-          'delta' => 'a293ba715040ddc0f8c58e830b5a412d',
-          'region' => 'content',
-          'weight' => '-8',
-        ),
-        'views-fafb99d29b872f81d88c61ac133d6050' => array(
-          'module' => 'views',
-          'delta' => 'fafb99d29b872f81d88c61ac133d6050',
-          'region' => 'content',
-          'weight' => '-7',
         ),
         'views-7bb1ca745e57e37fa0b09b237cb1086c' => array(
           'module' => 'views',
@@ -131,23 +119,23 @@ function c4m_features_overview_events_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'c4m_views-views_page_title' => array(
-          'module' => 'c4m_views',
-          'delta' => 'views_page_title',
-          'region' => 'content_above',
-          'weight' => '-10',
-        ),
         'views-f50a38aa0504f420d3fc307402101fb9' => array(
           'module' => 'views',
           'delta' => 'f50a38aa0504f420d3fc307402101fb9',
           'region' => 'content_above',
-          'weight' => '-9',
+          'weight' => '-86',
+        ),
+        'c4m_views-views_page_title' => array(
+          'module' => 'c4m_views',
+          'delta' => 'views_page_title',
+          'region' => 'content_above',
+          'weight' => '-85',
         ),
         'c4m_search_filter-search_filter' => array(
           'module' => 'c4m_search_filter',
           'delta' => 'search_filter',
           'region' => 'content_above',
-          'weight' => '-8',
+          'weight' => '-84',
         ),
         'views--exp-c4m_overview_events-page_1' => array(
           'module' => 'views',
@@ -218,23 +206,23 @@ function c4m_features_overview_events_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'c4m_views-views_page_title' => array(
-          'module' => 'c4m_views',
-          'delta' => 'views_page_title',
-          'region' => 'content_above',
-          'weight' => '-10',
-        ),
         'views-f50a38aa0504f420d3fc307402101fb9' => array(
           'module' => 'views',
           'delta' => 'f50a38aa0504f420d3fc307402101fb9',
           'region' => 'content_above',
-          'weight' => '-9',
+          'weight' => '-86',
+        ),
+        'c4m_views-views_page_title' => array(
+          'module' => 'c4m_views',
+          'delta' => 'views_page_title',
+          'region' => 'content_above',
+          'weight' => '-85',
         ),
         'c4m_search_filter-search_filter' => array(
           'module' => 'c4m_search_filter',
           'delta' => 'search_filter',
           'region' => 'content_above',
-          'weight' => '-8',
+          'weight' => '-84',
         ),
         'views--exp-c4m_overview_events-page' => array(
           'module' => 'views',

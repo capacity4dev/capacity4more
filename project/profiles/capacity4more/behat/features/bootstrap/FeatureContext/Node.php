@@ -241,6 +241,9 @@ trait Node {
     $node = node_load($nid);
     // Changing the current node title.
     $node->title = $new_title;
+
+    // Adding a revision to create a new message on the activity stream.
+    $node->revision = TRUE;
     node_save($node);
   }
 
@@ -269,6 +272,42 @@ trait Node {
     }
 
     throw new \Exception('The edit link was found on this page.');
+  }
+
+  /**
+   * @Given /^I should validate the (body) field format of "([^"]*)" (discussion) (node) is "([^"]*)"$/
+   */
+  public function iValidateEntityFieldFormat($field, $title, $bundle, $type, $format) {
+    $query = new \entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', $type)
+      ->entityCondition('bundle', $bundle)
+      ->propertyCondition('title', $title)
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result[$type])) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $type,
+        '@bundle' => $bundle,
+      );
+      throw new \Exception(format_string("@title @bundle of @type with not found.", $params));
+    }
+
+    $id = key($result[$type]);
+    $wrapper = entity_metadata_wrapper($type, $id);
+
+    $actual_format = $wrapper->{"c4m_$field"}->format->value();
+    if ($actual_format != $format) {
+      $params = array(
+        '@title' => $title,
+        '@field' => $field,
+        '@format' => $format,
+        '@actual_format' => $actual_format,
+      );
+      throw new \Exception(format_string("'@title' @field field format should be '@format' but actual format is '@actual_format'.", $params));
+    }
   }
 
 }

@@ -13,6 +13,7 @@
  */
 function theme_c4m_ds_formatter_link_and_size($variables) {
   $output = '';
+  $uri = array();
 
   if (
     (
@@ -32,7 +33,7 @@ function theme_c4m_ds_formatter_link_and_size($variables) {
     $file = $variables['file'];
   }
 
-  $uri = file_entity_download_uri($file);
+  $uri['path'] = file_create_url($file->uri);
 
   // Set options as per anchor format described at
   // http://microformats.org/wiki/file-format-examples

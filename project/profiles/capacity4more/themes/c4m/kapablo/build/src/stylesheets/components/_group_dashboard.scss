@@ -51,8 +51,25 @@
     text-align: center;
     width: 2em;
   }
+
+  .text-copy--small {
+    margin-top: 5px;
+  }
 }
 
 .highlight-link {
   font-size: 1rem;
+}
+
+.group-right {
+
+  &.dashboard {
+
+    .view-id-c4m_overview_og_highlights {
+
+      .sidebarblock__content--multiple {
+        border-bottom: none;
+      }
+    }
+  }
 }

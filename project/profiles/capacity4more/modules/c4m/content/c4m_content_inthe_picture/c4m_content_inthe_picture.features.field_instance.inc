@@ -72,7 +72,6 @@ function c4m_content_inthe_picture_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 0,
@@ -82,9 +81,6 @@ function c4m_content_inthe_picture_field_default_field_instances() {
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => 0,
-            ),
             'filtered_html' => array(
               'weight' => 0,
             ),
@@ -210,6 +206,7 @@ function c4m_content_inthe_picture_field_default_field_instances() {
   // Exported field_instance: 'node-inthe_picture-c4m_media'.
   $field_instances['node-inthe_picture-c4m_media'] = array(
     'bundle' => 'inthe_picture',
+    'default_value' => array(),
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -252,10 +249,11 @@ function c4m_content_inthe_picture_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'media',
+      'module' => 'image',
       'settings' => array(
         'allowed_schemes' => array(
-          'public' => 'public',
+          'private' => 'private',
+          'public' => 0,
         ),
         'allowed_types' => array(
           'audio' => 0,
@@ -269,8 +267,10 @@ function c4m_content_inthe_picture_field_default_field_instances() {
           'media_default--media_browser_my_files' => 0,
           'upload' => 'upload',
         ),
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
       ),
-      'type' => 'media_generic',
+      'type' => 'image_image',
       'weight' => 3,
     ),
   );

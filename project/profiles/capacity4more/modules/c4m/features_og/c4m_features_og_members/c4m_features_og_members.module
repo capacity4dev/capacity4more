@@ -454,6 +454,12 @@ function _c4m_features_og_members_is_power_user($group = NULL, $user = NULL) {
     return TRUE;
   }
 
+  // No administrator member role in projects.
+  // All project members are power users.
+  if ($group->type === 'project') {
+    return og_is_member('node', $group->nid, 'user', $user->uid);
+  }
+
   // The user has the group role 'administrator member'.
   return in_array('administrator member',
     og_get_user_roles('node', $group->nid, $user->uid));
@@ -464,8 +470,8 @@ function _c4m_features_og_members_is_power_user($group = NULL, $user = NULL) {
  *
  * Possible types:
  * - C4M_USER_TYPE_SA -> site administrator.
- * - C4M_USER_TYPE_GO -> group owner.
- * - C4M_USER_TYPE_GA -> group administrator.
+ * - C4M_USER_TYPE_GO -> group/project owner.
+ * - C4M_USER_TYPE_GA -> group/project administrator.
  * - C4M_USER_TYPE_GM -> group member.
  * - C4M_USER_TYPE_NON_MEMBER -> authenticated, not a group member.
  * - C4M_USER_TYPE_VISITOR -> anonymous user.
@@ -484,7 +490,8 @@ function _c4m_features_og_members_get_user_type($group = NULL, $user = NULL) {
     global $user;
   }
 
-  if (user_is_anonymous()) {
+  // Anonymous user.
+  if ($user->uid == 0) {
     return C4M_USER_TYPE_VISITOR;
   }
 
@@ -507,6 +514,13 @@ function _c4m_features_og_members_get_user_type($group = NULL, $user = NULL) {
   // What is a group owner? see https://www.drupal.org/node/1114858.
   if ($group->uid === $user->uid) {
     return C4M_USER_TYPE_GO;
+  }
+
+  if ($group->type == 'project') {
+    // We are not using the "group administrator" role in projects. We give
+    // the Project Members (regular members, without og role) the same
+    // permissions in a project as a GA would have in a group.
+    return og_is_member('node', $group->nid) ? C4M_USER_TYPE_GA : C4M_USER_TYPE_NON_MEMBER;
   }
 
   // The user has the group role 'administrator member'.

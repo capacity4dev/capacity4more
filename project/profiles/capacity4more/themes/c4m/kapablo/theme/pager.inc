@@ -181,3 +181,51 @@ function kapablo_pager(array $variables) {
     return implode(PHP_EOL, $output);
   }
 }
+
+/**
+ * Overrides theme_views_load_more_pager().
+ */
+function kapablo_views_load_more_pager($vars) {
+  global $pager_page_array, $pager_total;
+
+  $tags = $vars['tags'];
+  $element = $vars['element'];
+  $parameters = $vars['parameters'];
+
+  $pager_classes = array('pager', 'pager-load-more');
+
+  $li_next = theme('kapablo_pager_next_ajax',
+    array(
+      'text' => (isset($tags[3]) ? $tags[3] : $vars['more_button_text']),
+      'element' => $element,
+      'interval' => 1,
+      'parameters' => $parameters,
+    )
+  );
+  if (empty($li_next)) {
+    $li_next = empty($vars['more_button_empty_text']) ? '&nbsp;' : $vars['more_button_empty_text'];
+    $pager_classes[] = 'pager-load-more-empty';
+  }
+  // Compatibility with tao theme's pager.
+  elseif (is_array($li_next) && isset($li_next['title'], $li_next['href'], $li_next['attributes'], $li_next['query'])) {
+    $li_next = l($li_next['title'], $li_next['href'], array(
+      'attributes' => $li_next['attributes'],
+      'query' => $li_next['query'],
+    ));
+  }
+
+  if ($pager_total[$element] > 1) {
+    $items[] = array(
+      'class' => array('pager-next'),
+      'data' => $li_next,
+    );
+    return theme('item_list',
+      array(
+        'items' => $items,
+        'title' => NULL,
+        'type' => 'ul',
+        'attributes' => array('class' => $pager_classes),
+      )
+    );
+  }
+}

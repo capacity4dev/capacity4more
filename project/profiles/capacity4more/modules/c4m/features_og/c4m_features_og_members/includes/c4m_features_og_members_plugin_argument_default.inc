@@ -26,14 +26,23 @@ class c4m_features_og_members_plugin_argument_default extends views_plugin_argum
       $state[] = 2;
     }
 
+    // We should exclude invited memberships.
+    $invited_memberships = c4m_og_get_invited_memberships_ids();
+
     $query = new EntityFieldQuery();
-    $result = $query
+    $query
       ->entityCondition('entity_type', 'og_membership')
       ->propertyCondition('group_type', 'node', '=')
       ->propertyCondition('entity_type', 'user', '=')
       ->propertyCondition('state', $state, 'IN')
-      ->propertyCondition('gid', $group->nid, '=')
-      ->execute();
+      ->propertyCondition('gid', $group->nid, '=');
+
+    // Add the condition only if there are invited memberships.
+    if ($invited_memberships) {
+      $query->propertyCondition('id', $invited_memberships, 'NOT IN');
+    }
+
+    $result = $query->execute();
 
     foreach (entity_load('og_membership', array_keys($result['og_membership'])) as $og_membership) {
       $user_ids[] = $og_membership->etid;

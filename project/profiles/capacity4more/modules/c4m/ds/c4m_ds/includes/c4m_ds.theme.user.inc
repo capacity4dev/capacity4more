@@ -127,3 +127,21 @@ function theme_c4m_ds_user_my_groups(array $field) {
 
   return render($renderable_array);
 }
+/**
+ * DS function field.
+ *
+ * Gets the my projects block.
+ *
+ * @param array $field
+ *   The field info.
+ *
+ * @return string
+ *   The rendered field.
+ */
+function theme_c4m_ds_user_my_projects(array $field) {
+  $block = block_load('c4m_user_profile', 'user_my_profile_projects');
+  $renderable_blocks = _block_render_blocks(array($block));
+  $renderable_array = _block_get_renderable_array($renderable_blocks);
+
+  return render($renderable_array);
+}
