@@ -178,7 +178,7 @@ function _c4m_user_profile_my_projects_top_bar() {
   $user_projects = array();
 
   foreach (c4m_user_og_get_groups(NULL, 'project') as $project) {
-    if ($project->c4m_is_template[LANGUAGE_NONE][0]['value'] != '1') {
+    if ($project->c4m_is_template[LANGUAGE_NONE][0]['value'] != '1' && node_access('view', $project)) {
       $node_view = node_view($project, 'block_list');
       $user_projects[] = render($node_view);
 

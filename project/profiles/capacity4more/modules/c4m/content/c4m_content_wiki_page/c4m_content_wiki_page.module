@@ -203,8 +203,49 @@ function c4m_content_wiki_page_form_wiki_page_node_form_alter(&$form, &$form_sta
       exceed this limit.', array('!maxdepth' => C4M_CONTENT_WIKI_PAGE_MAX_DEPTH));
   }
 
+  // Adding a submit handler to fix the revision value at the first position
+  // so it will run before saving the node.
+  array_unshift($form['actions']['submit']['#submit'], 'c4m_content_wiki_page_fix_revision');
+
   // Add author information to the edit wiki page form.
   c4m_og_add_content_author_options_to_power_users($form);
+}
+
+/**
+ * Helper function; Fixing the correct revision value chosen by a power user.
+ *
+ * The 'book' contrib module sets the revision value to TRUE for all users
+ * without 'administer nodes' permission, but since a power users are also
+ * GO/GA which doesn't have that permission then they can not really set the
+ * revision.
+ *
+ * @see book_node_presave()
+ *
+ * This function is setting the chosen value by the power user to a temporary
+ * property, and then a hook_node_presave will set the right value on the
+ * 'revision' property.
+ *
+ * @see c4m_content_wiki_page_node_presave()
+ */
+function c4m_content_wiki_page_fix_revision($form, &$form_state) {
+  if (!_c4m_features_og_members_is_power_user()) {
+    return;
+  }
+
+  $form_state['node']->_c4m_override_revision = $form_state['values']['revision'];
+}
+
+/**
+ * Implements hook_node_presave().
+ *
+ * @see c4m_content_wiki_page_fix_revision()
+ */
+function c4m_content_wiki_page_node_presave($node) {
+  if ($node->type != 'wiki_page' || !isset($node->_c4m_override_revision)) {
+    return;
+  }
+
+  $node->revision = $node->_c4m_override_revision;
 }
 
 /**

@@ -709,7 +709,7 @@ function theme_c4m_ds_node_highlight(array $field) {
     '#attributes' => array(
       'class' => array(
         'c4m-node-highlight',
-        "c4m-{$node->type}-node-highlight"
+        "c4m-{$node->type}-node-highlight",
       ),
     ),
   );

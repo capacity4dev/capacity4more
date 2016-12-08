@@ -94,7 +94,6 @@ function c4m_user_profile_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 0,
           'mail' => 0,
@@ -104,9 +103,6 @@ function c4m_user_profile_field_default_field_instances() {
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => 0,
-            ),
             'filtered_html' => array(
               'weight' => 0,
             ),
@@ -937,7 +933,6 @@ function c4m_user_profile_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 'mail',
@@ -947,9 +942,6 @@ function c4m_user_profile_field_default_field_instances() {
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => 0,
-            ),
             'filtered_html' => array(
               'weight' => 0,
             ),
@@ -1560,7 +1552,6 @@ function c4m_user_profile_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 'mail',
@@ -1570,9 +1561,6 @@ function c4m_user_profile_field_default_field_instances() {
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => 0,
-            ),
             'filtered_html' => array(
               'weight' => 0,
             ),
@@ -1719,7 +1707,6 @@ function c4m_user_profile_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 'mail',
@@ -1729,9 +1716,6 @@ function c4m_user_profile_field_default_field_instances() {
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => 0,
-            ),
             'filtered_html' => array(
               'weight' => 0,
             ),
