@@ -24,6 +24,13 @@ function c4m_content_topic_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 3,
       ),
+      'my_comments' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
+      ),
     ),
     'entity_type' => 'comment',
     'field_name' => 'comment_body',
@@ -133,11 +140,11 @@ function c4m_content_topic_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'media',
+      'module' => 'image',
       'settings' => array(
-        'allow_replace' => 0,
         'allowed_schemes' => array(
-          'public' => 'public',
+          'private' => 'private',
+          'public' => 0,
         ),
         'allowed_types' => array(
           'audio' => 0,
@@ -151,15 +158,10 @@ function c4m_content_topic_field_default_field_instances() {
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'upload' => 'upload',
         ),
-        'droppable_area_text' => 'Drop files here to upload',
-        'multiupload' => 0,
         'preview_image_style' => 'thumbnail',
         'progress_indicator' => 'throbber',
-        'standard_upload' => 1,
-        'upload_button_text' => 'Upload',
-        'upload_event' => 'manual',
       ),
-      'type' => 'media_generic',
+      'type' => 'image_image',
       'weight' => 3,
     ),
   );
@@ -241,7 +243,6 @@ function c4m_content_topic_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 0,
@@ -251,9 +252,6 @@ function c4m_content_topic_field_default_field_instances() {
         'default_order_toggle' => 1,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => -50,
-            ),
             'filtered_html' => array(
               'weight' => -48,
             ),
@@ -377,11 +375,11 @@ function c4m_content_topic_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'media',
+      'module' => 'image',
       'settings' => array(
-        'allow_replace' => 0,
         'allowed_schemes' => array(
-          'public' => 'public',
+          'private' => 'private',
+          'public' => 0,
         ),
         'allowed_types' => array(
           'audio' => 0,
@@ -395,15 +393,10 @@ function c4m_content_topic_field_default_field_instances() {
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'upload' => 'upload',
         ),
-        'droppable_area_text' => 'Drop files here to upload',
-        'multiupload' => 0,
         'preview_image_style' => 'thumbnail',
         'progress_indicator' => 'throbber',
-        'standard_upload' => 1,
-        'upload_button_text' => 'Upload',
-        'upload_event' => 'manual',
       ),
-      'type' => 'media_generic',
+      'type' => 'image_image',
       'weight' => 4,
     ),
   );

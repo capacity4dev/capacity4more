@@ -2379,23 +2379,11 @@ function c4m_user_user_default_permissions() {
     'module' => 'search_api_sorts',
   );
 
-  // Exported permission: 'use text format default_html'.
-  $permissions['use text format default_html'] = array(
-    'name' => 'use text format default_html',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
-      'authenticated user' => 'authenticated user',
-    ),
-    'module' => 'filter',
-  );
-
   // Exported permission: 'use text format filtered_html'.
   $permissions['use text format filtered_html'] = array(
     'name' => 'use text format filtered_html',
     'roles' => array(
       'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'filter',

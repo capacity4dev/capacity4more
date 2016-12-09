@@ -51,11 +51,11 @@ function c4m_search_nodes_views_default_views() {
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sorts';
   /* Header: Number of items */
-  $handler->display->display_options['header']['result']['id'] = 'result';
-  $handler->display->display_options['header']['result']['table'] = 'views';
-  $handler->display->display_options['header']['result']['field'] = 'result';
-  $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
-  $handler->display->display_options['header']['result']['content'] = '@total in total, @start - @end shown';
+  $handler->display->display_options['header']['c4m_views_result']['id'] = 'c4m_views_result';
+  $handler->display->display_options['header']['c4m_views_result']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_result']['field'] = 'c4m_views_result';
+  $handler->display->display_options['header']['c4m_views_result']['ui_name'] = 'Number of items';
+  $handler->display->display_options['header']['c4m_views_result']['content'] = '@total in total, @start - @end shown';
   /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_c4m_search_nodes';
@@ -92,6 +92,15 @@ function c4m_search_nodes_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'feed' => 'feed',
   );
+  /* Filter criterion: Indexed Node: Node access information */
+  $handler->display->display_options['filters']['search_api_access_node']['id'] = 'search_api_access_node';
+  $handler->display->display_options['filters']['search_api_access_node']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['search_api_access_node']['field'] = 'search_api_access_node';
+  /* Filter criterion: Indexed Node: Source Content */
+  $handler->display->display_options['filters']['c4m_source_entity']['id'] = 'c4m_source_entity';
+  $handler->display->display_options['filters']['c4m_source_entity']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['c4m_source_entity']['field'] = 'c4m_source_entity';
+  $handler->display->display_options['filters']['c4m_source_entity']['operator'] = 'empty';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');

@@ -58,6 +58,13 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 3,
       ),
+      'my_comments' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
+      ),
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'comment',
@@ -67,7 +74,6 @@ function c4m_content_wiki_page_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 0,
           'mail' => 0,
@@ -77,9 +83,6 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'default_order_toggle' => 1,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => -50,
-            ),
             'filtered_html' => array(
               'weight' => -49,
             ),
@@ -247,7 +250,6 @@ function c4m_content_wiki_page_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 0,
@@ -257,9 +259,6 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'default_order_toggle' => 1,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => -50,
-            ),
             'filtered_html' => array(
               'weight' => -48,
             ),
@@ -334,7 +333,7 @@ There is no moderation, so changes will be published immediately.',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 25,
       ),
       'pinned_content' => array(
         'label' => 'above',
@@ -970,7 +969,7 @@ There is no moderation, so changes will be published immediately.',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 28,
+        'weight' => 31,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

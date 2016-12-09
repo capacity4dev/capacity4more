@@ -33,6 +33,7 @@ require __DIR__ . '/FeatureContext/NodeJs.php';
 require __DIR__ . '/FeatureContext/Overview.php';
 require __DIR__ . '/FeatureContext/PageAccess.php';
 require __DIR__ . '/FeatureContext/People.php';
+require __DIR__ . '/FeatureContext/Project.php';
 require __DIR__ . '/FeatureContext/QuickPost.php';
 require __DIR__ . '/FeatureContext/Search.php';
 require __DIR__ . '/FeatureContext/Topic.php';
@@ -79,6 +80,7 @@ class FeatureContext extends DrupalContext {
   use FeatureContext\Overview;
   use FeatureContext\PageAccess;
   use FeatureContext\People;
+  use FeatureContext\Project;
   use FeatureContext\QuickPost;
   use FeatureContext\Search;
   use FeatureContext\Topic;
@@ -153,4 +155,17 @@ class FeatureContext extends DrupalContext {
     }
   }
 
+  /**
+   * @Then /^I click the "([^"]*)" element$/
+   */
+  public function iClickOn($selector) {
+    $page = $this->getSession()->getPage();
+    $element = $page->find('css', $selector);
+
+    if (!$element) {
+      throw new Exception("$selector could not be found");
+    }
+
+    $element->click();
+  }
 }

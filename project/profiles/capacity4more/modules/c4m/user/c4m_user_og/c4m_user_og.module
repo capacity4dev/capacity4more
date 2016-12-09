@@ -546,6 +546,7 @@ function c4m_user_og_theme() {
     'variables' => array(
       'links' => NULL,
       'title' => NULL,
+      'highlight' => NULL,
     ),
   );
 
@@ -649,13 +650,13 @@ function c4m_user_og_c4m_visitor_cta($group) {
  */
 function c4m_user_og_group_actions_cta($group) {
   $items = array();
-  $access = c4m_og_get_access_type($group);
   global $user;
 
   // CTAs for the group owner and administrators: Manage group and number or
   // new membership requests.
   if (_c4m_features_og_members_is_power_user($group, $user)) {
-    if ($pending_requests = c4m_og_get_all_group_memberships_by_state($group->nid, OG_STATE_PENDING)) {
+    $exclude_invited_memberships = TRUE;
+    if ($pending_requests = c4m_og_get_all_group_memberships_by_state($group->nid, OG_STATE_PENDING, $exclude_invited_memberships)) {
       $pending_id = $group->nid . '_pending';
 
       $link_text = format_plural(
@@ -687,23 +688,38 @@ function c4m_user_og_group_actions_cta($group) {
   $variables = array(
     'bundles' => array(
       'wiki_page',
+      'photo',
       'photoalbum',
       'discussion',
       'event',
       'document',
+      'news',
     ),
     'state' => NODE_NOT_PUBLISHED,
     'entity_type' => 'node',
     'og_id' => $group->nid,
+    'uid' => $user->uid,
   );
 
   if ($unpublished_content = c4m_helper_entity_get_number_of_entities($variables)) {
     $items['new-content'] = array(
       '#theme' => 'c4m_group_text_cta',
       '#icon' => 'fa-exclamation-triangle',
-      '#text' => t(
-        'You have %count draft content items',
-        array('%count' => $unpublished_content)
+      '#text' => t('You have <a href="@content_url">!content_number draft</a> @items',
+        array(
+          '@content_url' => url('user/' . $user->uid . '/content', array(
+            'query' => array(
+              'f' => array(
+                // Unpublished.
+                'status:0',
+                // Container reference.
+                'og_group_ref:' . $group->nid,
+              ),
+            ),
+          )),
+          '!content_number' => $unpublished_content,
+          '@items' => format_plural($unpublished_content, 'item', 'items'),
+        )
       ),
     );
   }
@@ -739,6 +755,20 @@ function c4m_user_og_group_management_cta($group) {
       '#icon' => 'fa-cogs',
       '#text' => l(t("Manage !group_type", array('!group_type' => $group->type)), 'manage'),
     );
+
+    // Add project highlight icon.
+    if (c4m_user_is_site_admin() && $group->type == 'project') {
+      $field = array(
+        'entity' => $group,
+        'view_mode' => 'block_list',
+        'formatter_settings' => array(
+          'ft' => array('lb-cl' => 'block-list'),
+        ),
+      );
+
+      module_load_include('inc', 'c4m_ds', 'includes/c4m_ds.theme.node');
+      $items['#highlight'] = theme_c4m_ds_node_highlight($field);
+    }
   }
 
   if ($item = c4m_user_og_c4m_leave_group_cta($group)) {
@@ -764,6 +794,12 @@ function c4m_user_og_group_management_cta($group) {
  * of the group yet.
  */
 function c4m_user_og_c4m_join_cta($group) {
+  $wrapper = entity_metadata_wrapper('node', $group);
+  // Joining to an archived group is forbidden.
+  if ($wrapper->c4m_og_status->value() == 'archived') {
+    return;
+  }
+
   if (og_is_member('node', $group->nid, 'user', NULL, array(OG_STATE_PENDING))) {
     $message = t("This is a moderated group. Your request is waiting for approval. Continue to explore group's content.");
     drupal_set_message($message);
@@ -869,7 +905,7 @@ function c4m_user_og_c4m_leave_group_cta($group) {
  *   The settings for this flag, or FALSE if user should not see this.
  */
 function c4m_user_og_follow_group_cta($group) {
-  if ($group->type == 'group'  && !og_is_member('node', $group->nid)) {
+  if ($group->type == 'group' && !og_is_member('node', $group->nid)) {
     return FALSE;
   }
 
@@ -974,6 +1010,11 @@ function c4m_user_og_unified_workflow_access($group) {
   }
 
   if (c4m_og_user_is_banned($group->nid)) {
+    return FALSE;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $group);
+  if ($wrapper->c4m_og_status->value() == 'archived') {
     return FALSE;
   }
 

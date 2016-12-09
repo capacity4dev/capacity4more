@@ -46,6 +46,7 @@ function c4m_content_project_field_default_field_instances() {
   // Exported field_instance: 'node-project-c4m_banner'.
   $field_instances['node-project-c4m_banner'] = array(
     'bundle' => 'project',
+    'default_value' => array(),
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -93,7 +94,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 38,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -136,6 +137,7 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_banner',
     'label' => 'Banner',
@@ -153,10 +155,11 @@ function c4m_content_project_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'media',
+      'module' => 'image',
       'settings' => array(
         'allowed_schemes' => array(
-          'public' => 'public',
+          'private' => 'private',
+          'public' => 0,
         ),
         'allowed_types' => array(
           'audio' => 0,
@@ -166,11 +169,14 @@ function c4m_content_project_field_default_field_instances() {
         ),
         'browser_plugins' => array(
           'media_default--media_browser_1' => 'media_default--media_browser_1',
+          'media_default--media_browser_2' => 0,
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'upload' => 'upload',
         ),
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
       ),
-      'type' => 'media_generic',
+      'type' => 'image_image',
       'weight' => 8,
     ),
   );
@@ -223,7 +229,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 37,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -282,7 +288,6 @@ function c4m_content_project_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 0,
@@ -292,9 +297,6 @@ function c4m_content_project_field_default_field_instances() {
         'default_order_toggle' => 1,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => -50,
-            ),
             'filtered_html' => array(
               'weight' => -48,
             ),
@@ -374,9 +376,10 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 40,
+        'type' => 'text_default',
+        'weight' => 5,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -481,9 +484,10 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 39,
+        'type' => 'text_default',
+        'weight' => 6,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -819,6 +823,7 @@ function c4m_content_project_field_default_field_instances() {
   // Exported field_instance: 'node-project-c4m_media'.
   $field_instances['node-project-c4m_media'] = array(
     'bundle' => 'project',
+    'default_value' => array(),
     'deleted' => 0,
     'description' => 'A picture to use on the Project dashboard and Project listings',
     'display' => array(
@@ -874,7 +879,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => 39,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -938,7 +943,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'media',
+      'module' => 'image',
       'settings' => array(
         'allowed_schemes' => array(
           'public' => 'public',
@@ -954,8 +959,10 @@ function c4m_content_project_field_default_field_instances() {
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'upload' => 'upload',
         ),
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
       ),
-      'type' => 'media_generic',
+      'type' => 'image_image',
       'weight' => 7,
     ),
   );
@@ -1009,7 +1016,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'c4m_content',
         'settings' => array(),
         'type' => 'c4m_formatter_ec_money',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1604,7 +1611,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 37,
+        'weight' => 40,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1660,9 +1667,10 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 38,
+        'type' => 'text_default',
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1685,7 +1693,6 @@ function c4m_content_project_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 'mail',
@@ -1695,9 +1702,6 @@ function c4m_content_project_field_default_field_instances() {
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => 0,
-            ),
             'filtered_html' => array(
               'weight' => 0,
             ),
@@ -1776,7 +1780,6 @@ function c4m_content_project_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 'mail',
@@ -1786,9 +1789,6 @@ function c4m_content_project_field_default_field_instances() {
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => 0,
-            ),
             'filtered_html' => array(
               'weight' => 0,
             ),
@@ -1904,9 +1904,10 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
+        'module' => 'link',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 50,
+        'type' => 'link_url',
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -2014,7 +2015,7 @@ function c4m_content_project_field_default_field_instances() {
           'view_mode' => 'block_list',
         ),
         'type' => 'entityreference_entity_view',
-        'weight' => 8,
+        'weight' => 12,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2204,22 +2205,10 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
-        'module' => 'smart_trim',
-        'settings' => array(
-          'more_link' => 0,
-          'more_text' => 'Read more',
-          'summary_handler' => 'full',
-          'trim_length' => 300,
-          'trim_link' => 0,
-          'trim_options' => array(
-            'text' => 0,
-          ),
-          'trim_preserve_tags' => '',
-          'trim_suffix' => '...',
-          'trim_type' => 'chars',
-        ),
-        'type' => 'smart_trim_format',
-        'weight' => 1,
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 2,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2327,7 +2316,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 4,
+        'weight' => 11,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2431,7 +2420,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 3,
+        'weight' => 8,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2628,7 +2617,6 @@ function c4m_content_project_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 'mail',
@@ -2638,9 +2626,6 @@ function c4m_content_project_field_default_field_instances() {
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => 0,
-            ),
             'filtered_html' => array(
               'weight' => 0,
             ),
@@ -2758,7 +2743,6 @@ function c4m_content_project_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 'mail',
@@ -2768,9 +2752,6 @@ function c4m_content_project_field_default_field_instances() {
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => 0,
-            ),
             'filtered_html' => array(
               'weight' => 0,
             ),
@@ -2902,7 +2883,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'media',
+      'module' => 'image',
       'settings' => array(
         'allowed_schemes' => array(
           'private' => 0,
@@ -2920,8 +2901,10 @@ function c4m_content_project_field_default_field_instances() {
           'media_default--media_browser_my_files' => 0,
           'upload' => 'upload',
         ),
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
       ),
-      'type' => 'media_generic',
+      'type' => 'image_image',
       'weight' => 4,
     ),
   );
@@ -3059,7 +3042,6 @@ function c4m_content_project_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 'mail',
@@ -3069,9 +3051,6 @@ function c4m_content_project_field_default_field_instances() {
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => 0,
-            ),
             'filtered_html' => array(
               'weight' => 0,
             ),
@@ -3197,7 +3176,6 @@ function c4m_content_project_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 'mail',
@@ -3207,9 +3185,6 @@ function c4m_content_project_field_default_field_instances() {
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => 0,
-            ),
             'filtered_html' => array(
               'weight' => 0,
             ),
@@ -3282,7 +3257,6 @@ function c4m_content_project_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 0,
           'filtered_html' => 'filtered_html',
           'full_html' => 0,
           'mail' => 0,
@@ -3292,9 +3266,6 @@ function c4m_content_project_field_default_field_instances() {
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => 0,
-            ),
             'filtered_html' => array(
               'weight' => 0,
             ),
@@ -3358,7 +3329,6 @@ function c4m_content_project_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 'mail',
@@ -3368,9 +3338,6 @@ function c4m_content_project_field_default_field_instances() {
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => 0,
-            ),
             'filtered_html' => array(
               'weight' => 0,
             ),
@@ -3432,7 +3399,6 @@ function c4m_content_project_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 'mail',
@@ -3442,9 +3408,6 @@ function c4m_content_project_field_default_field_instances() {
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => 0,
-            ),
             'filtered_html' => array(
               'weight' => 0,
             ),
@@ -3513,7 +3476,6 @@ function c4m_content_project_field_default_field_instances() {
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
-          'default_html' => 'default_html',
           'filtered_html' => 'filtered_html',
           'full_html' => 'full_html',
           'mail' => 'mail',
@@ -3523,9 +3485,6 @@ function c4m_content_project_field_default_field_instances() {
         'default_order_toggle' => 0,
         'default_order_wrapper' => array(
           'formats' => array(
-            'default_html' => array(
-              'weight' => 0,
-            ),
             'filtered_html' => array(
               'weight' => 0,
             ),

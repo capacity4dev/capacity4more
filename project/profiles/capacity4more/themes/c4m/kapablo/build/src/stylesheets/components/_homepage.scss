@@ -1,227 +1,228 @@
 .pane-c4m-content-global-statistics-summary {
-    margin: 0 -18px;
-    padding: 0;
-    background: $color-white;
-    @media (min-width: $screen-tablet) {
-        border-top: 1px dashed $color-gray-light;
-        border-bottom: none;
-        padding: 1.5rem 0;
-        margin: 0;
-    }
+  margin: 0 -18px;
+  padding: 0;
+  background: $color-white;
+  @media (min-width: $screen-tablet) {
+    border-top: 1px dashed $color-gray-light;
+    border-bottom: none;
+    padding: 1.5rem 0;
+    margin: 0;
+  }
 }
 
 #content-top-wrapper {
-    @include grey_bar;
-    @include grain;
-    border-top: none;
-    border-bottom: 1px solid $color-gray-light;
-    padding: 15px;
+  @include grey_bar;
+  @include grain;
+  border-top: none;
+  border-bottom: 1px solid $color-gray-light;
+  padding: 15px;
 }
 
 .pane-featured-block {
-    @media (min-width: $screen-tablet) {
-        border-top: 1px dashed $color-gray-light;
-        margin: 0;
-        padding: 2rem 0 2rem;
-    }
-    .col-sm-4 {
-       & > a {
-            @include grain;
-            color: $color-text;
-            display: block;
-            border-bottom: 1px dashed $color-gray-light;
-            padding: 1.42rem 0 1.42rem 0;
-            text-decoration: none;
+  @media (min-width: $screen-tablet) {
+    border-top: 1px dashed $color-gray-light;
+    margin: 0;
+    padding: 2rem 0 2rem;
+  }
+  .col-sm-4 {
+    & > a {
+      @include grain;
+      color: $color-text;
+      display: block;
+      border-bottom: 1px dashed $color-gray-light;
+      padding: 1.42rem 0 1.42rem 0;
+      text-decoration: none;
 
-
-            .caption {
-                margin-top: 1.78rem;
-                span {
-                    display: block;
-                    font-weight: bold;
-                    padding: 0.65rem 0 0.5rem;
-                }
-                @media (min-width: $screen-tablet) {
-                    margin-top: 0;
-                }
-            }
-
-            .field-type-image {
-              box-shadow: inset 1px 1px 2px 0px rgba(0,0,0,0.25);
-              position: relative;
-              &::after {
-                position: absolute;
-                left: 0px;
-                top: 0px;
-                right: 0px;
-                bottom: 0px;
-                content: " ";
-                display: block;
-                box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2) inset;
-              }
-            }
-            .field-item img {
-                position: relative;
-                left: 50%;
-                transform: translate(-50%, 0);
-                -webkit-transform: translate(-50%, 0);
-                width: 100%;
-                @media (min-width: $screen-tablet) {
-                    left: 0;
-                    transform: translate(0, 0);
-                    -webkit-transform: translate(0, 0);
-                }
-            }
-            &:hover {
-                text-decoration: underline;
-            }
-            @media (min-width: $screen-tablet) {
-                @include grey_box;
-                border-radius: 2px;
-            }
+      .caption {
+        margin-top: 1.78rem;
+        span {
+          display: block;
+          font-weight: bold;
+          padding: 0.65rem 0 0.5rem;
         }
-        &:last-of-type {
-            a {
-                border-bottom: 0;
-                @media (min-width: $screen-tablet) {
-                    border-bottom: 1px solid $color-gray-light;
-                }
-            }
+        @media (min-width: $screen-tablet) {
+          margin-top: 0;
         }
+      }
+
+      .field-type-image {
+        box-shadow: inset 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
+        position: relative;
+        &::after {
+          position: absolute;
+          left: 0px;
+          top: 0px;
+          right: 0px;
+          bottom: 0px;
+          content: " ";
+          display: block;
+          box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2) inset;
+        }
+      }
+      .field-item img {
+        position: relative;
+        left: 50%;
+        transform: translate(-50%, 0);
+        -webkit-transform: translate(-50%, 0);
+        width: 100%;
+        @media (min-width: $screen-tablet) {
+          left: 0;
+          transform: translate(0, 0);
+          -webkit-transform: translate(0, 0);
+        }
+      }
+      &:hover {
+        text-decoration: underline;
+      }
+      @media (min-width: $screen-tablet) {
+        @include grey_box;
+        border-radius: 2px;
+      }
     }
+    &:last-of-type {
+      a {
+        border-bottom: 0;
+        @media (min-width: $screen-tablet) {
+          border-bottom: 1px solid $color-gray-light;
+        }
+      }
+    }
+  }
 }
 
 .pane-upcoming-events {
-    .pane-title {
-        margin-top: 0;
-    }
+  .pane-title {
+    margin-top: 0;
+  }
 }
 
 .pane-title {
-    // This is in homepage file but affects all pages.
-    margin-bottom: 35px;
+  // This is in homepage file but affects all pages.
+  margin-bottom: 35px;
 }
 
 .node-event.view-mode-upcoming_event {
-    .field-name-title {
-        h3 {
-            font-size: $font-size-h4;
-        }
+  .field-name-title {
+    h3 {
+      font-size: $font-size-h4;
     }
+  }
 }
 
 #block-c4m-features-homepage-intro-video {
-    .button-wrapper {
+  .button-wrapper {
+    position: relative;
+    .justifier {
+      bottom: 0;
+      left: 50%;
+      position: absolute;
+      .btn {
         position: relative;
-        .justifier {
-            bottom: 0;
-            left: 50%;
-            position: absolute;
-            .btn {
-                position: relative;
-                left: -50%;
-                bottom: 2rem;
-                width: 44px;
-                height: 44px;
-                padding-left: 0;
-                padding-right: 0;
-                background-color: $color-blue-dark;
-                border: 5px solid $color-text-alternative;
-                border-radius: 30px;
-                font-size: 1.1rem;
-                @media (min-width: $screen-sm-min) {
-                    width: auto;
-                    height: auto;
-                    padding-left: 6rem;
-                    padding-right: 4rem;
-                }
-                .i-play {
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    display: inline-block;
-                    width: 20px;
-                    height: 20px;
-                    background: url('../images/icons/i-play.png') no-repeat center center;
-                    background-size: 90%;
-                    font-size: 2rem;
-                    transform: translate(-50%, -50%);
-                    -webkit-transform: translate(-50%, -50%);
-                    @media (min-width: $screen-sm-min) {
-                        left: 2%;
-                        width: 32px;
-                        height: 100%;
-                        transform: translate(0, -50%);
-                        -webkit-transform: translate(0, -50%);
-                    }
-                }
-                .button-text {
-                    display: none;
-                    @media (min-width: $screen-sm-min) {
-                        display: block;
-                    }
-                }
-            }
+        left: -50%;
+        bottom: 2rem;
+        width: 44px;
+        height: 44px;
+        padding-left: 0;
+        padding-right: 0;
+        background-color: $color-blue-dark;
+        border: 5px solid $color-text-alternative;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        @media (min-width: $screen-sm-min) {
+          width: auto;
+          height: auto;
+          padding-left: 6rem;
+          padding-right: 4rem;
         }
-        #c4m-stop-video {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 0;
-            z-index: 10;
-            color: $color-blue-dark;
+        .i-play {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          background: url('../images/icons/i-play.png') no-repeat center center;
+          background-size: 90%;
+          font-size: 2rem;
+          transform: translate(-50%, -50%);
+          -webkit-transform: translate(-50%, -50%);
+          @media (min-width: $screen-sm-min) {
+            left: 2%;
+            width: 32px;
+            height: 100%;
+            transform: translate(0, -50%);
+            -webkit-transform: translate(0, -50%);
+          }
         }
-        iframe {
-            display: none;
-            height: 298px;
-            position: absolute;
-            top: 0;
+        .button-text {
+          display: none;
+          @media (min-width: $screen-sm-min) {
+            display: block;
+          }
         }
+      }
     }
+    #c4m-stop-video {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 10;
+      color: $color-blue-dark;
+    }
+    iframe {
+      display: none;
+      height: 298px;
+      position: absolute;
+      top: 0;
+    }
+  }
 }
 
 #c4m-features-homepage-newsletter-form {
-    @include dashed_separator('top');
-    .btn {
-        width: 100%;
-    }
-    .more-info {
-        // Replicate the space between email field and button.
-        margin-top: $form-group-margin-bottom;
-        margin-bottom: 0;
-        text-align: right;
-    }
+  @include dashed_separator('top');
+  .btn {
+    width: 100%;
+  }
+  .more-info {
+    // Replicate the space between email field and button.
+    margin-top: $form-group-margin-bottom;
+    margin-bottom: 0;
+    text-align: right;
+  }
 }
 
 .pane-c4m-features-homepage-c4m-features-homepage-newsletter {
-    padding-bottom: 40px;
+  padding-bottom: 40px;
 }
 
 .spinner {
-    display: none;
+  display: none;
 }
 
-.loading .spinner {
+.spinner {
+  .loading &, .progress-disabled & {
     display: inline-block;
+  }
 }
 
 .video-preview-cta {
-    .cta,
-    .link {
-        width: 50%;
+  .cta,
+  .link {
+    width: 50%;
+  }
+  .cta {
+    display: inline-block;
+  }
+  .link {
+    display: inline;
+    font-size: 12px;
+  }
+  @media (max-width: $screen-tablet) {
+    .link,
+    .cta .btn {
+      font-size: 10px;
+      padding: 6px;
     }
-    .cta {
-        display: inline-block;
-    }
-    .link {
-        display: inline;
-        font-size: 12px;
-    }
-    @media (max-width: $screen-tablet) {
-        .link,
-        .cta .btn {
-            font-size: 10px;
-            padding: 6px;
-        }
-    }
+  }
 }

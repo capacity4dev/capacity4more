@@ -122,6 +122,6 @@ libraries[plupload][directory_name] = "plupload"
 libraries[plupload][destination] = "libraries"
 
 libraries[leaflet_draw][download][type]= "get"
-libraries[leaflet_draw][download][url] = "https://github.com/Leaflet/Leaflet.draw/archive/master.zip"
+libraries[leaflet_draw][download][url] = "https://github.com/Leaflet/Leaflet.draw/archive/v0.4.6.zip"
 libraries[leaflet_draw][directory_name] = "Leaflet.draw"
 libraries[leaflet_draw][destination] = "libraries"

@@ -97,3 +97,67 @@ function c4m_content_photoalbum_c4m_helper_entity_label_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_menu_alter().
+ */
+function c4m_content_photoalbum_menu_alter(&$items) {
+  $items['node-gallery/json/item/create/%/%/%']['page callback'] = 'c4m_content_photoalbum_node_gallery_api_json_create_item';
+}
+
+/**
+ * Prevent from adding photos to a photoalbum without context.
+ *
+ * @see node_gallery_api_json_create_item()
+ */
+function c4m_content_photoalbum_node_gallery_api_json_create_item($relationship_type_id, $ngid, $item_type, $token) {
+  if (!og_context()) {
+    c4m_content_deny_access();
+  }
+
+  node_gallery_api_json_create_item($relationship_type_id, $ngid, $item_type, $token);
+}
+
+/**
+ * Implements hook_entity_type_label_alter().
+ */
+function c4m_content_photoalbum_entity_type_label_alter(&$variables) {
+  if (empty($variables['entity']->type) ||
+    'photoalbum' !== $variables['entity']->type) {
+    return;
+  }
+  $variables['label'] .= ' ' . ('added by');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Adding the purl to the pulpload url so the photos will be created with
+ * context.
+ */
+function c4m_content_photoalbum_form_node_gallery_api_plupload_form_alter(&$form, &$form_state, $form_id, $f) {
+  if (!$context = og_context()) {
+    return;
+  }
+
+  if (empty($form['upload']['#plupload_settings']['url'])) {
+    return;
+  }
+
+  if (strpos($form['upload']['#plupload_settings']['url'], '/node-gallery/json/item/create') !== 0) {
+    return;
+  }
+
+  $url_options = array(
+    'purl' => array(
+      'enabled' => TRUE,
+      'provider' => 'og_purl|node',
+      'id' => $context['gid'],
+    ),
+  );
+
+  // Generating new url with the purl as prefix.
+  $new_url = url($form['upload']['#plupload_settings']['url'], $url_options);
+
+  $form['upload']['#plupload_settings']['url'] = $new_url;
+}

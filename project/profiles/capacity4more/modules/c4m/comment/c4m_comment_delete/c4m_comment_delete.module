@@ -68,6 +68,10 @@ function c4m_comment_delete_permission() {
  * Add "Delete comment" link.
  */
 function c4m_comment_delete_comment_view($comment) {
+  if (empty($comment->content['links'])) {
+    return;
+  }
+
   if (!user_access('administer comments')) {
     if (c4m_comment_delete_access_check($comment->cid)) {
       $comment->content['links']['comment']['#links'] = array_reverse($comment->content['links']['comment']['#links'], TRUE);

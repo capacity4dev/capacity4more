@@ -18,7 +18,6 @@
 function theme_c4m_ds_embed_view(array $variables) {
   $output = '';
 
-
   $view = views_get_view($variables['view']);
   $view->set_display($variables['display']);
   $title = $view->get_title();
@@ -49,4 +48,32 @@ function theme_c4m_ds_embed_view(array $variables) {
   $output .= theme_html_tag($tag);
 
   return $output;
+}
+
+/**
+ * DS function field.
+ *
+ * Render link to the comment's node.
+ *
+ * @param array $variables
+ *   The field definition.
+ *
+ * @return string
+ *   The rendered version.
+ */
+function theme_c4m_ds_comment_node_link(array $variables) {
+  if (!isset($variables['entity'])) {
+    return NULL;
+  }
+
+  $comment = $variables['entity'];
+  $wrapper = entity_metadata_wrapper('node', $comment->nid);
+  $link = l($wrapper->label(), 'node/' . $wrapper->getIdentifier());
+
+  $tag['element'] = array(
+    '#tag' => 'div',
+    '#value' => $link,
+  );
+
+  return theme_html_tag($tag);
 }

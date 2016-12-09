@@ -56,6 +56,10 @@ function c4m_search_nodes_block_info() {
     'info' => t('Search: Global overview'),
     'cache' => DRUPAL_CACHE_GLOBAL,
   );
+  $blocks['search_overview_no_summary'] = array(
+    'info' => t('Search: Global overview without summary'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
   return $blocks;
 }
 
