@@ -18,7 +18,6 @@
 function theme_c4m_ds_embed_view(array $variables) {
   $output = '';
 
-
   $view = views_get_view($variables['view']);
   $view->set_display($variables['display']);
   $title = $view->get_title();
