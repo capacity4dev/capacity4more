@@ -126,7 +126,17 @@ function c4m_wysiwyg_ckeditor_ckeditor_profile_defaults() {
       'settings' => array(
         'ss' => 2,
         'toolbar' => '[
-    [\'Format\',\'Bold\',\'Italic\',\'Underline\',\'-\',\'NumberedList\',\'BulletedList\',\'-\',\'JustifyLeft\',\'JustifyCenter\',\'JustifyRight\',\'JustifyBlock\',\'-\',\'Link\',\'Unlink\',\'-\',\'Image\',\'Media\',\'MediaEmbed\',\'oembed\',\'-\',\'Table\']
+    [\'Bold\',\'Italic\',\'Underline\',\'-\',\'Subscript\',\'Superscript\'],
+    [\'NumberedList\',\'BulletedList\'],
+    [\'JustifyLeft\',\'JustifyCenter\',\'JustifyRight\',\'JustifyBlock\',\'-\',\'BidiLtr\',\'BidiRtl\'],
+    [\'Link\',\'Unlink\',\'Anchor\'],
+    \'/\',
+    [\'Format\'],
+    [\'PasteText\',\'PasteFromWord\'],
+    [\'DrupalBreak\'],
+    [\'Table\',\'Blockquote\'],
+    [\'Image\',\'Media\',\'oembed\'],
+    [\'Maximize\']
 ]',
         'expand' => 't',
         'default' => 't',
@@ -234,20 +244,21 @@ function c4m_wysiwyg_ckeditor_ckeditor_profile_defaults() {
       'settings' => array(
         'ss' => 2,
         'toolbar' => '[
-    [\'Source\'],
-    [\'Cut\',\'Copy\',\'Paste\',\'PasteText\',\'PasteFromWord\',\'-\'],
-    [\'Undo\',\'Redo\',\'Find\',\'Replace\',\'-\',\'SelectAll\'],
-    [\'Image\',\'Media\',\'oembed\',\'Table\',\'HorizontalRule\',\'Iframe\'],
-    \'/\',
     [\'Bold\',\'Italic\',\'Underline\',\'Strike\',\'-\',\'Subscript\',\'Superscript\',\'-\'],
-    [\'NumberedList\',\'BulletedList\',\'-\',\'Outdent\',\'Indent\',\'Blockquote\',\'CreateDiv\'],
-    [\'JustifyLeft\',\'JustifyCenter\',\'JustifyRight\',\'JustifyBlock\',\'-\',\'BidiLtr\',\'BidiRtl\',\'-\'],
+    [\'NumberedList\',\'BulletedList\',\'-\',\'Outdent\',\'Indent\'],
+    [\'JustifyLeft\',\'JustifyCenter\',\'JustifyRight\',\'JustifyBlock\',\'-\',\'BidiLtr\',\'BidiRtl\'],
     [\'Link\',\'Unlink\',\'Anchor\'],
     \'/\',
     [\'Format\',\'FontSize\'],
     [\'TextColor\',\'BGColor\'],
-    [\'Maximize\',\'ShowBlocks\'],
-    [\'DrupalBreak\']
+    [\'DrupalBreak\'],
+    [\'CreateDiv\',\'Table\',\'Blockquote\'],
+    [\'Image\',\'Media\',\'oembed\',\'Maximize\'],
+    \'/\',
+    [\'Source\'],
+    [\'Cut\',\'Copy\',\'Paste\',\'PasteText\',\'PasteFromWord\',\'-\'],
+    [\'Undo\',\'Redo\',\'Find\',\'Replace\',\'-\',\'SelectAll\'],
+    [\'HorizontalRule\',\'Iframe\',\'ShowBlocks\']
 ]',
         'expand' => 't',
         'default' => 't',

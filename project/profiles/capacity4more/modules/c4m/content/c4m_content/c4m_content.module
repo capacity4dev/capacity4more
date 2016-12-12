@@ -942,10 +942,26 @@ function c4m_content_taxonomy_build_tree(
     }
   }
 
-  $options = array(
-    'absolute' => TRUE,
-    'purl' => array('disabled' => TRUE),
-  );
+  // Link taxonomy terms to filtered page within OG context if provided.
+  // If not under og context, link to global search.
+  // Refactor is we WANT to break outside the silos.
+  if (!$context = og_context()) {
+    $path = 'search';
+    $options = array(
+      'absolute' => TRUE,
+      'purl' => array('disabled' => TRUE),
+    );
+  }
+  else {
+    $path = 'searchgroup';
+    $options = array(
+      'absolute' => TRUE,
+      'purl' => array(
+        'provider' => 'og_purl|node',
+        'id' => $context['gid'],
+      ),
+    );
+  }
 
   $tree = '';
   // Counting trees we theme, as some might need to be shifted right.
@@ -966,7 +982,7 @@ function c4m_content_taxonomy_build_tree(
           'f[0]' => $link_term_to_facet['vocabulary_name'] . ':' . $taxonomy->tid,
         );
 
-        $link = l($taxonomy->name, 'search', $options);
+        $link = l($taxonomy->name, $path, $options);
       }
 
       $local_tree[] = $link;

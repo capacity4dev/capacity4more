@@ -386,7 +386,7 @@ function c4m_features_homepage_newsletter_form($form, &$form_state) {
     '#attributes' => array(
       'class' => array('btn-warning'),
     ),
-    '#suffix' => '<p class="more-info">' . l(t('Look at a sample newsletter >'), 'newsletters') . '</p>',
+    '#suffix' => '<p class="more-info">' . l(t('Look at a sample newsletter') . ' <i class="fa fa-chevron-right"></i>', 'newsletters', array('html' => TRUE)) . '</p>',
   );
 
   return $form;
@@ -430,7 +430,7 @@ function c4m_features_homepage_newsletter_form_submit($form, &$form_state) {
     }
   }
 
-  drupal_set_message(t('We could not subscribe you to the newsletter, please try again later or !contact_us!', array('!contact_us' => l(t('contact_us'), 'about'))));
+  drupal_set_message(t('We could not subscribe you to the newsletter, please try again later or !contact_us!', array('!contact_us' => l(t('contact us'), 'about'))));
 }
 
 /**

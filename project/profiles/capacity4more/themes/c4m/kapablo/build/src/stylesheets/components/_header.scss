@@ -1,396 +1,418 @@
 #top-menu {
-    padding: 1rem 0;
-    .region-top-menu {
-        .block {
-            display: inline-block;
-            margin-left: 3rem;
-        }
+  align-items: center;
+  display: flex;
+  height: 50px;
+
+  .region-top-menu {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+
+    .block {
+      display: inline-block;
+      margin-left: 3rem;
     }
+  }
+  #block-c4m-features-header-c4m-header-menu {
+    display: none;
+
+    ul {
+      @include horizontal_menu;
+      li {
+        a {
+          color: $color-gray-dark;
+        }
+      }
+    }
+  }
+  @media (min-width: $screen-tablet) {
     #block-c4m-features-header-c4m-header-menu {
-        display: none;
+      display: block;
     }
-    @media (min-width: $screen-tablet) {
-        #block-c4m-features-header-c4m-header-menu {
-            display: block;
-        }
-    }
+  }
 }
 
 #block-c4m-user-bar-user-signup-login {
-    ul {
-        @include horizontal_menu;
-        li {
-            a {
-                font-weight: bold;
-            }
-        }
+  ul {
+    @include horizontal_menu;
+    li {
+      a {
+        font-weight: bold;
+      }
     }
-}
-
-#block-c4m-features-header-c4m-header-menu {
-    ul {
-        @include horizontal_menu;
-        li {
-            a {
-                color: $color-gray-dark;
-            }
-        }
-    }
+  }
 }
 
 #header-ec-wrapper {
-    @include grey_bar_base;
-    border-bottom: none;
-    position: relative;
-    overflow: hidden; /* hide boxshadow overflow from banner */
+  @include grey_bar_base;
 
-    &.c4m-project-page {
-        padding-top: 15px;
-    }
-    & .col-xs-3,
-    & .col-sm-4,
-    & .col-md-3 {
-        padding-right: 0;
-    }
-    .background-banner {
-        /* Since IE and FF doesn't respect all the effects, we hide it for now.
-           See CFM-1134 for more details.
-        */
-        display: none;
+  border-bottom: none;
+  padding-bottom: 1em;
+  position: relative;
+  overflow: hidden; /* hide boxshadow overflow from banner */
 
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: 60%;
-        img {
-            width: 100%;
-            height: 100%;
-            filter: blur(2px) grayscale(60%);
-            -webkit-filter: blur(2px) grayscale(60%);
-            -moz-filter: blur(2px) grayscale(60%);
-            -o-filter: blur(2px) grayscale(60%);
-            -ms-filter: blur(2px) grayscale(60%);
-            mask-image: linear-gradient(transparent 0%, black 100%);
-            -webkit-mask-image: linear-gradient(transparent 0%, black 100%);
-            -moz-mask-image: linear-gradient(transparent 0%, black 100%);
-            -o-mask-image: linear-gradient(transparent 0%, black 100%);
-            -ms-mask-image: linear-gradient(transparent 0%, black 100%);
-        }
-    }
+  .og-context.front & {
+    // Group banner is shown here.
+    padding-bottom: 0;
+  }
 
-    .group-banner {
-      box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.52);
-    }
+  @media (min-width: $screen-tablet) {
 
-    &::after {
-        position: absolute;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
-        height: 5px;
-        background: linear-gradient( to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1));
-        content: " ";
+  }
+
+  &.c4m-project-page {
+    padding-top: 15px;
+  }
+  & .col-xs-3,
+  & .col-sm-4,
+  & .col-md-3 {
+    padding-right: 0;
+  }
+  .background-banner {
+    /* Since IE and FF doesn't respect all the effects, we hide it for now.
+       See CFM-1134 for more details.
+    */
+    display: none;
+
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60%;
+    img {
+      width: 100%;
+      height: 100%;
+      filter: blur(2px) grayscale(60%);
+      -webkit-filter: blur(2px) grayscale(60%);
+      -moz-filter: blur(2px) grayscale(60%);
+      -o-filter: blur(2px) grayscale(60%);
+      -ms-filter: blur(2px) grayscale(60%);
+      mask-image: linear-gradient(transparent 0%, black 100%);
+      -webkit-mask-image: linear-gradient(transparent 0%, black 100%);
+      -moz-mask-image: linear-gradient(transparent 0%, black 100%);
+      -o-mask-image: linear-gradient(transparent 0%, black 100%);
+      -ms-mask-image: linear-gradient(transparent 0%, black 100%);
     }
+  }
+
+  .group-banner {
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.52);
+  }
+
+  &::after {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 5px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1));
+    content: " ";
+  }
 }
 
 #header-content-wrapper {
-    background: url('../images/header/background-green.png') repeat-x;
+  background: url('../images/header/background-green.png') repeat-x;
+  background-size: contain;
+
+  .intro-banner & {
+    background: url('../images/header/background-green-white.png') repeat-x;
     background-size: contain;
+  }
 
-    .intro-banner & {
-        background: url('../images/header/background-green-white.png') repeat-x;
-        background-size: contain;
+  .header-content {
+    &.video-is-on {
+      height: 298px;
     }
-
-    .header-content {
-        &.video-is-on {
-            height: 298px;
-        }
-    }
+  }
 }
 
 #c4m-search-redirect-form {
-    margin-bottom: 1em;
+  margin-bottom: 1em;
 
-    input {
-        padding-right: 3rem;
-        width: 100%;
-    }
+  input {
+    padding-right: 3rem;
+    width: 100%;
+  }
 }
 
 #c4m-search-form,
 #c4m-search-redirect-form,
 #c4m-search-redirect-form--2 {
-    .form-group {
-        margin: 0;
-        position: relative;
-        width: 100%;
-    }
+  .form-group {
+    margin: 0;
+    position: relative;
+    width: 100%;
+  }
 
-    .form-submit {
-        background: none;
-        border: none;
-        box-shadow: none;
-        color: $color-gray-dark;
-        position: absolute;
-        right: 0;
-        top: 0;
-    }
+  .form-submit {
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: $color-gray-dark;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
 }
 
 #c4m-search-form {
-    margin-top: 1.8rem;
-    position: relative;
+  margin-top: 1.8rem;
+  position: relative;
 
-    .form-group {
-        width: auto;
-    }
+  .form-group {
+    width: auto;
+  }
 }
 
 .header-breadcrumb {
-    display: none;
-    margin-top: 1rem;
+  display: none;
+  margin-top: 1rem;
 
-    ol {
-        background: none;
-        margin: 1rem 0;
+  ol {
+    background: none;
+    margin: 1rem 0;
+    padding: 0;
+
+    li {
+      & > a,
+      &.last {
+        max-width: 250px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: bottom;
+        white-space: nowrap;
+      }
+
+      @extend .text-small;
+
+      &:before {
+        content: "";
         padding: 0;
+      }
 
-        li {
-            & > a,
-            &.last {
-                max-width: 250px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                vertical-align: bottom;
-                white-space: nowrap;
-            }
+      a {
+        @extend .text-breadcrumb;
+        display: inline-block;
+      }
 
-            @extend .text-small;
-
-            &:before {
-              content: "";
-              padding: 0;
-            }
-
-            a {
-                @extend .text-breadcrumb;
-                display: inline-block;
-            }
-
-            i {
-                color: $color-logo-blue;
-                padding: 0 0.5rem;
-            }
-        }
+      i {
+        color: $color-logo-blue;
+        padding: 0 0.5rem;
+      }
     }
-    @media (min-width: $grid-float-breakpoint) {
-        display: block;
-    }
+  }
+  @media (min-width: $grid-float-breakpoint) {
+    display: block;
+  }
+}
+
+.navbar {
+  min-height: initial;
 }
 
 .navigation--primary {
-    display: none;
-    border-bottom: 1px solid $color-gray-light;
+  display: none;
+  border-bottom: 1px solid $color-gray-light;
 
-    li a:hover {
-        background-color: $color-background;
+  li a:hover {
+    background-color: $color-background;
+  }
+
+  @media (min-width: $grid-float-breakpoint) {
+    display: block;
+
+    .navbar {
+      margin-bottom: 0;
     }
 
-    @media (min-width: $grid-float-breakpoint) {
-        display: block;
+    .navbar-collapse {
+      padding: 1rem 0;
 
-        .navbar {
-            margin-bottom: 0;
-        }
+      ul.menu {
+        @include horizontal_menu_flex_100;
 
-        .navbar-collapse {
-            padding: 1rem 0;
+        li {
+          font-size: 0.85rem;
+          padding: 0 0.75rem;
+          @media (min-width: $screen-md-min) {
+            font-size: 1rem;
+            padding: 0 1.25rem;
+          }
 
-            ul.menu {
-                @include horizontal_menu;
+          a {
+            line-height: 1rem;
+            padding: 0;
+            text-transform: uppercase;
 
-                li {
-                    font-size: 0.85rem;
-                    padding: 0 0.75rem;
-                    @media (min-width: $screen-md-min) {
-                        font-size: 1rem;
-                        padding: 0 1.25rem;
-                    }
-
-                    a {
-                        line-height: 1rem;
-                        padding: 0;
-                        text-transform: uppercase;
-
-                        &:hover {
-                            background: none;
-                            color: $color-gray-dark;
-                        }
-                    }
-                }
+            &:hover {
+              background: none;
+              color: $color-gray-dark;
             }
+          }
         }
+      }
     }
+  }
 }
 
 .navbar-toggle {
-    border-color: $color-gray-light;
+  border-color: $color-gray-light;
 
-    &:hover,
-    &:focus {
-        background-color: $color-background;
-    }
+  &:hover,
+  &:focus {
+    background-color: $color-background;
+  }
 
-    .icon-bar {
-        background-color: $color-gray-light;
-    }
+  .icon-bar {
+    background-color: $color-gray-light;
+  }
 }
 
 #content-group-header-title {
-    h1 {
-        margin-top: 0;
-        margin-bottom: 0;
+  h1 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .top-buffer {
+    margin-top: 10px;
+  }
+
+  .indication {
+    font-size: 12px;
+    text-align: center;
+    padding: 5px;
+    color: black;
+    display: block;
+  }
+
+  .group-icon {
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 6px;
+    height: 25px;
+
+    &.group-public {
+      border-color: $color-green;
     }
 
-    .top-buffer {
-        margin-top: 10px;
+    &.group-private {
+      border-color: $color-red;
     }
 
-    .indication {
-        font-size: 12px;
-        text-align: center;
-        padding: 5px;
-        color: black;
-        display: block;
+    &.group-restricted {
+      border-color: $color-accent;
     }
-
-    .group-icon {
-        border-style: solid;
-        border-width: 1px;
-        border-radius: 6px;
-        height: 25px;
-
-        &.group-public {
-            border-color: $color-green;
-        }
-
-        &.group-private {
-            border-color: $color-red;
-        }
-
-        &.group-restricted {
-            border-color: $color-accent;
-        }
-    }
+  }
 }
 
 .header-actions {
-    float: right;
-    width: 80px;
-    height: 30px;
-    border-radius: 5px;
-    margin: 5px 0 0 -18px;
-    padding: 1px 0 1px 0;
-    background-color: $color-text-alternative;
+  float: right;
+  width: 80px;
+  height: 30px;
+  border-radius: 5px;
+  margin: 5px 0 0 -18px;
+  padding: 1px 0 1px 0;
+  background-color: $color-text-alternative;
 
-    @media (min-width: $grid-float-breakpoint) {
-        display: none;
-    }
+  @media (min-width: $grid-float-breakpoint) {
+    display: none;
+  }
 }
 
 .header-actions--wrapper {
-    position: relative;
-    float: left;
-    display: inline-block;
-    width: 40px;
-    height: 28px;
+  position: relative;
+  float: left;
+  display: inline-block;
+  width: 40px;
+  height: 28px;
 }
 
 .header-actions--wrapper + .header-actions--wrapper {
-    border-left: 1px solid $color-white;
+  border-left: 1px solid $color-white;
 }
 
 .header-actions--search,
 .header-actions--navigation {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
 }
 
 .header-actions--search {
-    color: $color-white;
-    cursor: pointer;
+  color: $color-white;
+  cursor: pointer;
 }
 
 .header-actions--navigation {
-    display: inline-block;
-    width: 18px;
-    height: 20px;
-    background: none;
-    border: transparent;
-    cursor: pointer;
+  display: inline-block;
+  width: 18px;
+  height: 20px;
+  background: none;
+  border: transparent;
+  cursor: pointer;
 }
 
 .header-actions--navigation .icon-bar {
-    display: block;
-    width: 20px;
-    height: 3px;
-    border-radius: 0;
-    background-color: $color-white;
+  display: block;
+  width: 20px;
+  height: 3px;
+  border-radius: 0;
+  background-color: $color-white;
 }
 
 .header-actions--navigation .icon-bar + .icon-bar {
-    margin-top: 4px;
+  margin-top: 4px;
 }
 
 .header-search {
-    width: 100%;
-    @media (min-width: $screen-tablet) {
-        display: block;
-        width: 33.33%;
-    }
-    @media (min-width: $screen-desktop) {
-        width: 25%;
-    }
+  width: 100%;
+  @media (min-width: $screen-tablet) {
+    display: block;
+    width: 33.33%;
+  }
+  @media (min-width: $screen-desktop) {
+    width: 25%;
+  }
 }
 
 .header-search .form-wrapper {
-    float: none !important;
+  float: none !important;
 }
 
 .header-search .form-text {
-    width: 100%;
-    @media (min-width: $screen-tablet) {
-        width: 17rem;
-    }
+  width: 100%;
+  @media (min-width: $screen-tablet) {
+    width: 17rem;
+  }
 }
 
 .header-logo,
 .header-search {
-    margin-top: $base-spacing-large;
+  margin-top: $base-spacing-large;
 
-    &::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
+  &::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
 }
 
 // Specific header actions on group pages.
 .og-context .header-actions {
-    width: 40px;
+  width: 40px;
 }
 
 .og-context .header-actions--wrapper:nth-of-type(2) {
-    display: none;
+  display: none;
 }
 
 .view-header {
-    .node-create:after {
-        content: '\A';
-        white-space: pre;
-    }
+  .node-create:after {
+    content: '\A';
+    white-space: pre;
+  }
 }

@@ -174,11 +174,6 @@ function c4m_content_article_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'c4m_ds_content_shared_to' => array(
-      'weight' => '13',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'c4m_content_article_disclaimer' => array(
       'weight' => '7',
       'label' => 'hidden',
@@ -665,8 +660,7 @@ function c4m_content_article_ds_layout_settings_info() {
         12 => 'c4m_link_multiple',
         13 => 'group_node_actions',
         14 => 'group_node_meta',
-        15 => 'c4m_ds_content_shared_to',
-        16 => 'c4m_ds_content_actions',
+        15 => 'c4m_ds_content_actions',
       ),
       'left' => array(
         3 => 'c4m_ds_content_status',
@@ -693,7 +687,6 @@ function c4m_content_article_ds_layout_settings_info() {
       'c4m_link_multiple' => 'right',
       'group_node_actions' => 'right',
       'group_node_meta' => 'right',
-      'c4m_ds_content_shared_to' => 'right',
       'c4m_ds_content_actions' => 'right',
     ),
     'classes' => array(

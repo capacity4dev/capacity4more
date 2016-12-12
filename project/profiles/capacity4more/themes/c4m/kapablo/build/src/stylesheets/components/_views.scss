@@ -34,6 +34,12 @@
 
 .see-more-link, .more-link {
   text-align: right;
+
+  .view & {
+    border-top: 1px dashed $color-gray-light;
+    margin-top: 1.5em;
+    padding-top: 0.5em;
+  }
 }
 
 .pager-load-more {
@@ -175,4 +181,14 @@
 
 .view-content + .attachment {
   margin-top: 2em;
+}
+
+.region-sidebar-second {
+  .views-row  {
+    @include border-bottom;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
 }
