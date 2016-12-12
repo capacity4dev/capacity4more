@@ -76,7 +76,7 @@ function theme_c4m_footer_bar_project() {
     'html' => TRUE,
     'attributes' => array()
   );
-  $europaid_link = l(t('International cooperation and development') . ' >', 'https://ec.europa.eu/europeaid/home_en');
+  $europaid_link = l(t('DG International cooperation and development') . ' >', 'https://ec.europa.eu/europeaid/home_en');
 
   $options['attributes']['class'] = array('text-orange');
   $project_link = l(t('Capacity4dev') . ' >',  base_path() . 'projects', $options);
