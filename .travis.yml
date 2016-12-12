@@ -80,7 +80,7 @@ script:
   - $TRAVIS_BUILD_DIR/ci/bin/run_simpletest.sh
 
   # Run behat tests, different run based on the environment setting.
-  - travis_wait $TRAVIS_BUILD_DIR/ci/bin/run_behat.sh
+  - $TRAVIS_BUILD_DIR/ci/bin/run_behat.sh
 
   # Run Code Style validation.
   - $TRAVIS_BUILD_DIR/ci/bin/run_coder.sh
