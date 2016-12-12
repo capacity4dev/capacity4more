@@ -192,3 +192,13 @@
 .view-content + .attachment {
   margin-top: 2em;
 }
+
+.region-sidebar-second {
+  .views-row  {
+    @include border-bottom;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
