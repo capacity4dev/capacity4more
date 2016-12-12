@@ -2313,10 +2313,10 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
-        'module' => 'taxonomy',
+        'module' => 'c4m_vocab_widget',
         'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 11,
+        'type' => 'term_reference_tree_hierarchical',
+        'weight' => 8,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2417,10 +2417,10 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
-        'module' => 'taxonomy',
+        'module' => 'c4m_vocab_widget',
         'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 8,
+        'type' => 'term_reference_tree_hierarchical',
+        'weight' => 7,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

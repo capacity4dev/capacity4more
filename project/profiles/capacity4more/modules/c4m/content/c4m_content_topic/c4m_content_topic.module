@@ -456,7 +456,7 @@ function c4m_content_topic_field_formatter_view(
           $items = c4m_content_topic_tree_to_string($item, $separator, $glue);
 
           $element[$delta] = array(
-            '#markup' => reset($items),
+            '#markup' => implode(', ', $items),
           );
         }
       }

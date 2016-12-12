@@ -2,12 +2,21 @@
   margin: 0 -18px;
   padding: 0;
   background: $color-white;
+
   @media (min-width: $screen-tablet) {
     border-top: 1px dashed $color-gray-light;
     border-bottom: none;
     padding: 1.5rem 0;
     margin: 0;
+
+    .pane-content {
+      width: 100%;
+    }
   }
+}
+
+.pane-voices-views-carousel {
+  margin-bottom: 1.5em;
 }
 
 #content-top-wrapper {
@@ -101,6 +110,10 @@
   margin-bottom: 35px;
 }
 
+.pane-activity-stream + .panel-separator {
+  display: none;
+}
+
 .node-event.view-mode-upcoming_event {
   .field-name-title {
     h3 {
@@ -180,7 +193,6 @@
 }
 
 #c4m-features-homepage-newsletter-form {
-  @include dashed_separator('top');
   .btn {
     width: 100%;
   }

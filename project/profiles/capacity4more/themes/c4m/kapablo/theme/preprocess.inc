@@ -103,17 +103,16 @@ function kapablo_preprocess_block(&$variables) {
       $variables['title_attributes_array']['class'][] = 'sidebarblock__title';
       array_unshift($variables['theme_hook_suggestions'], 'block__sidebarblock');
 
-      switch ($block_id) {
-        case 'views-c4m_learning_content-block':
-          $variables['title_attributes_array']['class'][] = 'closely';
-          break;
-
-        case 'views-c4m_learning_content-block_1':
-          $variables['content_attributes_array']['class'][] = 'sidebarblock__content';
-          break;
-      }
-
       break;
+  }
+}
+
+/**
+ * Implements theme_preprocess_views_view().
+ */
+function kapablo_preprocess_views_view(&$vars) {
+  if (!empty($vars['more'])) {
+    $vars['classes_array'][] = 'pane--more';
   }
 }
 
@@ -724,6 +723,8 @@ function kapablo_preprocess_panels_pane(&$vars) {
     '5abcf7ba-8a73-4ba1-8599-8e144b4326b1',
     // Suggested Groups.
     '5be4e32c-b632-48f9-81af-3ecb57a2eaf7',
+    // Suggested Projects.
+    '0bcb25cb-e83a-4e43-ab3f-180c49eabffc',
     // Video embed.
     '6291300a-bfa2-4b41-b466-2acf76adce64',
   );
@@ -824,6 +825,10 @@ function kapablo_preprocess_panels_pane(&$vars) {
     }
     else {
       array_unshift($ths, 'panels_pane__sidebarblock');
+    }
+
+    if ($vars['more']) {
+      $vars['classes_array'][] = 'pane--more';
     }
   }
 }

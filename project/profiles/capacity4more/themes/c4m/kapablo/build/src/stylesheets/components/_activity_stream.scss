@@ -1,7 +1,9 @@
 .activity-stream {
     .activities {
         padding-bottom: 12px;
-        border-bottom: 1px dashed $color-gray-light;
+        &:not(.last) {
+            border-bottom: 1px dashed $color-gray-light;
+        }
         position: relative;
         .c4m-og-power-user-actions-block {
             position: absolute;
@@ -38,11 +40,7 @@
         height: 42px;
         width: 42px;
     }
-    .field-name-c4m-document {
-        margin-top: $base-spacing-small;
-    }
     .view-mode-activity_global .field-name-c4m-content-document-icon {
-        margin-top: 12px;
         width: 56px;
     }
     .view-mode-activity_global.node-document .node-icon {
@@ -153,8 +151,15 @@
 
 .pane-activity-stream {
     .pane-title {
-        margin-bottom: 10px;
+        margin-bottom: .5em;
         margin-top: 0;
+        text-transform: uppercase;
+    }
+}
+
+.form-item-homepage-filter {
+    label {
+        font-weight: normal;
     }
 }
 

@@ -6,7 +6,14 @@
  */
 ?>
 
-<div class="sidebarblock my-groups">
+<?php
+$classes = '';
+if ($display_see_more) {
+  $classes = ' pane--more';
+}
+?>
+
+<div class="sidebarblock my-groups<?php print $classes; ?>">
   <h2 class="sidebarblock__title closely"><?php print t('My Groups') ?></h2>
   <?php print $groups; ?>
   <div class="sidebarblock__viewmore">

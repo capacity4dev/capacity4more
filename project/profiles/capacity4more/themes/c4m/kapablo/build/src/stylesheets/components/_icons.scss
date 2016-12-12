@@ -67,6 +67,8 @@
 
   .wtShareList {
     background: none;
+    font-size: inherit;
+    margin: 1em 0 0 0;
 
     li {
       display: inline-block;
@@ -74,7 +76,7 @@
       height: 24px;
 
       a {
-        //border-radius: 50%;
+        border-radius: 50%;
         line-height: 20px;
         height: 20px;
         max-width: 20px;

@@ -6,8 +6,15 @@
  */
 ?>
 
-<div class="sidebarblock suggested-projects">
-  <h2 class="sidebarblock__title closely"><?php print t('Suggested Projects') ?></h2>
+<?php
+$classes = '';
+if ($display_more_button) {
+  $classes = ' pane--more';
+}
+?>
+
+<div class="sidebarblock suggested-projects<?php print $classes; ?>">
+  <h2 class="sidebarblock__title"><?php print t('Suggested Projects') ?></h2>
   <?php print $projects ?>
   <?php if ($display_more_button): ?>
   <div class="sidebarblock__viewmore">

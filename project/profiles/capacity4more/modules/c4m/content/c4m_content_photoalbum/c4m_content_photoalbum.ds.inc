@@ -256,12 +256,12 @@ function c4m_content_photoalbum_ds_field_settings_info() {
       ),
     ),
     'c4m_user_picture' => array(
-      'weight' => '1',
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'linked_thumbnail',
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '2',
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -271,7 +271,7 @@ function c4m_content_photoalbum_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_creation_date' => array(
-      'weight' => '3',
+      'weight' => '7',
       'label' => 'inline',
       'format' => 'j F Y',
       'formatter_settings' => array(
@@ -1006,6 +1006,13 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
   $ds_layout->layout = 'c4m_ds_8_4_fluid';
   $ds_layout->settings = array(
     'regions' => array(
+      'left' => array(
+        0 => 'c4m_ds_content_type_label',
+        2 => 'title',
+        4 => 'c4m_ds_content_footer_stats',
+        5 => 'c4m_body',
+        6 => 'node_gallery_view',
+      ),
       'right' => array(
         0 => 'c4m_ds_node_highlight',
         2 => 'c4m_ds_entity_type_label',
@@ -1021,13 +1028,6 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
         16 => 'c4m_vocab_geo',
         17 => 'og_vocabulary',
         18 => 'c4m_ds_content_shared_to',
-      ),
-      'left' => array(
-        1 => 'c4m_ds_content_type_label',
-        4 => 'title',
-        6 => 'c4m_ds_content_footer_stats',
-        8 => 'c4m_body',
-        10 => 'node_gallery_view',
       ),
     ),
     'fields' => array(

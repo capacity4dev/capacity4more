@@ -17,7 +17,7 @@ function c4m_field_banner_image_default_styles() {
       1 => array(
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => 960,
+          'width' => 940,
           'height' => 300,
         ),
         'weight' => 1,

@@ -46,7 +46,9 @@
 
 #user-bar {
   background-color: $color-text-alternative;
-  padding: 0.4rem 0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+  height: 40px;
+  padding: 5px 0;
 
   .userbar-userprofile {
     display: inline-flex;
@@ -100,17 +102,23 @@
     text-decoration: none;
 
     .fullname-picture {
+      align-items: center;
+      display: flex;
+      height: 30px;
+
       .initials {
+        display: table-cell;
         height: 30px;
-        padding-top: 6px;
         vertical-align: middle;
         width: 30px;
 
         .inner-initials {
           @extend .text-small;
           color: $color-text;
-          height: auto;
           background-color: $color-white;
+          // 30px parent - 2 x (2px padding - 1px border).
+          height: 24px;
+          width: 24px;
         }
       }
       .fullname {
@@ -136,6 +144,7 @@
       }
 
       .fa-users, .fa-flag-checkered {
+        font-size: 1.4em;
         margin-right: 0.5rem;
         color: $color-white;
       }

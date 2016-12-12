@@ -20,7 +20,7 @@
 @mixin grey_box {
   @include grey_bar;
   border: 1px solid $color-gray-light;
-  border-radius: 5px;
+  border-radius: 2px;
   padding: 1rem;
 }
 
@@ -30,7 +30,6 @@
   padding: 0;
 
   li {
-    // border-left: 1px solid $color-gray-dark;
     border-right: 1px solid $color-gray-light;
     float: left;
     line-height: 1rem;
@@ -44,6 +43,25 @@
       border-right: none;
       padding-right: 0;
     }
+  }
+}
+
+@mixin horizontal_menu_flex_100($margin: .25em 0, $padding: 0 1em) {
+  @include horizontal_menu;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 -1px 0 0;
+  width: 100%;
+
+  li {
+    flex-grow: 1;
+    flex-basis: auto;
+    margin: $margin;
+    padding: $padding;
+    text-align: center;
   }
 }
 
@@ -100,6 +118,14 @@
     right: 0;
     top: 0;
   }
+}
+
+@mixin border-bottom {
+  &:not(:last-child) {
+    border-bottom: 1px dashed $color-gray-light;
+    padding-bottom: 1.5em;
+  }
+  margin-bottom: 2em;
 }
 
 @mixin rotate_promote_flag {
