@@ -2,7 +2,6 @@ name = User
 description = This module provides functionality for the user.
 core = 7.x
 package = capacity4more - User
-dependencies[] = admin_menu
 dependencies[] = better_formats
 dependencies[] = block
 dependencies[] = book
