@@ -143,7 +143,9 @@ function kapablo_preprocess_page(&$variables) {
   $variables['front_page'] = url('<front>', array('purl' => array('disabled' => TRUE)));
 
   // Add search form.
-  $variables['search_form'] = drupal_get_form('c4m_search_form');
+  if (module_exists('c4m_search')) {
+    $variables['search_form'] = drupal_get_form('c4m_search_form');
+  }
 
   $variables['image_banner'] = kapablo_group_image_banner();
   $variables['image_banner_background'] = kapablo_group_image_banner_background();
