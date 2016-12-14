@@ -4,6 +4,7 @@ core = 7.x
 package = capacity4more - User
 dependencies[] = c4m_features_footer
 dependencies[] = c4m_features_header
+dependencies[] = c4m_user_bar
 dependencies[] = c4m_user_profile
 dependencies[] = context
 dependencies[] = ctools

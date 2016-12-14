@@ -221,6 +221,15 @@ function c4m_user_user_default_permissions() {
     'module' => 'eu_cookie_compliance',
   );
 
+  // Exported permission: 'administer Terms and Conditions'.
+  $permissions['administer Terms and Conditions'] = array(
+    'name' => 'administer Terms and Conditions',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'legal',
+  );
+
   // Exported permission: 'administer actions'.
   $permissions['administer actions'] = array(
     'name' => 'administer actions',
@@ -491,6 +500,15 @@ function c4m_user_user_default_permissions() {
     'module' => 'panels',
   );
 
+  // Exported permission: 'administer paragraphs bundles'.
+  $permissions['administer paragraphs bundles'] = array(
+    'name' => 'administer paragraphs bundles',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'paragraphs',
+  );
+
   // Exported permission: 'administer pathauto'.
   $permissions['administer pathauto'] = array(
     'name' => 'administer pathauto',
@@ -651,6 +669,15 @@ function c4m_user_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'panels',
+  );
+
+  // Exported permission: 'bypass maxlength'.
+  $permissions['bypass maxlength'] = array(
+    'name' => 'bypass maxlength',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'maxlength',
   );
 
   // Exported permission: 'bypass node access'.
@@ -880,6 +907,16 @@ function c4m_user_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: 'create project content'.
+  $permissions['create project content'] = array(
+    'name' => 'create project content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: 'create share content'.
   $permissions['create share content'] = array(
     'name' => 'create share content',
@@ -1087,6 +1124,15 @@ function c4m_user_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: 'delete any project content'.
+  $permissions['delete any project content'] = array(
+    'name' => 'delete any project content',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: 'delete any share content'.
   $permissions['delete any share content'] = array(
     'name' => 'delete any share content',
@@ -1246,6 +1292,16 @@ function c4m_user_user_default_permissions() {
     'name' => 'delete own photoalbum content',
     'roles' => array(
       'administrator' => 'administrator',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: 'delete own project content'.
+  $permissions['delete own project content'] = array(
+    'name' => 'delete own project content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -1501,6 +1557,15 @@ function c4m_user_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: 'edit any project content'.
+  $permissions['edit any project content'] = array(
+    'name' => 'edit any project content',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: 'edit any share content'.
   $permissions['edit any share content'] = array(
     'name' => 'edit any share content',
@@ -1672,6 +1737,16 @@ function c4m_user_user_default_permissions() {
     'name' => 'edit own photoalbum content',
     'roles' => array(
       'administrator' => 'administrator',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: 'edit own project content'.
+  $permissions['edit own project content'] = array(
+    'name' => 'edit own project content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -2405,6 +2480,17 @@ function c4m_user_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'filter',
+  );
+
+  // Exported permission: 'view Terms and Conditions'.
+  $permissions['view Terms and Conditions'] = array(
+    'name' => 'view Terms and Conditions',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
+      'authenticated user' => 'authenticated user',
+    ),
+    'module' => 'legal',
   );
 
   // Exported permission: 'view elysia_cron'.

@@ -282,9 +282,9 @@ function c4m_content_photoalbum_field_default_field_instances() {
       'better_formats' => array(
         'allowed_formats' => array(
           'filtered_html' => 'filtered_html',
-          'full_html' => 'full_html',
+          'full_html' => 0,
           'mail' => 0,
-          'plain_text' => 'plain_text',
+          'plain_text' => 0,
         ),
         'allowed_formats_toggle' => 1,
         'default_order_toggle' => 1,
@@ -314,6 +314,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
       'active' => 1,
       'module' => 'text',
       'settings' => array(
+        'maxlength_js' => '',
+        'maxlength_js_enforce' => 0,
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'maxlength_js_label_summary' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'maxlength_js_summary' => '',
+        'maxlength_js_truncate_html' => 0,
         'rows' => 20,
         'summary_display' => 'default',
         'summary_rows' => 5,

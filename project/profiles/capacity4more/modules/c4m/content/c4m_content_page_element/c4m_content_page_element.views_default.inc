@@ -32,7 +32,7 @@ function c4m_content_page_element_views_default_views() {
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'entity';
-  /* Field: Field: Description */
+  /* Field: Field: Body */
   $handler->display->display_options['fields']['c4m_body']['id'] = 'c4m_body';
   $handler->display->display_options['fields']['c4m_body']['table'] = 'field_data_c4m_body';
   $handler->display->display_options['fields']['c4m_body']['field'] = 'c4m_body';

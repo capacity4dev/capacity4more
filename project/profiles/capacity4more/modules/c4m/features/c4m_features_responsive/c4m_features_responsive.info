@@ -5,6 +5,7 @@ package = capacity4more - Features
 dependencies[] = c4m_features_header
 dependencies[] = context
 dependencies[] = ctools
+dependencies[] = system
 features[context][] = c4m_context_responsive
 features[ctools][] = context:context:3
 features[features_api][] = api:2
