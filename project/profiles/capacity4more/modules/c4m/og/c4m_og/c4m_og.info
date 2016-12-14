@@ -10,6 +10,7 @@ dependencies[] = ctools
 dependencies[] = features
 dependencies[] = og
 dependencies[] = og_context_access_callback
+dependencies[] = og_purl
 dependencies[] = og_ui
 dependencies[] = og_variables
 dependencies[] = og_vocab

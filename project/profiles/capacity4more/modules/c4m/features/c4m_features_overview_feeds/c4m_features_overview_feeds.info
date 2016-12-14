@@ -2,6 +2,7 @@ name = Overview - Feeds
 description = Overview of all feeds.
 core = 7.x
 package = capacity4more - Features
+dependencies[] = c4m_content_feed
 dependencies[] = context
 dependencies[] = entity
 dependencies[] = facetapi

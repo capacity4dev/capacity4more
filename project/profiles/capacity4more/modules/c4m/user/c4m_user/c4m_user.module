@@ -389,7 +389,7 @@ function c4m_user_views_api() {
     'template path' => drupal_get_path(
         'module',
         'c4m_user'
-    ) . DIRECTORY_SEPARATOR . 'templates',
+      ) . DIRECTORY_SEPARATOR . 'templates',
   );
 }
 
@@ -562,7 +562,7 @@ function c4m_user_c4m_helper_entity_metrics_info() {
   return array(
     'c4m_user_organisations' => array(
       'type' => 'organisations',
-      'context'  => 'user',
+      'context' => 'user',
       'callback' => 'c4m_user_get_organisations',
     ),
   );
@@ -964,64 +964,68 @@ function c4m_user_block_view($delta) {
 function c4m_user_update_information($account, $domain = '', $whitelist_domain = '') {
   $edit = array();
 
-  $domain_user = new C4mDomainUser($account->mail);
-  // Whitelist addresses should be found in domains list but may not be present
-  // in LDAP.
-  if (isset($domain) && ($domain || $domain = $domain_user->getEmailDomainByName())) {
-    $ldap = new C4mLDAPUser();
-    if ($ldap->isUp()) {
-      $info = $ldap->getInfo($account->mail);
-      if ($info && !empty($info['valid'])) {
-        if ($info['country']) {
-          $edit['c4m_country'][LANGUAGE_NONE]['0']['value'] = $info['country'];
+  if (module_exists('c4m_domain')) {
+    $domain_user = new C4mDomainUser($account->mail);
+    // Whitelist addresses should be found in domains list
+    // but may not be present in LDAP.
+    if (isset($domain) && ($domain || $domain = $domain_user->getEmailDomainByName())) {
+      $ldap = new C4mLDAPUser();
+      if ($ldap->isUp()) {
+        $info = $ldap->getInfo($account->mail);
+        if ($info && !empty($info['valid'])) {
+          if ($info['country']) {
+            $edit['c4m_country'][LANGUAGE_NONE]['0']['value'] = $info['country'];
+          }
+          if ($info['dg']) {
+            $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $info['dg'];
+          }
+          if (empty($edit['c4m_organisation'][LANGUAGE_NONE]['0']['value']) && $domain->organisation_name) {
+            $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $domain->organisation_name;
+          }
+          $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 1;
+          $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
         }
-        if ($info['dg']) {
-          $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $info['dg'];
+        elseif (isset($whitelist_domain) && ($whitelist_domain || $whitelist_domain = $domain_user->getEmailDomainByWhitelist())) {
+          if ($whitelist_domain->organisation_name) {
+            $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $whitelist_domain->organisation_name;
+          }
+          $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 2;
+          $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
         }
-        if (empty($edit['c4m_organisation'][LANGUAGE_NONE]['0']['value']) && $domain->organisation_name) {
-          $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $domain->organisation_name;
-        }
-        $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 1;
-        $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
       }
-      elseif (isset($whitelist_domain) && ($whitelist_domain || $whitelist_domain = $domain_user->getEmailDomainByWhitelist())) {
-        if ($whitelist_domain->organisation_name) {
-          $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $whitelist_domain->organisation_name;
-        }
-        $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 2;
-        $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
-      }
     }
-  }
 
-  // If the user is not validated in LDAP and had previous LDAP validation add
-  // the flag.
-  if (empty($edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value']) && !empty($account->c4m_is_ldap_user[LANGUAGE_NONE]['0']['value'])) {
-    $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 0;
-    $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 1;
-    $edit['c4m_organisation'][LANGUAGE_NONE] = array();
-    $edit['c4m_country'][LANGUAGE_NONE] = array();
-  }
-
-  $organisation_user = new C4mOrganisationUser($account->mail);
-  if ($organisations = $organisation_user->getOrganisationsInfo()) {
-    $organisation = array_shift($organisations);
-    $organisation = entity_metadata_wrapper('node', $organisation);
-    if ($organisation->c4m_organisation_type->value()) {
-      $edit['c4m_organisation_type'][LANGUAGE_NONE]['0']['value'] = $organisation->c4m_organisation_type->value();
-    }
-    if (empty($edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'])) {
-      $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $organisation->title->value();
-    }
-    $edit['c4m_is_organisation_user'][LANGUAGE_NONE]['0']['value'] = 1;
-  }
-  elseif (!empty($account->c4m_is_organisation_user[LANGUAGE_NONE]['0']['value'])) {
-    $edit['c4m_is_organisation_user'][LANGUAGE_NONE]['0']['value'] = 0;
-    // Organisation was not set in previous steps.
-    if (empty($edit['c4m_organisation'])) {
+    // If the user is not validated in LDAP and had previous LDAP validation add
+    // the flag.
+    if (empty($edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value']) && !empty($account->c4m_is_ldap_user[LANGUAGE_NONE]['0']['value'])) {
+      $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 0;
+      $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 1;
       $edit['c4m_organisation'][LANGUAGE_NONE] = array();
+      $edit['c4m_country'][LANGUAGE_NONE] = array();
     }
-    $edit['c4m_organisation_type'][LANGUAGE_NONE] = array();
+  }
+
+  if (module_exists('c4m_content_organisation')) {
+    $organisation_user = new C4mOrganisationUser($account->mail);
+    if ($organisations = $organisation_user->getOrganisationsInfo()) {
+      $organisation = array_shift($organisations);
+      $organisation = entity_metadata_wrapper('node', $organisation);
+      if ($organisation->c4m_organisation_type->value()) {
+        $edit['c4m_organisation_type'][LANGUAGE_NONE]['0']['value'] = $organisation->c4m_organisation_type->value();
+      }
+      if (empty($edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'])) {
+        $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $organisation->title->value();
+      }
+      $edit['c4m_is_organisation_user'][LANGUAGE_NONE]['0']['value'] = 1;
+    }
+    elseif (!empty($account->c4m_is_organisation_user[LANGUAGE_NONE]['0']['value'])) {
+      $edit['c4m_is_organisation_user'][LANGUAGE_NONE]['0']['value'] = 0;
+      // Organisation was not set in previous steps.
+      if (empty($edit['c4m_organisation'])) {
+        $edit['c4m_organisation'][LANGUAGE_NONE] = array();
+      }
+      $edit['c4m_organisation_type'][LANGUAGE_NONE] = array();
+    }
   }
 
   if ($edit) {
@@ -1373,7 +1377,8 @@ function c4m_user_login_validate($form, &$form_state) {
   if (isset($form_state['values']['name']) && $form_state['values']['name']) {
     if ($name = db_query("SELECT name FROM {users} WHERE LOWER(mail) = LOWER(:name)", array(
       ':name' => $form_state['values']['name'],
-    ))->fetchField()) {
+    ))->fetchField()
+    ) {
       form_set_value($form['name'], $name, $form_state);
     }
   }
@@ -1409,7 +1414,10 @@ function c4m_user_form_alter(&$form, &$form_state, $form_id) {
  */
 function c4m_user_registrationpassword_confirmation_url($account) {
   $timestamp = REQUEST_TIME;
-  return url("user/registrationpassword/$account->uid/$timestamp/" . user_pass_rehash($account->pass, $timestamp, $account->name, $account->uid), array('absolute' => TRUE, 'purl' => array('disabled' => TRUE)));
+  return url("user/registrationpassword/$account->uid/$timestamp/" . user_pass_rehash($account->pass, $timestamp, $account->name, $account->uid), array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => TRUE)
+  ));
 }
 
 /**

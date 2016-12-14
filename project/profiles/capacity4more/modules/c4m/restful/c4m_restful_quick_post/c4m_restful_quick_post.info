@@ -5,5 +5,6 @@ package = capacity4more - Restful
 dependencies[] = ctools
 dependencies[] = features
 dependencies[] = og_context_access_callback
+dependencies[] = og_purl
 dependencies[] = page_manager
 dependencies[] = restful

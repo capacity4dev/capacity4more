@@ -7,8 +7,6 @@
 
 include_once 'c4m_features_og_members.features.inc';
 
-define('C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME', 'administrator member');
-
 /**
  * Implements hook_c4m_og_feature_info().
  */
@@ -405,7 +403,7 @@ function _c4m_features_og_members_get_admin_role($group) {
     }
     else {
       $roles = og_roles('node', $group->type, $group->nid);
-      $info = array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $roles);
+      $info = array_search(C4M_USER_OG_ADMINISTRATOR_ROLE_NAME, $roles);
       cache_set($cache_key, $info);
     }
   }

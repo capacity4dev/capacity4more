@@ -2,6 +2,7 @@ name = Wiki
 description = Provides the Wiki pages within Groups.
 core = 7.x
 package = capacity4more - Features Group
+dependencies[] = c4m_content_wiki_page
 dependencies[] = c4m_og
 dependencies[] = c4m_og_group_menu
 dependencies[] = ctools

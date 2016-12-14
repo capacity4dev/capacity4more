@@ -7,6 +7,7 @@ dependencies[] = block
 dependencies[] = book
 dependencies[] = c4m_admin
 dependencies[] = c4m_contact
+dependencies[] = c4m_user_profile
 dependencies[] = campaignmonitor
 dependencies[] = ckeditor
 dependencies[] = context_ui

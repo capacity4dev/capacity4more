@@ -7,6 +7,8 @@
  * And his (activity within) groups.
  */
 
+define('C4M_USER_OG_ADMINISTRATOR_ROLE_NAME', 'administrator member');
+
 /**
  * Check if a user has a specific permission within the group.
  *
@@ -90,13 +92,13 @@ function c4m_user_og_get_role_in_group($user, $group) {
   // Check if the user has the administrator role.
   $roles = og_roles('node', $group->type, $group->nid);
   $admin_role = array_search(
-    C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME,
+    C4M_USER_OG_ADMINISTRATOR_ROLE_NAME,
     $roles
   );
   if ($admin_role) {
     $user_roles = og_get_user_roles('node', $group->nid, $user->uid);
     if (array_search(
-      C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME,
+      C4M_USER_OG_ADMINISTRATOR_ROLE_NAME,
       $user_roles
     )) {
       return 'administrator';
