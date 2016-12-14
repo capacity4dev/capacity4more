@@ -62,26 +62,12 @@ function c4m_features_overview_events_search_api_sorts_default_sort_alter(&$defa
  * sorts and give ours a new name.
  */
 function c4m_features_overview_events_search_api_sorts_alter(&$block, $view) {
-  $views_global = array(
-    'c4m_overview_events',
-    'c4m_overview_events_landing',
-  );
   $views_group = array(
     'c4m_overview_og_events',
     'c4m_overview_og_events_landing',
   );
 
-  if (in_array($view->name, $views_global)) {
-    // Remove all sorts but start date and relevance.
-    foreach ($block['content']['#items'] as $key => $item) {
-      if (C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE !== $item['#name']
-        && C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_RELEVANCE !== $item['#name']
-      ) {
-        unset($block['content']['#items'][$key]);
-      }
-    }
-  }
-  elseif (!in_array($view->name, $views_group)) {
+  if (!in_array($view->name, $views_group)) {
     // Remove 'Start date' sort if this is not an events overview.
     foreach ($block['content']['#items'] as $key => $item) {
       if (C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE === $item['#name']) {
