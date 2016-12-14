@@ -4,12 +4,12 @@ core = 7.x
 
 ; Core ------------------------------------------------------------------------
 dependencies[] = block
+dependencies[] = menu
 ;dependencies[] = comment
 ;dependencies[] = contextual
 ;dependencies[] = help
 ;dependencies[] = image
 ;dependencies[] = list
-;dependencies[] = menu
 ;dependencies[] = number
 ;dependencies[] = options
 ;dependencies[] = overlay

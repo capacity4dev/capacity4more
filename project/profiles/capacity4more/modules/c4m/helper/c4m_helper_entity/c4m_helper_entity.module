@@ -288,16 +288,18 @@ function c4m_helper_entity_taxonomy_term_view($term, $view_mode, $langcode) {
  * Implements hook_entity_property_info_alter().
  */
 function c4m_helper_entity_entity_property_info_alter(&$info) {
-  foreach (flag_get_flags() as $flag) {
-    if (count($flag->types)) {
-      // Bundle specific property.
-      foreach ($flag->types as $type) {
-        $info[$flag->entity_type]['bundles'][$type]['properties']['flag_' . $flag->name . '_count'] = c4m_helper_entity_entity_property_flag_count_entity_definition($type, $flag);
+  if (module_exists('flag')) {
+    foreach (flag_get_flags() as $flag) {
+      if (count($flag->types)) {
+        // Bundle specific property.
+        foreach ($flag->types as $type) {
+          $info[$flag->entity_type]['bundles'][$type]['properties']['flag_' . $flag->name . '_count'] = c4m_helper_entity_entity_property_flag_count_entity_definition($type, $flag);
+        }
       }
-    }
-    else {
-      // Generic property, applies for all bundles.
-      $info[$flag->entity_type]['properties']['flag_' . $flag->name . '_count'] = c4m_helper_entity_entity_property_flag_count_entity_definition($flag->entity_type, $flag);
+      else {
+        // Generic property, applies for all bundles.
+        $info[$flag->entity_type]['properties']['flag_' . $flag->name . '_count'] = c4m_helper_entity_entity_property_flag_count_entity_definition($flag->entity_type, $flag);
+      }
     }
   }
 }
