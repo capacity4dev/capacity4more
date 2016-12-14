@@ -102,6 +102,7 @@ dependencies[] = c4m_helper_cron
 dependencies[] = c4m_helper_block
 dependencies[] = c4m_helper_date
 dependencies[] = c4m_helper_entity
+dependencies[] = c4m_helper_url_alias
 
 ; Vocabularies
 dependencies[] = c4m_vocab_category
