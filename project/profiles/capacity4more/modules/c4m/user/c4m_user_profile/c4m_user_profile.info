@@ -17,6 +17,7 @@ dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = field_group
 dependencies[] = image
+dependencies[] = legal
 dependencies[] = list
 dependencies[] = number
 dependencies[] = options

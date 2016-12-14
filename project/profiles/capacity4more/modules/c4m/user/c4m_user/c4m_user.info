@@ -39,7 +39,6 @@ dependencies[] = pathauto
 dependencies[] = piwik
 dependencies[] = redirect
 dependencies[] = restful
-dependencies[] = save_draft
 dependencies[] = search_api_sorts
 dependencies[] = services
 dependencies[] = statistics

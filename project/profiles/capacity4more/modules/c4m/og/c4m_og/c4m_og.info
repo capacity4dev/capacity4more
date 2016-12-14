@@ -8,6 +8,7 @@ dependencies[] = c4m_og_invite_visitors
 dependencies[] = context
 dependencies[] = ctools
 dependencies[] = features
+dependencies[] = node_gallery_api
 dependencies[] = og
 dependencies[] = og_context_access_callback
 dependencies[] = og_purl

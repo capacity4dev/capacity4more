@@ -239,6 +239,11 @@ function c4m_og_menu_alter(&$items) {
   // Node Gallery API item types are resolve in same manner
   // as at node_gallery_api_menu().
   $relationship_types = node_gallery_api_get_relationship_type(NULL, NULL, NULL, TRUE);
+
+  if (empty($relationship_types)) {
+    return;
+  }
+
   foreach ($relationship_types as $relationship) {
     foreach ($relationship->item_types as $item_type) {
       $items['node/%node_gallery_api_gallery/upload/' . $item_type]['access callback'] = 'c4m_og_node_gallery_access';
