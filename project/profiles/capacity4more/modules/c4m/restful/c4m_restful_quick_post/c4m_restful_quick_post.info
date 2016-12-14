@@ -4,5 +4,6 @@ core = 7.x
 package = capacity4more - Restful
 dependencies[] = ctools
 dependencies[] = features
+dependencies[] = og_context_access_callback
 dependencies[] = page_manager
 dependencies[] = restful

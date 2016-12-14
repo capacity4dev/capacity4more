@@ -12,6 +12,7 @@ dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = field_group
 dependencies[] = og
+dependencies[] = og_context_access_callback
 dependencies[] = og_ui
 dependencies[] = smart_trim
 dependencies[] = strongarm

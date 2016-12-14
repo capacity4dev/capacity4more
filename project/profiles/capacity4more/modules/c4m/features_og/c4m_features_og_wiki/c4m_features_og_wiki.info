@@ -6,6 +6,7 @@ dependencies[] = c4m_og
 dependencies[] = c4m_og_group_menu
 dependencies[] = ctools
 dependencies[] = draggableviews_book
+dependencies[] = og_context_access_callback
 dependencies[] = path_breadcrumbs
 dependencies[] = views
 features[ctools][] = context:context:3

@@ -12,6 +12,7 @@ dependencies[] = features
 dependencies[] = flag
 dependencies[] = flag_actions
 dependencies[] = og
+dependencies[] = og_context_access_callback
 dependencies[] = og_invite
 dependencies[] = page_manager
 dependencies[] = panels

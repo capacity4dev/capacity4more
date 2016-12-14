@@ -7,6 +7,7 @@ dependencies[] = ctools
 dependencies[] = features
 dependencies[] = menu
 dependencies[] = og
+dependencies[] = og_context_access_callback
 dependencies[] = og_menu
 dependencies[] = og_menu_default_links
 dependencies[] = strongarm
