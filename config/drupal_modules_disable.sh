@@ -6,8 +6,8 @@
 ################################################################################
 
 MODULES_DISABLE=(
-  "color"
-  "search"
-  "shortcut"
-  "update"
+#  "color"
+#  "search"
+#  "shortcut"
+#  "update"
 )
