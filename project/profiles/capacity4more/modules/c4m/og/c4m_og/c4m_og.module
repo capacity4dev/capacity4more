@@ -1528,6 +1528,11 @@ function c4m_og_entity_property_info_alter(&$info) {
 
   // Adding c4m_og_group_type to all group content bundles.
   $bundles = c4m_og_get_all_group_content_bundles('node');
+
+  if (empty($bundles)) {
+    return;
+  }
+
   foreach (array_keys($bundles) as $bundle) {
     $info['node']['bundles'][$bundle]['properties']['c4m_og_group_type'] = array(
       'type' => 'text',
