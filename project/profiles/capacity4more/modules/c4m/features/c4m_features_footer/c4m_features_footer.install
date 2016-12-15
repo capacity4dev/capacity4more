@@ -105,7 +105,7 @@ function c4m_features_footer_set_social_media() {
     ),
     'rss' => array(
       'title' => 'Rss',
-      'url' => '/rss',
+      'url' => url('feeds'),
     ),
     'youtube' => array(
       'title' => 'Youtube',
