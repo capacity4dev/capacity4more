@@ -35,7 +35,7 @@ class c4m_overview_groups_handler_title_no_purl extends views_handler_field_node
   /**
    * {@inheritdoc}
    */
-  function options_form(array &$form, array &$form_state) {
+  function options_form(&$form, &$form_state) {
     $form['disable_purl'] = array(
       '#title' => t('Disable PURL'),
       '#description' => t("Disable persistent URL from links."),

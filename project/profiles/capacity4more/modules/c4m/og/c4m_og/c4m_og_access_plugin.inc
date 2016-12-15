@@ -45,7 +45,7 @@ class c4m_og_access_plugin extends views_plugin_access {
     return $options;
   }
 
-  function options_form(array &$form, array &$form_state) {
+  function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
     // Get list of features.
