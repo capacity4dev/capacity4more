@@ -22,7 +22,7 @@ class views_handler_field_user_metrics extends views_handler_field_c4m_user_admi
   /**
    * @inheritdoc
    */
-  function options_form(&$form, &$form_state) {
+  function options_form(array &$form, array &$form_state) {
     parent::options_form($form, $form_state);
 
     $list = c4m_helper_entity_metrics_info();

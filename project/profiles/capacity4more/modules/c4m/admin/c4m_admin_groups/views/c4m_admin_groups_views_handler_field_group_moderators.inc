@@ -22,7 +22,7 @@ class c4m_admin_groups_views_handler_field_group_moderators extends c4m_admin_gr
   /**
    * @inheritdoc
    */
-  function options_form(&$form, &$form_state) {
+  function options_form(array &$form, array &$form_state) {
     parent::options_form($form, $form_state);
 
     $list = array();

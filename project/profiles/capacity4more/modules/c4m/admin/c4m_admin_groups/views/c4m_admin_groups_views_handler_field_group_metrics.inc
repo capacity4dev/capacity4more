@@ -22,7 +22,7 @@ class c4m_admin_groups_views_handler_field_group_metrics extends c4m_admin_group
   /**
    * @inheritdoc
    */
-  function options_form(&$form, &$form_state) {
+  function options_form(array &$form, array &$form_state) {
     parent::options_form($form, $form_state);
 
     $list = c4m_helper_entity_metrics_info();

@@ -422,10 +422,12 @@ function c4m_user_profile_form_user_register_form_alter(
  *   Form array.
  * @param array $form_state
  *   Form state.
+ * @param bool $is_registration
+ *   Indicate if the form is registration or edit form.
  */
 function c4m_user_profile_alter_user_form(
-  &$form,
-  &$form_state,
+  array &$form,
+  array &$form_state,
   $is_registration
 ) {
   $form['#prefix'] = '<div id="user-register-form-wrapper">';
@@ -535,7 +537,7 @@ function c4m_user_profile_alter_user_form(
 /**
  * Simple callback to redirect to user profile.
  */
-function c4m_user_profile_simple_cancel(&$form, &$form_state) {
+function c4m_user_profile_simple_cancel(array &$form, array &$form_state) {
   $form_state['redirect'] = 'user';
 }
 
@@ -1437,7 +1439,7 @@ function c4m_user_profile_message_subscribe_get_subscribers_alter(
 function c4m_user_profile_get_subscribed(
   $entity_type,
   $entity_id,
-  $uids = array()
+  array $uids = array()
 ) {
   if (!$uids) {
     return array();

@@ -28,7 +28,7 @@ class c4m_views_handler_area_result extends views_handler_area_result {
   /**
    * {@inheritdoc}
    */
-  public function options_form(&$form, &$form_state) {
+  public function options_form(array &$form, array &$form_state) {
     parent::options_form($form, $form_state);
 
     $form['classes'] = array(

@@ -156,7 +156,7 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
  *   Indicates wiki page hierarchy. First level got none, second gets
  *   level '--', third '----', etc.
  */
-function _c4m_og_group_menu_process_page($page, &$wiki_options, $prefix = '') {
+function _c4m_og_group_menu_process_page(array $page, array &$wiki_options, $prefix = '') {
   // Add details of current page to wiki options.
   $page_link = $page['link'];
   $wiki_options[$page_link['link_path']] = $prefix . ' ' . $page_link['link_title'];

@@ -17,7 +17,7 @@
  *   - alter_form;
  *   - validation_messages.
  */
-function hook_c4m_user_profile_validate_email_alter(&$data) {
+function hook_c4m_user_profile_validate_email_alter(array &$data) {
   $data['validation_messages'][] = array(
     'message' => t('The e-mail address %mail is not valid.', array('%mail' => $data['mail'])),
     'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
@@ -31,7 +31,7 @@ function hook_c4m_user_profile_validate_email_alter(&$data) {
  * @param array $messages
  *   Contains the validation messages.
  */
-function hook_c4m_user_profile_validate_email_validation_messages_alter(&$messages) {
+function hook_c4m_user_profile_validate_email_validation_messages_alter(array &$messages) {
   foreach ($messages as $key => $message) {
     // Do something with the messages.
   }

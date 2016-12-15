@@ -41,7 +41,7 @@ class c4m_views_handler_area_custom_link extends views_handler_area {
   /**
    * {@inheritdoc}
    */
-  public function options_form(&$form, &$form_state) {
+  public function options_form(array &$form, array &$form_state) {
     parent::options_form($form, $form_state);
 
     $form['link_path'] = array(

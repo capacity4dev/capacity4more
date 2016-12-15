@@ -388,7 +388,7 @@ function c4m_content_organisation_type_value($organisation_key) {
  *
  * Add our own validation handler.
  */
-function c4m_content_organisation_form_organisation_node_form_alter(&$form, $form_state) {
+function c4m_content_organisation_form_organisation_node_form_alter(array &$form, array $form_state) {
   $form['#validate'][] = 'c4m_content_organisation_form_organisation_node_form_validate';
 }
 
