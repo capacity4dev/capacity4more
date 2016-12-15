@@ -488,7 +488,7 @@ function c4m_og_group_form_submit($form, &$form_state) {
  * @return object
  *   The pluggable_node_access entity.
  */
-function c4m_og_save_pluggable_node_access_restricted($group, $organisations = array(), $domains = array()) {
+function c4m_og_save_pluggable_node_access_restricted($group, array $organisations = array(), array $domains = array()) {
   $domains = array_combine($domains, $domains);
 
   $wrapper = entity_metadata_wrapper('node', $group);

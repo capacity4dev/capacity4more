@@ -1279,7 +1279,7 @@ function c4m_user_get_organisations($uid) {
  * @return int
  *   The amount of nodes.
  */
-function c4m_user_get_node_metric($uid, $bundles) {
+function c4m_user_get_node_metric($uid, array $bundles) {
   $arguments = array(
     'entity_type' => 'node',
     'bundles' => $bundles,
