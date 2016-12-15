@@ -38,7 +38,7 @@ class c4m_views_handler_area_node_add extends views_handler_area {
   /**
    * {@inheritdoc}
    */
-  public function options_form(array &$form, array &$form_state) {
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
     $form['node_type'] = array(
