@@ -11,7 +11,6 @@ dependencies[] = campaignmonitor
 dependencies[] = ckeditor
 dependencies[] = contact
 dependencies[] = context
-dependencies[] = context_ui
 dependencies[] = contextual
 dependencies[] = ctools
 dependencies[] = currency
