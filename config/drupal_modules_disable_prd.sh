@@ -7,6 +7,8 @@
 ################################################################################
 
 MODULES_DISABLE=(
-  "field_ui",
   "admin_menu"
+  "context_ui"
+  "field_ui"
+  "views_ui"
 )
