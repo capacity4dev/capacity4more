@@ -120,9 +120,12 @@ function c4m_content_topic_strongarm() {
         'custom_settings' => FALSE,
       ),
       'block_list' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'group_dashboard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'pinned_content' => array(
         'custom_settings' => FALSE,
       ),
     ),
