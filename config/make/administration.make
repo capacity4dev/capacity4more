@@ -44,7 +44,7 @@ projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.x-dev"
 
 projects[elysia_cron][subdir] = "contrib"
-projects[elysia_cron][version] = "2.2"
+projects[elysia_cron][version] = "2.4"
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.6"
