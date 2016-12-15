@@ -653,6 +653,15 @@ function c4m_user_user_default_permissions() {
     'module' => 'panels',
   );
 
+  // Exported permission: 'bypass maxlength'.
+  $permissions['bypass maxlength'] = array(
+    'name' => 'bypass maxlength',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'maxlength',
+  );
+
   // Exported permission: 'bypass node access'.
   $permissions['bypass node access'] = array(
     'name' => 'bypass node access',
