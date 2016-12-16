@@ -1,8 +1,15 @@
-.form-control {
+.form-control:not(.form-file) {
   border: 1px solid $color-gray-light;
   box-shadow: inset 0 0 2px 0 $color-gray-light;
   color: $color-gray-dark;
   font-style: italic;
+}
+
+.form-control.form-file {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
 }
 
 .btn {
@@ -103,12 +110,14 @@
     display: inline-block;
   }
 
-  .form-control:not(textarea) {
-    color: $color-gray-dark;
-    font-style: italic;
-    background-color: #EBEAE4;
-    border: 0;
-    border-radius: 20px;
+  .date-no-float {
+    .control-label {
+      display: block;
+    }
+  }
+
+  .form-control:not(.form-file) {
+    border-radius: 2px;
 
     &:focus {
       box-shadow: 0 0 8px rgba(0, 0, 0, .6);
@@ -128,6 +137,10 @@
     .input-group {
       display: block;
     }
+  }
+
+  .droppable-standard-upload {
+    min-height: auto;
   }
 
   .cfm-file-upload-wrapper {

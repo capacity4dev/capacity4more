@@ -155,37 +155,21 @@ function c4m_content_group_field_default_field_instances() {
     'label' => 'Banner image',
     'required' => 1,
     'settings' => array(
-      'alt_field' => 0,
+      'alt_field' => 1,
       'default_image' => 0,
-      'file_directory' => '',
+      'file_directory' => 'images/group/banner',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
       'max_resolution' => '',
-      'min_resolution' => '',
-      'title_field' => 0,
+      'min_resolution' => '940x300',
+      'title_field' => 1,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
       'module' => 'image',
       'settings' => array(
-        'allowed_schemes' => array(
-          'private' => 'private',
-          'public' => 0,
-        ),
-        'allowed_types' => array(
-          'audio' => 0,
-          'document' => 0,
-          'image' => 'image',
-          'video' => 0,
-        ),
-        'browser_plugins' => array(
-          'media_default--media_browser_1' => 0,
-          'media_default--media_browser_2' => 'media_default--media_browser_2',
-          'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
-          'upload' => 'upload',
-        ),
-        'preview_image_style' => 'thumbnail',
+        'preview_image_style' => 'banner',
         'progress_indicator' => 'throbber',
       ),
       'type' => 'image_image',
@@ -582,36 +566,20 @@ function c4m_content_group_field_default_field_instances() {
     'label' => 'Thumbnail Image',
     'required' => 0,
     'settings' => array(
-      'alt_field' => 0,
+      'alt_field' => 1,
       'default_image' => 0,
       'file_directory' => 'images/group',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
       'max_resolution' => '',
       'min_resolution' => '60x60',
-      'title_field' => 0,
+      'title_field' => 1,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
       'module' => 'image',
       'settings' => array(
-        'allowed_schemes' => array(
-          'private' => 'private',
-          'public' => 0,
-        ),
-        'allowed_types' => array(
-          'audio' => 0,
-          'document' => 0,
-          'image' => 'image',
-          'video' => 0,
-        ),
-        'browser_plugins' => array(
-          'media_default--media_browser_1' => 'media_default--media_browser_1',
-          'media_default--media_browser_2' => 0,
-          'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
-          'upload' => 'upload',
-        ),
         'preview_image_style' => 'thumbnail',
         'progress_indicator' => 'throbber',
       ),
@@ -759,6 +727,127 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-group-c4m_related_projects'.
+  $field_instances['node-group-c4m_related_projects'] = array(
+    'bundle' => 'group',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_dashboard' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_teaser_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 6,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'group_dashboard' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'token' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 34,
+      ),
+      'upcoming_event' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_related_projects',
+    'label' => 'Related Projects',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 9,
+    ),
+  );
+
   // Exported field_instance: 'node-group-c4m_vocab_geo'.
   $field_instances['node-group-c4m_vocab_geo'] = array(
     'bundle' => 'group',
@@ -818,15 +907,9 @@ function c4m_content_group_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
-        'settings' => array(
-          'display' => 'all',
-          'exclude_top_parent' => FALSE,
-          'link' => 1,
-          'separator' => ', ',
-          'wrap' => 'none',
-        ),
-        'type' => 'term_reference_tree_children_expanded',
+        'module' => 'c4m_vocab_widget',
+        'settings' => array(),
+        'type' => 'term_reference_tree_hierarchical',
         'weight' => 8,
       ),
       'inthe_picture_block' => array(
@@ -951,15 +1034,9 @@ function c4m_content_group_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
-        'settings' => array(
-          'display' => 'all',
-          'exclude_top_parent' => FALSE,
-          'link' => 1,
-          'separator' => ', ',
-          'wrap' => 'none',
-        ),
-        'type' => 'term_reference_tree_children_expanded',
+        'module' => 'c4m_vocab_widget',
+        'settings' => array(),
+        'type' => 'term_reference_tree_hierarchical',
         'weight' => 7,
       ),
       'inthe_picture_block' => array(
@@ -1675,6 +1752,7 @@ function c4m_content_group_field_default_field_instances() {
   t('Reference to Pluggable node access entities.');
   t('Region & Countries');
   t('Related Groups');
+  t('Related Projects');
   t('Select an image, photo that will be displayed in the header of the group page');
   t('Status');
   t('The image, photo or logo, is used in the group overview page.');

@@ -36,13 +36,13 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
   $handler->display->display_options['relationships']['uid']['required'] = TRUE;
-  /* Relationship: Flags: c4m_og_content_highlight counter */
+  /* Relationship: Flags: subscribe_c4m_follow_group counter */
   $handler->display->display_options['relationships']['flag_count_rel']['id'] = 'flag_count_rel';
   $handler->display->display_options['relationships']['flag_count_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['flag_count_rel']['field'] = 'flag_count_rel';
   $handler->display->display_options['relationships']['flag_count_rel']['label'] = 'flag_promote_counter';
   $handler->display->display_options['relationships']['flag_count_rel']['required'] = 0;
-  $handler->display->display_options['relationships']['flag_count_rel']['flag'] = 'c4m_og_content_highlight';
+  $handler->display->display_options['relationships']['flag_count_rel']['flag'] = 'subscribe_c4m_follow_group';
   /* Field: Content: Nid */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';

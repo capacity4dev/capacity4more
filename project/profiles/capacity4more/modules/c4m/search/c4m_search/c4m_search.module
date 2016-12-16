@@ -206,7 +206,7 @@ function c4m_search_theme() {
  * @return array
  *    Result set of the query.
  */
-function c4m_search_custom_search(array $filters, $options = array()) {
+function c4m_search_custom_search(array $filters, array $options = array()) {
   if (empty($filters)) {
     return array();
   }
@@ -681,7 +681,7 @@ function c4m_search_preprocess_facetapi_link_inactive(&$vars) {
  * @param array $vars
  *   Variables for the theming function.
  */
-function _c4m_search_preprocess_facetapi_link(&$vars) {
+function _c4m_search_preprocess_facetapi_link(array &$vars) {
   if (isset($vars['text'])) {
     $vars['options']['attributes']['class'][] = drupal_html_class('facetapi-link--' . $vars['text']);
   }

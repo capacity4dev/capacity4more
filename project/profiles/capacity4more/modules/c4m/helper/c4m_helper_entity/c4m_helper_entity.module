@@ -235,6 +235,7 @@ function c4m_helper_entity_taxonomy_term_view($term, $view_mode, $langcode) {
 
   $vocab_name = $term->vocabulary_machine_name;
   $term_id = $term->tid;
+  $path = 'search';
 
   $options = array(
     'purl' => array(
@@ -244,10 +245,39 @@ function c4m_helper_entity_taxonomy_term_view($term, $view_mode, $langcode) {
     'query' => array(
       'f[0]' => $vocab_name . ':' . $term_id,
     ),
+
   );
 
+  if (strpos($vocab_name, 'c4m_vocab_category_') !== FALSE) {
+    $gid = substr($vocab_name, strlen('c4m_vocab_category_'));
+
+    $path = 'searchgroup';
+    $options['purl'] = array(
+      'provider' => 'og_purl|node',
+      'id' => $gid,
+    );
+
+    $options['query'] = array(
+      'f[0]' => 'og_vocabulary:' . $term_id,
+    );
+  }
+
+  if (strpos($vocab_name, 'c4m_vocab_tag_') !== FALSE) {
+    $gid = substr($vocab_name, strlen('c4m_vocab_tag_'));
+
+    $path = 'searchgroup';
+    $options['purl'] = array(
+      'provider' => 'og_purl|node',
+      'id' => $gid,
+    );
+
+    $options['query'] = array(
+      'f[0]' => 'og_vocabulary:' . $term_id,
+    );
+  }
+
   $url = url(
-    'search',
+    $path,
     $options
   );
 
@@ -314,7 +344,7 @@ function c4m_helper_entity_entity_property_flag_count_entity_definition($type, $
  * @return int|null
  *   Returns the amount of flags for the entity or NULL if not appropriate.
  */
-function c4m_helper_entity_entity_get_properties($entity, array $options, $name, $entity_type, $property_info) {
+function c4m_helper_entity_entity_get_properties($entity, array $options, $name, $entity_type, array $property_info) {
   $flag_name = $property_info['flag_name'];
   $flag = flag_get_flag($flag_name);
   $count = flag_get_counts($entity_type, $flag->get_entity_id($entity));

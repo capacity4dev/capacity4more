@@ -117,8 +117,8 @@ function theme_c4m_user_picture(array $field) {
     user_load($field['entity']->uid);
 
   // Check if image needs to be linked to user profile.
-  if (FALSE !== strpos($field['formatter'], 'linked_', 0) && $user->uid > 0) {
-    $link = 'node/' . $user->uid;
+  if (FALSE !== strpos($field['formatter'], 'linked_', 0) && $user->uid > 0 && $user->status) {
+    $link = 'user/' . $user->uid;
     $style = substr($field['formatter'], 7);
   }
   else {
@@ -176,9 +176,9 @@ function theme_c4m_user_first_and_last_name(array $field) {
   $entity = $field['entity'];
 
   if ($entity->uid != 0) {
-    $user     = user_load($entity->uid);
-    $name     = c4m_user_name($user);
-    $classes  = array();
+    $user = user_load($entity->uid);
+    $name = c4m_user_name($user);
+    $classes = array();
 
     if ($user->status && in_array($field['formatter'], array(
       'linked_user', 'linked_user_with_icon',

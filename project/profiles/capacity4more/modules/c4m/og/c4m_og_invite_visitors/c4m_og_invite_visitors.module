@@ -395,7 +395,7 @@ function c4m_og_invite_visitors_determine_user_action($invitee_email, $gid) {
  * @return string
  *   Return a success or error message to use in drupal_set_message().
  */
-function c4m_og_invite_visitors_action_invite_visitors($inviter_uid, $gid, $invitee_email, $form_fields) {
+function c4m_og_invite_visitors_action_invite_visitors($inviter_uid, $gid, $invitee_email, array $form_fields) {
   // Saves invitation in the DB and invites the visitor.
   $invitation = c4m_og_invite_visitors_store_invitation($inviter_uid, $gid, $invitee_email);
 
@@ -448,7 +448,7 @@ function c4m_og_invite_visitors_mail($key, &$message, $params) {
  * @return string|null
  *   An email string or NULL.
  */
-function _c4m_og_invite_visitors_get_email_template($key, $variables = array(), $replace = TRUE) {
+function _c4m_og_invite_visitors_get_email_template($key, array $variables = array(), $replace = TRUE) {
   // Load the template from variable.
   $text = variable_get($key, FALSE);
 
@@ -484,7 +484,7 @@ function _c4m_og_invite_visitors_get_email_template($key, $variables = array(), 
  * @param array $options
  *   Unused parameter required by the token_replace() function.
  */
-function c4m_og_invite_visitors_mail_tokens(&$replacements, $data, $options) {
+function c4m_og_invite_visitors_mail_tokens(array &$replacements, array $data, array $options) {
   global $user, $base_url;
 
   $group = c4m_og_current_group();

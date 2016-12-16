@@ -152,7 +152,7 @@ function c4m_field_og_form_project_node_form_alter(&$form, &$form_state, $form_i
  * @param array $form_state
  *   Form access array.
  */
-function _c4m_field_og_set_status_flow(&$form, $form_state, $type) {
+function _c4m_field_og_set_status_flow(array &$form, array $form_state, $type) {
   global $user;
 
   if (!isset($form_state['field']['c4m_og_status'])) {

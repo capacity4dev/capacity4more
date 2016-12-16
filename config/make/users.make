@@ -7,7 +7,7 @@ projects[campaignmonitor][subdir] = "contrib"
 projects[campaignmonitor][version] = "1.1"
 
 projects[email_confirm][subdir] = "contrib"
-projects[email_confirm][version] = "1.2"
+projects[email_confirm][version] = "1.3"
 
 projects[legal][subdir] = "contrib"
 projects[legal][version] = "1.5"

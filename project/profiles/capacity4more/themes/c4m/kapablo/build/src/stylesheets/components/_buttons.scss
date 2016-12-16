@@ -1,14 +1,18 @@
-.c4m-wide-gothic-btn {
-  margin: 10px 0;
+.btn-lg {
+  height: 50px;
+}
 
-  .btn {
-    color: $color-white;
-    background-color: $color-text-alternative;
-    white-space: normal;
-    width: 100%;
-  }
+.video-preview-cta {
+  align-items: center;
+  display: flex;
+}
 
-  .c4m-visitor-login-link {
-    margin-top: 10px;
-  }
+.video-title {
+  display: inline-block;
+  margin-top: 1em;
+}
+
+.video-description {
+  display: inline-block;
+  margin-bottom: 1em;
 }

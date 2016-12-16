@@ -75,7 +75,7 @@ function c4m_features_learning_space_theme() {
  *
  * @throws \Exception
  */
-function theme_c4m_features_learning_space_admin_image($variables) {
+function theme_c4m_features_learning_space_admin_image(array $variables) {
   $element = $variables['element'];
   $output = '';
   $output .= '<div class="image-widget form-managed-file clearfix">';

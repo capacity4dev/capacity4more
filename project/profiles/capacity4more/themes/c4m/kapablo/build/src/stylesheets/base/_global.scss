@@ -74,10 +74,10 @@ body {
   }
 
   &.label-stage {
-      color: $color-white;
-      border: 1px solid $color-white;
-      font-weight: normal;
-      text-transform: uppercase;
+    color: $color-white;
+    border: 1px solid $color-white;
+    font-weight: normal;
+    text-transform: uppercase;
 
     &.notstarted {
       background-color: $color-gray;
@@ -163,22 +163,28 @@ cite {
 *   </div>
 **/
 
-.sidebarblock {
-  margin-top: $base-spacing-large / 2;
-  margin-bottom: $base-spacing-large / 2;
-  padding: 0;
+.sidebarblock, .panel-pane {
+  &:not(:last-child) {
+    &:not(.pane-activity-stream) {
+      &:not(.pane-featured-block) {
+        &:not(.pane-voices-views-carousel) {
+          &:not(.pane--more) {
+            &:not(.pane-c4m-search-og-c4m-search-group-form) {
+              @include border-bottom;
+            }
+          }
+        }
+      }
+    }
+  }
 
   &__title {
     @extend .header-2;
     margin-top: 0px;
     margin-bottom: $base-spacing-large;
-
-    &.closely {
-      margin-bottom: 0;
-    }
   }
 
-  &--small &__title{
+  &--small &__title {
     @extend .header-3;
     margin-top: 0px;
     margin-bottom: $base-spacing-small;
@@ -200,12 +206,36 @@ cite {
 
   &__content--multiple {
     @extend .sidebarblock__content;
-    padding: $base-spacing-large 0;
-    border-bottom: 1px dashed $color-gray;
+    @include border-bottom;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    &+ .sidebarblock__viewmore {
+      margin-top: -1.5em;
+    }
   }
 
   &--small &__content--multiple {
     @extend .sidebarblock__content--multiple;
+
     padding: $base-spacing-small 0;
   }
+}
+
+.closely {
+  margin-bottom: 0;
+
+  + h1, + h2, + h3, + h4, + h5, + h6 {
+    margin: 1em 0 2em 0;
+  }
+
+  + div {
+    margin-top: 2em;
+  }
+}
+
+.btn + .panel-separator {
+  margin-bottom: 2em;
 }

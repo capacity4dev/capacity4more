@@ -837,9 +837,9 @@ function c4m_ds_ds_pre_render_alter(&$layout_render_array, $context, &$vars) {
 /**
  * Format the string with the amount of posts and comments a user has posted.
  *
- * @param array $post_count
+ * @param int $post_count
  *    The number of posts.
- * @param array $comment_count
+ * @param int $comment_count
  *    The number of comments.
  *
  * @return null|string

@@ -69,7 +69,7 @@ function c4m_features_homepage_filter_form_create() {
 
   $form['homepage-filter'] = array(
     '#type' => 'radios',
-    '#title' => t('Filter by'),
+    '#title' => t('Display content based on'),
     '#options' => $options,
     '#default_value' => $default_value,
   );

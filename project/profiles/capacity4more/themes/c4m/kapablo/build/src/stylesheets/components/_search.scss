@@ -50,6 +50,11 @@
         }
       }
     }
+    &.facetapi-facet-c4m-vocab-category {
+      .item-list > ul {
+        margin-left: 0;
+      }
+    }
   }
 }
 
@@ -154,8 +159,9 @@
 #c4m-search-filter-search-filter-form, #c4m-features-homepage-filter-form-create {
   @extend .form-inline;
   border-bottom: 1px dashed $color-gray-light;
-  margin: 2em 0;
-  padding-bottom: 2em;
+  border-top: 1px dashed $color-gray-light;
+  margin: 0 0 1.5em 0;
+  padding: 1.5em 0;
 
   .form-item {
     label {
@@ -364,6 +370,21 @@ ul:not(.facetapi-facet-c4m-vocab-topic) {
 
   .facetapi-link--meeting::before {
     content: "\f0c0";
+    @extend .facetapi-link;
+  }
+
+  .facetapi-link--news::before {
+    content: "\f1ea";
+    @extend .facetapi-link;
+  }
+
+  .facetapi-link--photo::before {
+    content: "\f1c5";
+    @extend .facetapi-link;
+  }
+
+  .facetapi-link--photo-album::before {
+    content: "\f03e";
     @extend .facetapi-link;
   }
 }
