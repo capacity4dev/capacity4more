@@ -4,7 +4,7 @@ api = 2
 ; Modules that every project (should) need.
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.10"
+projects[ctools][version] = "1.12"
 
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.8"

@@ -134,7 +134,7 @@ function c4m_content_news_c4m_content_statistics_info() {
  * Verifies user has access to the form.
  * Adds author information to the edit discussion form.
  */
-function c4m_content_discussion_form_news_node_form_alter(&$form, $form_state) {
+function c4m_content_discussion_form_news_node_form_alter(array &$form, array $form_state) {
   c4m_content_create_group_content_access();
   c4m_og_add_content_author_options_to_power_users($form);
 }

@@ -62,6 +62,36 @@ function c4m_content_topic_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|topic|block_list';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'topic';
+  $ds_fieldsetting->view_mode = 'block_list';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '1',
+        'wrapper' => '',
+        'class' => '',
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_media' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+  );
+  $export['node|topic|block_list'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|topic|default';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'topic';
@@ -384,6 +414,44 @@ function c4m_content_topic_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|topic|block_list';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'topic';
+  $ds_layout->view_mode = 'block_list';
+  $ds_layout->layout = 'c4m_ds_3_9_fluid';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'left' => array(
+        0 => 'c4m_media',
+      ),
+      'right' => array(
+        1 => 'title',
+      ),
+    ),
+    'fields' => array(
+      'c4m_media' => 'left',
+      'title' => 'right',
+    ),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
+    'wrappers' => array(
+      'left' => 'div',
+      'right' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['node|topic|block_list'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
   $ds_layout->id = 'node|topic|default';
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'topic';
@@ -402,7 +470,11 @@ function c4m_content_topic_ds_layout_settings_info() {
       'c4m_vocab_theme' => 'ds_content',
       'c4m_vocab_topic_mapping' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),

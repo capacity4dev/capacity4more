@@ -145,7 +145,7 @@ function _c4m_user_notifications_open_group_notify_admin_membership_accepted($me
 /**
  * Email notification to user about rejection of membership request.
  */
-function c4m_user_notifications_moderated_group_notify_user_membership_rejected(&$form, &$form_state) {
+function c4m_user_notifications_moderated_group_notify_user_membership_rejected(array &$form, array &$form_state) {
   global $user;
   $membership = $form_state['membership'];
   $message = message_create('c4m_membership_request_rejected', array('uid' => $membership->etid));

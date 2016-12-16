@@ -105,7 +105,7 @@ function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id
    * @return array
    *   Modified array of form elements that comprise the form.
    */
-  function c4m_contact_node_form_after_build($form) {
+  function c4m_contact_node_form_after_build(array $form) {
     $form['message']['format']['#access'] = FALSE;
 
     return $form;
