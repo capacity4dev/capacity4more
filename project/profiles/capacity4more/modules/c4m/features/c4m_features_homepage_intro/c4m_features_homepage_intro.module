@@ -182,5 +182,7 @@ function template_preprocess_c4m_features_homepage_intro_banner(array &$vars) {
   $vars['image'] = array(
     '#theme' => 'image',
     '#path'  => drupal_get_path('theme', 'kapablo') . '/images/header/homepage-user.png',
+    '#alt' => t('capacity4dev homepage'),
+    '#title' => t('capacity4dev homepage banner'),
   );
 }

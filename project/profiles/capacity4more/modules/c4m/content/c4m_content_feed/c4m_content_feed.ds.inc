@@ -66,15 +66,43 @@ function c4m_content_feed_ds_field_settings_info() {
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '0',
+        'wrapper' => 'h1',
+        'class' => '',
+        'ft' => array(),
+      ),
     ),
     'c4m_content_feed_url' => array(
       'weight' => '1',
-      'label' => 'hidden',
+      'label' => 'inline',
       'format' => 'default',
     ),
     'c4m_related_articles_unlimited' => array(
       'formatter_settings' => array(
-        'ft' => array(),
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+        ),
+      ),
+    ),
+    'c4m_related_group_unlimited' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+        ),
+      ),
+    ),
+    'c4m_related_topic' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+        ),
       ),
     ),
   );
@@ -200,29 +228,38 @@ function c4m_content_feed_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'feed';
   $ds_layout->view_mode = 'full';
-  $ds_layout->layout = 'ds_1col';
+  $ds_layout->layout = 'c4m_ds_8_4_fluid';
   $ds_layout->settings = array(
     'regions' => array(
-      'ds_content' => array(
+      'left' => array(
         0 => 'title',
         1 => 'c4m_content_feed_url',
         2 => 'c4m_body',
-        3 => 'c4m_related_topic',
-        4 => 'c4m_related_articles_unlimited',
+        3 => 'c4m_related_articles_unlimited',
+      ),
+      'right' => array(
+        4 => 'c4m_related_topic',
         5 => 'c4m_related_group_unlimited',
       ),
     ),
     'fields' => array(
-      'title' => 'ds_content',
-      'c4m_content_feed_url' => 'ds_content',
-      'c4m_body' => 'ds_content',
-      'c4m_related_topic' => 'ds_content',
-      'c4m_related_articles_unlimited' => 'ds_content',
-      'c4m_related_group_unlimited' => 'ds_content',
+      'title' => 'left',
+      'c4m_content_feed_url' => 'left',
+      'c4m_body' => 'left',
+      'c4m_related_articles_unlimited' => 'left',
+      'c4m_related_topic' => 'right',
+      'c4m_related_group_unlimited' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
-      'ds_content' => 'div',
+      'header' => 'div',
+      'left' => 'div',
+      'right' => 'div',
+      'footer' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
@@ -230,7 +267,7 @@ function c4m_content_feed_ds_layout_settings_info() {
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
     'layout_disable_css' => FALSE,
-    'hide_page_title' => '0',
+    'hide_page_title' => '1',
     'page_option_title' => '',
   );
   $export['node|feed|full'] = $ds_layout;

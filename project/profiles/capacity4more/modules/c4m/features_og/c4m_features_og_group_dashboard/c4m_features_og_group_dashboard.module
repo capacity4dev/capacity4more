@@ -94,9 +94,9 @@ function c4m_features_og_group_dashboard_action_info() {
  */
 function c4m_unflag_nodes_action(&$object, $context = array()) {
   if (isset($object->nid) && isset($context['flag'])) {
-    $group_id   = c4m_og_get_gid_from_entity($object);
-    $flag_id    = $context['flag']->fid;
-    $flag_name  = $context['flag']->name;
+    $group_id = c4m_og_get_gid_from_entity($object);
+    $flag_id = $context['flag']->fid;
+    $flag_name = $context['flag']->name;
     $nid = $object->nid;
 
     $flagged_og_content = c4m_features_og_group_dashboard_get_flagged_group_content($group_id, $flag_id);
@@ -169,7 +169,7 @@ function c4m_features_og_group_dashboard_form_alter(&$form, &$form_state, $form_
     // Get entity you wan't to flag.
     $entity = entity_load_single($flag->entity_type, $entity_id);
     // Get group of the entity.
-    $group_id   = c4m_og_get_gid_from_entity($entity);
+    $group_id = c4m_og_get_gid_from_entity($entity);
 
     if ($_GET['destination'] == 'node') {
       // When destination is 'node' it actually means the group homepage.
@@ -227,7 +227,7 @@ function c4m_features_og_group_dashboard_form_alter(&$form, &$form_state, $form_
  * Function executes unflagging of content, flagged by c4m_og_content_highlight
  * flag.
  */
-function c4m_features_og_group_dashboard_demote_promoted_flag_submit(&$form, &$form_state) {
+function c4m_features_og_group_dashboard_demote_promoted_flag_submit(array &$form, array &$form_state) {
   $flagged_entities_ids = $form_state['flagged_og_content'];
 
   foreach ($flagged_entities_ids as $entity_id) {

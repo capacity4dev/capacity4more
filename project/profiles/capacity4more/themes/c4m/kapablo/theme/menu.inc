@@ -24,7 +24,7 @@ function kapablo_menu_tree__c4m_og_group_menu(array $variables) {
  * @return string
  *   The rendered list item.
  */
-function kapablo_menu_link(&$variables) {
+function kapablo_menu_link(array &$variables) {
   // Discard PURL modifiers for global menus.
   // Group menu's: menu-og-<GID> and book-toc-<GID> (wiki navigation).
   // Discard if not in an og_context.

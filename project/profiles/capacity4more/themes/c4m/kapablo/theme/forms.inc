@@ -34,7 +34,7 @@
  *
  * @ingroup theme_functions
  */
-function kapablo_form_element_label(&$variables) {
+function kapablo_form_element_label(array &$variables) {
   $element = $variables['element'];
 
   // Extract variables.
