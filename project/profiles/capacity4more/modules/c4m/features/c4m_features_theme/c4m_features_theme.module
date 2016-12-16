@@ -46,7 +46,7 @@ function c4m_features_theme_form_alter(&$form, &$form_state, $form_id) {
  *   Originally this object is the form from the hook_form_alter(). Since it is
  *   a recursive function then it may change during the calls.
  */
-function _c4m_features_theme_set_what_is_this(&$elements) {
+function _c4m_features_theme_set_what_is_this(array &$elements) {
 
   foreach ($elements as &$element) {
     if (is_array($element)) {

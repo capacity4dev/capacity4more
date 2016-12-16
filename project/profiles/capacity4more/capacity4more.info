@@ -5,7 +5,6 @@ core = 7.x
 
 ; Core ------------------------------------------------------------------------
 dependencies[] = block
-;dependencies[] = color
 dependencies[] = comment
 dependencies[] = contextual
 dependencies[] = help
@@ -19,7 +18,6 @@ dependencies[] = path
 dependencies[] = statistics
 dependencies[] = taxonomy
 dependencies[] = dblog
-dependencies[] = shortcut
 dependencies[] = file
 dependencies[] = rdf
 
@@ -47,9 +45,9 @@ dependencies[] = flag
 dependencies[] = jquery_update
 dependencies[] = libraries
 dependencies[] = message
+dependencies[] = message_notify
+dependencies[] = message_subscribe
 dependencies[] = link
-;dependencies[] = message
-
 dependencies[] = module_filter
 dependencies[] = og
 dependencies[] = og_access
@@ -143,8 +141,6 @@ dependencies[] = c4m_content_share
 dependencies[] = c4m_content_topic
 dependencies[] = c4m_content_wiki_page
 dependencies[] = c4m_content_organisation
-
-dependencies[] = c4m_field_related_og
 
 ; Content Actions
 dependencies[] = c4m_content_actions

@@ -77,9 +77,6 @@ before_script:
 script:
   - date
 
-  # Run WebTests
-  - $TRAVIS_BUILD_DIR/ci/bin/run_simpletest.sh
-
   # Run behat tests, different run based on the environment setting.
   - $TRAVIS_BUILD_DIR/ci/bin/run_behat.sh
 

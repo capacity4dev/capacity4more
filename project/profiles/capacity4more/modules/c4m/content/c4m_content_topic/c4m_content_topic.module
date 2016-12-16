@@ -591,7 +591,7 @@ function theme_c4m_content_topic_inline_tree($variables) {
  * @return array
  *   Array of items to show.
  */
-function c4m_content_topic_tree_to_string($item, $separator = ' > ', $glue = ', ') {
+function c4m_content_topic_tree_to_string(array $item, $separator = ' > ', $glue = ', ') {
   if (empty($item['children'])) {
     return array($item['content']);
   }
@@ -627,7 +627,7 @@ function c4m_content_topic_tree_to_string($item, $separator = ' > ', $glue = ', 
  * @param array $term
  *   Current term.
  */
-function c4m_content_topic_array_to_tree(&$terms, &$term) {
+function c4m_content_topic_array_to_tree(array &$terms, array &$term) {
   if (!$term['children']) {
     return;
   }

@@ -169,7 +169,7 @@ function c4m_features_og_wiki_block_view_alter(&$data, $block) {
     is_array($wiki['#below'])) {
     foreach ($wiki['#below'] as $key => $element) {
       if (isset($element['#theme'])) {
-        $wiki['#below'][$key]['#theme']  = 'menu_link__book_c4m_og_menu__';
+        $wiki['#below'][$key]['#theme'] = 'menu_link__book_c4m_og_menu__';
       }
     }
   }

@@ -91,7 +91,7 @@ function c4m_content_group_preprocess_block(array &$variables) {
  *
  * Hide fields for authenticated users and set submit function.
  */
-function c4m_content_group_form_group_node_form_alter(&$form, &$form_state) {
+function c4m_content_group_form_group_node_form_alter(array &$form, array &$form_state) {
   global $user;
   if ($user->uid && !user_access('administer nodes', $user)
     && strpos($form['#action'], 'add')) {

@@ -7,4 +7,5 @@
 
 MODULES_ENABLE=(
   "memcache"
+  "toolbar"
 )
