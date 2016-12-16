@@ -16,9 +16,7 @@ function migrate_content {
 ##
 function pre_migrate {
   drupal_drush --uri="$SITE_URL" dis -y c4m_demo
-  drupal_drush --uri="$SITE_URL" dis -y admin_menu
   drupal_drush --uri="$SITE_URL" en -y c4d_migrate
-  drupal_drush --uri="$SITE_URL" en -y toolbar
   drupal_drush --uri="$SITE_URL" search-api-disable -y c4m_search_nodes
   drupal_drush --uri="$SITE_URL" search-api-disable -y c4m_search_users
   drupal_drush --uri="$SITE_URL" search-api-disable -y c4m_search_comments

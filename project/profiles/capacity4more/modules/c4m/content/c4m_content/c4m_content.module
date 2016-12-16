@@ -618,7 +618,7 @@ function c4m_content_ec_number_format($number, $decimals = 0) {
  * Overrides the default confirm node delete form to offer the possibility to
  * anonymize the content.
  */
-function c4m_content_form_node_delete_confirm_alter(&$form, &$form_state) {
+function c4m_content_form_node_delete_confirm_alter(array &$form, array &$form_state) {
   $node = $form['#node'];
   $comments = $node->comment_count;
 
@@ -882,8 +882,8 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
  *   The markup of the tree.
  */
 function c4m_content_taxonomy_build_tree(
-  $items,
-  $link_term_to_facet = array()
+  array $items,
+  array $link_term_to_facet = array()
 ) {
   // Each item at $trees is an array, representing two level tree.
   // First node is tree root (level 1), and all others, if exist,
@@ -1032,7 +1032,7 @@ function c4m_content_taxonomy_build_tree(
  * @return array
  *   All child items of input item with ID $parent_id.
  */
-function _c4m_content_taxonomy_extract_child_items(&$items, $parent_id) {
+function _c4m_content_taxonomy_extract_child_items(array &$items, $parent_id) {
   $result = array();
   $remaining = array();
 
@@ -1070,7 +1070,7 @@ function _c4m_content_taxonomy_extract_child_items(&$items, $parent_id) {
  *   First taxonomy item at $items array, that got no parents.
  *   FALSE, if all items got a parent.
  */
-function _c4m_content_taxonomy_extract_root_item(&$items) {
+function _c4m_content_taxonomy_extract_root_item(array &$items) {
   foreach ($items as $key => $item) {
     $parent = taxonomy_get_parents($item['tid']);
     if (empty($parent)) {

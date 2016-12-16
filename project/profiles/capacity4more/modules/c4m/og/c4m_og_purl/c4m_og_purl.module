@@ -384,7 +384,7 @@ function c4m_og_purl_field_formatter_view($entity_type, $entity, $field, $instan
  * @return bool
  *   Whether search string begins with  one of strings at array
  */
-function _c4m_og_purl_starts_with_in_array($strings, $search_string) {
+function _c4m_og_purl_starts_with_in_array(array $strings, $search_string) {
   foreach ($strings as $string) {
     if (_c4m_og_purl_starts_with($search_string, $string)) {
 

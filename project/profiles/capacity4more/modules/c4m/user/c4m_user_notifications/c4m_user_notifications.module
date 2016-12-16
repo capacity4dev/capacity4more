@@ -348,7 +348,7 @@ function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
  *
  * Triggers email notification when user is invited to group by admin.
  */
-function c4m_user_notifications_form_og_ui_add_users_alter(&$form, &$form_state) {
+function c4m_user_notifications_form_og_ui_add_users_alter(array &$form, array &$form_state) {
   // Apply only to SAs.
   $site_admin_role = user_role_load_by_name('administrator');
   if (!user_has_role($site_admin_role->rid)) {
@@ -377,7 +377,7 @@ function c4m_user_notifications_form_og_ui_add_users_alter(&$form, &$form_state)
  * Triggers email notification when group administrator rejects membership
  * request.
  */
-function c4m_user_notifications_form_c4m_og_reject_membership_request_alter(&$form, &$form_state) {
+function c4m_user_notifications_form_c4m_og_reject_membership_request_alter(array &$form, array &$form_state) {
   $form['#submit'][] = 'c4m_user_notifications_moderated_group_notify_user_membership_rejected';
   $form['#submit'][] = 'c4m_og_route_to_group_people';
 }
@@ -546,7 +546,7 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
  * @return string
  *   Returns permissions.
  */
-function _c4m_user_notifications_build_group_permissions($access, $membership_open) {
+function _c4m_user_notifications_build_group_permissions(array $access, $membership_open) {
   if ($access['type'] == 'private') {
     return 'PRIVATE';
   }
