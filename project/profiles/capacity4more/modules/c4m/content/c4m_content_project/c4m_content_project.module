@@ -155,10 +155,10 @@ function c4m_content_project_form_project_node_form_alter(array &$form, array &$
  *
  * @param array $form
  *   The form on which to act.
- * @param array $element
+ * @param string $element
  *   The form element.
  */
-function c4m_content_project_set_number_of_items_states(array &$form, array $element) {
+function c4m_content_project_set_number_of_items_states(array &$form, $element) {
   foreach ($form[$element][LANGUAGE_NONE] as &$item) {
     if (isset($item['#bundle']) && $item['#bundle'] == 'c4m_paragraph_system_block') {
       $item['c4m_number_of_items']['#states'] = array(
