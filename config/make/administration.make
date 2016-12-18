@@ -44,7 +44,7 @@ projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.x-dev"
 
 projects[elysia_cron][subdir] = "contrib"
-projects[elysia_cron][version] = "2.2"
+projects[elysia_cron][version] = "2.4"
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.6"
@@ -63,10 +63,6 @@ projects[mefibs][version] = "1.x-dev"
 
 projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "2.x-dev"
-projects[plupload][download][type] = "git"
-projects[plupload][download][url] = "https://git.drupal.org/project/plupload.git"
-projects[plupload][download][revision] = "985490d8371d26516a426a22ae7d4529d923e28b"
-projects[plupload][patch][] = https://www.drupal.org/files/issues/plupload-218update-2098555-35-7.x.patch
 
 projects[save_draft][subdir] = "contrib"
 projects[save_draft][version] = "1.4"
@@ -117,7 +113,7 @@ libraries[select2][download][type] = "file"
 libraries[select2][download][url] = "https://github.com/ivaynberg/select2/archive/4.0.2.zip"
 
 libraries[plupload][download][type]= "get"
-libraries[plupload][download][url] = "https://github.com/moxiecode/plupload/archive/v2.1.8.zip"
+libraries[plupload][download][url] = "https://github.com/moxiecode/plupload/archive/v2.2.1.zip"
 libraries[plupload][directory_name] = "plupload"
 libraries[plupload][destination] = "libraries"
 

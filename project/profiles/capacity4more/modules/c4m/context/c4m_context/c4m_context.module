@@ -27,21 +27,21 @@ function c4m_context_ctools_plugin_directory($module, $plugin) {
  * Implements hook_context_plugins().
  */
 function c4m_context_context_plugins() {
-  $plugins                                         = array();
+  $plugins = array();
   $plugins['c4m_context_condition_no_form'] = array(
     'handler' => array(
-      'class'  => 'c4m_context_condition_no_form',
+      'class' => 'c4m_context_condition_no_form',
       'parent' => 'context_condition',
-      'path'   => drupal_get_path('module', 'c4m_context') . '/plugins',
-      'file'   => 'c4m_context_condition_no_form.inc',
+      'path' => drupal_get_path('module', 'c4m_context') . '/plugins',
+      'file' => 'c4m_context_condition_no_form.inc',
     ),
   );
   $plugins['c4m_context_reaction_unset_variables'] = array(
     'handler' => array(
-      'class'  => 'c4m_context_reaction_unset_variables',
+      'class' => 'c4m_context_reaction_unset_variables',
       'parent' => 'context_reaction',
-      'path'   => drupal_get_path('module', 'c4m_context') . '/plugins',
-      'file'   => 'c4m_context_reaction_unset_variables.inc',
+      'path' => drupal_get_path('module', 'c4m_context') . '/plugins',
+      'file' => 'c4m_context_reaction_unset_variables.inc',
     ),
   );
 
@@ -64,9 +64,9 @@ function c4m_context_context_registry() {
     ),
     'reactions' => array(
       'unset_variables' => array(
-        'title'       => t('Unset preprocess variables'),
+        'title' => t('Unset preprocess variables'),
         'description' => t('Unset given preprocess page variables'),
-        'plugin'      => 'c4m_context_reaction_unset_variables',
+        'plugin' => 'c4m_context_reaction_unset_variables',
       ),
     ),
   );

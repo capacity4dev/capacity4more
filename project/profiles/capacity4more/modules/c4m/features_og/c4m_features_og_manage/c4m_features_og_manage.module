@@ -232,7 +232,7 @@ function c4m_features_og_manage_theme() {
  * @return string
  *   Rendered HTML list.
  */
-function c4m_features_og_manage_list_simple($list) {
+function c4m_features_og_manage_list_simple(array $list) {
   if (!empty($list)) {
     $item_list = array(
       'title' => NULL,
@@ -264,7 +264,7 @@ function c4m_features_og_manage_list_simple($list) {
  * @return array
  *   Rebuild list of terms.
  */
-function c4m_features_og_manage_rebuild_taxonomy($terms) {
+function c4m_features_og_manage_rebuild_taxonomy(array $terms) {
   if (!empty($terms)) {
     $taxonomy_rebuild = array();
     foreach ($terms as $term) {
@@ -289,7 +289,7 @@ function c4m_features_og_manage_rebuild_taxonomy($terms) {
  * @return string
  *   Rendered HTML list.
  */
-function c4m_features_og_manage_list_related_topics($topics) {
+function c4m_features_og_manage_list_related_topics(array $topics) {
   if ($topics_rebuild = c4m_features_og_manage_rebuild_taxonomy($topics)) {
     return c4m_content_taxonomy_build_tree($topics_rebuild);
   }
@@ -306,7 +306,7 @@ function c4m_features_og_manage_list_related_topics($topics) {
  * @return string
  *   Rendered HTML list.
  */
-function c4m_features_og_manage_list_regions_countries($geo) {
+function c4m_features_og_manage_list_regions_countries(array $geo) {
   if ($geo_rebuild = c4m_features_og_manage_rebuild_taxonomy($geo)) {
     return c4m_content_taxonomy_build_tree($geo_rebuild);
   }
@@ -323,7 +323,7 @@ function c4m_features_og_manage_list_regions_countries($geo) {
  * @return string
  *   Rendered HTML list.
  */
-function c4m_features_og_manage_list_group_admins($admins) {
+function c4m_features_og_manage_list_group_admins(array $admins) {
   if (!empty($admins)) {
     $admin_list = array(
       'title' => NULL,
@@ -353,7 +353,7 @@ function c4m_features_og_manage_list_group_admins($admins) {
  * @return string
  *   Rendered HTML list.
  */
-function c4m_features_og_manage_list_related($related) {
+function c4m_features_og_manage_list_related(array $related) {
   if (!empty($related)) {
     $related_list = array(
       'title' => NULL,
@@ -402,7 +402,7 @@ function c4m_features_og_manage_list_related($related) {
  * @param array $details
  *   The array to which to append the info about vocabularies and terms.
  */
-function c4m_features_og_manage_list_taxonomy($group, &$details) {
+function c4m_features_og_manage_list_taxonomy($group, array &$details) {
   $og_vocab = c4m_restful_get_og_vocab_by_name(
     'node',
     $group->nid,

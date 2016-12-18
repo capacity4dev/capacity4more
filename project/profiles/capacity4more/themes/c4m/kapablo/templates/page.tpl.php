@@ -119,7 +119,7 @@
           <?php if ($logo): ?>
             <a class="logo pull-left" href="<?php print $front_page; ?>"
                title="<?php print t('Home'); ?>">
-              <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>"/>
+              <img src="<?php print $logo; ?>" alt="<?php print t('capacity4dev logo'); ?>" title="<?php print t('capacity4dev logo'); ?>"/>
             </a>
           <?php endif; ?>
         </div>

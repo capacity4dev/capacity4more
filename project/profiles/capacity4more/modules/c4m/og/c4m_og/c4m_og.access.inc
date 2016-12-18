@@ -203,7 +203,7 @@ function c4m_og_get_email_domains($group) {
  *
  * Adds the fields about the Group Access types & Pluggable Access.
  */
-function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
+function c4m_og_form_group_node_form_alter(array &$form, array &$form_state) {
   // Default values.
   $default_domains = array();
   $default_organisations = array();
@@ -488,7 +488,7 @@ function c4m_og_group_form_submit($form, &$form_state) {
  * @return object
  *   The pluggable_node_access entity.
  */
-function c4m_og_save_pluggable_node_access_restricted($group, $organisations = array(), $domains = array()) {
+function c4m_og_save_pluggable_node_access_restricted($group, array $organisations = array(), array $domains = array()) {
   $domains = array_combine($domains, $domains);
 
   $wrapper = entity_metadata_wrapper('node', $group);

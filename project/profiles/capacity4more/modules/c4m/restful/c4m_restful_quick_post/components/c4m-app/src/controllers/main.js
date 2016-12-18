@@ -338,7 +338,7 @@ angular.module('c4mApp')
      * @param type
      *  The type of the submission.
      */
-    var checkForm  = function (submitData, resource, resourceFields, type) {
+    var checkForm = function (submitData, resource, resourceFields, type) {
       // Check for required fields.
       var errors = Request.checkRequired(submitData, resource, resourceFields);
 

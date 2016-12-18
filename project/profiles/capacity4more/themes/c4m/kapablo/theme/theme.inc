@@ -68,7 +68,7 @@ function kapablo_theme() {
  *
  * @ingroup themeable
  */
-function kapablo_kapablo_pager_link_ajax($variables) {
+function kapablo_kapablo_pager_link_ajax(array $variables) {
   $text = $variables['text'];
   $page_new = $variables['page_new'];
   $element = $variables['element'];
@@ -127,9 +127,12 @@ function kapablo_kapablo_pager_link_ajax($variables) {
  *   - parameters: An associative array of query string parameters to append to
  *     the pager links.
  *
+ * @return string
+ *   Rendered output string.
+ *
  * @ingroup themeable
  */
-function kapablo_kapablo_pager_last_ajax($variables) {
+function kapablo_kapablo_pager_last_ajax(array $variables) {
   $text = $variables['text'];
   $element = $variables['element'];
   $parameters = $variables['parameters'];
@@ -161,9 +164,12 @@ function kapablo_kapablo_pager_last_ajax($variables) {
  *   - parameters: An associative array of query string parameters to append to
  *     the pager links.
  *
+ * @return string
+ *   Rendered output string.
+ *
  * @ingroup themeable
  */
-function kapablo_kapablo_pager_next_ajax($variables) {
+function kapablo_kapablo_pager_next_ajax(array $variables) {
   $text = $variables['text'];
   $element = $variables['element'];
   $interval = $variables['interval'];

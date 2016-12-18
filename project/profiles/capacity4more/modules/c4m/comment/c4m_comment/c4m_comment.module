@@ -27,7 +27,7 @@ function c4m_comment_module_implements_alter(&$implementations, $hook) {
 /**
  * Implements hook_form_BASE_FORM_ID_alter().
  */
-function c4m_comment_form_node_form_alter(&$form, $form_state) {
+function c4m_comment_form_node_form_alter(array &$form, array $form_state) {
   $node = $form['#node'];
 
   // Remove the comment settings if the default is set to be closed.
