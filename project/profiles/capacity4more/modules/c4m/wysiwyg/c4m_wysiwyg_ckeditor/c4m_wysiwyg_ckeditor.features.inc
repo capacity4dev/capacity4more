@@ -1,4 +1,14 @@
 <?php
+/**
+ * @file
+ * c4m_wysiwyg_ckeditor.features.inc
+ */
 
-// This file is deprecated and can be removed.
-// Please remove include_once('c4m_wysiwyg_ckeditor.features.inc') in c4m_wysiwyg_ckeditor.module as well.
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function c4m_wysiwyg_ckeditor_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "strongarm" && $api == "strongarm") {
+    return array("version" => "1");
+  }
+}

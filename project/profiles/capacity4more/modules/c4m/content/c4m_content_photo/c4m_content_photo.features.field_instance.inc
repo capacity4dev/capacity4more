@@ -415,7 +415,7 @@ function c4m_content_photo_field_default_field_instances() {
       'default_image' => 0,
       'file_directory' => 'images/photo',
       'file_extensions' => 'png gif jpg jpeg',
-      'max_filesize' => '',
+      'max_filesize' => '5 MB',
       'max_resolution' => '',
       'min_resolution' => '',
       'title_field' => 1,
