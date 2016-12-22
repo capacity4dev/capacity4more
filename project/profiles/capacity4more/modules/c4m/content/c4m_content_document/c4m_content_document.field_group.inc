@@ -21,7 +21,7 @@ function c4m_content_document_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Groups',
-    'weight' => '11',
+    'weight' => '10',
     'children' => array(
       0 => 'og_group_ref',
     ),

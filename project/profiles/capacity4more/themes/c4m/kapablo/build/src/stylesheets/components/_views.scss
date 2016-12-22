@@ -179,6 +179,16 @@
   }
 }
 
+.region-sidebar-second {
+  .views-row  {
+    @include border-bottom;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
+
 .view-content + .attachment {
   margin-top: 2em;
 }

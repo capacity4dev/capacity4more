@@ -41,7 +41,8 @@ $conf['page_cache_maximum_age'] = 10 * 60; // 10 minutes
 /**
  * Search settings
  ******************************************************************************/
-$conf["search_api_attachments_tika_jar"] = "tika-app-1.12.jar";
+$conf["search_api_attachments_tika_path"] = "/usr/local/Cellar/tika/1.13/libexec/";
+$conf["search_api_attachments_tika_jar"] = "tika-app-1.13.jar";
 
 /**
  * Drupal settings

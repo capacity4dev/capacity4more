@@ -239,9 +239,9 @@ function c4m_content_inthe_picture_field_default_field_instances() {
     'settings' => array(
       'alt_field' => 1,
       'default_image' => 0,
-      'file_directory' => 'images/inthepicture',
+      'file_directory' => 'banners/inthepicture',
       'file_extensions' => 'png gif jpg jpeg',
-      'max_filesize' => '',
+      'max_filesize' => '2 MB',
       'max_resolution' => '',
       'min_resolution' => '940x300',
       'title_field' => 1,

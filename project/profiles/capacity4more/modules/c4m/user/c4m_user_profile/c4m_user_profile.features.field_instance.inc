@@ -1147,14 +1147,14 @@ function c4m_user_profile_field_default_field_instances() {
     'label' => 'Picture',
     'required' => 0,
     'settings' => array(
-      'alt_field' => 0,
+      'alt_field' => 1,
       'default_image' => 0,
       'file_directory' => 'images/profile',
       'file_extensions' => 'png gif jpg jpeg',
-      'max_filesize' => '',
+      'max_filesize' => '512 KB',
       'max_resolution' => '',
-      'min_resolution' => '',
-      'title_field' => 0,
+      'min_resolution' => '60x60',
+      'title_field' => 1,
       'user_register_form' => 1,
     ),
     'widget' => array(
