@@ -351,21 +351,22 @@ function c4m_features_og_group_dashboard_block_info() {
 function c4m_features_og_group_dashboard_block_view($delta = '') {
   $block = array();
 
-  $content = module_invoke_all('c4m_group_dashboard_links');
+  $links = module_invoke_all('c4m_group_dashboard_links');
+  $cta = module_invoke_all('c4m_cta_block');
 
-  if (!$content) {
+  if (!$links && !$cta) {
     return $block;
   }
 
   // This naming should be modified but there are tickets in progress dependent
   // on this.
-  $block['content']['cta'] = module_invoke_all('c4m_cta_block');
+  $block['content']['cta'] = $cta;
   $block['content']['links'] = array(
     '#type' => 'container',
     '#attributes' => array(
       'class' => array('c4m-group-dashboard-links'),
     ),
-    'content' => module_invoke_all('c4m_group_dashboard_links'),
+    'content' => $links,
   );
 
   return $block;
