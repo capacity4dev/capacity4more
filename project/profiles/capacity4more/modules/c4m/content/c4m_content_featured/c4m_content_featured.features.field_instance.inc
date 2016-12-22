@@ -346,7 +346,7 @@ function c4m_content_featured_field_default_field_instances() {
       'default_image' => 0,
       'file_directory' => 'images/featured',
       'file_extensions' => 'png gif jpg jpeg',
-      'max_filesize' => '',
+      'max_filesize' => '512 KB',
       'max_resolution' => '',
       'min_resolution' => '300x225',
       'title_field' => 1,

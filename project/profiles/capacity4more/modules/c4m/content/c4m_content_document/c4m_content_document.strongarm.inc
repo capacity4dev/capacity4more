@@ -167,13 +167,16 @@ function c4m_content_document_strongarm() {
     'extra_fields' => array(
       'form' => array(
         'title' => array(
-          'weight' => '1',
+          'weight' => '0',
         ),
         'path' => array(
-          'weight' => '12',
+          'weight' => '11',
         ),
         'locations' => array(
           'weight' => '13',
+        ),
+        'redirect' => array(
+          'weight' => '12',
         ),
       ),
       'display' => array(

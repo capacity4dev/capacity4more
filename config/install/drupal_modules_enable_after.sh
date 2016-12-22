@@ -18,5 +18,5 @@ echo
 
 # Revert all features.
 markup_h1 "Revert all features"
-drupal_drush fra -y
+drupal_drush fra -y --force
 echo

@@ -117,6 +117,10 @@ function c4m_og_group_menu_form_og_menu_edit_item_form_alter(&$form, &$form_stat
   // Resolve top level wiki pages.
   $top_wiki_pages = array_shift($tree)['below'];
 
+  if (empty($top_wiki_pages)) {
+    return;
+  }
+
   // Default select option.
   $wiki_options = array('' => t('Select a Wiki'));
 
