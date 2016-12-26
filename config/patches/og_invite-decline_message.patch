@@ -1,8 +1,8 @@
-diff --git a/og_invite/og_invite.pages.inc b/og_invite/og_invite.pages.inc
-index aa30356..4094971 100644
---- a/og_invite/og_invite.pages.inc
-+++ b/og_invite/og_invite.pages.inc
-@@ -389,7 +389,7 @@ function _og_invite_answer_handle($group_type, $gid, $hash, $op = 'decline') {
+diff --git a/og_invite.pages.inc b/og_invite.pages.inc
+index 98599ec..038cf42 100644
+--- a/og_invite.pages.inc
++++ b/og_invite.pages.inc
+@@ -395,7 +395,7 @@ function _og_invite_answer_handle($group_type, $gid, $hash, $op = 'decline') {
      case 'decline':
      default:
        og_membership_delete($ogm->id);
