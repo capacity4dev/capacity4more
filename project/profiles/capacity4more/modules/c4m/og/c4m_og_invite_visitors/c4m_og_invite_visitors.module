@@ -56,6 +56,8 @@ function c4m_og_invite_visitors_process_acceptance_access($group, $token) {
 
   // Invitation with the requested token could not be found.
   if (!$invitation) {
+    // Clear all previous messages.
+    drupal_get_messages('error');
     drupal_set_message('The requested group invitation was not found.', 'error');
 
     return FALSE;
@@ -63,6 +65,8 @@ function c4m_og_invite_visitors_process_acceptance_access($group, $token) {
 
   // The invitation has been used before.
   if ($invitation->inv_expired) {
+    // Clear all previous messages.
+    drupal_get_messages('error');
     drupal_set_message('The requested group invitation has expired.', 'error');
 
     return FALSE;
@@ -85,14 +89,14 @@ function c4m_og_invite_visitors_process_acceptance_access($group, $token) {
 function c4m_og_invite_visitors_get_invitation($gid, $token) {
   $result = &drupal_static(__FUNCTION__);
 
-  if (!isset($result['invitation'])) {
+  if (!isset($result['invitation-' . $token])) {
     $invite_db_fields = array(
       'inv_id',
       'inv_email',
       'inv_expired',
     );
 
-    $result['invitation'] = db_select('c4m_og_invite_visitors', 'inv')
+    $result['invitation-' . $token] = db_select('c4m_og_invite_visitors', 'inv')
       ->fields('inv', $invite_db_fields)
       ->condition('inv_group_id', $gid)
       ->condition('inv_token', $token)
@@ -101,7 +105,7 @@ function c4m_og_invite_visitors_get_invitation($gid, $token) {
       ->fetchObject();
   }
 
-  return $result['invitation'];
+  return $result['invitation-' . $token];
 }
 
 /**
@@ -495,6 +499,7 @@ function c4m_og_invite_visitors_mail_tokens(array &$replacements, array $data, a
       'id' => $group->nid,
     ),
   );
+
   $replacements['[user:full_name]'] = c4m_user_name($user);
   $replacements['[user:public-profile-url]'] = $base_url . '/users/' . c4m_og_human_to_machine_readable($replacements['[user:full_name]']);
   $replacements['[group:node_type]'] = $group->type;
@@ -518,14 +523,18 @@ function c4m_og_invite_visitors_form_user_register_form_alter(&$form, &$form_sta
   }
 
   $wrapper = entity_metadata_wrapper('node', $_SESSION['c4m_og_invite_visitors_gid_join']);
+
+  list($join_phrase, $button_label) = _c4m_og_registration_form_labels_by_group($_SESSION['c4m_og_invite_visitors_gid_join']);
+
   $variables = array(
+    'join_phrase' => $join_phrase,
     'group_title' => $wrapper->label(),
     'login_link' => l(t('Log in.'), 'user/login'),
   );
   drupal_set_title(theme('c4m_unified_workflow_register', $variables), PASS_THROUGH);
 
   $form['#submit'][] = 'c4m_og_invite_visitors_register_submit';
-  $form['actions']['submit']['#value'] = t('Register to join');
+  $form['actions']['submit']['#value'] = $button_label;
 }
 
 /**
@@ -573,6 +582,7 @@ function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
   }
   catch (PDOException $e) {
     watchdog('c4m_og_invite_visitors', $e->getMessage(), NULL, WATCHDOG_ERROR);
+    $num_updated = 0;
   }
 
   return $num_updated;

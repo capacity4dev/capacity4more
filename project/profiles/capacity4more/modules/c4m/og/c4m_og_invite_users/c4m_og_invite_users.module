@@ -35,6 +35,16 @@ function c4m_og_invite_users_og_ui_get_group_admin_alter(&$data, $context) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Removing the 'always decline' option since there is a bug on the module.
+ * https://www.drupal.org/node/2320373
+ */
+function c4m_og_invite_users_form__og_invite_answer_form_alter(&$form, &$form_state, $form_id) {
+  unset($form['answer']['#options']['always-decline']);
+}
+
+/**
  * Log in the invited user and load the answer-invitation form.
  *
  * @param int $gid
@@ -109,6 +119,8 @@ function c4m_og_invite_users_answer_access($hash) {
 
   // Could not get the membership based on the hash. Cannot proceed.
   if (!$membership) {
+    // Clear all previous messages.
+    drupal_get_messages('error');
     drupal_set_message('The requested group invitation was not found or has expired.', 'error');
 
     return FALSE;
@@ -118,6 +130,8 @@ function c4m_og_invite_users_answer_access($hash) {
 
     // A different user is logged in. Cannot proceed.
     if ($membership->etid != $user->uid) {
+      // Clear all previous messages.
+      drupal_get_messages('error');
       drupal_set_message('Another user is logged in. Please log out and try again.', 'error');
 
       return FALSE;

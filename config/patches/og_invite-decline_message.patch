@@ -1,0 +1,13 @@
+diff --git a/og_invite.pages.inc b/og_invite.pages.inc
+index 98599ec..038cf42 100644
+--- a/og_invite.pages.inc
++++ b/og_invite.pages.inc
+@@ -395,7 +395,7 @@ function _og_invite_answer_handle($group_type, $gid, $hash, $op = 'decline') {
+     case 'decline':
+     default:
+       og_membership_delete($ogm->id);
+-      drupal_set_message(t('Your invitation has been declined.'), 'warning');
++      drupal_set_message(t('You have just declined this invitation.'), 'warning');
+       break;
+   }
+ }
