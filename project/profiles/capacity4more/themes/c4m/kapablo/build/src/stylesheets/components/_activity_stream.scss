@@ -72,7 +72,7 @@
     padding: 0px 0;
   }
   .field-name-c4m-ds-content-footer-stats {
-    color: $color-gray-light;
+    color: $color-gray-lighter;
   }
 }
 
@@ -95,11 +95,11 @@
 
 .activity-stream--operator {
     @extend .text-normal;
-    color: $color-gray-light;
+    color: $color-gray-lighter;
     font-family: $font-verdana;
     a {
         @extend .text-normal;
-        color: $color-gray-light;
+        color: $color-gray-lighter;
         font-family: $font-verdana;
     }
     margin-bottom: $base-spacing-medium;

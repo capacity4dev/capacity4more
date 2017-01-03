@@ -37,6 +37,7 @@ projects[session_api][version] = "1.0-rc1"
 
 projects[og_invite][subdir] = "contrib"
 projects[og_invite][version] = "1.0-beta5"
+projects[og_invite][patch][] = "../patches/og_invite-decline_message.patch"
 
 projects[og_context_access_callback][subdir] = "contrib"
 projects[og_context_access_callback][version] = "1.x-dev"

@@ -1986,7 +1986,7 @@ function c4m_content_project_field_default_field_instances() {
           'view_mode' => 'block_list',
         ),
         'type' => 'entityreference_entity_view',
-        'weight' => 7,
+        'weight' => 11,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

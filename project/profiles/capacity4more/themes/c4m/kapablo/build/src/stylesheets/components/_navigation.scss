@@ -108,7 +108,7 @@
   list-style: none;
 }
 
-.offCanvasNavigation ul.menu li {
+.offCanvasNavigation ul li {
   height: 45px;
   border-bottom: 2px white groove;
 
@@ -127,7 +127,7 @@
   }
 }
 
-.offCanvasNavigation section + section {
+.offCanvasNavigation section + section:not(.block-c4m-features-header) {
   margin-top: 45px;
 
   a {
@@ -140,8 +140,21 @@
   }
 }
 
-.offCanvasNavigation .block-c4m-features-header a {
-  color: $color-gray-darkTwo;
+.offCanvasNavigation .block-c4m-features-header {
+  ul {
+    padding: 0;
+
+    a {
+      color: $color-gray-dark;
+      display: block;
+      font-size: 1rem; // Reset.
+      padding: 10px 15px;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
 }
 
 // gray overlay on content when offCanvas is visible
