@@ -1,36 +1,41 @@
 /*
  * COLOR DEFINITIONS
  */
+
+// -- Decorative colors -- //
+
 $color-black: #000000;
 $color-white: #FFFFFF;
+$color-gray-light: #C5C7C8;
+$color-gray-lightTwo: #F1F6F9;
+$color-green: #B0C35A;
 
-// Background colors.
+// -- Background colors -- //
+
 $color-background: #F1F6F9;
+
+// ----- Font colors ----- //
+
+// Lightest gray that passes AA (fails AAA on small text).
+$color-gray-lighter: #767676;
 
 // WCAG AAA Pass
 $color-blue-dark: #2C4A59;
 // WCAG AA Pass, AAA FAIL
-$color-gray-dark: #6F6F6F;
-// WCAG AA Pass, AAA FAIL
-$color-gray-darker: #606060;
-// WCAG AA FAIL
-$color-gray-light: #C5C7C8;
-// Lightest gray that passes AA (fails AAA on small text).
-$color-gray-lighter: #767676;
-// WCAG AA FAIL
-$color-gray-lightTwo: #F1F6F9;
-// WCAG AA FAIL
-$color-green: #B0C35A;
-// WCAG AA FAIL
-$color-logo-blue: #1484C6;
-// WCAG AA Pass, AAA FAIL
-$color-red: #D0021B;
+$color-blue-darkTwo: #53757d;
+
+// WCAG AAA Pass
+$color-gray-dark: #515151;
+
+// EC Blue color does not pass AA. Darkened it once:
+//$color-logo-blue: #1484C6;
+$color-logo-blue: #1172ab;
+
 // WCAG AAA Pass
 $color-blue: #004494;
+
 // WCAG AA Pass, AAA FAIL
-$color-gray: #53757d;
-// WCAG AA Pass, AAA FAIL
-$color-gray-darker: #47646a;
+$color-red: #D0021B;
 
 // WCAG AA FAIL
 $color-accent: #FFBB6D;
@@ -56,8 +61,6 @@ $brand-info: $color-accent;
 $brand-primary: $color-text-alternative;
 $brand-success: $color-green;
 $brand-warning: $color-highlight;
-
-
 
 $base-accent: #6E969F;
 $base-spacing-large: 25px;

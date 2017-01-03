@@ -174,11 +174,11 @@
     font-family: Arial;
     color: white;
     border-radius: 90px;
-    background-color: $color-gray;
+    background-color: $color-blue-darkTwo;
     cursor: pointer;
 
     &:hover {
-      background-color: $color-gray-darker;
+      background-color: $color-gray-dark;
     }
 
     a {
@@ -222,7 +222,7 @@
   }
 
   .btn-primary {
-    background-color: $color-gray;
+    background-color: $color-blue-darkTwo;
   }
 }
 
