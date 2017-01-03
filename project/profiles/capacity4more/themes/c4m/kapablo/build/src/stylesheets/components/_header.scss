@@ -20,6 +20,7 @@
 
     ul {
       @include horizontal_menu;
+
       li {
         a {
           color: $color-gray-dark;
@@ -257,7 +258,7 @@
 }
 
 .navbar-toggle {
-  border-color: $color-gray-light;
+  border-color: $color-gray-lighter;
 
   &:hover,
   &:focus {
@@ -265,7 +266,7 @@
   }
 
   .icon-bar {
-    background-color: $color-gray-light;
+    background-color: $color-gray-lighter;
   }
 }
 
