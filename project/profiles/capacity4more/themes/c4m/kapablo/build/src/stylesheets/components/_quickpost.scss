@@ -1,5 +1,5 @@
 .pane-quick-form {
-  background-color: $color-gray;
+  background-color: $color-blue-darkTwo;
   padding: 15px;
   color: white;
 
@@ -59,7 +59,7 @@
 
     h3 {
       margin-top: 10px;
-      color: $color-gray-lightTwo;
+      color: $color-gray-lighter;
     }
   }
 }
@@ -81,7 +81,7 @@
 
 .quickpost-btn {
   width: 150px;
-  color: $color-gray;
+  color: $color-blue-darkTwo;
   background-color: white;
 }
 
@@ -130,7 +130,7 @@
 
   .discussion_type {
     color: white;
-    border: 1px solid lighten($color-gray, 10%);
+    border: 1px solid lighten($color-blue-darkTwo, 10%);
     border-radius: 3px;
     background: transparent;
     box-shadow: none;
@@ -148,7 +148,7 @@
 
     &.active {
       color: $color-white;
-      background: $color-gray-darker;
+      background: $color-blue-darkTwo;
     }
 
     &:hover,

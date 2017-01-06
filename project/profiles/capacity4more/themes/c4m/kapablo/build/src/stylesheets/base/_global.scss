@@ -80,13 +80,13 @@ body {
     text-transform: uppercase;
 
     &.notstarted {
-      background-color: $color-gray;
-      border-color: $color-gray;
+      background-color: $color-blue-darkTwo;
+      border-color: $color-blue-darkTwo;
     }
 
     &.ongoing {
-      background-color: $color-blue-light;
-      border-color: $color-blue-light;
+      background-color: $color-blue;
+      border-color: $color-blue;
     }
 
     &.completed {

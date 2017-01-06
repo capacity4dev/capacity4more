@@ -108,7 +108,7 @@ html {
 
 .text-copy--muted {
   @extend .text-normal;
-  color: $color-gray-light;
+  color: $color-gray-lighter;
   font-family: $font-verdana;
 }
 
@@ -160,7 +160,7 @@ html {
 
 .text-placeholder {
   @extend .text-normal;
-  color: $color-gray-light;
+  color: $color-gray-lighter;
   font-family: $font-verdana;
   font-style: italic;
 }

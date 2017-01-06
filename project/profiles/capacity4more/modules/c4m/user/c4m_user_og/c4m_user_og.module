@@ -1034,16 +1034,8 @@ function c4m_user_og_form_user_register_form_alter(
   }
 
   $wrapper = entity_metadata_wrapper('node', $gid);
-  // Get membership request type (open/moderated).
-  $membership_type = $wrapper->field_membership_open_request->value();
-  if ($membership_type == C4M_OG_MODERATED_GROUP) {
-    $join_phrase = t('request membership for');
-    $button_label = t('Request membership for group');
-  }
-  else {
-    $join_phrase = t('join the');
-    $button_label = t('Register to join');
-  }
+
+  list($join_phrase, $button_label) = _c4m_og_registration_form_labels_by_group($gid);
 
   $variables = array(
     'join_phrase' => $join_phrase,
