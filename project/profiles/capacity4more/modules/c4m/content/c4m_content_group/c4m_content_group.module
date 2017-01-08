@@ -822,3 +822,120 @@ function _c4m_content_group_toggle_group_notifications($account, $group) {
     }
   }
 }
+
+/**
+ * Implements hook_node_update().
+ *
+ * Subscribe notable contributors when updating nodes.
+ */
+function c4m_content_group_node_update($node) {
+  if (!og_is_group('node', $node)) {
+    // Return early, if node type is not group/project.
+    return;
+  }
+
+  if (empty($node->original)) {
+    // On node update, there must be $node->original.
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $wrapper_original = entity_metadata_wrapper('node', $node->original);
+
+  if (!isset($wrapper->c4m_og_status) || !isset($wrapper_original->c4m_og_status)) {
+    return;
+  }
+
+  $status = $wrapper->c4m_og_status->value();
+  $former_status = $wrapper_original->c4m_og_status->value();
+
+  if ($status != $former_status) {
+    c4m_content_group_handle_group_status_change('node', $node);
+  }
+}
+
+/**
+ * In case of group status change, create batch to update group content.
+ *
+ * When group privacy (c4m_og_status) is changed, its group content should be
+ * changed as well. Since a group might have big amount of content, it is being
+ * handled using Batch API.
+ *
+ * @param string $entity_type
+ *   The group type.
+ * @param object $entity
+ *   The group entity object.
+ */
+function c4m_content_group_handle_group_status_change($entity_type, $entity) {
+  list($id) = entity_extract_ids($entity_type, $entity);
+  $batch = array(
+    'title' => t('Handle group status change'),
+    'operations' => array(
+      array(
+        'c4m_content_group_invoke_node_access_acquire_grants',
+        array($entity_type, $id),
+      ),
+    ),
+  );
+  batch_set($batch);
+}
+
+/**
+ * Batch API group content status change callback.
+ *
+ * @param string $group_type
+ *   The group type to handle.
+ * @param int $group_id
+ *   The group id to handle.
+ * @param array $context
+ *   Batch API context.
+ */
+function c4m_content_group_invoke_node_access_acquire_grants($group_type, $group_id, &$context) {
+  if (empty($context['sandbox'])) {
+    // Count relevant nodes.
+    $query = new EntityFieldQuery();
+    $total = $query
+      ->entityCondition('entity_type', 'og_membership')
+      ->propertyCondition('group_type', $group_type, '=')
+      ->propertyCondition('entity_type', 'node', '=')
+      ->propertyCondition('gid', $group_id, '=')
+      ->count()->execute();
+
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['last_id'] = 0;
+    $context['sandbox']['total'] = $total;
+  }
+
+  $limit = 50;
+
+  // Retrieve the next batch.
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'og_membership')
+    ->propertyCondition('group_type', $group_type, '=')
+    ->propertyCondition('entity_type', 'node', '=')
+    ->range(0, $limit)
+    ->propertyCondition('etid', $context['sandbox']['last_id'], '>')
+    ->propertyCondition('gid', $group_id, '=')
+    // Order by the entity ID as the memberships are not ordered by
+    // this by default.
+    ->propertyOrderBy('etid', 'ASC')
+    ->execute();
+
+  // Mark "finished" if there are no more results.
+  if (!isset($result['og_membership'])) {
+    $context['finished'] = 1;
+    return;
+  }
+
+  foreach (entity_load('og_membership', array_keys($result['og_membership'])) as $og_membership) {
+    // Load the node group content and "refresh" its grants.
+    $node = node_load($og_membership->etid);
+
+    // Rebuild the permissions for the node.
+    node_access_acquire_grants($node);
+    $context['sandbox']['progress']++;
+    $context['sandbox']['last_id'] = $node->nid;
+  }
+  $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['total'];
+}

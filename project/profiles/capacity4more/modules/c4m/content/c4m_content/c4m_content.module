@@ -1353,3 +1353,22 @@ function _c4m_content_get_all_node_ids_by_type($type) {
 
   return $cache;
 }
+
+/**
+ * Implements hook_node_access_records().
+ *
+ * Add same grants to OG content, as group it belongs.
+ */
+function c4m_content_node_access_records($node) {
+  if (!og_is_group_content_type('node', $node->type)) {
+    // Node is not a group content.
+    return;
+  }
+
+  if (!$group = c4m_og_get_group_of_content($node)) {
+    // Failed to resolve the group, to which content belongs.
+    return;
+  }
+
+  return c4m_content_group_node_access_records($group);
+}
