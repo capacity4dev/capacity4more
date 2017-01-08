@@ -45,10 +45,14 @@ function _c4m_content_get_draft_message_rendered($type) {
 function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
   // Checks if the form's content type is being used as a message,
   // to add a send notification option.
-  if (in_array(
-    $form_state['node']->type,
-    c4m_og_get_group_content_notification_types()
-  )) {
+  $types_required_notification_checkbox = c4m_og_get_group_content_notification_types();
+
+  // Since 'article' is not a content type that actually sends a notification
+  // then we add it manually so the checkbox will appear on the form as
+  // requested in CFM-1583.
+  $types_required_notification_checkbox[] = 'article';
+
+  if (in_array($form_state['node']->type, $types_required_notification_checkbox)) {
 
     $form['additional_settings']['#weight'] = 97;
 
