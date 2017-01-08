@@ -855,11 +855,11 @@ function c4m_content_group_node_update($node) {
 }
 
 /**
- * In case of group status change, create batch to update group content.
+ * In case of group status change, create batch to update group content realms.
  *
- * When group privacy (c4m_og_status) is changed, its group content should be
- * changed as well. Since a group might have big amount of content, it is being
- * handled using Batch API.
+ * When group privacy (c4m_og_status) is changed, its group content realms
+ * should be changed as well. Since a group might have big amount of content,
+ * it is being handled using Batch API.
  *
  * @param string $entity_type
  *   The group type.

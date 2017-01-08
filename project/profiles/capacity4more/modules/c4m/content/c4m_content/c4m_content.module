@@ -1361,7 +1361,7 @@ function _c4m_content_get_all_node_ids_by_type($type) {
 /**
  * Implements hook_node_access_records().
  *
- * Add same grants to OG content, as group it belongs.
+ * Add same realms to OG content, as of group it belongs to.
  */
 function c4m_content_node_access_records($node) {
   if (!og_is_group_content_type('node', $node->type)) {
