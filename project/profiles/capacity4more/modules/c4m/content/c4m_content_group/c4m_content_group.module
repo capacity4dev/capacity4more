@@ -890,7 +890,7 @@ function c4m_content_group_handle_group_status_change($entity_type, $entity) {
  * @param array $context
  *   Batch API context.
  */
-function c4m_content_group_invoke_node_access_acquire_grants($group_type, $group_id, &$context) {
+function c4m_content_group_invoke_node_access_acquire_grants($group_type, $group_id, array &$context) {
   if (empty($context['sandbox'])) {
     // Count relevant nodes.
     $query = new EntityFieldQuery();
