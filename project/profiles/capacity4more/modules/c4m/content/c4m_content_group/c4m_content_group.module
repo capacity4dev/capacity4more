@@ -826,7 +826,7 @@ function _c4m_content_group_toggle_group_notifications($account, $group) {
 /**
  * Implements hook_node_update().
  *
- * Subscribe notable contributors when updating nodes.
+ * On status change, trigger update for content realms.
  */
 function c4m_content_group_node_update($node) {
   if (!og_is_group('node', $node)) {
