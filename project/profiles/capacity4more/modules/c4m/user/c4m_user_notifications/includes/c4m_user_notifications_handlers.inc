@@ -501,7 +501,6 @@ function _c4m_user_notifications_notify_content_followers_of_comment($cid, $nid)
   );
 
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
-  c4m_message_resolve_tokens($message);
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
 }
@@ -619,7 +618,6 @@ function c4m_user_notifications_content_recommended($nid) {
     'entity_id' => $nid,
   );
 
-  c4m_message_resolve_tokens($message);
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
@@ -719,7 +717,6 @@ function _c4m_user_notifications_notify_on_content($node, $action, $target_gid =
     'entity_id' => $gid,
   );
 
-  c4m_message_resolve_tokens($message);
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $wrapper->value(), array(), array(), $context);
 }
@@ -789,7 +786,6 @@ function _c4m_user_notifications_notify_on_content_new_revision($node, $users_gr
     $context['entity_id'] = $node->nid;
   }
 
-  c4m_message_resolve_tokens($message);
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $message_wrapper->value(), array(), $subscribe_options, $context);
@@ -879,7 +875,6 @@ function _c4m_user_notifications_comment_on_content($cid, $nid) {
     'intergroup_operation' => 'diff',
   );
 
-  c4m_message_resolve_tokens($message);
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
