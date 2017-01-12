@@ -1077,11 +1077,19 @@ function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_
     $admin = $admin->uid;
   }
 
+  $group = node_load($gid);
+
   if ($verify_owner_added) {
-    $group = node_load($gid);
     if ($group && og_is_group('node', $group)) {
       if (!in_array($group->uid, $admins)) {
         $admins[] = $group->uid;
+      }
+    }
+  }
+  else {
+    if ($group && og_is_group('node', $group)) {
+      if ($key = array_search($group->uid, $admins)) {
+        unset($admins[$key]);
       }
     }
   }
