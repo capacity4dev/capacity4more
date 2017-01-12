@@ -519,7 +519,7 @@ function c4m_content_group_admin_paths_alter(&$paths) {
 function c4m_content_group_get_latest_activity($og_id = NULL) {
   // Find last updated node.
   $query_nodes = db_select('node', 'n');
-  $query_nodes->addField('n', 'changed');
+  $query_nodes->addExpression('MAX(n.changed)', 'changed');
   $query_nodes->condition('n.status', 1);
 
   if (is_numeric($og_id)) {
@@ -531,7 +531,7 @@ function c4m_content_group_get_latest_activity($og_id = NULL) {
 
   // Find last updated comment.
   $query_comments = db_select('comment', 'c');
-  $query_comments->addField('c', 'changed');
+  $query_comments->addExpression('MAX(c.changed)', 'changed');
   $query_comments->join('node', 'n', 'n.nid = c.nid');
   $query_comments->condition('c.status', 1);
   $query_comments->condition('n.status', 1);
