@@ -228,13 +228,12 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Content: Path */
-  $handler->display->display_options['fields']['path']['id'] = 'path';
-  $handler->display->display_options['fields']['path']['table'] = 'node';
-  $handler->display->display_options['fields']['path']['field'] = 'path';
-  $handler->display->display_options['fields']['path']['label'] = 'URL';
-  $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['path']['absolute'] = TRUE;
+  /* Field: Content: PURL path */
+  $handler->display->display_options['fields']['group_purl']['id'] = 'group_purl';
+  $handler->display->display_options['fields']['group_purl']['table'] = 'node';
+  $handler->display->display_options['fields']['group_purl']['field'] = 'group_purl';
+  $handler->display->display_options['fields']['group_purl']['label'] = 'URL';
+  $handler->display->display_options['fields']['group_purl']['element_label_colon'] = FALSE;
   /* Field: Content: Group visibility */
   $handler->display->display_options['fields']['group_visibility']['id'] = 'group_visibility';
   $handler->display->display_options['fields']['group_visibility']['table'] = 'node';
