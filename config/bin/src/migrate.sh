@@ -42,6 +42,13 @@ function migrate_content_migrate {
   drupal_drush --uri="$SITE_URL" ms
   echo
 
+  # Topics
+  echo "Topics"
+  drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateCreateCSVTermTopic
+
+  # Organisations
+  drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateCreateCSVNodeOrganisations
+
 
   # Users & Roles
   echo "Users & Roles"
@@ -49,18 +56,11 @@ function migrate_content_migrate {
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportUsers
   echo
 
-  # Topics
-  echo "Topics"
-  drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateCreateCSVTermTopic
-
   # Content outside groups
   echo "Content outside groups"
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportNodeArticle
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportNodeBookPage
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportNodeHelpPage
-
-  # Organisations
-  drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateCreateCSVNodeOrganisations
 
   # Groups & Projects
   echo "Groups & Projects"
