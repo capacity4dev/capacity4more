@@ -25,7 +25,7 @@ ini_set('session.cookie_lifetime', 2000000);
  ******************************************************************************/
 $conf['file_public_path'] = 'sites/default/files';
 $conf['file_private_path'] = 'sites/default/files/private';
-$conf['file_default_scheme'] = 'public';
+$conf['file_default_scheme'] = 'private';
 
 /**
  * Cache settings
@@ -41,8 +41,8 @@ $conf['page_cache_maximum_age'] = 10 * 60; // 10 minutes
 /**
  * Search settings
  ******************************************************************************/
-$conf["search_api_attachments_tika_path"] = "/usr/local/Cellar/tika/1.13/libexec/";
-$conf["search_api_attachments_tika_jar"] = "tika-app-1.13.jar";
+$conf["search_api_attachments_tika_path"] = "/ec/acc/server/fpfis/containers/cap4dev-acceptance-c4dweb-acc01/srv/utils/";
+$conf["search_api_attachments_tika_jar"] = "tika-app.jar";
 
 /**
  * Drupal settings
