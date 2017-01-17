@@ -18,6 +18,15 @@ function c4m_admin_groups_views_data() {
     ),
   );
 
+  $data['node']['group_purl'] = array(
+    'title' => t('PURL path'),
+    'help' => t('The purl path of a group.'),
+    'field' => array(
+      'handler' => 'c4m_admin_groups_views_handler_field_group_purl',
+      'group' => 'Content',
+    ),
+  );
+
   $data['node']['group_approve'] = array(
     'title' => t('Group approve link'),
     'help' => t('Approval link for a group.'),

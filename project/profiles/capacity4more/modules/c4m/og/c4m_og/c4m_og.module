@@ -1077,11 +1077,19 @@ function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_
     $admin = $admin->uid;
   }
 
+  $group = node_load($gid);
+
   if ($verify_owner_added) {
-    $group = node_load($gid);
     if ($group && og_is_group('node', $group)) {
       if (!in_array($group->uid, $admins)) {
         $admins[] = $group->uid;
+      }
+    }
+  }
+  else {
+    if ($group && og_is_group('node', $group)) {
+      if ($key = array_search($group->uid, $admins)) {
+        unset($admins[$key]);
       }
     }
   }
@@ -1862,6 +1870,31 @@ function c4m_og_node_update($node) {
 
   _c4m_og_handle_pending_members_when_going_private($node);
   c4m_og_open_group_access_activate_pending_members($node);
+  c4m_og_handle_group_status_change($node);
+}
+
+/**
+ * On group status change, trigger content realms update.
+ *
+ * @param object $node
+ *   The node object of the group.
+ */
+function c4m_og_handle_group_status_change($node) {
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $wrapper_original = entity_metadata_wrapper('node', $node->original);
+
+  if (!isset($wrapper->c4m_og_status) || !isset($wrapper_original->c4m_og_status)) {
+    return;
+  }
+
+  $status = $wrapper->c4m_og_status->value();
+  $former_status = $wrapper_original->c4m_og_status->value();
+
+  if ($status != $former_status) {
+    // Use OG Access mechanism to update realms of group content.
+    // Update will be performed using Batch API.
+    og_access_handle_group_privacy_change('node', $node);
+  }
 }
 
 /**
