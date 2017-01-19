@@ -22,6 +22,10 @@
       // 3px = align with image (1px border and 2px padding).
       padding: 3px 0 0 1rem;
     }
+
+    .field-name-title a {
+      @include ellipsis-cutoff(1.2, 4);
+    }
   }
 
   &:not(.node-group):not(.user-profile) {
