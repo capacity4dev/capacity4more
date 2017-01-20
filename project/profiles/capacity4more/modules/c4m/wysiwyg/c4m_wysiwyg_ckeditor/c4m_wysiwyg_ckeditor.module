@@ -92,31 +92,3 @@ function c4m_wysiwyg_ckeditor_media_wysiwyg_format_form_prepare_alter(
       'c4m_wysiwyg_ckeditor'
     ) . '/c4m_wysiwyg_ckeditor.js';
 }
-
-/**
- * Implements hook_file_download().
- */
-function c4m_wysiwyg_ckeditor_file_download($uri) {
-  // $uri is of the form private://path/filename.ext
-  // Find which managed file this is.
-  $result = db_query(
-    "SELECT fid FROM {file_managed} WHERE uri = :uri",
-    array(':uri' => $uri)
-  );
-  $fid = $result->fetchField();
-  if ($fid) {
-    $file = file_load($fid);
-
-    var_dump($file);
-
-    $usage = file_usage_list($file);
-
-    var_dump($usage);
-
-    // Look for usage by the file module (which controls file fields) on nodes.
-    if (isset($usage['file']['node'])) {
-      $used_nids = array_keys($usage['file']['node']);
-      var_dump($used_nids);
-    }
-  }
-}
