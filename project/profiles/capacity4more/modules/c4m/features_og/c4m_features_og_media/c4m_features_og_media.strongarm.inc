@@ -14,7 +14,7 @@ function c4m_features_og_media_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'file_default_scheme';
-  $strongarm->value = 'private';
+  $strongarm->value = 'public';
   $export['file_default_scheme'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -155,7 +155,7 @@ function c4m_features_og_media_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'media_wysiwyg_wysiwyg_upload_directory';
-  $strongarm->value = 'private://media/[current-user:name]/';
+  $strongarm->value = 'media';
   $export['media_wysiwyg_wysiwyg_upload_directory'] = $strongarm;
 
   $strongarm = new stdClass();

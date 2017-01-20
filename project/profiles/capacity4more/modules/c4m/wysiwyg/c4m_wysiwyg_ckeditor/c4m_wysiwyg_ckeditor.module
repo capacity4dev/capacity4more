@@ -87,27 +87,36 @@ function c4m_wysiwyg_ckeditor_media_wysiwyg_format_form_prepare_alter(
   $file
 ) {
   // Attach JavaScript to automatically embed files.
-  $form['#attached']['js'][] = drupal_get_path('module', 'c4m_wysiwyg_ckeditor') . '/c4m_wysiwyg_ckeditor.js';
+  $form['#attached']['js'][] = drupal_get_path(
+      'module',
+      'c4m_wysiwyg_ckeditor'
+    ) . '/c4m_wysiwyg_ckeditor.js';
 }
 
 /**
- * Implements hook_file_download_access().
+ * Implements hook_file_download().
  */
-function c4m_wysiwyg_ckeditor_file_download_access(
-  $file_item,
-  $entity_type,
-  $entity
-) {
-  var_dump($file_item, $entity_type);
+function c4m_wysiwyg_ckeditor_file_download($uri) {
+  // $uri is of the form private://path/filename.ext
+  // Find which managed file this is.
+  $result = db_query(
+    "SELECT fid FROM {file_managed} WHERE uri = :uri",
+    array(':uri' => $uri)
+  );
+  $fid = $result->fetchField();
+  if ($fid) {
+    $file = file_load($fid);
 
-  if ($entity_type == 'node') {
-    return node_access('view', $entity);
+    var_dump($file);
+
+    $usage = file_usage_list($file);
+
+    var_dump($usage);
+
+    // Look for usage by the file module (which controls file fields) on nodes.
+    if (isset($usage['file']['node'])) {
+      $used_nids = array_keys($usage['file']['node']);
+      var_dump($used_nids);
+    }
   }
-}
-
-/**
- * Implements hook_file_entity_access().
- */
-function c4m_wysiwyg_ckeditor_file_entity_access($op, $file, $account) {
-  var_dump($op, $file);
 }
