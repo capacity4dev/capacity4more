@@ -3204,6 +3204,12 @@ function c4m_message__update__comment($comment) {
  *   The non-saved message entity.
  */
 function c4m_message__insert__node($node) {
+  // Do not create message for activity stream, as we deal with
+  // unpublished content.
+  if ($node->status == NODE_NOT_PUBLISHED) {
+    return FALSE;
+  }
+
   $values = array('uid' => $node->uid);
   $message = message_create('c4m_insert__node__' . $node->type, $values);
 
@@ -3234,9 +3240,17 @@ function c4m_message__update__node($node, $account = NULL) {
     $account = user_load($node->uid);
   }
 
+  // Do not create/update message for activity stream, as we deal with
+  // unpublished content.
+  if ($node->status == NODE_NOT_PUBLISHED) {
+    return FALSE;
+  }
+
   // When a user unchecked the "create new revision" checkbox we should not
-  // create an activity stream message.
-  if (empty($node->revision)) {
+  // create an activity stream message, unless, content is being published.
+  // When publishing for first time, we need to make sure activity stream
+  // is generated, even when revision is not updated.
+  if (empty($node->revision) && $node->original->status == NODE_PUBLISHED) {
     return FALSE;
   }
 
