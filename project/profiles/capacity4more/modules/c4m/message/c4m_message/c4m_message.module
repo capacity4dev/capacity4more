@@ -3236,10 +3236,14 @@ function c4m_message__update__node($node, $account = NULL) {
     return FALSE;
   }
 
-  // When a user unchecked the "create new revision" checkbox we should not
-  // create an activity stream message, unless, content is being published.
-  // When publishing for first time, we need to make sure activity stream
-  // is generated, even when revision is not updated.
+  // When user unchecked the "create new revision" checkbox we should not
+  // create an activity stream message.
+  // However, this is not correct in case content is being published (status
+  // changes from NODE_NOT_PUBLISHED to NODE_PUBLISHED).
+  // Therefore, we cancel activity stream creation only if content status
+  // does not change.
+  // We know that current status is NODE_PUBLISHED, so it's enough to
+  // verify that original status was NODE_PUBLISHED as well.
   if (empty($node->revision) && $node->original->status == NODE_PUBLISHED) {
     return FALSE;
   }
