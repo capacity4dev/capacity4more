@@ -1195,11 +1195,10 @@ function c4m_content_create_toggle_group_notification_link($account, $group) {
       'class' => 'use-ajax',
     ),
     'purl' => array('disabled' => TRUE),
-    'absolute' => TRUE,
     'html' => TRUE,
   );
 
-  $link = l($link_text, url('group/' . $group->nid . '/notification/nojs'), $options);
+  $link = l($link_text, 'group/' . $group->nid . '/notification/nojs', $options);
 
   $tag['element'] = array(
     '#tag' => 'i',
