@@ -3230,16 +3230,6 @@ function c4m_message__insert__node($node) {
  *   The non-saved message entity, or NULL if update shouldn't occur.
  */
 function c4m_message__update__node($node, $account = NULL) {
-  if (empty($account)) {
-    global $user;
-    $account = clone $user;
-  }
-
-  if ($account->uid == 0) {
-    // Drush has user "0". Assign updates to the original node creator.
-    $account = user_load($node->uid);
-  }
-
   // Do not create/update message for activity stream, as we deal with
   // unpublished content.
   if ($node->status == NODE_NOT_PUBLISHED) {
@@ -3252,6 +3242,16 @@ function c4m_message__update__node($node, $account = NULL) {
   // is generated, even when revision is not updated.
   if (empty($node->revision) && $node->original->status == NODE_PUBLISHED) {
     return FALSE;
+  }
+
+  if (empty($account)) {
+    global $user;
+    $account = clone $user;
+  }
+
+  if ($account->uid == 0) {
+    // Drush has user "0". Assign updates to the original node creator.
+    $account = user_load($node->uid);
   }
 
   // If the "Send notification" on the form is checked then we should by pass
