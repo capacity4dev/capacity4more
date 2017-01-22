@@ -1195,6 +1195,7 @@ function c4m_content_create_toggle_group_notification_link($account, $group) {
       'class' => 'use-ajax',
     ),
     'purl' => array('disabled' => TRUE),
+    'absolute' => TRUE,
     'html' => TRUE,
   );
 
