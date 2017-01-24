@@ -326,7 +326,7 @@
 }
 
 
-ul:not(.facetapi-facet-c4m-vocab-topic) {
+ul:not([class*="facetapi-facet-c4m-vocab-topic"]) {
   .facetapi-link--article::before {
     content: "\f1ea";
 
