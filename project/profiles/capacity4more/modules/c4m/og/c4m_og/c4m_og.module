@@ -1077,11 +1077,19 @@ function c4m_og_get_group_admins_ids($gid, $verify_owner_added = FALSE, $filter_
     $admin = $admin->uid;
   }
 
+  $group = node_load($gid);
+
   if ($verify_owner_added) {
-    $group = node_load($gid);
     if ($group && og_is_group('node', $group)) {
       if (!in_array($group->uid, $admins)) {
         $admins[] = $group->uid;
+      }
+    }
+  }
+  else {
+    if ($group && og_is_group('node', $group)) {
+      if ($key = array_search($group->uid, $admins)) {
+        unset($admins[$key]);
       }
     }
   }
@@ -1862,6 +1870,31 @@ function c4m_og_node_update($node) {
 
   _c4m_og_handle_pending_members_when_going_private($node);
   c4m_og_open_group_access_activate_pending_members($node);
+  c4m_og_handle_group_status_change($node);
+}
+
+/**
+ * On group status change, trigger content realms update.
+ *
+ * @param object $node
+ *   The node object of the group.
+ */
+function c4m_og_handle_group_status_change($node) {
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $wrapper_original = entity_metadata_wrapper('node', $node->original);
+
+  if (!isset($wrapper->c4m_og_status) || !isset($wrapper_original->c4m_og_status)) {
+    return;
+  }
+
+  $status = $wrapper->c4m_og_status->value();
+  $former_status = $wrapper_original->c4m_og_status->value();
+
+  if ($status != $former_status) {
+    // Use OG Access mechanism to update realms of group content.
+    // Update will be performed using Batch API.
+    og_access_handle_group_privacy_change('node', $node);
+  }
 }
 
 /**
@@ -2888,6 +2921,26 @@ function c4m_og_get_pending_groups_by_user($account = NULL, $group_type = NULL, 
  * Checks by og_permissions, group state and moderation type.
  */
 function c4m_og_invite_access($group_type, $gid) {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+
+    return FALSE;
+  }
+
+  if (!$current_gid = c4m_og_current_group_id()) {
+    return FALSE;
+  }
+
+  // Validate the current group is the one a user is trying to invite to.
+  if ($current_gid != $gid) {
+    drupal_set_message("Something went wrong, please click on the 'Invite a member' from the group homepage.", 'error');
+
+    return FALSE;
+  }
+
   if (c4m_user_is_site_admin()) {
     return TRUE;
   }
@@ -2931,4 +2984,33 @@ function c4m_og_node_gallery_access($gallery, $item_type = NULL) {
   // Assign access to Node Gallery API item type upload, there's a relationship
   // for gallery item type, and user got permission to edit the gallery.
   return (!empty($relationship_types) && node_access('update', $gallery));
+}
+
+/**
+ * A helper function; Determine the labels to display on the registration form.
+ *
+ * The labels should be different by the 'membership_open_request' field of the
+ * group.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ *
+ * @return array
+ *   An array with the values of the 'join phrase' and the 'button label'.
+ */
+function _c4m_og_registration_form_labels_by_group($gid) {
+  $wrapper = entity_metadata_wrapper('node', $gid);
+
+  // Get membership request type (open/moderated).
+  $membership_type = $wrapper->field_membership_open_request->value();
+  if ($membership_type == C4M_OG_MODERATED_GROUP) {
+    $join_phrase = t('request membership for');
+    $button_label = t('Request membership for group');
+  }
+  else {
+    $join_phrase = t('join the');
+    $button_label = t('Register to join');
+  }
+
+  return array($join_phrase, $button_label);
 }

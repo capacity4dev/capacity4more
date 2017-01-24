@@ -10,7 +10,7 @@
 
   .comment_forbidden {
     font-size: 0.85rem;
-    color: $color-gray-light;
+    color: $color-gray-lighter;
   }
 
   .indented {
@@ -66,11 +66,11 @@
         margin-left: 5px;
         margin-bottom: 17px;
         font-size: 0.85rem;
-        color: $color-gray-light;
+        color: $color-gray-lighter;
         &:before {
           display: inline;
           content: '|';
-          color: $color-gray-light;
+          color: $color-gray-lighter;
           margin-right: 5px;
         }
       }

@@ -218,6 +218,7 @@ function c4m_features_overview_articles_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
   $handler->display->display_options['style_options']['provide_file'] = 1;
   $handler->display->display_options['style_options']['filename'] = 'c4d_voicesviews_%timestamp-full.csv';
+  $handler->display->display_options['style_options']['permanent_file'] = 0;
   $handler->display->display_options['style_options']['parent_sort'] = 1;
   $handler->display->display_options['style_options']['separator'] = '|';
   $handler->display->display_options['style_options']['quote'] = 1;
@@ -226,7 +227,6 @@ function c4m_features_overview_articles_views_default_views() {
   $handler->display->display_options['style_options']['newline_token'] = '1';
   $handler->display->display_options['style_options']['header'] = 1;
   $handler->display->display_options['style_options']['keep_html'] = 0;
-  $handler->display->display_options['style_options']['encoding'] = 'utf8_decode';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';

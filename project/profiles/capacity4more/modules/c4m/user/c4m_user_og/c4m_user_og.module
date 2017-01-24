@@ -417,7 +417,7 @@ function c4m_user_og_get_number_of_contributors_vs_members($og_id) {
         $active_members
       ) && $active_members > 0)
   ) {
-    $calculation = $contributors / $active_members;
+    $calculation = $contributors / $active_members * 100;
     return empty($calculation) ? 0 : $calculation;
   }
 
@@ -486,7 +486,7 @@ function c4m_user_og_c4m_helper_entity_metrics_info() {
     'c4m_og_contributors_vs_pending_members' => array(
       'type' => 'contributors_vs_pending_members',
       'context' => 'group',
-      'callback' => 'c4m_user_og_get_number_of_contributors_vs_pending_members',
+      'callback' => 'c4m_user_og_get_number_of_contributors_vs_members',
       'weight' => 13,
     ),
     'c4m_og_pending_members' => array(
@@ -1034,16 +1034,8 @@ function c4m_user_og_form_user_register_form_alter(
   }
 
   $wrapper = entity_metadata_wrapper('node', $gid);
-  // Get membership request type (open/moderated).
-  $membership_type = $wrapper->field_membership_open_request->value();
-  if ($membership_type == C4M_OG_MODERATED_GROUP) {
-    $join_phrase = t('request membership for');
-    $button_label = t('Request membership for group');
-  }
-  else {
-    $join_phrase = t('join the');
-    $button_label = t('Register to join');
-  }
+
+  list($join_phrase, $button_label) = _c4m_og_registration_form_labels_by_group($gid);
 
   $variables = array(
     'join_phrase' => $join_phrase,

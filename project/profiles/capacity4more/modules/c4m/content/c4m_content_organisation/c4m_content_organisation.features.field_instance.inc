@@ -308,8 +308,8 @@ function c4m_content_organisation_field_default_field_instances() {
         'browser_plugins' => array(
           'media_default--media_browser_1' => 0,
           'media_default--media_browser_2' => 0,
-          'media_default--media_browser_my_files' => 0,
-          'upload' => 0,
+          'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
+          'upload' => 'upload',
         ),
       ),
       'type' => 'media_generic',

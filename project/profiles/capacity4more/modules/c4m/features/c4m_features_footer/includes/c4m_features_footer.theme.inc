@@ -79,7 +79,7 @@ function theme_c4m_footer_bar_project() {
   $europaid_link = l(t('DG International cooperation and development') . ' >', 'https://ec.europa.eu/europeaid/home_en');
 
   $options['attributes']['class'] = array('text-orange');
-  $project_link = l(t('Capacity4dev') . ' >',  base_path() . 'projects', $options);
+  $project_link = l(t('Capacity4dev') . ' >',  '/projects', $options);
 
   $options['attributes']['title'] = t('Home');
   $options['attributes']['class'] = array('logo-project');
@@ -89,7 +89,7 @@ function theme_c4m_footer_bar_project() {
     'attributes' => array(),
   );
   $logo_img = theme_image($variables);
-  $logo_link =  l($logo_img,  base_path(), $options);
+  $logo_link =  l($logo_img, '/', $options);
 
   $variables = array(
     'project_link' => $project_link,

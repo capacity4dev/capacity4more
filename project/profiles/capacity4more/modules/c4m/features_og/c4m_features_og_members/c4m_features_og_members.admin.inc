@@ -324,7 +324,11 @@ function c4m_features_og_members_remove_submit(array $form, array &$form_state) 
     form_set_error(NULL, t('Error removing user'));
   }
 
-  og_membership_delete($og_membership->id);
+  // Block the user instead of removing the membership (CFM-1586).
+  $wrapper = entity_metadata_wrapper('og_membership', $og_membership);
+  $wrapper->state = OG_STATE_BLOCKED;
+  $wrapper->save();
+
   drupal_set_message(t('User successfully removed.'));
 
   $form_state['redirect'] = 'members';

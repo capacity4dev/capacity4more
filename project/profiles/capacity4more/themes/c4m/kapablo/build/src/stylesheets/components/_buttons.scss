@@ -16,3 +16,18 @@
   display: inline-block;
   margin-bottom: 1em;
 }
+
+.button {
+  &.browse {
+    @extend .btn;
+    @extend .btn-success;
+
+    display: inline-block !important;
+    margin: 0.5em 0;
+    padding: 0.5em;
+
+    &:hover {
+      color: $color-white;
+    }
+  }
+}

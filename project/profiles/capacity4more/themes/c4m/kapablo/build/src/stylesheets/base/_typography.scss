@@ -17,15 +17,15 @@ html {
 
 .text-xlarge {
   // 36px.
-  font-size: $font-size-h1;
+  @include fluid-type(font-size, $screen-xs, $screen-lg, $font-size-h1 / 3 * 2, $font-size-h1);
 }
 .text-large {
   // 20px.
-  font-size: $font-size-h2;
+  @include fluid-type(font-size, $screen-xs, $screen-lg, $font-size-h2 / 3 * 2, $font-size-h2);
 }
 .text-medium {
   // 18px.
-  font-size: $font-size-h3;
+  @include fluid-type(font-size, $screen-xs, $screen-lg, $font-size-h3 / 3 * 2, $font-size-h3);
 }
 .text-normal {
   // 14px.
@@ -108,7 +108,7 @@ html {
 
 .text-copy--muted {
   @extend .text-normal;
-  color: $color-gray-light;
+  color: $color-gray-lighter;
   font-family: $font-verdana;
 }
 
@@ -160,7 +160,7 @@ html {
 
 .text-placeholder {
   @extend .text-normal;
-  color: $color-gray-light;
+  color: $color-gray-lighter;
   font-family: $font-verdana;
   font-style: italic;
 }
