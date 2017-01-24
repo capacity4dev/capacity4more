@@ -25,7 +25,7 @@ ini_set('session.cookie_lifetime', 2000000);
  ******************************************************************************/
 $conf['file_public_path'] = 'sites/default/files';
 $conf['file_private_path'] = 'sites/default/files/private';
-$conf['file_default_scheme'] = 'private';
+$conf['file_default_scheme'] = 'public';
 
 /**
  * Cache settings
