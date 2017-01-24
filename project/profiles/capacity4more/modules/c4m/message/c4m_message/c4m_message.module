@@ -3204,6 +3204,12 @@ function c4m_message__update__comment($comment) {
  *   The non-saved message entity.
  */
 function c4m_message__insert__node($node) {
+  // Do not create message for activity stream, as we deal with
+  // unpublished content.
+  if ($node->status == NODE_NOT_PUBLISHED) {
+    return FALSE;
+  }
+
   $values = array('uid' => $node->uid);
   $message = message_create('c4m_insert__node__' . $node->type, $values);
 
@@ -3224,6 +3230,24 @@ function c4m_message__insert__node($node) {
  *   The non-saved message entity, or NULL if update shouldn't occur.
  */
 function c4m_message__update__node($node, $account = NULL) {
+  // Do not create/update message for activity stream, as we deal with
+  // unpublished content.
+  if ($node->status == NODE_NOT_PUBLISHED) {
+    return FALSE;
+  }
+
+  // When user unchecked the "create new revision" checkbox we should not
+  // create an activity stream message.
+  // However, this is not correct in case content is being published (status
+  // changes from NODE_NOT_PUBLISHED to NODE_PUBLISHED).
+  // Therefore, we cancel activity stream creation only if content status
+  // does not change.
+  // We know that current status is NODE_PUBLISHED, so it's enough to
+  // verify that original status was NODE_PUBLISHED as well.
+  if (empty($node->revision) && $node->original->status == NODE_PUBLISHED) {
+    return FALSE;
+  }
+
   if (empty($account)) {
     global $user;
     $account = clone $user;
@@ -3232,12 +3256,6 @@ function c4m_message__update__node($node, $account = NULL) {
   if ($account->uid == 0) {
     // Drush has user "0". Assign updates to the original node creator.
     $account = user_load($node->uid);
-  }
-
-  // When a user unchecked the "create new revision" checkbox we should not
-  // create an activity stream message.
-  if (empty($node->revision)) {
-    return FALSE;
   }
 
   // If the "Send notification" on the form is checked then we should by pass
