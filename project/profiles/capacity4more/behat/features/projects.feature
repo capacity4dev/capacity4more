@@ -18,7 +18,7 @@ Feature: Testing the projects overview page.
     When  I visit the dashboard of project "Human Genome Project"
     Then  I should be able to toggle the project highlight link
 
-  @api
+  @javascript
   Scenario: Verify that PO can see draft projects, while regular user can not.
     Given The project "Lusail City Hotel" status is changed by admin to "Draft"
     When  I am logged in as user "badhairday"
@@ -26,7 +26,7 @@ Feature: Testing the projects overview page.
     And   I am logged in as user "isaacnewton"
     And   I should not see "Lusail City Hotel" on the "projects" overview
 
-  @api
+  @javascript
   Scenario: Verify that regular user can see published projects.
     Given The project "Lusail City Hotel" status is changed by admin to "Published"
     When  I am logged in as user "isaacnewton"

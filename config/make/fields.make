@@ -41,7 +41,7 @@ projects[link][version] = "1.4"
 
 projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2"
-projects[maxlength][patch][] = "../patches/maxlength-7.x-3.2-typo-fix-character-limit-message.patch"
+projects[maxlength][patch][] = "https://www.drupal.org/files/issues/maxlength-7.x-3.2-typo-fix-character-limit-message.patch"
 
 projects[money][subdir] = "contrib"
 projects[money][version] = "1.x-dev"

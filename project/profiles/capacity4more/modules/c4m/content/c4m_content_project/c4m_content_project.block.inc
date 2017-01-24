@@ -80,6 +80,9 @@ function _c4m_content_project_block_header_name_banner_project() {
   ];
   $markup .= theme('c4m_content_project_header_title', $variables);
 
+  // Adding AJAX for notification toggle, which is part of this block.
+  drupal_add_library('system', 'drupal.ajax');
+
   return array(
     'subject' => '',
     'content' => $markup,

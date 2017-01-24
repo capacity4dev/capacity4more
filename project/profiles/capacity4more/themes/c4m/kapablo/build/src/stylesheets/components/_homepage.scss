@@ -122,6 +122,12 @@
   }
 }
 
+.video-details .video-preview {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 #block-c4m-features-homepage-intro-video {
   .button-wrapper {
     position: relative;

@@ -58,6 +58,12 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Content: PURL path */
+  $handler->display->display_options['fields']['group_purl']['id'] = 'group_purl';
+  $handler->display->display_options['fields']['group_purl']['table'] = 'node';
+  $handler->display->display_options['fields']['group_purl']['field'] = 'group_purl';
+  $handler->display->display_options['fields']['group_purl']['label'] = 'URL';
+  $handler->display->display_options['fields']['group_purl']['element_label_colon'] = FALSE;
   /* Field: Content: Type */
   $handler->display->display_options['fields']['c4m_project_type']['id'] = 'c4m_project_type';
   $handler->display->display_options['fields']['c4m_project_type']['table'] = 'field_data_c4m_project_type';
@@ -277,7 +283,6 @@ function c4m_admin_projects_views_default_views() {
   $handler->display->display_options['style_options']['newline_token'] = '1';
   $handler->display->display_options['style_options']['header'] = 1;
   $handler->display->display_options['style_options']['keep_html'] = 0;
-  $handler->display->display_options['style_options']['encoding'] = 'utf8_decode';
   $handler->display->display_options['path'] = 'admin/c4m/projects/export/file';
   $handler->display->display_options['use_batch'] = 'batch';
   $handler->display->display_options['return_path'] = 'admin/c4m/projects/export';

@@ -1,9 +1,9 @@
 @mixin grain {
-  background: url('/profiles/capacity4more/themes/c4m/kapablo/images/grain.png');
+  background: url('../images/grain.png');
 }
 
 @mixin grain_dark {
-  background: url('/profiles/capacity4more/themes/c4m/kapablo/images/grain-dark.png');
+  background: url('../images/grain-dark.png');
 }
 
 @mixin grey_bar_base {
@@ -141,4 +141,40 @@
   -ms-hyphens: auto;
   -moz-hyphens: auto;
   hyphens: auto;
+}
+
+@function strip-unit($value) {
+  @return $value / ($value * 0 + 1);
+}
+
+@mixin fluid-type($properties, $min-vw, $max-vw, $min-value, $max-value) {
+  @each $property in $properties {
+    #{$property}: $min-value;
+  }
+
+  @media screen and (min-width: $min-vw) {
+    @each $property in $properties {
+      #{$property}: calc(#{$min-value} + #{strip-unit($max-value - $min-value)} * (100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)});
+    }
+  }
+
+  @media screen and (min-width: $max-vw) {
+    @each $property in $properties {
+      #{$property}: $max-value;
+    }
+  }
+}
+
+// http://codepen.io/martinwolf/pen/qlFdp
+@mixin ellipsis-cutoff($line-height, $lines) {
+  display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
+  max-width: 100%;
+  height: $lines * $line-height * 1em; /* Fallback for non-webkit */
+  margin: 0 auto;
+  line-height: $line-height;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
