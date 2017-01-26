@@ -128,7 +128,7 @@ function c4m_user_contact_multiple_action_submit($form, $form_state) {
   }
 
   // We can not use $form_state['redirect'] as VBO ignores it.
-  $_GET['destination'] = url('members');
+  $_GET['destination'] = c4m_og_current_group_purl() . '/members';
 
   return array(
     'subject' => $subject,
