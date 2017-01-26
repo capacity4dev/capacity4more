@@ -133,6 +133,7 @@ function c4m_user_subscribe_og_membership_delete(OgMembership $membership) {
  *   Possible values: "flag", "unflag".
  */
 function c4m_user_subscribe_to_group($membership, $event = 'flag') {
+  $account = user_load($membership->etid);
   $flag = flag_get_flag('subscribe_c4m_follow_group');
-  $flag->flag($event, $membership->gid, NULL, TRUE);
+  $flag->flag($event, $membership->gid, $account, TRUE);
 }
