@@ -3014,3 +3014,23 @@ function _c4m_og_registration_form_labels_by_group($gid) {
 
   return array($join_phrase, $button_label);
 }
+
+/**
+ * Implements hook_drupal_goto().
+ *
+ * When drupal base_path is not trivial, remove it, in case
+ * $path includes it as prefix.
+ * This is required to avoid duplicate base_path at redirect url, since
+ * base_path is added by url() function, which is executed by drupal_goto().
+ */
+function c4m_og_drupal_goto_alter(&$path, &$options, &$http_response_code) {
+  $base_path = base_path();
+
+  if ($base_path == '/') {
+    return;
+  }
+
+  if (_c4m_og_purl_starts_with($path, $base_path)) {
+    $path = substr($path, strlen($base_path));
+  }
+}
