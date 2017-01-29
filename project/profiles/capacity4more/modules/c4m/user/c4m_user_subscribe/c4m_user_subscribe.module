@@ -17,7 +17,7 @@ function c4m_user_subscribe_node_insert($node) {
   }
 
   $account = user_load($node->uid);
-  
+
   flag('flag', 'subscribe_c4m_follow_comment', $node->nid, $account);
   flag('flag', 'subscribe_c4m_follow_node', $node->nid, $account);
 }
@@ -58,7 +58,7 @@ function c4m_user_subscribe_comment_insert($comment) {
   $account = user_load($comment->uid);
 
   // Add 'follow comment' flag.
-  flag('flag', 'subscribe_c4m_follow_comment', $node->nid,  $account);
+  flag('flag', 'subscribe_c4m_follow_comment', $node->nid, $account);
 }
 
 /**
