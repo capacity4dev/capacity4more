@@ -509,6 +509,21 @@ function c4m_content_photo_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_ds_content_footer_stats' => array(
+      'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '8',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_node_promote' => array(
+      'weight' => '9',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
   );
   $export['node|photo|teaser_group'] = $ds_fieldsetting;
 
@@ -1023,6 +1038,9 @@ function c4m_content_photo_ds_layout_settings_info() {
       ),
       'right' => array(
         6 => 'c4m_body',
+        7 => 'c4m_ds_content_footer_stats',
+        8 => 'c4m_ds_node_highlight',
+        9 => 'c4m_ds_node_promote',
       ),
     ),
     'fields' => array(
@@ -1033,8 +1051,15 @@ function c4m_content_photo_ds_layout_settings_info() {
       'c4m_ds_creation_date' => 'header',
       'c4m_media' => 'left',
       'c4m_body' => 'right',
+      'c4m_ds_content_footer_stats' => 'right',
+      'c4m_ds_node_highlight' => 'right',
+      'c4m_ds_node_promote' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'header' => 'div',
       'left' => 'div',
