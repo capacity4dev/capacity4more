@@ -627,7 +627,7 @@ function c4m_user_og_c4m_visitor_cta($group) {
 
   $login_url = '';
   if (!user_is_logged_in()) {
-    $login_link = l(t('log in'), 'user/login', array('query' => array('destination' => request_path())));
+    $login_link = l(t('log in'), 'user', array('query' => array('destination' => request_path())));
     $login_url = t('Please !login-link first if you have a C4D account', array('!login-link' => $login_link));
   }
 
