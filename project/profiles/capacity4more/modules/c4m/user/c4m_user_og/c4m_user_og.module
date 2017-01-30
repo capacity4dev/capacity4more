@@ -588,11 +588,6 @@ function c4m_user_og_c4m_cta_block() {
     return;
   }
 
-  // If group is read-only for user, do not show CTA.
-  if (!node_access('update', $group)) {
-    return;
-  }
-
   $items = array();
 
   if ($item = c4m_user_og_group_management_cta($group)) {
@@ -656,6 +651,11 @@ function c4m_user_og_c4m_visitor_cta($group) {
 function c4m_user_og_group_actions_cta($group) {
   $items = array();
   global $user;
+
+  // If group is read-only for user, do not show actions CTA.
+  if (!node_access('update', $group)) {
+    return;
+  }
 
   // CTAs for the group owner and administrators: Manage group and number or
   // new membership requests.
@@ -752,8 +752,9 @@ function c4m_user_og_group_actions_cta($group) {
  */
 function c4m_user_og_group_management_cta($group) {
   $items = array();
+  $read_only_group = !node_access('update', $group);
 
-  if (_c4m_features_og_members_is_power_user($group)) {
+  if (!$read_only_group && _c4m_features_og_members_is_power_user($group)) {
     $items['#title'] = t("You're the manager of this !group_type", array('!group_type' => $group->type));
     $items['#links'][] = array(
       '#theme' => 'c4m_group_text_cta',
@@ -780,7 +781,8 @@ function c4m_user_og_group_management_cta($group) {
     $items['#links'][] = $item;
   }
 
-  if ($item = c4m_user_og_c4m_invite_cta($group)) {
+  // Do not allow to invite users into read-only group.
+  if (!$read_only_group && $item = c4m_user_og_c4m_invite_cta($group)) {
     $items['#links']['invite'] = $item;
   }
 
@@ -911,6 +913,12 @@ function c4m_user_og_c4m_leave_group_cta($group) {
  */
 function c4m_user_og_follow_group_cta($group) {
   if ($group->type == 'group' && !og_is_member('node', $group->nid)) {
+    return FALSE;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $group);
+  // Do not present toggle notification link at archived group.
+  if ($wrapper->c4m_og_status->value() == 'archived') {
     return FALSE;
   }
 
