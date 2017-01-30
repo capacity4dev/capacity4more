@@ -14,12 +14,12 @@
 function c4m_user_contact_multiple_action_info() {
   // If not within OG context, don't declare action.
   if (!$group = c4m_og_current_group()) {
-    return [];
+    return array();
   }
 
   // If not Site Admin, Group Admin or Group Owner, don't declare action.
   if (!_c4m_features_og_members_is_power_user($group)) {
-    return [];
+    return array();
   }
 
   // For any user that's not a site admin, don't declare action when group
@@ -27,7 +27,7 @@ function c4m_user_contact_multiple_action_info() {
   if (!c4m_user_is_site_admin()) {
     $wrapper = entity_metadata_wrapper('node', $group);
     if ($wrapper->c4m_og_status->value() == 'archived') {
-      return [];
+      return array();
     }
   }
 
