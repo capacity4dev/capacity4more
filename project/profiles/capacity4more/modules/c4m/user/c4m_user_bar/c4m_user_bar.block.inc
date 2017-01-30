@@ -26,7 +26,7 @@ function _c4m_user_bar_block_user_signup_login() {
     array(
       '!login' => l(
         t('Log in'),
-        'user',
+        'user/login',
         array(
           'attributes' => array('class' => array('text-link--blue')),
           'query' => c4m_og_purl_get_destination(),
