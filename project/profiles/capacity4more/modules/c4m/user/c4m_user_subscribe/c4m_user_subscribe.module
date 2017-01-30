@@ -128,7 +128,7 @@ function c4m_user_subscribe_og_membership_delete(OgMembership $membership) {
   if ($membership->entity_type != 'user') {
     return;
   }
-  
+
   c4m_user_subscribe_to_group($membership, 'unflag');
 }
 
