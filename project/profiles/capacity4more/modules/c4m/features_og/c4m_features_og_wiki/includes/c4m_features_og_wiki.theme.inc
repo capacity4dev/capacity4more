@@ -15,7 +15,6 @@
  *   The rendered output.
  */
 function theme_c4m_features_og_wiki_wiki(array $variables) {
-  global $user;
   $output = '';
   if (empty($variables['content'])) {
     $message['element'] = array(
@@ -29,7 +28,7 @@ function theme_c4m_features_og_wiki_wiki(array $variables) {
 
     // Add wiki page button when user has permissions to add a wiki page.
     if ($group = og_context()) {
-      if (c4m_user_is_site_admin($user) || c4m_og_node_access('wiki_page', 'create', $user) == NODE_ACCESS_ALLOW) {
+      if (node_access('wiki_page', 'create')) {
         $url_options = array(
           'absolute' => TRUE,
           'purl' => array(

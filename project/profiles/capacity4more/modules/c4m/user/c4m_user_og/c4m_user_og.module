@@ -588,6 +588,11 @@ function c4m_user_og_c4m_cta_block() {
     return;
   }
 
+  // If group is read-only for user, do not show CTA.
+  if (!node_access('update', $group)) {
+    return;
+  }
+
   $items = array();
 
   if ($item = c4m_user_og_group_management_cta($group)) {
