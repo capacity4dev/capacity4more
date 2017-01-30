@@ -19,3 +19,6 @@ projects[drupal][patch][] = "https://www.drupal.org/files/issues/drupal-drupal_t
 ; Patch which changes the output of Drupal's .htaccess files.
 ; This patch will make the .htaccess files match DIGIT's requirements (Apache 2.4.x).
 projects[drupal][patch][] = "https://www.drupal.org/files/issues/drupal7-htaccess_protections-1599774-73.patch"
+
+; Place "addTag('node_access')"" first in the menu access checkes.
+projects[drupal][patch][] = "../patches/menu_access_check_node_access_first.patch"

@@ -1,0 +1,16 @@
+diff --git a/includes/menu.inc b/includes/menu.inc
+index 4664d27..a766739 100644
+--- a/includes/menu.inc
++++ b/includes/menu.inc
+@@ -1499,9 +1499,9 @@ function menu_tree_check_access(&$tree, $node_links = array()) {
+     $nids = array_keys($node_links);
+     $select = db_select('node', 'n');
+     $select->addField('n', 'nid');
+-    $select->condition('n.status', 1);
+-    $select->condition('n.nid', $nids, 'IN');
+     $select->addTag('node_access');
++    $select->condition('n.nid', $nids, 'IN');
++    $select->condition('n.status', 1);
+     $nids = $select->execute()->fetchCol();
+     foreach ($nids as $nid) {
+       foreach ($node_links[$nid] as $mlid => $link) {
