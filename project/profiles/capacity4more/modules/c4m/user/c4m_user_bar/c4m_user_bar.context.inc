@@ -32,17 +32,23 @@ function c4m_user_bar_context_default_contexts() {
           'region' => 'user_bar',
           'weight' => '-54',
         ),
-        'c4m_features_header-c4m_header_menu' => array(
-          'module' => 'c4m_features_header',
-          'delta' => 'c4m_header_menu',
-          'region' => 'top_menu',
-          'weight' => '-84',
-        ),
         'c4m_user_bar-user_signup_login' => array(
           'module' => 'c4m_user_bar',
           'delta' => 'user_signup_login',
           'region' => 'top_menu',
           'weight' => '-83',
+        ),
+        'c4m_features_header-c4m_header_menu' => array(
+          'module' => 'c4m_features_header',
+          'delta' => 'c4m_header_menu',
+          'region' => 'top_menu',
+          'weight' => '-83',
+        ),
+        'c4m_features_footer-c4m_footer_logo' => array(
+          'module' => 'c4m_features_footer',
+          'delta' => 'c4m_footer_logo',
+          'region' => 'content_bottom',
+          'weight' => '-9',
         ),
         'c4m_features_footer-c4m_footer_bar' => array(
           'module' => 'c4m_features_footer',
