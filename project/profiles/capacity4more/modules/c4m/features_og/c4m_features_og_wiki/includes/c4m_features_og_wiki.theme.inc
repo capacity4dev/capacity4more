@@ -29,7 +29,7 @@ function theme_c4m_features_og_wiki_wiki(array $variables) {
 
     // Add wiki page button when user has permissions to add a wiki page.
     if ($group = og_context()) {
-      if (og_user_access('node', $group['gid'], 'administer group', $user)) {
+      if (c4m_user_is_site_admin($user) || c4m_og_node_access('wiki_page', 'create', $user) == NODE_ACCESS_ALLOW) {
         $url_options = array(
           'absolute' => TRUE,
           'purl' => array(
