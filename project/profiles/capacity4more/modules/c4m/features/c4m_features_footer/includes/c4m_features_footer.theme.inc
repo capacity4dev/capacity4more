@@ -31,10 +31,11 @@ function theme_c4m_footer_bar(array $variables) {
   $navigation_html_1 = '<li class="c4m-footer-navigation-1 first">';
   foreach ($footer_navigation_1 as $link) {
     $navigation_html_1 .= '<div class="c4m-footer-nav-link">';
-    $navigation_html_1 .= l(t('@title', array('@title' => $link['title'])),
-                          $link['url'],
-                          array('attributes' => $link['attributes'])
-                        );
+    $navigation_html_1 .= l(
+      t('@title', array('@title' => $link['title'])),
+      $link['url'],
+      array('attributes' => $link['attributes'])
+    );
     $navigation_html_1 .= '</div>';
   }
   $navigation_html_1 .= '</li>';
@@ -46,7 +47,8 @@ function theme_c4m_footer_bar(array $variables) {
   $navigation_html_2 = '<li class="c4m-footer-navigation-2 last">';
   foreach ($footer_navigation_2 as $link) {
     $navigation_html_2 .= '<div class="c4m-footer-nav-link">';
-    $navigation_html_2 .= l(t('@title', array('@title' => $link['title'])),
+    $navigation_html_2 .= l(
+      t('@title', array('@title' => $link['title'])),
       $link['url'],
       array('attributes' => $link['attributes'], 'html' => TRUE)
     );
@@ -74,22 +76,25 @@ function theme_c4m_footer_bar_project() {
   $options = array(
     'alias' => TRUE,
     'html' => TRUE,
-    'attributes' => array()
+    'attributes' => array(),
   );
-  $europaid_link = l(t('DG International cooperation and development') . ' >', 'https://ec.europa.eu/europeaid/home_en');
+  $europaid_link = l(
+    t('DG International cooperation and development') . ' >',
+    'https://ec.europa.eu/europeaid/home_en'
+  );
 
   $options['attributes']['class'] = array('text-orange');
-  $project_link = l(t('Capacity4dev') . ' >',  '/projects', $options);
+  $project_link = l(t('Capacity4dev') . ' >', '/projects', $options);
 
   $options['attributes']['title'] = t('Home');
   $options['attributes']['class'] = array('logo-project');
-  $variables = array (
+  $variables = array(
     'path' => (drupal_get_path('theme', 'kapablo') . '/project_logo.png'),
     'alt' => t('Home'),
     'attributes' => array(),
   );
   $logo_img = theme_image($variables);
-  $logo_link =  l($logo_img, '/', $options);
+  $logo_link = l($logo_img, '/', $options);
 
   $variables = array(
     'project_link' => $project_link,
@@ -123,6 +128,34 @@ function theme_c4m_footer_menu(array $variables) {
 }
 
 /**
+ * Theme function for c4m footer logo.
+ *
+ * @param array $variables
+ *   Template variables.
+ *
+ * @return mixed
+ *   Rendered output.
+ */
+function theme_c4m_footer_logo(array $variables) {
+  global $base_url;
+
+  $output = '<div class="c4m-footer-logo">';
+
+  $logo_img = '<img src="' .
+    $base_url . DIRECTORY_SEPARATOR . drupal_get_path(
+      'theme',
+      'kapablo'
+    ) . DIRECTORY_SEPARATOR . 'footer.png" 
+    alt="capacity4dev.eu" 
+    title="capacity4dev.eu with hands" />';
+
+  $output .= l($logo_img, '<front>', array('absolute' => TRUE, 'html' => TRUE));
+
+  $output .= '</div>';
+  return $output;
+}
+
+/**
  * Function to theme the social media links.
  *
  * @param array $social_media
@@ -136,8 +169,20 @@ function theme_c4m_social_media(array $social_media) {
   foreach ($social_media as $key => $link) {
     $link_classes = array('fa', 'fa-' . $key);
     $output .= '<div class="c4m-social-media-item c4m-social-media-' . $key . '">';
-    $output .= l(t('<i class="' . implode($link_classes, ' ') . '"></i><span>@title</span>', array('@title' => $link['title'])), $link['url'],
-                array('html' => TRUE, 'attributes' => array('target' => '_blank', 'classes' => $link_classes)));
+    $output .= l(
+      t(
+        '<i class="' . implode(
+          $link_classes,
+          ' '
+        ) . '"></i><span>@title</span>',
+        array('@title' => $link['title'])
+      ),
+      $link['url'],
+      array(
+        'html' => TRUE,
+        'attributes' => array('target' => '_blank', 'classes' => $link_classes),
+      )
+    );
     $output .= '</div>';
   }
   $output .= '</li>';
