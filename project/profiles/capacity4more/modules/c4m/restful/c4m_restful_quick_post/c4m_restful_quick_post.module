@@ -274,7 +274,7 @@ function c4m_restful_quick_post_form($group_id) {
 
   // If all resources are turned off, or user is not allowed to create a
   // discussion, disable the QP form.
-  if (empty($show_resources) || !node_access('discussion', 'create')) {
+  if (empty($show_resources) || !node_access('create', 'discussion')) {
     $settings['c4m']['data']['entity']['group'] = $group_id;
     drupal_add_js($settings, 'setting');
     return FALSE;

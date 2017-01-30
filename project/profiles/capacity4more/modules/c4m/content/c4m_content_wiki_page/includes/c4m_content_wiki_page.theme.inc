@@ -96,7 +96,7 @@ function theme_c4m_content_wiki_page_collapse(array $field) {
  */
 function theme_c4m_content_wiki_page_add_links(array $field) {
   // Not under group context, or user not allowed to create wiki pages.
-  if (!og_context() || !node_access('wiki_page', 'create')) {
+  if (!og_context() || !node_access('create', 'wiki_page')) {
     return;
   }
 
