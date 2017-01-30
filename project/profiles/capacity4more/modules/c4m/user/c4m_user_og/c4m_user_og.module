@@ -658,11 +658,6 @@ function c4m_user_og_group_actions_cta($group) {
   $items = array();
   global $user;
 
-  // If group is read-only for user, do not show actions CTA.
-  if (!node_access('update', $group)) {
-    return;
-  }
-
   // CTAs for the group owner and administrators: Manage group and number or
   // new membership requests.
   if (_c4m_features_og_members_is_power_user($group, $user)) {
