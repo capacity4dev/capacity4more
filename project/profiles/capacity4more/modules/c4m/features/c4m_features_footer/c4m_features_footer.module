@@ -46,7 +46,7 @@ function c4m_features_footer_block_view($delta = '') {
       break;
 
     case 'c4m_footer_logo':
-      $footer_logo = array('#theme' => 'c4m_footer_logo',);
+      $footer_logo = array('#theme' => 'c4m_footer_logo');
 
       $block['content'] = render($footer_logo);
       break;
