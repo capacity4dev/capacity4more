@@ -527,8 +527,8 @@ function c4m_helper_entity_entity_load($entities, $type) {
 /**
  * Gets the total number of results per view and display.
  *
- * We use it because some views are using solr but also has a pager, and we
- * need the total results.
+ * Executes pager view with 5 items on a page, and returns
+ * total number of result items.
  *
  * @param string $view_name
  *   The view's machine name.
