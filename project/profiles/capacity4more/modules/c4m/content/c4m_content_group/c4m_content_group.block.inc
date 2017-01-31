@@ -145,7 +145,7 @@ function _c4m_content_group_block_c4m_block_create_group() {
           t('log in'),
           'user/login',
           array(
-            'query' => drupal_get_destination(),
+            'query' => array('destination' => request_path()),
           )
         ),
       )
