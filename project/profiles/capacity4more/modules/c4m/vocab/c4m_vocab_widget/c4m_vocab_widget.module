@@ -233,6 +233,9 @@ function c4m_vocab_widget_prepare_taxonomy_tree(array $terms) {
     }
   }
 
+  // Sort the tree in alphabetic order.
+  _c4m_vocab_widget_sort_tree_alphabetically($options);
+
   return $options;
 }
 
@@ -317,4 +320,35 @@ function c4m_vocab_widget_field_formatter_view(
   }
 
   return $element;
+}
+
+/**
+ * Recursive function that sorts the tree in alphabetic order.
+ *
+ * @param array $tree_nodes
+ *   Nodes of the tree.
+ */
+function _c4m_vocab_widget_sort_tree_alphabetically(array &$tree_nodes) {
+  usort($tree_nodes, "_c4m_vocab_widget_sort_by_label");
+
+  foreach ($tree_nodes as &$sub_tree) {
+    if (!empty($sub_tree['children']) && count($sub_tree['children']) > 1) {
+      _c4m_vocab_widget_sort_tree_alphabetically($sub_tree);
+    }
+  }
+}
+
+/**
+ * Compare 2 arrays by 'label' field of type string.
+ *
+ * @param array $option1
+ *   Group entity A to compare.
+ * @param array $option2
+ *   Group entity B to compare.
+ *
+ * @return int
+ *   Comparison value (-1 or 0 or 1).
+ */
+function _c4m_vocab_widget_sort_by_label(array $option1, array $option2) {
+  return strcmp($option1['label'], $option2['label']);
 }
