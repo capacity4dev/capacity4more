@@ -333,7 +333,7 @@ function _c4m_vocab_widget_sort_tree_alphabetically(array &$tree_nodes) {
 
   foreach ($tree_nodes as &$sub_tree) {
     if (!empty($sub_tree['children']) && count($sub_tree['children']) > 1) {
-      _c4m_vocab_widget_sort_tree_alphabetically($sub_tree);
+      _c4m_vocab_widget_sort_tree_alphabetically($sub_tree['children']);
     }
   }
 }
