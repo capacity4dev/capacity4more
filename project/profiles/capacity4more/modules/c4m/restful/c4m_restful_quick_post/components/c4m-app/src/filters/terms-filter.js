@@ -142,7 +142,7 @@ angular.module('c4mApp')
       });
 
       sorted.sort(function (a, b) {
-        return (a[field] > b[field] ? 1 : -1);
+        return (a[field].toLowerCase() > b[field].toLowerCase() ? 1 : -1);
       });
 
       return sorted;
