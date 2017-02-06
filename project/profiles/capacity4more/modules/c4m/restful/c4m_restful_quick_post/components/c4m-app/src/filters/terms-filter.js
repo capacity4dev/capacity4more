@@ -131,7 +131,7 @@ angular.module('c4mApp')
  *
  * @name c4mApp.filter:orderObjectBy
  *
- * @description Filter objects according to the 'label' field.
+ * @description Filter objects according to one of it's fields.
  */
 angular.module('c4mApp')
   .filter('orderObjectBy',[ function () {
