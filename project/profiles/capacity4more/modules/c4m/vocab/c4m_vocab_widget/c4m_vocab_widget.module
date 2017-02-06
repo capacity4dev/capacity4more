@@ -193,6 +193,7 @@ function c4m_vocab_widget_prepare_taxonomy_tree(array $terms) {
         // This is the parent term.
         $options[$term->tid]['label'] = htmlspecialchars_decode(filter_xss($term->name));
         $options[$term->tid]['id'] = $term->tid;
+        $options[$term->tid]['weight'] = $term->weight;
       }
       else {
         $id = $parents[0];
@@ -209,6 +210,7 @@ function c4m_vocab_widget_prepare_taxonomy_tree(array $terms) {
           $options[$parents[0]]['children'][] = array(
             'label' => htmlspecialchars_decode(filter_xss($term->name)),
             'id' => $term->tid,
+            'weight' => $term->weight,
           );
         }
         else {
@@ -216,6 +218,7 @@ function c4m_vocab_widget_prepare_taxonomy_tree(array $terms) {
           $children[$id]['children'][] = array(
             'label' => htmlspecialchars_decode(filter_xss($term->name)),
             'id' => $term->tid,
+            'weight' => $term->weight,
           );
         }
       }

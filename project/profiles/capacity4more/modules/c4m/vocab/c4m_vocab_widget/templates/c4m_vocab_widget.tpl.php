@@ -83,7 +83,7 @@
         </form>
         <ul>
           <li class="checkbox"
-              ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?> | orderObjectBy:'label'">
+              ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?> | orderObjectBy:'weight'">
             <label title="{{item.label}}">
               <input type="checkbox" data-target="{{item.id}}" ng-name="type" title="Check {{item.label}}"
                      ng-model="model.<?php print $vocabulary_machine_name; ?>[item.id]"
@@ -93,7 +93,7 @@
             <ul
               ng-show="item.children && model.<?php print $vocabulary_machine_name; ?>[item.id] == true"
               class="indent">
-              <li ng-repeat="child in item.children | orderObjectBy:'label'">
+              <li ng-repeat="child in item.children | orderObjectBy:'weight'">
                 <label title="{{child.label}}">
                   <input type="checkbox" data-target="{{item.id}}"  title="Check {{child.label}}"
                          ng-name="type"
@@ -104,7 +104,7 @@
                 <ul
                   ng-show="child.children && model.<?php print $vocabulary_machine_name; ?>[child.id] == true"
                   class="indent">
-                  <li ng-repeat="childChild in child.children | orderObjectBy:'label'">
+                  <li ng-repeat="childChild in child.children | orderObjectBy:'weight'">
                     <label title="{{childChild.label}}">
                       <input type="checkbox" ng-name="type" title="Check {{childChild.label}}"
                              ng-model="model.<?php print $vocabulary_machine_name; ?>[childChild.id]"
