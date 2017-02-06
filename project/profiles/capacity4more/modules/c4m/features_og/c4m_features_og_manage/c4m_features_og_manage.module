@@ -521,7 +521,7 @@ function c4m_features_og_manage_group_details() {
   }
 
   // List of related projects.
-  $related_projects = $wrapper->c4m_related_projects_unlimited->value();
+  $related_projects = $group->type == 'group' ? $wrapper->c4m_related_projects->value() : $wrapper->c4m_related_projects_unlimited->value();;
   if ($list = c4m_features_og_manage_list_related($related_projects)) {
     $details['related_projects'] = $list;
   }
