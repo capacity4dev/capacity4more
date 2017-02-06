@@ -15,18 +15,33 @@ function _c4m_content_project_block_c4m_block_create_project() {
   $markup = '';
   if ($user->uid) {
     if (user_access('create project content')) {
-      $create_project = l(t('Create a project'), 'node/add/project', array('attributes' => array('class' => array('btn', 'btn-primary'))));
-      $create_programme = l(t('Create a programme'), 'node/add/programme', array('attributes' => array('class' => array('btn', 'btn-primary'))));
+      $create_project = l(
+        t('Create a project'),
+        'node/add/project',
+        array('attributes' => array('class' => array('btn', 'btn-primary')))
+      );
+      $create_programme = l(
+        t('Create a programme'),
+        'node/add/programme',
+        array('attributes' => array('class' => array('btn', 'btn-primary')))
+      );
       $markup = $create_project . $create_programme;
     }
   }
   else {
-    $markup = t('!register or !login to create or join projects', array(
-      '!register' => l(t('Register'), 'user/register'),
-      '!login' => l(t('log in'), 'user/login', array(
-        'query' => array('destination' => request_path()),
-      )),
-    ));
+    $markup = t(
+      '!register or !login to create or join projects',
+      array(
+        '!register' => l(t('Register'), 'user/register'),
+        '!login' => l(
+          t('log in'),
+          'user/login',
+          array(
+            'query' => array('destination' => request_path()),
+          )
+        ),
+      )
+    );
   }
   return array(
     'subject' => '',
@@ -49,7 +64,8 @@ function _c4m_content_project_block_header_name_banner_project() {
 
   $tagline = $wrapper->c4m_project_tag_line->value();
 
-  $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value() : 'published';
+  $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value(
+  ) : 'published';
 
   $project_stage = $wrapper->c4m_project_stage->value();
 
@@ -97,7 +113,12 @@ function _c4m_content_project_block_c4m_block_project_partners() {
 
   if ($node = c4m_og_current_group()) {
     $block['subject'] = '';
-    $block['content'] = field_view_field('node', $node, 'c4m_partners', array('label' => 'hidden'));
+    $block['content'] = field_view_field(
+      'node',
+      $node,
+      'c4m_partners',
+      array('label' => 'hidden')
+    );
   }
 
   return $block;
@@ -111,7 +132,16 @@ function _c4m_content_project_block_c4m_block_project_projects() {
 
   if ($node = c4m_og_current_group()) {
     $block['subject'] = '';
-    $block['content'] = field_view_field('node', $node, 'c4m_related_projects_unlimited', array('label'=>'hidden', 'type' => 'entityreference_entity_view', 'settings' => array('view_mode' => 'block_list')));
+    $block['content'] = field_view_field(
+      'node',
+      $node,
+      'c4m_related_projects_unlimited',
+      array(
+        'label' => 'hidden',
+        'type' => 'entityreference_entity_view',
+        'settings' => array('view_mode' => 'block_list'),
+      )
+    );
   }
 
   return $block;
@@ -125,7 +155,16 @@ function _c4m_content_project_block_c4m_block_project_groups() {
 
   if ($node = c4m_og_current_group()) {
     $block['subject'] = '';
-    $block['content'] = field_view_field('node', $node, 'c4m_related_group', array('label'=>'hidden', 'type' => 'entityreference_entity_view', 'settings' => array('view_mode' => 'block_list')));
+    $block['content'] = field_view_field(
+      'node',
+      $node,
+      'c4m_related_group',
+      array(
+        'label' => 'hidden',
+        'type' => 'entityreference_entity_view',
+        'settings' => array('view_mode' => 'block_list'),
+      )
+    );
   }
 
   return $block;
