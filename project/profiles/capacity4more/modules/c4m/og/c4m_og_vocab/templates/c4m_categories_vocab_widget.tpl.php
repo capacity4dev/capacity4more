@@ -70,7 +70,7 @@
               {{item.label}}
             </label>
             <ul ng-show="item.selected == true" class="indent">
-              <li ng-repeat="child in item.children">
+              <li ng-repeat="child in item.children | orderObjectBy:'label'">
                 <label title="{{child.label}}">
                   <input type="checkbox" data-target="{{item.id}}"
                          ng-name="type"

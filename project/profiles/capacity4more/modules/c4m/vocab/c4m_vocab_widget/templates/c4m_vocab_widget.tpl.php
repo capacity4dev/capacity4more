@@ -93,7 +93,7 @@
             <ul
               ng-show="item.children && model.<?php print $vocabulary_machine_name; ?>[item.id] == true"
               class="indent">
-              <li ng-repeat="child in item.children">
+              <li ng-repeat="child in item.children | orderObjectBy:'label'">
                 <label title="{{child.label}}">
                   <input type="checkbox" data-target="{{item.id}}"  title="Check {{child.label}}"
                          ng-name="type"
@@ -104,7 +104,7 @@
                 <ul
                   ng-show="child.children && model.<?php print $vocabulary_machine_name; ?>[child.id] == true"
                   class="indent">
-                  <li ng-repeat="childChild in child.children">
+                  <li ng-repeat="childChild in child.children | orderObjectBy:'label'">
                     <label title="{{childChild.label}}">
                       <input type="checkbox" ng-name="type" title="Check {{childChild.label}}"
                              ng-model="model.<?php print $vocabulary_machine_name; ?>[childChild.id]"
