@@ -1994,11 +1994,9 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'module' => 'entityreference',
         'settings' => array(
-          'links' => 1,
-          'use_content_language' => 1,
-          'view_mode' => 'teaser',
+          'link' => FALSE,
         ),
-        'type' => 'entityreference_entity_view',
+        'type' => 'entityreference_label',
         'weight' => 12,
       ),
       'featured_block' => array(
