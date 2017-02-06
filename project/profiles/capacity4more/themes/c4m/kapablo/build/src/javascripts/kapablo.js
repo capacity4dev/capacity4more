@@ -200,7 +200,8 @@
                 if ($(this).hasClass("readmore-text--showmore")) {
                     $(this).text("Show less");
                     $(this).toggleClass("readmore-text--showmore");
-                } else {
+                }
+                else {
                     $(this).text("Show more");
                     $(this).toggleClass("readmore-text--showmore");
                 }
