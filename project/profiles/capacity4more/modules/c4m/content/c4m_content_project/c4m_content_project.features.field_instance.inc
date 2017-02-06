@@ -1994,9 +1994,11 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'module' => 'entityreference',
         'settings' => array(
-          'link' => FALSE,
+          'links' => 1,
+          'use_content_language' => 1,
+          'view_mode' => 'teaser',
         ),
-        'type' => 'entityreference_label',
+        'type' => 'entityreference_entity_view',
         'weight' => 12,
       ),
       'featured_block' => array(
@@ -2067,8 +2069,8 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_related_projects'.
-  $field_instances['node-project-c4m_related_projects'] = array(
+  // Exported field_instance: 'node-project-c4m_related_projects_unlimited'.
+  $field_instances['node-project-c4m_related_projects_unlimited'] = array(
     'bundle' => 'project',
     'default_value' => NULL,
     'default_value_function' => '',
@@ -2103,9 +2105,11 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'module' => 'entityreference',
         'settings' => array(
-          'link' => FALSE,
+          'links' => 1,
+          'use_content_language' => 1,
+          'view_mode' => 'teaser',
         ),
-        'type' => 'entityreference_label',
+        'type' => 'entityreference_entity_view',
         'weight' => 13,
       ),
       'featured_block' => array(
@@ -2162,7 +2166,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'c4m_related_projects',
+    'field_name' => 'c4m_related_projects_unlimited',
     'label' => 'Related Initiatives',
     'required' => 0,
     'settings' => array(

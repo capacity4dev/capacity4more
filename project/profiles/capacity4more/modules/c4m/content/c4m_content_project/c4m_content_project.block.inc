@@ -97,9 +97,35 @@ function _c4m_content_project_block_c4m_block_project_partners() {
 
   if ($node = c4m_og_current_group()) {
     $block['subject'] = '';
-    if ($nodes = node_get_recent(variable_get('node_recent_block_count', 10))) {
-      $block['content'] = field_view_field('node', $node, 'c4m_partners', array('label' => 'hidden'));
-    }
+    $block['content'] = field_view_field('node', $node, 'c4m_partners', array('label' => 'hidden'));
+  }
+
+  return $block;
+}
+
+/**
+ * Callback for the c4m_block_project_projects block.
+ */
+function _c4m_content_project_block_c4m_block_project_projects() {
+  $block = array();
+
+  if ($node = c4m_og_current_group()) {
+    $block['subject'] = '';
+    $block['content'] = field_view_field('node', $node, 'c4m_related_projects_unlimited', array('label'=>'hidden', 'type' => 'entityreference_entity_view', 'settings' => array('view_mode' => 'block_list')));
+  }
+
+  return $block;
+}
+
+/**
+ * Callback for the c4m_block_project_groups block.
+ */
+function _c4m_content_project_block_c4m_block_project_groups() {
+  $block = array();
+
+  if ($node = c4m_og_current_group()) {
+    $block['subject'] = '';
+    $block['content'] = field_view_field('node', $node, 'c4m_related_group', array('label'=>'hidden', 'type' => 'entityreference_entity_view', 'settings' => array('view_mode' => 'block_list')));
   }
 
   return $block;

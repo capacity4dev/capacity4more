@@ -60,3 +60,9 @@
     }
   }
 }
+
+.field-name-c4m-related-group-unlimited, .field-name-c4m-related-projects-unlimited {
+  .field-item {
+    @extend .sidebarblock__content--multiple;
+  }
+}
