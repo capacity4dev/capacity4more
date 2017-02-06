@@ -137,7 +137,7 @@ angular.module('c4mApp')
   .filter('orderObjectBy',[ function () {
     return function (items, field) {
       var sorted = [];
-      angular.forEach(items, function(item) {
+      angular.forEach(items, function (item) {
         sorted.push(item);
       });
 
