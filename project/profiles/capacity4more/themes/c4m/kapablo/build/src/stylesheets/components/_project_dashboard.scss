@@ -41,4 +41,22 @@
       }
     }
   }
+
+  .readmore-text {
+    display: block;
+    margin-top: 1em;
+    text-align: right;
+  }
+
+  .group-readmore {
+    .panel-body > .field {
+      border-bottom: 1px dotted $color-gray-light;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+
+      h3.label-above {
+        margin-bottom: 0.4rem;
+      }
+    }
+  }
 }
