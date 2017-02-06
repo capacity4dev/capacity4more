@@ -60,7 +60,7 @@
         </form>
         <ul ng-if="categoriesLength">
           <li class="checkbox table-display"
-              ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?>">
+              ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?> | orderObjectBy:'label'">
             <label ng-show="{{item.children.length}}"
                    ng-click="updateSelected(item);"
                    class="parent-select" title="{{item.label}}"

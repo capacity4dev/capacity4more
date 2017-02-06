@@ -83,7 +83,7 @@
         </form>
         <ul>
           <li class="checkbox"
-              ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?>">
+              ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?> | orderObjectBy:'label'">
             <label title="{{item.label}}">
               <input type="checkbox" data-target="{{item.id}}" ng-name="type" title="Check {{item.label}}"
                      ng-model="model.<?php print $vocabulary_machine_name; ?>[item.id]"
