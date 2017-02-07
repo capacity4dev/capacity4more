@@ -71,7 +71,7 @@ function c4m_content_project_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'group_dashboard';
   $ds_fieldsetting->settings = array(
     'c4m_content_group_statistics' => array(
-      'weight' => '9',
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -91,7 +91,7 @@ function c4m_content_project_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_content_actions' => array(
-      'weight' => '10',
+      'weight' => '8',
       'label' => 'above',
       'format' => 'default',
       'formatter_settings' => array(
@@ -236,23 +236,6 @@ function c4m_content_project_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_related_projects' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb-col' => TRUE,
-          'lbw' => 1,
-          'lbw-el' => 'h3',
-          'lbw-cl' => 'label-above',
-          'ow' => TRUE,
-          'ow-el' => 'div',
-          'ow-cl' => '',
-          'ow-def-cl' => TRUE,
-          'ow-at' => '',
-          'ow-def-at' => TRUE,
-        ),
-      ),
-    ),
     'c4m_source_of_funding' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -295,23 +278,6 @@ function c4m_content_project_ds_field_settings_info() {
       ),
     ),
     'c4m_vocab_topic' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb-col' => TRUE,
-          'lbw' => 1,
-          'lbw-el' => 'h3',
-          'lbw-cl' => 'label-above',
-          'ow' => TRUE,
-          'ow-el' => 'div',
-          'ow-cl' => '',
-          'ow-def-cl' => TRUE,
-          'ow-at' => '',
-          'ow-def-at' => TRUE,
-        ),
-      ),
-    ),
-    'c4m_related_group' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -545,14 +511,13 @@ function c4m_content_project_ds_layout_settings_info() {
         2 => 'c4m_source_of_funding',
         3 => 'c4m_money',
         4 => 'c4m_project_stakeholders',
-        5 => 'c4m_cris_contract_number',
+        5 => 'c4m_vocab_topic',
         6 => 'c4m_cris_decision_number',
-        7 => 'c4m_vocab_topic',
-        8 => 'c4m_vocab_geo',
+        7 => 'c4m_vocab_geo',
+        8 => 'c4m_cris_contract_number',
         9 => 'c4m_content_group_statistics',
         10 => 'c4m_ds_content_actions',
-        11 => 'c4m_related_group',
-        12 => 'c4m_related_projects',
+        11 => 'group_readmore',
       ),
     ),
     'fields' => array(
@@ -561,14 +526,13 @@ function c4m_content_project_ds_layout_settings_info() {
       'c4m_source_of_funding' => 'ds_content',
       'c4m_money' => 'ds_content',
       'c4m_project_stakeholders' => 'ds_content',
-      'c4m_cris_contract_number' => 'ds_content',
-      'c4m_cris_decision_number' => 'ds_content',
       'c4m_vocab_topic' => 'ds_content',
+      'c4m_cris_decision_number' => 'ds_content',
       'c4m_vocab_geo' => 'ds_content',
+      'c4m_cris_contract_number' => 'ds_content',
       'c4m_content_group_statistics' => 'ds_content',
       'c4m_ds_content_actions' => 'ds_content',
-      'c4m_related_group' => 'ds_content',
-      'c4m_related_projects' => 'ds_content',
+      'group_readmore' => 'ds_content',
     ),
     'classes' => array(
       'layout_class' => array(
