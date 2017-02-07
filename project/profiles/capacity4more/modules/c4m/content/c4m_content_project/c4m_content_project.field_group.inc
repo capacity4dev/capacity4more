@@ -114,7 +114,7 @@ function c4m_content_project_field_group_info() {
     'label' => 'Related content',
     'weight' => '13',
     'children' => array(
-      0 => 'c4m_related_projects',
+      0 => 'c4m_related_projects_unlimited',
       1 => 'c4m_related_group',
     ),
     'format_type' => 'fieldset',
