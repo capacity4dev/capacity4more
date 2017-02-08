@@ -47,6 +47,7 @@ function _c4m_search_block_facetapi_view_alter(&$data, $block) {
     // Content type specific.
     // Group type.
     '0fu22cwdXHTX0SCpBBcEbOR77Jm1IfBp' => t('Type'),
+    'yxOyG0dJbBLQDLZCpS9EuYjzha6J9TNN' => t('Type'),
     // Discussion type.
     'RA7qZWw02okb78IuBysWTadEIVCrCL1b' => t('Type'),
     // Document type.

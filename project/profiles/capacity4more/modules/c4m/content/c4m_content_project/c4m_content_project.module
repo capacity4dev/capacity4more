@@ -102,6 +102,16 @@ function c4m_content_project_block_info() {
     'cache' => DRUPAL_NO_CACHE,
   );
 
+  $blocks['c4m_block_project_groups'] = array(
+    'info' => t('Project: Groups'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  $blocks['c4m_block_project_projects'] = array(
+    'info' => t('Project: Projects'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
   $blocks['c4m_block_project_about'] = array(
     'info' => t('Project: About'),
     'cache' => DRUPAL_NO_CACHE,
@@ -140,8 +150,8 @@ function c4m_content_project_form_project_node_form_alter(array &$form, array &$
 
   _c4m_og_alter_group_form($form, $form_state, $type);
 
-  // Type specific title for the field "c4m_related_projects".
-  $form['c4m_related_projects'][LANGUAGE_NONE]['#title']
+  // Type specific title for the field "c4m_related_projects_unlimited".
+  $form['c4m_related_projects_unlimited'][LANGUAGE_NONE]['#title']
     = ($form['c4m_project_type'][LANGUAGE_NONE]['#default_value'][0] == 'programme') ?
       t('Projects in this Programme') :
       t('Related Projects');
@@ -529,23 +539,29 @@ function c4m_content_project_blockreference_blocks_pre_alter(
  */
 function c4m_content_project_c4m_content_project_blockreference_whitelist() {
   return array(
+    'c4m_content_project:c4m_block_project_projects' => array(
+      'label' => t('Related initiatives (projects/programmes)'),
+    ),
+    'c4m_content_project:c4m_block_project_groups' => array(
+      'label' => t('Related groups'),
+    ),
     'c4m_content_project:c4m_block_project_partners' => array(
-      'label' => t('Project/programme partners'),
+      'label' => t('Partners'),
     ),
     'views:c4m_project_news-block' => array(
-      'label' => t('Project/programme news'),
+      'label' => t('Latest news'),
     ),
     'views:c4m_project_events-block' => array(
-      'label' => t('Project/programme events'),
+      'label' => t('Upcoming vents'),
     ),
     'views:c4m_project_highlights-block' => array(
-      'label' => t('Project/programme highlights'),
+      'label' => t('Highlights block'),
     ),
     'c4m_content_project:c4m_block_project_about' => array(
-      'label' => t('Project/programme about'),
+      'label' => t('About this project/programme'),
     ),
     'c4m_search_og:c4m_search_group_form' => array(
-      'label' => t('Project/programme search'),
+      'label' => t('Search block'),
     ),
   );
 }
@@ -634,6 +650,12 @@ function c4m_content_project_c4m_cta_block() {
   // A blocked (banned) user should not be able to see the CTA block.
   $user_role = c4m_user_og_get_role_in_group($user, $group);
   if ($user_role == 'blocked') {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $group);
+  // Do not present CTA block for archived group.
+  if ($wrapper->c4m_og_status->value() == 'archived') {
     return;
   }
 
@@ -982,7 +1004,7 @@ function c4m_content_project_node_view_alter(&$build) {
     return;
   }
 
-  $build['c4m_related_projects']['#title'] = t('Related Programmes');
+  $build['c4m_related_projects_unlimited']['#title'] = t('Related Programmes');
 }
 
 /**

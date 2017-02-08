@@ -588,6 +588,12 @@ function c4m_user_og_c4m_cta_block() {
     return;
   }
 
+  $wrapper = entity_metadata_wrapper('node', $group);
+  // Do not present CTA block for archived group.
+  if ($wrapper->c4m_og_status->value() == 'archived') {
+    return;
+  }
+
   $items = array();
 
   if ($item = c4m_user_og_group_management_cta($group)) {
@@ -775,6 +781,7 @@ function c4m_user_og_group_management_cta($group) {
     $items['#links'][] = $item;
   }
 
+  // Do not allow to invite users into read-only group.
   if ($item = c4m_user_og_c4m_invite_cta($group)) {
     $items['#links']['invite'] = $item;
   }

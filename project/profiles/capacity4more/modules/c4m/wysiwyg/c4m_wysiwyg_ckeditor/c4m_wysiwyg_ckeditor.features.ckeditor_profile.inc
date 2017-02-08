@@ -125,7 +125,7 @@ function c4m_wysiwyg_ckeditor_ckeditor_profile_defaults() {
         'ckfinder_path' => '%m/ckfinder',
         'ckfinder_local_path' => '',
         'ckeditor_allow_download_private_files' => 0,
-        'private_dir' => 'media/%n',
+        'private_dir' => 'media/',
         'ckeditor_aggregate' => 'f',
         'toolbar_wizard' => 't',
         'loadPlugins' => array(),

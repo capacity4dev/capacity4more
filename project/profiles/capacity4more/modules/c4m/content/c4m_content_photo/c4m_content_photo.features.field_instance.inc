@@ -524,7 +524,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 30,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -626,7 +626,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 29,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -735,7 +735,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 27,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -845,7 +845,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 28,
       ),
       'upcoming_event' => array(
         'label' => 'above',

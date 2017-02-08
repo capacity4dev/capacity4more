@@ -56,23 +56,23 @@ function c4m_features_overview_groups_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-10',
         ),
-        'facetapi-0fu22cwdXHTX0SCpBBcEbOR77Jm1IfBp' => array(
+        'facetapi-yxOyG0dJbBLQDLZCpS9EuYjzha6J9TNN' => array(
           'module' => 'facetapi',
-          'delta' => '0fu22cwdXHTX0SCpBBcEbOR77Jm1IfBp',
+          'delta' => 'yxOyG0dJbBLQDLZCpS9EuYjzha6J9TNN',
           'region' => 'sidebar_first',
-          'weight' => '-9',
+          'weight' => '-8',
         ),
         'facetapi-SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E' => array(
           'module' => 'facetapi',
           'delta' => 'SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E',
           'region' => 'sidebar_first',
-          'weight' => '-8',
+          'weight' => '-7',
         ),
         'facetapi-JQeEQzhfJJBhHcXpX4531H7GTXL1viNU' => array(
           'module' => 'facetapi',
           'delta' => 'JQeEQzhfJJBhHcXpX4531H7GTXL1viNU',
           'region' => 'sidebar_first',
-          'weight' => '-7',
+          'weight' => '-6',
         ),
       ),
     ),

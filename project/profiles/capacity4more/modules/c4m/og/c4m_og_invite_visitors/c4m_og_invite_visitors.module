@@ -492,20 +492,13 @@ function c4m_og_invite_visitors_mail_tokens(array &$replacements, array $data, a
   global $user, $base_url;
 
   $group = c4m_og_current_group();
-  $url_options = array(
-    'absolute' => TRUE,
-    'purl' => array(
-      'provider' => 'og_purl|node',
-      'id' => $group->nid,
-    ),
-  );
+  $url_options = array('absolute' => TRUE);
 
   $replacements['[user:full_name]'] = c4m_user_name($user);
   $replacements['[user:public-profile-url]'] = $base_url . '/users/' . c4m_og_human_to_machine_readable($replacements['[user:full_name]']);
   $replacements['[group:node_type]'] = $group->type;
   $replacements['[group:node_title]'] = $group->title;
-  $replacements['[group:accept_invite_url]'] = url('user/registration/join-group/' . $group->nid . '/' . $data['invitation']['token']);
-  $replacements['[group:dashboard_url]'] = url('<front>', $url_options);
+  $replacements['[group:accept_invite_url]'] = url('user/registration/join-group/' . $group->nid . '/' . $data['invitation']['token'], $url_options);
   $replacements['[personal:subject]'] = $data['form_fields']['subject'];
   $replacements['[personal:body]'] = $data['form_fields']['body'];
   $replacements['[site:name]'] = variable_get('site_name', 'Capacity 4 More');

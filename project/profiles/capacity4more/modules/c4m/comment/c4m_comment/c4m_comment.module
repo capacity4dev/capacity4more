@@ -178,7 +178,7 @@ function c4m_comment_node_view_alter(&$build) {
         t('log in'),
         'user/login',
         array(
-          'query' => drupal_get_destination(),
+          'query' => array('destination' => request_path()),
         )
       );
 
