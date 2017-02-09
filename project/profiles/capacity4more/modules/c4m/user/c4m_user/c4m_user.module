@@ -339,7 +339,11 @@ function _c4m_user_initials_colors() {
  */
 function c4m_user_action_info() {
   module_load_include('inc', 'c4m_user', 'actions/c4m_user_contact.action');
-  module_load_include('inc', 'c4m_user', 'actions/c4m_user_contact_multiple.action');
+  module_load_include(
+    'inc',
+    'c4m_user',
+    'actions/c4m_user_contact_multiple.action'
+  );
 
   $actions = c4m_user_contact_action_info();
   $actions += c4m_user_contact_multiple_action_info();
@@ -548,7 +552,7 @@ function c4m_user_c4m_helper_entity_metrics_info() {
   return array(
     'c4m_user_organisations' => array(
       'type' => 'organisations',
-      'context'  => 'user',
+      'context' => 'user',
       'callback' => 'c4m_user_get_organisations',
     ),
   );
@@ -805,11 +809,17 @@ function c4m_user_contact_form_validate($form, $form_state) {
   $body = $form_state['values']['c4m_contact_user_body']['value'];
 
   if (empty($subject)) {
-    form_error($form['c4m_contact_user_subject'], 'The subject of the mail can\'t be empty.');
+    form_error(
+      $form['c4m_contact_user_subject'],
+      'The subject of the mail can\'t be empty.'
+    );
   }
 
   if (empty($body)) {
-    form_error($form['c4m_contact_user_body'], 'The body of the mail can\'t be empty.');
+    form_error(
+      $form['c4m_contact_user_body'],
+      'The body of the mail can\'t be empty.'
+    );
   }
 }
 
@@ -828,14 +838,27 @@ function c4m_user_contact_form_submit($form, $form_state) {
   $subject = $form_state['values']['c4m_contact_user_subject'];
   $body = $form_state['values']['c4m_contact_user_body']['value'];
 
-  _c4m_user_send_mail($addressee_account->mail, $user->mail, $subject, $body, $addressee_language);
+  _c4m_user_send_mail(
+    $addressee_account->mail,
+    $user->mail,
+    $subject,
+    $body,
+    $addressee_language
+  );
 
   if ($form_state['values']['c4m_contact_user_self_copy']) {
     // Sending a copy of the mail to the sender since the user checked
     // the "Send me a copy" checkbox on the form. Do not display status
     // message for it.
     $user_language = user_preferred_language($user);
-    _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body, $user_language, TRUE);
+    _c4m_user_send_mail(
+      $user->mail,
+      $user->mail,
+      "Self copy: {$subject}",
+      $body,
+      $user_language,
+      TRUE
+    );
   }
 }
 
@@ -855,7 +878,14 @@ function c4m_user_contact_form_submit($form, $form_state) {
  * @param bool $silent
  *   Whether to display a status message or not.
  */
-function _c4m_user_send_mail($to, $from, $subject, $body, $language, $silent = FALSE) {
+function _c4m_user_send_mail(
+  $to,
+  $from,
+  $subject,
+  $body,
+  $language,
+  $silent = FALSE
+) {
   $module = 'c4m_user';
   $key = 'user_contact_mail';
   $params = array();
@@ -879,9 +909,11 @@ function _c4m_user_send_mail($to, $from, $subject, $body, $language, $silent = F
       '%from' => $message['from'],
       '%to' => $message['to'],
     );
-    watchdog('c4m_user_send_mail',
+    watchdog(
+      'c4m_user_send_mail',
       'Attempt to send mail (from %from to %to) failed.',
-      $variables, WATCHDOG_ERROR
+      $variables,
+      WATCHDOG_ERROR
     );
 
     if (!$silent) {
@@ -947,13 +979,19 @@ function c4m_user_block_view($delta) {
  * @param string|object $whitelist_domain
  *   (optional) Email domain object. If NULL LDAP info should be removed.
  */
-function c4m_user_update_information($account, $domain = '', $whitelist_domain = '') {
+function c4m_user_update_information(
+  $account,
+  $domain = '',
+  $whitelist_domain = ''
+) {
   $edit = array();
 
   $domain_user = new C4mDomainUser($account->mail);
   // Whitelist addresses should be found in domains list but may not be present
   // in LDAP.
-  if (isset($domain) && ($domain || $domain = $domain_user->getEmailDomainByName())) {
+  if (isset($domain) && ($domain || $domain = $domain_user->getEmailDomainByName(
+      ))
+  ) {
     $ldap = new C4mLDAPUser();
     if ($ldap->isUp()) {
       $info = $ldap->getInfo($account->mail);
@@ -970,7 +1008,9 @@ function c4m_user_update_information($account, $domain = '', $whitelist_domain =
         $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 1;
         $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
       }
-      elseif (isset($whitelist_domain) && ($whitelist_domain || $whitelist_domain = $domain_user->getEmailDomainByWhitelist())) {
+      elseif (isset($whitelist_domain) && ($whitelist_domain || $whitelist_domain = $domain_user->getEmailDomainByWhitelist(
+          ))
+      ) {
         if ($whitelist_domain->organisation_name) {
           $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $whitelist_domain->organisation_name;
         }
@@ -994,10 +1034,12 @@ function c4m_user_update_information($account, $domain = '', $whitelist_domain =
     $organisation = array_shift($organisations);
     $organisation = entity_metadata_wrapper('node', $organisation);
     if ($organisation->c4m_organisation_type->value()) {
-      $edit['c4m_organisation_type'][LANGUAGE_NONE]['0']['value'] = $organisation->c4m_organisation_type->value();
+      $edit['c4m_organisation_type'][LANGUAGE_NONE]['0']['value'] = $organisation->c4m_organisation_type->value(
+      );
     }
     if (empty($edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'])) {
-      $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $organisation->title->value();
+      $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $organisation->title->value(
+      );
     }
     $edit['c4m_is_organisation_user'][LANGUAGE_NONE]['0']['value'] = 1;
   }
@@ -1130,7 +1172,10 @@ function c4m_user_c4m_domain_presave($entity) {
     // When editing, the list contains the addresses new or deleted to / from
     // the whitelist.
     $new_emails = array_diff($entity->whitelist, $entity->original->whitelist);
-    $deleted_emails = array_diff($entity->original->whitelist, $entity->whitelist);
+    $deleted_emails = array_diff(
+      $entity->original->whitelist,
+      $entity->whitelist
+    );
   }
   else {
     $new_emails = $entity->whitelist;
@@ -1295,7 +1340,8 @@ function c4m_user_get_node_metric($uid, array $bundles) {
  *
  * Using hook_c4m_offcanvas_trigger_label_left_alter().
  */
-function c4m_user_c4m_offcanvas_trigger_label_left_alter(array &$trigger_label) {
+function c4m_user_c4m_offcanvas_trigger_label_left_alter(array &$trigger_label
+) {
   if (arg(0) == 'people' && empty(arg(1))) {
     $trigger_label['label'] = t('Filter results');
     $trigger_label['icon'] = 'filter';
@@ -1337,7 +1383,11 @@ function c4m_user_module_implements_alter(&$implementations, $hook) {
  *
  * Updates value of submit button and remove the header.
  */
-function c4m_user_form_views_form_c4m_overview_og_members_page_alter(&$form, &$form_state, $form_id) {
+function c4m_user_form_views_form_c4m_overview_og_members_page_alter(
+  &$form,
+  &$form_state,
+  $form_id
+) {
   // Remove the 'Operations' header.
   $form['select']['#title'] = '';
 
@@ -1345,7 +1395,11 @@ function c4m_user_form_views_form_c4m_overview_og_members_page_alter(&$form, &$f
   if (isset($form['select_all_markup']['#markup'])) {
     // VBO module doesn't provide an option to change 'Select all' labels,
     // hence the only option is to replace the text on the markup.
-    $form['select_all_markup']['#markup'] = str_replace('Select all items', 'Select all members', $form['select_all_markup']['#markup']);
+    $form['select_all_markup']['#markup'] = str_replace(
+      'Select all items',
+      'Select all members',
+      $form['select_all_markup']['#markup']
+    );
   }
 }
 
@@ -1357,9 +1411,13 @@ function c4m_user_form_views_form_c4m_overview_og_members_page_alter(&$form, &$f
  */
 function c4m_user_login_validate($form, &$form_state) {
   if (isset($form_state['values']['name']) && $form_state['values']['name']) {
-    if ($name = db_query("SELECT name FROM {users} WHERE LOWER(mail) = LOWER(:name)", array(
-      ':name' => $form_state['values']['name'],
-    ))->fetchField()) {
+    if ($name = db_query(
+      "SELECT name FROM {users} WHERE LOWER(mail) = LOWER(:name)",
+      array(
+        ':name' => $form_state['values']['name'],
+      )
+    )->fetchField()
+    ) {
       form_set_value($form['name'], $name, $form_state);
     }
   }
@@ -1377,13 +1435,32 @@ function c4m_user_form_alter(&$form, &$form_state, $form_id) {
   }
 
   // Ensure a valid validate array.
-  $form['#validate'] = is_array($form['#validate']) ? $form['#validate'] : array();
+  $form['#validate'] = is_array(
+    $form['#validate']
+  ) ? $form['#validate'] : array();
 
   // Our validation function must run first.
   array_unshift($form['#validate'], 'c4m_user_login_validate');
 
   // Alter the title and description to mention email login option.
   $form['name']['#title'] = t('Username or e-mail address');
+
+  $form['password'] = array(
+    '#markup' => t(
+      'If you forgot your login or password, you can <a href="@request">recover it here</a>.',
+      array(
+        '@request' => url(
+          'user/password',
+          array(
+            'absolute' => TRUE,
+            'query' => c4m_og_purl_get_destination(),
+          )
+        ),
+      )
+    ),
+    '#prefix' => '<p class="text-small text-muted">',
+    '#suffix' => '</p>',
+  );
 }
 
 /**
@@ -1395,7 +1472,15 @@ function c4m_user_form_alter(&$form, &$form_state, $form_id) {
  */
 function c4m_user_registrationpassword_confirmation_url($account) {
   $timestamp = REQUEST_TIME;
-  return url("user/registrationpassword/$account->uid/$timestamp/" . user_pass_rehash($account->pass, $timestamp, $account->name, $account->uid), array('absolute' => TRUE, 'purl' => array('disabled' => TRUE)));
+  return url(
+    "user/registrationpassword/$account->uid/$timestamp/" . user_pass_rehash(
+      $account->pass,
+      $timestamp,
+      $account->name,
+      $account->uid
+    ),
+    array('absolute' => TRUE, 'purl' => array('disabled' => TRUE))
+  );
 }
 
 /**

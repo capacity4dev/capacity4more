@@ -17,6 +17,10 @@ function c4m_features_footer_block_info() {
     'info' => t('Footer menu'),
     'cache' => DRUPAL_CACHE_GLOBAL,
   );
+  $blocks['c4m_footer_logo'] = array(
+    'info' => t('Footer logo (hands)'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
   return $blocks;
 }
 
@@ -41,6 +45,12 @@ function c4m_features_footer_block_view($delta = '') {
       $block['content'] = render($footer_menu);
       break;
 
+    case 'c4m_footer_logo':
+      $footer_logo = array('#theme' => 'c4m_footer_logo');
+
+      $block['content'] = render($footer_logo);
+      break;
+
   }
   return $block;
 }
@@ -53,15 +63,22 @@ function c4m_features_footer_theme() {
     'variables' => array(
       'data' => array(),
     ),
-    'file'  => 'c4m_features_footer.theme.inc',
-    'path'  => drupal_get_path('module', 'c4m_features_footer') . '/includes',
+    'file' => 'c4m_features_footer.theme.inc',
+    'path' => drupal_get_path('module', 'c4m_features_footer') . '/includes',
   );
   $theme['c4m_footer_menu'] = array(
     'variables' => array(
       'data' => array(),
     ),
-    'file'  => 'c4m_features_footer.theme.inc',
-    'path'  => drupal_get_path('module', 'c4m_features_footer') . '/includes',
+    'file' => 'c4m_features_footer.theme.inc',
+    'path' => drupal_get_path('module', 'c4m_features_footer') . '/includes',
+  );
+  $theme['c4m_footer_logo'] = array(
+    'variables' => array(
+      'data' => array(),
+    ),
+    'file' => 'c4m_features_footer.theme.inc',
+    'path' => drupal_get_path('module', 'c4m_features_footer') . '/includes',
   );
   $theme['c4m_footer_bar_project'] = array(
     'variables' => array(

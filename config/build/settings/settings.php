@@ -35,7 +35,7 @@ $conf['block_cache'] = TRUE;
 $conf['page_compression'] = TRUE;
 $conf['preprocess_css'] = TRUE;
 $conf['preprocess_js'] = TRUE;
-$conf['cache_lifetime'] = 0;
+$conf['cache_lifetime'] = 5 * 60;
 $conf['page_cache_maximum_age'] = 10 * 60; // 10 minutes
 
 /**

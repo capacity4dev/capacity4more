@@ -212,7 +212,7 @@ function c4m_content_photo_field_default_field_instances() {
         'weight' => 7,
       ),
       'teaser_group' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'smart_trim',
         'settings' => array(
           'more_link' => FALSE,
@@ -389,7 +389,7 @@ function c4m_content_photo_field_default_field_instances() {
         'weight' => 6,
       ),
       'teaser_group' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
@@ -423,12 +423,26 @@ function c4m_content_photo_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'image',
+      'module' => 'media',
       'settings' => array(
-        'preview_image_style' => 'fullwidth',
-        'progress_indicator' => 'throbber',
+        'allowed_schemes' => array(
+          'private' => 'private',
+          'public' => 0,
+        ),
+        'allowed_types' => array(
+          'audio' => 0,
+          'document' => 0,
+          'image' => 'image',
+          'video' => 0,
+        ),
+        'browser_plugins' => array(
+          'media_default--media_browser_1' => 0,
+          'media_default--media_browser_2' => 0,
+          'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
+          'upload' => 'upload',
+        ),
       ),
-      'type' => 'image_image',
+      'type' => 'media_generic',
       'weight' => 2,
     ),
   );
@@ -510,7 +524,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 30,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -612,7 +626,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 29,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -721,7 +735,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 27,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -831,7 +845,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 28,
       ),
       'upcoming_event' => array(
         'label' => 'above',

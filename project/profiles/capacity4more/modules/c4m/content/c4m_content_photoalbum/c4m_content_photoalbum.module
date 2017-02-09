@@ -132,7 +132,7 @@ function c4m_content_photoalbum_entity_type_label_alter(&$variables) {
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * Adding the purl to the pulpload url so the photos will be created with
+ * Adding the purl to the plupload url so the photos will be created with
  * context.
  */
 function c4m_content_photoalbum_form_node_gallery_api_plupload_form_alter(&$form, &$form_state, $form_id, $f) {
@@ -149,6 +149,7 @@ function c4m_content_photoalbum_form_node_gallery_api_plupload_form_alter(&$form
   }
 
   $url_options = array(
+    'absolute' => TRUE,
     'purl' => array(
       'enabled' => TRUE,
       'provider' => 'og_purl|node',

@@ -95,16 +95,8 @@ function theme_c4m_content_wiki_page_collapse(array $field) {
  *   The rendered version of the field if the access check is TRUE.
  */
 function theme_c4m_content_wiki_page_add_links(array $field) {
-  $group = og_context();
-
-  // See if user should access these links.
-  if (!$group ||
-    !og_user_access(
-      $group['group_type'],
-      $group['gid'],
-      'create wiki_page content'
-    )
-  ) {
+  // Not under group context, or user not allowed to create wiki pages.
+  if (!og_context() || !node_access('create', 'wiki_page')) {
     return;
   }
 
