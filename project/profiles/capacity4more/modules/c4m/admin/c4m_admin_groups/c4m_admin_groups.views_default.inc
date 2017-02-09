@@ -369,13 +369,6 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['group_metrics_9']['label'] = 'Contributors';
   $handler->display->display_options['fields']['group_metrics_9']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['group_metrics_9']['c4m_admin_groups_group_metric'] = 'group::contributors';
-  /* Field: Content: Group metrics */
-  $handler->display->display_options['fields']['group_metrics_11']['id'] = 'group_metrics_11';
-  $handler->display->display_options['fields']['group_metrics_11']['table'] = 'node';
-  $handler->display->display_options['fields']['group_metrics_11']['field'] = 'group_metrics';
-  $handler->display->display_options['fields']['group_metrics_11']['label'] = 'Contributors/Active members (in %)';
-  $handler->display->display_options['fields']['group_metrics_11']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_metrics_11']['c4m_admin_groups_group_metric'] = 'group::contributors_vs_pending_members';
   /* Field: Flags: Flag counter */
   $handler->display->display_options['fields']['count']['id'] = 'count';
   $handler->display->display_options['fields']['count']['table'] = 'flag_counts';
