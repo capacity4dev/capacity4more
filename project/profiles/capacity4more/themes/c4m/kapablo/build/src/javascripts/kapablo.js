@@ -188,27 +188,6 @@
         }
     };
 
-    Drupal.behaviors.readMoreProject = {
-        attach: function (context, settings) {
-            var readMore = $(".group-readmore");
-            var link = "<a class=\"readmore-text readmore-text--showmore\" data-toggle=\"collapse\" href=\"#readmorecontent\" aria-expanded=\"false\" aria-controls=\"readmorecontent\">Show more</a>";
-
-            readMore.after(link);
-
-            $(".readmore-text").on("click", function () {
-                "use strict";
-                if ($(this).hasClass("readmore-text--showmore")) {
-                    $(this).text("Show less");
-                    $(this).toggleClass("readmore-text--showmore");
-                }
-                else {
-                    $(this).text("Show more");
-                    $(this).toggleClass("readmore-text--showmore");
-                }
-            });
-        }
-    };
-
     Drupal.behaviors.initTooltips = {
         attach: function (context, settings) {
             var tooltips = $('[data-toggle="tooltip"]');
