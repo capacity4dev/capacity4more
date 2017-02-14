@@ -31,7 +31,7 @@ function theme_c4m_content_share_original_group(array $field) {
 
   $group_link = l(
     $group_wrapper->title->value(),
-    url('node/' . $group_wrapper->get('nid')->value(), array('purl' => array('disabled' => FALSE)))
+    url('node/' . $group_wrapper->get('nid')->value(), array('purl' => array('disabled' => FALSE), 'absolute' => TRUE))
   );
 
   $bundle = $group_wrapper->getBundle();
