@@ -153,7 +153,7 @@ function c4m_content_photoalbum_form_node_gallery_api_plupload_form_alter(&$form
   // In case site is hosted on custom path-based domain (www.example.com/foo),
   // cut the path which comes after domain. It will be added by url().
   if ($position != 0) {
-    $upload_url = substr( $upload_url, $position);
+    $upload_url = substr($upload_url, $position);
   }
 
   $url_options = array(
