@@ -14,11 +14,18 @@ function c4m_user_notifications_notify_admins_user_deleted($account) {
 /**
  * Email notification on membership request to moderated group, to group admins.
  */
-function c4m_user_notifications_moderated_group_new_membership_request($membership) {
-  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($membership->gid);
+function c4m_user_notifications_moderated_group_new_membership_request(
+  $membership
+) {
+  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification(
+    $membership->gid
+  );
 
   foreach ($group_admins_ids as $admin_id) {
-    _c4m_user_notifications_moderated_group_admin_new_membership_request($membership, $admin_id);
+    _c4m_user_notifications_moderated_group_admin_new_membership_request(
+      $membership,
+      $admin_id
+    );
   }
 }
 
@@ -28,8 +35,14 @@ function c4m_user_notifications_moderated_group_new_membership_request($membersh
  * Email notification on membership request to moderated group, to group admin
  * / owner.
  */
-function _c4m_user_notifications_moderated_group_admin_new_membership_request($membership, $admin_id) {
-  $message = message_create('c4m_new_membership_request', array('uid' => $admin_id));
+function _c4m_user_notifications_moderated_group_admin_new_membership_request(
+  $membership,
+  $admin_id
+) {
+  $message = message_create(
+    'c4m_new_membership_request',
+    array('uid' => $admin_id)
+  );
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_new_membership_request($message);
 
@@ -46,7 +59,10 @@ function _c4m_user_notifications_moderated_group_admin_new_membership_request($m
  * Email notification to user that his membership request awaits approval.
  */
 function c4m_user_notifications_notify_user_membership_pending($membership) {
-  $message = message_create('c4m_notify_user_membership_pending', array('uid' => $membership->etid));
+  $message = message_create(
+    'c4m_notify_user_membership_pending',
+    array('uid' => $membership->etid)
+  );
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_notify_user_membership_pending($message);
 
@@ -61,7 +77,10 @@ function c4m_user_notifications_notify_user_membership_pending($membership) {
  * Email notification to user about acceptance to group (moderated and open).
  */
 function c4m_user_notifications_notify_user_membership_accepted($membership) {
-  $message = message_create('c4m_welcome_to_group', array('uid' => $membership->etid));
+  $message = message_create(
+    'c4m_welcome_to_group',
+    array('uid' => $membership->etid)
+  );
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_welcome_to_group($message);
 
@@ -76,11 +95,18 @@ function c4m_user_notifications_notify_user_membership_accepted($membership) {
 /**
  * Email notification to group admins about new member at moderated group.
  */
-function c4m_user_notifications_moderated_group_notify_admins_membership_accepted($membership) {
-  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($membership->gid);
+function c4m_user_notifications_moderated_group_notify_admins_membership_accepted(
+  $membership
+) {
+  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification(
+    $membership->gid
+  );
 
   foreach ($group_admins_ids as $admin_id) {
-    _c4m_user_notifications_moderated_group_notify_admins_membership_accepted($membership, $admin_id);
+    _c4m_user_notifications_moderated_group_notify_admins_membership_accepted(
+      $membership,
+      $admin_id
+    );
   }
 }
 
@@ -95,9 +121,15 @@ function c4m_user_notifications_moderated_group_notify_admins_membership_accepte
  * @param int $admin_id
  *   Addressee admin uid.
  */
-function _c4m_user_notifications_moderated_group_notify_admins_membership_accepted(Entity $membership, $admin_id) {
+function _c4m_user_notifications_moderated_group_notify_admins_membership_accepted(
+  Entity $membership,
+  $admin_id
+) {
   global $user;
-  $message = message_create('c4m_notify_admins_membership_approved', array('uid' => $admin_id));
+  $message = message_create(
+    'c4m_notify_admins_membership_approved',
+    array('uid' => $admin_id)
+  );
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_notify_admins_membership_accepted($message);
 
@@ -114,11 +146,18 @@ function _c4m_user_notifications_moderated_group_notify_admins_membership_accept
 /**
  * Email notification to group admins about new member at open group.
  */
-function c4m_user_notifications_open_group_notify_admins_membership_accepted($membership) {
-  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($membership->gid);
+function c4m_user_notifications_open_group_notify_admins_membership_accepted(
+  $membership
+) {
+  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification(
+    $membership->gid
+  );
 
   foreach ($group_admins_ids as $admin_id) {
-    _c4m_user_notifications_open_group_notify_admin_membership_accepted($membership, $admin_id);
+    _c4m_user_notifications_open_group_notify_admin_membership_accepted(
+      $membership,
+      $admin_id
+    );
   }
 }
 
@@ -127,7 +166,10 @@ function c4m_user_notifications_open_group_notify_admins_membership_accepted($me
  *
  * Email notification to group admin/owner about new member at open group.
  */
-function _c4m_user_notifications_open_group_notify_admin_membership_accepted($membership, $admin_id) {
+function _c4m_user_notifications_open_group_notify_admin_membership_accepted(
+  $membership,
+  $admin_id
+) {
   $message = message_create('c4m_new_member_joined', array('uid' => $admin_id));
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_new_member_joined($message);
@@ -145,10 +187,16 @@ function _c4m_user_notifications_open_group_notify_admin_membership_accepted($me
 /**
  * Email notification to user about rejection of membership request.
  */
-function c4m_user_notifications_moderated_group_notify_user_membership_rejected(array &$form, array &$form_state) {
+function c4m_user_notifications_moderated_group_notify_user_membership_rejected(
+  array &$form,
+  array &$form_state
+) {
   global $user;
   $membership = $form_state['membership'];
-  $message = message_create('c4m_membership_request_rejected', array('uid' => $membership->etid));
+  $message = message_create(
+    'c4m_membership_request_rejected',
+    array('uid' => $membership->etid)
+  );
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_membership_request_rejected($message);
   $message->arguments['@membership_reject_reason'] = $form_state['values']['reject_membership_request_message'];
@@ -165,10 +213,16 @@ function c4m_user_notifications_moderated_group_notify_user_membership_rejected(
 /**
  * Email notification to group owner, when group is approved.
  */
-function c4m_user_notifications_notify_user_group_approved($gid, $admin_comment = '') {
+function c4m_user_notifications_notify_user_group_approved(
+  $gid,
+  $admin_comment = ''
+) {
   $group = node_load($gid);
 
-  $message = message_create('c4m_group_request_approved', array('uid' => $group->uid));
+  $message = message_create(
+    'c4m_group_request_approved',
+    array('uid' => $group->uid)
+  );
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_request_approved($message);
   $message->arguments['@admin_comment'] = $admin_comment;
@@ -198,10 +252,15 @@ function c4m_user_notifications_notify_user_membership_canceled($entity) {
  * Status changed from 'draft' to 'published'.
  */
 function c4m_user_notifications_group_status_set_published($node) {
-  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->nid);
+  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification(
+    $node->nid
+  );
 
   foreach ($group_admins_ids as $admin_id) {
-    _c4m_user_notifications_to_admin_group_status_set_published($node, $admin_id);
+    _c4m_user_notifications_to_admin_group_status_set_published(
+      $node,
+      $admin_id
+    );
   }
 }
 
@@ -211,7 +270,10 @@ function c4m_user_notifications_group_status_set_published($node) {
  * Email notification to organic group admin / owner, about status change
  * from 'archived' to 'published'.
  */
-function _c4m_user_notifications_to_admin_group_status_set_published($node, $admin_id) {
+function _c4m_user_notifications_to_admin_group_status_set_published(
+  $node,
+  $admin_id
+) {
   global $user;
   $message = message_create('c4m_group_published', array('uid' => $admin_id));
   // Define functions with which to resolve email template tokens.
@@ -229,11 +291,20 @@ function _c4m_user_notifications_to_admin_group_status_set_published($node, $adm
 /**
  * Email notification about organic group status change to 'republished'.
  */
-function c4m_user_notifications_group_status_set_republished($node, $group_former_status) {
-  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->nid);
+function c4m_user_notifications_group_status_set_republished(
+  $node,
+  $group_former_status
+) {
+  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification(
+    $node->nid
+  );
 
   foreach ($group_admins_ids as $admin_id) {
-    _c4m_user_notifications_to_admin_group_status_set_republished($node, $admin_id, $group_former_status);
+    _c4m_user_notifications_to_admin_group_status_set_republished(
+      $node,
+      $admin_id,
+      $group_former_status
+    );
   }
 }
 
@@ -243,7 +314,11 @@ function c4m_user_notifications_group_status_set_republished($node, $group_forme
  * Email notification to organic group admin / owner, about status change
  * from 'archived' to 'published'.
  */
-function _c4m_user_notifications_to_admin_group_status_set_republished($node, $admin_id, $group_former_status) {
+function _c4m_user_notifications_to_admin_group_status_set_republished(
+  $node,
+  $admin_id,
+  $group_former_status
+) {
   global $user;
   $message = message_create('c4m_group_republished', array('uid' => $admin_id));
   // Define functions with which to resolve email template tokens.
@@ -262,11 +337,20 @@ function _c4m_user_notifications_to_admin_group_status_set_republished($node, $a
 /**
  * Email notification about organic group status change to 'unpublished'.
  */
-function c4m_user_notifications_group_status_set_unpublished($node, $group_former_status) {
-  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->nid);
+function c4m_user_notifications_group_status_set_unpublished(
+  $node,
+  $group_former_status
+) {
+  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification(
+    $node->nid
+  );
 
   foreach ($group_admins_ids as $admin_id) {
-    _c4m_user_notifications_to_admin_group_status_set_unpublished($node, $admin_id, $group_former_status);
+    _c4m_user_notifications_to_admin_group_status_set_unpublished(
+      $node,
+      $admin_id,
+      $group_former_status
+    );
   }
 }
 
@@ -276,7 +360,11 @@ function c4m_user_notifications_group_status_set_unpublished($node, $group_forme
  * Email notification to organic group admin / owner, about status change
  * from 'published' to 'draft'.
  */
-function _c4m_user_notifications_to_admin_group_status_set_unpublished($node, $admin_id, $group_former_status) {
+function _c4m_user_notifications_to_admin_group_status_set_unpublished(
+  $node,
+  $admin_id,
+  $group_former_status
+) {
   global $user;
   $message = message_create('c4m_group_unpublished', array('uid' => $admin_id));
   // Define functions with which to resolve email template tokens.
@@ -296,11 +384,20 @@ function _c4m_user_notifications_to_admin_group_status_set_unpublished($node, $a
 /**
  * Email notification about organic group status change to 'archived'.
  */
-function c4m_user_notifications_group_status_set_archived($node, $group_former_status) {
-  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->nid);
+function c4m_user_notifications_group_status_set_archived(
+  $node,
+  $group_former_status
+) {
+  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification(
+    $node->nid
+  );
 
   foreach ($group_admins_ids as $admin_id) {
-    _c4m_user_notifications_to_admin_group_status_set_archived($node, $admin_id, $group_former_status);
+    _c4m_user_notifications_to_admin_group_status_set_archived(
+      $node,
+      $admin_id,
+      $group_former_status
+    );
   }
 }
 
@@ -310,7 +407,11 @@ function c4m_user_notifications_group_status_set_archived($node, $group_former_s
  * Email notification to organic group admin / owner, about status change
  * to 'archived'.
  */
-function _c4m_user_notifications_to_admin_group_status_set_archived($node, $admin_id, $group_former_status) {
+function _c4m_user_notifications_to_admin_group_status_set_archived(
+  $node,
+  $admin_id,
+  $group_former_status
+) {
   global $user;
   $message = message_create('c4m_group_archived', array('uid' => $admin_id));
   // Define functions with which to resolve email template tokens.
@@ -334,11 +435,18 @@ function _c4m_user_notifications_to_admin_group_status_set_archived($node, $admi
  * @param string $group_former_status
  *   Status of OG group, before it was changed to Deleted.
  */
-function c4m_user_notifications_group_status_set_softdeleted($node, $group_former_status) {
+function c4m_user_notifications_group_status_set_softdeleted(
+  $node,
+  $group_former_status
+) {
   $admins_ids = c4m_admin_get_admins_ids_for_notification();
 
   foreach ($admins_ids as $admin_id) {
-    _c4m_user_notifications_to_site_admin_group_soft_deleted($node, $admin_id, $group_former_status);
+    _c4m_user_notifications_to_site_admin_group_soft_deleted(
+      $node,
+      $admin_id,
+      $group_former_status
+    );
   }
 }
 
@@ -347,9 +455,16 @@ function c4m_user_notifications_group_status_set_softdeleted($node, $group_forme
  *
  * Email notification to site admin, about group being soft deleted.
  */
-function _c4m_user_notifications_to_site_admin_group_soft_deleted($node, $admin_id, $group_former_status) {
+function _c4m_user_notifications_to_site_admin_group_soft_deleted(
+  $node,
+  $admin_id,
+  $group_former_status
+) {
   global $user;
-  $message = message_create('c4m_group_soft_deleted', array('uid' => $admin_id));
+  $message = message_create(
+    'c4m_group_soft_deleted',
+    array('uid' => $admin_id)
+  );
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_soft_deleted($message);
   $message->arguments['@group_former_status'] = ucfirst($group_former_status);
@@ -371,11 +486,20 @@ function _c4m_user_notifications_to_site_admin_group_soft_deleted($node, $admin_
  * @param string $group_former_status
  *   Status of OG group, before it was updated.
  */
-function c4m_user_notifications_group_hard_deleted($node, $group_former_status) {
-  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->nid);
+function c4m_user_notifications_group_hard_deleted(
+  $node,
+  $group_former_status
+) {
+  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification(
+    $node->nid
+  );
 
   foreach ($group_admins_ids as $admin_id) {
-    _c4m_user_notifications_to_admin_group_hard_deleted($node, $admin_id, $group_former_status);
+    _c4m_user_notifications_to_admin_group_hard_deleted(
+      $node,
+      $admin_id,
+      $group_former_status
+    );
   }
 }
 
@@ -385,9 +509,16 @@ function c4m_user_notifications_group_hard_deleted($node, $group_former_status) 
  * Email notification to organic group admin / owner, about group being
  * permanently deleted.
  */
-function _c4m_user_notifications_to_admin_group_hard_deleted($node, $admin_id, $group_former_status) {
+function _c4m_user_notifications_to_admin_group_hard_deleted(
+  $node,
+  $admin_id,
+  $group_former_status
+) {
   global $user;
-  $message = message_create('c4m_group_hard_deleted', array('uid' => $admin_id));
+  $message = message_create(
+    'c4m_group_hard_deleted',
+    array('uid' => $admin_id)
+  );
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_hard_deleted($message);
   $message->arguments['@group_former_status'] = $group_former_status;
@@ -405,10 +536,16 @@ function _c4m_user_notifications_to_admin_group_hard_deleted($node, $admin_id, $
  * Email notification about organic group access change.
  */
 function c4m_user_notifications_group_permissions_changed($node, $permissions) {
-  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification($node->nid);
+  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification(
+    $node->nid
+  );
 
   foreach ($group_admins_ids as $admin_id) {
-    _c4m_user_notifications_to_admin_group_permissions_changed($node, $admin_id, $permissions);
+    _c4m_user_notifications_to_admin_group_permissions_changed(
+      $node,
+      $admin_id,
+      $permissions
+    );
   }
 }
 
@@ -418,9 +555,16 @@ function c4m_user_notifications_group_permissions_changed($node, $permissions) {
  * Email notification to organic group admin / owner, about group permissions
  * change.
  */
-function _c4m_user_notifications_to_admin_group_permissions_changed($node, $admin_id, $permissions) {
+function _c4m_user_notifications_to_admin_group_permissions_changed(
+  $node,
+  $admin_id,
+  $permissions
+) {
   global $user;
-  $message = message_create('c4m_group_access_change', array('uid' => $admin_id));
+  $message = message_create(
+    'c4m_group_access_change',
+    array('uid' => $admin_id)
+  );
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_access_change($message);
   // Set 'group permissions' token to input value.
@@ -457,7 +601,10 @@ function c4m_user_notifications_notify_admins_owner_update($node) {
  * Email notification about user adding a comment.
  */
 function c4m_user_notifications_notify_user_commented($comment) {
-  _c4m_user_notifications_notify_content_followers_of_comment($comment->cid, $comment->nid);
+  _c4m_user_notifications_notify_content_followers_of_comment(
+    $comment->cid,
+    $comment->nid
+  );
 }
 
 /**
@@ -470,7 +617,10 @@ function c4m_user_notifications_notify_user_commented($comment) {
  * @param int $nid
  *   Node id.
  */
-function _c4m_user_notifications_notify_content_followers_of_comment($cid, $nid) {
+function _c4m_user_notifications_notify_content_followers_of_comment(
+  $cid,
+  $nid
+) {
   global $user;
   $message = message_create('c4m_notify_content_followers_new_comment');
   // Define functions with which to resolve email template tokens.
@@ -502,13 +652,23 @@ function _c4m_user_notifications_notify_content_followers_of_comment($cid, $nid)
 
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
   // Message will be saved in message_subscribe_send_message().
-  message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
+  message_subscribe_send_message(
+    'node',
+    $node,
+    $wrapper->value(),
+    array(),
+    $subscribe_options,
+    $context
+  );
 }
 
 /**
  * Email notification about user invitation to group, sent by admin.
  */
-function c4m_user_notifications_notify_user_invited_by_admin($form, $form_state) {
+function c4m_user_notifications_notify_user_invited_by_admin(
+  $form,
+  $form_state
+) {
   // Apply only to SAs.
   $site_admin_role = user_role_load_by_name('administrator');
   if (!user_has_role($site_admin_role->rid)) {
@@ -517,7 +677,9 @@ function c4m_user_notifications_notify_user_invited_by_admin($form, $form_state)
 
   // Send a welcome email if the option is checked in the form.
   if ($form_state['input']['notification']) {
-    c4m_user_notifications_notify_user_membership_accepted($form_state['og_membership']);
+    c4m_user_notifications_notify_user_membership_accepted(
+      $form_state['og_membership']
+    );
   }
 }
 
@@ -620,7 +782,14 @@ function c4m_user_notifications_content_recommended($nid) {
 
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
   // Message will be saved in message_subscribe_send_message().
-  message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
+  message_subscribe_send_message(
+    'node',
+    $node,
+    $wrapper->value(),
+    array(),
+    $subscribe_options,
+    $context
+  );
 }
 
 /**
@@ -633,7 +802,10 @@ function c4m_user_notifications_new_group_content_published($node) {
 /**
  * Email notification about content being shared at organic group.
  */
-function c4m_user_notifications_group_content_shared($source_node, $target_gid) {
+function c4m_user_notifications_group_content_shared(
+  $source_node,
+  $target_gid
+) {
   _c4m_user_notifications_notify_on_content($source_node, 'share', $target_gid);
 }
 
@@ -644,8 +816,14 @@ function c4m_user_notifications_existing_group_content_updated($node) {
   if ($node->vid !== $node->original->vid) {
     // New revision of content was published => notify content editors
     // and group followers.
-    _c4m_user_notifications_notify_on_content_new_revision($node, 'content_editors');
-    _c4m_user_notifications_notify_on_content_new_revision($node, 'group_followers');
+    _c4m_user_notifications_notify_on_content_new_revision(
+      $node,
+      'content_editors'
+    );
+    _c4m_user_notifications_notify_on_content_new_revision(
+      $node,
+      'group_followers'
+    );
   }
   else {
     // No revision update => notify only group followers.
@@ -669,7 +847,11 @@ function c4m_user_notifications_existing_group_content_updated($node) {
  *   Group ID for which notification is issued. If not passed, it's set to
  *   gid of group node belong to.
  */
-function _c4m_user_notifications_notify_on_content($node, $action, $target_gid = NULL) {
+function _c4m_user_notifications_notify_on_content(
+  $node,
+  $action,
+  $target_gid = NULL
+) {
   global $user;
 
   switch ($action) {
@@ -679,7 +861,7 @@ function _c4m_user_notifications_notify_on_content($node, $action, $target_gid =
       break;
 
     case 'share':
-      $message_type = 'c4m_new_content_published';
+      $message_type = 'c4m_new_content_share_published';
       $event_action = 'shared';
       break;
 
@@ -694,9 +876,17 @@ function _c4m_user_notifications_notify_on_content($node, $action, $target_gid =
   $message = message_create($message_type);
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_content_inserted_or_updated($message);
+
+  if ($action == 'share') {
+    // Extra tokens for shares.
+    c4m_message_load_tokens__c4m_content_share_inserted_or_updated($message);
+  }
+
   // Resolve comment body field, in teaser mode, and assign value to it's token.
   $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
-  $message->arguments['@node_teaser_body'] = strip_tags($body_teaser[0]['#markup']);
+  $message->arguments['@node_teaser_body'] = strip_tags(
+    $body_teaser[0]['#markup']
+  );
   if (isset($event_action)) {
     $message->arguments['@event_action'] = $event_action;
   }
@@ -704,7 +894,11 @@ function _c4m_user_notifications_notify_on_content($node, $action, $target_gid =
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_node->set($node->nid);
   $node_wrapper = entity_metadata_wrapper('node', $node);
-  $gid = !is_null($target_gid) ? $target_gid : $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
+  $gid = !is_null(
+    $target_gid
+  ) ? $target_gid : $node_wrapper->{OG_AUDIENCE_FIELD}->value(
+    array('identifier' => TRUE)
+  );
   $wrapper->field_group_node->set($gid);
   $wrapper->field_executing_user->set($user->uid);
 
@@ -718,7 +912,14 @@ function _c4m_user_notifications_notify_on_content($node, $action, $target_gid =
   );
 
   // Message will be saved in message_subscribe_send_message().
-  message_subscribe_send_message('node', $node, $wrapper->value(), array(), array(), $context);
+  message_subscribe_send_message(
+    'node',
+    $node,
+    $wrapper->value(),
+    array(),
+    array(),
+    $context
+  );
 }
 
 /**
@@ -733,7 +934,10 @@ function _c4m_user_notifications_notify_on_content($node, $action, $target_gid =
  *   Use 'group_followers' when notifying group followers about content update.
  *   Use 'content_editors' when notifying content editors about content update.
  */
-function _c4m_user_notifications_notify_on_content_new_revision($node, $users_group) {
+function _c4m_user_notifications_notify_on_content_new_revision(
+  $node,
+  $users_group
+) {
   global $user;
 
   switch ($users_group) {
@@ -772,7 +976,9 @@ function _c4m_user_notifications_notify_on_content_new_revision($node, $users_gr
     // Resolve content node body field, in teaser mode, and assign value to
     // it's token.
     $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
-    $message->arguments['@node_teaser_body'] = strip_tags($body_teaser[0]['#markup']);
+    $message->arguments['@node_teaser_body'] = strip_tags(
+      $body_teaser[0]['#markup']
+    );
 
     // Set additional context parameters.
     // This configuration will result in selecting subscribers that
@@ -788,7 +994,14 @@ function _c4m_user_notifications_notify_on_content_new_revision($node, $users_gr
 
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
   // Message will be saved in message_subscribe_send_message().
-  message_subscribe_send_message('node', $node, $message_wrapper->value(), array(), $subscribe_options, $context);
+  message_subscribe_send_message(
+    'node',
+    $node,
+    $message_wrapper->value(),
+    array(),
+    $subscribe_options,
+    $context
+  );
 }
 
 /**
@@ -877,7 +1090,14 @@ function _c4m_user_notifications_comment_on_content($cid, $nid) {
 
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
   // Message will be saved in message_subscribe_send_message().
-  message_subscribe_send_message('node', $node, $wrapper->value(), array(), $subscribe_options, $context);
+  message_subscribe_send_message(
+    'node',
+    $node,
+    $wrapper->value(),
+    array(),
+    $subscribe_options,
+    $context
+  );
 }
 
 /**
@@ -912,9 +1132,15 @@ function c4m_user_notifications_notify_admins_group_requested($node) {
  *
  * Email notification to site admin, about new group request.
  */
-function _c4m_user_notifications_notify_admin_group_requested($node, $admin_id) {
+function _c4m_user_notifications_notify_admin_group_requested(
+  $node,
+  $admin_id
+) {
   global $user;
-  $message = message_create('c4m_group_request_submitted', array('uid' => $admin_id));
+  $message = message_create(
+    'c4m_group_request_submitted',
+    array('uid' => $admin_id)
+  );
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_group_request_submitted($message);
 
@@ -936,7 +1162,11 @@ function _c4m_user_notifications_notify_admin_group_requested($node, $admin_id) 
  *  uid - user that have flagged $entity_id, with $flag_name.
  *  notifier - [email].
  */
-function c4m_user_notifications_message_subscribe_get_subscribers($message, $subscribe_options, $context) {
+function c4m_user_notifications_message_subscribe_get_subscribers(
+  $message,
+  $subscribe_options,
+  $context
+) {
   // All entity types are nodes, besides 'term'.
   $entity_type = $context['entity_type'];
   $entity_id = $context['entity_id'];
@@ -962,11 +1192,18 @@ function c4m_user_notifications_message_subscribe_get_subscribers($message, $sub
     // both flags are set on same entity.
     $flag_name = 'subscribe_c4m_follow_' . $context['additional_flag_suffix'];
     $additional_entity_id = isset($context['additional_entity_id']) ? $context['additional_entity_id'] : $entity_id;
-    $filtered_users = flag_get_entity_flags($flagged_entity_type, $additional_entity_id, $flag_name);
+    $filtered_users = flag_get_entity_flags(
+      $flagged_entity_type,
+      $additional_entity_id,
+      $flag_name
+    );
     // Intergroup operations can be 'intersect' or 'diff'.
     $function = 'array_' . $context['intergroup_operation'];
     // Function is either array_intersect() or array_diff().
-    $filtered_users = $function(array_keys($users), array_keys($filtered_users));
+    $filtered_users = $function(
+      array_keys($users),
+      array_keys($filtered_users)
+    );
   }
 
   // Need to load the group to which content belongs, take sure user is not
@@ -998,7 +1235,11 @@ function c4m_user_notifications_message_subscribe_get_subscribers($message, $sub
   foreach ($users as $key => &$value) {
 
     // When node is group or group content, filter banned users.
-    if (!is_null($group) && c4m_user_og_get_role_in_group($value, $group) == 'blocked') {
+    if (!is_null($group) && c4m_user_og_get_role_in_group(
+        $value,
+        $group
+      ) == 'blocked'
+    ) {
       unset($users[$key]);
       continue;
     }
@@ -1028,7 +1269,12 @@ function c4m_user_notifications_log_group_approved($form, $form_state) {
   $gid = $form_state['values']['gid'];
   $admin_comment = $form_state['values']['message_from_admin'];
 
-  _c4m_user_notifications_log_group_state_change('pending', 'draft', $gid, $admin_comment);
+  _c4m_user_notifications_log_group_state_change(
+    'pending',
+    'draft',
+    $gid,
+    $admin_comment
+  );
 }
 
 /**
@@ -1043,7 +1289,12 @@ function c4m_user_notifications_log_group_rejected($form, $form_state) {
   $gid = $form_state['values']['gid'];
   $admin_comment = $form_state['values']['message_from_admin'];
 
-  _c4m_user_notifications_log_group_state_change('pending', 'deleted', $gid, $admin_comment);
+  _c4m_user_notifications_log_group_state_change(
+    'pending',
+    'deleted',
+    $gid,
+    $admin_comment
+  );
 }
 
 /**
@@ -1060,9 +1311,17 @@ function c4m_user_notifications_log_group_rejected($form, $form_state) {
  * @param string $admin_comment
  *   Comment made by executing administrator.
  */
-function _c4m_user_notifications_log_group_state_change($from_state, $to_state, $gid, $admin_comment) {
+function _c4m_user_notifications_log_group_state_change(
+  $from_state,
+  $to_state,
+  $gid,
+  $admin_comment
+) {
   global $user;
-  $message = message_create('c4m_log_group_state_change', array('uid' => $user->uid));
+  $message = message_create(
+    'c4m_log_group_state_change',
+    array('uid' => $user->uid)
+  );
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_log_group_state_change($message);
   $message->arguments['@from_state'] = ucfirst($from_state);
