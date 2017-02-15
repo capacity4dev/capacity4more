@@ -28,7 +28,7 @@ function c4m_features_og_wiki_wiki() {
     array_shift($book);
     $menu_link = array_shift($book);
     if (empty($menu_link['link_path'])) {
-      return theme('c4m_content_wiki_page_wiki', array('content' => NULL));
+      return theme('c4m_features_og_wiki_wiki', array('content' => NULL));
     }
     drupal_goto($menu_link['link_path']);
   }
