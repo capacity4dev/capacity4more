@@ -23,7 +23,7 @@ function c4m_features_og_wiki_wiki() {
     return theme('c4m_features_og_wiki_wiki', array('content' => NULL));
   }
   else {
-    $book  = book_get_flat_menu($group->book);
+    $book = book_get_flat_menu($group->book);
     // Remove level 0 link.
     array_shift($book);
     $menu_link = array_shift($book);

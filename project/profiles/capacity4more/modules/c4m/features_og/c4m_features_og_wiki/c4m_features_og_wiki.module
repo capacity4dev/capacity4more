@@ -146,7 +146,14 @@ function c4m_features_og_wiki_block_view_alter(&$data, $block) {
   }
   $book = $group->book;
   drupal_static_reset('_menu_build_tree');
-  $tree = menu_build_tree($book['menu_name']);
+
+  // Power users should see unpublished nodes.
+  if (_c4m_features_og_members_is_power_user($group)) {
+    $tree = c4m_features_og_wiki_menu_build_tree_for_power_users($book['menu_name']);
+  }
+  else {
+    $tree = menu_build_tree($book['menu_name']);
+  }
 
   $tree = menu_tree_output($tree);
 
@@ -200,4 +207,62 @@ function c4m_features_og_wiki_block_view_alter(&$data, $block) {
       break;
     }
   }
+}
+
+/**
+ * Builds a menu tree, translates links, and checks access.
+ *
+ * Same as menu_build_tree(), but it's access check does not filter unpublished
+ * nodes.
+ *
+ * @param string $menu_name
+ *   The name of the menu.
+ * @param array $parameters
+ *   (optional) An associative array of build parameters.
+ *
+ * @return
+ *   A fully built menu tree.
+ *
+ * @see
+ *   menu_build_tree().
+ */
+function c4m_features_og_wiki_menu_build_tree_for_power_users($menu_name, array $parameters = array()) {
+  // Build the menu tree.
+  $data = _menu_build_tree($menu_name, $parameters);
+  // Check access for the current user to each item in the tree.
+  c4m_features_og_wiki_menu_tree_check_access($data['tree'], $data['node_links']);
+  return $data['tree'];
+}
+
+/**
+ * Checks access and performs dynamic operations for each link in the tree.
+ *
+ * Same as menu_tree_check_access(), but it does not filter out unpublished
+ * nodes.
+ *
+ * @param array $tree
+ *   The menu tree you wish to operate on.
+ * @param array $node_links
+ *   A collection of node link references generated from $tree by
+ *   menu_tree_collect_node_links().
+ *
+ * @see
+ *   menu_tree_check_access().
+ */
+function c4m_features_og_wiki_menu_tree_check_access(&$tree, $node_links = array()) {
+  if ($node_links && (user_access('access content') || user_access('bypass node access'))) {
+    $nids = array_keys($node_links);
+    $select = db_select('node', 'n');
+    $select->addField('n', 'nid');
+    $select->addTag('node_access');
+    $select->condition('n.nid', $nids, 'IN');
+    $nids = $select->execute()->fetchCol();
+    foreach ($nids as $nid) {
+      foreach ($node_links[$nid] as $mlid => $link) {
+        $node_links[$nid][$mlid]['access'] = TRUE;
+      }
+    }
+  }
+
+  _menu_tree_check_access($tree);
 }
