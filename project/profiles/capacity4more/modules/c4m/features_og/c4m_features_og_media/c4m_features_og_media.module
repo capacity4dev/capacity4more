@@ -7,7 +7,7 @@
 
 include_once 'c4m_features_og_media.features.inc';
 
-define('C4M_FEATURES_OVERVIEW_MEDIA_SORT_BY_COMMENT_COUNT', 'Comment count');
+define('C4M_FEATURES_OG_MEDIA_SORT_BY_COMMENT_COUNT', 'Comment count');
 
 /**
  * Implements hook_c4m_og_feature_info().
@@ -60,7 +60,7 @@ function c4m_features_og_media_search_api_sorts_alter(&$block, $view) {
   // Remove 'Comment count' sort if this is the media overview.
   if ($view->name === 'overview_og_media') {
     foreach ($block['content']['#items'] as $key => $item) {
-      if (C4M_FEATURES_OVERVIEW_MEDIA_SORT_BY_COMMENT_COUNT === $item['#name']) {
+      if (C4M_FEATURES_OG_MEDIA_SORT_BY_COMMENT_COUNT === $item['#name']) {
         unset($block['content']['#items'][$key]);
         break;
       }
