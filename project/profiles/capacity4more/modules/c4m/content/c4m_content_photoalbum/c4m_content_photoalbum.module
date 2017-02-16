@@ -140,12 +140,20 @@ function c4m_content_photoalbum_form_node_gallery_api_plupload_form_alter(&$form
     return;
   }
 
-  if (empty($form['upload']['#plupload_settings']['url'])) {
+  $upload_url = $form['upload']['#plupload_settings']['url'];
+  if (empty($upload_url)) {
     return;
   }
 
-  if (strpos($form['upload']['#plupload_settings']['url'], '/node-gallery/json/item/create') !== 0) {
+  $position = strpos($upload_url, '/node-gallery/json/item/create');
+  if ($position === FALSE) {
     return;
+  }
+
+  // In case site is hosted on custom path-based domain (www.example.com/foo),
+  // cut the path which comes after domain. It will be added by url().
+  if ($position != 0) {
+    $upload_url = substr($upload_url, $position);
   }
 
   $url_options = array(
@@ -158,7 +166,7 @@ function c4m_content_photoalbum_form_node_gallery_api_plupload_form_alter(&$form
   );
 
   // Generating new url with the purl as prefix.
-  $new_url = url($form['upload']['#plupload_settings']['url'], $url_options);
+  $new_url = url($upload_url, $url_options);
 
   $form['upload']['#plupload_settings']['url'] = $new_url;
 }
