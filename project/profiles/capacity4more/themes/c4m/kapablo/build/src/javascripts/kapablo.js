@@ -113,7 +113,7 @@
                 groupRight.removeClass('col-sm-8').addClass('col-sm-11');
                 sidebarContent.hide();
 
-                var nav_links = $('.og-menu-link.wiki .c4m-book-og-menu-link, #group-pages-navigation-left .field-name-c4m-content-wiki-page-navigation a');
+                var nav_links = $('.og-menu-link.wiki .c4m-book-og-menu-link, #group-pages-navigation-left .field-name-c4m-content-wiki-page-navigation a, .book-navigation a');
                 var href;
                 $(nav_links).each(function () {
                     href = _addParameter($(this).attr('href'), 'fullscreen', '1');
@@ -140,7 +140,7 @@
                 groupRight.removeClass('col-sm-11').addClass('col-sm-8');
                 sidebarContent.show();
 
-                var nav_links = $('.og-menu-link.wiki .c4m-book-og-menu-link, #group-pages-navigation-left .field-name-c4m-content-wiki-page-navigation a');
+                var nav_links = $('.og-menu-link.wiki .c4m-book-og-menu-link, #group-pages-navigation-left .field-name-c4m-content-wiki-page-navigation a, .book-navigation a');
                 var href;
                 $(nav_links).each(function () {
                     href = _removeURLParameter($(this).attr('href'), 'fullscreen');
