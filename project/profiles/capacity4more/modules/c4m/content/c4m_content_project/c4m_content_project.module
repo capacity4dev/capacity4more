@@ -552,7 +552,7 @@ function c4m_content_project_c4m_content_project_blockreference_whitelist() {
       'label' => t('Latest news'),
     ),
     'views:c4m_project_events-block' => array(
-      'label' => t('Upcoming vents'),
+      'label' => t('Upcoming events'),
     ),
     'views:c4m_project_highlights-block' => array(
       'label' => t('Highlights block'),
