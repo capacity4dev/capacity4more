@@ -311,18 +311,9 @@ function theme_c4m_ds_type_insert_action_share_from(array $field) {
 
   $group_type = $group_wrapper->getBundle();
 
-  $url_options = array(
-    'absolute' => TRUE,
-    'purl' => array(
-      'provider' => 'og_purl|node',
-
-      'id' => $group_wrapper->nid->value(),
-    ),
-  );
-
   $group_url = l(
     $group_wrapper->title->value(),
-    url('<front>', $url_options)
+    url('node/' . $group_wrapper->get('nid')->value(), array('purl' => array('disabled' => FALSE)))
   );
 
   $tag['element'] = array(
