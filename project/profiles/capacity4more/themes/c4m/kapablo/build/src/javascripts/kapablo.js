@@ -106,12 +106,10 @@
             function collapseSidebar(button) {
                 var groupLeft = $('.group-left');
                 var groupRight = $('.group-right');
-                var sidebarContent = $('.collapsible');
                 button.addClass('collapsed');
                 button.html('<i class="fa fa-chevron-circle-right"></i>');
                 groupLeft.removeClass('col-sm-4').addClass('col-sm-1 sidebar-collapsed');
                 groupRight.removeClass('col-sm-8').addClass('col-sm-11');
-                sidebarContent.hide();
 
                 var nav_links = $('.og-menu-link.wiki .c4m-book-og-menu-link, #group-pages-navigation-left .field-name-c4m-content-wiki-page-navigation a, .book-navigation a');
                 var href;
@@ -167,23 +165,56 @@
                 return;
             }
 
-            // Don't animate multiple times.
-            if (!wrapper.animating || wrapper.animating == null) {
-                wrapper.animating = true;
-                var speed = $wrapper.hasClass('speed-fast') ? 300 : 1000;
-                if ($wrapper.hasClass('effect-none') && $wrapper.hasClass('speed-none')) {
-                    $('> .field-group-format-wrapper', wrapper).toggle();
-                }
-                else if ($wrapper.hasClass('effect-blind')) {
-                    $('> .field-group-format-wrapper', wrapper).toggle('blind', {}, speed);
+            var url = location.href;
+            var collapsed = _getParameter(url, 'collapsed');
+
+            var nav_links = $('.og-menu-link.wiki .c4m-book-og-menu-link, #group-pages-navigation-left .field-name-c4m-content-wiki-page-navigation a, .book-navigation a');
+            var href;
+
+            $('.field-group-format-title', wrapper).on("click", function () {
+                if ($(wrapper).hasClass("collapsed")) {
+                    $(nav_links).each(function () {
+                        href = _addParameter($(this).attr('href'), 'collapsed', '1');
+                        $(this).attr('href', href);
+                    });
                 }
                 else {
-                    $('> .field-group-format-wrapper', wrapper).toggle(speed);
+                    $(nav_links).each(function () {
+                        href = _removeURLParameter($(this).attr('href'), 'collapsed');
+                        $(this).attr('href', href);
+                    });
                 }
-                wrapper.animating = false;
-                $wrapper.toggleClass('collapsed');
+            });
 
-                return false;
+            if (collapsed !== '1') {
+                toggleSubpages(wrapper);
+            }
+
+            else {
+                $(nav_links).each(function () {
+                    href = _addParameter($(this).attr('href'), 'collapsed', '1');
+                    $(this).attr('href', href);
+                });
+            }
+
+            function toggleSubpages(wrapper) {
+                if (!wrapper.animating || wrapper.animating == null) {
+                    wrapper.animating = true;
+                    var speed = $wrapper.hasClass('speed-fast') ? 300 : 1000;
+                    if ($wrapper.hasClass('effect-none') && $wrapper.hasClass('speed-none')) {
+                        $('> .field-group-format-wrapper', wrapper).toggle();
+                    }
+                    else if ($wrapper.hasClass('effect-blind')) {
+                        $('> .field-group-format-wrapper', wrapper).toggle('blind', {}, speed);
+                    }
+                    else {
+                        $('> .field-group-format-wrapper', wrapper).toggle(speed);
+                    }
+                    wrapper.animating = false;
+                    $wrapper.toggleClass('collapsed');
+
+                    return false;
+                }
             }
         }
     };
