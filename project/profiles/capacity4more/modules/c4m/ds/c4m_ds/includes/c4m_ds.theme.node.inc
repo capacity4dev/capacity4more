@@ -942,7 +942,6 @@ function theme_c4m_ds_photo_download(array $field) {
   }
 }
 
-
 /**
  * DS function field.
  *
