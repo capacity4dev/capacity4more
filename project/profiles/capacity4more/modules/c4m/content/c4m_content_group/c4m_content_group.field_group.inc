@@ -105,7 +105,7 @@ function c4m_content_group_field_group_info() {
     'children' => array(
       0 => 'c4m_ds_group_members_count',
       1 => 'c4m_ds_group_posts_count',
-      2 => 'c4m_ds_node_highlight',
+      2 => 'c4m_ds_group_recommendation_count',
     ),
     'format_type' => 'div',
     'format_settings' => array(

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_search_nodes.path_breadcrumbs.inc

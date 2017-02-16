@@ -470,9 +470,22 @@ function c4m_ds_ds_fields_info($entity_type) {
   $fields['node']['c4m_ds_group_posts_count'] = array(
     'title' => t('Group posts count'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit' => array('group|*'),
+    'ui_limit' => array('group|*', 'project|*'),
     'file' => $path . '/includes/c4m_ds.theme.node.inc',
     'function' => 'theme_c4m_ds_group_posts_count',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['node']['c4m_ds_group_recommendation_count'] = array(
+    'title' => t('Group recommendation count'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('group|*', 'project|*'),
+    'file' => $path . '/includes/c4m_ds.theme.node.inc',
+    'function' => 'theme_c4m_ds_group_recommendation_count_full',
     'properties' => array(
       'formatters' => array(
         'default' => t('Default'),
@@ -803,6 +816,11 @@ function c4m_ds_theme() {
       'variables' => array('count' => 0),
       'path' => $path,
       'template' => 'c4m_ds_entity_recommends_count',
+    ),
+    'c4m_ds_entity_recommends_count_full' => array(
+      'variables' => array('count' => 0, 'text' => ''),
+      'path' => $path,
+      'template' => 'c4m_ds_entity_recommends_count_full',
     ),
     'c4m_ds_user_posts_count' => array(
       'variables' => array('count' => 0),

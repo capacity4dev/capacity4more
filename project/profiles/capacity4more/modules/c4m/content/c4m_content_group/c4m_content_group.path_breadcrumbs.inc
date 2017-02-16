@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * c4m_content_group.path_breadcrumbs.inc
