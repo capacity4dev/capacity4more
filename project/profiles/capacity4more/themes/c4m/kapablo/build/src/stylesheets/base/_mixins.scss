@@ -128,6 +128,14 @@
   margin-bottom: 2em;
 }
 
+@mixin border-top {
+  &:not(:last-child) {
+    border-top: 1px dashed $color-gray-light;
+    padding-top: 1.5em;
+  }
+  margin-top: 2em;
+}
+
 @mixin rotate_promote_flag {
   i {
     transform: rotate(0deg);

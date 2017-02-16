@@ -31,11 +31,17 @@ function theme_c4m_content_share_original_group(array $field) {
 
   $group_link = l(
     $group_wrapper->title->value(),
-    url('node/' . $group_wrapper->get('nid')->value(), array('purl' => array('disabled' => FALSE), 'absolute' => TRUE))
+    url(
+      'node/' . $group_wrapper->get('nid')->value(),
+      array('purl' => array('disabled' => FALSE), 'absolute' => TRUE)
+    )
   );
 
   $bundle = $group_wrapper->getBundle();
   drupal_alter('c4m_content_bundle', $bundle, $group_wrapper);
 
-  return t('Original !bundle: !group_link', array('!bundle' => $bundle, '!group_link' => $group_link));
+  return t(
+    'Original !bundle: !group_link',
+    array('!bundle' => $bundle, '!group_link' => $group_link)
+  );
 }
