@@ -732,6 +732,7 @@ function c4m_search_highlight_search_keywords($text) {
     '/(\s|^)(-|!)/' => '$1<span class="search-keyword">$2</span>',
     '/(\s)and(\s)/i' => '$1<span class="search-keyword">and</span>$2',
     '/(\s)or(\s)/i' => '$1<span class="search-keyword">or</span>$2',
+    '/(\s)not(\s)/i' => '$1<span class="search-keyword">not</span>$2',
   );
   foreach ($replacements as $key => $replacement) {
     $text = preg_replace($key, $replacement, $text);
