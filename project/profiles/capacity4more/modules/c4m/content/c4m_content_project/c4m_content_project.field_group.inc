@@ -192,36 +192,6 @@ function c4m_content_project_field_group_info() {
   );
   $field_groups['group_page_content|node|project|form'] = $field_group;
 
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
-  $field_group->identifier = 'group_readmore|node|project|group_dashboard';
-  $field_group->group_name = 'group_readmore';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'project';
-  $field_group->mode = 'group_dashboard';
-  $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => '',
-    'weight' => '9',
-    'children' => array(
-      0 => 'c4m_cris_contract_number',
-      1 => 'c4m_cris_decision_number',
-      2 => 'c4m_content_group_statistics',
-    ),
-    'format_type' => 'fieldset',
-    'format_settings' => array(
-      'label' => '',
-      'instance_settings' => array(
-        'id' => 'readmorecontent',
-        'classes' => 'group-readmore field-group-fieldset collapse',
-        'description' => '',
-      ),
-      'formatter' => 'open',
-    ),
-  );
-  $field_groups['group_readmore|node|project|group_dashboard'] = $field_group;
-
   // Translatables
   // Included for use with string extractors like potx.
   t('Details');
