@@ -51,28 +51,67 @@ function c4m_message_mail_alter(&$message) {
 
   _c4m_message_format_welcome_to_group_from_field($message, $message_entity);
   _c4m_message_format_new_member_joined_from_field($message, $message_entity);
-  _c4m_message_format_new_membership_request_from_field($message, $message_entity);
+  _c4m_message_format_new_membership_request_from_field(
+    $message,
+    $message_entity
+  );
   _c4m_message_format_group_archived_from_field($message, $message_entity);
   _c4m_message_format_group_unpublished_from_field($message, $message_entity);
   _c4m_message_format_group_published_from_field($message, $message_entity);
   _c4m_message_format_group_republished_from_field($message, $message_entity);
-  _c4m_message_format_notify_admins_membership_approved_from_field($message, $message_entity);
+  _c4m_message_format_notify_admins_membership_approved_from_field(
+    $message,
+    $message_entity
+  );
   _c4m_message_format_admin_demoted_from_field($message, $message_entity);
-  _c4m_message_format_notify_content_recommendation_from_field($message, $message_entity);
+  _c4m_message_format_notify_content_recommendation_from_field(
+    $message,
+    $message_entity
+  );
   _c4m_message_format_group_requested_from_field($message, $message_entity);
-  _c4m_message_format_notify_subscribers_new_comment_from_field($message, $message_entity);
+  _c4m_message_format_notify_subscribers_new_comment_from_field(
+    $message,
+    $message_entity
+  );
   _c4m_message_format_group_access_change_from_field($message, $message_entity);
-  _c4m_message_format_new_content_published_from_field($message, $message_entity);
-  _c4m_message_format_group_content_updated_from_field($message, $message_entity);
-  _c4m_message_format_notify_editors_group_content_updated_from_field($message, $message_entity);
-  _c4m_message_format_notify_promoted_member_from_field($message, $message_entity);
-  _c4m_message_format_notify_content_followers_new_comment_from_field($message, $message_entity);
+  _c4m_message_format_new_content_published_from_field(
+    $message,
+    $message_entity
+  );
+  _c4m_message_format_group_content_updated_from_field(
+    $message,
+    $message_entity
+  );
+  _c4m_message_format_notify_editors_group_content_updated_from_field(
+    $message,
+    $message_entity
+  );
+  _c4m_message_format_notify_promoted_member_from_field(
+    $message,
+    $message_entity
+  );
+  _c4m_message_format_notify_content_followers_new_comment_from_field(
+    $message,
+    $message_entity
+  );
   _c4m_message_format_group_hard_deleted_from_field($message, $message_entity);
-  _c4m_message_format_group_request_submitted_from_field($message, $message_entity);
+  _c4m_message_format_group_request_submitted_from_field(
+    $message,
+    $message_entity
+  );
   _c4m_message_format_group_soft_deleted_from_field($message, $message_entity);
-  _c4m_message_format_membership_request_rejected_from_field($message, $message_entity);
-  _c4m_message_format_group_request_approved_from_field($message, $message_entity);
-  _c4m_message_format_notify_user_membership_pending_from_field($message, $message_entity);
+  _c4m_message_format_membership_request_rejected_from_field(
+    $message,
+    $message_entity
+  );
+  _c4m_message_format_group_request_approved_from_field(
+    $message,
+    $message_entity
+  );
+  _c4m_message_format_notify_user_membership_pending_from_field(
+    $message,
+    $message_entity
+  );
 }
 
 /**
@@ -80,7 +119,10 @@ function c4m_message_mail_alter(&$message) {
  *
  * Formats 'c4m_group_request_approved' message From field, per MT12 template.
  */
-function _c4m_message_format_group_request_approved_from_field(&$message, $message_entity) {
+function _c4m_message_format_group_request_approved_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_group_request_approved') {
     // For message type other than c4m_group_archived - return early.
     return;
@@ -95,7 +137,10 @@ function _c4m_message_format_group_request_approved_from_field(&$message, $messa
  * Formats 'c4m_notify_user_membership_pending' message From field,
  * per MT48 template.
  */
-function _c4m_message_format_notify_user_membership_pending_from_field(&$message, $message_entity) {
+function _c4m_message_format_notify_user_membership_pending_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_notify_user_membership_pending') {
     // For message type other than c4m_group_archived - return early.
     return;
@@ -107,7 +152,10 @@ function _c4m_message_format_notify_user_membership_pending_from_field(&$message
 /**
  * Formats 'c4m_welcome_to_group' message From field, per MT10 template.
  */
-function _c4m_message_format_welcome_to_group_from_field(&$message, $message_entity) {
+function _c4m_message_format_welcome_to_group_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_welcome_to_group') {
     // For message type other than c4m_welcome_to_group - return early.
     return;
@@ -133,7 +181,10 @@ function _c4m_message_format_welcome_to_group_from_field(&$message, $message_ent
  * Formats 'c4m_notify_admins_membership_approved' message From field,
  * as defined at template MT40.
  */
-function _c4m_message_format_notify_admins_membership_approved_from_field(&$message, $message_entity) {
+function _c4m_message_format_notify_admins_membership_approved_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_notify_admins_membership_approved') {
     // For message type other than c4m_notify_admins_membership_approved -
     // return early.
@@ -148,7 +199,10 @@ function _c4m_message_format_notify_admins_membership_approved_from_field(&$mess
  *
  * Formats 'c4m_group_published' message From field, per MT28 template.
  */
-function _c4m_message_format_group_published_from_field(&$message, $message_entity) {
+function _c4m_message_format_group_published_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_group_published') {
     // For message type other than c4m_group_published - return early.
     return;
@@ -162,7 +216,10 @@ function _c4m_message_format_group_published_from_field(&$message, $message_enti
  *
  * Formats 'c4m_new_membership_request' message From field, per MT15 template.
  */
-function _c4m_message_format_new_membership_request_from_field(&$message, $message_entity) {
+function _c4m_message_format_new_membership_request_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_new_membership_request') {
     // For message type other than c4m_new_membership_request - return early.
     return;
@@ -176,7 +233,10 @@ function _c4m_message_format_new_membership_request_from_field(&$message, $messa
  *
  * Formats 'c4m_new_member_joined' message From field, per requirement.
  */
-function _c4m_message_format_new_member_joined_from_field(&$message, $message_entity) {
+function _c4m_message_format_new_member_joined_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_new_member_joined') {
     // For message type other than c4m_new_member_joined - return early.
     return;
@@ -190,7 +250,10 @@ function _c4m_message_format_new_member_joined_from_field(&$message, $message_en
  *
  * Formats 'c4m_group_archived' message From field, per MT30 template.
  */
-function _c4m_message_format_group_archived_from_field(&$message, $message_entity) {
+function _c4m_message_format_group_archived_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_group_archived') {
     // For message type other than c4m_group_archived - return early.
     return;
@@ -204,7 +267,10 @@ function _c4m_message_format_group_archived_from_field(&$message, $message_entit
  *
  * Formats 'c4m_group_access_change' message From field, per MT34 template.
  */
-function _c4m_message_format_group_access_change_from_field(&$message, $message_entity) {
+function _c4m_message_format_group_access_change_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_group_access_change') {
     // For message type other than c4m_group_access_change - return early.
     return;
@@ -218,7 +284,10 @@ function _c4m_message_format_group_access_change_from_field(&$message, $message_
  *
  * Formats 'c4m_group_unpublished' message From field, per MT29 template.
  */
-function _c4m_message_format_group_unpublished_from_field(&$message, $message_entity) {
+function _c4m_message_format_group_unpublished_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_group_unpublished') {
     // For message type other than c4m_group_unpublished - return early.
     return;
@@ -232,7 +301,10 @@ function _c4m_message_format_group_unpublished_from_field(&$message, $message_en
  *
  * Formats 'c4m_group_republished' message From field, per MT28 template.
  */
-function _c4m_message_format_group_republished_from_field(&$message, $message_entity) {
+function _c4m_message_format_group_republished_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_group_republished') {
     // For message type other than c4m_group_republished - return early.
     return;
@@ -244,7 +316,10 @@ function _c4m_message_format_group_republished_from_field(&$message, $message_en
 /**
  * Formats 'c4m_group_admin_demoted' message From field, per MT36 template.
  */
-function _c4m_message_format_admin_demoted_from_field(&$message, $message_entity) {
+function _c4m_message_format_admin_demoted_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_group_admin_demoted') {
     // For message type other than c4m_group_admin_demoted - return early.
     return;
@@ -258,7 +333,10 @@ function _c4m_message_format_admin_demoted_from_field(&$message, $message_entity
  *
  * Formats 'c4m_notify_content_recommendation' message From field, per MT23.
  */
-function _c4m_message_format_notify_content_recommendation_from_field(&$message, $message_entity) {
+function _c4m_message_format_notify_content_recommendation_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_notify_content_recommendation') {
     // For message type other than c4m_notify_content_recommendation,
     // return early.
@@ -273,7 +351,10 @@ function _c4m_message_format_notify_content_recommendation_from_field(&$message,
  *
  * Formats 'c4m_new_content_published' message From field, per MT25.
  */
-function _c4m_message_format_new_content_published_from_field(&$message, $message_entity) {
+function _c4m_message_format_new_content_published_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_new_content_published') {
     // For message type other than c4m_new_content_published,
     // return early.
@@ -288,7 +369,10 @@ function _c4m_message_format_new_content_published_from_field(&$message, $messag
  *
  * Formats 'c4m_group_content_updated' message From field, per MT25.
  */
-function _c4m_message_format_group_content_updated_from_field(&$message, $message_entity) {
+function _c4m_message_format_group_content_updated_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_group_content_updated') {
     // For message type other than c4m_new_content_published,
     // return early.
@@ -304,7 +388,10 @@ function _c4m_message_format_group_content_updated_from_field(&$message, $messag
  * Formats 'c4m_notify_editors_group_content_updated' message From field,
  * per MT51.
  */
-function _c4m_message_format_notify_editors_group_content_updated_from_field(&$message, $message_entity) {
+function _c4m_message_format_notify_editors_group_content_updated_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_notify_editors_group_content_updated') {
     // For message type other than c4m_new_content_published,
     // return early.
@@ -319,7 +406,10 @@ function _c4m_message_format_notify_editors_group_content_updated_from_field(&$m
  *
  * Formats 'c4m_group_requested' message From field, per MT49 template.
  */
-function _c4m_message_format_group_requested_from_field(&$message, $message_entity) {
+function _c4m_message_format_group_requested_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_group_requested') {
     // For message type other than c4m_group_requested - return early.
     return;
@@ -333,7 +423,10 @@ function _c4m_message_format_group_requested_from_field(&$message, $message_enti
  *
  * Formats 'c4m_group_request_submitted' message From field, per MT10 template.
  */
-function _c4m_message_format_group_request_submitted_from_field(&$message, $message_entity) {
+function _c4m_message_format_group_request_submitted_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_group_request_submitted') {
     // For message type other than c4m_group_request_submitted - return early.
     return;
@@ -347,7 +440,10 @@ function _c4m_message_format_group_request_submitted_from_field(&$message, $mess
  *
  * Formats 'c4m_notify_subscribers_new_comment' message From field, per MT22.
  */
-function _c4m_message_format_notify_subscribers_new_comment_from_field(&$message, $message_entity) {
+function _c4m_message_format_notify_subscribers_new_comment_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_notify_subscribers_new_comment') {
     // For message type other than c4m_notify_content_recommendation,
     // return early.
@@ -362,7 +458,10 @@ function _c4m_message_format_notify_subscribers_new_comment_from_field(&$message
  *
  * Formats 'c4m_group_hard_deleted' message From field, per MT33 template.
  */
-function _c4m_message_format_group_hard_deleted_from_field(&$message, $message_entity) {
+function _c4m_message_format_group_hard_deleted_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_group_hard_deleted') {
     // For message type other than c4m_group_hard_deleted - return early.
     return;
@@ -376,7 +475,10 @@ function _c4m_message_format_group_hard_deleted_from_field(&$message, $message_e
  *
  * Formats 'c4m_group_soft_deleted' message From field, per MT32 template.
  */
-function _c4m_message_format_group_soft_deleted_from_field(&$message, $message_entity) {
+function _c4m_message_format_group_soft_deleted_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_group_soft_deleted') {
     // For message type other than c4m_group_soft_deleted - return early.
     return;
@@ -390,7 +492,10 @@ function _c4m_message_format_group_soft_deleted_from_field(&$message, $message_e
  *
  * Formats 'c4m_notify_promoted_member' message From field, per MT35 template.
  */
-function _c4m_message_format_notify_promoted_member_from_field(&$message, $message_entity) {
+function _c4m_message_format_notify_promoted_member_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_notify_promoted_member') {
     // For message type other than c4m_notify_promoted_member - return early.
     return;
@@ -404,7 +509,10 @@ function _c4m_message_format_notify_promoted_member_from_field(&$message, $messa
  *
  * Formats 'c4m_notify_content_followers_new_comment' From field, per MT26.
  */
-function _c4m_message_format_notify_content_followers_new_comment_from_field(&$message, $message_entity) {
+function _c4m_message_format_notify_content_followers_new_comment_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_notify_content_followers_new_comment') {
     // For message type other than c4m_notify_content_recommendation,
     // return early.
@@ -419,7 +527,10 @@ function _c4m_message_format_notify_content_followers_new_comment_from_field(&$m
  *
  * Formats 'c4m_membership_request_rejected' From field, per MT17.
  */
-function _c4m_message_format_membership_request_rejected_from_field(&$message, $message_entity) {
+function _c4m_message_format_membership_request_rejected_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_membership_request_rejected') {
     // For message type other than c4m_membership_request_rejected,
     // return early.
@@ -459,7 +570,10 @@ function _c4m_message_format_group_status_update_set_from_field(&$message) {
  * @param object $account
  *   Account to resolve [user_name] and [email] from.
  */
-function _c4m_message_format_from_field_to_default_pattern(&$message, $account = NULL) {
+function _c4m_message_format_from_field_to_default_pattern(
+  &$message,
+  $account = NULL
+) {
   if (!isset($account)) {
     // If $account is not provided, global user will be used.
     global $user;
@@ -489,7 +603,10 @@ function _c4m_message_format_from_field_to_default_pattern(&$message, $account =
  * @param bool $add_team
  *   Whether to add 'team' into [name], or not.
  */
-function _c4m_message_format_from_field_to_simple_pattern(&$message, $add_team = FALSE) {
+function _c4m_message_format_from_field_to_simple_pattern(
+  &$message,
+  $add_team = FALSE
+) {
   $name = variable_get('site_name');
 
   if ($add_team) {
@@ -770,7 +887,9 @@ function c4m_message_load_tokens__c4m_new_membership_request(Message $message) {
  * @param Message $message
  *   The Message entity.
  */
-function c4m_message_load_tokens__c4m_notify_user_membership_pending(Message $message) {
+function c4m_message_load_tokens__c4m_notify_user_membership_pending(
+  Message $message
+) {
   $message->arguments['@member_full_name'] = array(
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
@@ -1037,7 +1156,9 @@ function c4m_message_load_tokens__c4m_group_republished(Message $message) {
  * @param Message $message
  *   The Message entity.
  */
-function c4m_message_load_tokens__c4m_notify_admins_membership_accepted(Message $message) {
+function c4m_message_load_tokens__c4m_notify_admins_membership_accepted(
+  Message $message
+) {
   $message->arguments['@group_admin_full_name'] = array(
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
@@ -1149,7 +1270,9 @@ function c4m_message_load_tokens__c4m_group_admin_demoted(Message $message) {
  * @param Message $message
  *   The Message entity.
  */
-function c4m_message_load_tokens__c4m_notify_content_recommendation(Message $message) {
+function c4m_message_load_tokens__c4m_notify_content_recommendation(
+  Message $message
+) {
   $message->arguments['@user_full_name'] = array(
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
@@ -1205,7 +1328,9 @@ function c4m_message_load_tokens__c4m_notify_content_recommendation(Message $mes
  * @param Message $message
  *   The Message entity.
  */
-function c4m_message_load_tokens__c4m_content_inserted_or_updated(Message $message) {
+function c4m_message_load_tokens__c4m_content_inserted_or_updated(
+  Message $message
+) {
   $message->arguments['@user_full_name'] = array(
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
@@ -1263,6 +1388,29 @@ function c4m_message_load_tokens__c4m_content_inserted_or_updated(Message $messa
 }
 
 /**
+ * Add callbacks to c4m_new_content_share_published message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_content_share_inserted_or_updated(
+  Message $message
+) {
+  $message->arguments['!original_group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_original_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@original_group_node_title'] = array(
+    'callback' => 'c4m_message_format_original_group_node_title',
+    'pass message' => TRUE,
+  );
+}
+
+/**
  * Add callbacks to c4m_group_requested message arguments.
  *
  * For each token at email template, assigns a function that will be used
@@ -1297,7 +1445,9 @@ function c4m_message_load_tokens__c4m_group_requested(Message $message) {
  * @param Message $message
  *   The Message entity.
  */
-function c4m_message_load_tokens__c4m_notify_subscribers_new_comment(Message $message) {
+function c4m_message_load_tokens__c4m_notify_subscribers_new_comment(
+  Message $message
+) {
   $message->arguments['@user_full_name'] = array(
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
@@ -1445,7 +1595,9 @@ function c4m_message_load_tokens__c4m_notify_promoted_member(Message $message) {
  * @param Message $message
  *   The Message entity.
  */
-function c4m_message_load_tokens__c4m_notify_content_followers_new_comment(Message $message) {
+function c4m_message_load_tokens__c4m_notify_content_followers_new_comment(
+  Message $message
+) {
   $message->arguments['@user_full_name'] = array(
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
@@ -1547,7 +1699,8 @@ function c4m_message_load_tokens__c4m_group_hard_deleted(Message $message) {
  * @param Message $message
  *   The Message entity.
  */
-function c4m_message_load_tokens__c4m_group_request_submitted(Message $message) {
+function c4m_message_load_tokens__c4m_group_request_submitted(Message $message
+) {
   $message->arguments['!group_dashboard_url'] = array(
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
@@ -1629,7 +1782,9 @@ function c4m_message_load_tokens__c4m_group_soft_deleted(Message $message) {
  * @param Message $message
  *   The Message entity.
  */
-function c4m_message_load_tokens__c4m_membership_request_rejected(Message $message) {
+function c4m_message_load_tokens__c4m_membership_request_rejected(
+  Message $message
+) {
   $message->arguments['!group_dashboard_url'] = array(
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
@@ -1774,7 +1929,8 @@ function c4m_message_format_new_member_country(Message $message) {
  */
 function c4m_message_format_new_member_expertise(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $expertises = $wrapper->field_related_user->c4m_vocab_topic_expertise->value();
+  $expertises = $wrapper->field_related_user->c4m_vocab_topic_expertise->value(
+  );
   $expertise_names = array();
 
   foreach ($expertises as $expertise) {
@@ -1797,7 +1953,9 @@ function c4m_message_format_new_member_self_description(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $related_user = $wrapper->field_related_user->value();
 
-  return empty($related_user->c4m_body) ? '' : strip_tags($wrapper->field_related_user->c4m_body->value->value());
+  return empty($related_user->c4m_body) ? '' : strip_tags(
+    $wrapper->field_related_user->c4m_body->value->value()
+  );
 }
 
 /**
@@ -1819,7 +1977,10 @@ function c4m_message_format_group_pending_member_url(Message $message) {
     'purl' => array('disabled' => TRUE),
   );
 
-  return url('group/node/' . $gid . '/admin/people/edit-membership/' . $mid, $options);
+  return url(
+    'group/node/' . $gid . '/admin/people/edit-membership/' . $mid,
+    $options
+  );
 }
 
 /**
@@ -1896,6 +2057,37 @@ function c4m_message_format_group_url(Message $message) {
 }
 
 /**
+ * Returns original group url token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return group url.
+ */
+function c4m_message_format_original_group_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $node = entity_metadata_wrapper('node', $wrapper->field_node->value());
+
+  $group_wrapper = entity_metadata_wrapper(
+    'node',
+    $node->og_group_ref->value()
+  );
+
+  $url_options = array(
+    'absolute' => TRUE,
+    'purl' => array(
+      'provider' => 'og_purl|node',
+
+      'id' => $group_wrapper->nid->value(),
+    ),
+  );
+
+  return url('<front>', $url_options);
+}
+
+/**
  * Returns help guidance url token.
  *
  * @param Message $message
@@ -1942,6 +2134,28 @@ function c4m_message_format_group_node_title(Message $message) {
 }
 
 /**
+ * Returns original group title token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return group title.
+ */
+function c4m_message_format_original_group_node_title(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $node = entity_metadata_wrapper('node', $wrapper->field_node->value());
+
+  $group_wrapper = entity_metadata_wrapper(
+    'node',
+    $node->og_group_ref->value()
+  );
+
+  return $group_wrapper->title->value();
+}
+
+/**
  * Returns group welcome message token.
  *
  * @param Message $message
@@ -1958,7 +2172,8 @@ function c4m_message_format_group_welcome_message(Message $message) {
     return '';
   }
 
-  $group_message = $wrapper->field_group_node->c4m_group_welcome_message->value();
+  $group_message = $wrapper->field_group_node->c4m_group_welcome_message->value(
+  );
 
   return $group_message ? $group_message : '';
 }
@@ -2160,7 +2375,10 @@ function c4m_message_format_node_url(Message $message) {
     'purl' => array('disabled' => TRUE),
   );
 
-  return url('node/' . $wrapper->field_node->value(array('identifier' => TRUE)), $options);
+  return url(
+    'node/' . $wrapper->field_node->value(array('identifier' => TRUE)),
+    $options
+  );
 }
 
 /**
@@ -2220,7 +2438,13 @@ function c4m_message_format_node_recommend_count(Message $message) {
   $property_info = array(
     'flag_name' => 'c4m_og_content_recommend',
   );
-  $count = c4m_helper_entity_entity_get_properties($node, array(), '', 'node', $property_info);
+  $count = c4m_helper_entity_entity_get_properties(
+    $node,
+    array(),
+    '',
+    'node',
+    $property_info
+  );
 
   return empty($count) ? 0 : $count;
 }
@@ -2260,7 +2484,12 @@ function c4m_message_format_node_body_teaser(Message $message) {
 function c4m_message_format_comment_body_teaser(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $comment = $wrapper->field_comment->value();
-  $body_teaser = field_view_field('comment', $comment, 'comment_body', 'teaser');
+  $body_teaser = field_view_field(
+    'comment',
+    $comment,
+    'comment_body',
+    'teaser'
+  );
 
   return strip_tags($body_teaser[0]['#markup']);
 }
@@ -2341,7 +2570,10 @@ function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
     'purl' => array('disabled' => TRUE),
   );
 
-  return url('user/' . $uid . '/unsubscribe/' . $flag_suffix . '/' . $nid . '/' . $hash, $options);
+  return url(
+    'user/' . $uid . '/unsubscribe/' . $flag_suffix . '/' . $nid . '/' . $hash,
+    $options
+  );
 }
 
 /**
@@ -2353,8 +2585,12 @@ function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
  * @return string
  *   Approve membership auto login link.
  */
-function c4m_message_format_autologin_approve_membership_link(Message $message) {
-  return _c4m_message_format_autologin_control_membership_link($message, 'approve');
+function c4m_message_format_autologin_approve_membership_link(Message $message
+) {
+  return _c4m_message_format_autologin_control_membership_link(
+    $message,
+    'approve'
+  );
 }
 
 /**
@@ -2367,7 +2603,10 @@ function c4m_message_format_autologin_approve_membership_link(Message $message) 
  *   Reject membership auto login link.
  */
 function c4m_message_format_autologin_reject_membership_link(Message $message) {
-  return _c4m_message_format_autologin_control_membership_link($message, 'reject');
+  return _c4m_message_format_autologin_control_membership_link(
+    $message,
+    'reject'
+  );
 }
 
 /**
@@ -2384,7 +2623,10 @@ function c4m_message_format_autologin_reject_membership_link(Message $message) {
  * @return string
  *   $action membership auto login link.
  */
-function _c4m_message_format_autologin_control_membership_link(Message $message, $action) {
+function _c4m_message_format_autologin_control_membership_link(
+  Message $message,
+  $action
+) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $membership = $wrapper->field_group_membership->value();
   $user = user_load($message->uid);
@@ -2461,7 +2703,10 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
   // When a new photo is being uploaded to a photo album, we should create an
   // update message of the photo album itself instead of a message of the
   // photo (CFM-1456).
-  if ($entity_type == 'node' && $photo_album = c4m_content_photo_get_photo_album($entity)) {
+  if ($entity_type == 'node' && $photo_album = c4m_content_photo_get_photo_album(
+      $entity
+    )
+  ) {
     // Update the correct time.
     $photo_album->timestamp = $entity->timestamp;
     $op = 'update';
@@ -2553,7 +2798,10 @@ function c4m_messages_group_info(Message $message) {
   ) {
     if (isset($message->field_group_node) && !empty($message->field_group_node)) {
       $wrapper = entity_metadata_wrapper('message', $message);
-      $link = l($wrapper->field_group_node->label(), $wrapper->field_group_node->value()->purl);
+      $link = l(
+        $wrapper->field_group_node->label(),
+        $wrapper->field_group_node->value()->purl
+      );
       $group_info = t('Group: !link', array('!link' => $link));
     }
   }
@@ -3637,8 +3885,15 @@ function c4m_message_query_activity_stream_entity_field_access_alter(
       // archived states.
       // To resolve 'c4m_og_status' of group, join with
       // field_data_c4m_og_status table.
-      $subquery->leftJoin('field_data_c4m_og_status', 'gst', 'na.nid = gst.entity_id');
-      $pluggable_node_access_grants = pluggable_node_access_node_grants($account, $op);
+      $subquery->leftJoin(
+        'field_data_c4m_og_status',
+        'gst',
+        'na.nid = gst.entity_id'
+      );
+      $pluggable_node_access_grants = pluggable_node_access_node_grants(
+        $account,
+        $op
+      );
 
       $grant_conditions = db_or();
       // If any grant exists for the specified user, then user has access
@@ -3791,7 +4046,10 @@ function c4m_message_get_user_last_activity($uid) {
  *   An associative array of the filter group and index of the requested
  *   condition.
  */
-function c4m_message_get_query_condition_index_by_field_name(array $query_filter, $field) {
+function c4m_message_get_query_condition_index_by_field_name(
+  array $query_filter,
+  $field
+) {
   foreach ($query_filter as $group_index => $group) {
     foreach ($group['conditions'] as $condition_index => $condition) {
       if (is_string($condition['field']) && $condition['field'] == $field) {
@@ -3820,14 +4078,20 @@ function c4m_message_views_query_alter(&$view, &$query) {
   if ($filter_by == 'groups' || $filter_by == 'projects') {
     // `rtrim` removes plural 's' from the query string value to get the bundle.
     $groups = c4m_og_get_user_group_ids_by_bundle(rtrim($filter_by, 's'));
-    $condition = c4m_message_get_query_condition_index_by_field_name($query->where, 'field_data_field_group_node.field_group_node_target_id');
+    $condition = c4m_message_get_query_condition_index_by_field_name(
+      $query->where,
+      'field_data_field_group_node.field_group_node_target_id'
+    );
     $query->where[$condition['group']]['conditions'][$condition['index']]['value'] = $groups;
     $query->where[$condition['group']]['conditions'][$condition['index']]['operator'] = 'IN';
   }
   else {
     // Remove the filter criteria when the users chooses to show all activity or
     // filter by interests rather than by groups or projects.
-    $condition = c4m_message_get_query_condition_index_by_field_name($query->where, 'field_data_field_group_node.field_group_node_target_id');
+    $condition = c4m_message_get_query_condition_index_by_field_name(
+      $query->where,
+      'field_data_field_group_node.field_group_node_target_id'
+    );
     unset($query->where[$condition['group']]);
   }
 }
@@ -3839,7 +4103,10 @@ function c4m_message_views_query_alter(&$view, &$query) {
  * redirect to the correct path when filtering the content by groups, projects
  * or interests.
  */
-function c4m_features_homepage_filter_form_create_submit(array &$form, array &$form_state) {
+function c4m_features_homepage_filter_form_create_submit(
+  array &$form,
+  array &$form_state
+) {
   $options = array(
     'query' => array(
       'filter' => $form_state['values']['homepage-filter'],
