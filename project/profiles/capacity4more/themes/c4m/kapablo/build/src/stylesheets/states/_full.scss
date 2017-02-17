@@ -5,7 +5,7 @@
 
   &:not(.node-wiki-page) > .content > .group-right,
   &.node-wiki-page > .content > .group-left {
-    > section, > div {
+    > section, > div:not(.field-name-c4m-content-wiki-page-collapse) {
       @include border-bottom;
 
       .views-row, .detail-element, .view-mode-block_list {

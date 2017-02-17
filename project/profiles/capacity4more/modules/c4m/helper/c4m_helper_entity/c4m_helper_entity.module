@@ -83,6 +83,7 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
     'bundles' => array(),
     'state' => NULL,
     'og_id' => NULL,
+    'og_state' => OG_STATE_ACTIVE,
     'uid' => NULL,
     'topic' => NULL,
     'c4m_status' => NULL,
@@ -95,6 +96,7 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
   $bundles = $variables['bundles'];
   $state = $variables['state'];
   $og_id = $variables['og_id'];
+  $og_state = $variables['og_state'];
   $uid = $variables['uid'];
   $topic = $variables['topic'];
   $c4m_status = $variables['c4m_status'];
@@ -142,6 +144,7 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
       switch ($entity_type) {
         case 'user':
           $query->join('og_membership', 'og', "u.uid = og.etid AND og.entity_type = 'user'");
+          $query->condition('og.state', $og_state);
           break;
 
         case 'node':

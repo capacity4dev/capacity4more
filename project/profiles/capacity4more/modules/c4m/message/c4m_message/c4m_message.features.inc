@@ -656,6 +656,32 @@ function c4m_message_default_message_type() {
     "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
+  $items['c4m_new_content_share_published'] = entity_import('message_type', '{
+    "name" : "c4m_new_content_share_published",
+    "description" : "c4m New Content Shared",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003ENew @content_type_name was shared to @group_node_title\\u003C\\/p\\u003E\\r\\n",
+          "format" : "filtered_html"
+        },
+        {
+          "value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E @event_action the following @content_type_name from \\u003Ca href=\\u0022!original_group_dashboard_url\\u0022\\u003E@original_group_node_title\\u003C\\/a\\u003E: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cem\\u003E@node_teaser_body\\u003C\\/em\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!content_node_url\\u0022\\u003ERead more...\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYou\\u0027re receiving this e-mail because you\\u0027re subscribed to \\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E - if you no longer wish to receive notifications from this @group_node_type, please \\u003Ca href=\\u0022!unsubscribe_group_url\\u0022\\u003Eunsubscribe.\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n",
+          "format" : "full_html"
+        }
+      ]
+    },
+    "entity_type" : "message_type",
+    "rdf_mapping" : []
+  }');
   $items['c4m_new_member_joined'] = entity_import('message_type', '{
     "name" : "c4m_new_member_joined",
     "description" : "c4m New Member Joined",
