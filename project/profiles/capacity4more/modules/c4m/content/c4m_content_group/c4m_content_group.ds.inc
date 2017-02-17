@@ -268,6 +268,16 @@ function c4m_content_group_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_ds_group_recommendation_count' => array(
+      'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
     'c4m_ds_group_type_icon' => array(
       'weight' => '1',
       'label' => 'hidden',
@@ -284,16 +294,6 @@ function c4m_content_group_ds_field_settings_info() {
       'format' => 'default',
       'formatter_settings' => array(
         'ft' => array(),
-      ),
-    ),
-    'c4m_ds_node_highlight' => array(
-      'weight' => '7',
-      'label' => 'hidden',
-      'format' => 'default',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_reset',
-        ),
       ),
     ),
     'c4m_body' => array(
@@ -465,21 +465,21 @@ function c4m_content_group_ds_layout_settings_info() {
         1 => 'c4m_ds_group_type_icon',
         3 => 'c4m_ds_group_membership_type',
         6 => 'c4m_og_status',
-        8 => 'title',
+        9 => 'title',
       ),
       'left' => array(
         2 => 'c4m_media',
       ),
       'right' => array(
         4 => 'group_teaser_author_information',
-        5 => 'c4m_ds_group_access_info',
-        7 => 'c4m_body',
-        9 => 'c4m_user_first_and_last_name',
-        10 => 'c4m_ds_group_members_count',
-        11 => 'group_iconbar_comments_views',
-        12 => 'c4m_ds_creation_date',
+        5 => 'c4m_body',
+        7 => 'c4m_ds_group_access_info',
+        8 => 'c4m_user_first_and_last_name',
+        10 => 'group_iconbar_comments_views',
+        11 => 'c4m_ds_creation_date',
+        12 => 'c4m_ds_group_members_count',
         13 => 'c4m_ds_group_posts_count',
-        14 => 'c4m_ds_node_highlight',
+        14 => 'c4m_ds_group_recommendation_count',
       ),
     ),
     'fields' => array(
@@ -488,16 +488,16 @@ function c4m_content_group_ds_layout_settings_info() {
       'c4m_media' => 'left',
       'c4m_ds_group_membership_type' => 'header',
       'group_teaser_author_information' => 'right',
-      'c4m_ds_group_access_info' => 'right',
-      'c4m_og_status' => 'header',
       'c4m_body' => 'right',
-      'title' => 'header',
+      'c4m_og_status' => 'header',
+      'c4m_ds_group_access_info' => 'right',
       'c4m_user_first_and_last_name' => 'right',
-      'c4m_ds_group_members_count' => 'right',
+      'title' => 'header',
       'group_iconbar_comments_views' => 'right',
       'c4m_ds_creation_date' => 'right',
+      'c4m_ds_group_members_count' => 'right',
       'c4m_ds_group_posts_count' => 'right',
-      'c4m_ds_node_highlight' => 'right',
+      'c4m_ds_group_recommendation_count' => 'right',
     ),
     'classes' => array(
       'layout_class' => array(
