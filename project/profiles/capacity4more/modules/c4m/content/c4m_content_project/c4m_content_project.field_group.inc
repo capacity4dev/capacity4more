@@ -146,6 +146,7 @@ function c4m_content_project_field_group_info() {
       0 => 'c4m_ds_group_members_count',
       1 => 'c4m_ds_group_posts_count',
       2 => 'c4m_ds_group_recommendation_count',
+      3 => 'c4m_ds_node_highlight',
     ),
     'format_type' => 'div',
     'format_settings' => array(
