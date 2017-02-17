@@ -141,7 +141,7 @@ function c4m_content_project_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Icons',
-    'weight' => '6',
+    'weight' => '4',
     'children' => array(
       0 => 'c4m_ds_group_members_count',
       1 => 'c4m_ds_group_posts_count',

@@ -299,6 +299,110 @@ function c4m_content_project_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|project|teaser';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'project';
+  $ds_fieldsetting->view_mode = 'teaser';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => 'purl_og_dashboard',
+        'wrapper' => 'h3',
+        'class' => '',
+        'ft' => array(),
+      ),
+    ),
+    'c4m_user_first_and_last_name' => array(
+      'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'linked_user',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+          'lb' => 'Owned by',
+          'lb-col' => TRUE,
+        ),
+      ),
+    ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+          'lb' => 'Created',
+        ),
+      ),
+    ),
+    'c4m_ds_group_members_count' => array(
+      'weight' => '5',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_group_posts_count' => array(
+      'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_group_recommendation_count' => array(
+      'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_project_type_icon' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'ow' => TRUE,
+          'ow-el' => 'span',
+          'ow-cl' => 'node-icon',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
+    'c4m_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_media' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+        ),
+      ),
+    ),
+  );
+  $export['node|project|teaser'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|project|token';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'project';
@@ -550,6 +654,70 @@ function c4m_content_project_ds_layout_settings_info() {
     'layout_disable_css' => FALSE,
   );
   $export['node|project|group_dashboard'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|project|teaser';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'project';
+  $ds_layout->view_mode = 'teaser';
+  $ds_layout->layout = 'c4m_ds_3_9_fluid_stacked';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'header' => array(
+        0 => 'c4m_ds_project_type_icon',
+        1 => 'group_teaser_header_inline',
+        3 => 'c4m_project_stage',
+        4 => 'title',
+      ),
+      'left' => array(
+        2 => 'c4m_media',
+      ),
+      'right' => array(
+        5 => 'group_teaser_author_information',
+        6 => 'c4m_body',
+        7 => 'group_iconbar_project_views',
+        8 => 'c4m_ds_group_members_count',
+        9 => 'c4m_user_first_and_last_name',
+        10 => 'c4m_ds_group_posts_count',
+        11 => 'c4m_ds_creation_date',
+        12 => 'c4m_ds_group_recommendation_count',
+      ),
+    ),
+    'fields' => array(
+      'c4m_ds_project_type_icon' => 'header',
+      'group_teaser_header_inline' => 'header',
+      'c4m_media' => 'left',
+      'c4m_project_stage' => 'header',
+      'title' => 'header',
+      'group_teaser_author_information' => 'right',
+      'c4m_body' => 'right',
+      'group_iconbar_project_views' => 'right',
+      'c4m_ds_group_members_count' => 'right',
+      'c4m_user_first_and_last_name' => 'right',
+      'c4m_ds_group_posts_count' => 'right',
+      'c4m_ds_creation_date' => 'right',
+      'c4m_ds_group_recommendation_count' => 'right',
+    ),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
+    'wrappers' => array(
+      'header' => 'div',
+      'left' => 'div',
+      'right' => 'div',
+      'footer' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['node|project|teaser'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
