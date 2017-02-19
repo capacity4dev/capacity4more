@@ -57,10 +57,17 @@ function theme_c4m_field_og_group(array $field) {
 
   c4m_og_purl_alter_uri_info_purl_dashboard($uri_info);
 
+  $group_type = $group->type;
+
+  if ($group->type == 'project') {
+    $entity = entity_metadata_wrapper('node', $group);
+    $group_type = $entity->c4m_project_type->value();
+  }
+
   // Return a link to the group dashboard.
   $output = l($group->title, $uri_info['path'], $uri_info['options']);
   if (!empty($field['formatter_settings']['show_group_type'])) {
-    $output = ucfirst($group->type) . ': ' . $output;
+    $output = ucfirst($group_type) . ': ' . $output;
   }
 
   return $output;

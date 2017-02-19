@@ -1613,9 +1613,10 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 42,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'list',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'list_default',
         'weight' => 30,
       ),
       'token' => array(
