@@ -12,7 +12,7 @@
 <?php endif; ?>
 
 <div class="content clearfix">
-  <<?php print $header_wrapper; ?> class="group-header col-xs-12 <?php print $header_classes; ?>">
+  <<?php print $header_wrapper; ?> class="group-header <?php print $header_classes; ?>">
     <?php print $header; ?>
   </<?php print $header_wrapper; ?>>
   <<?php print $left_wrapper; ?> class="group-left col-xs-4 <?php print $left_classes; ?>">

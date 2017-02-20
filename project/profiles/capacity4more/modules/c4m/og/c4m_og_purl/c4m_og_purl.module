@@ -122,6 +122,14 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
     if (_c4m_og_purl_starts_with($path, 'node') && !_c4m_og_purl_node_at_path_is_content_of_group($path, $context['gid']) && !_c4m_og_purl_path_is_add_group_content($path, $context['gid'])) {
       // Node at path is not content of current OG group, thus, remove purl.
       $options['prefix'] = '';
+
+      return;
+    }
+
+    // In case purl at $options['prefix'] is incorrect, update it.
+    $group_purl = c4m_og_current_group_purl() . '/';
+    if (!empty($options['prefix']) && $options['prefix'] != $group_purl) {
+      $options['prefix'] = $group_purl;
     }
   }
 }
