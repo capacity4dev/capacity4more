@@ -77,6 +77,11 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     // Show only the entities that are active groups.
     $query->fieldCondition(OG_GROUP_FIELD, 'value', 1, '=');
 
+    // If project, don't include templates.
+    if ($group_type === 'project') {
+      $query->fieldCondition('c4m_is_template', 'value', 1, '<>');
+    }
+
     $account = user_load($user->uid);
     if (user_access('administer site configuration', $account)) {
       // Site administrator can choose also groups he is not member of.
