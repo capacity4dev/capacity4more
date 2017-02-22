@@ -166,4 +166,72 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     return $query;
   }
 
+  /**
+   * Implements EntityReferenceHandler::getReferencableEntities().
+   */
+  public function getReferencableEntities($match = NULL, $match_operator = 'CONTAINS', $limit = 0) {
+    $options = array();
+    $entity_type = $this->field['settings']['target_type'];
+
+    $query = $this->buildEntityFieldQuery($match, $match_operator);
+    if ($limit > 0) {
+      $query->range(0, $limit);
+    }
+
+    $results = $query->execute();
+
+    if (!empty($results[$entity_type])) {
+      $entities = entity_load($entity_type, array_keys($results[$entity_type]));
+      foreach ($entities as $entity_id => $entity) {
+        list(,, $bundle) = entity_extract_ids($entity_type, $entity);
+        switch ($entity->type) {
+          case 'project':
+            // Add project/programme indicator.
+            $entity_wrapper = entity_metadata_wrapper('node', $entity);
+            $project_type = $entity_wrapper->c4m_project_type->value();
+
+            $tag['element'] = array(
+              '#tag' => 'i',
+              '#attributes' => array(
+                'class' => array(
+                  'fa',
+                  ($project_type == 'programme') ? 'fa-puzzle-piece' : 'fa-flag-checkered',
+                  'project-type-' . $project_type,
+                ),
+              ),
+              '#value' => '',
+            );
+
+            $options[$bundle][$entity_id] = theme_html_tag($tag) . ' ' . check_plain($this->getLabel($entity));
+            break;
+          case 'group':
+            // Add private level indicator.
+            $group_type = c4m_og_get_access_type($entity);
+
+            $tag['element'] = array(
+              '#tag' => 'span',
+              '#attributes' => array(
+                'class' => array(
+                  'group-icon',
+                  'group-' . $group_type['type'],
+                  'node-icon',
+                  'as-group-' . $group_type['type'],
+                ),
+              ),
+              '#value' => '',
+            );
+            $options[$bundle][$entity_id] = theme_html_tag($tag) . ' ' . check_plain($this->getLabel($entity));
+
+            break;
+
+          default:
+            $options[$bundle][$entity_id] = check_plain($this->getLabel($entity));
+            break;
+        }
+      }
+    }
+
+    return $options;
+  }
+
 }
