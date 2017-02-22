@@ -83,8 +83,8 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       $query->fieldCondition(
         'c4m_og_status',
         'value',
-        array('deleted'),
-        'NOT IN'
+        array('published'),
+        'IN'
       );
       return $query;
     }
@@ -153,7 +153,7 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
 
     // Adding condition that verifying that group state allows adding content
     // member can add content to groups at draft or published state.
-    $allowed_states = array('draft', 'published');
+    $allowed_states = array('published');
     $query->fieldCondition(
       'c4m_og_status',
       'value',
