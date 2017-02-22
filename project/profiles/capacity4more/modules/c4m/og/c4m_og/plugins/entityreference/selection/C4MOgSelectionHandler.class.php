@@ -208,7 +208,9 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
             );
 
             $options[$bundle][$entity_id] = theme_html_tag($tag) . ' ' . check_plain($this->getLabel($entity));
+
             break;
+
           case 'group':
             // Add private level indicator.
             $group_type = c4m_og_get_access_type($entity);
