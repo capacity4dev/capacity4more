@@ -48,6 +48,7 @@ projects[money][version] = "1.x-dev"
 
 projects[paragraphs][subdir] = "contrib"
 projects[paragraphs][version] = "1.0-rc4"
+projects[paragraphs][patch][] = "https://www.drupal.org/files/issues/paragraphs-fix_parents_access-2562463-20-7.x.patch"
 
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"

@@ -212,7 +212,7 @@ function c4m_content_photo_field_default_field_instances() {
         'weight' => 7,
       ),
       'teaser_group' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'smart_trim',
         'settings' => array(
           'more_link' => FALSE,
@@ -389,7 +389,7 @@ function c4m_content_photo_field_default_field_instances() {
         'weight' => 6,
       ),
       'teaser_group' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',

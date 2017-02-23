@@ -273,6 +273,7 @@ function _capacity4more_install_create_page_node(
     'status' => 1,
     'comment' => 0,
     'promote' => 0,
+    'uid' => 1,
   );
 
   if ($path) {

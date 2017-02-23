@@ -83,6 +83,7 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
     'bundles' => array(),
     'state' => NULL,
     'og_id' => NULL,
+    'og_state' => OG_STATE_ACTIVE,
     'uid' => NULL,
     'topic' => NULL,
     'c4m_status' => NULL,
@@ -95,6 +96,7 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
   $bundles = $variables['bundles'];
   $state = $variables['state'];
   $og_id = $variables['og_id'];
+  $og_state = $variables['og_state'];
   $uid = $variables['uid'];
   $topic = $variables['topic'];
   $c4m_status = $variables['c4m_status'];
@@ -142,6 +144,7 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
       switch ($entity_type) {
         case 'user':
           $query->join('og_membership', 'og', "u.uid = og.etid AND og.entity_type = 'user'");
+          $query->condition('og.state', $og_state);
           break;
 
         case 'node':
@@ -527,8 +530,8 @@ function c4m_helper_entity_entity_load($entities, $type) {
 /**
  * Gets the total number of results per view and display.
  *
- * We use it because some views are using solr but also has a pager, and we
- * need the total results.
+ * Executes pager view with 1 items on a page, and returns
+ * total number of result items.
  *
  * @param string $view_name
  *   The view's machine name.
@@ -541,12 +544,12 @@ function c4m_helper_entity_entity_load($entities, $type) {
 function _c4m_helper_entity_total_count_via_views($view_name, $display_id) {
   $view = views_get_view($view_name);
 
-  // Disabled the pagination.
-  $view->set_items_per_page(0);
-
+  $view->set_items_per_page(1);
   $view->set_display($display_id);
   $view->pre_execute();
   $view->execute();
 
-  return count($view->result);
+  $search_api_results = $view->query->getSearchApiResults();
+
+  return $search_api_results['result count'];
 }

@@ -88,7 +88,11 @@ function theme_c4m_ds_creation_date(array $field) {
       'class' => array('creation-date'),
       'data-toggle' => 'tooltip',
       'data-placement' => 'bottom',
-      'title' => format_date($field['entity']->created, 'custom', 'd F Y - H:i'),
+      'title' => format_date(
+        $field['entity']->created,
+        'custom',
+        'd F Y - H:i'
+      ),
     ),
     '#value' => c4m_helper_date_time_ago(
       $field['entity']->created,
@@ -311,18 +315,12 @@ function theme_c4m_ds_type_insert_action_share_from(array $field) {
 
   $group_type = $group_wrapper->getBundle();
 
-  $url_options = array(
-    'absolute' => TRUE,
-    'purl' => array(
-      'provider' => 'og_purl|node',
-
-      'id' => $group_wrapper->nid->value(),
-    ),
-  );
-
   $group_url = l(
     $group_wrapper->title->value(),
-    url('<front>', $url_options)
+    url(
+      'node/' . $group_wrapper->get('nid')->value(),
+      array('purl' => array('disabled' => FALSE))
+    )
   );
 
   $tag['element'] = array(
@@ -369,7 +367,11 @@ function theme_c4m_ds_content_footer_stats(array $field) {
 
   $items['recommends'] = theme(
     'c4m_ds_entity_recommends_count',
-    array('count' => (!empty($recommends) ? c4m_content_ec_number_format($recommends) : 0))
+    array(
+      'count' => (!empty($recommends) ? c4m_content_ec_number_format(
+        $recommends
+      ) : 0),
+    )
   );
 
   // Only show comments if comments counter is relevant to be shown.
@@ -406,7 +408,11 @@ function theme_c4m_ds_content_footer_stats(array $field) {
       $file_object = file_load($document['fid']);
       $items['downloads'] = theme(
         'c4m_ds_entity_downloads_count',
-        array('count' => (!empty($file_object->download_count) ? c4m_content_ec_number_format($file_object->download_count) : 0))
+        array(
+          'count' => (!empty($file_object->download_count) ? c4m_content_ec_number_format(
+            $file_object->download_count
+          ) : 0),
+        )
       );
     }
   }
@@ -554,6 +560,50 @@ function theme_c4m_ds_group_posts_count(array $field) {
   );
 
   return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
+ * Render group recommendation count.
+ *
+ * @param array $field
+ *   The field that needs to be rendered.
+ *
+ * @return mixed
+ *   The rendered field.
+ */
+function theme_c4m_ds_group_recommendation_count_full(array $field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+
+  $entity = $field['entity'];
+
+  $recommends = c4m_helper_entity_entity_get_properties(
+    $entity,
+    array(),
+    '',
+    'node',
+    array('flag_name' => 'c4m_og_content_recommend')
+  );
+
+  $output = theme(
+    'c4m_ds_entity_recommends_count_full',
+    array(
+      'count' => (!empty($recommends) ? c4m_content_ec_number_format(
+        $recommends
+      ) : 0),
+      'text' => format_plural(
+        $recommends,
+        '1 recommendation',
+        '@count recommendations',
+        array('@count' => $recommends)
+      ),
+    )
+  );
+
+  return $output;
 }
 
 /**
@@ -818,7 +868,9 @@ function theme_c4m_ds_event_start_icon(array $field) {
   $tag['element'] = array(
     '#tag' => 'div',
     '#value' => '<i class="fa fa-calendar-o fa-stack-2x"></i>
-  <span class="fa-stack-1x calendar-text">' . $start_date->format('d') . '</span>',
+  <span class="fa-stack-1x calendar-text">' . $start_date->format(
+        'd'
+      ) . '</span>',
     '#attributes' => array(
       'class' => array(
         'fa-stack',
@@ -941,7 +993,6 @@ function theme_c4m_ds_photo_download(array $field) {
     return $link . ' (' . format_size($file->filesize) . ')';
   }
 }
-
 
 /**
  * DS function field.

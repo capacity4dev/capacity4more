@@ -47,7 +47,6 @@ function c4m_features_overview_topics_views_default_views() {
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['content'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.';
   $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   /* Field: Content: Theme */
   $handler->display->display_options['fields']['c4m_vocab_theme']['id'] = 'c4m_vocab_theme';
@@ -96,8 +95,8 @@ function c4m_features_overview_topics_views_default_views() {
   $handler->display->display_options['path'] = 'topics';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Topics';
-  $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['weight'] = '2';
+  $handler->display->display_options['menu']['name'] = 'main-menu';
   $export['c4m_overview_topics'] = $view;
 
   return $export;

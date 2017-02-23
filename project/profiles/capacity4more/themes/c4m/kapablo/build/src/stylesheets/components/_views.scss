@@ -143,10 +143,8 @@
   .views-row + .views-row {
 
     &:not(.no-border) {
-      border-top: none;
-      margin-top: 0px;
-      margin-bottom: 0px;
-      padding-top: 0px;
+      @include border-top;
+
     }
   }
 

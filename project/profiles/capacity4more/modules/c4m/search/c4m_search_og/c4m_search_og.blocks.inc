@@ -30,6 +30,7 @@ function c4m_search_og_block_view($delta = '') {
 
       // Assemble search URL using current group.
       $redirect_url = url('searchgroup', array(
+        'absolute' => TRUE,
         'purl' => array(
           'provider' => 'og_purl|node',
           'id' => $gid,

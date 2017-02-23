@@ -38,5 +38,19 @@ function c4m_wysiwyg_ckeditor_strongarm() {
   $strongarm->value = '[file:field_file_image_title_text]';
   $export['file_entity_title'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathologic_local_paths';
+  $strongarm->value = '';
+  $export['pathologic_local_paths'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathologic_protocol_style';
+  $strongarm->value = 'path';
+  $export['pathologic_protocol_style'] = $strongarm;
+
   return $export;
 }
