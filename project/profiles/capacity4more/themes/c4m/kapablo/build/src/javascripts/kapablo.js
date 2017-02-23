@@ -366,34 +366,40 @@ var Drupal = Drupal || {};
         })
     );
 
-    function collapsibleNavigation(element) {
-        var element = $(element);
+    /**
+     * Initialise and handle collapsible navigation wrappers.
+     *
+     * @param element
+     */
+    function collapsibleNavigation(htmlElement) {
+        var element = $(htmlElement);
 
-        element.find('li.expanded').each(function (index, el) {
-            var el = $(el);
-            var subnav = el.find('> .collapse');
-            if (subnav.hasClass('in')) {
-                el.find('> a > i').removeClass('fa-caret-right').addClass('fa-caret-down');
+        element.find("li.expanded").each(function (index, htmlEl) {
+            var el = $(htmlEl);
+            var subnav = el.find("> .collapse");
+            if (subnav.hasClass("in")) {
+                el.find("> a > i").removeClass("fa-caret-right").addClass("fa-caret-down");
             }
         });
 
-        element.find('[data-toggle="collapse"]').on('click', function (e) {
+        element.find("[data-toggle=\"collapse\"]").on("click", function (e) {
+            var $this = $(this);
+            var target, subNavigation;
+
             e.preventDefault();
 
-            var $this = $(this);
+            target = $this.data("target");
+            subNavigation = $(target);
 
-            var target = $this.data('target');
-            var sub_navigation = $(target);
+            subNavigation.toggleClass("in");
 
-            sub_navigation.toggleClass('in');
-
-            if ($this.hasClass('fa-caret-right')) {
-                $this.removeClass('fa-caret-right');
-                $this.addClass('fa-caret-down');
+            if ($this.hasClass("fa-caret-right")) {
+                $this.removeClass("fa-caret-right");
+                $this.addClass("fa-caret-down");
             }
-            else if ($this.hasClass('fa-caret-down')) {
-                $this.removeClass('fa-caret-down');
-                $this.addClass('fa-caret-right');
+            else if ($this.hasClass("fa-caret-down")) {
+                $this.removeClass("fa-caret-down");
+                $this.addClass("fa-caret-right");
             }
 
             return false;
