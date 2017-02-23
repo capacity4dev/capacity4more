@@ -4,6 +4,7 @@
  */
 
 var Drupal = Drupal || {};
+var jQuery = jQuery || {};
 
 (function ($) {
     "use strict";
@@ -420,22 +421,25 @@ var Drupal = Drupal || {};
      */
     function _removeURLParameter(url, parameter) {
         // Prefer to use l.search if you have a location/link object.
-        var urlparts = url.split('?');
-        if (urlparts.length >= 2) {
+        var urlparts = url.split("?");
+        var parts;
+        var prefix;
+        var i;
 
-            var prefix = encodeURIComponent(parameter) + '=';
-            var pars = urlparts[1].split(/[&;]/g);
+        if (urlparts.length >= 2) {
+            prefix = encodeURIComponent(parameter) + "=";
+            parts = urlparts[1].split(/[&;]/g);
 
             // Reverse iteration as may be destructive.
-            for (var i = pars.length; i-- > 0;) {
+            for (i = parts.length; 0 < i--;) {
                 // Idiom for string.startsWith.
-                if (pars[i].lastIndexOf(prefix, 0) !== -1) {
-                    pars.splice(i, 1);
+                if (parts[i].lastIndexOf(prefix, 0) !== -1) {
+                    parts.splice(i, 1);
                 }
             }
 
-            if (pars.length > 0) {
-                url = urlparts[0] + '?' + pars.join('&');
+            if (parts.length > 0) {
+                url = urlparts[0] + "?" + parts.join("&");
             }
             else {
                 url = urlparts[0];
@@ -464,26 +468,26 @@ var Drupal = Drupal || {};
      */
     function _addParameter(url, parameterName, parameterValue) {
         var replaceDuplicates = true;
-        var urlhash;
-        var cl;
+        var urlhash, cl, sourceUrl, urlParts, newQueryString;
+        var parameters, parameterParts, i;
 
-        if (url.indexOf('#') > 0) {
-            cl = url.indexOf('#');
-            urlhash = url.substring(url.indexOf('#'), url.length);
+        if (url.indexOf("#") > 0) {
+            cl = url.indexOf("#");
+            urlhash = url.substring(url.indexOf("#"), url.length);
         }
         else {
-            urlhash = '';
+            urlhash = "";
             cl = url.length;
         }
-        var sourceUrl = url.substring(0, cl);
+        sourceUrl = url.substring(0, cl);
 
-        var urlParts = sourceUrl.split("?");
-        var newQueryString = "";
+        urlParts = sourceUrl.split("?");
+        newQueryString = "";
 
         if (urlParts.length > 1) {
-            var parameters = urlParts[1].split("&");
-            for (var i = 0; (i < parameters.length); i++) {
-                var parameterParts = parameters[i].split("=");
+            parameters = urlParts[1].split("&");
+            for (i = 0; (i < parameters.length); i++) {
+                parameterParts = parameters[i].split("=");
                 if (!(replaceDuplicates && parameterParts[0] === parameterName)) {
                     if (newQueryString === "") {
                         newQueryString = "?";
@@ -491,7 +495,7 @@ var Drupal = Drupal || {};
                     else {
                         newQueryString += "&";
                     }
-                    newQueryString += parameterParts[0] + "=" + (parameterParts[1] ? parameterParts[1] : '');
+                    newQueryString += parameterParts[0] + "=" + (parameterParts[1] ? parameterParts[1] : "");
                 }
             }
         }
@@ -499,26 +503,37 @@ var Drupal = Drupal || {};
             newQueryString = "?";
         }
 
-        if (newQueryString !== "" && newQueryString !== '?') {
+        if (newQueryString !== "" && newQueryString !== "?") {
             newQueryString += "&";
         }
-        newQueryString += parameterName + "=" + (parameterValue ? parameterValue : '');
+        newQueryString += parameterName + "=" + (parameterValue ? parameterValue : "");
         return urlParts[0] + newQueryString + urlhash;
-    };
+    }
 
+    /**
+     * Helper function to retrieve a named URL parameter.
+     *
+     * @param url
+     *   URL string.
+     * @param parameter
+     *   Parameter name to return.
+     *
+     * @private
+     */
     function _getParameter(url, parameter) {
         var urlParts = url.split("?");
+        var parameters, parameterParts, i;
 
         if (urlParts.length > 1) {
-            var parameters = urlParts[1].split("&");
-            for (var i = 0; (i < parameters.length); i++) {
-                var parameterParts = parameters[i].split("=");
+            parameters = urlParts[1].split("&");
+            for (i = 0; (i < parameters.length); i++) {
+                parameterParts = parameters[i].split("=");
                 if (parameterParts[0] === parameter) {
                     return parameterParts[1];
                 }
             }
         }
-    };
+    }
 
 })
 (jQuery);
