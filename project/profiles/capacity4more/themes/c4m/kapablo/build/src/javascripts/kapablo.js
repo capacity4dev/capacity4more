@@ -428,7 +428,7 @@ var jQuery = jQuery || {};
      */
     function _removeURLParameter(url, parameter) {
         // Prefer to use l.search if you have a location/link object.
-        var urlparts = returnUrl.split("?");
+        var urlparts = url.split("?");
         var parts;
         var prefix;
         var i;
