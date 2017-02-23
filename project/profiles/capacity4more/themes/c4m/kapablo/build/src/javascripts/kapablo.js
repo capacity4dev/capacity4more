@@ -158,70 +158,92 @@ var Drupal = Drupal || {};
         }
     };
 
+    /**
+     * Allow wiki pages to minimize (collapse) the sub-navigation, and save this state when clicking other pages.
+     *
+     * @type {{attach: Drupal.behaviors.wikiPagesSubNavigation.attach}}
+     */
     Drupal.behaviors.wikiPagesSubNavigation = {
-        attach: function (context, settings) {
-            var $wrapper = $('#group-pages-navigation-left');
+        attach: function () {
+            var outerWrapper = $("#group-pages-navigation-left");
+            var wrapper, url, collapsed, navLinks, href;
 
-            if ($wrapper == null) {
+            if (outerWrapper.length === 0) {
                 return;
             }
 
-            collapsibleNavigation($wrapper.find('ul[role="menu"]'));
+            collapsibleNavigation($("ul[role=\"menu\"]", outerWrapper));
 
             // .wrapInner() does not retain bound events.
-            var wrapper = $wrapper.get(0);
+            wrapper = outerWrapper.get(0);
 
-            if (wrapper == null) {
+            if (wrapper.length === 0) {
                 return;
             }
 
-            var url = location.href;
-            var collapsed = _getParameter(url, 'collapsed');
+            url = location.href;
+            collapsed = _getParameter(url, "collapsed");
 
-            var nav_links = $('.og-menu-link.wiki .c4m-book-og-menu-link, #group-pages-navigation-left .field-name-c4m-content-wiki-page-navigation a, .book-navigation a');
-            var href;
+            navLinks = $(".og-menu-link.wiki .c4m-book-og-menu-link, #group-pages-navigation-left .field-name-c4m-content-wiki-page-navigation a, .book-navigation a");
 
-            $('.field-group-format-title', wrapper).on("click", function () {
+            $(".field-group-format-title", wrapper).on("click", (function () {
                 if ($(wrapper).hasClass("collapsed")) {
-                    $(nav_links).each(function () {
-                        href = _addParameter($(this).attr('href'), 'collapsed', '1');
-                        $(this).attr('href', href);
-                    });
+                    $(navLinks).each((function () {
+                        href = _addParameter($(this).attr("href"), "collapsed", "1");
+                        $(this).attr("href", href);
+                    }));
                 }
                 else {
-                    $(nav_links).each(function () {
-                        href = _removeURLParameter($(this).attr('href'), 'collapsed');
-                        $(this).attr('href', href);
-                    });
+                    $(navLinks).each((function () {
+                        href = _removeURLParameter($(this).attr("href"), "collapsed");
+                        $(this).attr("href", href);
+                    }));
                 }
-            });
+            }));
 
-            if (collapsed !== '1') {
+            if (collapsed !== "1") {
                 toggleSubpages(wrapper);
             }
 
             else {
-                $(nav_links).each(function () {
-                    href = _addParameter($(this).attr('href'), 'collapsed', '1');
-                    $(this).attr('href', href);
-                });
+                $(navLinks).each((function () {
+                    href = _addParameter($(this).attr("href"), "collapsed", "1");
+                    $(this).attr("href", href);
+                }));
             }
 
+            /**
+             * Toggle subpage state.
+             *
+             * @param wrapper
+             *   The subnavigation wrapper.
+             *
+             * @returns {boolean}
+             */
             function toggleSubpages(wrapper) {
-                if (!wrapper.animating || wrapper.animating == null) {
+                var speed;
+
+                if (!wrapper.animating || wrapper.animating === null) {
                     wrapper.animating = true;
-                    var speed = $wrapper.hasClass('speed-fast') ? 300 : 1000;
-                    if ($wrapper.hasClass('effect-none') && $wrapper.hasClass('speed-none')) {
-                        $('> .field-group-format-wrapper', wrapper).toggle();
+
+                    if ($(wrapper).hasClass("speed-fast")) {
+                        speed = 300;
+                    } else {
+                        speed = 1000;
                     }
-                    else if ($wrapper.hasClass('effect-blind')) {
-                        $('> .field-group-format-wrapper', wrapper).toggle('blind', {}, speed);
+
+                    if ($(wrapper).is(".effect-none, .speed-none")) {
+                        $("> .field-group-format-wrapper", wrapper).toggle();
+                    }
+                    else if ($(wrapper).hasClass("effect-blind")) {
+                        $("> .field-group-format-wrapper", wrapper).toggle("blind", {}, speed);
                     }
                     else {
-                        $('> .field-group-format-wrapper', wrapper).toggle(speed);
+                        $("> .field-group-format-wrapper", wrapper).toggle(speed);
                     }
+
                     wrapper.animating = false;
-                    $wrapper.toggleClass('collapsed');
+                    $(wrapper).toggleClass("collapsed");
 
                     return false;
                 }
