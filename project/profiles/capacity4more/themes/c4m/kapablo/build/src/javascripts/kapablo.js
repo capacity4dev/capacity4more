@@ -77,26 +77,32 @@ var Drupal = Drupal || {};
         }
     };
 
+    /**
+     * Allow wiki pages to be displayed in "fullscreen" mode, and save this state when clicking other pages.
+     *
+     * @type {{attach: Drupal.behaviors.sidebarCollapseExpand.attach}}
+     */
     Drupal.behaviors.sidebarCollapseExpand = {
-        attach: function (context, settings) {
+        attach: function () {
             var url = location.href;
-            var fullscreen = _getParameter(url, 'fullscreen');
+            var fullscreen = _getParameter(url, "fullscreen");
+            var sidebar = $("#collapse-sidebar");
+            var navLinks = $(".og-menu-link.wiki .c4m-book-og-menu-link, #group-pages-navigation-left .field-name-c4m-content-wiki-page-navigation a, .book-navigation a");
 
-            if (fullscreen === '1') {
-                collapseSidebar($('#collapse-sidebar'));
+            if (fullscreen === "1") {
+                collapseSidebar(sidebar);
             }
 
-            $('#collapse-sidebar').on('click', function () {
+            sidebar.on("click", (function () {
                 var buttonClasses = $(this).attr("class");
-                // If the button has the "collapsed" class,
-                // Expand the sidebar, otherwise collapse it.
+                // If the button has the "collapsed" class: expand the sidebar, otherwise collapse it.
                 if (buttonClasses.indexOf("collapsed") >= 0) {
-                    expandSidebar($(this));
+                    expandSidebar($(this), navLinks);
                 }
                 else {
-                    collapseSidebar($(this));
+                    collapseSidebar($(this), navLinks);
                 }
-            });
+            }));
 
             /**
              * Collapse the sidebar in the Wiki pages.
