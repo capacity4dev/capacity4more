@@ -327,16 +327,23 @@ var Drupal = Drupal || {};
         }
     };
 
+    /**
+     * Create a "use another mail" link that wipes the e-mail field + enable fields when submitting (AJAX issue).
+     *
+     * @type {{attach: Drupal.behaviors.registration.attach}}
+     */
     Drupal.behaviors.registration = {
         attach: function (context, settings) {
-            $('.use-another-email', context).click(function () {
-                $('input[name="mail"]').val('').focus();
+            $(".use-another-email", context).click((function () {
+                // Wipe content and focus mail field.
+                $("input[name=\"mail\"]").val("").focus();
                 return false;
-            });
+            }));
 
-            $('#user-register-form').submit(function () {
-                $(':disabled', this).prop('disabled', false);
-            });
+            // AJAX might disable some fields, which causes JavaScript errors on submitting.
+            $("#user-register-form").submit((function () {
+                $(":disabled", this).prop("disabled", false);
+            }));
         }
     };
 
