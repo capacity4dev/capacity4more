@@ -273,8 +273,15 @@ var Drupal = Drupal || {};
         }
     };
 
+    /**
+     * Site has a pretty large banner, functionality skips this header and jumps straight to the h1 tag.
+     *
+     * @type {{attach: Drupal.behaviors.jumpToTitle.attach}}
+     */
     Drupal.behaviors.jumpToTitle = {
         attach: function (context, settings) {
+            var timeout = 0, body;
+
             // Do this only once.
             if (context !== document) {
                 return;
@@ -284,26 +291,24 @@ var Drupal = Drupal || {};
                 return;
             }
 
-            // We have to use setTimeout because:
-            // - for some reason when attaching the behaviour h1 has the scroll top
-            //   value of 0. Only on $(document).ready() it has the right value.
-            // - we have to let admin menu to do its thing.
-            var timeout = 0;
-            var $body = $('body');
-            if ($body.hasClass('admin-menu')) {
+            // We have to use setTimeout because for some reason when attaching the behaviour
+            // h1 has the scroll top value of 0
+            body = $("body");
+
+            if ($(body).hasClass("admin-menu")) {
                 timeout = 500;
             }
 
-            setTimeout(function () {
+            setTimeout((function () {
                 // Don't do anything if the user already scrolled to a different
                 // position.
-                if ($body.scrollTop() !== 0) {
+                if ($(body).scrollTop() !== 0) {
                     return;
                 }
-                $('html, body').animate({
-                    scrollTop: parseInt($('h1').offset().top) + 'px'
+                $("html, body").animate({
+                    scrollTop: parseInt($("h1").offset().top) + "px"
                 }, 100);
-            }, timeout);
+            }), timeout);
         }
     };
 
