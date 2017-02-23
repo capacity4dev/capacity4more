@@ -101,11 +101,12 @@ function c4m_content_group_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Icons',
-    'weight' => '5',
+    'weight' => '4',
     'children' => array(
       0 => 'c4m_ds_group_members_count',
       1 => 'c4m_ds_group_posts_count',
-      2 => 'c4m_ds_node_highlight',
+      2 => 'c4m_ds_group_recommendation_count',
+      3 => 'c4m_ds_node_highlight',
     ),
     'format_type' => 'div',
     'format_settings' => array(

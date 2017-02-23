@@ -20,7 +20,7 @@ function _c4m_content_project_field_twitter_ds_widget($field) {
     "auto_expand_photo" => FALSE,
     "result_type" => "mixed",
     "rts_display_original" => TRUE,
-    "tweet_about_btn" => TRUE,
+    "tweet_about_btn" => FALSE,
     "tweet_more_btn" => TRUE,
   );
 

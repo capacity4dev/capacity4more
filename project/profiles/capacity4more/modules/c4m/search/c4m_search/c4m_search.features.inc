@@ -177,7 +177,12 @@ function c4m_search_default_search_api_index() {
         "search_api_attachments_alter_settings" : {
           "status" : 1,
           "weight" : "0",
-          "settings" : { "excluded_extensions" : "aif art avi bmp gif ico mov oga ogv png psd ra ram rgb flv" }
+          "settings" : {
+            "excluded_extensions" : "aif art avi bmp gif ico mov oga ogv png psd ra ram rgb flv",
+            "number_indexed" : "0",
+            "max_file_size" : "0",
+            "excluded_private" : 1
+          }
         },
         "search_api_alter_node_access" : { "status" : 1, "weight" : "0", "settings" : [] },
         "search_api_alter_add_viewed_entity" : { "status" : 0, "weight" : "0", "settings" : { "mode" : "full" } },
@@ -195,7 +200,7 @@ function c4m_search_default_search_api_index() {
       },
       "processors" : {
         "search_api_case_ignore" : {
-          "status" : 1,
+          "status" : 0,
           "weight" : "0",
           "settings" : { "fields" : {
               "title" : true,

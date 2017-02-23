@@ -216,23 +216,31 @@ function c4m_content_photo_preprocess(&$variables, $hook) {
 
   $options = array(
     'absolute' => TRUE,
-    'purl' => array(
-      'disabled' => TRUE,
-    ),
   );
 
   // Modify the links with absolute path and no purl.
-  if (isset($variables['gallery_link'])) {
-    $variables['gallery_link'] = url($variables['gallery_link'], $options);
+  $relationship_type = node_gallery_api_get_relationship_type(NULL, $variables['item']->type);
+  $fragment = FALSE;
+  if ($relationship_type->settings['item_view']['page_fragment']) {
+    $fragment = TRUE;
   }
-  if (isset($variables['next_link'])) {
-    $variables['next_link'] = url($variables['next_link'], $options);
+  $entries = array();
+  if (isset($variables['navigator']['prev_nid'])) {
+    $entries = array_merge($entries, array('prev', 'first'));
   }
-  if (isset($variables['last_link'])) {
-    $variables['last_link'] = url($variables['last_link'], $options);
+  if (isset($variables['navigator']['next_nid'])) {
+    $entries = array_merge($entries, array('next', 'last'));
   }
-  if (isset($variables['prev_link'])) {
-    $variables['prev_link'] = url($variables['prev_link'], $options);
+  foreach ($entries as $type) {
+    $nid = $variables['navigator'][$type . '_nid'];
+    $variables[$type . '_link'] = $fragment ?
+      url('node/' . $nid, array('fragment' => 'node-' . $nid, 'absolute' => TRUE)) :
+      url('node/' . $nid, $options);
+  }
+  if (!empty($variables['navigator']['gallery_nid'])) {
+    $variables['gallery_link'] = url('node/' . $variables['navigator']['gallery_nid'], $options);
+    $gallery = node_load($variables['navigator']['gallery_nid']);
+    $variables['gallery_title'] = check_plain($gallery->title);
   }
 }
 

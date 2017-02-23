@@ -75,6 +75,7 @@ function kapablo_preprocess_block(&$variables) {
       $redirect_url = url(
         'searchgroup',
         array(
+          'absolute' => TRUE,
           'purl' => array(
             'provider' => 'og_purl|node',
             'id' => $gid,

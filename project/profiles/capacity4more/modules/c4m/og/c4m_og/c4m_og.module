@@ -800,7 +800,7 @@ function c4m_og_replace_owner_build_form_submit($form, &$form_state) {
   c4m_og_replace_owner($form_state['values']['type'], $form_state['values']['group'], $new_owner);
 
   // Redirect back to the group page.
-  $form_state['redirect'] = $form_state['values']['type'] . '/' . $form_state['values']['group'] . '/group';
+  $form_state['redirect'] = 'node/' . $form_state['values']['group'];
 }
 
 /**
@@ -853,7 +853,7 @@ function c4m_og_replace_project_owner_build_form($form, $form_state, $entity_typ
 /**
  * Submit handler.
  *
- * Replacing the owner of a group.
+ * Replacing the owner of a project.
  */
 function c4m_og_replace_project_owner_build_form_submit($form, &$form_state) {
   $new_owner = array(
@@ -862,8 +862,8 @@ function c4m_og_replace_project_owner_build_form_submit($form, &$form_state) {
   );
   c4m_og_replace_owner($form_state['values']['type'], $form_state['values']['group'], $new_owner);
 
-  // Redirect back to the group page.
-  $form_state['redirect'] = $form_state['values']['type'] . '/' . $form_state['values']['group'] . '/project';
+  // Redirect back to the project page.
+  $form_state['redirect'] = 'node/' . $form_state['values']['group'];
 }
 
 /**
@@ -1890,9 +1890,11 @@ function c4m_og_handle_group_status_change($node) {
   $status = $wrapper->c4m_og_status->value();
   $former_status = $wrapper_original->c4m_og_status->value();
 
-  if ($status != $former_status) {
-    // Use OG Access mechanism to update realms of group content.
-    // Update will be performed using Batch API.
+  // On status change, use OG Access mechanism to update realms of group
+  // content. Update will be performed using Batch API.
+  // Not required when group is approved (status changes from 'pending', as
+  // group got no content at that point.
+  if ($status != $former_status && $former_status != 'pending') {
     og_access_handle_group_privacy_change('node', $node);
   }
 }

@@ -339,6 +339,16 @@ function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
     return;
   }
 
+  // Admin is now group owner.
+  $path = explode('/', current_path());
+
+  // Match '<purl>/group/node/<nid>/admin/owner' path.
+  $transfer_path = array('group', 'node', 'admin', 'owner');
+
+  if (count(array_intersect($path, $transfer_path)) == count($transfer_path)) {
+    return;
+  }
+
   c4m_user_notifications_notify_user_admin_demoted($gid, $uid);
   c4m_user_notifications_notify_admins_admin_demoted($gid, $uid);
 }

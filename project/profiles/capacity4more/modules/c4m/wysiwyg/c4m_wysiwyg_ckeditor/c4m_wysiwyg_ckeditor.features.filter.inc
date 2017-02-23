@@ -267,6 +267,19 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
         'status' => 1,
         'settings' => array(),
       ),
+      'pathologic' => array(
+        'weight' => 50,
+        'status' => 1,
+        'settings' => array(
+          'settings_source' => 'global',
+          'local_paths' => '',
+          'protocol_style' => 'full',
+          'local_settings' => array(
+            'protocol_style' => 'full',
+            'local_paths' => '',
+          ),
+        ),
+      ),
     ),
   );
 
@@ -370,6 +383,19 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
         'weight' => -43,
         'status' => 1,
         'settings' => array(),
+      ),
+      'pathologic' => array(
+        'weight' => 50,
+        'status' => 1,
+        'settings' => array(
+          'settings_source' => 'global',
+          'local_paths' => '',
+          'protocol_style' => 'full',
+          'local_settings' => array(
+            'protocol_style' => 'path',
+            'local_paths' => '',
+          ),
+        ),
       ),
     ),
   );
