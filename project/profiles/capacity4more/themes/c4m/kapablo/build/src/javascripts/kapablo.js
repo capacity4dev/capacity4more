@@ -113,20 +113,20 @@ var Drupal = Drupal || {};
              * @param button
              *  The clicked button element.
              */
-            function collapseSidebar(button) {
-                var groupLeft = $('.group-left');
-                var groupRight = $('.group-right');
-                button.addClass('collapsed');
-                button.html('<i class="fa fa-chevron-circle-right"></i>');
-                groupLeft.removeClass('col-sm-4').addClass('col-sm-1 sidebar-collapsed');
-                groupRight.removeClass('col-sm-8').addClass('col-sm-11');
-
-                var nav_links = $('.og-menu-link.wiki .c4m-book-og-menu-link, #group-pages-navigation-left .field-name-c4m-content-wiki-page-navigation a, .book-navigation a');
+            function collapseSidebar(button, navLinks) {
+                var groupLeft = $(".group-left");
+                var groupRight = $(".group-right");
                 var href;
-                $(nav_links).each(function () {
-                    href = _addParameter($(this).attr('href'), 'fullscreen', '1');
-                    $(this).attr('href', href);
-                });
+
+                button.addClass("collapsed");
+                button.html("<i class=\"fa fa-chevron-circle-right\"></i>");
+                groupLeft.removeClass("col-sm-4").addClass("col-sm-1 sidebar-collapsed");
+                groupRight.removeClass("col-sm-8").addClass("col-sm-11");
+
+                $(navLinks).each((function () {
+                    href = _addParameter($(this).attr("href"), "fullscreen", "1");
+                    $(this).attr("href", href);
+                }));
             }
 
             /**
@@ -138,22 +138,22 @@ var Drupal = Drupal || {};
              * @param button
              *  The clicked button element.
              */
-            function expandSidebar(button) {
-                var groupLeft = $('.group-left');
-                var groupRight = $('.group-right');
-                var sidebarContent = $('.collapsible');
-                button.removeClass('collapsed');
-                button.html('<i class="fa fa-chevron-circle-left"></i> ' + Drupal.t('Hide sidebar'));
-                groupLeft.removeClass('col-sm-1 sidebar-collapsed').addClass('col-sm-4');
-                groupRight.removeClass('col-sm-11').addClass('col-sm-8');
+            function expandSidebar(button, navLinks) {
+                var groupLeft = $(".group-left");
+                var groupRight = $(".group-right");
+                var href;
+                var sidebarContent = $(".collapsible");
+
+                button.removeClass("collapsed");
+                button.html("<i class=\"fa fa-chevron-circle-left\"></i> " + Drupal.t("Hide sidebar"));
+                groupLeft.removeClass("col-sm-1 sidebar-collapsed").addClass("col-sm-4");
+                groupRight.removeClass("col-sm-11").addClass("col-sm-8");
                 sidebarContent.show();
 
-                var nav_links = $('.og-menu-link.wiki .c4m-book-og-menu-link, #group-pages-navigation-left .field-name-c4m-content-wiki-page-navigation a, .book-navigation a');
-                var href;
-                $(nav_links).each(function () {
-                    href = _removeURLParameter($(this).attr('href'), 'fullscreen');
-                    $(this).attr('href', href);
-                });
+                $(navLinks).each((function () {
+                    href = _removeURLParameter($(this).attr("href"), "fullscreen");
+                    $(this).attr("href", href);
+                }));
             }
         }
     };
