@@ -347,19 +347,24 @@ var Drupal = Drupal || {};
         }
     };
 
-    $(window).bind("load", function () {
-        // After ajax processing, the form often gets the id "user-register--2" or similar.
-        $('[id^=user-register] input[name="mail"]').focus();
-    });
+    /**
+     * Automatically focus the registration form on the mail field after page load.
+     */
+    $(window).bind("load", (function () {
+        // After ajax processing, the form often gets the id "user-register--2" or similar, therefore use wildcard.
+        $("[id^=user-register] input[name=\"mail\"]").focus();
+    }));
 
-    // Disable form buttons on AJAX calls.
-    $(document)
-        .ajaxStart(function () {
-            $('.form-submit').addClass('drupal-ajax-disabled').attr('disabled', 'disabled');
+    /**
+     * Disable form buttons on AJAX calls and enable them when AJAX is completed.
+     */
+    $(document).ajaxStart((function () {
+            $(".form-submit").addClass("drupal-ajax-disabled").attr("disabled", "disabled");
         })
-        .ajaxComplete(function () {
-            $('.drupal-ajax-disabled').removeAttr('disabled');
-        });
+    ).ajaxComplete((function () {
+            $(".drupal-ajax-disabled").removeAttr("disabled");
+        })
+    );
 
     function collapsibleNavigation(element) {
         var element = $(element);
