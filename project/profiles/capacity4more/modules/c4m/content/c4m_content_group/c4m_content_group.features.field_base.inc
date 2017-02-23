@@ -32,7 +32,7 @@ function c4m_content_group_field_default_field_bases() {
   // Exported field_base: 'c4m_related_group'.
   $field_bases['c4m_related_group'] = array(
     'active' => 1,
-    'cardinality' => 3,
+    'cardinality' => 5,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_related_group',
