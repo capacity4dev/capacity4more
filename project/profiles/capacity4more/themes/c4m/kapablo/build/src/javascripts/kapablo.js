@@ -5,44 +5,55 @@
 
 var Drupal = Drupal || {};
 
-(function($){
+(function ($) {
     "use strict";
 
+    /**
+     * Add proper bootstrap classes to the discussion type selector on the node form of discussions.
+     *
+     * @type {{attach: Drupal.behaviors.eventFormClasses.attach}}
+     */
     Drupal.behaviors.discussionFormClasses = {
-        attach: function (context, settings) {
-            $("#edit-c4m-discussion-type-und").addClass("row");
+        attach: function () {
+            var discussionTypes = $("#edit-c4m-discussion-type-und");
 
-            $("#edit-c4m-discussion-type input:radio").each(function () {
+            discussionTypes.addClass("row");
+
+            $("input:radio", discussionTypes).each((function () {
                 var value = $(this).attr("value");
-                $(this).parent()
-                    .addClass("discussion-type-button")
-                    .addClass("discussion-type-" + value)
-                    .parent().addClass("col-xs-6").addClass("col-sm-3");
-            });
+                // Target the label.
+                var parent = $(this).parent();
+                parent.addClass("discussion-type-button")
+                    .addClass("discussion-type-" + value);
+                // Target the wrapper div.
+                parent.parent()
+                    .addClass("col-xs-6")
+                    .addClass("col-sm-3");
+            }));
         }
     };
 
+    /**
+     * Add proper bootstrap classes to the event type selector on the node form of events.
+     *
+     * @type {{attach: Drupal.behaviors.eventFormClasses.attach}}
+     */
     Drupal.behaviors.eventFormClasses = {
-        attach: function (context, settings) {
-            $('#edit-c4m-event-type-und').addClass('row');
+        attach: function () {
+            var eventTypes = $("#edit-c4m-event-type-und");
 
-            var $discussionTypes = $('#edit-c4m-event-type input[type="radio"]');
-            $discussionTypes.each(function () {
-                if ($(this).is(':checked')) {
-                    $(this).parent().addClass('active');
-                }
-                var value = $(this).attr('value');
-                $(this).parent()
-                    .addClass('event-type-button')
-                    .addClass('event-type-' + value)
-                    .parent().addClass('col-xs-4');
-                $(this).click(function () {
-                    $discussionTypes.each(function () {
-                        $(this).parent().removeClass('active');
-                    });
-                    $(this).parent().addClass('active');
-                });
-            });
+            eventTypes.addClass("row");
+
+            $("input:radio", eventTypes).each((function () {
+                var value = $(this).attr("value");
+                // Target the label.
+                var parent = $(this).parent();
+                parent.addClass("event-type-button")
+                    .addClass("event-type-" + value);
+                // Target the wrapper div.
+                parent.parent().addClass("col-xs-4");
+
+            }));
         }
     };
 
