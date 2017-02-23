@@ -234,7 +234,8 @@ var jQuery = jQuery || {};
 
                     if ($(wrapper).hasClass("speed-fast")) {
                         speed = 300;
-                    } else {
+                    }
+                    else {
                         speed = 1000;
                     }
 
@@ -298,8 +299,8 @@ var jQuery = jQuery || {};
                 return;
             }
 
-            // We have to use setTimeout because for some reason when attaching the behaviour
-            // h1 has the scroll top value of 0
+            // We have to use setTimeout because for some reason when attaching the behaviour.
+            // h1 has the scroll top value of 0.
             body = $("body");
 
             if ($(body).hasClass("admin-menu")) {
