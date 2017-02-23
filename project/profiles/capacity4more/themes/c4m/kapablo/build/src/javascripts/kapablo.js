@@ -3,7 +3,10 @@
  * Kapablo theme global behaviours.
  */
 
-(function ($) {
+var Drupal = Drupal || {};
+
+(function($){
+    "use strict";
 
     Drupal.behaviors.discussionFormClasses = {
         attach: function (context, settings) {
