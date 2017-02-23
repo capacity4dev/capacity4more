@@ -7,6 +7,8 @@
 
 include_once 'c4m_features_og_media.features.inc';
 
+define('C4M_FEATURES_OG_MEDIA_SORT_BY_COMMENT_COUNT', 'Comment count');
+
 /**
  * Implements hook_c4m_og_feature_info().
  */
@@ -44,6 +46,26 @@ function c4m_features_og_media_youtube_prevent_rel($text) {
   $result = preg_replace('/data-oembed="https:\/\/www\.youtube\.com\/watch\?v=([0-9a-zA-Z_]+)/', 'data-oembed="https://www.youtube.com/watch?v=$1?rel=0', $text);
   $result = preg_replace('/src="\/\/www\.youtube\.com\/embed\/([0-9a-zA-Z_]+)\?([^"]*)/', 'src="//www.youtube.com/embed/$1?rel=0&amp;$2"', $result);
   return $result;
+}
+
+/**
+ * Implements custom hook_search_api_sorts_alter().
+ *
+ * See Class c4m_views_handler_area_search_api_sorts.
+ * Unfortunately search_api_sorts module provides one sort block and not a
+ * block per view, so we need to alter some stuff. Here we remove superfluous
+ * sorts.
+ */
+function c4m_features_og_media_search_api_sorts_alter(&$block, $view) {
+  // Remove 'Comment count' sort if this is the media overview.
+  if ($view->name === 'overview_og_media') {
+    foreach ($block['content']['#items'] as $key => $item) {
+      if (C4M_FEATURES_OG_MEDIA_SORT_BY_COMMENT_COUNT === $item['#name']) {
+        unset($block['content']['#items'][$key]);
+        break;
+      }
+    }
+  }
 }
 
 /**

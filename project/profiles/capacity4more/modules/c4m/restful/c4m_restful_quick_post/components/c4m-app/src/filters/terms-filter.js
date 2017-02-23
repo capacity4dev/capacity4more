@@ -123,3 +123,28 @@ angular.module('c4mApp')
       return bytes.toFixed(+ precision) + ' ' + units[ unit ];
     };
   });
+
+/**
+ * Provides the orderObjectBy.
+ *
+ * @ngdoc filter
+ *
+ * @name c4mApp.filter:orderObjectBy
+ *
+ * @description Filter objects according to one of it's fields.
+ */
+angular.module('c4mApp')
+  .filter('orderObjectBy',[ function () {
+    return function (items, field) {
+      var sorted = [];
+      angular.forEach(items, function (item) {
+        sorted.push(item);
+      });
+
+      sorted.sort(function (a, b) {
+        return (a[field] > b[field] ? 1 : -1);
+      });
+
+      return sorted;
+    }
+  }]);

@@ -12,14 +12,23 @@
  * Declares action for Site Admin, Group Admins and Group Owner.
  */
 function c4m_user_contact_multiple_action_info() {
-  $group = c4m_og_current_group();
   // If not within OG context, don't declare action.
-  if (!$group) {
+  if (!$group = c4m_og_current_group()) {
     return array();
   }
+
   // If not Site Admin, Group Admin or Group Owner, don't declare action.
   if (!_c4m_features_og_members_is_power_user($group)) {
     return array();
+  }
+
+  // For any user that's not a site admin, don't declare action when group
+  // is archived.
+  if (!c4m_user_is_site_admin()) {
+    $wrapper = entity_metadata_wrapper('node', $group);
+    if ($wrapper->c4m_og_status->value() == 'archived') {
+      return array();
+    }
   }
 
   return array(

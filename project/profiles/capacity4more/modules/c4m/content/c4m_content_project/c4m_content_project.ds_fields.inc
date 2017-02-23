@@ -18,10 +18,9 @@ function _c4m_content_project_field_twitter_ds_widget($field) {
     "display_user" => TRUE,
     "display_user_pic" => TRUE,
     "auto_expand_photo" => FALSE,
-    "from" => "EU_Commission",
     "result_type" => "mixed",
     "rts_display_original" => TRUE,
-    "tweet_about_btn" => TRUE,
+    "tweet_about_btn" => FALSE,
     "tweet_more_btn" => TRUE,
   );
 

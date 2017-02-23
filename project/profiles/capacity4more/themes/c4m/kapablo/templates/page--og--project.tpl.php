@@ -151,15 +151,6 @@
   </div>
 </div>
 
-<?php if (!empty($page['content_bottom'])): ?>
-  <div class="row content-bottom">
-    <div class="col-sm-12">
-      <?php print render($page['content_bottom']); ?>
-    </div>
-  </div>
-<?php endif; ?>
-
-
 <div id="footer-top-wrapper">
   <div class="container">
     <div class="row">

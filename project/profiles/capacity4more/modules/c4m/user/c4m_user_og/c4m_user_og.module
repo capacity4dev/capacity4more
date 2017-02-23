@@ -401,30 +401,6 @@ function c4m_user_og_get_number_of_active_members($og_id = NULL) {
 }
 
 /**
- * Returns the amount of contributors vs active members in a group.
- *
- * @param int $og_id
- *   The Organic Group ID to limit the query for.
- *
- * @return int
- *   The amount of contributors vs active members of a group.
- */
-function c4m_user_og_get_number_of_contributors_vs_members($og_id) {
-  $contributors = c4m_user_og_get_number_of_contributors($og_id);
-  $active_members = c4m_user_og_get_number_of_active_members($og_id);
-
-  if (is_numeric($contributors) && (is_numeric(
-        $active_members
-      ) && $active_members > 0)
-  ) {
-    $calculation = $contributors / $active_members * 100;
-    return empty($calculation) ? 0 : $calculation;
-  }
-
-  return 0;
-}
-
-/**
  * Implements hook_c4m_content_statistics_info().
  */
 function c4m_user_og_c4m_content_statistics_info() {
@@ -482,12 +458,6 @@ function c4m_user_og_c4m_helper_entity_metrics_info() {
       'context' => 'group',
       'callback' => 'c4m_user_og_get_number_of_contributors',
       'weight' => 9,
-    ),
-    'c4m_og_contributors_vs_pending_members' => array(
-      'type' => 'contributors_vs_pending_members',
-      'context' => 'group',
-      'callback' => 'c4m_user_og_get_number_of_contributors_vs_members',
-      'weight' => 13,
     ),
     'c4m_og_pending_members' => array(
       'type' => 'pending_members',
@@ -585,6 +555,12 @@ function c4m_user_og_c4m_cta_block() {
   // A blocked (banned) user should not be able to see the CTA block.
   $user_role = c4m_user_og_get_role_in_group($user, $group);
   if ($user_role == 'blocked') {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $group);
+  // Do not present CTA block for archived group.
+  if ($wrapper->c4m_og_status->value() == 'archived') {
     return;
   }
 
@@ -775,6 +751,7 @@ function c4m_user_og_group_management_cta($group) {
     $items['#links'][] = $item;
   }
 
+  // Do not allow to invite users into read-only group.
   if ($item = c4m_user_og_c4m_invite_cta($group)) {
     $items['#links']['invite'] = $item;
   }

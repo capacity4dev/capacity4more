@@ -114,7 +114,7 @@ function c4m_content_project_field_group_info() {
     'label' => 'Related content',
     'weight' => '13',
     'children' => array(
-      0 => 'c4m_related_projects',
+      0 => 'c4m_related_projects_unlimited',
       1 => 'c4m_related_group',
     ),
     'format_type' => 'fieldset',
@@ -141,16 +141,19 @@ function c4m_content_project_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Icons',
-    'weight' => '6',
+    'weight' => '4',
     'children' => array(
-      0 => 'c4m_ds_node_highlight',
+      0 => 'c4m_ds_group_members_count',
+      1 => 'c4m_ds_group_posts_count',
+      2 => 'c4m_ds_group_recommendation_count',
+      3 => 'c4m_ds_node_highlight',
     ),
     'format_type' => 'div',
     'format_settings' => array(
       'label' => 'Icons',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-iconbar-project-views field-group-div',
+        'classes' => 'group-iconbar-comments-views field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
@@ -192,10 +195,79 @@ function c4m_content_project_field_group_info() {
   );
   $field_groups['group_page_content|node|project|form'] = $field_group;
 
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_teaser_author_information|node|project|teaser';
+  $field_group->group_name = 'group_teaser_author_information';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'project';
+  $field_group->mode = 'teaser';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Author information',
+    'weight' => '2',
+    'children' => array(
+      0 => 'c4m_user_first_and_last_name',
+      1 => 'c4m_ds_creation_date',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Author information',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'group-teaser-author-information field-group-div',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $field_groups['group_teaser_author_information|node|project|teaser'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_teaser_header_inline|node|project|teaser';
+  $field_group->group_name = 'group_teaser_header_inline';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'project';
+  $field_group->mode = 'teaser';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Header inline',
+    'weight' => '0',
+    'children' => array(
+      0 => 'c4m_project_stage',
+      1 => 'title',
+      2 => 'c4m_ds_project_type_icon',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Header inline',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'group-teaser-header-inline field-group-fieldset',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $field_groups['group_teaser_header_inline|node|project|teaser'] = $field_group;
+
   // Translatables
   // Included for use with string extractors like potx.
+  t('Author information');
   t('Details');
   t('EC Info');
+  t('Header inline');
   t('Icons');
   t('Metadata');
   t('Page content');

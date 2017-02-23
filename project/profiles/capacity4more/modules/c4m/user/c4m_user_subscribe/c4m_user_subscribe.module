@@ -16,9 +16,10 @@ function c4m_user_subscribe_node_insert($node) {
     return;
   }
 
-  flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
+  $account = user_load($node->uid);
 
-  flag('flag', 'subscribe_c4m_follow_node', $node->nid);
+  flag('flag', 'subscribe_c4m_follow_comment', $node->nid, $account);
+  flag('flag', 'subscribe_c4m_follow_node', $node->nid, $account);
 }
 
 /**
@@ -54,8 +55,10 @@ function c4m_user_subscribe_comment_insert($comment) {
     return;
   }
 
+  $account = user_load($comment->uid);
+
   // Add 'follow comment' flag.
-  flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
+  flag('flag', 'subscribe_c4m_follow_comment', $node->nid, $account);
 }
 
 /**
@@ -99,9 +102,11 @@ function _c4m_user_subscribe_entity_notifications_disabled($entity_id, $flag_suf
  * the user membership is active.
  */
 function c4m_user_subscribe_og_membership_insert(OgMembership $membership) {
-  if ($membership->state == OG_STATE_ACTIVE) {
-    c4m_user_subscribe_to_group($membership);
+  if ($membership->entity_type != 'user' || $membership->state != OG_STATE_ACTIVE) {
+    return;
   }
+
+  c4m_user_subscribe_to_group($membership);
 }
 
 /**
@@ -120,6 +125,10 @@ function c4m_user_subscribe_og_membership_update(OgMembership $membership) {
  * the group.
  */
 function c4m_user_subscribe_og_membership_delete(OgMembership $membership) {
+  if ($membership->entity_type != 'user') {
+    return;
+  }
+
   c4m_user_subscribe_to_group($membership, 'unflag');
 }
 
@@ -133,6 +142,7 @@ function c4m_user_subscribe_og_membership_delete(OgMembership $membership) {
  *   Possible values: "flag", "unflag".
  */
 function c4m_user_subscribe_to_group($membership, $event = 'flag') {
+  $account = user_load($membership->etid);
   $flag = flag_get_flag('subscribe_c4m_follow_group');
-  $flag->flag($event, $membership->gid, NULL, TRUE);
+  $flag->flag($event, $membership->gid, $account, TRUE);
 }

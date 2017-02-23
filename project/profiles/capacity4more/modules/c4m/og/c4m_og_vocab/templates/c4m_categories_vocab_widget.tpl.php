@@ -60,7 +60,7 @@
         </form>
         <ul ng-if="categoriesLength">
           <li class="checkbox table-display"
-              ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?>">
+              ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?> | orderObjectBy:'weight'">
             <label ng-show="{{item.children.length}}"
                    ng-click="updateSelected(item);"
                    class="parent-select" title="{{item.label}}"
@@ -70,7 +70,7 @@
               {{item.label}}
             </label>
             <ul ng-show="item.selected == true" class="indent">
-              <li ng-repeat="child in item.children">
+              <li ng-repeat="child in item.children | orderObjectBy:'weight'">
                 <label title="{{child.label}}">
                   <input type="checkbox" data-target="{{item.id}}"
                          ng-name="type"
