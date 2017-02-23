@@ -312,13 +312,18 @@ var Drupal = Drupal || {};
         }
     };
 
+    /**
+     * Invalidate leaflet maps after 100ms (they are wrongly centered by default).
+     *
+     * @type {{attach: Drupal.behaviors.fixLeafletMaps.attach}}
+     */
     Drupal.behaviors.fixLeafletMaps = {
         attach: function (context, settings) {
-            setTimeout(function () {
-                if (typeof settings.leaflet != 'undefined' && settings.leaflet instanceof Array) {
+            setTimeout((function () {
+                if (typeof settings.leaflet !== "undefined" && settings.leaflet instanceof Array) {
                     settings.leaflet[0].lMap.invalidateSize(false);
                 }
-            }, 100);
+            }), 100);
         }
     };
 
