@@ -57,23 +57,23 @@ var Drupal = Drupal || {};
         }
     };
 
+    /**
+     * Attach the YouTube iFrame API on the front page (for anonymous users) for the promo video.
+     *
+     * @type {{attach: Drupal.behaviors.youTubeVideo.attach}}
+     */
     Drupal.behaviors.youTubeVideo = {
-        attach: function (context, settings) {
-            // Inject YouTube IFrame API script.
-            var tag = document.createElement('script');
-            tag.src = "https://www.youtube.com/iframe_api";
-            var firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        }
-    };
+        attach: function () {
+            var tag, firstScriptTag;
 
-    Drupal.behaviors.collapseExpand = {
-        attach: function (context, settings) {
-            $('#allGroups').on('shown.bs.collapse', function () {
-                $('#toggleMyGroups').html('Show less <i class="fa fa-chevron-right"></i>');
-            }).on('hidden.bs.collapse', function () {
-                $('#toggleMyGroups').html('Show all <i class="fa fa-chevron-right"></i>');
-            });
+            // Only attach IFrame API on frontpage for anonymous users.
+            if ($("body").is(".front, .not-logged-in")) {
+                // Inject YouTube IFrame API script.
+                tag = document.createElement("script");
+                tag.src = "https://www.youtube.com/iframe_api";
+                firstScriptTag = document.getElementsByTagName("script")[0];
+                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            }
         }
     };
 
