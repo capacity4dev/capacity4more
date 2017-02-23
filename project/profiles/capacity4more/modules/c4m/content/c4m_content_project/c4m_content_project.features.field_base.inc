@@ -318,7 +318,7 @@ function c4m_content_project_field_default_field_bases() {
   // Exported field_base: 'c4m_related_projects'.
   $field_bases['c4m_related_projects'] = array(
     'active' => 1,
-    'cardinality' => 3,
+    'cardinality' => 5,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_related_projects',
