@@ -262,9 +262,14 @@ var Drupal = Drupal || {};
         }
     };
 
+    /**
+     * Load all dropdown menus in the DOM and initialize them (Bootstrap functionality).
+     *
+     * @type {{attach: Drupal.behaviors.initDropdowns.attach}}
+     */
     Drupal.behaviors.initDropdowns = {
-        attach: function (context, settings) {
-            $('.dropdown-toggle').dropdown();
+        attach: function () {
+            $(".dropdown-toggle").dropdown();
         }
     };
 
