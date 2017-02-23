@@ -251,10 +251,14 @@ var Drupal = Drupal || {};
         }
     };
 
+    /**
+     * Load all tooltips in the DOM and initialize them (Bootstrap functionality).
+     *
+     * @type {{attach: Drupal.behaviors.initTooltips.attach}}
+     */
     Drupal.behaviors.initTooltips = {
-        attach: function (context, settings) {
-            var tooltips = $('[data-toggle="tooltip"]');
-            tooltips.tooltip();
+        attach: function () {
+            $("[data-toggle=\"tooltip\"]").tooltip();
         }
     };
 
