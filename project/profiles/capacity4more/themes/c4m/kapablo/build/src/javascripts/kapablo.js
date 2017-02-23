@@ -65,7 +65,8 @@ var jQuery = jQuery || {};
      */
     Drupal.behaviors.youTubeVideo = {
         attach: function () {
-            var tag, firstScriptTag;
+            var tag;
+            var firstScriptTag;
 
             // Only attach IFrame API on frontpage for anonymous users.
             if ($("body").is(".front, .not-logged-in")) {
@@ -167,7 +168,11 @@ var jQuery = jQuery || {};
     Drupal.behaviors.wikiPagesSubNavigation = {
         attach: function () {
             var outerWrapper = $("#group-pages-navigation-left");
-            var wrapper, url, collapsed, navLinks, href;
+            var wrapper;
+            var url;
+            var collapsed;
+            var navLinks;
+            var href;
 
             if (outerWrapper.length === 0) {
                 return;
@@ -281,7 +286,8 @@ var jQuery = jQuery || {};
      */
     Drupal.behaviors.jumpToTitle = {
         attach: function (context, settings) {
-            var timeout = 0, body;
+            var timeout = 0;
+            var body;
 
             // Do this only once.
             if (context !== document) {
@@ -375,17 +381,18 @@ var jQuery = jQuery || {};
     function collapsibleNavigation(htmlElement) {
         var element = $(htmlElement);
 
-        element.find("li.expanded").each(function (index, htmlEl) {
+        element.find("li.expanded").each((function (index, htmlEl) {
             var el = $(htmlEl);
             var subnav = el.find("> .collapse");
             if (subnav.hasClass("in")) {
                 el.find("> a > i").removeClass("fa-caret-right").addClass("fa-caret-down");
             }
-        });
+        }));
 
-        element.find("[data-toggle=\"collapse\"]").on("click", function (e) {
+        element.find("[data-toggle=\"collapse\"]").on("click", (function (e) {
             var $this = $(this);
-            var target, subNavigation;
+            var target;
+            var subNavigation;
 
             e.preventDefault();
 
@@ -404,13 +411,13 @@ var jQuery = jQuery || {};
             }
 
             return false;
-        });
+        }));
     }
 
     /**
      * Remove a parameter from an URL string.
      *
-     * @param url
+     * @param returnUrl
      *   Url or path to remove parameter from.
      * @param parameter
      *   Name of the parameter to remove.
@@ -421,17 +428,19 @@ var jQuery = jQuery || {};
      */
     function _removeURLParameter(url, parameter) {
         // Prefer to use l.search if you have a location/link object.
-        var urlparts = url.split("?");
+        var urlparts = returnUrl.split("?");
         var parts;
         var prefix;
         var i;
+        var returnUrl;
 
         if (urlparts.length >= 2) {
             prefix = encodeURIComponent(parameter) + "=";
             parts = urlparts[1].split(/[&;]/g);
 
             // Reverse iteration as may be destructive.
-            for (i = parts.length; 0 < i--;) {
+            i = parts.length;
+            while (0 < i--) {
                 // Idiom for string.startsWith.
                 if (parts[i].lastIndexOf(prefix, 0) !== -1) {
                     parts.splice(i, 1);
@@ -439,13 +448,13 @@ var jQuery = jQuery || {};
             }
 
             if (parts.length > 0) {
-                url = urlparts[0] + "?" + parts.join("&");
+                returnUrl = urlparts[0] + "?" + parts.join("&");
             }
             else {
-                url = urlparts[0];
+                returnUrl = urlparts[0];
             }
 
-            return url;
+            return returnUrl;
         }
         else {
             return url;
