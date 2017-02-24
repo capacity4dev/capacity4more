@@ -95,7 +95,7 @@ function c4m_search_default_search_api_index() {
       },
       "processors" : {
         "search_api_case_ignore" : {
-          "status" : 1,
+          "status" : 0,
           "weight" : "0",
           "settings" : { "fields" : { "status" : true, "author:uid" : true } }
         },
@@ -415,7 +415,7 @@ function c4m_search_default_search_api_index() {
       },
       "processors" : {
         "search_api_case_ignore" : {
-          "status" : 1,
+          "status" : 0,
           "weight" : "0",
           "settings" : { "fields" : {
               "name" : true,
