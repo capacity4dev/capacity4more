@@ -62,6 +62,7 @@ function _c4m_user_profile_block_user_menu() {
       'title' => t('Log out'),
       'url' => 'user/logout',
       'options' => array(
+        'absolute' => TRUE,
         'purl' => array(
           'disabled' => TRUE,
         ),
