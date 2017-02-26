@@ -7,6 +7,8 @@
 
 include_once 'c4m_features_overview_projects.features.inc';
 
+define('C4M_FEATURES_OVERVIEW_PROJECTS_SORT_BY_COMMENT_COUNT', 'Comment count');
+
 /**
  * Implements hook_c4m_search_page_info().
  */
@@ -34,4 +36,24 @@ function c4m_features_overview_projects_form_alter(&$form, &$form_state, $form_i
 
   // Prevent multiple maps to be added on 1 project page.
   drupal_add_js(drupal_get_path('module', 'c4m_features_overview_projects') . '/js/prevent_double_maps.js');
+}
+
+/**
+ * Implements custom hook_search_api_sorts_alter().
+ *
+ * See Class c4m_views_handler_area_search_api_sorts.
+ * Unfortunately search_api_sorts module provides one sort block and not a
+ * block per view, so we need to alter some stuff. Here we remove superfluous
+ * sorts.
+ */
+function c4m_features_overview_projects_search_api_sorts_alter(&$block, $view) {
+  // Remove 'Comment count' sort if this is the media overview.
+  if ($view->name === 'c4m_overview_projects') {
+    foreach ($block['content']['#items'] as $key => $item) {
+      if (C4M_FEATURES_OVERVIEW_PROJECTS_SORT_BY_COMMENT_COUNT === $item['#name']) {
+        unset($block['content']['#items'][$key]);
+        break;
+      }
+    }
+  }
 }

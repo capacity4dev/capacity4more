@@ -129,6 +129,17 @@ function c4m_content_news_c4m_content_statistics_info() {
 }
 
 /**
+ * Implements hook_c4m_content_share_fields_info().
+ */
+function c4m_content_news_c4m_content_share_fields_info() {
+  return array(
+    'news' => array(
+      'type',
+    ),
+  );
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Verifies user has access to the form.
