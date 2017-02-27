@@ -33,3 +33,15 @@ div.media-wrapper-mediaStyleSelector + .ui-widget-overlay {
   display: block;
   text-align: right;
 }
+
+.field-name-c4m-body div {
+  position: relative;
+}
+
+.field-name-c4m-body img + span, .caption {
+  background: #FFF;
+  bottom: 1px;
+  left: 3px;
+  position: absolute;
+  right: 3px;
+}
