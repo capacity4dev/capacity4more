@@ -1,6 +1,11 @@
 <?php
 
-if (variable_get('restful_file_upload', FALSE)) {
+/**
+ * @file
+ * File upload plugin for RestFul.
+ */
+
+if (variable_get('restful_file_upload', FALSE) === FALSE) {
   $plugin = array(
     'label' => t('C4m File upload'),
     'description' => t('A file upload wrapped with RESTful.'),
