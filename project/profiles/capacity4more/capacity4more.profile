@@ -78,7 +78,7 @@ function capacity4more_setup_set_variables(&$install_state) {
     'jquery_update_jquery_migrate_enable' => TRUE,
 
     // RESTful.
-    'restful_file_upload' => TRUE,
+    'restful_file_upload' => FALSE,
 
     // Enable counting views of the entity.
     'statistics_count_content_views' => TRUE,

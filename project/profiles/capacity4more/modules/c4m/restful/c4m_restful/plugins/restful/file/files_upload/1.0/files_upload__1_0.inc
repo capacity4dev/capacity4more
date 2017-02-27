@@ -2,7 +2,7 @@
 
 if (variable_get('restful_file_upload', FALSE)) {
   $plugin = array(
-    'label' => t('File upload'),
+    'label' => t('C4m File upload'),
     'description' => t('A file upload wrapped with RESTful.'),
     'resource' => 'files',
     'class' => 'C4mRestfulFilesUpload',
