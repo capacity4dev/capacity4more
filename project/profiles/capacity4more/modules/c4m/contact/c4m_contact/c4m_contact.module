@@ -47,7 +47,7 @@ function c4m_contact_c4m_captcha_form_info() {
     'contact_site_form',
   );
 
-  // Add captcha for when site member contacts another site member.
+  // Add captcha, when site member contacts another site member.
   if (!c4m_user_is_site_admin()) {
     $captcha_forms[] = 'c4m_user_contact_form';
   }
