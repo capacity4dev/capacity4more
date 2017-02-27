@@ -7,3 +7,29 @@ div.media-wrapper-mediaStyleSelector + .ui-widget-overlay {
 .media .media {
   margin-top: 0;
 }
+
+.align-center {
+  clear: both;
+  display: block;
+  text-align: center;
+}
+
+.align-left {
+  float: left;
+}
+
+.align-right {
+  float: right;
+}
+
+.align-left-clear {
+  clear: both;
+  display: block;
+  text-align: left;
+}
+
+.align-right-clear {
+  clear: both;
+  display: block;
+  text-align: right;
+}
