@@ -159,6 +159,7 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
             4 => 'align-left',
             6 => 'align-left-clear',
             8 => 'align-center',
+            9 => 'caption',
             10 => 'embeddedContent',
             12 => 'media-image',
             14 => 'oembed-provider-*',
