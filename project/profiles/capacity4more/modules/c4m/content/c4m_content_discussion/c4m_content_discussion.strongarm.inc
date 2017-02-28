@@ -163,6 +163,9 @@ function c4m_content_discussion_strongarm() {
       'group_dashboard' => array(
         'custom_settings' => FALSE,
       ),
+      'highlight_list' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -210,6 +213,10 @@ function c4m_content_discussion_strongarm() {
             'weight' => '31',
             'visible' => FALSE,
           ),
+          'highlight_list' => array(
+            'weight' => '31',
+            'visible' => FALSE,
+          ),
         ),
         'highlighted' => array(
           'full' => array(
@@ -225,6 +232,7 @@ function c4m_content_discussion_strongarm() {
             'visible' => TRUE,
           ),
           'block_list' => NULL,
+          'highlight_list' => NULL,
         ),
         'promoted' => array(
           'teaser_group' => array(
@@ -236,6 +244,7 @@ function c4m_content_discussion_strongarm() {
             'visible' => FALSE,
           ),
           'block_list' => NULL,
+          'highlight_list' => NULL,
         ),
       ),
     ),
