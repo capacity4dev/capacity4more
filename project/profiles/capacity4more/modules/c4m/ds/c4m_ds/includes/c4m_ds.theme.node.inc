@@ -737,7 +737,7 @@ function theme_c4m_ds_node_highlight(array $field) {
 
   // We should allow block-list view mode to display the highlight button only
   // withing og context().
-  $block_list_view_mode = !empty($field['view_mode']) && $field['view_mode'] == 'block_list';
+  $block_list_view_mode = !empty($field['view_mode']) && $field['view_mode'] == 'highlight_list';
   if ($block_list_view_mode || !empty($field['formatter_settings']['ft']['lb-cl']) && $field['formatter_settings']['ft']['lb-cl'] == 'block-list') {
     if (!og_context()) {
       return NULL;
