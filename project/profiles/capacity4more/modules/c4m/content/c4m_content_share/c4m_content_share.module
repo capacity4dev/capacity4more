@@ -73,7 +73,7 @@ function c4m_content_share_action_share($node) {
     'node/' . $node->nid . '/share',
     array(
       'absolute' => TRUE,
-      'purl' => array('disabled' => FALSE),
+      'purl' => array('disabled' => TRUE),
     )
   );
 

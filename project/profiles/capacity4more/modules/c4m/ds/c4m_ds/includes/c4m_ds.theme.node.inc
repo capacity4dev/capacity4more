@@ -319,7 +319,7 @@ function theme_c4m_ds_type_insert_action_share_from(array $field) {
     $group_wrapper->title->value(),
     url(
       'node/' . $group_wrapper->get('nid')->value(),
-      array('purl' => array('disabled' => FALSE))
+      array('purl' => array('disabled' => TRUE), 'absolute' => TRUE)
     )
   );
 
