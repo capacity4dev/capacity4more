@@ -96,6 +96,7 @@ function c4m_search_nodes_exit($destination = NULL) {
   }
 
   // Same logic as in search_api_entity_update().
+  drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
   $node = node_load(arg(1));
   search_api_entity_update($node, 'node');
 }
