@@ -163,6 +163,9 @@ function c4m_content_document_strongarm() {
       'group_dashboard' => array(
         'custom_settings' => FALSE,
       ),
+      'highlight_list' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -191,6 +194,7 @@ function c4m_content_document_strongarm() {
           'activity_group' => NULL,
           'block_list' => NULL,
           'pinned_content' => NULL,
+          'highlight_list' => NULL,
         ),
         'flag_c4m_og_content_highlight' => array(
           'full' => array(
@@ -225,6 +229,10 @@ function c4m_content_document_strongarm() {
             'weight' => '1',
             'visible' => FALSE,
           ),
+          'highlight_list' => array(
+            'weight' => '29',
+            'visible' => FALSE,
+          ),
         ),
         'highlighted' => array(
           'full' => array(
@@ -239,6 +247,7 @@ function c4m_content_document_strongarm() {
             'weight' => '5',
             'visible' => TRUE,
           ),
+          'highlight_list' => NULL,
         ),
         'promoted' => array(
           'teaser' => array(
@@ -249,6 +258,7 @@ function c4m_content_document_strongarm() {
             'weight' => '6',
             'visible' => TRUE,
           ),
+          'highlight_list' => NULL,
         ),
       ),
     ),
