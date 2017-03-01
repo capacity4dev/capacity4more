@@ -370,3 +370,19 @@
     margin-left: 1rem;
   }
 }
+
+.field-name-c4m-related-group.field-type-entityreference,
+.field-name-c4m-related-projects-unlimited.field-type-entityreference {
+  > .field-items > .field-item {
+    @include border-bottom;
+  }
+
+  .node-group, .node-project {
+    border: none;
+    margin: 0;
+  }
+
+  .text-muted {
+    margin-top: 8px;
+  }
+}
