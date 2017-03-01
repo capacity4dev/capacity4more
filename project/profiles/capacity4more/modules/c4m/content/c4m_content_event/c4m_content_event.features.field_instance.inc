@@ -169,6 +169,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 6,
       ),
+      'highlight_list' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 27,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -342,6 +348,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'date_default',
         'weight' => 5,
       ),
+      'highlight_list' => array(
+        'label' => 'inline',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 26,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -485,6 +497,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'entityreference_entity_view',
         'weight' => 16,
       ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 33,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -602,6 +620,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'entityreference_entity_view',
         'weight' => 17,
       ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 34,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -718,6 +742,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 39,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -820,6 +850,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'link_label',
         'weight' => 12,
+      ),
+      'highlight_list' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -944,6 +980,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'link_url',
         'weight' => 11,
       ),
+      'highlight_list' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 28,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1044,14 +1086,8 @@ function c4m_content_event_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'addressfield',
-        'settings' => array(
-          'format_handlers' => array(
-            0 => 'address',
-          ),
-          'use_widget_handlers' => 1,
-        ),
-        'type' => 'addressfield_default',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 28,
       ),
       'full' => array(
@@ -1059,6 +1095,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 29,
+      ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 40,
       ),
       'pinned_content' => array(
         'label' => 'above',
@@ -1135,11 +1177,8 @@ function c4m_content_event_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'geofield',
-        'settings' => array(
-          'data' => 'full',
-        ),
-        'type' => 'geofield_wkt',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 29,
       ),
       'full' => array(
@@ -1197,6 +1236,12 @@ function c4m_content_event_field_default_field_instances() {
         ),
         'type' => 'geofield_leaflet',
         'weight' => 3,
+      ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 41,
       ),
       'pinned_content' => array(
         'label' => 'above',
@@ -1306,6 +1351,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 2,
+      ),
+      'highlight_list' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 25,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1420,6 +1471,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'entityreference_entity_view',
         'weight' => 18,
       ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 36,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1531,6 +1588,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'link_label',
         'weight' => 13,
+      ),
+      'highlight_list' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 30,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1655,6 +1718,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'term_reference_tree_hierarchical',
         'weight' => 3,
       ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 35,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1758,6 +1827,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'term_reference_tree_hierarchical',
         'weight' => 2,
       ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 32,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1859,6 +1934,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'term_reference_tree_hierarchical',
         'weight' => 1,
+      ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 24,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1966,6 +2047,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 31,
+      ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 38,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2110,6 +2197,12 @@ function c4m_content_event_field_default_field_instances() {
         ),
         'type' => 'og_vocab',
         'weight' => 4,
+      ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 31,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

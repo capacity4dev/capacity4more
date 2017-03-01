@@ -179,6 +179,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 4,
       ),
+      'highlight_list' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 22,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -344,6 +350,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'list_default',
         'weight' => 0,
       ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -451,6 +463,12 @@ function c4m_content_discussion_field_default_field_instances() {
         ),
         'type' => 'entityreference_entity_view',
         'weight' => 5,
+      ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 24,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -565,6 +583,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'term_reference_tree_hierarchical',
         'weight' => 1,
       ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 27,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -667,6 +691,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'settings' => array(),
         'type' => 'term_reference_tree_hierarchical',
         'weight' => 3,
+      ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 28,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -771,6 +801,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'term_reference_tree_hierarchical',
         'weight' => 2,
       ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 26,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -873,6 +909,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'term_reference_tree_hierarchical',
         'weight' => 0,
       ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 30,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -972,6 +1014,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'weight' => 0,
       ),
       'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 23,
+      ),
+      'highlight_list' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1117,6 +1165,12 @@ function c4m_content_discussion_field_default_field_instances() {
         ),
         'type' => 'og_vocab',
         'weight' => 4,
+      ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 25,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
