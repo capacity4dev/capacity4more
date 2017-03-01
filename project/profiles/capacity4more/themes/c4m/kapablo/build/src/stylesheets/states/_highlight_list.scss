@@ -1,0 +1,27 @@
+.view-mode-highlight_list {
+  .field-name-c4m-ds-content-type-icon {
+    @extend h3;
+  }
+
+  .field-name-c4m-ds-content-type-icon, h3 {
+    display: inline;
+  }
+
+  .field-name-c4m-ds-node-highlight {
+    float: right;
+
+    .c4m-node-highlight {
+      border: none;
+      margin: 0;
+      padding: 0;
+
+      .highlight-link-text {
+        display: none;
+      }
+    }
+  }
+
+  .field-name-c4m-ds-submitted-by-and-on {
+    clear: both;
+  }
+}

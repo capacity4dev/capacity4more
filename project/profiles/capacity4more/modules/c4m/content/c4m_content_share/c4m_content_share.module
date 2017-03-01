@@ -73,7 +73,7 @@ function c4m_content_share_action_share($node) {
     'node/' . $node->nid . '/share',
     array(
       'absolute' => TRUE,
-      'purl' => array('disabled' => FALSE),
+      'purl' => array('disabled' => TRUE),
     )
   );
 
@@ -592,14 +592,14 @@ function c4m_content_share_get_shared_groups($node) {
  * If one node is shared multiple times, it is added to the sum multiple
  * times as well.
  *
- * @param object $group
- *   The group node object.
+ * @param int $og_id
+ *   The group node id.
  *
  * @return int
  *   Total sum of content shares within a group.
  */
-function c4m_content_share_get_number_of_shared_content_per_group($group) {
-  $query = _c4m_content_share_get_shared_content_per_group_query($group);
+function c4m_content_share_get_number_of_shared_content_per_group($og_id) {
+  $query = _c4m_content_share_get_shared_content_per_group_query($og_id);
 
   $shares = $query->countQuery()->execute()->fetchField();
 
@@ -613,14 +613,14 @@ function c4m_content_share_get_number_of_shared_content_per_group($group) {
  * If one node is shared multiple times, it is added to the array multiple
  * times as well.
  *
- * @param object $group
- *   The group node object.
+ * @param int $og_id
+ *   The group node id.
  *
  * @return array
  *   Shared content (not unique) in an associative array.
  */
-function c4m_content_share_get_shared_content_per_group($group) {
-  $query = _c4m_content_share_get_shared_content_per_group_query($group);
+function c4m_content_share_get_shared_content_per_group($og_id) {
+  $query = _c4m_content_share_get_shared_content_per_group_query($og_id);
 
   $result = $query->execute();
 
@@ -632,13 +632,13 @@ function c4m_content_share_get_shared_content_per_group($group) {
 /**
  * Helper function returns the selectquery to retrieve shared group content.
  *
- * @param object $group
- *   The group node object.
+ * @param int $og_id
+ *   The group node id.
  *
  * @return \SelectQuery
  *   The selectquery object before execution.
  */
-function _c4m_content_share_get_shared_content_per_group_query($group) {
+function _c4m_content_share_get_shared_content_per_group_query($og_id) {
   $query = db_select('node', 'node_source');
 
   $query->innerJoin(
@@ -656,7 +656,7 @@ function _c4m_content_share_get_shared_content_per_group_query($group) {
   $query->innerJoin('og_membership', 'og', 'og.etid = node_source.nid');
 
   $query->fields('node_source', array('nid'))
-    ->condition('og.gid', $group->nid, '=');
+    ->condition('og.gid', $og_id, '=');
 
   return $query;
 }

@@ -33,15 +33,9 @@ function c4m_features_og_search_context_default_contexts() {
           'region' => 'content_above',
           'weight' => '-10',
         ),
-        'c4m_search_filter-search_filter_interests' => array(
-          'module' => 'c4m_search_filter',
-          'delta' => 'search_filter_interests',
-          'region' => 'content_above',
-          'weight' => '-9',
-        ),
-        'c4m_search_nodes-search_overview' => array(
+        'c4m_search_nodes-search_overview_no_summary' => array(
           'module' => 'c4m_search_nodes',
-          'delta' => 'search_overview',
+          'delta' => 'search_overview_no_summary',
           'region' => 'content',
           'weight' => '-10',
         ),

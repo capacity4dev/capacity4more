@@ -157,6 +157,9 @@ function c4m_content_wiki_page_strongarm() {
       'group_dashboard' => array(
         'custom_settings' => FALSE,
       ),
+      'highlight_list' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -207,6 +210,10 @@ function c4m_content_wiki_page_strongarm() {
             'weight' => '1',
             'visible' => FALSE,
           ),
+          'highlight_list' => array(
+            'weight' => '33',
+            'visible' => FALSE,
+          ),
         ),
         'highlighted' => array(
           'full' => array(
@@ -221,6 +228,7 @@ function c4m_content_wiki_page_strongarm() {
             'weight' => '7',
             'visible' => TRUE,
           ),
+          'highlight_list' => NULL,
         ),
         'promoted' => array(
           'teaser' => array(
@@ -231,6 +239,7 @@ function c4m_content_wiki_page_strongarm() {
             'weight' => '8',
             'visible' => TRUE,
           ),
+          'highlight_list' => NULL,
         ),
       ),
     ),

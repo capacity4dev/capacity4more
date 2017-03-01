@@ -33,7 +33,7 @@ function theme_c4m_content_share_original_group(array $field) {
     $group_wrapper->title->value(),
     url(
       'node/' . $group_wrapper->get('nid')->value(),
-      array('purl' => array('disabled' => FALSE), 'absolute' => TRUE)
+      array('purl' => array('disabled' => TRUE), 'absolute' => TRUE)
     )
   );
 

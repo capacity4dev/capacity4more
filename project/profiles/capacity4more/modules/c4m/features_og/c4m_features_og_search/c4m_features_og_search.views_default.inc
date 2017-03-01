@@ -101,6 +101,7 @@ function c4m_features_og_search_views_default_views() {
     'discussion' => 'discussion',
     'document' => 'document',
     'event' => 'event',
+    'news' => 'news',
     'photoalbum' => 'photoalbum',
     'topic' => 'topic',
     'wiki_page' => 'wiki_page',

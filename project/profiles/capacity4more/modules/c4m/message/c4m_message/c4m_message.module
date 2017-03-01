@@ -2707,6 +2707,11 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
       $entity
     )
   ) {
+    // Skip this message when coming from a migration.
+    if (!empty($entity->migrate)) {
+      return NULL;
+    }
+
     // Update the correct time.
     $photo_album->timestamp = $entity->timestamp;
     $op = 'update';
@@ -3291,7 +3296,7 @@ function c4m_message_format_original_group_share(Message $message) {
     $group_wrapper->title->value(),
     url(
       'node/' . $group_wrapper->get('nid')->value(),
-      array('purl' => array('disabled' => FALSE))
+      array('purl' => array('disabled' => TRUE), 'absolute' => TRUE)
 
     )
   );
