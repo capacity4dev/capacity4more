@@ -794,6 +794,7 @@ function c4m_user_contact_form($form, &$form_state, $account) {
   $form['c4m_contact_user_submit'] = array(
     '#type' => 'submit',
     '#value' => t('Send'),
+    '#weight' => 100,
   );
 
   return $form;

@@ -43,9 +43,16 @@ function c4m_contact_menu() {
  * Adds the captcha to the contact site form.
  */
 function c4m_contact_c4m_captcha_form_info() {
-  return array(
+  $captcha_forms = array(
     'contact_site_form',
   );
+
+  // Add captcha, when site member contacts another site member.
+  if (!c4m_user_is_site_admin()) {
+    $captcha_forms[] = 'c4m_user_contact_form';
+  }
+
+  return $captcha_forms;
 }
 
 /**

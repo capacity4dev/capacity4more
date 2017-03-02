@@ -319,7 +319,7 @@ function theme_c4m_ds_type_insert_action_share_from(array $field) {
     $group_wrapper->title->value(),
     url(
       'node/' . $group_wrapper->get('nid')->value(),
-      array('purl' => array('disabled' => FALSE))
+      array('purl' => array('disabled' => TRUE), 'absolute' => TRUE)
     )
   );
 
@@ -737,7 +737,7 @@ function theme_c4m_ds_node_highlight(array $field) {
 
   // We should allow block-list view mode to display the highlight button only
   // withing og context().
-  $block_list_view_mode = !empty($field['view_mode']) && $field['view_mode'] == 'block_list';
+  $block_list_view_mode = !empty($field['view_mode']) && $field['view_mode'] == 'highlight_list';
   if ($block_list_view_mode || !empty($field['formatter_settings']['ft']['lb-cl']) && $field['formatter_settings']['ft']['lb-cl'] == 'block-list') {
     if (!og_context()) {
       return NULL;

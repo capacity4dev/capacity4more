@@ -1890,9 +1890,11 @@ function c4m_og_handle_group_status_change($node) {
   $status = $wrapper->c4m_og_status->value();
   $former_status = $wrapper_original->c4m_og_status->value();
 
-  if ($status != $former_status) {
-    // Use OG Access mechanism to update realms of group content.
-    // Update will be performed using Batch API.
+  // On status change, use OG Access mechanism to update realms of group
+  // content. Update will be performed using Batch API.
+  // Not required when group is approved (status changes from 'pending', as
+  // group got no content at that point.
+  if ($status != $former_status && $former_status != 'pending') {
     og_access_handle_group_privacy_change('node', $node);
   }
 }

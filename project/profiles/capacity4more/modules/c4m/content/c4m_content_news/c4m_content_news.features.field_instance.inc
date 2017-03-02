@@ -185,7 +185,7 @@ function c4m_content_news_field_default_field_instances() {
         'weight' => 6,
       ),
       'teaser_group' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'smart_trim',
         'settings' => array(
           'more_link' => FALSE,
