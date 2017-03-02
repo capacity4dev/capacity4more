@@ -69,11 +69,16 @@ function c4m_content_share_action_share($node) {
     return '';
   }
 
+  $context = og_context();
+
   $url = url(
     'node/' . $node->nid . '/share',
     array(
       'absolute' => TRUE,
-      'purl' => array('disabled' => TRUE),
+      'purl' => array(
+        'provider' => 'og_purl|node',
+        'id' => $context['gid'],
+      ),
     )
   );
 
