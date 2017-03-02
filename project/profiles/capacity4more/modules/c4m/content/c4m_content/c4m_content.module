@@ -97,23 +97,20 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
   // Use destination parameter when set.
   $params = drupal_get_query_parameters();
   if (empty($params['destination'])) {
-    // Use javascript history.go(-1) when destination is not set.
-    $form['actions']['cancel'] = array(
-      '#type' => 'button',
-      '#value' => t('Cancel'),
-      '#attributes' => array('onClick' => 'history.go(-1); return true;'),
-      '#weight' => 14,
+    $form['destination_on_cancel'] = array(
+      // 'name' => 'cancel_destination',
+      '#type' => 'hidden',
+      '#value' => c4m_content_construct_path_to_group_content_page($form['type']['#value']),
     );
   }
-  else {
-    $form['actions']['cancel'] = array(
-      '#type' => 'submit',
-      '#value' => t('Cancel'),
-      '#submit' => array('c4m_content_cancel_button_callback'),
-      '#limit_validation_errors' => array(),
-      '#weight' => 14,
-    );
-  }
+
+  $form['actions']['cancel'] = array(
+    '#type' => 'submit',
+    '#value' => t('Cancel'),
+    '#submit' => array('c4m_content_cancel_button_callback'),
+    '#limit_validation_errors' => array(),
+    '#weight' => 14,
+  );
 
   $is_unpublish = $form['actions']['draft']['#value'] == t('Unpublish');
   $is_og_group = in_array($form['type']['#value'], array('group', 'project'));
@@ -121,6 +118,31 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
   if ($is_unpublish && $is_og_group) {
     $form['actions']['draft']['#access'] = FALSE;
   }
+}
+
+/**
+ * Returns path to group content page.
+ *
+ * @param $content_type
+ *   The name of content type.
+ *
+ * @return string
+ *   Path to group content page
+ *   If $content_type is not group content, defaults to site homepage.
+ */
+function c4m_content_construct_path_to_group_content_page($content_type) {
+  $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
+
+  // If it's not a group content, return home page.
+  if (!in_array($content_type, $group_content_types)) {
+    return '/';
+  }
+
+  if ($content_type == 'wiki_page') {
+    $content_type = 'wiki';
+  }
+
+  return c4m_og_current_group_purl() . '/' . $content_type;
 }
 
 /**
@@ -160,7 +182,11 @@ function c4m_content_module_implements_alter(&$implementations, $hook) {
  * Cancel button callback when a destination parameter was set.
  */
 function c4m_content_cancel_button_callback($form, &$form_state) {
-  drupal_goto();
+  if (empty($form['destination_on_cancel'])) {
+    drupal_goto();
+  }
+
+  drupal_goto($form['destination_on_cancel']['#value']);
 }
 
 /**
@@ -701,6 +727,27 @@ function c4m_content_highlightable_node_types() {
     'news',
   );
 }
+
+///**
+// * Returns the list of group/project content types.
+// *
+// * @return array
+// *   The node types that are group content.
+// */
+//function c4m_content_highlightable_node_types() {
+//  return array(
+//    'group',
+//    'project',
+//    'discussion',
+//    'document',
+//    'event',
+//    'wiki_page',
+//    'photo',
+//    'photoalbum',
+//    'news',
+//  );
+//
+//}
 
 /**
  * Returns the list of content types that can be promoted.
