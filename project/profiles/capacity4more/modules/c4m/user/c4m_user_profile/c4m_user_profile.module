@@ -1144,17 +1144,13 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
       // Migrated users can be inactive without specific spammer/deleted status.
       $data['validation_messages'][] = array(
         'message' => t(
-          'This account is already in use. If this is you, please !login or !request_password.',
+          'There is a problem with your account, please !contact the site administrators.',
           array(
-            '!login' => l(t('log in'), 'user/login'),
-            '!request_password' => l(
-              t('request a new password'),
-              'user/password'
-            ),
+            '!contact' => l(t('contact'), 'contact'),
           )
         ),
         'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
-        '#weight' => -5,
+        '#weight' => -10,
       );
     }
   }
