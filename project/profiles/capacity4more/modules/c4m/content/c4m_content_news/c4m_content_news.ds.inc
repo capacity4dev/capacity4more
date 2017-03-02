@@ -21,6 +21,10 @@ function c4m_content_news_ds_field_settings_info() {
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'show_group_type' => 1,
+        'ft' => array(),
+      ),
     ),
   );
   $export['comment|comment_node_news|activity_global'] = $ds_fieldsetting;
