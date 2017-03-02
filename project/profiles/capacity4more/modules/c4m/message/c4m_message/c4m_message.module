@@ -2079,7 +2079,7 @@ function c4m_message_format_original_group_url(Message $message) {
     'absolute' => TRUE,
     'purl' => array(
       'provider' => 'og_purl|node',
-
+      'enabled' => TRUE,
       'id' => $group_wrapper->nid->value(),
     ),
   );
@@ -3253,6 +3253,7 @@ function c4m_message_format_group_share(Message $message) {
     'purl' => array(
       'provider' => 'og_purl|node',
       'id' => $group_wrapper->nid->value(),
+      'enabled' => TRUE,
     ),
   );
 
