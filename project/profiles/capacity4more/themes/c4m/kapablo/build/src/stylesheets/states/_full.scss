@@ -136,6 +136,12 @@
     }
   }
 
+  .node-document {
+    .user-name, .posted-by, .creation-date {
+      display: none;
+    }
+  }
+
   &.node-wiki-page {
     .group-left {
       ul {
