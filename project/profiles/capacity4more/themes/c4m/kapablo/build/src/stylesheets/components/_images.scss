@@ -25,8 +25,17 @@ iframe {
   }
 }
 
-.field-name-c4m-user-picture img {
-  border-radius: 50%;
+.field-name-c4m-user-picture {
+  img {
+    border-radius: 50%;
+  }
+}
+
+.view-mode-user_picture {
+  .field-name-c4m-user-picture {
+    height: 60px;
+    width: 60px;
+  }
 }
 
 .initials {
