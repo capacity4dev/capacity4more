@@ -177,6 +177,14 @@
   }
 }
 
+.sidebarblock__content {
+  .view-c4m-overview-og-members {
+    .col-xs-4 {
+      margin-bottom: 1em;
+    }
+  }
+}
+
 .region-sidebar-second {
   .views-row  {
     @include border-bottom;

@@ -234,7 +234,7 @@ function c4m_content_document_field_default_field_instances() {
           'trim_type' => 'chars',
         ),
         'type' => 'smart_trim_format',
-        'weight' => 3,
+        'weight' => 6,
       ),
       'teaser_group' => array(
         'label' => 'hidden',
@@ -251,7 +251,7 @@ function c4m_content_document_field_default_field_instances() {
           'trim_type' => 'chars',
         ),
         'type' => 'smart_trim_format',
-        'weight' => 2,
+        'weight' => 5,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -410,7 +410,7 @@ function c4m_content_document_field_default_field_instances() {
           'text' => 'Download [file:name]',
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
-        'weight' => 4,
+        'weight' => 7,
       ),
       'teaser_group' => array(
         'label' => 'hidden',
@@ -419,7 +419,7 @@ function c4m_content_document_field_default_field_instances() {
           'text' => 'Download [file:name]',
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
-        'weight' => 3,
+        'weight' => 6,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -1397,7 +1397,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 30,
+        'weight' => 29,
       ),
       'upcoming_event' => array(
         'label' => 'above',
