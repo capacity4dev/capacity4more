@@ -126,6 +126,11 @@ function c4m_content_document_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
   );
   $export['node|document|activity_global'] = $ds_fieldsetting;
 
@@ -161,6 +166,11 @@ function c4m_content_document_ds_field_settings_info() {
       'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
+    ),
+    'c4m_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
     ),
   );
   $export['node|document|activity_group'] = $ds_fieldsetting;

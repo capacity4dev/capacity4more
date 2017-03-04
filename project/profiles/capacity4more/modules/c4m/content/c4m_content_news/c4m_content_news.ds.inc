@@ -121,6 +121,11 @@ function c4m_content_news_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
   );
   $export['node|news|activity_global'] = $ds_fieldsetting;
 
@@ -758,7 +763,11 @@ function c4m_content_news_ds_layout_settings_info() {
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
@@ -789,7 +798,11 @@ function c4m_content_news_ds_layout_settings_info() {
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),

@@ -93,6 +93,11 @@ function c4m_content_article_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
   );
   $export['node|article|activity_global'] = $ds_fieldsetting;
 
@@ -527,7 +532,11 @@ function c4m_content_article_ds_layout_settings_info() {
       'c4m_body' => 'right',
       'c4m_ds_content_footer_stats' => 'footer',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'header' => 'div',
       'left' => 'div',
