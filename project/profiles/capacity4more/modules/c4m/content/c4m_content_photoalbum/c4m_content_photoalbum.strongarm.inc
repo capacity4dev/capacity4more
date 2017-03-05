@@ -233,6 +233,22 @@ function c4m_content_photoalbum_strongarm() {
             'weight' => '25',
             'visible' => FALSE,
           ),
+          'teaser' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'activity_global' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'activity_group' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
         ),
       ),
     ),
