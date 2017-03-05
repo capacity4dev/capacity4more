@@ -170,7 +170,7 @@ function c4m_content_news_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'c4m_body',
     'label' => 'Body',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
