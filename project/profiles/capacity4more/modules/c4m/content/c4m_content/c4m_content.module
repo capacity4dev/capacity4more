@@ -97,16 +97,15 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
   // Use destination parameter when set.
   $params = drupal_get_query_parameters();
   if (empty($params['destination'])) {
-    $path_tokens = explode('/', rtrim($form['#action'], '/'));
-    $action = array_pop($path_tokens);
+    $node = $form['#node'];
 
-    if ($action == 'edit') {
-      // Build path to edited content.
-      $destination_on_cancel = '/node/' . $form['#node']->nid;
+    if (!empty($node->nid)) {
+      // Editing content - build path to edited node.
+      $destination_on_cancel = '/node/' . $node->nid;
     }
     else {
-      // $form['type']['#value'] holds the type of group content.
-      $destination_on_cancel = c4m_content_construct_path_to_group_content_page($form['type']['#value']);
+      // Creating content (at this stage, node id is not set yet).
+      $destination_on_cancel = c4m_content_construct_path_to_group_content_page($node->type);
     }
 
     $form['destination_on_cancel'] = array(
