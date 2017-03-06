@@ -97,7 +97,7 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
   // Use destination parameter when set.
   $params = drupal_get_query_parameters();
   if (empty($params['destination'])) {
-    $path_tokens = explode('/', rtrim($form['#action'],'/'));
+    $path_tokens = explode('/', rtrim($form['#action'], '/'));
     $action = array_pop($path_tokens);
 
     if ($action == 'edit') {
@@ -134,7 +134,7 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Returns path to group content page.
  *
- * @param $content_type
+ * @param string $content_type
  *   The name of content type.
  *
  * @return string
@@ -149,7 +149,7 @@ function c4m_content_construct_path_to_group_content_page($content_type) {
     return '<front>';
   }
 
-  $types_path = array (
+  $types_path = array(
     'wiki_page' => 'wiki',
     'document' => 'documents',
     'discussion' => 'discussions',
