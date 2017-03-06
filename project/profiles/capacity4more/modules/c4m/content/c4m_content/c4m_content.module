@@ -97,10 +97,21 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
   // Use destination parameter when set.
   $params = drupal_get_query_parameters();
   if (empty($params['destination'])) {
+    $path_tokens = explode('/', rtrim($form['#action'],'/'));
+    $action = array_pop($path_tokens);
+
+    if ($action == 'edit') {
+      // Build path to edited content.
+      $destination_on_cancel = '/node/' . $form['#node']->nid;
+    }
+    else {
+      // $form['type']['#value'] holds the type of group content.
+      $destination_on_cancel = c4m_content_construct_path_to_group_content_page($form['type']['#value']);
+    }
+
     $form['destination_on_cancel'] = array(
       '#type' => 'hidden',
-      // $form['type']['#value'] holds the type of group content.
-      '#value' => c4m_content_construct_path_to_group_content_page($form['type']['#value']),
+      '#value' => $destination_on_cancel,
     );
   }
 
@@ -133,16 +144,29 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
 function c4m_content_construct_path_to_group_content_page($content_type) {
   $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
 
-  // If it's not a group content, return home page.
+  // If it's not a group content, return site home page.
   if (!in_array($content_type, $group_content_types)) {
-    return '/';
+    return '<front>';
   }
 
-  if ($content_type == 'wiki_page') {
-    $content_type = 'wiki';
+  $types_path = array (
+    'wiki_page' => 'wiki',
+    'document' => 'documents',
+    'discussion' => 'discussions',
+    'photo' => 'media',
+    'photoalbum' => 'media',
+    'event' => 'calendar',
+    'news' => 'news',
+  );
+
+  if (in_array($content_type, array_keys($types_path))) {
+    $content_type_path = $types_path[$content_type];
+  }
+  else {
+    $content_type_path = $content_type;
   }
 
-  return c4m_og_current_group_purl() . '/' . $content_type;
+  return c4m_og_current_group_purl() . '/' . $content_type_path;
 }
 
 /**
