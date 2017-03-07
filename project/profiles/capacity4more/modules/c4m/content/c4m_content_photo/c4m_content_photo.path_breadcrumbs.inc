@@ -23,7 +23,7 @@ function c4m_content_photo_path_breadcrumbs_settings_info() {
       2 => '%nodeidnumber:title',
     ),
     'paths' => array(
-      0 => '<front>',
+      0 => 'node/%nodeidnumber:og-group-ref:nid',
       1 => 'media',
       2 => '<none>',
     ),
@@ -87,7 +87,7 @@ function c4m_content_photo_path_breadcrumbs_settings_info() {
       3 => '%nodeidnumber:title',
     ),
     'paths' => array(
-      0 => '<front>',
+      0 => 'node/%nodeidnumber:og-group-ref:nid',
       1 => 'media',
       2 => 'node/%nodeidnumber:node-gallery-ref-1:nid',
       3 => '<none>',
