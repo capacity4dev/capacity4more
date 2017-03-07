@@ -862,8 +862,10 @@ function theme_c4m_ds_event_start_icon(array $field) {
   $date_wrapper = $entity_wrapper->c4m_datetime_end->value();
   $start_date = new DateTime(
     $date_wrapper['value'],
-    new DateTimeZone($date_wrapper['timezone'])
+    new DateTimeZone($date_wrapper['timezone_db'])
   );
+  // Date at DB is stored at UTC, so need to adjust according to timezone.
+  date_timezone_set($start_date, timezone_open($date_wrapper['timezone']));
 
   $tag['element'] = array(
     '#tag' => 'div',

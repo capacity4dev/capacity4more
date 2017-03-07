@@ -219,6 +219,11 @@ function c4m_content_event_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
     'c4m_datetime_end' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -804,6 +809,11 @@ function c4m_content_event_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
     'c4m_datetime_end' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -917,6 +927,11 @@ function c4m_content_event_ds_field_settings_info() {
       'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
+    ),
+    'c4m_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
     ),
     'c4m_datetime_end' => array(
       'formatter_settings' => array(

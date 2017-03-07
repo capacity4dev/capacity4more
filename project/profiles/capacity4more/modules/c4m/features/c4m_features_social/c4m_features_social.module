@@ -66,13 +66,13 @@ function c4m_features_social_block_view($delta = '') {
 function c4m_features_social_actions_share($node = NULL) {
   // Get the social settings.
   $social = variable_get('c4m_social_share', array());
-  $social = array_keys($social);
-
   // Print is always required and is added separately as is not supported by
   // the EC widget.
   unset($social['c4m_print']);
 
+  $social = array_keys($social);
   $social = array_filter($social, 'c4m_features_social_share_icons_filter');
+  $social = array_values($social);
 
   $settings = array(
     'service'   => 'sbkm',
