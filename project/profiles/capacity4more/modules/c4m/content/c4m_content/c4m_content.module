@@ -144,8 +144,10 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
 function c4m_content_construct_path_to_content_page($content_type) {
   $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
 
-  // Content type is not group content.
+  // Handling types that are not content of a group.
   if (!in_array($content_type, $group_content_types)) {
+    // Cancel path for 'group'/'project' types should point to
+    // their view.
     $types_path = array(
       'group' => 'groups',
       'project' => 'projects',
@@ -155,9 +157,12 @@ function c4m_content_construct_path_to_content_page($content_type) {
       return $types_path[$content_type];
     }
 
+    // Cancel path for others (article, book, etc...) should point to
+    // site homepage.
     return '<front>';
   }
 
+  // Handling types that are content of a group.
   $types_path = array(
     'wiki_page' => 'wiki',
     'document' => 'documents',
@@ -166,17 +171,11 @@ function c4m_content_construct_path_to_content_page($content_type) {
     'photoalbum' => 'media',
     'event' => 'calendar',
     'news' => 'news',
+    'share' => '',
   );
 
-  if (in_array($content_type, array_keys($types_path))) {
-    $content_type_path = $types_path[$content_type];
-  }
-  else {
-    // Content type is 'share' - forward to group page.
-    $content_type_path = '';
-  }
-
-  return c4m_og_current_group_purl() . '/' . $content_type_path;
+  // Cancel path should point to types view, under purl.
+  return c4m_og_current_group_purl() . '/' . $types_path[$content_type];
 }
 
 /**
