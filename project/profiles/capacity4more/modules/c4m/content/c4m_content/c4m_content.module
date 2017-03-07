@@ -144,7 +144,7 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
 function c4m_content_construct_path_to_content_page($content_type) {
   $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
 
-  // If it's not a group content.
+  // Content type is not group content.
   if (!in_array($content_type, $group_content_types)) {
     $types_path = array(
       'group' => 'groups',
@@ -172,7 +172,8 @@ function c4m_content_construct_path_to_content_page($content_type) {
     $content_type_path = $types_path[$content_type];
   }
   else {
-    $content_type_path = $content_type;
+    // Content type is 'share' - forward to group page.
+    $content_type_path = '';
   }
 
   return c4m_og_current_group_purl() . '/' . $content_type_path;
