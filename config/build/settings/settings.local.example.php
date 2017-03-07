@@ -298,3 +298,13 @@ $conf['reroute_email_enable_message'] = 1;
 // $conf["cache_class_cache_form"] = "DrupalDatabaseCache";
 // $conf["page_cache_without_database"] = TRUE;
 // $conf["page_cache_invoke_hooks"] = FALSE;
+
+$conf['smtp_on'] = 1;
+$conf['smtp_queue_fail'] = 1;
+$conf['smtp_deliver'] = 0;
+$conf['smtp_host'] = "smtpmail.cec.eu.int";
+$conf['smtp_port'] = 25;
+$conf['smtp_from'] = "automated-notifications@nomail.ec.europa.eu";
+$conf['smtp_fromname'] = "capacity4dev.eu";
+$conf['smtp_allowhtml'] = 1;
+$conf['smtp_reroute_address'] = "capfourdev.amplexor@gmail.com";

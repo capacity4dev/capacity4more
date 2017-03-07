@@ -10,4 +10,5 @@ features[variable][] = mail_system
 features[variable][] = mailsystem_theme
 features[variable][] = mimemail_engine
 features[variable][] = mimemail_format
+features[variable][] = smtp
 files[] = inc/messages.inc
