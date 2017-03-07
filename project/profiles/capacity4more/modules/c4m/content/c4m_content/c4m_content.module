@@ -105,10 +105,10 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     }
     else {
       // Creating content (at this stage, node id is not set yet).
-      $destination_on_cancel = c4m_content_construct_path_to_group_content_page($node->type);
+      $destination_on_cancel = c4m_content_construct_path_to_content_page($node->type);
     }
 
-    $form['destination_on_cancel'] = array(
+    $form_state['destination_on_cancel'] = array(
       '#type' => 'hidden',
       '#value' => $destination_on_cancel,
     );
@@ -131,20 +131,30 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * Returns path to group content page.
+ * Returns path to content page.
  *
  * @param string $content_type
  *   The name of content type.
  *
  * @return string
  *   Path to group content page
- *   If $content_type is not group content, defaults to site homepage.
+ *   If $content_type is not group ('group'/'project') or group content,
+ *   defaults to site homepage.
  */
-function c4m_content_construct_path_to_group_content_page($content_type) {
+function c4m_content_construct_path_to_content_page($content_type) {
   $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
 
-  // If it's not a group content, return site home page.
+  // If it's not a group content.
   if (!in_array($content_type, $group_content_types)) {
+    $types_path = array(
+      'group' => 'groups',
+      'project' => 'projects',
+    );
+
+    if (in_array($content_type, array_keys($types_path))) {
+      return $types_path[$content_type];
+    }
+
     return '<front>';
   }
 
@@ -204,12 +214,12 @@ function c4m_content_module_implements_alter(&$implementations, $hook) {
 /**
  * Cancel button callback when a destination parameter was set.
  */
-function c4m_content_cancel_button_callback($form, &$form_state) {
-  if (empty($form['destination_on_cancel'])) {
+function c4m_content_cancel_button_callback($form, $form_state) {
+  if (empty($form_state['destination_on_cancel'])) {
     drupal_goto();
   }
 
-  drupal_goto($form['destination_on_cancel']['#value']);
+  drupal_goto($form_state['destination_on_cancel']['#value']);
 }
 
 /**
