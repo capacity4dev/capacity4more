@@ -1,30 +1,30 @@
 <?php
+
 /**
  * @file
- * c4m_features_og_documents.path_breadcrumbs.inc
+ * c4m_features_og_news.path_breadcrumbs.inc
  */
 
 /**
  * Implements hook_path_breadcrumbs_settings_info().
  */
-function c4m_features_og_documents_path_breadcrumbs_settings_info() {
+function c4m_features_og_news_path_breadcrumbs_settings_info() {
   $export = array();
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
-  $path_breadcrumb->machine_name = 'og_document';
-  $path_breadcrumb->name = 'OG - Document';
+  $path_breadcrumb->machine_name = 'og_news';
+  $path_breadcrumb->name = 'OG - News';
   $path_breadcrumb->path = 'node/%nodeidnumber';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => '%nodeidnumber:og-group-ref:title',
-      1 => 'Library',
+      1 => 'News',
       2 => '%nodeidnumber:title',
     ),
     'paths' => array(
       0 => 'node/%nodeidnumber:og-group-ref:nid',
-
-      1 => 'documents',
+      1 => 'news',
       2 => '<none>',
     ),
     'home' => 0,
@@ -44,7 +44,7 @@ function c4m_features_og_documents_path_breadcrumbs_settings_info() {
           'name' => 'node_type',
           'settings' => array(
             'type' => array(
-              'document' => 'document',
+              'news' => 'news',
             ),
           ),
           'context' => 'nodeidnumber',
@@ -60,8 +60,8 @@ function c4m_features_og_documents_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -88;
-  $export['og_document'] = $path_breadcrumb;
+  $path_breadcrumb->weight = 0;
+  $export['og_news'] = $path_breadcrumb;
 
   return $export;
 }
