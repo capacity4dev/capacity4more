@@ -115,7 +115,7 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
   }
 
   $form['actions']['cancel'] = array(
-    '#type' => 'submit',
+    '#type' => 'button',
     '#value' => t('Cancel'),
     '#submit' => array('c4m_content_cancel_button_callback'),
     '#limit_validation_errors' => array(),
