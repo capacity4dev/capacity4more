@@ -56,6 +56,7 @@ function nexteuropa_geofield_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  global $base_url;
 
   $widget = $element;
   $widget['#delta'] = $delta;
@@ -93,7 +94,7 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
       drupal_add_js(array('nexteuropa_geojson' => array('map' => isset($value['geofield_geojson']) ? $value['geofield_geojson'] : '')), 'setting');
       drupal_add_js(array('nexteuropa_geojson' => array('settings' => $settings)), 'setting');
       drupal_add_js(array('nexteuropa_geojson' => array('cardinality' => $field['cardinality'])), 'setting');
-      drupal_add_js(array('nexteuropa_geojson' => array('image_path' => '/' . libraries_get_path('leaflet') . '/images')), 'setting');
+      drupal_add_js(array('nexteuropa_geojson' => array('image_path' => $base_url . '/' . libraries_get_path('leaflet') . '/images')), 'setting');
       break;
   }
   return $element;
@@ -273,6 +274,7 @@ function nexteuropa_geofield_field_formatter_view($entity_type, $entity, $field,
       );
       drupal_add_js(array('nexteuropa_geojson' => array('map' => $value)), 'setting');
       drupal_add_js(array('nexteuropa_geojson' => array('settings' => $settings)), 'setting');
+      drupal_add_js(array('nexteuropa_geojson' => array('image_path' => '/' . libraries_get_path('leaflet') . '/images')), 'setting');
       break;
   }
   return $element;
