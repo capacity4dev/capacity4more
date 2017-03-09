@@ -137,8 +137,17 @@ Feature: Group dashboard
     | president   |
 
   @api
-  Scenario: Highlighted document content title should contain a link.
+  Scenario: Highlighted document title should link to it's page.
     Given I am logged in as user "badhairday"
-    When  I visit the dashboard of group "Nobel Prize"
-    Then  I should see the text "Nobel Prize"
-    And I should see the link "Nobel Prize sheet"
+    When I visit the dashboard of group "Nobel Prize"
+    Then I should see the text "Nobel Prize"
+    And I follow "Nobel Prize sheet" in the "highlighted block" region
+    Then I should get a "200" HTTP response
+
+  @api
+  Scenario: Highlighted discussion title should link to it's page.
+    Given I am logged in as user "badhairday"
+    When I visit the dashboard of group "Nobel Prize"
+    Then I should see the text "Nobel Prize"
+    And I follow "Nobel Foundation" in the "highlighted block" region
+    Then I should get a "200" HTTP response
