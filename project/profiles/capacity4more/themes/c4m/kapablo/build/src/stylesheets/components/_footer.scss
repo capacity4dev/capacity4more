@@ -39,9 +39,12 @@
     }
 
     &.c4m-footer-bar-project {
-      text-align: left;
       border: none;
       vertical-align: middle;
+
+      @media (min-width: $screen-tablet) {
+        text-align: left;
+      }
     }
 
     div {

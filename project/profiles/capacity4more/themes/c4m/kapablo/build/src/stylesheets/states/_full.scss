@@ -126,11 +126,19 @@
       clear: both;
       margin-top: 2rem;
     }
+  }
 
-    .node {
-      .field-name-c4m-body {
-        display: none;
-      }
+  .node {
+    margin-bottom: 1em;
+
+    .field-name-c4m-body {
+      display: none;
+    }
+  }
+
+  .node-document {
+    .user-name, .posted-by, .creation-date {
+      display: none;
     }
   }
 
@@ -270,7 +278,6 @@
     .view-mode-teaser {
       .field-name-c4m-ds-content-footer-stats {
         display: none;
-
       }
     }
   }

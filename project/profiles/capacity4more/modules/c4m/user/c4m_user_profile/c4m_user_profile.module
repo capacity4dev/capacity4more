@@ -1093,6 +1093,8 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
     );
   }
   else {
+    $error = FALSE;
+
     if (!$other_user->last_login->value() && !$other_user->last_access->value()
     ) {
       $data['validation_messages'][] = array(
@@ -1108,6 +1110,7 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
         'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
         '#weight' => -4,
       );
+      $error = TRUE;
     }
     if ($other_user->c4m_is_spammer->value()) {
       $data['validation_messages'][] = array(
@@ -1120,6 +1123,7 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
         'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
         '#weight' => 1,
       );
+      $error = TRUE;
     }
     if ($other_user->c4m_is_deleted->value()) {
       $data['validation_messages'][] = array(
@@ -1131,6 +1135,22 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
         ),
         'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
         '#weight' => 2,
+      );
+      $error = TRUE;
+    }
+
+    if (!$error) {
+      // No specific error given, add the default one.
+      // Migrated users can be inactive without specific spammer/deleted status.
+      $data['validation_messages'][] = array(
+        'message' => t(
+          'There is a problem with your account, please !contact the site administrators.',
+          array(
+            '!contact' => l(t('contact'), 'contact'),
+          )
+        ),
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
+        '#weight' => -10,
       );
     }
   }

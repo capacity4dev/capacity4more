@@ -927,7 +927,11 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
       'c4m_body' => 'right',
       'c4m_ds_content_footer_stats' => 'footer',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'header' => 'div',
       'left' => 'div',
@@ -955,19 +959,23 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
       'left' => array(
         0 => 'c4m_ds_photoalbum_cover_image',
       ),
-      'footer' => array(
-        1 => 'c4m_ds_content_footer_stats',
-      ),
       'right' => array(
-        2 => 'c4m_body',
+        1 => 'c4m_body',
+      ),
+      'footer' => array(
+        2 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'c4m_ds_photoalbum_cover_image' => 'left',
-      'c4m_ds_content_footer_stats' => 'footer',
       'c4m_body' => 'right',
+      'c4m_ds_content_footer_stats' => 'footer',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'header' => 'div',
       'left' => 'div',
