@@ -135,3 +135,10 @@ Feature: Group dashboard
     | galileo     |
     | badhairday  |
     | president   |
+
+  @api
+  Scenario: Highlighted document content title should contain a link.
+    Given I am logged in as user "badhairday"
+    When  I visit the dashboard of group "Nobel Prize"
+    Then  I should see the text "Nobel Prize"
+    And I should see the link "Nobel Prize sheet"
