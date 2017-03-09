@@ -12,6 +12,8 @@
 
     $('#geofield_geojson_map', context).once('geofield-geojson-map', function () {
 
+      L.Icon.Default.imagePath = settings.basePath + 'sites/all/libraries/leaflet/images';
+
       var map = L.map('geofield_geojson_map', {}).setView([51.505, -0.09], 5);
       L.tileLayer(
         'http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
