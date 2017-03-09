@@ -228,7 +228,7 @@ function c4m_content_photoalbum_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => 'purl_auto',
+        'link' => '1',
         'wrapper' => 'h3',
         'class' => '',
         'ft' => array(),
@@ -447,7 +447,7 @@ function c4m_content_photoalbum_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '0',
+        'link' => '1',
         'wrapper' => 'h3',
         'class' => '',
         'ft' => array(
