@@ -968,6 +968,28 @@ function c4m_user_block_view($delta) {
 }
 
 /**
+ * Implements hook_init().
+ */
+function c4m_user_init() {
+  if (user_is_anonymous()) {
+    return;
+  }
+
+  // Already on a user edit page.
+  if (arg(0) == 'user' && arg(2) == 'edit') {
+    return;
+  }
+
+  global $user;
+
+  $account = user_load($user->uid);
+
+  if (!empty($account->c4m_is_invalid_email[LANGUAGE_NONE][0]['value'])) {
+    drupal_goto('user/' . $user->uid . '/edit');
+  }
+}
+
+/**
  * Updates the user information based on LDAP and Organisation information.
  *
  * Callers might provide the email domain so that we don't have to query the db
