@@ -1018,6 +1018,13 @@ function c4m_user_update_information(
         $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 2;
         $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
       }
+      // User is LDAP user but not validated.
+      elseif ($info['valid'] === "0") {
+        $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 0;
+        $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 1;
+        $edit['c4m_organisation'][LANGUAGE_NONE] = array();
+        $edit['c4m_country'][LANGUAGE_NONE] = array();
+      }
     }
   }
 
