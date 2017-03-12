@@ -1312,17 +1312,6 @@ function c4m_user_profile_render_user_unsubscribe_hash($account = NULL) {
 }
 
 /**
- * Implements hook_user_presave().
- *
- * Adding the unsubscribe hash to the user profile when it is not a new profile.
- */
-function c4m_user_profile_user_presave(&$edit, $account, $category) {
-  if ($account->is_new) {
-    return;
-  }
-}
-
-/**
  * Gets the unsubscribe hash of an account.
  *
  * If the hash doesn't exists then it's being created and saved.
