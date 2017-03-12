@@ -2562,8 +2562,7 @@ function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
 
   $uid = $message->uid;
   $account = user_load($uid);
-  $wrapper = entity_metadata_wrapper('user', $account);
-  $hash = $wrapper->c4m_unsubscribe_hash->value();
+  $hash = c4m_user_profile_get_or_create_account_unsubscribe_hash($account);
 
   $options = array(
     'absolute' => TRUE,
