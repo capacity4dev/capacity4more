@@ -150,7 +150,7 @@ function c4m_content_topic_field_default_field_instances() {
       'settings' => array(
         'allowed_schemes' => array(
           'private' => 'private',
-          'public' => 0,
+          'public' => 'public',
         ),
         'allowed_types' => array(
           'audio' => 0,
