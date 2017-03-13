@@ -12,7 +12,6 @@ MAKE_FILES=(
   "ckeditor.make"
   "configuration.make"
   "fields.make"
-  "mail.make"
   "media.make"
   "moodle.make"
   "navigation.make"
