@@ -26,7 +26,7 @@ function c4m_field_banner_field_default_field_bases() {
     'module' => 'image',
     'settings' => array(
       'default_image' => 0,
-      'uri_scheme' => 'private',
+      'uri_scheme' => 'public',
     ),
     'translatable' => 0,
     'type' => 'image',
