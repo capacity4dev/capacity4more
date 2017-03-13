@@ -3131,7 +3131,7 @@ function c4m_og_comment_delete($comment) {
  * When user publishes node/comment, increase membership totals field.
  * When user unpublishes node/comment, decrease membership totals field.
  */
-function c4m_og_hook_entity_update($entity, $type) {
+function c4m_og_entity_update($entity, $type) {
   if ($entity->status == $entity->orig->status) {
     // Entity status did not change.
     return FALSE;
