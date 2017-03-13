@@ -7,6 +7,8 @@
 
 include_once 'c4m_features_overview_groups.features.inc';
 
+define('C4M_FEATURES_OVERVIEW_GROUPS_SORT_BY_COMMENT_COUNT', 'Comment count');
+
 /**
  * Implements hook_c4m_search_page_info().
  */
@@ -45,4 +47,24 @@ function c4m_features_overview_groups_views_pre_build(&$view) {
  */
 function c4m_features_overview_groups_views_data_alter(&$data) {
   $data['node']['title']['field']['handler'] = 'c4m_overview_groups_handler_title_no_purl';
+}
+
+/**
+ * Implements custom hook_search_api_sorts_alter().
+ *
+ * See Class c4m_views_handler_area_search_api_sorts.
+ * Unfortunately search_api_sorts module provides one sort block and not a
+ * block per view, so we need to alter some stuff. Here we remove superfluous
+ * sorts.
+ */
+function c4m_features_overview_groups_search_api_sorts_alter(&$block, $view) {
+  // Remove 'Comment count' sort if this is the media overview.
+  if ($view->name === 'c4m_overview_groups') {
+    foreach ($block['content']['#items'] as $key => $item) {
+      if (C4M_FEATURES_OVERVIEW_GROUPS_SORT_BY_COMMENT_COUNT === $item['#name']) {
+        unset($block['content']['#items'][$key]);
+        break;
+      }
+    }
+  }
 }

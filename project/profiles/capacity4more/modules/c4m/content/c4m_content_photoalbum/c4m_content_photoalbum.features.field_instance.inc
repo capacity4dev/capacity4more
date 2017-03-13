@@ -140,40 +140,20 @@ function c4m_content_photoalbum_field_default_field_instances() {
     'display' => array(
       'activity_global' => array(
         'label' => 'hidden',
-        'module' => 'smart_trim',
+        'module' => 'text',
         'settings' => array(
-          'more_link' => 0,
-          'more_text' => 'Read more',
-          'summary_handler' => 'trim',
-          'trim_length' => 600,
-          'trim_link' => 0,
-          'trim_options' => array(
-            'text' => 'text',
-          ),
-          'trim_preserve_tags' => '',
-          'trim_suffix' => '...',
-          'trim_type' => 'chars',
+          'trim_length' => 300,
         ),
-        'type' => 'smart_trim_format',
+        'type' => 'text_summary_or_trimmed',
         'weight' => 2,
       ),
       'activity_group' => array(
         'label' => 'hidden',
-        'module' => 'smart_trim',
+        'module' => 'text',
         'settings' => array(
-          'more_link' => 0,
-          'more_text' => 'Read more',
-          'summary_handler' => 'full',
-          'trim_length' => 600,
-          'trim_link' => 0,
-          'trim_options' => array(
-            'text' => 0,
-          ),
-          'trim_preserve_tags' => '',
-          'trim_suffix' => '...',
-          'trim_type' => 'chars',
+          'trim_length' => 300,
         ),
-        'type' => 'smart_trim_format',
+        'type' => 'text_summary_or_trimmed',
         'weight' => 2,
       ),
       'block_list' => array(
@@ -208,6 +188,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 3,
       ),
+      'highlight_list' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 24,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -234,36 +220,20 @@ function c4m_content_photoalbum_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'hidden',
-        'module' => 'smart_trim',
+        'module' => 'text',
         'settings' => array(
-          'more_link' => FALSE,
-          'more_text' => 'Read more',
-          'summary_handler' => 'full',
           'trim_length' => 300,
-          'trim_link' => FALSE,
-          'trim_options' => array(),
-          'trim_preserve_tags' => '',
-          'trim_suffix' => '...',
-          'trim_type' => 'chars',
         ),
-        'type' => 'smart_trim_format',
+        'type' => 'text_summary_or_trimmed',
         'weight' => 7,
       ),
       'teaser_group' => array(
         'label' => 'hidden',
-        'module' => 'smart_trim',
+        'module' => 'text',
         'settings' => array(
-          'more_link' => FALSE,
-          'more_text' => 'Read more',
-          'summary_handler' => 'full',
           'trim_length' => 300,
-          'trim_link' => FALSE,
-          'trim_options' => array(),
-          'trim_preserve_tags' => '',
-          'trim_suffix' => '...',
-          'trim_type' => 'chars',
         ),
-        'type' => 'smart_trim_format',
+        'type' => 'text_summary_or_trimmed',
         'weight' => 6,
       ),
       'upcoming_event' => array(
@@ -373,6 +343,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'type' => 'term_reference_tree_hierarchical',
         'weight' => 8,
       ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 28,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -463,6 +439,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'type' => 'term_reference_tree_hierarchical',
         'weight' => 10,
       ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 31,
+      ),
       'pinned_content' => array(
         'label' => 'above',
         'settings' => array(),
@@ -548,6 +530,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(),
         'type' => 'term_reference_tree_hierarchical',
         'weight' => 9,
+      ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -650,6 +638,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(),
         'type' => 'term_reference_tree_hierarchical',
         'weight' => 7,
+      ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 30,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -754,6 +748,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 27,
+      ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 26,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -902,6 +902,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         ),
         'type' => 'og_vocab',
         'weight' => 11,
+      ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 27,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

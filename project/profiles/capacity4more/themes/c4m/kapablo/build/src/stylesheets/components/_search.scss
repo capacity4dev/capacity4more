@@ -60,6 +60,7 @@
 
 .search-api-sort {
   margin: 20px 0;
+  position: relative;
 
   img {
     display: inline;
@@ -243,10 +244,10 @@
   margin-top: 15px;
   border-top: 1px dashed $color-gray-light;
 
-  //.collapsed, .expanded {
-  //  // IE has a bug where inline "overflow: hidden" prevents carets in front of collapsed li's.
-  //  overflow: auto !important;
-  //}
+  .collapsed, .expanded {
+    // IE has a bug where inline "overflow: hidden" prevents carets in front of collapsed li's.
+    overflow: visible !important;
+  }
 }
 
 .facetapi-deactivate {

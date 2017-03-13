@@ -272,9 +272,24 @@ function c4m_restful_quick_post_form($group_id) {
     }
   }
 
+  // Site admin may not create content at pending and deleted groups.
+  // Special check required as node_access() allows everything to site admin.
+  if (c4m_user_is_site_admin()) {
+    $group = c4m_og_current_group();
+    $group_state = c4m_og_get_group_status($group);
+
+    $user_may_create_discussion = !in_array($group_state, array(
+      'pending',
+      'deleted',
+    ));
+  }
+  else {
+    $user_may_create_discussion = node_access('create', 'discussion');
+  }
+
   // If all resources are turned off, or user is not allowed to create a
   // discussion, disable the QP form.
-  if (empty($show_resources) || !node_access('create', 'discussion')) {
+  if (empty($show_resources) || !$user_may_create_discussion) {
     $settings['c4m']['data']['entity']['group'] = $group_id;
     drupal_add_js($settings, 'setting');
     return FALSE;

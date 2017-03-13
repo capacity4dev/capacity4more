@@ -146,13 +146,13 @@
       }
     }
 
-    &.active {
-      color: $color-white;
-      background: $color-blue-darkTwo;
+    &.active,
+    &.active:hover {
+      color: $color-blue-darkTwo;
+      background: $color-white;
     }
 
-    &:hover,
-    &:active {
+    &:hover {
       color: $color-white;
       background: rgba($color-white, 0.1);
     }

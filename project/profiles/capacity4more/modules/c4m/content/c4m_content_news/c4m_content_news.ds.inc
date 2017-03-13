@@ -12,6 +12,25 @@ function c4m_content_news_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'comment|comment_node_news|activity_global';
+  $ds_fieldsetting->entity_type = 'comment';
+  $ds_fieldsetting->bundle = 'comment_node_news';
+  $ds_fieldsetting->view_mode = 'activity_global';
+  $ds_fieldsetting->settings = array(
+    'c4m_field_og_group' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'show_group_type' => 1,
+        'ft' => array(),
+      ),
+    ),
+  );
+  $export['comment|comment_node_news|activity_global'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'comment|comment_node_news|default';
   $ds_fieldsetting->entity_type = 'comment';
   $ds_fieldsetting->bundle = 'comment_node_news';
@@ -100,6 +119,11 @@ function c4m_content_news_ds_field_settings_info() {
           'fis-at' => '',
           'fis-def-at' => TRUE,
         ),
+      ),
+    ),
+    'c4m_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
       ),
     ),
   );
@@ -635,6 +659,68 @@ function c4m_content_news_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
+  $ds_layout->id = 'comment|comment_node_news|activity_global';
+  $ds_layout->entity_type = 'comment';
+  $ds_layout->bundle = 'comment_node_news';
+  $ds_layout->view_mode = 'activity_global';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'c4m_field_og_group',
+        1 => 'comment_body',
+      ),
+    ),
+    'fields' => array(
+      'c4m_field_og_group' => 'ds_content',
+      'comment_body' => 'ds_content',
+    ),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['comment|comment_node_news|activity_global'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'comment|comment_node_news|activity_group';
+  $ds_layout->entity_type = 'comment';
+  $ds_layout->bundle = 'comment_node_news';
+  $ds_layout->view_mode = 'activity_group';
+  $ds_layout->layout = 'ds_reset';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'comment_body',
+      ),
+    ),
+    'fields' => array(
+      'comment_body' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => TRUE,
+    'layout_link_attribute' => FALSE,
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['comment|comment_node_news|activity_group'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
   $ds_layout->id = 'comment|comment_node_news|default';
   $ds_layout->entity_type = 'comment';
   $ds_layout->bundle = 'comment_node_news';
@@ -739,7 +825,11 @@ function c4m_content_news_ds_layout_settings_info() {
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
@@ -770,7 +860,11 @@ function c4m_content_news_ds_layout_settings_info() {
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
@@ -1018,7 +1112,11 @@ function c4m_content_news_ds_layout_settings_info() {
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),

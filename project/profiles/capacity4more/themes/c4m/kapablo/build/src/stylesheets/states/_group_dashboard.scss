@@ -17,4 +17,21 @@
       font-size: 13px;
     }
   }
+
+  .field-name-c4m-ds-node-highlight {
+    float: none;
+
+    .c4m-node-highlight {
+      .highlight-link-text {
+        display: inline-block;
+      }
+    }
+  }
+
+  .c4m-project-node-highlight {
+    .highlight-link-text {
+      display: inline-block;
+    }
+  }
+
 }

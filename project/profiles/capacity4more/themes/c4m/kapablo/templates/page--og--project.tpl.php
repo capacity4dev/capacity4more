@@ -73,7 +73,7 @@
           <span class="trigger-label circle circle--green">
             <span class="fa fa-info" ></span>
           </span>
-          <span class="trigger-text">Group info</span>
+          <span class="trigger-text">Project/programme info</span>
           <i class="pull-right fa fa-chevron-right"></i>
         </div>
       </div>

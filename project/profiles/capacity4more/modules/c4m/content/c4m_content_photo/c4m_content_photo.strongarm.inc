@@ -125,6 +125,9 @@ function c4m_content_photo_strongarm() {
       'pinned_content' => array(
         'custom_settings' => TRUE,
       ),
+      'highlight_list' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -175,6 +178,10 @@ function c4m_content_photo_strongarm() {
             'weight' => '5',
             'visible' => FALSE,
           ),
+          'highlight_list' => array(
+            'weight' => '29',
+            'visible' => FALSE,
+          ),
         ),
         'highlighted' => array(
           'full' => array(
@@ -182,6 +189,7 @@ function c4m_content_photo_strongarm() {
             'visible' => TRUE,
           ),
           'block_list' => NULL,
+          'highlight_list' => NULL,
         ),
         'flag_c4m_og_content_highlight' => array(
           'default' => array(
@@ -193,6 +201,22 @@ function c4m_content_photo_strongarm() {
             'visible' => FALSE,
           ),
           'teaser_group' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'highlight_list' => array(
+            'weight' => '31',
+            'visible' => FALSE,
+          ),
+          'teaser' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'activity_global' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'activity_group' => array(
             'weight' => '10',
             'visible' => FALSE,
           ),

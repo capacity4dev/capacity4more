@@ -126,6 +126,11 @@ function c4m_content_document_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
   );
   $export['node|document|activity_global'] = $ds_fieldsetting;
 
@@ -161,6 +166,11 @@ function c4m_content_document_ds_field_settings_info() {
       'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
+    ),
+    'c4m_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
     ),
   );
   $export['node|document|activity_group'] = $ds_fieldsetting;
@@ -487,6 +497,59 @@ function c4m_content_document_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|document|highlight_list';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'document';
+  $ds_fieldsetting->view_mode = 'highlight_list';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '1',
+        'wrapper' => 'h3',
+        'class' => '',
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_submitted_by_and_on' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_minimal',
+        ),
+      ),
+    ),
+    'c4m_ds_content_type_icon' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_minimal',
+        ),
+      ),
+    ),
+    'c4m_ds_node_highlight' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_minimal',
+        ),
+      ),
+    ),
+  );
+  $export['node|document|highlight_list'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|document|pinned_content';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'document';
@@ -580,8 +643,18 @@ function c4m_content_document_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'c4m_field_og_group' => array(
+    'c4m_user_first_and_last_name' => array(
       'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'linked_user',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_field_og_group' => array(
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -589,8 +662,28 @@ function c4m_content_document_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_type_insert_action' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '5',
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'downloads',
     ),
@@ -620,18 +713,48 @@ function c4m_content_document_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'c4m_ds_content_footer_stats' => array(
+    'c4m_user_first_and_last_name' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'linked_user',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_creation_date' => array(
       'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_type_insert_action' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_content_footer_stats' => array(
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'downloads',
     ),
     'c4m_ds_node_highlight' => array(
-      'weight' => '5',
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'c4m_ds_node_promote' => array(
-      'weight' => '6',
+      'weight' => '9',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -940,7 +1063,11 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_body' => 'ds_content',
       'c4m_document' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
@@ -1043,6 +1170,45 @@ function c4m_content_document_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|document|highlight_list';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'document';
+  $ds_layout->view_mode = 'highlight_list';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'c4m_ds_content_type_icon',
+        1 => 'title',
+        2 => 'c4m_ds_node_highlight',
+        3 => 'c4m_ds_submitted_by_and_on',
+      ),
+    ),
+    'fields' => array(
+      'c4m_ds_content_type_icon' => 'ds_content',
+      'title' => 'ds_content',
+      'c4m_ds_node_highlight' => 'ds_content',
+      'c4m_ds_submitted_by_and_on' => 'ds_content',
+    ),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['node|document|highlight_list'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
   $ds_layout->id = 'node|document|pinned_content';
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'document';
@@ -1098,21 +1264,31 @@ function c4m_content_document_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'title',
-        2 => 'c4m_field_og_group',
-        3 => 'c4m_body',
-        4 => 'c4m_document',
-        5 => 'c4m_ds_content_footer_stats',
+        2 => 'c4m_user_first_and_last_name',
+        3 => 'c4m_ds_type_insert_action',
+        4 => 'c4m_ds_creation_date',
+        5 => 'c4m_field_og_group',
+        6 => 'c4m_body',
+        7 => 'c4m_document',
+        8 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'c4m_content_document_icon' => 'left',
       'title' => 'right',
+      'c4m_user_first_and_last_name' => 'right',
+      'c4m_ds_type_insert_action' => 'right',
+      'c4m_ds_creation_date' => 'right',
       'c4m_field_og_group' => 'right',
       'c4m_body' => 'right',
       'c4m_document' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'left' => 'div',
       'right' => 'div',
@@ -1140,16 +1316,22 @@ function c4m_content_document_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'title',
-        2 => 'c4m_body',
-        3 => 'c4m_document',
-        4 => 'c4m_ds_content_footer_stats',
-        5 => 'c4m_ds_node_highlight',
-        6 => 'c4m_ds_node_promote',
+        2 => 'c4m_user_first_and_last_name',
+        3 => 'c4m_ds_type_insert_action',
+        4 => 'c4m_ds_creation_date',
+        5 => 'c4m_body',
+        6 => 'c4m_document',
+        7 => 'c4m_ds_content_footer_stats',
+        8 => 'c4m_ds_node_highlight',
+        9 => 'c4m_ds_node_promote',
       ),
     ),
     'fields' => array(
       'c4m_content_document_icon' => 'left',
       'title' => 'right',
+      'c4m_user_first_and_last_name' => 'right',
+      'c4m_ds_type_insert_action' => 'right',
+      'c4m_ds_creation_date' => 'right',
       'c4m_body' => 'right',
       'c4m_document' => 'right',
       'c4m_ds_content_footer_stats' => 'right',

@@ -1,0 +1,25 @@
+From 96b07d8a9ec593d320cf64fbce48ae469f711248 Mon Sep 17 00:00:00 2001
+From: Kevin Van Ransbeeck <climacon@gmail.com>
+Date: Thu, 9 Mar 2017 13:34:04 +0100
+Subject: [PATCH] Quickfix test.
+
+---
+ .../modules/ec/nexteuropa_geofield/js/nexteuropa_geofield.view.js       | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/web/profiles/capacity4more/modules/ec/nexteuropa_geofield/js/nexteuropa_geofield.view.js b/web/profiles/capacity4more/modules/ec/nexteuropa_geofield/js/nexteuropa_geofield.view.js
+index b906a92..0569ea7 100755
+--- a/web/profiles/capacity4more/modules/ec/nexteuropa_geofield/js/nexteuropa_geofield.view.js
++++ b/web/profiles/capacity4more/modules/ec/nexteuropa_geofield/js/nexteuropa_geofield.view.js
+@@ -12,6 +12,8 @@
+ 
+     $('#geofield_geojson_map', context).once('geofield-geojson-map', function () {
+ 
++      L.Icon.Default.imagePath = settings.basePath + 'sites/all/libraries/leaflet/images';
++
+       var map = L.map('geofield_geojson_map', {}).setView([51.505, -0.09], 5);
+       L.tileLayer(
+         'http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+-- 
+2.8.1
+

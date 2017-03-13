@@ -121,28 +121,18 @@ function c4m_content_document_field_default_field_instances() {
     'display' => array(
       'activity_global' => array(
         'label' => 'hidden',
-        'module' => 'smart_trim',
+        'module' => 'text',
         'settings' => array(
-          'more_link' => 0,
-          'more_text' => 'Read more',
-          'summary_handler' => 'trim',
-          'trim_length' => 200,
-          'trim_link' => FALSE,
-          'trim_options' => array(
-            'text' => 'text',
-          ),
-          'trim_preserve_tags' => '',
-          'trim_suffix' => '...',
-          'trim_type' => 'chars',
+          'trim_length' => 300,
         ),
-        'type' => 'smart_trim_format',
+        'type' => 'text_summary_or_trimmed',
         'weight' => 1,
       ),
       'activity_group' => array(
         'label' => 'hidden',
         'module' => 'text',
         'settings' => array(
-          'trim_length' => 600,
+          'trim_length' => 300,
         ),
         'type' => 'text_summary_or_trimmed',
         'weight' => 0,
@@ -195,6 +185,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 5,
       ),
+      'highlight_list' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 24,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -215,37 +211,21 @@ function c4m_content_document_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'hidden',
-        'module' => 'smart_trim',
+        'module' => 'text',
         'settings' => array(
-          'more_link' => FALSE,
-          'more_text' => 'Read more',
-          'summary_handler' => 'full',
           'trim_length' => 300,
-          'trim_link' => FALSE,
-          'trim_options' => array(),
-          'trim_preserve_tags' => '',
-          'trim_suffix' => '...',
-          'trim_type' => 'chars',
         ),
-        'type' => 'smart_trim_format',
-        'weight' => 3,
+        'type' => 'text_summary_or_trimmed',
+        'weight' => 6,
       ),
       'teaser_group' => array(
         'label' => 'hidden',
-        'module' => 'smart_trim',
+        'module' => 'text',
         'settings' => array(
-          'more_link' => FALSE,
-          'more_text' => 'Read more',
-          'summary_handler' => 'full',
           'trim_length' => 300,
-          'trim_link' => FALSE,
-          'trim_options' => array(),
-          'trim_preserve_tags' => '',
-          'trim_suffix' => '...',
-          'trim_type' => 'chars',
         ),
-        'type' => 'smart_trim_format',
-        'weight' => 2,
+        'type' => 'text_summary_or_trimmed',
+        'weight' => 5,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -373,6 +353,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'c4m_ds_formatter_link_and_size',
         'weight' => 7,
       ),
+      'highlight_list' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 25,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -398,7 +384,7 @@ function c4m_content_document_field_default_field_instances() {
           'text' => 'Download [file:name]',
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
-        'weight' => 4,
+        'weight' => 7,
       ),
       'teaser_group' => array(
         'label' => 'hidden',
@@ -407,7 +393,7 @@ function c4m_content_document_field_default_field_instances() {
           'text' => 'Download [file:name]',
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
-        'weight' => 3,
+        'weight' => 6,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -504,6 +490,12 @@ function c4m_content_document_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 24,
+      ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 27,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -617,6 +609,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'term_reference_tree_hierarchical',
         'weight' => 4,
       ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 33,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -725,6 +723,12 @@ function c4m_content_document_field_default_field_instances() {
         'settings' => array(),
         'type' => 'term_reference_tree_hierarchical',
         'weight' => 2,
+      ),
+      'highlight_list' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 34,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -835,6 +839,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'term_reference_tree_hierarchical',
         'weight' => 3,
       ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 31,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -944,6 +954,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'term_reference_tree_hierarchical',
         'weight' => 5,
       ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 28,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1051,6 +1067,12 @@ function c4m_content_document_field_default_field_instances() {
         'settings' => array(),
         'type' => 'term_reference_tree_hierarchical',
         'weight' => 0,
+      ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 32,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1161,6 +1183,12 @@ function c4m_content_document_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 25,
+      ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 26,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1309,6 +1337,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'og_vocab',
         'weight' => 6,
       ),
+      'highlight_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 30,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1337,7 +1371,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 30,
+        'weight' => 29,
       ),
       'upcoming_event' => array(
         'label' => 'above',
