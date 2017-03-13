@@ -3049,13 +3049,12 @@ function c4m_og_node_insert($node) {
   }
 
   $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
-
   if (!in_array($node->type, $group_content_types)) {
     // Node is not a post.
     return;
   }
 
-  c4m_og_alter_membership_totals($node->nid, 'posts', 1);
+  c4m_og_alter_membership_totals($node, 'node', 1);
 }
 
 /**
@@ -3070,13 +3069,12 @@ function c4m_og_node_delete($node) {
   }
 
   $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
-
   if (!in_array($node->type, $group_content_types)) {
     // Node is not a post.
     return;
   }
 
-  c4m_og_alter_membership_totals($node->nid, 'posts', -1);
+  c4m_og_alter_membership_totals($node, 'node', -1);
 }
 
 /**
@@ -3092,13 +3090,18 @@ function c4m_og_comment_insert($comment) {
 
   $node = node_load($comment->nid);
   $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
-
   if (!in_array($node->type, $group_content_types)) {
     // Comment is not on group content.
     return;
   }
 
-  c4m_og_alter_membership_totals($node->nid, 'comments', 1);
+  $group = c4m_og_get_group_of_content($node);
+  if (!$group) {
+    // Failed to resolve the group.
+    return;
+  }
+
+  c4m_og_alter_membership_totals($comment, 'comment', 1);
 }
 
 /**
@@ -3114,13 +3117,12 @@ function c4m_og_comment_delete($comment) {
 
   $node = node_load($comment->nid);
   $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
-
   if (!in_array($node->type, $group_content_types)) {
     // Comment is not on group content.
     return;
   }
 
-  c4m_og_alter_membership_totals($node->nid, 'comments', 1);
+  c4m_og_alter_membership_totals($comment, 'comment', -1);
 }
 
 /**
@@ -3135,46 +3137,56 @@ function c4m_og_hook_entity_update($entity, $type) {
     return FALSE;
   }
 
-  if ($type == 'comment') {
-    $node = node_load($entity->nid);
-    $field = 'comments';
-  }
-  else if ($type == 'node') {
-    $node = $entity;
-    $field = 'posts';
-  }
-  else {
-    return;
-  }
-
   $step = ($entity->status === NODE_PUBLISHED) ? 1 : -1;
-  c4m_og_alter_membership_totals($node->gid, $field, $step);
+  c4m_og_alter_membership_totals($entity, $type, $step);
 }
 
 /**
  * Increase/decrease value of membership posts/comments count field.
  *
- * @param int $gid
+ * @param object $entity
  *   Group node ID.
- * @param string $field
- *   Either 'posts', or 'comments'.
+ * @param string $entity_type
+ *   Either 'node', or 'comment'.
  * @param int $step
  *   Increase/decrease step.
  */
-function c4m_og_alter_membership_totals($gid, $field, $step) {
+function c4m_og_alter_membership_totals($entity, $entity_type, $step) {
   global $user;
 
-  $membership = og_get_membership('node', $gid, 'user', $user->uid);
+  if ($entity_type == 'comment') {
+    $node = node_load($entity->nid);
+    $field = 'c4m_og_total_comments';
+  }
+  elseif ($entity_type == 'node') {
+    $node = $entity;
+    $field = 'c4m_og_total_posts';
+  }
+  else {
+    // Invalid entity type.
+    return;
+  }
+
+  $group = c4m_og_get_group_of_content($node);
+  if (!$group) {
+    // Failed to resolve the group.
+    return;
+  }
+
+  $membership = og_get_membership('node', $group->nid, 'user', $user->uid);
   if (!$membership) {
     // Failed to resolve user's membership.
     return;
   }
 
-  $field = 'c4m_og_total_' . $field;
-
   $wrapper = entity_metadata_wrapper('og_membership', $membership);
-  $totals = $wrapper->$field->value();
+  $new_totals = $wrapper->$field->value();
 
-  $wrapper->$field->value($totals + $step);
+  if ($new_totals < 0) {
+    // Negative totals are illegal.
+    return;
+  }
+
+  $wrapper->$field->value($new_totals);
   $wrapper->save();
 }
