@@ -3043,6 +3043,11 @@ function c4m_og_drupal_goto_alter(&$path, &$options, &$http_response_code) {
  * Increase users posts number count, when user posts at group.
  */
 function c4m_og_node_insert($node) {
+  if ($node->status == NODE_NOT_PUBLISHED) {
+    // Do not handle unpublished nodes.
+    return;
+  }
+
   $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
 
   if (!in_array($node->type, $group_content_types)) {
@@ -3059,6 +3064,11 @@ function c4m_og_node_insert($node) {
  * Decrease users posts number count, when user deletes a post.
  */
 function c4m_og_node_delete($node) {
+  if ($node->status == NODE_NOT_PUBLISHED) {
+    // Do not handle unpublished nodes.
+    return;
+  }
+
   $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
 
   if (!in_array($node->type, $group_content_types)) {
@@ -3075,6 +3085,11 @@ function c4m_og_node_delete($node) {
  * Increase users comments number count, when user comments at group.
  */
 function c4m_og_comment_insert($comment) {
+  if ($comment->status == NODE_NOT_PUBLISHED) {
+    // Do not handle unpublished comments.
+    return;
+  }
+
   $node = node_load($comment->nid);
   $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
 
@@ -3092,6 +3107,11 @@ function c4m_og_comment_insert($comment) {
  * Decrease users comments number count, when user deletes a comment at group.
  */
 function c4m_og_comment_delete($comment) {
+  if ($comment->status == NODE_NOT_PUBLISHED) {
+    // Do not handle unpublished comments.
+    return;
+  }
+
   $node = node_load($comment->nid);
   $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
 
@@ -3101,6 +3121,34 @@ function c4m_og_comment_delete($comment) {
   }
 
   c4m_og_alter_membership_totals($node->nid, 'comments', 1);
+}
+
+/**
+ * Implements hook_entity_update().
+ *
+ * When user publishes node/comment, increase membership totals field.
+ * When user unpublishes node/comment, decrease membership totals field.
+ */
+function c4m_og_hook_entity_update($entity, $type) {
+  if ($entity->status == $entity->orig->status) {
+    // Entity status did not change.
+    return FALSE;
+  }
+
+  if ($type == 'comment') {
+    $node = node_load($entity->nid);
+    $field = 'comments';
+  }
+  else if ($type == 'node') {
+    $node = $entity;
+    $field = 'posts';
+  }
+  else {
+    return;
+  }
+
+  $step = ($entity->status === NODE_PUBLISHED) ? 1 : -1;
+  c4m_og_alter_membership_totals($node->gid, $field, $step);
 }
 
 /**
