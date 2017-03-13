@@ -1312,19 +1312,31 @@ function c4m_user_profile_render_user_unsubscribe_hash($account = NULL) {
 }
 
 /**
- * Implements hook_user_presave().
+ * Gets the unsubscribe hash of an account.
  *
- * Adding the unsubscribe hash to the user profile when it is not a new profile.
+ * If the hash doesn't exists then it's being created and saved.
+ *
+ * @param object $account
+ *   A user account.
+ *
+ * @return string|bool
+ *   The unsubscribe hash of the account.
  */
-function c4m_user_profile_user_presave(&$edit, $account, $category) {
-  if ($account->is_new) {
-    return;
+function c4m_user_profile_get_or_create_account_unsubscribe_hash($account) {
+  if (empty($account->uid)) {
+    // Anonymous user.
+    return FALSE;
   }
 
   $wrapper = entity_metadata_wrapper('user', $account);
-  $wrapper->c4m_unsubscribe_hash->set(
-    c4m_user_profile_render_user_unsubscribe_hash($account)
-  );
+
+  if (!$hash = $wrapper->c4m_unsubscribe_hash->value()) {
+    $hash = c4m_user_profile_render_user_unsubscribe_hash($account);
+    $wrapper->c4m_unsubscribe_hash->set($hash);
+    $wrapper->save();
+  }
+
+  return $hash;
 }
 
 /**

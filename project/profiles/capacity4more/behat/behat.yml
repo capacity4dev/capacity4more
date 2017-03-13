@@ -35,6 +35,7 @@ default:
       blackbox: ~
       region_map:
         primary tabs: ".tabs--primary"
+        highlighted block: ".pane-c4m-overview-og-highlights"
 
 
 phantomjs:

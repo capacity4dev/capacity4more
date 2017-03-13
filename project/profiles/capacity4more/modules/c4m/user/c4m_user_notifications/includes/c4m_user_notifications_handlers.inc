@@ -1263,12 +1263,11 @@ function c4m_user_notifications_message_subscribe_get_subscribers(
     foreach ($users as $key => $user_value) {
       $user = user_load($key);
 
-      if (!node_access('view', $node, $user) ||
-        !node_access(
-          'view',
-          $original_node,
-          $user
-        )
+      // Check if the user has access to:
+      // - The original node (being shared).
+      // - The group we share the node to.
+      if (!node_access('view', $node, $user)
+        || !node_access('view', $original_node, $user)
       ) {
         unset($users[$key]);
       }

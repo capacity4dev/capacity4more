@@ -528,7 +528,7 @@ function _c4m_features_og_members_get_user_type($group = NULL, $user = NULL) {
     return C4M_USER_TYPE_GA;
   }
 
-  return og_is_member('node', $group->nid) ? C4M_USER_TYPE_GM : C4M_USER_TYPE_NON_MEMBER;
+  return og_is_member('node', $group->nid, 'user', $user) ? C4M_USER_TYPE_GM : C4M_USER_TYPE_NON_MEMBER;
 }
 
 /**
