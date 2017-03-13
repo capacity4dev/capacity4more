@@ -23,6 +23,9 @@ markup_h2 "Libraries"
 mkdir -p "$DIR_WEB/sites/all/libraries"
 file_copy_subdirectories "$DIR_PROJECT/libraries" "$DIR_WEB/sites/all/libraries"
 
+markup_h2 "Services"
+file_copy_subdirectories "$DIR_ROOT/config/install/assets/services" "$DIR_WEB"
+
 markup_h2 "Remove node_modules, behat and webunit directories (we can not have symlinks in the build)"
 rm -r "$DIR_WEB/profiles/capacity4more/modules/c4m/restful/c4m_restful_quick_post/components/c4m-app/node_modules"
 rm -r "$DIR_WEB/profiles/capacity4more/themes/c4m/kapablo/build"
