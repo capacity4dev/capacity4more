@@ -3036,3 +3036,97 @@ function c4m_og_drupal_goto_alter(&$path, &$options, &$http_response_code) {
     $path = substr($path, strlen($base_path));
   }
 }
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Increase users posts number count, when user posts at group.
+ */
+function c4m_og_node_insert($node) {
+  $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
+
+  if (!in_array($node->type, $group_content_types)) {
+    // Node is not a post.
+    return;
+  }
+
+  c4m_og_alter_membership_totals($node->nid, 'posts', 1);
+}
+
+/**
+ * Implements hook_node_delete().
+ *
+ * Decrease users posts number count, when user deletes a post.
+ */
+function c4m_og_node_delete($node) {
+  $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
+
+  if (!in_array($node->type, $group_content_types)) {
+    // Node is not a post.
+    return;
+  }
+
+  c4m_og_alter_membership_totals($node->nid, 'posts', -1);
+}
+
+/**
+ * Implements hook_comment_insert().
+ *
+ * Increase users comments number count, when user comments at group.
+ */
+function c4m_og_comment_insert($comment) {
+  $node = node_load($comment->nid);
+  $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
+
+  if (!in_array($node->type, $group_content_types)) {
+    // Comment is not on group content.
+    return;
+  }
+
+  c4m_og_alter_membership_totals($node->nid, 'comments', 1);
+}
+
+/**
+ * Implements hook_comment_delete().
+ *
+ * Decrease users comments number count, when user deletes a comment at group.
+ */
+function c4m_og_comment_delete($comment) {
+  $node = node_load($comment->nid);
+  $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
+
+  if (!in_array($node->type, $group_content_types)) {
+    // Comment is not on group content.
+    return;
+  }
+
+  c4m_og_alter_membership_totals($node->nid, 'comments', 1);
+}
+
+/**
+ * Increase/decrease value of membership posts/comments count field.
+ *
+ * @param int $gid
+ *   Group node ID.
+ * @param string $field
+ *   Either 'posts', or 'comments'.
+ * @param int $step
+ *   Increase/decrease step.
+ */
+function c4m_og_alter_membership_totals($gid, $field, $step) {
+  global $user;
+
+  $membership = og_get_membership('node', $gid, 'user', $user->uid);
+  if (!$membership) {
+    // Failed to resolve user's membership.
+    return;
+  }
+
+  $field = 'c4m_og_total_' . $field;
+
+  $wrapper = entity_metadata_wrapper('og_membership', $membership);
+  $totals = $wrapper->$field->value();
+
+  $wrapper->$field->value($totals + $step);
+  $wrapper->save();
+}
