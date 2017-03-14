@@ -650,3 +650,65 @@ function c4m_features_og_members_preprocess_views_view_table(&$vars) {
     )
   );
 }
+
+/**
+ * Implements hook_views_post_execute().
+ *
+ * Members group overview may receive incorrect results from SOLR, when
+ * queried by 'contributions' field.
+ * This hook makes sure correct values are returned.
+ */
+function c4m_features_og_members_views_post_execute(&$view) {
+  if ($view->name != 'c4m_overview_og_members') {
+    // Not Members group overview.
+    return;
+  }
+
+  if (!isset($view->exposed_input['sort']) || $view->exposed_input['sort'] != 'c4m_user_contributions') {
+    // Not queried by 'contributions' field.
+    return;
+  }
+
+  $query = $view->query->getSearchApiQuery();
+
+  $order = $view->exposed_input['order'];
+  $limit = $query->getOption('limit');
+  $offset = $query->getOption('offset');
+  $group = c4m_og_current_group();
+
+  $users = c4m_features_get_users_at_group_orderby_contributions($group->nid, $order, $offset, $limit);
+
+  foreach ($view->result as $index => &$result) {
+    $result->entity = $users[$index]->etid;
+  }
+}
+
+/**
+ * Retrieves users that belong to group, ordered by their total contributions.
+ *
+ * @param int $gid
+ *   Group ID.
+ * @param string $order
+ *   ASC | DESC.
+ * @param int $offset
+ *   The first record from the result set to return. If NULL, removes any
+ *   range directives that are set.
+ * @param int $limit
+ *   The number of records to return from the result set.
+ *
+ * @return mixed
+ *   Records containing user IDs.
+ */
+function c4m_features_get_users_at_group_orderby_contributions($gid, $order, $offset, $limit) {
+  $query = db_select('og_membership', 'ogm');
+  $query->join('field_data_c4m_og_total_comments', 'tc', 'ogm.id = tc.entity_id');
+  $query->join('field_data_c4m_og_total_posts', 'tp', 'ogm.id = tp.entity_id');
+  $query->fields('ogm', array('etid'))
+    ->addExpression('(tc.c4m_og_total_comments_value + tp.c4m_og_total_posts_value)', 'totals');
+  $query->condition('ogm.gid', $gid)
+    ->condition('ogm.entity_type', 'user')
+    ->orderBy('totals', $order)
+    ->range($offset, $limit);
+
+  return $query->execute()->fetchAll();
+}
