@@ -3259,4 +3259,3 @@ function c4m_og_get_membership_totals($gid, $uid, $entity_type) {
 
   return empty ($result) ? 0 : $result;
 }
-
