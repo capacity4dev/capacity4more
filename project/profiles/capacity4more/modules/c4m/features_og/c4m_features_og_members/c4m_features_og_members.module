@@ -701,8 +701,8 @@ function c4m_features_og_members_views_post_execute(&$view) {
  */
 function c4m_features_get_users_at_group_orderby_contributions($gid, $order, $offset, $limit) {
   $query = db_select('og_membership', 'ogm');
-  $query->join('field_data_c4m_og_total_comments', 'tc', 'ogm.id = tc.entity_id');
-  $query->join('field_data_c4m_og_total_posts', 'tp', 'ogm.id = tp.entity_id');
+  $query->leftJoin('field_data_c4m_og_total_comments', 'tc', 'ogm.id = tc.entity_id');
+  $query->leftJoin('field_data_c4m_og_total_posts', 'tp', 'ogm.id = tp.entity_id');
   $query->fields('ogm', array('etid'))
     ->addExpression('(tc.c4m_og_total_comments_value + tp.c4m_og_total_posts_value)', 'totals');
   $query->condition('ogm.gid', $gid)
