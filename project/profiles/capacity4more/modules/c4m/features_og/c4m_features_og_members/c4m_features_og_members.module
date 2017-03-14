@@ -675,8 +675,9 @@ function c4m_features_og_members_views_post_execute(&$view) {
   $limit = $query->getOption('limit');
   $offset = $query->getOption('offset');
   $group = c4m_og_current_group();
+  $only_active = !_c4m_features_og_members_is_power_user($group);
 
-  $users = c4m_features_get_users_at_group_orderby_contributions($group->nid, $order, $offset, $limit);
+  $users = c4m_features_get_users_at_group_orderby_contributions($group->nid, $order, $offset, $limit, $only_active);
 
   foreach ($view->result as $index => &$result) {
     $result->entity = $users[$index]->etid;
@@ -695,11 +696,13 @@ function c4m_features_og_members_views_post_execute(&$view) {
  *   range directives that are set.
  * @param int $limit
  *   The number of records to return from the result set.
+ * @param bool $only_active
+ *   Wither to filter memberships by active state, or not.
  *
  * @return mixed
  *   Records containing user IDs.
  */
-function c4m_features_get_users_at_group_orderby_contributions($gid, $order, $offset, $limit) {
+function c4m_features_get_users_at_group_orderby_contributions($gid, $order, $offset, $limit, $only_active) {
   $query = db_select('og_membership', 'ogm');
   $query->leftJoin('field_data_c4m_og_total_comments', 'tc', 'ogm.id = tc.entity_id');
   $query->leftJoin('field_data_c4m_og_total_posts', 'tp', 'ogm.id = tp.entity_id');
@@ -709,6 +712,11 @@ function c4m_features_get_users_at_group_orderby_contributions($gid, $order, $of
     ->condition('ogm.entity_type', 'user')
     ->orderBy('totals', $order)
     ->range($offset, $limit);
+
+  // For regular group members, retrieve only active subscribers.
+  if ($only_active) {
+    $query->condition('ogm.state', OG_STATE_ACTIVE);
+  }
 
   return $query->execute()->fetchAll();
 }
