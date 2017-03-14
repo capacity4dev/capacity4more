@@ -3257,5 +3257,5 @@ function c4m_og_get_membership_totals($gid, $uid, $entity_type) {
   $wrapper = entity_metadata_wrapper('og_membership', $membership);
   $result = $wrapper->{$field}->value();
 
-  return empty ($result) ? 0 : $result;
+  return empty($result) ? 0 : $result;
 }
