@@ -3218,10 +3218,45 @@ function c4m_og_update_groups_contributions() {
       continue;
     }
 
-    dpm('Updating uid: ' . $membership->etid . ' at Gid: ' . $membership->gid . ' --> Posts: ' . $total_posts . ' Comments: ' . $total_comments);
-
     $wrapper->c4m_og_total_posts->set($total_posts);
     $wrapper->c4m_og_total_comments->set($total_comments);
     $wrapper->save();
   }
 }
+
+/**
+ * Retrieves value of total posts/comments from membership object.
+ *
+ * @param int $gid
+ *   Group ID.
+ * @param int $uid
+ *   User ID.
+ * @param string $entity_type
+ *   Either 'node', or 'comment'.
+ *
+ * @return bool|int
+ *   Total posts/comments, FALSE on error.
+ */
+function c4m_og_get_membership_totals($gid, $uid, $entity_type) {
+  if ($entity_type == 'comment') {
+    $field = 'c4m_og_total_comments';
+  }
+  elseif ($entity_type == 'node') {
+    $field = 'c4m_og_total_posts';
+  }
+  else {
+    // Invalid entity type.
+    return FALSE;
+  }
+
+  $membership = og_get_membership('node', $gid, 'user', $uid);
+  if (!$membership) {
+    // Failed to resolve user's membership.
+    return FALSE;
+  }
+
+  $wrapper = entity_metadata_wrapper('og_membership', $membership);
+
+  return $wrapper->{$field}->value();
+}
+
