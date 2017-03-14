@@ -3195,3 +3195,33 @@ function c4m_og_alter_membership_totals($entity, $entity_type, $step) {
   $wrapper->{$field}->set($new_totals);
   $wrapper->save();
 }
+
+
+/**
+ * Updates total number of posts and comments, for all members at all groups.
+ */
+function c4m_og_update_groups_contributions() {
+  $query = db_select('og_membership', 'ogm')
+    ->fields('ogm', array('id'))
+    ->condition('entity_type', 'user');
+  $ogmids = $query->execute()->fetchCol();
+
+  foreach (og_membership_load_multiple($ogmids) as $membership) {
+    $wrapper = entity_metadata_wrapper('og_membership', $membership);
+
+    $current_total_posts = $wrapper->c4m_og_total_posts->value();
+    $current_total_comments = $wrapper->c4m_og_total_comments->value();
+    $total_posts = c4m_user_og_count_nodes_in_group($membership->etid, $membership->gid);
+    $total_comments = c4m_user_og_count_comments_in_group($membership->etid, $membership->gid);
+
+    if ($total_posts == $current_total_posts && $total_comments == $current_total_comments) {
+      continue;
+    }
+
+    dpm('Updating uid: ' . $membership->etid . ' at Gid: ' . $membership->gid . ' --> Posts: ' . $total_posts . ' Comments: ' . $total_comments);
+
+    $wrapper->c4m_og_total_posts->set($total_posts);
+    $wrapper->c4m_og_total_comments->set($total_comments);
+    $wrapper->save();
+  }
+}
