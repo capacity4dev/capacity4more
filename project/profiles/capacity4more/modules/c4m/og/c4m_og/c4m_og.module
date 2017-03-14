@@ -3196,7 +3196,6 @@ function c4m_og_alter_membership_totals($entity, $entity_type, $step) {
   $wrapper->save();
 }
 
-
 /**
  * Updates total number of posts and comments, for all members at all groups.
  */
