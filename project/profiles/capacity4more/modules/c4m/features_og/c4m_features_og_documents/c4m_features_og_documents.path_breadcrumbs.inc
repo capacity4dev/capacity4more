@@ -23,7 +23,6 @@ function c4m_features_og_documents_path_breadcrumbs_settings_info() {
     ),
     'paths' => array(
       0 => 'node/%nodeidnumber:og-group-ref:nid',
-
       1 => 'documents',
       2 => '<none>',
     ),
