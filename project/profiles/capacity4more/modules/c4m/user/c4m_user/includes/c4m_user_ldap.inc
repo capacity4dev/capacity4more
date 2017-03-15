@@ -100,15 +100,25 @@ class C4mLDAPUser {
       return FALSE;
     }
 
-    $data = (array) simplexml_load_string($response->data);
+    $xml = simplexml_load_string($response->data);
+    $data = (array) $xml;
     // We expect to have the valid field.
     if (!isset($data['valid'])) {
       return FALSE;
     }
 
     // Country is a special case: '<country iso="BE"/>'.
-    $data['country'] = (array) $data['country']['iso'];
+    if (isset($data['country']['iso'])) {
+      $data['country'] = (array) $data['country']['iso'];
+    }
+    else {
+      // Try the xml way:
+      $attr = $xml->country[0]->attributes();
+      $data['country'] = (array) $attr['iso'];
+    }
+
     $data['country'] = array_shift($data['country']);
+
     return $data;
   }
 
