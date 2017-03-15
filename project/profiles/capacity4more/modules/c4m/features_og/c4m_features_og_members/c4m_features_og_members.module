@@ -669,23 +669,28 @@ function c4m_features_og_members_views_post_execute(&$view) {
     return;
   }
 
+  // Get original search api query from view.
   $query = $view->query->getSearchApiQuery();
+  // Retrieve orderBy, limit and offset conditions.
   $order = $view->exposed_input['order'];
   $limit = $query->getOption('limit');
   $offset = $query->getOption('offset');
 
+  // Remove orderBy condition, from query.
   $sort = &$query->getSort();
   unset($sort['c4m_user_contributions']);
 
+  // Remove limit and offset conditions from query.
   $options = &$query->getOptions();
   unset($options['limit']);
   unset($options['offset']);
 
+  // Execute simplified search api query.
   $result = $query->execute();
+  // Retrieve users ids from query results.
   $uids = array_keys($result['results']);
 
   $group = c4m_og_current_group();
-
   $users = c4m_features_get_users_at_group_orderby_contributions($group->nid, $uids, $order, $offset, $limit);
 
   foreach ($view->result as $index => &$result) {
