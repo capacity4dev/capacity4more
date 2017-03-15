@@ -175,9 +175,6 @@ abstract class C4mDemoContentCreateComments extends Migration {
   public function complete($entity, $row) {
     // Make sure the messages have the proper timestamp.
     $this->messageInsertSave($entity, $row);
-
-    // Update membership totals fields.
-    c4m_og_comment_insert($entity);
   }
 
   /**
