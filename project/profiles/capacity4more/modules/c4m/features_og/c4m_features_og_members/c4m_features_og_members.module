@@ -696,6 +696,9 @@ function c4m_features_og_members_views_post_execute(&$view) {
   foreach ($view->result as $index => &$result) {
     $result->entity = $users[$index]->etid;
   }
+
+  // Restore value of sort, as view uses it when generating 'Sort by:' field.
+  $query->sort('c4m_user_contributions', $order);
 }
 
 /**
