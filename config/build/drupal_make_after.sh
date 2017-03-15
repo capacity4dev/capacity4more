@@ -24,7 +24,7 @@ mkdir -p "$DIR_WEB/sites/all/libraries"
 file_copy_subdirectories "$DIR_PROJECT/libraries" "$DIR_WEB/sites/all/libraries"
 
 markup_h2 "Services"
-file_copy_subdirectories "$DIR_ROOT/config/install/assets/services" "$DIR_WEB"
+cp -a "$DIR_ROOT/config/install/assets/services" "$DIR_WEB"
 
 
 markup_h2 "Robots.txt"

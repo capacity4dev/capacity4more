@@ -103,6 +103,7 @@ Disallow: /*/?q=user/logout/
 Disallow: /flag/
 Disallow: /?q=flag/
 Disallow: /*/flag/
+Disallow: /capacity4dev/flag/
 Disallow: /*/?q=flag/
 Disallow: /*/searchgroup/
 Disallow: /events/
