@@ -1443,7 +1443,7 @@
                     <th class="small-12 large-12">
                       <table>
                         <tr>
-                          <th> <img src="http://s33.postimg.org/vtp7ch06n/logo_2.png"> </th>
+                          <th> <img src="https://europa.eu/capacity4dev/profiles/capacity4more/themes/c4m/kapablo/logo_2.png"> </th>
                         </tr>
                       </table>
                     </th>
