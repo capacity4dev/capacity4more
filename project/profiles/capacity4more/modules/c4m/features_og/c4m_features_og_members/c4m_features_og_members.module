@@ -670,14 +670,23 @@ function c4m_features_og_members_views_post_execute(&$view) {
   }
 
   $query = $view->query->getSearchApiQuery();
-
   $order = $view->exposed_input['order'];
   $limit = $query->getOption('limit');
   $offset = $query->getOption('offset');
-  $group = c4m_og_current_group();
-  $only_active = !_c4m_features_og_members_is_power_user($group);
 
-  $users = c4m_features_get_users_at_group_orderby_contributions($group->nid, $order, $offset, $limit, $only_active);
+  $sort = &$query->getSort();
+  unset($sort['c4m_user_contributions']);
+
+  $options = &$query->getOptions();
+  unset($options['limit']);
+  unset($options['offset']);
+
+  $result = $query->execute();
+  $uids = array_keys($result['results']);
+
+  $group = c4m_og_current_group();
+
+  $users = c4m_features_get_users_at_group_orderby_contributions($group->nid, $uids, $order, $offset, $limit);
 
   foreach ($view->result as $index => &$result) {
     $result->entity = $users[$index]->etid;
@@ -685,10 +694,12 @@ function c4m_features_og_members_views_post_execute(&$view) {
 }
 
 /**
- * Retrieves users that belong to group, ordered by their total contributions.
+ * Retrieves group members IDs, ordered by their total contributions.
  *
  * @param int $gid
  *   Group ID.
+ * @param array $uids
+ *   User IDs.
  * @param string $order
  *   ASC | DESC.
  * @param int $offset
@@ -696,27 +707,20 @@ function c4m_features_og_members_views_post_execute(&$view) {
  *   range directives that are set.
  * @param int $limit
  *   The number of records to return from the result set.
- * @param bool $only_active
- *   Wither to filter memberships by active state, or not.
  *
  * @return mixed
  *   Records containing user IDs.
  */
-function c4m_features_get_users_at_group_orderby_contributions($gid, $order, $offset, $limit, $only_active) {
+function c4m_features_get_users_at_group_orderby_contributions($gid, array $uids, $order, $offset, $limit) {
   $query = db_select('og_membership', 'ogm');
   $query->leftJoin('field_data_c4m_og_total_comments', 'tc', 'ogm.id = tc.entity_id');
   $query->leftJoin('field_data_c4m_og_total_posts', 'tp', 'ogm.id = tp.entity_id');
   $query->fields('ogm', array('etid'))
     ->addExpression('(tc.c4m_og_total_comments_value + tp.c4m_og_total_posts_value)', 'totals');
   $query->condition('ogm.gid', $gid)
-    ->condition('ogm.entity_type', 'user')
+    ->condition('ogm.etid', $uids,  'IN')
     ->orderBy('totals', $order)
     ->range($offset, $limit);
-
-  // For regular group members, retrieve only active subscribers.
-  if ($only_active) {
-    $query->condition('ogm.state', OG_STATE_ACTIVE);
-  }
 
   return $query->execute()->fetchAll();
 }
