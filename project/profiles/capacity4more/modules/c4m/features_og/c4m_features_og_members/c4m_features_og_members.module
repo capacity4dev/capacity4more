@@ -718,7 +718,7 @@ function c4m_features_get_users_at_group_orderby_contributions($gid, array $uids
   $query->fields('ogm', array('etid'))
     ->addExpression('(tc.c4m_og_total_comments_value + tp.c4m_og_total_posts_value)', 'totals');
   $query->condition('ogm.gid', $gid)
-    ->condition('ogm.etid', $uids,  'IN')
+    ->condition('ogm.etid', $uids, 'IN')
     ->orderBy('totals', $order)
     ->range($offset, $limit);
 
