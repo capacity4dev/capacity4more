@@ -90,6 +90,9 @@ abstract class C4mDemoContentCreateOgContent extends C4mDemoContentCreateEntity 
 
     // Make sure the update message also exists.
     $this->messageUpdateSave($entity, $row);
+
+    // Update membership totals fields.
+    c4m_og_node_insert($entity);
   }
 
   /**

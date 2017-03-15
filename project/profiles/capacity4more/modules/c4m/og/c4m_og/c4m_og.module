@@ -3157,8 +3157,6 @@ function c4m_og_entity_update($entity, $type) {
  *   Increase/decrease step.
  */
 function c4m_og_alter_membership_totals($entity, $entity_type, $step) {
-  global $user;
-
   if ($entity_type == 'comment') {
     $node = node_load($entity->nid);
     $field = 'c4m_og_total_comments';
@@ -3172,15 +3170,17 @@ function c4m_og_alter_membership_totals($entity, $entity_type, $step) {
     return;
   }
 
+  $user_id = $entity->uid;
+
   $group = c4m_og_get_group_of_content($node);
   if (!$group) {
     // Failed to resolve the group.
     return;
   }
 
-  $membership = og_get_membership('node', $group->nid, 'user', $user->uid);
+  $membership = og_get_membership('node', $group->nid, 'user', $user_id);
   if (!$membership) {
-    // Failed to resolve user's membership.
+    // User is not group member.
     return;
   }
 
