@@ -3185,7 +3185,8 @@ function c4m_og_alter_membership_totals($entity, $entity_type, $step) {
   }
 
   $wrapper = entity_metadata_wrapper('og_membership', $membership);
-  $new_totals = $wrapper->{$field}->value() + $step;
+  $current_totals = $wrapper->{$field}->value();
+  $new_totals = empty($current_totals) ? $step : $current_totals + $step;
 
   if ($new_totals < 0) {
     // Negative totals are illegal.
