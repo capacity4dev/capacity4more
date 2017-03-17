@@ -20,6 +20,15 @@ function c4m_content_book_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
 
+  $items['admin/config/c4m/book'] = array(
+    'access arguments' => array('administer site configuration'),
+    'description' => 'Manage general book settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_content_book_general_settings_form'),
+    'title' => 'General book Settings',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
   $items['c4m/autocomplete/c4m_content_book_help_and_guidance'] = array(
     'title' => 'Autocomplete for help & guidance',
     'page callback' => 'c4m_content_book_help_and_guidance_autocomplete',
@@ -28,6 +37,32 @@ function c4m_content_book_menu() {
   );
 
   return $items;
+}
+
+/**
+ * General book settings, like enabling or disbaling the book outline.
+ *
+ * @param array $form
+ *   Form build array.
+ * @param array $form_state
+ *   Form state array as a reference.
+ *
+ * @return array $form
+ *   Wrapped system form.
+ */
+function c4m_content_book_general_settings_form($form, &$form_state) {
+  $form['open_book_outline'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Open up the book outline'),
+    '#default_value' => variable_get('open_book_outline', FALSE),
+    '#description' => t(
+      'When enabled, content types that are indicated as book types 
+      will display the book outline on the node edit form (as a tab). 
+      This can be turned off to prevent misuse.'
+    ),
+  );
+
+  return system_settings_form($form);
 }
 
 /**
@@ -49,7 +84,10 @@ function c4m_content_book_help_and_guidance_settings_form($form, &$form_state) {
   );
 
   $form['actions']['#type'] = 'actions';
-  $form['actions']['submit'] = array('#type' => 'submit', '#value' => t('Save'));
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );
 
   return $form;
 }
@@ -57,7 +95,10 @@ function c4m_content_book_help_and_guidance_settings_form($form, &$form_state) {
 /**
  * Validate handler for c4m_content_book_help_and_guidance_settings_form.
  */
-function c4m_content_book_help_and_guidance_settings_form_validate($form, &$form_state) {
+function c4m_content_book_help_and_guidance_settings_form_validate(
+  $form,
+  &$form_state
+) {
   $value = $form_state['values']['main_book'];
   if (!$value) {
     form_set_error('main_book', t('Must select a main Help & Guidance book.'));
@@ -66,13 +107,19 @@ function c4m_content_book_help_and_guidance_settings_form_validate($form, &$form
 
   preg_match('/\((\d+)\)$/', $value, $matches);
   if (empty($matches[1])) {
-    form_set_error('main_book', t('Please select a valid option from the autocomplete.'));
+    form_set_error(
+      'main_book',
+      t('Please select a valid option from the autocomplete.')
+    );
     return;
   }
 
   $node = node_load($matches[1]);
   if (!$node || $node->type != 'book') {
-    form_set_error('main_book', t('An error trying to load the chosen book, try choosing again.'));
+    form_set_error(
+      'main_book',
+      t('An error trying to load the chosen book, try choosing again.')
+    );
     return;
   }
 
@@ -82,12 +129,17 @@ function c4m_content_book_help_and_guidance_settings_form_validate($form, &$form
 /**
  * Submit handler for c4m_content_book_help_and_guidance_settings_form.
  */
-function c4m_content_book_help_and_guidance_settings_form_submit($form, &$form_state) {
+function c4m_content_book_help_and_guidance_settings_form_submit(
+  $form,
+  &$form_state
+) {
   $node = $form_state['main_book'];
   variable_set('c4m_help_and_guidance_main_book', $node->nid);
 
   $link = l($node->title, 'node/' . $node->nid);
-  drupal_set_message(t('!link is now the main Help & Guidance book.', array('!link' => $link)));
+  drupal_set_message(
+    t('!link is now the main Help & Guidance book.', array('!link' => $link))
+  );
 }
 
 /**
@@ -182,8 +234,18 @@ function c4m_content_book_block_view($delta = '') {
 function _c4m_content_book_help_book_navigation_content() {
   if (!$book_node = c4m_content_book_get_main_help_and_guidance()) {
     if (c4m_user_is_site_admin()) {
-      $link = l(t('Please setup one'), 'admin/config/c4m/help_and_guidance', array('purl' => array('disabled' => TRUE)));
-      drupal_set_message(t('Unable to retrieve the main help and guidance book. !link.', array('!link' => $link)), 'error');
+      $link = l(
+        t('Please setup one'),
+        'admin/config/c4m/help_and_guidance',
+        array('purl' => array('disabled' => TRUE))
+      );
+      drupal_set_message(
+        t(
+          'Unable to retrieve the main help and guidance book. !link.',
+          array('!link' => $link)
+        ),
+        'error'
+      );
     }
     return NULL;
   }
@@ -281,7 +343,9 @@ function c4m_content_book_node_presave($node) {
 
   // Since the nav context is displayed by the path, help page URLs should be
   // prefixed by `help-guidance/` for the nav menu to be displayed.
-  $node->path['alias'] = 'help-guidance/' . c4m_og_human_to_machine_readable($node->title);
+  $node->path['alias'] = 'help-guidance/' . c4m_og_human_to_machine_readable(
+      $node->title
+    );
   $node->path['pathauto'] = 0;
 }
 
@@ -291,6 +355,8 @@ function c4m_content_book_node_presave($node) {
  * @param \QueryAlterableInterface $query
  *   Query object.
  */
-function c4m_content_book_query_c4m_content_book_join_alter(QueryAlterableInterface $query) {
+function c4m_content_book_query_c4m_content_book_join_alter(
+  QueryAlterableInterface $query
+) {
   $query->join('book', 'book', 'book.bid = node.nid');
 }
