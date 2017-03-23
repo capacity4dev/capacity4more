@@ -88,6 +88,11 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     ) {
       $form['book']['#access'] = FALSE;
     }
+    else {
+      // Some of our books have outlines from -76 to 78 or more,
+      // so we increase the range from -100 < 0 > 100.
+      $form['book']['#delta'] = 100;
+    }
   }
 
   // Add a cancel button to all node forms.
