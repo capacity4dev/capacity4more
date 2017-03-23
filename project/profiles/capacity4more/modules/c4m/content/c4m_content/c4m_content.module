@@ -81,7 +81,7 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
   if (isset($form['book'])) {
     // Check if outline is allowed.
     // - User has to have the right administration permission.
-    // - Accessing the outline has to be enabled in settings (admin/config/c4m/book).
+    // - Access to outline has to be enabled (admin/config/c4m/book).
     if (!variable_get('open_book_outline', FALSE) || !user_access(
         'administer book outlines'
       )
