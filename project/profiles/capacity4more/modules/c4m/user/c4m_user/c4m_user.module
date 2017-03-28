@@ -841,7 +841,6 @@ function c4m_user_contact_form_submit($form, $form_state) {
 
   _c4m_user_send_mail(
     $addressee_account->mail,
-    $user->mail,
     $subject,
     $body,
     $addressee_language
@@ -853,7 +852,6 @@ function c4m_user_contact_form_submit($form, $form_state) {
     // message for it.
     $user_language = user_preferred_language($user);
     _c4m_user_send_mail(
-      $user->mail,
       $user->mail,
       "Self copy: {$subject}",
       $body,
@@ -868,8 +866,6 @@ function c4m_user_contact_form_submit($form, $form_state) {
  *
  * @param string $to
  *   Email destination address.
- * @param string $from
- *   Email source address - current user email.
  * @param string $subject
  *   Email message subject.
  * @param string $body
@@ -881,7 +877,6 @@ function c4m_user_contact_form_submit($form, $form_state) {
  */
 function _c4m_user_send_mail(
   $to,
-  $from,
   $subject,
   $body,
   $language,
@@ -891,6 +886,7 @@ function _c4m_user_send_mail(
   $key = 'user_contact_mail';
   $params = array();
   $send = FALSE;
+  $from = variable_get('site_mail');
 
   $message = drupal_mail($module, $key, $to, $language, $params, $from, $send);
   $message['subject'] = $subject;
