@@ -23,6 +23,18 @@ markup_h2 "Libraries"
 mkdir -p "$DIR_WEB/sites/all/libraries"
 file_copy_subdirectories "$DIR_PROJECT/libraries" "$DIR_WEB/sites/all/libraries"
 
+markup_h2 "Services"
+cp -a "$DIR_ROOT/config/install/assets/services" "$DIR_WEB"
+
+
+markup_h2 "Robots.txt"
+cp -a "$DIR_ROOT/config/install/assets/robots.txt" "$DIR_WEB"
+message_success "Custom robots.txt file copied to web folder."
+
+markup_h2 "Plupload examples folder"
+rm -Rf "$DIR_WEB/sites/all/libraries/plupload/examples"
+message_success "Removed plupload examples folder from web directory."
+
 markup_h2 "Remove node_modules, behat and webunit directories (we can not have symlinks in the build)"
 rm -r "$DIR_WEB/profiles/capacity4more/modules/c4m/restful/c4m_restful_quick_post/components/c4m-app/node_modules"
 rm -r "$DIR_WEB/profiles/capacity4more/themes/c4m/kapablo/build"

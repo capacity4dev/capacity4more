@@ -23,7 +23,6 @@ function c4m_features_og_documents_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Library';
-  $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'c4m_og_access_og_context';
   $handler->display->display_options['access']['feature'] = 'c4m_features_og_documents';
@@ -158,6 +157,8 @@ function c4m_features_og_documents_views_default_views() {
   /* Display: Page 2 */
   $handler = $view->new_display('page', 'Page 2', 'page_2');
   $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['defaults']['use_ajax'] = FALSE;
+  $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;

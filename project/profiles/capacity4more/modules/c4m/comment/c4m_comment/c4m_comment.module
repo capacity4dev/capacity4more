@@ -295,7 +295,18 @@ function c4m_comment_permalink($cid) {
       // relevant context (group) only.
       $context = og_context();
       if (!$context || $gid !== $context['gid']) {
-        c4m_content_deny_access();
+        // Try loading the node and redirect to the group context.
+        $options = array(
+          'absolute' => TRUE,
+          'purl' => array(
+            'provider' => 'og_purl|node',
+            'id' => $gid,
+          ),
+          'fragment' => 'comment-' . $comment->cid,
+        );
+
+        // Use the same URL structure/fragment, only add the purl provider.
+        drupal_goto('comment/' . $comment->cid, $options);
       }
     }
   }

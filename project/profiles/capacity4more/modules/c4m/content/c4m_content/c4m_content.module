@@ -79,7 +79,20 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
 
   // Hide Book tab for all content types.
   if (isset($form['book'])) {
-    $form['book']['#access'] = FALSE;
+    // Check if outline is allowed.
+    // - User has to have the right administration permission.
+    // - Access to outline has to be enabled (admin/config/c4m/book).
+    if (!variable_get('open_book_outline', FALSE) || !user_access(
+        'administer book outlines'
+      )
+    ) {
+      $form['book']['#access'] = FALSE;
+    }
+    else {
+      // Some of our books have outlines from -76 to 78 or more,
+      // so we increase the range from -100 < 0 > 100.
+      $form['book']['#delta'] = 100;
+    }
   }
 
   // Add a cancel button to all node forms.

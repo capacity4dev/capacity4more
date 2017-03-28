@@ -38,10 +38,12 @@ div.media-wrapper-mediaStyleSelector + .ui-widget-overlay {
   position: relative;
 }
 
-.field-name-c4m-body img + span, .caption {
-  background: #FFF;
-  bottom: 1px;
-  left: 3px;
-  position: absolute;
-  right: 3px;
+.field-name-c4m-body {
+  img + span, .caption {
+    background: #FFF;
+    bottom: 1px;
+    left: 3px;
+    position: absolute;
+    right: 3px;
+  }
 }

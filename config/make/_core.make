@@ -25,3 +25,6 @@ projects[drupal][patch][] = "https://www.drupal.org/files/issues/drupal-no_cache
 
 ; Place "addTag('node_access')"" first in the menu access checkes.
 projects[drupal][patch][] = "../patches/menu_access_check_node_access_first.patch"
+
+; Support for the "reset to alphabetical" in taxonomy listings.
+projects[drupal][patch][] = "https://www.drupal.org/files/order-weighted-terms-941266-35-D7.patch"
