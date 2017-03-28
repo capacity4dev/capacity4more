@@ -1175,7 +1175,7 @@ function c4m_user_og_mail_alter(&$message) {
     '"The @site team"<@mail>',
     array(
       '@site' => $site_name,
-      '@mail' => 'capacity4dev@ec.europa.eu',
+      '@mail' => variable_get('site_mail'),
     )
   );
 
