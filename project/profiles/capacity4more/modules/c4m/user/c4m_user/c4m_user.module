@@ -1012,56 +1012,133 @@ function c4m_user_update_information(
 ) {
   $edit = array();
 
+  _c4m_user_check_ldap_user($account, $domain, $whitelist_domain, $edit);
+
+  // If the user is not validated in LDAP and had previous LDAP validation add
+  // the flag.
+  _c4m_user_flag_invalid_ldap_user($account, $edit);
+
+  // Check if the user belongs to an organisation and fill some fields if he is.
+  _c4m_user_check_organisation_user($account, $edit);
+
+  if (!empty($edit)) {
+    user_save($account, $edit);
+  }
+}
+
+/**
+ * Check if the user is a valid LDAP (or whitelist) user and fill fields.
+ *
+ * @param stdClass $account
+ *   User account object.
+ * @param stdClass $domain
+ *   Domain to check user against.
+ * @param stdClass $whitelist_domain
+ *   Whitelist domain to check user against.
+ * @param array $edit
+ *   Edit array.
+ */
+function _c4m_user_check_ldap_user(
+  $account,
+  $domain,
+  $whitelist_domain,
+  array &$edit
+) {
   $domain_user = new C4mDomainUser($account->mail);
   // Whitelist addresses should be found in domains list but may not be present
   // in LDAP.
-  if (isset($domain) && ($domain || $domain = $domain_user->getEmailDomainByName(
-      ))
+  if (isset($domain) &&
+    ($domain || $domain = $domain_user->getEmailDomainByName())
   ) {
     $ldap = new C4mLDAPUser();
     if ($ldap->isUp()) {
       $info = $ldap->getInfo($account->mail);
       if ($info && !empty($info['valid'])) {
-        if ($info['country']) {
-          $edit['c4m_country'][LANGUAGE_NONE]['0']['value'] = $info['country'];
-        }
-        if ($info['dg']) {
-          $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $info['dg'];
-        }
-        if (_c4m_user_is_organisation_empty($edit) && $domain->organisation_name) {
-          $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $domain->organisation_name;
-        }
-        $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 1;
-        $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
+        _c4m_user_prefill_ldap_info($domain, $edit, $info);
       }
-      elseif (isset($whitelist_domain) && ($whitelist_domain || $whitelist_domain = $domain_user->getEmailDomainByWhitelist(
-          ))
+      elseif (isset($whitelist_domain) &&
+        ($whitelist_domain ||
+          $whitelist_domain = $domain_user->getEmailDomainByWhitelist()
+        )
       ) {
-        if ($whitelist_domain->organisation_name) {
-          $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $whitelist_domain->organisation_name;
-        }
-        $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 2;
-        $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
+        _c4m_user_prefill_ldap_whitelist_info($whitelist_domain, $edit);
       }
       // User is LDAP user but not validated.
       elseif ($info['valid'] === "0") {
-        $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 0;
-        $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 1;
-        $edit['c4m_organisation'][LANGUAGE_NONE] = array();
-        $edit['c4m_country'][LANGUAGE_NONE] = array();
+        _c4m_user_prefill_ldap_invalid_info($edit);
       }
     }
   }
+}
 
-  // If the user is not validated in LDAP and had previous LDAP validation add
-  // the flag.
-  if (empty($edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value']) && !empty($account->c4m_is_ldap_user[LANGUAGE_NONE]['0']['value'])) {
-    $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 0;
-    $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 1;
-    $edit['c4m_organisation'][LANGUAGE_NONE] = array();
-    $edit['c4m_country'][LANGUAGE_NONE] = array();
+/**
+ * Reset all pre-filled fields and mark user as invalid.
+ *
+ * @param array $edit
+ *   The edit array to fill.
+ */
+function _c4m_user_prefill_ldap_invalid_info(array &$edit) {
+  $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 0;
+  $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 1;
+  $edit['c4m_organisation'][LANGUAGE_NONE] = array();
+  $edit['c4m_country'][LANGUAGE_NONE] = array();
+}
+
+/**
+ * User belongs to a whitelist, pre-fill fields with domain info.
+ *
+ * @param stdClass $whitelist_domain
+ *   Whitelist domain user belongs to.
+ * @param array $edit
+ *   The edit array to fill.
+ */
+function _c4m_user_prefill_ldap_whitelist_info(
+  $whitelist_domain,
+  array &$edit
+) {
+  if ($whitelist_domain->organisation_name) {
+    $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $whitelist_domain->organisation_name;
   }
+  $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 2;
+  $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
+}
 
+/**
+ * Pre-fill valid LDAP information in the edit array.
+ *
+ * @param stdClass $domain
+ *   Domain user belongs to (and is validated against).
+ * @param array $edit
+ *   Edit array.
+ * @param array $info
+ *   Info array as returned by LDAP.
+ */
+function _c4m_user_prefill_ldap_info($domain, array &$edit, array $info) {
+  if ($info['country']) {
+    $edit['c4m_country'][LANGUAGE_NONE]['0']['value'] = $info['country'];
+  }
+  if ($info['dg']) {
+    $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $info['dg'];
+  }
+  if (_c4m_user_is_organisation_empty(
+      $edit
+    ) && $domain->organisation_name
+  ) {
+    $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $domain->organisation_name;
+  }
+  $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 1;
+  $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
+}
+
+/**
+ * Check if the user belongs to an organisation and if so, fill some fields.
+ *
+ * @param stdClass $account
+ *   The user account object.
+ * @param array $edit
+ *   The edit array.
+ */
+function _c4m_user_check_organisation_user($account, array &$edit) {
   $organisation_user = new C4mOrganisationUser($account->mail);
   if ($organisations = $organisation_user->getOrganisationsInfo()) {
     $organisation = array_shift($organisations);
@@ -1084,9 +1161,22 @@ function c4m_user_update_information(
     }
     $edit['c4m_organisation_type'][LANGUAGE_NONE] = array();
   }
+}
 
-  if (!empty($edit)) {
-    user_save($account, $edit);
+/**
+ * Check if the user was a valid LDAP user before and now not anymore.
+ *
+ * @param stdClass $account
+ *   The user account object.
+ * @param array $edit
+ *   Edit array.
+ */
+function _c4m_user_flag_invalid_ldap_user($account, array &$edit) {
+  if (empty($edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value']) && !empty($account->c4m_is_ldap_user[LANGUAGE_NONE]['0']['value'])) {
+    $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 0;
+    $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 1;
+    $edit['c4m_organisation'][LANGUAGE_NONE] = array();
+    $edit['c4m_country'][LANGUAGE_NONE] = array();
   }
 }
 
