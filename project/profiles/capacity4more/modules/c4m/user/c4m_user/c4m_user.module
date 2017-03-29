@@ -1029,11 +1029,11 @@ function c4m_user_update_information(
 /**
  * Check if the user is a valid LDAP (or whitelist) user and fill fields.
  *
- * @param stdClass $account
+ * @param object $account
  *   User account object.
- * @param stdClass $domain
+ * @param object $domain
  *   Domain to check user against.
- * @param stdClass $whitelist_domain
+ * @param object $whitelist_domain
  *   Whitelist domain to check user against.
  * @param array $edit
  *   Edit array.
@@ -1087,7 +1087,7 @@ function _c4m_user_prefill_ldap_invalid_info(array &$edit) {
 /**
  * User belongs to a whitelist, pre-fill fields with domain info.
  *
- * @param stdClass $whitelist_domain
+ * @param object $whitelist_domain
  *   Whitelist domain user belongs to.
  * @param array $edit
  *   The edit array to fill.
@@ -1106,7 +1106,7 @@ function _c4m_user_prefill_ldap_whitelist_info(
 /**
  * Pre-fill valid LDAP information in the edit array.
  *
- * @param stdClass $domain
+ * @param object $domain
  *   Domain user belongs to (and is validated against).
  * @param array $edit
  *   Edit array.
@@ -1133,7 +1133,7 @@ function _c4m_user_prefill_ldap_info($domain, array &$edit, array $info) {
 /**
  * Check if the user belongs to an organisation and if so, fill some fields.
  *
- * @param stdClass $account
+ * @param object $account
  *   The user account object.
  * @param array $edit
  *   The edit array.
@@ -1166,7 +1166,7 @@ function _c4m_user_check_organisation_user($account, array &$edit) {
 /**
  * Check if the user was a valid LDAP user before and now not anymore.
  *
- * @param stdClass $account
+ * @param object $account
  *   The user account object.
  * @param array $edit
  *   Edit array.
