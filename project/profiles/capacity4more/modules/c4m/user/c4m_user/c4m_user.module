@@ -988,6 +988,7 @@ function c4m_user_init() {
   $account = user_load($user->uid);
 
   if (!empty($account->c4m_is_invalid_email[LANGUAGE_NONE][0]['value'])) {
+    unset($_GET['destination']);
     drupal_goto('user/' . $user->uid . '/edit');
   }
 }
