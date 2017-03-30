@@ -31,8 +31,6 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
 
   /**
    * {@inheritdoc}
-   *
-   * Extends C4MOgSelectionHandler::buildEntityFieldQuery().
    */
   public function buildEntityFieldQuery(
     $match = NULL,
@@ -111,15 +109,15 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
       );
       // Any member can edit a wiki page unless a power user has changed it
       // specifically for a specific node.
-      if (!empty($this->entity->nid) && $node_type == 'wiki_page') {
+      if (!empty($this->entity->nid) && $node_type === 'wiki_page') {
         $target_access = og_user_access(
           $group_type,
           $group['gid'],
-          "update any wiki_page content"
+          'update any wiki_page content'
         );
       }
 
-      if (!_c4m_features_og_members_is_power_user() && !$target_access) {
+      if (!$target_access && !_c4m_features_og_members_is_power_user()) {
         // User is not group member and can't add content. Falsify the query.
         $query->propertyCondition(
           $entity_info['entity keys']['id'],
@@ -146,7 +144,7 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
   }
 
   /**
-   * Implements EntityReferenceHandler::getReferencableEntities().
+   * {@inheritdoc}
    */
   public function getReferencableEntities(
     $match = NULL,
@@ -179,9 +177,15 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
   }
 
   /**
-   * @param $match
-   * @param $match_operator
+   * Create basic entity field query to work with.
+   *
+   * @param string $match
+   *   String to match (part of the autocomplete).
+   * @param string $match_operator
+   *   Operator to use when matching (defaults to "CONTAINS").
+   *
    * @return \EntityFieldQuery
+   *   The EntityFieldQuery object
    */
   private function createEntityFieldQuery($match, $match_operator) {
     $handler = EntityReference_SelectionHandler_Generic::getInstance(
@@ -190,30 +194,33 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
       $this->entity_type,
       $this->entity
     );
-    $query = $handler->buildEntityFieldQuery($match, $match_operator);
-    return $query;
+    return $handler->buildEntityFieldQuery($match, $match_operator);
   }
 
   /**
-   * @param $query
+   * Set and unset query tags.
+   *
+   * @param \EntityFieldQuery $query
+   *   The EntityFieldQuery object.
    */
-  private function setQueryTags($query) {
-    // FIXME: http://drupal.org/node/1325628.
-    unset($query->tags['node_access']);
-
-    // FIXME: drupal.org/node/1413108.
-    unset($query->tags['entityreference']);
+  private function setQueryTags(\EntityFieldQuery $query) {
+    // FIXME: http://drupal.org/node/1325628 && drupal.org/node/1413108.
+    unset($query->tags['node_access'], $query->tags['entityreference']);
 
     $query->addTag('entity_field_access');
     $query->addTag('og');
   }
 
   /**
-   * @param $query
-   * @param $group_type
+   * Add a few conditions to the EntityFieldQuery query.
+   *
+   * @param \EntityFieldQuery $query
+   *   The EntityFieldQuery object.
+   * @param string $group_type
+   *   Group type (group/project).
    */
-  private function setGroupFieldConditions($query, $group_type) {
-// Show only the entities that are active groups.
+  private function setGroupFieldConditions(\EntityFieldQuery $query, $group_type) {
+    // Show only the entities that are active groups.
     $query->fieldCondition(OG_GROUP_FIELD, 'value', 1, '=');
 
     // If project, don't include templates.
@@ -223,15 +230,21 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
   }
 
   /**
-   * @param $group_type
-   * @param $user
+   * Retrieve and return the group ids a user has access to.
+   *
+   * @param string $group_type
+   *   Group entity type (node).
+   * @param object $user
+   *   User account object.
+   *
    * @return array
+   *   Array of group id's (integers).
    */
   private function getUserGroupIds($group_type, $user) {
     $user_groups = og_get_groups_by_user(NULL, $group_type);
-    $user_groups = $user_groups ? $user_groups : array();
+    $user_groups = $user_groups ?: array();
 
-    if ($user_groups && !empty($this->instance) && $this->instance['entity_type'] == 'node') {
+    if ($user_groups && !empty($this->instance) && $this->instance['entity_type'] === 'node') {
       // Determine which groups should be selectable.
       $node = $this->entity;
       $node_type = $this->instance['bundle'];
@@ -253,9 +266,8 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
               $node_type
             ))
         ) {
-          $node_groups = isset($node_groups) ? $node_groups : og_get_entity_groups(
-            $node->nid
-          );
+          $node_groups = og_get_entity_groups($node->nid);
+
           if (in_array($gid, $node_groups['node'])) {
             $ids[] = $gid;
           }
@@ -269,12 +281,21 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
   }
 
   /**
-   * @param $group_type
-   * @param $user
-   * @param $node
-   * @param $gid
-   * @param $node_type
+   * Check if the user is the owner of the group and can update its own content.
+   *
+   * @param string $group_type
+   *   The group entity type (node).
+   * @param object $user
+   *   The user account object.
+   * @param object $node
+   *   The node object.
+   * @param int $gid
+   *   The group id.
+   * @param string $node_type
+   *   The node type.
+   *
    * @return bool
+   *   TRUE if the user is owner and has access, FALSE otherwise.
    */
   private function isUserOwnerAndAllowedToUpdateOwnContent(
     $group_type,
@@ -288,10 +309,17 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
   }
 
   /**
-   * @param $group_type
-   * @param $gid
-   * @param $node_type
+   * Check if the user has a global permission to update all groups.
+   *
+   * @param string $group_type
+   *   The group entity type (node).
+   * @param int $gid
+   *   The group id.
+   * @param string $node_type
+   *   The node type.
+   *
    * @return bool
+   *   TRUE if the user is owner and has access, FALSE otherwise.
    */
   private function isUserAllowedToUpdateAnyContent(
     $group_type,
@@ -302,15 +330,21 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
   }
 
   /**
-   * @param $entity_type
-   * @param $entity
-   * @param $options
-   * @param $entity_id
+   * Process an entity and create the proper HTML tag for it.
+   *
+   * @param string $entity_type
+   *   The group entity type (node).
+   * @param object $entity
+   *   The group entity.
+   * @param array $options
+   *   Options array containing the rendered HTML elements.
+   * @param int $entity_id
+   *   Entity ID.
    */
   private function createElementTagFromEntity(
     $entity_type,
     $entity,
-    &$options,
+    array &$options,
     $entity_id
   ) {
     $tag = array();
@@ -328,7 +362,7 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
           '#attributes' => array(
             'class' => array(
               'fa',
-              ($project_type == 'programme') ? 'fa-puzzle-piece' : 'fa-flag-checkered',
+              ($project_type === 'programme') ? 'fa-puzzle-piece' : 'fa-flag-checkered',
               'project-type-' . $project_type,
             ),
           ),
