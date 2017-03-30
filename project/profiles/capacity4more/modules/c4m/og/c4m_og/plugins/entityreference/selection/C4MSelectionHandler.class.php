@@ -265,7 +265,7 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
     else {
       $ids = $user_groups;
     }
-    return array($node_type, $ids);
+    return $ids;
   }
 
   /**
