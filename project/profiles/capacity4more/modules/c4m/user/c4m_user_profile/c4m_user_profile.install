@@ -9,16 +9,97 @@
  * Implements hook_install().
  */
 function c4m_user_profile_install() {
-  $text = 'A whacked Sierra Nevada gives lectures on morality to a beer. Furthermore, a gravy like crank case prays, and a blotched bud light thoroughly brainwashes a Lone Star related to a shot. A blood clot inside a bull ice goes to sleep, and a mating ritual near the PBR beams with joy; however, a psychotic Pilsner intoxicatedly makes love to a Keystone light over some crank case. The ridiculously mitochondrial Budweiser gives lectures on morality to the pin ball machine of a Brewers Reserve . The freight train related to a bull ice sweeps the floor, and a Miller eagerly finds much coolness with a familiar ESB.';
-  db_insert('legal_conditions')
-    ->fields(array(
-      'version'    => 1,
-      'revision'   => 1,
-      'language'   => 'en',
-      'conditions' => $text,
-      'date'       => time(),
-      'extras'     => serialize(array()),
-      'changes'    => '',
-    ))
+  c4m_user_profile_update_7001();
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function c4m_user_profile_update_7001() {
+  $text = '<p>In order to maintain a friendly and pleasant atmosphere on the platform we have implemented some basic rules of conduct, which may be updated by us from time to time without prior notice. All visitors who participate and use the Capacity4dev platform facilities are expected to read and agree with these rules and policies and to not breach any of them. Please take a moment to familiarise yourself with the platforms\' guidelines:</p>
+
+<p>&nbsp;</p>
+
+<h3>Inappropriate Content</h3>
+
+<p>The following are deemed to constitute inappropriate content. Posting such content may result in account suspension or banning as well as the removal of the offending posts:</p>
+
+<ul>
+	<li>Posts or images of a defamatory, abusive, vulgar, hateful, harassing, obscene, profane or threatening nature. This includes any messages or material ethnically, racially, religiously or sexually offensive, insulting or demeaning.</li>
+	<li>Posts or images that violate any laws or regulations, including copyright</li>
+	<li>Advertising of products or services without our prior consent or the adequate context. You can talk about you or your company through your Personal Profile but no advertisement as such will be allowed. Registering solely to promote yourself, your company or others could eventually lead to the user removal from the site.</li>
+	<li>Discussion of illegal activities including software and movie piracy and other intellectual property infringement.</li>
+	<li>Posting other people\'s personal contact information (i.e. telephone numbers, addresses etc.) on any publicly viewable forums.</li>
+	<li>Any content that contains viruses, Trojan horses, or the like, or other computer programming routines that may damage or interfere with the website.</li>
+	<li>Anything else deemed inappropriate by us.</li>
+	<li>Links to any of the above.</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3>Specific Copyright Issues</h3>
+
+<ul>
+	<li>The content on this website is subject to some copyright rules
+	<ul>
+		<li>We require that you cite the original content and its author and include a link to the source content on capacity4dev.eu.</li>
+		<li>Material on capacity4dev.eu is not intended for commercial use.</li>
+		<li>It is forbidden to remix, transform or build upon capacity4dev materials.</li>
+	</ul>
+	</li>
+	<li>When contributing original work authored or created by you on capacity4dev, you agree that the contribution will be freely available to users (with sufficient access) of capacity4dev.</li>
+	<li>Contributions from European Institution Officials are bound by the generic Copyright terms applicable. <a href="http://europa.eu/european-union/abouteuropa/legal_notices_en" rel="nofollow">http://europa.eu/european-union/abouteuropa/legal_notices_en</a></li>
+	<li>When you contribute contents on capacity4dev.eu that are not authored or owned by you (such as, but not limited to, Documents, Pictures, Video Audio or any other content and combination of contents or direct links to them), it is your responsibility to ensure that by doing so you do not infringe any third party\'s copyright, patent, trademark, trade secret or other proprietary rights or rights of publicity or privacy; violate any law, statute, ordinance or regulation. Capacity4dev will not be held liable in any such a case.</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3>Expected behaviour of members and suggestions for better posting</h3>
+
+<ul>
+	<li>Keep all contributions within the appropriate community area of interest.</li>
+	<li>Use short, clear and concise titles when posting materials.</li>
+	<li>Please make an effort to communicate as clearly as possible.</li>
+	<li>Refrain from using foul or offensive language.</li>
+	<li>All content posted by users express the views of the author; Capacity4dev will not be held responsible for any offending message, comment, post or other material published on the site.</li>
+	<li>Treat all other Capacity4dev members in a respectful and courteous manner at all times, even in the event of disagreements.</li>
+	<li>Users who are not recognized as Site Administrators with full credentials should not pretend to be such by using "site administrator" in their profile.</li>
+</ul>
+
+<p>While these rules cover most common situations, they cannot anticipate everything. Consequently we reserve the right to take any actions we deem appropriate to ensure Capacity4dev is not disrupted or abused in any way.</p>
+
+<p>&nbsp;</p>
+
+<h3>Report a Rule Infraction</h3>
+
+<p>If you feel that specific content or a fellow capacity4dev.eu member breaks the portal\'s policies and rules of conduct, please report it to the capacity4dev.eu support team through the contact form on the site.</p>
+
+<p>&nbsp;</p>
+
+<h3>Monitoring of the site and Disciplinary Measures</h3>
+
+<p>We reserve the right to monitor the capacity4dev.eu platform, including work-groups, discussion forums etc. and remove/block any postings or members who don\'t adhere to these rules, our standard portal terms and conditions and our privacy policy. This includes postings that disrupt or interfere with our technical operations. In such a case a note from the Administrator that removed the posting will replace the original offending post or upload.</p>
+
+<p>We reserve the right to close or ban, temporarily or permanently, any user\'s account as we deem necessary. The user will be notified and informed of the reasons and measures taken.</p>
+
+<p>Should you feel you have been treated unfairly by a Site Administrator, you may appeal directly to us through the contact form on the site. When contacting us, please provide the email address you used to sign up. We do not discuss the suspension of members or any disciplinary action taken with the general public.</p>
+
+<p>&nbsp;</p>
+
+<p><a href="https://europa.eu/capacity4dev/privacy">Privacy &amp; Cookies</a> are part of these Terms &amp; Conditions.&nbsp;&nbsp;</p>
+';
+  db_update('legal_conditions')
+    ->fields(
+      array(
+        'version' => 1,
+        'revision' => 1,
+        'language' => 'en',
+        'conditions' => $text,
+        'date' => time(),
+        'extras' => serialize(array()),
+        'changes' => '',
+      )
+    )
+    ->condition('version', 1)
     ->execute();
 }
