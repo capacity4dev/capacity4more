@@ -66,7 +66,7 @@ function _c4m_user_profile_block_user_menu() {
         'purl' => array(
           'disabled' => TRUE,
         ),
-        'query' => c4m_og_purl_get_destination(),
+        'query' => array('destination' => request_path()),
       ),
     ),
   );

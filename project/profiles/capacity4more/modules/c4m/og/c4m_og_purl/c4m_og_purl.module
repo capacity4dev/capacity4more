@@ -26,7 +26,7 @@ function c4m_og_purl_init() {
     return;
   }
 
-  if ($item['path'] == 'node/%') {
+  if ($item['path'] === 'node/%') {
     if (!isset($item['map'][1])) {
       return;
     }
@@ -263,7 +263,7 @@ function c4m_og_purl_field_formatter_settings_form($field, $instance, $view_mode
   $settings = $display['settings'];
 
   // Formatter is c4m_og_purl_entityreference_link.
-  if ($display['type'] == 'c4m_og_purl_entityreference_link') {
+  if ($display['type'] === 'c4m_og_purl_entityreference_link') {
     $options[C4M_OG_PURL_LINK_AUTO] = t('Auto PURL');
     $options[C4M_OG_PURL_LINK_DISABLED] = t('Disable PURL');
     $options[C4M_OG_PURL_LINK_DASHBOARD] = t('To group dashboard');
@@ -288,7 +288,7 @@ function c4m_og_purl_field_formatter_settings_summary($field, $instance, $view_m
 
   $summary = array();
 
-  if ($display['type'] == 'c4m_og_purl_entityreference_link') {
+  if ($display['type'] === 'c4m_og_purl_entityreference_link') {
     switch ($settings['link']) {
       case C4M_OG_PURL_LINK_AUTO:
         $summary[] = t('Link to og purl referenced entity');
@@ -322,11 +322,12 @@ function c4m_og_purl_field_formatter_prepare_view($entity_type, $entities, $fiel
     }
   }
 
+  $target_entities = array();
   if ($target_ids) {
-    $target_entities = entity_load($field['settings']['target_type'], $target_ids);
-  }
-  else {
-    $target_entities = array();
+    $target_entities = entity_load(
+      $field['settings']['target_type'],
+      $target_ids
+    );
   }
 
   // Iterate through the fieldable entities again to attach the loaded data.
@@ -365,7 +366,7 @@ function c4m_og_purl_field_formatter_view($entity_type, $entity, $field, $instan
   $settings = $display['settings'];
 
   // Formatter is c4m_og_purl_entityreference_link.
-  if ($display['type'] == 'c4m_og_purl_entityreference_link') {
+  if ($display['type'] === 'c4m_og_purl_entityreference_link') {
     $handler = entityreference_get_selection_handler($field, $instance, $entity_type, $entity);
 
     foreach ($items as $delta => $item) {
@@ -430,11 +431,22 @@ function _c4m_og_purl_starts_with($search_string, $string) {
  *     not available, the current path.
  *
  * @see drupal_get_destination()
+ *
+ * @deprecated We can use request_path() instead.
+ *   url(
+ *     'user/logout', array(
+ *       'absolute' => TRUE,
+ *       'purl' => array(
+ *          'disabled' => TRUE,
+ *        ),
+ *        'query' => array('destination' => request_path()),
+ *      )
+ *   );
  */
 function c4m_og_purl_get_destination() {
   $destination = &drupal_static(__FUNCTION__);
 
-  if (isset($destination)) {
+  if (NULL !== $destination) {
     return $destination;
   }
 
