@@ -60,6 +60,8 @@
   height: 100%;
   padding-top: 25px;
   overflow-y: scroll;
+  overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;
 
   background: $color-gray-lightTwo;
 
@@ -208,6 +210,8 @@
     height: 100%;
     padding: 25px 18px;
     overflow-y: auto;
+    overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
     background: $color-white;
 
     box-shadow: -8px 0 8px -8px #696868;
