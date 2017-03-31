@@ -91,7 +91,7 @@
 
   &.node-event:not(.view-mode-pinned_content) {
     .paragraphs-item-c4m-paragraph-system-block & {
-      .user-name, .posted-by, .teaser-date .label-inline {
+      .field-name-title + .fa, .user-name, .posted-by, .teaser-date .label-inline {
         display: none;
       }
     }
