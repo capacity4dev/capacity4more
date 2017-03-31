@@ -76,7 +76,10 @@ function c4m_og_purl_context_conflict_page() {
   // Menu items prefixes, which we allow to be accessed under OG context.
   $group_allowed_path = _c4m_og_purl_allowed_paths();
 
-  return og_context() && !_c4m_og_purl_starts_with_in_array($group_allowed_path, $item['path']);
+  return og_context() && !_c4m_og_purl_starts_with_in_array(
+      $group_allowed_path,
+      $item['path']
+    );
 }
 
 /**
@@ -119,7 +122,14 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
       return;
     }
 
-    if (_c4m_og_purl_starts_with($path, 'node') && !_c4m_og_purl_node_at_path_is_content_of_group($path, $context['gid']) && !_c4m_og_purl_path_is_add_group_content($path, $context['gid'])) {
+    if (_c4m_og_purl_starts_with(
+        $path,
+        'node'
+      ) && !_c4m_og_purl_node_at_path_is_content_of_group(
+        $path,
+        $context['gid']
+      ) && !_c4m_og_purl_path_is_add_group_content($path, $context['gid'])
+    ) {
       // Node at path is not content of current OG group, thus, remove purl.
       $options['prefix'] = '';
 
@@ -258,7 +268,13 @@ function c4m_og_purl_ds_fields_info_alter(&$fields, $entity_type) {
 /**
  * Implements hook_field_formatter_settings_form().
  */
-function c4m_og_purl_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+function c4m_og_purl_field_formatter_settings_form(
+  $field,
+  $instance,
+  $view_mode,
+  $form,
+  &$form_state
+) {
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
 
@@ -269,10 +285,10 @@ function c4m_og_purl_field_formatter_settings_form($field, $instance, $view_mode
     $options[C4M_OG_PURL_LINK_DASHBOARD] = t('To group dashboard');
 
     $element['link'] = array(
-      '#title'          => t('Link label to the referenced entity'),
-      '#type'           => 'select',
-      '#options'        => $options,
-      '#default_value'  => $settings['link'],
+      '#title' => t('Link label to the referenced entity'),
+      '#type' => 'select',
+      '#options' => $options,
+      '#default_value' => $settings['link'],
     );
   }
 
@@ -282,7 +298,11 @@ function c4m_og_purl_field_formatter_settings_form($field, $instance, $view_mode
 /**
  * Implements hook_field_formatter_settings_summary().
  */
-function c4m_og_purl_field_formatter_settings_summary($field, $instance, $view_mode) {
+function c4m_og_purl_field_formatter_settings_summary(
+  $field,
+  $instance,
+  $view_mode
+) {
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
 
@@ -310,7 +330,15 @@ function c4m_og_purl_field_formatter_settings_summary($field, $instance, $view_m
 /**
  * Implements hook_field_formatter_prepare_view().
  */
-function c4m_og_purl_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
+function c4m_og_purl_field_formatter_prepare_view(
+  $entity_type,
+  $entities,
+  $field,
+  $instances,
+  $langcode,
+  &$items,
+  $displays
+) {
   $target_ids = array();
 
   // Collect every possible entity attached to any of the entities.
@@ -323,7 +351,7 @@ function c4m_og_purl_field_formatter_prepare_view($entity_type, $entities, $fiel
   }
 
   $target_entities = array();
-  if ($target_ids) {
+  if (!empty($target_ids)) {
     $target_entities = entity_load(
       $field['settings']['target_type'],
       $target_ids
@@ -340,8 +368,16 @@ function c4m_og_purl_field_formatter_prepare_view($entity_type, $entities, $fiel
         // Replace the instance value with the term data.
         $items[$id][$delta]['entity'] = $target_entities[$item['target_id']];
         // Check whether the user has access to the referenced entity.
-        $has_view_access = (entity_access('view', $field['settings']['target_type'], $target_entities[$item['target_id']]) !== FALSE);
-        $has_update_access = (entity_access('update', $field['settings']['target_type'], $target_entities[$item['target_id']]) !== FALSE);
+        $has_view_access = (entity_access(
+            'view',
+            $field['settings']['target_type'],
+            $target_entities[$item['target_id']]
+          ) !== FALSE);
+        $has_update_access = (entity_access(
+            'update',
+            $field['settings']['target_type'],
+            $target_entities[$item['target_id']]
+          ) !== FALSE);
         $items[$id][$delta]['access'] = ($has_view_access || $has_update_access);
       }
       // Otherwise, unset the instance value, since the entity does not exist.
@@ -361,13 +397,26 @@ function c4m_og_purl_field_formatter_prepare_view($entity_type, $entities, $fiel
 /**
  * Implements hook_field_formatter_view().
  */
-function c4m_og_purl_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+function c4m_og_purl_field_formatter_view(
+  $entity_type,
+  $entity,
+  $field,
+  $instance,
+  $langcode,
+  $items,
+  $display
+) {
   $result = array();
   $settings = $display['settings'];
 
   // Formatter is c4m_og_purl_entityreference_link.
   if ($display['type'] === 'c4m_og_purl_entityreference_link') {
-    $handler = entityreference_get_selection_handler($field, $instance, $entity_type, $entity);
+    $handler = entityreference_get_selection_handler(
+      $field,
+      $instance,
+      $entity_type,
+      $entity
+    );
 
     foreach ($items as $delta => $item) {
       $label = $handler->getLabel($item['entity']);
@@ -452,12 +501,19 @@ function c4m_og_purl_get_destination() {
 
   $destination = drupal_get_destination();
 
-  if (isset($destination['destination'])) {
-    if ($og_context = og_context('node')) {
-      if (isset($og_context['gid']) && is_numeric($og_context['gid'])) {
-        $destination['destination'] = ltrim(url($destination['destination']), '/');
-      }
-    }
+  if (!isset($destination['destination'])) {
+    return $destination;
+  }
+
+  if (!$og_context = og_context('node')) {
+    return $destination;
+  }
+
+  if (isset($og_context['gid']) && is_numeric($og_context['gid'])) {
+    $destination['destination'] = ltrim(
+      url($destination['destination']),
+      '/'
+    );
   }
 
   return $destination;
@@ -487,7 +543,10 @@ function c4m_og_purl_tokens_alter(array &$replacements, array $context) {
     ),
   );
 
-  $replacements['[message:field-comment:url]'] = url('comment/' . $comment->cid, $url_options);
+  $replacements['[message:field-comment:url]'] = url(
+    'comment/' . $comment->cid,
+    $url_options
+  );
 }
 
 /**
