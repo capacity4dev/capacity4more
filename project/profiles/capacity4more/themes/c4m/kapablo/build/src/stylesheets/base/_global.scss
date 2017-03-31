@@ -2,11 +2,6 @@ html,
 body {
   height: 100vh;
 
-  // Restore smooth scrolling.
-  overflow-y: scroll;
-  overflow-scrolling: touch;
-  -webkit-overflow-scrolling: touch;
-
   @media (min-width: $screen-tablet) {
     height: auto;
   }
@@ -115,6 +110,8 @@ div.contextual-links-wrapper {
   position: relative;
   height: 100%;
   overflow-x: hidden;
+  overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;
 }
 
 .popover {
