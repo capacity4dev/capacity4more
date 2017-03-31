@@ -84,7 +84,7 @@ function c4m_wysiwyg_ckeditor_ckeditor_security_filter() {
     'pathologic' => array(
       'title' => t('Pathologic'),
       'description' => t('Correct URLs with Pathologic'),
-    )
+    ),
   );
 }
 
