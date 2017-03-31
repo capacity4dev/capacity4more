@@ -6,7 +6,9 @@
  */
 
 /**
- * OG selection handler.
+ * OG selection handler, used for the `og_group_ref` base field.
+ *
+ * @seealso c4m_field_og.features.field_base.inc
  */
 class C4MOgSelectionHandler extends OgSelectionHandler {
 
@@ -77,19 +79,14 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     // Show only the entities that are active groups.
     $query->fieldCondition(OG_GROUP_FIELD, 'value', 1, '=');
 
-    // If project, don't include templates.
-    if ($group_type === 'project') {
-      $query->fieldCondition('c4m_is_template', 'value', 1, '<>');
-    }
-
     $account = user_load($user->uid);
     if (user_access('administer site configuration', $account)) {
       // Site administrator can choose also groups he is not member of.
       $query->fieldCondition(
         'c4m_og_status',
         'value',
-        array('published'),
-        'IN'
+        array('deleted'),
+        'NOT IN'
       );
       return $query;
     }
@@ -158,7 +155,7 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
 
     // Adding condition that verifying that group state allows adding content
     // member can add content to groups at draft or published state.
-    $allowed_states = array('published');
+    $allowed_states = array('draft', 'published');
     $query->fieldCondition(
       'c4m_og_status',
       'value',
@@ -169,76 +166,6 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     // No additional modifications to query. If creating content from a form,
     // permissions will be rechecked at form access.
     return $query;
-  }
-
-  /**
-   * Implements EntityReferenceHandler::getReferencableEntities().
-   */
-  public function getReferencableEntities($match = NULL, $match_operator = 'CONTAINS', $limit = 0) {
-    $options = array();
-    $entity_type = $this->field['settings']['target_type'];
-
-    $query = $this->buildEntityFieldQuery($match, $match_operator);
-    if ($limit > 0) {
-      $query->range(0, $limit);
-    }
-
-    $results = $query->execute();
-
-    if (!empty($results[$entity_type])) {
-      $entities = entity_load($entity_type, array_keys($results[$entity_type]));
-      foreach ($entities as $entity_id => $entity) {
-        list(,, $bundle) = entity_extract_ids($entity_type, $entity);
-        switch ($entity->type) {
-          case 'project':
-            // Add project/programme indicator.
-            $entity_wrapper = entity_metadata_wrapper('node', $entity);
-            $project_type = $entity_wrapper->c4m_project_type->value();
-
-            $tag['element'] = array(
-              '#tag' => 'i',
-              '#attributes' => array(
-                'class' => array(
-                  'fa',
-                  ($project_type == 'programme') ? 'fa-puzzle-piece' : 'fa-flag-checkered',
-                  'project-type-' . $project_type,
-                ),
-              ),
-              '#value' => '',
-            );
-
-            $options[$bundle][$entity_id] = theme_html_tag($tag) . ' ' . check_plain($this->getLabel($entity));
-
-            break;
-
-          case 'group':
-            // Add private level indicator.
-            $group_type = c4m_og_get_access_type($entity);
-
-            $tag['element'] = array(
-              '#tag' => 'span',
-              '#attributes' => array(
-                'class' => array(
-                  'group-icon',
-                  'group-' . $group_type['type'],
-                  'node-icon',
-                  'as-group-' . $group_type['type'],
-                ),
-              ),
-              '#value' => '',
-            );
-            $options[$bundle][$entity_id] = theme_html_tag($tag) . ' ' . check_plain($this->getLabel($entity));
-
-            break;
-
-          default:
-            $options[$bundle][$entity_id] = check_plain($this->getLabel($entity));
-            break;
-        }
-      }
-    }
-
-    return $options;
   }
 
 }
