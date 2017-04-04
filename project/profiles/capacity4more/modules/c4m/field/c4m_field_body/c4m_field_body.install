@@ -86,6 +86,7 @@ function _c4m_field_body_replace_c4d_image($tableName, $columnName, $needle) {
         db_update($tableName)
           ->fields(array($columnName => $new_body_value))
           ->condition('entity_id', $c4m_body_result->entity_id, '=')
+          ->condition('entity_type', $c4m_body_result->entity_type, '=')
           ->condition('revision_id', $c4m_body_result->revision_id, '=')
           ->execute();
       }
@@ -242,6 +243,7 @@ function _c4m_field_body_remove($tableName, $columnName, $db_needle, $regex) {
       db_update($tableName)
         ->fields(array($columnName => $new_body_value))
         ->condition('entity_id', $c4m_body_result->entity_id, '=')
+        ->condition('entity_type', $c4m_body_result->entity_type, '=')
         ->condition('revision_id', $c4m_body_result->revision_id, '=')
         ->execute();
     }
