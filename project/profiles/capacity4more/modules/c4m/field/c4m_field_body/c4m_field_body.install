@@ -28,6 +28,31 @@ function c4m_field_body_update_7001(&$sandbox) {
 }
 
 /**
+ * Implements hook_update_N().
+ */
+function c4m_field_body_update_7002(&$sandbox) {
+  // Retrieve all c4m_body and c4m_body revisions containing [c4d-image*].
+  $columnName = 'c4m_body_value';
+  $db_needle = '[ec_media';
+  $regex = '/\[ec_media:([^:]*)(.*?)\]/isU';
+
+  // Replace the main field value.
+  _c4m_field_body_remove(
+    'field_data_c4m_body',
+    $columnName,
+    $db_needle,
+    $regex
+  );
+  // Replace revision values.
+  _c4m_field_body_remove(
+    'field_revision_c4m_body',
+    $columnName,
+    $db_needle,
+    $regex
+  );
+}
+
+/**
  * Helper function to replace all occurrences of "needle" with an image tag.
  *
  * @param string $tableName
@@ -182,4 +207,43 @@ function _c4m_field_body_cleanup($source) {
   }
 
   return $source;
+}
+
+
+/**
+ * Helper function to remove all occurrences of "needle".
+ *
+ * @param string $tableName
+ *   Database table to search.
+ * @param string $columnName
+ *   Column to search in.
+ * @param string $db_needle
+ *   Needle to search for in the database.
+ * @param string $regex
+ *   Full regex to remove.
+ */
+function _c4m_field_body_remove($tableName, $columnName, $db_needle, $regex) {
+  $c4m_body = _c4m_field_body_get_c4d_db_rows(
+    $tableName,
+    $columnName,
+    $db_needle
+  );
+
+  if (!empty($c4m_body)) {
+    // Iterate over all of them and remove the tag.
+    foreach ($c4m_body as $c4m_body_result) {
+      $new_body_value = preg_replace(
+        $regex,
+        '',
+        $c4m_body_result->{$columnName}
+      );
+
+      // Update database.
+      db_update($tableName)
+        ->fields(array($columnName => $new_body_value))
+        ->condition('entity_id', $c4m_body_result->entity_id, '=')
+        ->condition('revision_id', $c4m_body_result->revision_id, '=')
+        ->execute();
+    }
+  }
 }
