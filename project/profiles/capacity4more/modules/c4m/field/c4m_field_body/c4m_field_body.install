@@ -210,7 +210,6 @@ function _c4m_field_body_cleanup($source) {
   return $source;
 }
 
-
 /**
  * Helper function to remove all occurrences of "needle".
  *
