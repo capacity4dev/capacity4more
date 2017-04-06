@@ -6,7 +6,7 @@
  */
 
 /**
- * Implements hook_update_N().
+ * Replace all malformed [c4d-image] tags with proper HTML img tags.
  */
 function c4m_field_body_update_7001(&$sandbox) {
   // Retrieve all c4m_body and c4m_body revisions containing [c4d-image*].
@@ -19,6 +19,7 @@ function c4m_field_body_update_7001(&$sandbox) {
     $columnName,
     $needle
   );
+
   // Replace revision values.
   _c4m_field_body_replace_c4d_image(
     'field_revision_c4m_body',
@@ -28,10 +29,10 @@ function c4m_field_body_update_7001(&$sandbox) {
 }
 
 /**
- * Implements hook_update_N().
+ * Remove all occurrences of orphaned [ec_media] tags.
  */
 function c4m_field_body_update_7002(&$sandbox) {
-  // Retrieve all c4m_body and c4m_body revisions containing [c4d-image*].
+  // Retrieve all c4m_body and c4m_body revisions containing [ec_media*].
   $columnName = 'c4m_body_value';
   $db_needle = '[ec_media';
   $regex = '/\[ec_media:([^:]*)(.*?)\]/isU';
@@ -43,6 +44,7 @@ function c4m_field_body_update_7002(&$sandbox) {
     $db_needle,
     $regex
   );
+
   // Replace revision values.
   _c4m_field_body_remove(
     'field_revision_c4m_body',
