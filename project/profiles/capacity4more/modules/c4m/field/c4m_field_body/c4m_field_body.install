@@ -53,7 +53,7 @@ function c4m_field_body_update_7002(&$sandbox) {
     $regex
   );
 
-  // Retrieve all c4m_intro_text and c4m_intro_text_revisions containing [ec_media*].
+  // Retrieve all c4m_intro_text revisions containing [ec_media*].
   $columnName = 'c4m_intro_text_value';
 
   // Replace the main field value.
@@ -72,11 +72,12 @@ function c4m_field_body_update_7002(&$sandbox) {
     $regex
   );
 }
+
 /**
  * Remove all occurrences of [c4d:image] tags in the article intro.
  */
 function c4m_field_body_update_7003(&$sandbox) {
-  // Retrieve all c4m_intro_text and c4m_intro_text_revisions containing [ec_media*].
+  // Retrieve all c4m_intro_text and revisions containing [ec_media*].
   $columnName = 'c4m_intro_text_value';
   $db_needle = '[c4d-image';
   $regex = '/\[c4d-image==([^=]*)==(.*?)\]/isU';
