@@ -52,6 +52,50 @@ function c4m_field_body_update_7002(&$sandbox) {
     $db_needle,
     $regex
   );
+
+  // Retrieve all c4m_intro_text and c4m_intro_text_revisions containing [ec_media*].
+  $columnName = 'c4m_intro_text_value';
+
+  // Replace the main field value.
+  _c4m_field_body_remove(
+    'field_data_c4m_intro_text',
+    $columnName,
+    $db_needle,
+    $regex
+  );
+
+  // Replace revision values.
+  _c4m_field_body_remove(
+    'field_revision_c4m_intro_text',
+    $columnName,
+    $db_needle,
+    $regex
+  );
+}
+/**
+ * Remove all occurrences of [c4d:image] tags in the article intro.
+ */
+function c4m_field_body_update_7003(&$sandbox) {
+  // Retrieve all c4m_intro_text and c4m_intro_text_revisions containing [ec_media*].
+  $columnName = 'c4m_intro_text_value';
+  $db_needle = '[c4d-image';
+  $regex = '/\[c4d-image==([^=]*)==(.*?)\]/isU';
+
+  // Replace the main field value.
+  _c4m_field_body_remove(
+    'field_data_c4m_intro_text',
+    $columnName,
+    $db_needle,
+    $regex
+  );
+
+  // Replace revision values.
+  _c4m_field_body_remove(
+    'field_revision_c4m_intro_text',
+    $columnName,
+    $db_needle,
+    $regex
+  );
 }
 
 /**
