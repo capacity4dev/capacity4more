@@ -9,5 +9,5 @@
  * Implements hook_install().
  */
 function c4m_content_feed_install() {
-  variable_set('pathauto_node_feed_pattern', 'feed/[node:title]');
+  variable_set('pathauto_node_feed_pattern', 'feeds/[node:title]');
 }
