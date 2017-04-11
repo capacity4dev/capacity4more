@@ -11,3 +11,45 @@
 function c4m_content_feed_install() {
   variable_set('pathauto_node_feed_pattern', 'feeds/[node:title]');
 }
+
+/**
+ * Update feed aliases to match Drupal 6 alias.
+ */
+function c4m_content_feed_update_7001() {
+  // Retrieve all feed nodes.
+  $feeds = _c4m_content_feed_get_feed_nodes();
+
+  if (empty($feeds)) {
+    return;
+  }
+
+  foreach ($feeds as $feed) {
+    $feed->path['pathauto'] = 1;
+    $feed->revision = FALSE;
+    node_save($feed);
+  }
+}
+/**
+ * Load all feed nodes.
+ *
+ * @return array
+ *   Array of feed node objects.
+ */
+function _c4m_content_feed_get_feed_nodes() {
+  $feeds = array();
+
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('n.type', 'feed', '=')
+    ->execute();
+
+  $feed_nids = $query->fetchAllAssoc('nid');
+
+  if (empty($feed_nids)) {
+    return $feeds;
+  }
+
+  $feeds = node_load_multiple(array_keys($feed_nids));
+
+  return $feeds;
+}
