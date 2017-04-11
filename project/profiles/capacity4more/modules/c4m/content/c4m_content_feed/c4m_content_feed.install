@@ -9,5 +9,222 @@
  * Implements hook_install().
  */
 function c4m_content_feed_install() {
-  variable_set('pathauto_node_feed_pattern', 'feed/[node:title]');
+  variable_set('pathauto_node_feed_pattern', 'feeds/[node:title]');
+}
+
+/**
+ * Update feed aliases to match Drupal 6 alias.
+ */
+function c4m_content_feed_update_7001() {
+  // Retrieve all feed nodes.
+  $feeds = _c4m_content_feed_get_feed_nodes();
+
+  if (empty($feeds)) {
+    return;
+  }
+
+  foreach ($feeds as $feed) {
+    $feed->path['pathauto'] = 1;
+    $feed->revision = FALSE;
+    node_save($feed);
+  }
+}
+
+/**
+ * Create redirects for all old rss aliases.
+ */
+function c4m_content_feed_update_7002() {
+  $redirects = _c4m_content_feed_get_redirect_mapping();
+  foreach ($redirects as $redirect_mapped) {
+    $redirect = new stdClass();
+
+    redirect_object_prepare(
+      $redirect,
+      array(
+        'uid' => 1,
+        'source' => $redirect_mapped['src'],
+        'source_options' => array(),
+        'redirect' => $redirect_mapped['dst'],
+        'redirect_options' => array(),
+        'language' => LANGUAGE_NONE,
+      )
+    );
+
+    $rid = redirect_load_by_hash(redirect_hash($redirect));
+    if (empty($rid)) {
+      redirect_save($redirect);
+    }
+  }
+}
+
+/**
+ * Load all feed nodes.
+ *
+ * @return array
+ *   Array of feed node objects.
+ */
+function _c4m_content_feed_get_feed_nodes() {
+  $feeds = array();
+
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('n.type', 'feed', '=')
+    ->execute();
+
+  $feed_nids = $query->fetchAllAssoc('nid');
+
+  if (empty($feed_nids)) {
+    return $feeds;
+  }
+
+  $feeds = node_load_multiple(array_keys($feed_nids));
+
+  return $feeds;
+}
+
+/**
+ * Return array of mapped RSS redirects to create.
+ *
+ * @return array
+ *   Mappings with src and dst keys.
+ */
+function _c4m_content_feed_get_redirect_mapping() {
+  return array(
+    array(
+      'src' => 'feed/c4d-aid-effectiveness-and-results/rss',
+      'dst' => 'feeds/c4d-aid-effectiveness-and-results/rss',
+    ),
+    array(
+      'src' => 'feed/biodiversity-and-ecosystem-services/rss',
+      'dst' => 'feeds/biodiversity-and-ecosystem-services/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-budget-support/rss',
+      'dst' => 'feeds/c4d-budget-support/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-children-and-youth/rss',
+      'dst' => 'feeds/c4d-children-and-youth/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-civil-society/rss',
+      'dst' => 'feeds/c4d-civil-society/rss',
+    ),
+    array(
+      'src' => 'feed/climate-change-disaster-risk-reduction-and-desertification/rss',
+      'dst' => 'feeds/climate-change-disaster-risk-reduction-and-desertification/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-culture/rss',
+      'dst' => 'feeds/c4d-culture/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-democracy-and-human-rights/rss',
+      'dst' => 'feeds/c4d-democracy-and-human-rights/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-capacity-development-and-knowledge/rss',
+      'dst' => 'feeds/c4d-capacity-development-and-knowledge/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-education/rss',
+      'dst' => 'feeds/c4d-education/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-employment-vet-and-social-protection/rss',
+      'dst' => 'feeds/c4d-employment-vet-and-social-protection/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-energy/rss',
+      'dst' => 'feeds/c4d-energy/rss',
+    ),
+    array(
+      'src' => 'feed/environment-and-green-economy/rss',
+      'dst' => 'feeds/environment-and-green-economy/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-food-nutrition-security/rss',
+      'dst' => 'feeds/c4d-food-nutrition-security/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-fragility-crisis-situations/rss',
+      'dst' => 'feeds/c4d-fragility-crisis-situations/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-gender/rss',
+      'dst' => 'feeds/c4d-gender/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-governance/rss',
+      'dst' => 'feeds/c4d-governance/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-health/rss',
+      'dst' => 'feeds/c4d-health/rss',
+    ),
+    array(
+      'src' => 'feed/innovative-financing-development-microfinance/rss',
+      'dst' => 'feeds/innovative-financing-development-microfinance/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-ict-space/rss',
+      'dst' => 'feeds/c4d-ict-space/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-public-sector-reform-decentralisation/rss',
+      'dst' => 'feeds/c4d-public-sector-reform-decentralisation/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-migration-asylum/rss',
+      'dst' => 'feeds/c4d-migration-asylum/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-design-monitoring-evaluation/rss',
+      'dst' => 'feeds/c4d-design-monitoring-evaluation/rss',
+    ),
+    array(
+      'src' => 'feed/peace-and-security/rss',
+      'dst' => 'feeds/peace-and-security/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-development-policy/rss',
+      'dst' => 'feeds/c4d-development-policy/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-private-sector-development/rss',
+      'dst' => 'feeds/c4d-private-sector-development/rss',
+    ),
+    array(
+      'src' => 'feed/promoting-sustainable-management-worlds-forests/rss',
+      'dst' => 'feeds/promoting-sustainable-management-worlds-forests/rss',
+    ),
+    array(
+      'src' => 'feed/public-finance-and-macroeconomy/rss',
+      'dst' => 'feeds/public-finance-and-macroeconomy/rss',
+    ),
+    array(
+      'src' => 'feed/trade-and-regional-integration/rss',
+      'dst' => 'feeds/trade-and-regional-integration/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-agriculture/rss',
+      'dst' => 'feeds/c4d-agriculture/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-transport/rss',
+      'dst' => 'feeds/c4d-transport/rss',
+    ),
+    array(
+      'src' => 'feed/bekou/rss',
+      'dst' => 'feeds/bekou/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-urban-development/rss',
+      'dst' => 'feeds/c4d-urban-development/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-water-sanitation/rss',
+      'dst' => 'feeds/c4d-water-sanitation/rss',
+    ),
+  );
 }
