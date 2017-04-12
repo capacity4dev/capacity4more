@@ -79,7 +79,20 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
 
   // Hide Book tab for all content types.
   if (isset($form['book'])) {
-    $form['book']['#access'] = FALSE;
+    // Check if outline is allowed.
+    // - User has to have the right administration permission.
+    // - Access to outline has to be enabled (admin/config/c4m/book).
+    if (!variable_get('open_book_outline', FALSE) || !user_access(
+        'administer book outlines'
+      )
+    ) {
+      $form['book']['#access'] = FALSE;
+    }
+    else {
+      // Some of our books have outlines from -76 to 78 or more,
+      // so we increase the range from -100 < 0 > 100.
+      $form['book']['#delta'] = 100;
+    }
   }
 
   // Add a cancel button to all node forms.
@@ -97,23 +110,30 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
   // Use destination parameter when set.
   $params = drupal_get_query_parameters();
   if (empty($params['destination'])) {
-    // Use javascript history.go(-1) when destination is not set.
-    $form['actions']['cancel'] = array(
-      '#type' => 'button',
-      '#value' => t('Cancel'),
-      '#attributes' => array('onClick' => 'history.go(-1); return true;'),
-      '#weight' => 14,
+    $node = $form['#node'];
+
+    if (!empty($node->nid)) {
+      // Editing content - build path to edited node.
+      $destination_on_cancel = '/node/' . $node->nid;
+    }
+    else {
+      // Creating content (at this stage, node id is not set yet).
+      $destination_on_cancel = c4m_content_construct_path_to_content_page($node->type);
+    }
+
+    $form_state['destination_on_cancel'] = array(
+      '#type' => 'hidden',
+      '#value' => $destination_on_cancel,
     );
   }
-  else {
-    $form['actions']['cancel'] = array(
-      '#type' => 'submit',
-      '#value' => t('Cancel'),
-      '#submit' => array('c4m_content_cancel_button_callback'),
-      '#limit_validation_errors' => array(),
-      '#weight' => 14,
-    );
-  }
+
+  $form['actions']['cancel'] = array(
+    '#type' => 'submit',
+    '#value' => t('Cancel'),
+    '#submit' => array('c4m_content_cancel_button_callback'),
+    '#limit_validation_errors' => array(),
+    '#weight' => 14,
+  );
 
   $is_unpublish = $form['actions']['draft']['#value'] == t('Unpublish');
   $is_og_group = in_array($form['type']['#value'], array('group', 'project'));
@@ -121,6 +141,54 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
   if ($is_unpublish && $is_og_group) {
     $form['actions']['draft']['#access'] = FALSE;
   }
+}
+
+/**
+ * Returns path to content page.
+ *
+ * @param string $content_type
+ *   The name of content type.
+ *
+ * @return string
+ *   Path to group content page
+ *   If $content_type is not group ('group'/'project') or group content,
+ *   defaults to site homepage.
+ */
+function c4m_content_construct_path_to_content_page($content_type) {
+  $group_content_types = array_keys(c4m_og_get_all_group_content_bundles('node'));
+
+  // Handling types that are not content of a group.
+  if (!in_array($content_type, $group_content_types)) {
+    // Cancel path for 'group'/'project' types should point to
+    // their view.
+    $types_path = array(
+      'group' => 'groups',
+      'project' => 'projects',
+    );
+
+    if (in_array($content_type, array_keys($types_path))) {
+      return $types_path[$content_type];
+    }
+
+    // Cancel path for others (article, book, etc...) should point to
+    // site homepage.
+    return '<front>';
+  }
+
+  // Handling types that are content of a group.
+  $types_path = array(
+    'wiki_page' => 'wiki',
+    'document' => 'documents',
+    'discussion' => 'discussions',
+    'photo' => 'media',
+    'photoalbum' => 'media',
+    'event' => 'calendar',
+    'news' => 'news',
+    'share' => '',
+  );
+
+  // Cancel path should point to types view, under purl.
+  return c4m_og_current_group_purl() . '/' . $types_path[$content_type];
 }
 
 /**
@@ -159,8 +227,12 @@ function c4m_content_module_implements_alter(&$implementations, $hook) {
 /**
  * Cancel button callback when a destination parameter was set.
  */
-function c4m_content_cancel_button_callback($form, &$form_state) {
-  drupal_goto();
+function c4m_content_cancel_button_callback($form, $form_state) {
+  if (empty($form_state['destination_on_cancel'])) {
+    drupal_goto();
+  }
+
+  drupal_goto($form_state['destination_on_cancel']['#value']);
 }
 
 /**

@@ -1233,7 +1233,6 @@ function c4m_user_notifications_message_subscribe_get_subscribers(
   // Filtering users and preparing final user list.
   $users = user_load_multiple(array_keys($users));
   foreach ($users as $key => &$value) {
-
     // When node is group or group content, filter banned users.
     if (!is_null($group) && c4m_user_og_get_role_in_group(
         $value,
@@ -1251,6 +1250,27 @@ function c4m_user_notifications_message_subscribe_get_subscribers(
     else {
       // If not found, filter the user.
       unset($users[$key]);
+    }
+  }
+
+  // If this is a share action, we have to filter users that don't have access.
+  if ($message->type === 'c4m_new_content_share_published') {
+    $original_node_array = $message->field_node;
+    $original_node = node_load(
+      $original_node_array[LANGUAGE_NONE][0]['target_id']
+    );
+
+    foreach ($users as $key => $user_value) {
+      $user = user_load($key);
+
+      // Check if the user has access to:
+      // - The original node (being shared).
+      // - The group we share the node to.
+      if (!node_access('view', $node, $user)
+        || !node_access('view', $original_node, $user)
+      ) {
+        unset($users[$key]);
+      }
     }
   }
 

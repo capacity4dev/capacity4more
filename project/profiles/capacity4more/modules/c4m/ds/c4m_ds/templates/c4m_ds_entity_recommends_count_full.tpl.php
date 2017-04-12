@@ -11,5 +11,5 @@
 
 <span class="row-entity-count count-recommends">
   <i class="fa fa-thumbs-o-up"></i>
-  <?php print $count; ?> <?php print $text; ?>
+  <?php print $text; ?>
 </span>

@@ -23,7 +23,7 @@ function c4m_content_photoalbum_path_breadcrumbs_settings_info() {
       2 => '%nodeidnumber:title',
     ),
     'paths' => array(
-      0 => '<front>',
+      0 => 'node/%nodeidnumber:og-group-ref:nid',
       1 => 'media',
       2 => '<none>',
     ),

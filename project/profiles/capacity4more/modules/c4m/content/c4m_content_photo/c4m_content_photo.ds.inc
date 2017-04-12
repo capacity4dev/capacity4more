@@ -301,7 +301,7 @@ function c4m_content_photo_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '0',
+        'link' => '1',
         'wrapper' => 'h3',
         'class' => '',
         'ft' => array(
@@ -759,7 +759,11 @@ function c4m_content_photo_ds_layout_settings_info() {
       'c4m_media' => 'left',
       'c4m_body' => 'right',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'header' => 'div',
       'left' => 'div',

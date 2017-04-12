@@ -145,11 +145,11 @@ function theme_c4m_features_og_members_activity_summary(array $field) {
     return;
   }
 
-  // Count published posts of user in this group.
-  $count_posts = c4m_user_og_count_nodes_in_group($user->uid, $group->nid);
+  // Get published posts of user in this group.
+  $count_posts = c4m_og_get_membership_totals($group->nid, $user->uid, 'node');
 
-  // Count published comments of user in this group.
-  $count_comments = c4m_user_og_count_comments_in_group($user->uid, $group->nid);
+  // Get published comments of user in this group.
+  $count_comments = c4m_og_get_membership_totals($group->nid, $user->uid, 'comment');
 
   // Format the string to show the number of posts/comments.
   $output = c4m_ds_user_activity_summary_helper($count_posts, $count_comments);
@@ -181,8 +181,8 @@ function theme_c4m_features_og_members_activity_posts(array $field) {
     return;
   }
 
-  // Count published posts of user in this group.
-  $count = c4m_user_og_count_nodes_in_group($user->uid, $group->nid);
+  // Get published posts of user in this group.
+  $count =  c4m_og_get_membership_totals($group->nid, $user->uid, 'node');
   return format_plural($count, '1 Post', '@count Posts');
 }
 
@@ -211,7 +211,7 @@ function theme_c4m_features_og_members_activity_comments(array $field) {
     return;
   }
 
-  // Count published posts of user in this group.
-  $count = c4m_user_og_count_comments_in_group($user->uid, $group->nid);
+  // Get published comments of user in this group.
+  $count = c4m_og_get_membership_totals($group->nid, $user->uid, 'comment');
   return format_plural($count, '1 Comment', '@count Comments');
 }

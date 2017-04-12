@@ -170,7 +170,7 @@ function _c4m_message_format_welcome_to_group_from_field(
     array(
       '@name' => c4m_user_name($author),
       '@site' => variable_get('site_name'),
-      '@mail' => $author->mail,
+      '@mail' => variable_get('site_mail'),
     )
   );
 }
@@ -580,14 +580,12 @@ function _c4m_message_format_from_field_to_default_pattern(
     $account = $user;
   }
 
-  $mail = $account->mail;
-
   $message['from'] = format_string(
     '"@name at @site"<@mail>',
     array(
       '@name' => c4m_user_name($account),
       '@site' => variable_get('site_name'),
-      '@mail' => $mail,
+      '@mail' => variable_get('site_mail'),
     )
   );
 }
@@ -596,7 +594,7 @@ function _c4m_message_format_from_field_to_default_pattern(
  * Helper function.
  *
  * Modifies messages 'From' field, to match pattern:
- * "[name]"<capacity4dev@ec.europa.eu>.
+ * "[name]"<automated-notifications@noreply.ec.europa.eu>.
  *
  * @param object $message
  *   Message entity.
@@ -617,7 +615,7 @@ function _c4m_message_format_from_field_to_simple_pattern(
     '"@name"<@mail>',
     array(
       '@name' => $name,
-      '@mail' => 'capacity4dev@ec.europa.eu',
+      '@mail' => variable_get('site_mail'),
     )
   );
 }
@@ -2079,7 +2077,7 @@ function c4m_message_format_original_group_url(Message $message) {
     'absolute' => TRUE,
     'purl' => array(
       'provider' => 'og_purl|node',
-
+      'enabled' => TRUE,
       'id' => $group_wrapper->nid->value(),
     ),
   );
@@ -2562,8 +2560,7 @@ function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
 
   $uid = $message->uid;
   $account = user_load($uid);
-  $wrapper = entity_metadata_wrapper('user', $account);
-  $hash = $wrapper->c4m_unsubscribe_hash->value();
+  $hash = c4m_user_profile_get_or_create_account_unsubscribe_hash($account);
 
   $options = array(
     'absolute' => TRUE,
@@ -3253,6 +3250,7 @@ function c4m_message_format_group_share(Message $message) {
     'purl' => array(
       'provider' => 'og_purl|node',
       'id' => $group_wrapper->nid->value(),
+      'enabled' => TRUE,
     ),
   );
 

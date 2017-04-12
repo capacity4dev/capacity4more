@@ -208,6 +208,18 @@ function c4m_content_photo_strongarm() {
             'weight' => '31',
             'visible' => FALSE,
           ),
+          'teaser' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'activity_global' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'activity_group' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
         ),
       ),
     ),

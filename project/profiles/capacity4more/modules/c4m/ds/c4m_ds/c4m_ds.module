@@ -829,7 +829,7 @@ function c4m_ds_theme() {
       'template' => 'c4m_ds_entity_recommends_count',
     ),
     'c4m_ds_entity_recommends_count_full' => array(
-      'variables' => array('count' => 0, 'text' => ''),
+      'variables' => array('text' => ''),
       'path' => $path,
       'template' => 'c4m_ds_entity_recommends_count_full',
     ),

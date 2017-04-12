@@ -110,6 +110,8 @@ div.contextual-links-wrapper {
   position: relative;
   height: 100%;
   overflow-x: hidden;
+  overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;
 }
 
 .popover {

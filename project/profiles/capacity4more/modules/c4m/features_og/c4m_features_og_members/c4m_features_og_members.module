@@ -528,7 +528,7 @@ function _c4m_features_og_members_get_user_type($group = NULL, $user = NULL) {
     return C4M_USER_TYPE_GA;
   }
 
-  return og_is_member('node', $group->nid) ? C4M_USER_TYPE_GM : C4M_USER_TYPE_NON_MEMBER;
+  return og_is_member('node', $group->nid, 'user', $user) ? C4M_USER_TYPE_GM : C4M_USER_TYPE_NON_MEMBER;
 }
 
 /**
@@ -649,4 +649,86 @@ function c4m_features_og_members_preprocess_views_view_table(&$vars) {
       'fourth' => NULL,
     )
   );
+}
+
+/**
+ * Implements hook_views_post_execute().
+ *
+ * Members group overview may receive incorrect results from SOLR, when
+ * queried by 'contributions' field.
+ * This hook makes sure correct values are returned.
+ */
+function c4m_features_og_members_views_post_execute(&$view) {
+  if ($view->name != 'c4m_overview_og_members') {
+    // Not Members group overview.
+    return;
+  }
+
+  if (!isset($view->exposed_input['sort']) || $view->exposed_input['sort'] != 'c4m_user_contributions') {
+    // Not queried by 'contributions' field.
+    return;
+  }
+
+  // Get original search api query from view.
+  $query = $view->query->getSearchApiQuery();
+  // Retrieve orderBy, limit and offset conditions.
+  $order = $view->exposed_input['order'];
+  $limit = $query->getOption('limit');
+  $offset = $query->getOption('offset');
+
+  // Remove orderBy condition, from query.
+  $sort = &$query->getSort();
+  unset($sort['c4m_user_contributions']);
+
+  // Remove limit and offset conditions from query.
+  $options = &$query->getOptions();
+  unset($options['limit']);
+  unset($options['offset']);
+
+  // Execute simplified search api query.
+  $result = $query->execute();
+  // Retrieve users ids from query results.
+  $uids = array_keys($result['results']);
+
+  $group = c4m_og_current_group();
+  $users = c4m_features_get_users_at_group_orderby_contributions($group->nid, $uids, $order, $offset, $limit);
+
+  foreach ($view->result as $index => &$result) {
+    $result->entity = $users[$index]->etid;
+  }
+
+  // Restore value of sort, as view uses it when generating 'Sort by:' field.
+  $query->sort('c4m_user_contributions', $order);
+}
+
+/**
+ * Retrieves group members IDs, ordered by their total contributions.
+ *
+ * @param int $gid
+ *   Group ID.
+ * @param array $uids
+ *   User IDs.
+ * @param string $order
+ *   ASC | DESC.
+ * @param int $offset
+ *   The first record from the result set to return. If NULL, removes any
+ *   range directives that are set.
+ * @param int $limit
+ *   The number of records to return from the result set.
+ *
+ * @return mixed
+ *   Records containing user IDs.
+ */
+function c4m_features_get_users_at_group_orderby_contributions($gid, array $uids, $order, $offset, $limit) {
+  $query = db_select('og_membership', 'ogm');
+  $query->leftJoin('field_data_c4m_og_total_comments', 'tc', 'ogm.id = tc.entity_id');
+  $query->leftJoin('field_data_c4m_og_total_posts', 'tp', 'ogm.id = tp.entity_id');
+  $query->fields('ogm', array('etid'))
+    ->addExpression('(tc.c4m_og_total_comments_value + tp.c4m_og_total_posts_value)', 'totals');
+  $query->condition('ogm.gid', $gid)
+    ->condition('ogm.etid', $uids, 'IN')
+    ->orderBy('totals', $order)
+    ->range($offset, $limit);
+
+  return $query->execute()->fetchAll();
 }

@@ -22,7 +22,7 @@ function c4m_features_og_documents_path_breadcrumbs_settings_info() {
       2 => '%nodeidnumber:title',
     ),
     'paths' => array(
-      0 => '<front>',
+      0 => 'node/%nodeidnumber:og-group-ref:nid',
       1 => 'documents',
       2 => '<none>',
     ),

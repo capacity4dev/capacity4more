@@ -195,8 +195,10 @@ angular.module('c4mApp')
      *  The name of the field.
      */
     $scope.updateType = function (type, field) {
-      // Update type field.
-      $scope.data[field] = $scope.data[field] == type ? '' : type;
+      // Update type field, unless its's already set to input value.
+      if ($scope.data[field] != type) {
+        $scope.data[field] = type;
+      }
     };
 
     // Toggle the visibility of the popovers.

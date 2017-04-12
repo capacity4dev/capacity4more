@@ -195,7 +195,7 @@ function c4m_content_article_field_default_field_instances() {
       'settings' => array(
         'allowed_schemes' => array(
           'private' => 'private',
-          'public' => 0,
+          'public' => 'public',
         ),
         'allowed_types' => array(
           'audio' => 0,
@@ -224,21 +224,11 @@ function c4m_content_article_field_default_field_instances() {
     'display' => array(
       'activity_global' => array(
         'label' => 'hidden',
-        'module' => 'smart_trim',
+        'module' => 'text',
         'settings' => array(
-          'more_link' => 0,
-          'more_text' => 'Read more',
-          'summary_handler' => 'trim',
-          'trim_length' => 200,
-          'trim_link' => FALSE,
-          'trim_options' => array(
-            'text' => 'text',
-          ),
-          'trim_preserve_tags' => '',
-          'trim_suffix' => '...',
-          'trim_type' => 'chars',
+          'trim_length' => 300,
         ),
-        'type' => 'smart_trim_format',
+        'type' => 'text_summary_or_trimmed',
         'weight' => 1,
       ),
       'activity_group' => array(
