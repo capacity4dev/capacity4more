@@ -507,6 +507,29 @@ ul:not([class*="facetapi-facet-c4m-vocab-topic"]) {
   color: $color-gray-dark !important;
 }
 
+.paragraphs-item-c4m-paragraph-system-block {
+  .view-mode-teaser {
+    .posted-by,
+    .creation-date,
+    .row-entity-count {
+      color: $color-gray-lighter !important;
+    }
+
+    .group-footer {
+      clear: both;
+      overflow: hidden;
+
+      > div {
+        float: right;
+      }
+
+      .c4m-node-highlight {
+        margin: 0;
+      }
+    }
+  }
+}
+
 .search-keyword {
   color: $color-highlight;
   font-weight: bold;

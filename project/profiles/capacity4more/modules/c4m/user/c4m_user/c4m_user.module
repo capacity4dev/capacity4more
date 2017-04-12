@@ -5,7 +5,7 @@
  * Code for the C4M user feature.
  */
 
-include_once 'c4m_user.features.inc';
+require_once __DIR__ . '/c4m_user.features.inc';
 
 define('C4M_USER_TYPE_VISITOR', 'visitor');
 define('C4M_USER_TYPE_NON_MEMBER', 'non member');
@@ -682,6 +682,9 @@ function c4m_user_menu() {
 
 /**
  * Callback providing tailored access denied behaviour.
+ *
+ * @return array|null
+ *   Return login form if user is visitor, access denied if user is logged in.
  */
 function c4m_user_access_denied() {
   if (user_is_anonymous()) {
@@ -841,7 +844,6 @@ function c4m_user_contact_form_submit($form, $form_state) {
 
   _c4m_user_send_mail(
     $addressee_account->mail,
-    $user->mail,
     $subject,
     $body,
     $addressee_language
@@ -853,7 +855,6 @@ function c4m_user_contact_form_submit($form, $form_state) {
     // message for it.
     $user_language = user_preferred_language($user);
     _c4m_user_send_mail(
-      $user->mail,
       $user->mail,
       "Self copy: {$subject}",
       $body,
@@ -868,8 +869,6 @@ function c4m_user_contact_form_submit($form, $form_state) {
  *
  * @param string $to
  *   Email destination address.
- * @param string $from
- *   Email source address - current user email.
  * @param string $subject
  *   Email message subject.
  * @param string $body
@@ -881,7 +880,6 @@ function c4m_user_contact_form_submit($form, $form_state) {
  */
 function _c4m_user_send_mail(
   $to,
-  $from,
   $subject,
   $body,
   $language,
@@ -891,6 +889,7 @@ function _c4m_user_send_mail(
   $key = 'user_contact_mail';
   $params = array();
   $send = FALSE;
+  $from = variable_get('site_mail');
 
   $message = drupal_mail($module, $key, $to, $language, $params, $from, $send);
   $message['subject'] = $subject;
@@ -1025,7 +1024,7 @@ function c4m_user_update_information(
         if ($info['dg']) {
           $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $info['dg'];
         }
-        if (empty($edit['c4m_organisation'][LANGUAGE_NONE]['0']['value']) && $domain->organisation_name) {
+        if (_c4m_user_is_organisation_empty($edit) && $domain->organisation_name) {
           $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $domain->organisation_name;
         }
         $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 1;
@@ -1067,7 +1066,7 @@ function c4m_user_update_information(
       $edit['c4m_organisation_type'][LANGUAGE_NONE]['0']['value'] = $organisation->c4m_organisation_type->value(
       );
     }
-    if (empty($edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'])) {
+    if (_c4m_user_is_organisation_empty($edit)) {
       $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $organisation->title->value(
       );
     }
@@ -1082,9 +1081,22 @@ function c4m_user_update_information(
     $edit['c4m_organisation_type'][LANGUAGE_NONE] = array();
   }
 
-  if ($edit) {
+  if (!empty($edit)) {
     user_save($account, $edit);
   }
+}
+
+/**
+ * Check if the user has an empty organisation.
+ *
+ * @param array $edit
+ *   Edit array.
+ *
+ * @return bool
+ *   TRUE if the c4m_organisation field array value is empty.
+ */
+function _c4m_user_is_organisation_empty(array $edit) {
+  return empty($edit['c4m_organisation'][LANGUAGE_NONE]['0']['value']);
 }
 
 /**
@@ -1483,7 +1495,7 @@ function c4m_user_form_alter(&$form, &$form_state, $form_id) {
           'user/password',
           array(
             'absolute' => TRUE,
-            'query' => c4m_og_purl_get_destination(),
+            'query' => array('destination' => request_path()),
           )
         ),
       )
@@ -1523,7 +1535,7 @@ function c4m_user_registrationpassword_confirmation_url($account) {
  *   Whether user is site administrator.
  */
 function c4m_user_is_site_admin($user = NULL) {
-  if (is_null($user)) {
+  if (NULL === $user) {
     global $user;
   }
 

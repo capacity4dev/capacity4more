@@ -1,0 +1,297 @@
+<?php
+
+/**
+ * @file
+ * Installation and update hooks for the body field.
+ */
+
+/**
+ * Replace all malformed [c4d-image] tags with proper HTML img tags.
+ */
+function c4m_field_body_update_7001(&$sandbox) {
+  // Retrieve all c4m_body and c4m_body revisions containing [c4d-image*].
+  $columnName = 'c4m_body_value';
+  $needle = '[c4d-image';
+
+  // Replace the main field value.
+  _c4m_field_body_replace_c4d_image(
+    'field_data_c4m_body',
+    $columnName,
+    $needle
+  );
+
+  // Replace revision values.
+  _c4m_field_body_replace_c4d_image(
+    'field_revision_c4m_body',
+    $columnName,
+    $needle
+  );
+}
+
+/**
+ * Remove all occurrences of orphaned [ec_media] tags.
+ */
+function c4m_field_body_update_7002(&$sandbox) {
+  // Retrieve all c4m_body and c4m_body revisions containing [ec_media*].
+  $columnName = 'c4m_body_value';
+  $db_needle = '[ec_media';
+  $regex = '/\[ec_media:([^:]*)(.*?)\]/isU';
+
+  // Replace the main field value.
+  _c4m_field_body_remove(
+    'field_data_c4m_body',
+    $columnName,
+    $db_needle,
+    $regex
+  );
+
+  // Replace revision values.
+  _c4m_field_body_remove(
+    'field_revision_c4m_body',
+    $columnName,
+    $db_needle,
+    $regex
+  );
+
+  // Retrieve all c4m_intro_text revisions containing [ec_media*].
+  $columnName = 'c4m_intro_text_value';
+
+  // Replace the main field value.
+  _c4m_field_body_remove(
+    'field_data_c4m_intro_text',
+    $columnName,
+    $db_needle,
+    $regex
+  );
+
+  // Replace revision values.
+  _c4m_field_body_remove(
+    'field_revision_c4m_intro_text',
+    $columnName,
+    $db_needle,
+    $regex
+  );
+}
+
+/**
+ * Remove all occurrences of [c4d:image] tags in the article intro.
+ */
+function c4m_field_body_update_7003(&$sandbox) {
+  // Retrieve all c4m_intro_text and revisions containing [ec_media*].
+  $columnName = 'c4m_intro_text_value';
+  $db_needle = '[c4d-image';
+  $regex = '/\[c4d-image==([^=]*)==(.*?)\]/isU';
+
+  // Replace the main field value.
+  _c4m_field_body_remove(
+    'field_data_c4m_intro_text',
+    $columnName,
+    $db_needle,
+    $regex
+  );
+
+  // Replace revision values.
+  _c4m_field_body_remove(
+    'field_revision_c4m_intro_text',
+    $columnName,
+    $db_needle,
+    $regex
+  );
+}
+
+/**
+ * Helper function to replace all occurrences of "needle" with an image tag.
+ *
+ * @param string $tableName
+ *   Database table to search.
+ * @param string $columnName
+ *   Column to search in.
+ * @param string $needle
+ *   Needle to search for.
+ */
+function _c4m_field_body_replace_c4d_image($tableName, $columnName, $needle) {
+  $c4m_body = _c4m_field_body_get_c4d_db_rows(
+    $tableName,
+    $columnName,
+    $needle
+  );
+
+  if (!empty($c4m_body)) {
+    // Iterate over all of them and replace the tag with a <img /> tag.
+    foreach ($c4m_body as $c4m_body_result) {
+      $data_array = _c4m_field_body_parse($c4m_body_result, $columnName);
+
+      if (!empty($data_array)) {
+        // Replace entire tag with a new image tag.
+        $new_body_value = _c4m_field_body_process(
+          $c4m_body_result,
+          $columnName,
+          $data_array['source']
+        );
+
+        // Update database.
+        db_update($tableName)
+          ->fields(array($columnName => $new_body_value))
+          ->condition('entity_id', $c4m_body_result->entity_id, '=')
+          ->condition('entity_type', $c4m_body_result->entity_type, '=')
+          ->condition('revision_id', $c4m_body_result->revision_id, '=')
+          ->execute();
+      }
+    }
+  }
+}
+
+/**
+ * Retrieve database resultset with matching rows.
+ *
+ * @param string $table_name
+ *   Name of the database table to search in.
+ * @param string $column_name
+ *   Column name within the database row.
+ * @param string $needle
+ *   What to search for.
+ *
+ * @return \DatabaseStatementInterface
+ *   Database rows matching the needle.
+ */
+function _c4m_field_body_get_c4d_db_rows($table_name, $column_name, $needle) {
+  $query = db_select($table_name)
+    ->fields($table_name)
+    ->condition($column_name, '%' . db_like($needle) . '%', 'LIKE');
+
+  return $query->execute();
+}
+
+/**
+ * Find and parse a data result row.
+ *
+ * @param object $object
+ *   Database result object.
+ * @param string $field
+ *   Name of the field to parse.
+ *
+ * @return array|bool
+ *   FALSE if no matches found, array with parsed data if found.
+ */
+function _c4m_field_body_parse($object, $field) {
+  $data = array(
+    'tag' => $object->field,
+    'source' => NULL,
+  );
+
+  // Parse the tag.
+  $parts = array();
+  $pattern = '/\[c4d-image==([^=]*)==(.*?)\]/isU';
+  preg_match($pattern, $object->{$field}, $parts);
+
+  // Check tag.
+  if (!$parts) {
+    return FALSE;
+  }
+
+  // Fill data into the data array.
+  $source = _c4m_field_body_cleanup($parts[1]);
+  $data['tag'] = $parts[0];
+  $data['source'] = $source;
+
+  return $data;
+}
+
+/**
+ * Process a data tag replacement with an img tag.
+ *
+ * @param object $object
+ *   Database result object.
+ * @param string $field
+ *   Name of the field to parse.
+ * @param string $image_src
+ *   Image source to put as replacement.
+ *
+ * @return string
+ *   Source field with the replacement done.
+ */
+function _c4m_field_body_process($object, $field, $image_src) {
+  $pattern = '/\[c4d-image==([^=]*)==(.*?)\]/isU';
+
+  return preg_replace(
+    $pattern,
+    '<img src="' . $image_src . '" alt="" />',
+    $object->{$field}
+  );
+}
+
+/**
+ * Cleanup the source URL.
+ *
+ * @param string $source
+ *   The source URL.
+ *
+ * @return string
+ *   The cleaned up version of the string.
+ */
+function _c4m_field_body_cleanup($source) {
+  // Relative path.
+  $pattern = '/^(\.\.\/)+/is';
+  if (1 === preg_match($pattern, $source)) {
+    $source = preg_replace($pattern, NULL, $source);
+  }
+
+  // PURL paths.
+  $pattern = '/^\/[^\/]*\/system\/files\//isU';
+  if (1 === preg_match($pattern, $source)) {
+    $source = preg_replace($pattern, 'sites/default/files/', $source);
+  }
+
+  // Private file system.
+  $pattern = '/^(\/)?system\/files\//isU';
+  if (1 === preg_match($pattern, $source)) {
+    $source = preg_replace($pattern, 'sites/default/files/', $source);
+  }
+
+  // Remove first /.
+  $pattern = '/^\//isU';
+  if (1 === preg_match($pattern, $source)) {
+    $source = preg_replace($pattern, NULL, $source);
+  }
+
+  return $source;
+}
+
+/**
+ * Helper function to remove all occurrences of "needle".
+ *
+ * @param string $tableName
+ *   Database table to search.
+ * @param string $columnName
+ *   Column to search in.
+ * @param string $db_needle
+ *   Needle to search for in the database.
+ * @param string $regex
+ *   Full regex to remove.
+ */
+function _c4m_field_body_remove($tableName, $columnName, $db_needle, $regex) {
+  $c4m_body = _c4m_field_body_get_c4d_db_rows(
+    $tableName,
+    $columnName,
+    $db_needle
+  );
+
+  if (!empty($c4m_body)) {
+    // Iterate over all of them and remove the tag.
+    foreach ($c4m_body as $c4m_body_result) {
+      $new_body_value = preg_replace(
+        $regex,
+        '',
+        $c4m_body_result->{$columnName}
+      );
+
+      // Update database.
+      db_update($tableName)
+        ->fields(array($columnName => $new_body_value))
+        ->condition('entity_id', $c4m_body_result->entity_id, '=')
+        ->condition('entity_type', $c4m_body_result->entity_type, '=')
+        ->condition('revision_id', $c4m_body_result->revision_id, '=')
+        ->execute();
+    }
+  }
+}
