@@ -47,3 +47,9 @@ cp -a "$DIR_ROOT/config/build/settings/settings.php" "$DIR_WEB/sites/default"
 message_success "Master Settings file copied to build"
 
 echo
+
+source "$DIR_CONFIG/build/drupal_install_config.sh"
+
+markup_h1 "Copy config files and protect them."
+drupal_sites_default_config_copy
+echo

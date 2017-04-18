@@ -3,6 +3,9 @@
 # This file should never be in a repository!
 /config/config.sh
 
+# Local config file containing overrides for config.local.inc.
+/config/drupal/config.local.override.inc
+
 # The backups folder is used to store local backups whan one of the scripts is
 # performing destructive operations. No need for it in the repository.
 /backup
