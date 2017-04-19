@@ -1,7 +1,7 @@
 ################################################################################
 # This is the global configuration file.
 #
-# ! It contains sensitive data and should never be comitted to a repository.
+# ! It contains sensitive data and should never be committed to a repository.
 #
 # Copy this example to config/config.sh and fill in the values.
 # You can add extra config variables if you need them in your scripts.
