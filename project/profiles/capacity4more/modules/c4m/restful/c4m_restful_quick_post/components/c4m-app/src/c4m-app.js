@@ -11,6 +11,7 @@ angular.module('c4mApp', [
   'angularFileUpload',
   'ngAnimate',
   'angular-carousel',
+  'ngFileUpload',
   'ngTouch'
 ], function ($httpProvider) {
 

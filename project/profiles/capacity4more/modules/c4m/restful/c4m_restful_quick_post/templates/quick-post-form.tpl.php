@@ -117,6 +117,11 @@ instead.</span>
   {{ error.topic }}
 </div>
 
+  <div class="input-wrapper">
+    <label><?php print t('Attachment') ?></label>
+    <input type="file" ng-model="data.attachment" ngf-select="onFileSelect([$file], 'document')" class="form-control"/>
+  </div>
+
   <div class="actions-row">
     <div class="actions-row-group">
       <input type="checkbox" id="notification" ng-model="data.notification" title="Notify members of the group about this post">
