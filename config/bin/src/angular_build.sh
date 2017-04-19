@@ -11,8 +11,8 @@
 ##
 function angular_build {
   angular_build_npm
-  angular_build_grunt $1
   angular_bower_install
+  angular_build_grunt $1
 }
 
 ##
