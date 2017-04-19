@@ -4,6 +4,13 @@
  * @file
  * Template to render the Quick post forms.
  */
+
+global $user;
+$og_context = og_context();
+
+// Display quick post form only if the visitor is a group member.
+if (og_is_member('node', $og_context['gid'], 'user', $user)) {
+
 ?>
 <form name="entityForm" id="quick-post-form"
       ng-submit="submitForm(data, selectedResource, 'quick_post')"
@@ -140,3 +147,7 @@ instead.</span>
     <?php print t('Error saving {{ resources[createdResource].bundle }}.') ?>
   </div>
 </div>
+
+<?php
+}
+?>
