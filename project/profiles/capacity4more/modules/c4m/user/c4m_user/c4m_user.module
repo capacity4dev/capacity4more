@@ -1402,6 +1402,83 @@ function c4m_user_ckeditor_settings_alter(&$settings, $conf) {
 }
 
 /**
+ * Implements hook_entity_insert().
+ *
+ * Flags OG content that require notification, when commenting on existing
+ * content, and when new new content is added.
+ */
+function c4m_user_entity_insert($entity, $type) {
+  if (!og_context()) {
+    // Flagging is done for OG context only.
+    return;
+  }
+
+  if ($type == 'node') {
+    // Add 'follow node' flag.
+    _c4m_user_flag_content($entity->nid, $entity->type, 'subscribe_c4m_follow_node');
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ *
+ * Flags OG content that require notification, on existing content update.
+ */
+function c4m_user_entity_update($entity, $type) {
+  if (!og_context()) {
+    // Flagging is done for OG context only.
+    return;
+  }
+
+  if ($type == 'node') {
+    // Add 'follow node' flag.
+    _c4m_user_flag_content($entity->nid, $entity->type, 'subscribe_c4m_follow_node');
+  }
+}
+
+/**
+ * Helper function.
+ *
+ * Flags node with provided flag, for user.
+ *
+ * @param int $nid
+ *   Node id.
+ * @param string $content_type
+ *   Node type.
+ * @param string $flag_name
+ *   Flag name for flagging.
+ */
+function _c4m_user_flag_content($nid, $content_type, $flag_name) {
+  if (!_c4m_user_content_node_requires_notification($content_type)) {
+    // No need to flag content that does not required notification.
+    return;
+  }
+
+  flag('flag', $flag_name, $nid);
+}
+
+/**
+ * Helper function.
+ *
+ * Flags node with provided flag, for user.
+ *
+ * @param string $content_type
+ *   Node type.
+ *
+ * @return bool
+ *   Whether provided node type required notification.
+ */
+function _c4m_user_content_node_requires_notification($content_type) {
+  $types_to_notify = array('wiki_page', 'discussion', 'document', 'event');
+  if (!in_array($content_type, $types_to_notify)) {
+    // Content does not required notification.
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
  * Implements hook_module_implements_alter().
  *
  * Ensures c4m_user form_alter runs after VBO.
