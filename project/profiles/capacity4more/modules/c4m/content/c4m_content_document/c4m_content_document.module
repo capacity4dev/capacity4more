@@ -24,6 +24,38 @@ function c4m_content_document_c4m_og_vocab_info_content() {
 }
 
 /**
+ * Implements hook_menu_alter().
+ */
+function c4m_content_document_menu_alter(&$items) {
+  $items['node/add/document']['access callback'] = 'c4m_content_document_node_access';
+}
+
+/**
+ * Access for creating a document type node.
+ *
+ * @return bool|null
+ *   Allow or deny access for creating a new document type content.
+ */
+function c4m_content_document_node_access() {
+  global $user;
+
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+
+    return NODE_ACCESS_IGNORE;
+  }
+
+  if (og_node_access('document', 'create', $user) == NODE_ACCESS_ALLOW) {
+    return TRUE;
+  }
+
+  return NODE_ACCESS_IGNORE;
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Verifies user has access to the form.
