@@ -28,7 +28,7 @@ projects[redirect][subdir] = "contrib"
 projects[redirect][version] = "1.0-rc3"
 
 projects[path_redirect_import][subdir] = "contrib"
-projects[path_redirect_import][version] = 1.0-rc4"
+projects[path_redirect_import][version] = "1.0-rc4"
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
