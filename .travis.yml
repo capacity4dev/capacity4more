@@ -15,7 +15,7 @@ env:
     SIMPLETEST=0
 
 php:
-  - '5.6'
+  - '7'
 
 node_js:
   - '4'
