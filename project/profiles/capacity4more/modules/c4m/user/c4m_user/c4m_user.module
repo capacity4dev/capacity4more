@@ -967,9 +967,9 @@ function c4m_user_block_view($delta) {
 }
 
 /**
- * Implements hook_init().
+ * Implements hook_page_alter().
  */
-function c4m_user_init() {
+function c4m_user_page_alter(&$page) {
   if (user_is_anonymous()) {
     return;
   }
