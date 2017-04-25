@@ -974,17 +974,38 @@ function c4m_user_init() {
     return;
   }
 
-  // Already on a user edit page.
-  if (arg(0) == 'user' && arg(2) == 'edit') {
+  global $user;
+
+  $whitelisted = FALSE;
+
+  $edit_path = 'user/' . $user->uid . '/edit';
+
+  $whitelist_paths = array(
+    '/^user\/change-mail\/[0-9]+\/[0-9]+\/[a-zA-Z0-9_]+$/isU',
+    '/^user\/[0-9]+\/edit$/isU',
+    '/^user\/logout$/isU',
+    '/^api\/$/isU',
+  );
+
+  $path = current_path();
+
+  foreach ($whitelist_paths as $whitelist_path) {
+    if (preg_match($whitelist_path, $path)) {
+      $whitelisted = TRUE;
+    }
+  }
+
+  // Already on a user edit page or another whitelisted path.
+  if ($whitelisted) {
+    // Return function without doing the user_load.
     return;
   }
 
-  global $user;
-
+  // Global $user does not contain all extra fields.
   $account = user_load($user->uid);
 
   if (!empty($account->c4m_is_invalid_email[LANGUAGE_NONE][0]['value'])) {
-    drupal_goto('user/' . $user->uid . '/edit');
+    drupal_goto($edit_path);
   }
 }
 
