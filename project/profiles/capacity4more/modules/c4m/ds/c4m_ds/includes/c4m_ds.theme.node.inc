@@ -592,12 +592,13 @@ function theme_c4m_ds_group_recommendation_count_full(array $field) {
     'c4m_ds_entity_recommends_count_full',
     array(
       'text' => format_plural(
-        $recommends,
+        !empty($recommends) ? $recommends : 0,
         '1 recommendation',
         '@count recommendations',
-        array('@count' => (!empty($recommends) ? c4m_content_ec_number_format(
+        array('@count' => !empty($recommends) ? c4m_content_ec_number_format(
           $recommends
-        ) : 0))
+        ) : 0
+        )
       ),
     )
   );

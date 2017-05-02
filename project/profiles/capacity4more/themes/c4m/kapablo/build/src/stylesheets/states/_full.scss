@@ -136,7 +136,7 @@
     }
   }
 
-  .node-document {
+  .node-document:not(.view-mode-pinned_content) {
     .user-name, .posted-by, .creation-date {
       display: none;
     }
