@@ -1172,7 +1172,7 @@ function c4m_user_c4m_captcha_form_info() {
 function c4m_user_user_login(&$edit, $account) {
   c4m_user_update_information($account);
 
-  $account = user_load($account->uid);
+  $account = user_load($account->uid, TRUE);
 
   if (!empty($account->c4m_is_invalid_email[LANGUAGE_NONE][0]['value'])) {
     // $edit is the actual $form_state.
