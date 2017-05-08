@@ -1,5 +1,7 @@
 language: php
 
+group: deprecated-2017Q1
+
 env:
   - INSTALL_PROFILE=1
     BEHAT_TAG="api"
