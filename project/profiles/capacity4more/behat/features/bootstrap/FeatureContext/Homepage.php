@@ -93,11 +93,11 @@ trait Homepage {
   public function iShouldSeeFunctioningCarousel() {
     $steps[] = new Step\When('I should wait to see "Latest Articles"');
     $steps[] = new Step\When('I should see "Read more articles"');
-    $steps[] = new Step\When('I should see an "div.owl-carousel" element');
+//    $steps[] = new Step\When('I should see an "div.owl-carousel" element');
     $steps[] = new Step\When('I should see an "p.intro-text" element');
 
     // Flip to the next slide (If the test can't execute the function, an error will appear).
-    $this->getSession()->executeScript("jQuery('.owl-carousel').trigger('owl.next')");
+//    $this->getSession()->executeScript("jQuery('.owl-carousel').trigger('owl.next')");
 
     return $steps;
   }
