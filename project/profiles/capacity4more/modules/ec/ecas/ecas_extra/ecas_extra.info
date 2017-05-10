@@ -1,0 +1,13 @@
+name = ECAS extra
+package = "ECAS"
+description = "Provides extra features to the ECAS module"
+dependencies[] = ecas
+dependencies[] = views
+dependencies[] = views_bulk_operations
+core = 7.x
+
+files[] = ecas_extra.test
+
+; Views handlers
+files[] = includes/views/handlers/ecas_extra_handler_field_user_is_denied.inc
+files[] = includes/views/handlers/ecas_extra_handler_filter_user_is_denied.inc
