@@ -562,3 +562,50 @@ function _set_eu_cookie_compliance() {
 function capacity4more_update_7001() {
   c4m_og_update_groups_contributions();
 }
+
+/**
+ * Sets 'c4m_og_content_highlight' flag as global and aligns it's flagging.
+ */
+function capacity4more_update_7002() {
+  // Define 'c4m_og_content_highlight' flag as global.
+  $flag = flag_get_flag('c4m_og_content_highlight');
+  $flag->global = 1;
+  $flag->save();
+
+  // Get all entities flagged with 'c4m_og_content_highlight'.
+  $flagged_entities = flag_get_flag_flagging_data('c4m_og_content_highlight');
+  $buckets = array();
+
+  // Group the entities by group of content they belong to.
+  foreach ($flagged_entities as  $flagged_entity) {
+    $entity = node_load($flagged_entity->entity_id);
+    $entity_group = c4m_og_get_group_of_content($entity);
+
+    if (empty ($buckets[(string)$entity_group->nid])) {
+      $buckets[(string)$entity_group->nid] = array($flagged_entity);
+    }
+    else {
+      $buckets[(string)$entity_group->nid][] = $flagged_entity;
+    }
+  }
+
+  foreach ($buckets as $flagged_entities) {
+    // Unflag all, but the entity with the highest flagging id.
+    foreach ($flagged_entities as $key=>$flagged_entity) {
+      if ($key == 0) {
+        $last_flagged = $flagged_entity;
+
+        continue;
+      }
+
+      if ($flagged_entity->flagging_id > $last_flagged->flagging_id) {
+        $flag->flag('unflag', $last_flagged->entity_id, NULL, FALSE);
+
+        $last_flagged = $flagged_entity;
+      }
+      else {
+        $flag->flag('unflag', $flagged_entity->entity_id, NULL, FALSE);
+      }
+    }
+  }
+}
