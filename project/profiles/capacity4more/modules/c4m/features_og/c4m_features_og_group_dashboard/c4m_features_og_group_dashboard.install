@@ -35,3 +35,58 @@ function c4m_features_og_group_dashboard_uninstall() {
     }
   }
 }
+
+/**
+ * Sets 'c4m_og_content_highlight' flag as global and aligns it's flagging.
+ */
+function c4m_features_og_group_dashboard_update_7001() {
+  $flag = flag_get_flag('c4m_og_content_highlight');
+
+  // Get all entities flagged with 'c4m_og_content_highlight'.
+  $flagged_entities = flag_get_flag_flagging_data('c4m_og_content_highlight');
+
+  $buckets = array();
+
+  // Group the entities by group of content they belong to.
+  foreach ($flagged_entities as  $flagged_entity) {
+    $entity = node_load($flagged_entity->entity_id);
+    $entity_group = c4m_og_get_group_of_content($entity);
+
+    if (empty ($buckets[(string)$entity_group->nid])) {
+      $buckets[(string)$entity_group->nid] = array($flagged_entity);
+    }
+    else {
+      $buckets[(string)$entity_group->nid][] = $flagged_entity;
+    }
+  }
+
+  $entities_to_flag = array();
+
+  foreach ($buckets as $flagged_entities) {
+    // Unflag all, and save the entity id with the highest flagging id.
+    $last_flagged = NULL;
+    foreach ($flagged_entities as $flagged_entity) {
+
+      if (is_null($last_flagged)) {
+        $last_flagged = $flagged_entity;
+      }
+      elseif ($flagged_entity->flagging_id > $last_flagged->flagging_id) {
+        $last_flagged = $flagged_entity;
+      }
+
+      $flagger = user_load($flagged_entity->uid);
+      $flag->flag('unflag', $flagged_entity->entity_id, $flagger, TRUE);
+    }
+
+    $entities_to_flag[] = $last_flagged->entity_id;
+  }
+
+  // Define 'c4m_og_content_highlight' flag as a global.
+  $flag->global = TRUE;
+  $flag->save();
+
+  // Reflag the entities.
+  foreach ($entities_to_flag as $entity_id) {
+    $flag->flag('flag', $entity_id, NULL, TRUE);
+  }
+}
