@@ -48,15 +48,15 @@ function c4m_features_og_group_dashboard_update_7001() {
   $buckets = array();
 
   // Group the entities by group of content they belong to.
-  foreach ($flagged_entities as  $flagged_entity) {
+  foreach ($flagged_entities as $flagged_entity) {
     $entity = node_load($flagged_entity->entity_id);
     $entity_group = c4m_og_get_group_of_content($entity);
 
-    if (empty ($buckets[(string)$entity_group->nid])) {
-      $buckets[(string)$entity_group->nid] = array($flagged_entity);
+    if (empty($buckets[(string) $entity_group->nid])) {
+      $buckets[(string) $entity_group->nid] = array($flagged_entity);
     }
     else {
-      $buckets[(string)$entity_group->nid][] = $flagged_entity;
+      $buckets[(string) $entity_group->nid][] = $flagged_entity;
     }
   }
 
