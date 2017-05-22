@@ -564,7 +564,7 @@ function capacity4more_update_7001() {
 }
 
 /**
- * Populate totals fields on users og_membership.
+ * Do not rebuild entities when cache is cleared.
  */
 function capacity4more_update_7002() {
   variable_set('entity_rebuild_on_flush', FALSE);
