@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @file
+ * Install/update hooks for c4m_message.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function c4m_message_schema() {
+  $schema['cache_activity_stream'] = drupal_get_schema_unprocessed(
+    'system',
+    'cache'
+  );
+  return $schema;
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Install the database schema if the module was already enabled.
+ */
+function c4m_message_update_7001() {
+  $schema = c4m_message_schema();
+  if (!db_table_exists('cache_activity_stream')) {
+    db_create_table('cache_activity_stream', $schema['cache_activity_stream']);
+  }
+}
