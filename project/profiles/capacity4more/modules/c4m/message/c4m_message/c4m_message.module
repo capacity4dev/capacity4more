@@ -3779,7 +3779,17 @@ function c4m_message_load_homepage_activity_stream() {
     'group_context' => $group_context,
   );
 
-  $activities = $activity_stream_handler->get('', $request);
+  // Generate a key based on the request array.
+  $cache_key = md5(implode(', ', $request));
+
+  if ($cache = cache_get($cache_key, 'cache_activity_stream')) {
+    $activities = $cache->data;
+  }
+  else {
+    $activities = $activity_stream_handler->get('', $request);
+
+    cache_set($cache_key, $activities, 'cache_activity_stream', time() + 360);
+  }
 
   // URL options.
   $options = array(
