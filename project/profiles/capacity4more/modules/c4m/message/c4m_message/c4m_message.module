@@ -3766,30 +3766,18 @@ function c4m_message_load_homepage_activity_stream() {
     }
   }
 
-  $activity_stream_handler = restful_get_restful_handler('activity_stream');
-
   $request = array(
     'group' => $groups,
     'topics' => $interests,
     'html' => TRUE,
     // Sort the activity stream by timestamp descending.
     'sort' => '-timestamp',
-    'homepage' => 1,
+    'homepage' => '1',
     'hide_articles' => $hide_articles,
     'group_context' => $group_context,
   );
 
-  // Generate a key based on the request array.
-  $cache_key = md5(implode(', ', $request));
-
-  if ($cache = cache_get($cache_key, 'cache_activity_stream')) {
-    $activities = $cache->data;
-  }
-  else {
-    $activities = $activity_stream_handler->get('', $request);
-
-    cache_set($cache_key, $activities, 'cache_activity_stream', time() + 360);
-  }
+  $activities = c4m_message_get_activities($request);
 
   // URL options.
   $options = array(
@@ -3810,6 +3798,36 @@ function c4m_message_load_homepage_activity_stream() {
     ),
   );
   drupal_add_js($settings, 'setting');
+}
+
+/**
+ * Helper to get activity stream items with caching layer.
+ *
+ * @param array $request
+ *   Request array (settings) that are unique to the result.
+ *
+ * @return array
+ *   Array of (rendered) activities.
+ */
+function c4m_message_get_activities(array $request) {
+  // Load the activity stream.
+  $activity_stream_handler = restful_get_restful_handler('activity_stream');
+
+  // Generate a key based on the request array.
+  $cache_key = md5(json_encode($request));
+
+  $cache = cache_get($cache_key, 'cache_activity_stream');
+
+  if ($cache && time() < $cache->expire) {
+    $activities = $cache->data;
+  }
+  else {
+    $activities = $activity_stream_handler->get('', $request);
+
+    cache_set($cache_key, $activities, 'cache_activity_stream', time() + 360);
+  }
+
+  return $activities;
 }
 
 /**
