@@ -3812,9 +3812,6 @@ function c4m_message_load_homepage_activity_stream() {
  *   Array of (rendered) activities.
  */
 function c4m_message_get_activities(array $request) {
-  // Load the activity stream.
-  $activity_stream_handler = restful_get_restful_handler('activity_stream');
-
   // Generate a key based on the request array.
   $cache_key = md5(json_encode($request));
 
@@ -3824,6 +3821,9 @@ function c4m_message_get_activities(array $request) {
     $activities = $cache->data;
   }
   else {
+    // Load the activity stream.
+    $activity_stream_handler = restful_get_restful_handler('activity_stream');
+
     $activities = $activity_stream_handler->get('', $request);
 
     cache_set($cache_key, $activities, 'cache_activity_stream', time() + C4M_MESSAGE_EXPIRE_TIME);
