@@ -7,6 +7,8 @@
 
 include_once 'c4m_message.features.inc';
 
+define('C4M_MESSAGE_EXPIRE_TIME', 3600);
+
 /**
  * Implements hook_ctools_plugin_directory().
  */
@@ -3824,7 +3826,7 @@ function c4m_message_get_activities(array $request) {
   else {
     $activities = $activity_stream_handler->get('', $request);
 
-    cache_set($cache_key, $activities, 'cache_activity_stream', time() + 360);
+    cache_set($cache_key, $activities, 'cache_activity_stream', time() + C4M_MESSAGE_EXPIRE_TIME);
   }
 
   return $activities;
