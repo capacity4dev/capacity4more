@@ -7,7 +7,7 @@
 
 include_once 'c4m_message.features.inc';
 
-define('C4M_MESSAGE_EXPIRE_TIME', 3600);
+define('C4M_MESSAGE_EXPIRE_TIME', 12000);
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -3830,6 +3830,41 @@ function c4m_message_get_activities(array $request) {
   }
 
   return $activities;
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function c4m_message_node_insert($node) {
+  c4m_message_clear_activity_cache();
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function c4m_message_node_update($node) {
+  c4m_message_clear_activity_cache();
+}
+
+/**
+ * Implements hook_comment_insert().
+ */
+function c4m_message_comment_insert($comment) {
+  c4m_message_clear_activity_cache();
+}
+
+/**
+ * Implements hook_comment_update().
+ */
+function c4m_message_comment_update($comment) {
+  c4m_message_clear_activity_cache();
+}
+
+/**
+ * Helper to clear the activity stream caches when inserting/updating node or comment.
+ */
+function c4m_message_clear_activity_cache() {
+  db_truncate('cache_activity_stream')->execute();
 }
 
 /**
