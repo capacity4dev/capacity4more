@@ -193,7 +193,7 @@ function c4m_user_admin_views_default_views() {
       'override_label' => 0,
       'label' => '',
     ),
-    'action::c4m_user_resend_activation_email_action' => array(
+    'action::c4m_user_admin_resend_activation_email_action' => array(
       'selected' => 1,
       'postpone_processing' => 0,
       'skip_confirmation' => 0,
@@ -618,7 +618,7 @@ Last access : [access]';
       'override_label' => 0,
       'label' => '',
     ),
-    'action::c4m_user_resend_activation_email_action' => array(
+    'action::c4m_user_admin_resend_activation_email_action' => array(
       'selected' => 1,
       'postpone_processing' => 0,
       'skip_confirmation' => 0,
