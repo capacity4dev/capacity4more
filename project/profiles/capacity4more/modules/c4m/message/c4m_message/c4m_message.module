@@ -34,6 +34,15 @@ function c4m_message_entity_insert($entity, $entity_type) {
  */
 function c4m_message_entity_update($entity, $entity_type) {
   c4m_message_crud_message($entity_type, $entity, 'update');
+
+  // Clear activity stream cache when modifying group status.
+  if ($entity_type === 'node' && $entity->type === 'group') {
+    $different_group_status = $entity->c4m_og_status[LANGUAGE_NONE][0]['value'] != $entity->original->c4m_og_status[LANGUAGE_NONE][0]['value'];
+    $different_group_access = $entity->group_access[LANGUAGE_NONE][0]['value'] != $entity->original->group_access[LANGUAGE_NONE][0]['value'];
+    if ($different_group_status || $different_group_access) {
+      c4m_message_clear_activity_stream_cache();
+    }
+  }
 }
 
 /**
@@ -625,20 +634,46 @@ function _c4m_message_format_from_field_to_simple_pattern(
 /**
  * Implements hook_entity_delete().
  *
- * @todo: Push item to queue.
+ * @todo Push item to queue. Is this still a requirement? The message module
+ *   does delete the messages referencing the current entity in
+ *   message_entity_delete().
  */
 function c4m_message_entity_delete($entity, $entity_type) {
-  $valid_entity_types = array(
-    'comment',
-    'node',
-    'taxonomy_term',
-    'og_membership',
-  );
+  if (!c4m_message_handle_entity($entity, $entity_type, 'delete')) {
+    return;
+  }
+  c4m_message_clear_activity_stream_cache();
+}
+
+/**
+ * Returns TRUE if the messaging system should handle this entity.
+ *
+ * @param object $entity
+ *   Current entity.
+ * @param string $entity_type
+ *   Entity type.
+ * @param string $op
+ *   Operation type.
+ *
+ * @return bool
+ *   TRUE if the messaging system should handle this entity.
+ */
+function c4m_message_handle_entity($entity, $entity_type, $op) {
+  $valid_entity_types = c4m_message_get_valid_entity_types();
 
   if (!in_array($entity_type, $valid_entity_types)) {
     // Not an entity related to message.
-    return;
+    return FALSE;
   }
+
+  $valid_node_types = c4m_message_get_valid_node_types($op);
+
+  if ($entity_type == 'node' && !in_array($entity->type, $valid_node_types)) {
+    // Not a node related to message.
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /**
@@ -2636,11 +2671,14 @@ function _c4m_message_format_autologin_control_membership_link(
 /**
  * Returns the types that applicable for a message.
  *
+ * @param string $op
+ *   Name of the operation performed on entity.
+ *
  * @return array
  *   The node types for messages.
  */
-function c4m_message_valid_node_types() {
-  return array(
+function c4m_message_get_valid_node_types($op) {
+  $valid_node_types = [
     'discussion',
     'event',
     'news',
@@ -2649,7 +2687,14 @@ function c4m_message_valid_node_types() {
     'share',
     'document',
     'wiki_page',
-  );
+  ];
+
+  // Show message for the type 'article' when the operation is not 'update'.
+  if ($op != 'update') {
+    array_push($valid_node_types, 'article');
+  }
+
+  return $valid_node_types;
 }
 
 /**
@@ -2676,26 +2721,7 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
     return FALSE;
   }
 
-  $valid_entity_types = array(
-    'comment',
-    'node',
-    'taxonomy_term',
-    'og_membership',
-  );
-
-  $valid_node_types = c4m_message_valid_node_types();
-
-  // Hide message for the type 'article' when the operation 'update' happened.
-  if ($op != 'update') {
-    array_push($valid_node_types, 'article');
-  }
-
-  if (!in_array($entity_type, $valid_entity_types)) {
-    // Not an entity related to message.
-    return NULL;
-  }
-  if ($entity_type == 'node' && !in_array($entity->type, $valid_node_types)) {
-    // Don't have to create message for this node type.
+  if (!c4m_message_handle_entity($entity, $entity_type, $op)) {
     return NULL;
   }
 
@@ -2745,6 +2771,21 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
   }
 
   return $message;
+}
+
+/**
+ * Returns the list of valid entity types for messages.
+ *
+ * @return array
+ *   List of entity types.
+ */
+function c4m_message_get_valid_entity_types() {
+  return [
+    'comment',
+    'node',
+    'taxonomy_term',
+    'og_membership',
+  ];
 }
 
 /**
@@ -3815,8 +3856,12 @@ function c4m_message_load_homepage_activity_stream() {
  *   Array of (rendered) activities.
  */
 function c4m_message_get_activities(array $request) {
-  // Generate a key based on the request array.
-  $cache_key = md5(json_encode($request));
+  global $user;
+
+  // Generate a key based on the request array + the user id.
+  // It is used for node access later so the results might differ from one user
+  // to the other.
+  $cache_key = md5(json_encode($request + ['uid' => $user->uid]));
 
   $cache = cache_get($cache_key, 'cache_activity_stream');
 
