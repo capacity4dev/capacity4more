@@ -62,6 +62,7 @@ dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = paragraphs
 dependencies[] = path_breadcrumbs
+dependencies[] = path_redirect_import
 dependencies[] = pathauto
 dependencies[] = pluggable_node_access
 dependencies[] = redirect

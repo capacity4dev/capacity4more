@@ -33,7 +33,7 @@ function c4m_content_feed_update_7001() {
 /**
  * Create redirects for all old rss aliases.
  */
-function c4m_content_feed_update_7002() {
+function c4m_content_feed_update_7003() {
   $redirects = _c4m_content_feed_get_redirect_mapping();
   foreach ($redirects as $redirect_mapped) {
     $redirect = new stdClass();
@@ -225,6 +225,62 @@ function _c4m_content_feed_get_redirect_mapping() {
     array(
       'src' => 'feed/c4d-water-sanitation/rss',
       'dst' => 'feeds/c4d-water-sanitation/rss',
+    ),
+    array(
+      'src' => 'feed/tbt/rss',
+      'dst' => 'feeds/tbt/rss',
+    ),
+    array(
+      'src' => 'feed/tbt-test/rss',
+      'dst' => 'feeds/tbt/rss',
+    ),
+    array(
+      'src' => 'feed/private-sector-trade-and-regional-integration/rss',
+      'dst' => 'feeds/private-sector-trade-and-regional-integration/rss',
+    ),
+    array(
+      'src' => 'feed/rss-feed/rss',
+      'dst' => 'feeds/rss-feed/rss',
+    ),
+    array(
+      'src' => 'feed/resiliance/rss',
+      'dst' => 'feeds/resiliance/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-aid-procedures/rss',
+      'dst' => 'feeds/c4d-aid-procedures/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-security-justice-human-rights/rss',
+      'dst' => 'feeds/c4d-security-justice-human-rights/rss',
+    ),
+    array(
+      'src' => 'feed/trade/rss',
+      'dst' => 'feeds/trade-and-regional-integration/rss',
+    ),
+    array(
+      'src' => 'feed/c4d2eeas/rss',
+      'dst' => 'feeds/c4d2eeas/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-democracy/rss',
+      'dst' => 'feeds/c4d-democracy-and-human-rights/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-environment-and-climate-change/rss',
+      'dst' => 'feeds/climate-change-disaster-risk-reduction-and-desertification/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-economics-public-finance-budget-support/rss',
+      'dst' => 'feeds/c4d-budget-support/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-microfinance/rss',
+      'dst' => 'feeds/innovative-financing-development-microfinance/rss',
+    ),
+    array(
+      'src' => 'feed/c4d-private-sector-trade-regional-integration/rss',
+      'dst' => 'feeds/c4d-private-sector-development/rss',
     ),
   );
 }

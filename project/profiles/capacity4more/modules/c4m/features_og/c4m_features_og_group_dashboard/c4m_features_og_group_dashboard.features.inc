@@ -29,7 +29,7 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
   $flags['c4m_og_content_highlight'] = array(
     'entity_type' => 'node',
     'title' => 'Promote',
-    'global' => 0,
+    'global' => 1,
     'types' => array(
       0 => 'discussion',
       1 => 'document',
