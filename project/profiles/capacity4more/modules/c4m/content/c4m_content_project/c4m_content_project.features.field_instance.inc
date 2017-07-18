@@ -2901,7 +2901,7 @@ function c4m_content_project_field_default_field_instances() {
             'polyline' => 0,
             'rectangle' => 'rectangle',
           ),
-          'objects_amount' => 10,
+          'objects_amount' => 75,
         ),
       ),
       'type' => 'geofield_widget_map',
