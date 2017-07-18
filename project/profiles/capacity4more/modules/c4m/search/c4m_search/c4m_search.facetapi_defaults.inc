@@ -488,7 +488,7 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet->enabled = FALSE;
   $facet->settings = array(
     'operator' => 'and',
-    'hard_limit' => '50',
+    'hard_limit' => '-1',
     'dependencies' => array(
       'bundle' => 'none',
       'bundle_selected' => array(),
@@ -519,7 +519,7 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet->enabled = FALSE;
   $facet->settings = array(
     'operator' => 'and',
-    'hard_limit' => '50',
+    'hard_limit' => '-1',
     'dependencies' => array(
       'facets' => array(),
       'reverse_dependency' => FALSE,
@@ -577,7 +577,7 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet->enabled = FALSE;
   $facet->settings = array(
     'operator' => 'and',
-    'hard_limit' => '50',
+    'hard_limit' => '-1',
     'dependencies' => array(
       'facets' => array(),
       'reverse_dependency' => FALSE,
@@ -1487,7 +1487,7 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet->enabled = FALSE;
   $facet->settings = array(
     'operator' => 'and',
-    'hard_limit' => '50',
+    'hard_limit' => '-1',
     'dependencies' => array(
       'facets' => array(),
       'force_deactivation' => TRUE,
