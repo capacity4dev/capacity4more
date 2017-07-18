@@ -184,6 +184,7 @@ function c4m_features_og_wiki_block_view_alter(&$data, $block) {
 
   // Set a custom class for the WIKI link for easy theming.
   $wiki['#attributes']['class'] = array('wiki');
+  $wiki['#wiki_link'] = TRUE;
 
   // Consider the wiki link in active trail if wiki is in current path.
   if (FALSE !== strpos(drupal_get_path_alias(), 'wiki', 0)) {
