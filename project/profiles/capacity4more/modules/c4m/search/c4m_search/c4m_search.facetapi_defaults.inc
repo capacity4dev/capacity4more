@@ -987,6 +987,7 @@ function c4m_search_facetapi_default_facet_settings() {
       'display' => 'display',
       'count' => 'count',
       'indexed' => 0,
+      'natural' => 0,
     ),
     'sort_weight' => array(
       'taxonomy_weight' => '-50',
@@ -994,6 +995,7 @@ function c4m_search_facetapi_default_facet_settings() {
       'display' => '-48',
       'count' => '-47',
       'indexed' => '-46',
+      'natural' => '0',
     ),
     'sort_order' => array(
       'taxonomy_weight' => '4',
@@ -1001,6 +1003,7 @@ function c4m_search_facetapi_default_facet_settings() {
       'display' => '4',
       'count' => '3',
       'indexed' => '4',
+      'natural' => '4',
     ),
     'empty_behavior' => 'none',
     'facet_more_text' => 'Show more',
