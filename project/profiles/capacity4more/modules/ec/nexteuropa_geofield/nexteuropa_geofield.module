@@ -152,7 +152,22 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
       '#type' => 'select',
       '#title' => t('Number of objects'),
       '#description' => t('Maximum number of objects users can add on the map'),
-      '#options' => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+      '#options' => [
+        0 => 0,
+        1 => 1,
+        2 => 2,
+        3 => 3,
+        4 => 4,
+        5 => 5,
+        6 => 6,
+        7 => 7,
+        8 => 8,
+        9 => 9,
+        10 => 10,
+        25 => 25,
+        50 => 50,
+        75 => 75,
+      ],
       '#default_value' => isset($value['fs_objects']['objects_amount']) ? $value['fs_objects']['objects_amount'] : 3,
     );
     $element['fs_objects']['fs_prepopulate'] = array(
