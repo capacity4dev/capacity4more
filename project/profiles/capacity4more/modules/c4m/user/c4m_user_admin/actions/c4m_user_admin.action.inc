@@ -19,7 +19,7 @@ function _c4m_user_admin_action_info() {
       'configurable' => FALSE,
       'triggers' => array('any'),
     ),
-    'c4m_user_resend_activation_email_action' => array(
+    'c4m_user_admin_resend_activation_email_action' => array(
       'type' => 'user',
       'label' => t('Resend activation email'),
       'configurable' => FALSE,
