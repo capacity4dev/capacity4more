@@ -159,10 +159,10 @@ function theme_c4m_footer_logo(array $variables) {
  * Function to theme the social media links.
  *
  * @param array $social_media
- *    Array with the social media info.
+ *   Array with the social media info.
  *
  * @return string
- *    Rendered html of social media.
+ *   Rendered html of social media.
  */
 function theme_c4m_social_media(array $social_media) {
   $output = '<li class="c4m-social-media">';

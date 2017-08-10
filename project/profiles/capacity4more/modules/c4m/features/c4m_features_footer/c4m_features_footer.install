@@ -50,6 +50,14 @@ function c4m_features_footer_update_7003() {
 }
 
 /**
+ * Fix RSS link.
+ */
+function c4m_features_footer_update_7004() {
+  // Blog URL changed, update it.
+  c4m_features_footer_set_social_media();
+}
+
+/**
  * Add the c4m_footer menu.
  */
 function c4m_features_footer_c4m_footer_menu() {
@@ -113,7 +121,7 @@ function c4m_features_footer_set_social_media() {
     ),
     'rss' => array(
       'title' => 'Rss',
-      'url' => url('feeds'),
+      'url' => $GLOBALS['base_path'] . 'feeds',
     ),
     'youtube' => array(
       'title' => 'Youtube',
