@@ -77,7 +77,7 @@ function c4m_user_contact_multiple_action_form(array $context, $form_state) {
     '#title' => t('From'),
     '#description' => t('From address.'),
     '#size' => 30,
-    '#default_value' => $user->mail,
+    '#default_value' => c4m_message_get_from_field_default_pattern(),
     '#disabled' => TRUE,
   );
 
@@ -127,12 +127,13 @@ function c4m_user_contact_multiple_action_submit($form, $form_state) {
 
   $subject = $form_state['values']['c4m_contact_multiple_subject'];
   $body = $form_state['values']['c4m_contact_multiple_body']['value'];
+  $from = $form_state['values']['c4m_contact_multiple_from'];
 
   if ($form_state['values']['c4m_contact_multiple_self_copy']) {
     // Sending a copy of the mail to the sender since the user checked
     // the "Send me a copy" checkbox on the form.
     $user_language = user_preferred_language($user);
-    _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body, $user_language, $silent);
+    _c4m_user_send_mail(NULL, $user->mail, "Self copy: {$subject}", $body, $user_language, $silent);
     drupal_set_message('Copy message sent.');
   }
 
@@ -142,7 +143,7 @@ function c4m_user_contact_multiple_action_submit($form, $form_state) {
   return array(
     'subject' => $subject,
     'body' => $body,
-    'from' => $user->mail,
+    'from' => $from,
   );
 }
 
@@ -169,5 +170,5 @@ function c4m_user_contact_multiple_action($account, array $context) {
   $addressee_language = user_preferred_language($account);
   $silent = TRUE;
 
-  _c4m_user_send_mail($account->mail, $from, $subject, $body, $addressee_language, $silent);
+  _c4m_user_send_mail($from, $account->mail, $subject, $body, $addressee_language, $silent);
 }
