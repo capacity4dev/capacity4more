@@ -216,24 +216,24 @@ function c4m_og_menu() {
     'access arguments' => array(1),
   );
 
-  $items['group/node/%/admin/invitations'] = array(
+  $items['group/%/%/admin/people/invitations'] = array(
     'page callback' => '_c4m_og_invitations_overview',
     'page arguments' => [2],
     'access callback' => 'c4m_og_user_is_owner',
     'access arguments' => [1, 2],
-    'title' => 'Invitations for group',
-    'title callback' => '_c4m_og_invitations_overview_title',
-    'title arguments' => [2],
+    'title' => 'Invitations',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
   );
 
-  $items['group/node/%/admin/invitations/email/delete/%'] = array(
+  $items['group/%/%/admin/people/invitations/email/delete/%'] = array(
     'page callback' => '_c4m_og_invitations_delete',
     'page arguments' => [5, 2, 7],
     'access callback' => 'c4m_og_user_is_owner',
     'access arguments' => [1, 2],
   );
 
-  $items['group/node/%/admin/invitations/username/delete/%'] = array(
+  $items['group/%/%/admin/people/invitations/username/delete/%'] = array(
     'page callback' => '_c4m_og_invitations_delete',
     'page arguments' => [5, 2, 7],
     'access callback' => 'c4m_og_user_is_owner',
@@ -738,17 +738,6 @@ function _c4m_og_invitations_overview($group_id) {
   $output .= c4m_og_invite_users_pending_invitations($group_id);
 
   return $output;
-}
-
-/**
- * Title callback to display page title for invitations overview.
- *
- * @oaram string $group_id
- *   Group id.
- */
-function _c4m_og_invitations_overview_title($group_id) {
-  $group = node_load($group_id);
-  return t('Invitations for @group_name:', ['@group_name' => $group->title]);
 }
 
 /**
