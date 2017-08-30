@@ -53,7 +53,13 @@ function c4m_features_footer_update_7003() {
  * Fix RSS link.
  */
 function c4m_features_footer_update_7004() {
-  // Blog URL changed, update it.
+  c4m_features_footer_set_social_media();
+}
+
+/**
+ * Fix RSS link.
+ */
+function c4m_features_footer_update_7005() {
   c4m_features_footer_set_social_media();
 }
 
@@ -121,7 +127,7 @@ function c4m_features_footer_set_social_media() {
     ),
     'rss' => array(
       'title' => 'Rss',
-      'url' => $GLOBALS['base_path'] . 'feeds',
+      'url' => 'feeds',
     ),
     'youtube' => array(
       'title' => 'Youtube',
