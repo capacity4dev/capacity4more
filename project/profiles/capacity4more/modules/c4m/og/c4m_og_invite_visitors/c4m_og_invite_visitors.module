@@ -410,11 +410,13 @@ function c4m_og_invite_visitors_action_invite_visitors($inviter_uid, $gid, $invi
     return FALSE;
   }
 
+  $from = c4m_message_get_from_field_default_pattern();
+
   // Send the invitation email.
   drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, array(
     'form_fields' => $form_fields,
     'invitation' => $invitation,
-  ), variable_get('site_mail', NULL));
+  ), $from);
 
   drupal_set_message(t('An email notification was sent to %address.', array('%address' => $invitee_email)));
 }
