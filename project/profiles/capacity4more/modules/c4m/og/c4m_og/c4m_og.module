@@ -115,12 +115,12 @@ function c4m_og_ctools_plugin_directory($module, $plugin) {
  * Helper function to get the human readable name of a group type.
  *
  * @param object $node
- *    The node object.
+ *   The node object.
  *
  * @internal param object $group
  *
  * @return string
- *    Human readable name of group type.
+ *   Human readable name of group type.
  */
 function c4m_og_get_group_type_name($node = NULL) {
   if (!$node) {
@@ -214,6 +214,30 @@ function c4m_og_menu() {
     'page arguments' => array('c4m_og_reject_group_request', 1),
     'access callback' => 'c4m_og_control_group_request_access',
     'access arguments' => array(1),
+  );
+
+  $items['group/%/%/admin/people/invitations'] = array(
+    'page callback' => '_c4m_og_invitations_overview',
+    'page arguments' => [2],
+    'access callback' => 'c4m_og_user_is_owner',
+    'access arguments' => [1, 2],
+    'title' => 'Invitations',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+  );
+
+  $items['group/%/%/admin/people/invitations/email/delete/%'] = array(
+    'page callback' => '_c4m_og_invitations_delete',
+    'page arguments' => [5, 2, 7],
+    'access callback' => 'c4m_og_user_is_owner',
+    'access arguments' => [1, 2],
+  );
+
+  $items['group/%/%/admin/people/invitations/username/delete/%'] = array(
+    'page callback' => '_c4m_og_invitations_delete',
+    'page arguments' => [5, 2, 7],
+    'access callback' => 'c4m_og_user_is_owner',
+    'access arguments' => [1, 2],
   );
 
   return $items;
@@ -699,6 +723,53 @@ function c4m_og_control_membership($action, $gid, $account, $membership, $timest
 }
 
 /**
+ * Callback to display group's pending invitations.
+ *
+ * @param string $group_id
+ *   Group ID.
+ *
+ * @return string
+ *   Output.
+ */
+function _c4m_og_invitations_overview($group_id) {
+  $output = '';
+
+  $output .= c4m_og_invite_visitors_pending_invitations($group_id);
+  $output .= c4m_og_invite_users_pending_invitations($group_id);
+
+  return $output;
+}
+
+/**
+ * Callback to delete an invitation.
+ *
+ * @param string $invitation_type
+ *   Invitation type.
+ * @param string $group_id
+ *   The group id.
+ * @param string $id
+ *   The invitation id or the og_membership id.
+ */
+function _c4m_og_invitations_delete($invitation_type, $group_id, $id) {
+  if ($invitation_type == 'email') {
+    $result = c4m_og_invite_visitors_delete_invitation($group_id, $id);
+  }
+  else {
+    og_membership_delete($id);
+    // og_membership_delete doesn't return any results.
+    $result = TRUE;
+  }
+  if ($result) {
+    drupal_set_message('Invitation was deleted.');
+  }
+  else {
+    drupal_set_message('Could not delete the invitation.');
+  }
+
+  drupal_goto('group/node/' . $group_id . '/admin/invitations');
+}
+
+/**
  * Menu access; Check if entity is a group.
  */
 function c4m_og_control_membership_access($group_type, $gid) {
@@ -902,7 +973,7 @@ function c4m_og_replace_owner($group_type, $gid, array $new_owner) {
 }
 
 /**
- * Access callback for the "Replace owner" form.
+ * Access callback for manage group pages.
  *
  * @param string $group_type
  *   The type of the group.
@@ -921,7 +992,7 @@ function c4m_og_user_is_owner($group_type, $gid) {
   }
 
   // Make sure the current user is the group manager.
-  return user_access('administer groups') || $user->uid == $group->uid;
+  return user_access('administer group') || $user->uid == $group->uid;
 }
 
 /**
