@@ -26,7 +26,7 @@ sleep 3
 
 # Run selenium.
 cd $TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat
-wget http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar
+wget -nv http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar
 java -jar selenium-server-standalone-2.53.0.jar -p 4444 &
 sleep 5
 
