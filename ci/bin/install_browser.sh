@@ -14,7 +14,7 @@ if [ $INSTALL_PROFILE -ne 1 ]; then
 fi
 
 # Check first if we really need this.
-if [ "$BEHAT_TAG" -ne "javascript" ]; then
+if [ "$BEHAT_TAG" != "javascript" ]; then
   exit 0
 fi
 
