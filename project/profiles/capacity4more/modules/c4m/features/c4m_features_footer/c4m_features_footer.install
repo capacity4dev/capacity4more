@@ -42,6 +42,28 @@ function c4m_features_footer_update_7002() {
 }
 
 /**
+ * Blog URL changed, update it.
+ */
+function c4m_features_footer_update_7003() {
+  // Blog URL changed, update it.
+  c4m_features_footer_set_navigation_links();
+}
+
+/**
+ * Fix RSS link.
+ */
+function c4m_features_footer_update_7004() {
+  c4m_features_footer_set_social_media();
+}
+
+/**
+ * Fix RSS link.
+ */
+function c4m_features_footer_update_7005() {
+  c4m_features_footer_set_social_media();
+}
+
+/**
  * Add the c4m_footer menu.
  */
 function c4m_features_footer_c4m_footer_menu() {
@@ -78,7 +100,7 @@ function c4m_features_footer_set_navigation_links() {
   $navigation_links_2 = array(
     array(
       'title'       => 'Visit the commissioner\'s blog',
-      'url'         => 'https://blogs.ec.europa.eu',
+      'url'         => 'https://ec.europa.eu/commission/commissioners/2014-2019/mimica/blog_en?',
       'attributes'  => array(
         'class'   => array('text-uppercase'),
         'target'  => '_blank',
@@ -105,7 +127,7 @@ function c4m_features_footer_set_social_media() {
     ),
     'rss' => array(
       'title' => 'Rss',
-      'url' => url('feeds'),
+      'url' => 'feeds',
     ),
     'youtube' => array(
       'title' => 'Youtube',

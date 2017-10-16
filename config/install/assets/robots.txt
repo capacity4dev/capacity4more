@@ -45,6 +45,10 @@ Disallow: /user/register/
 Disallow: /user/password/
 Disallow: /user/login/
 Disallow: /user/logout/
+Disallow: /results-reporting-eud-or-hq-unit
+Disallow: /eu-rfi
+Disallow: /results_reporting_2013-14
+Disallow: /results_reporting_2014-15
 # Paths (no clean URLs)
 Disallow: /?q=admin/
 Disallow: /?q=comment/reply/

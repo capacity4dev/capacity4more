@@ -562,3 +562,10 @@ function _set_eu_cookie_compliance() {
 function capacity4more_update_7001() {
   c4m_og_update_groups_contributions();
 }
+
+/**
+ * Do not rebuild entities when cache is cleared.
+ */
+function capacity4more_update_7002() {
+  variable_set('entity_rebuild_on_flush', FALSE);
+}

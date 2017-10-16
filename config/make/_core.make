@@ -1,7 +1,7 @@
 core = 7.x
 api = 2
 
-projects[drupal][version] = "7.53"
+projects[drupal][version] = "7.56"
 
 ; Patch to make it possible to run tests on modules located in a custom profile.
 ; See https://drupal.org/node/911354#comment-7341092.
@@ -18,7 +18,8 @@ projects[drupal][patch][] = "https://www.drupal.org/files/issues/drupal-drupal_t
 
 ; Patch which changes the output of Drupal's .htaccess files.
 ; This patch will make the .htaccess files match DIGIT's requirements (Apache 2.4.x).
-projects[drupal][patch][] = "https://www.drupal.org/files/issues/drupal7-htaccess_protections-1599774-73.patch"
+; Committed in Drupal 7.55
+;projects[drupal][patch][] = "https://www.drupal.org/files/issues/drupal7-htaccess_protections-1599774-73.patch"
 
 ; Will prevent forms from being cached, needed for the registration form with ajax handlers.
 projects[drupal][patch][] = "https://www.drupal.org/files/issues/drupal-no_cache_form-2819375-42.patch"
