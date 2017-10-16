@@ -911,13 +911,19 @@ function _c4m_user_notifications_notify_on_content(
     'entity_id' => $gid,
   );
 
+  $subscribe_options = [];
+  // Skip access checks for new revisions of nodes as most people don't have
+  // 'revision access' permission.
+  if (isset($node->vid) && isset($node->original->vid) && $node->vid !== $node->original->vid) {
+    $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
+  }
   // Message will be saved in message_subscribe_send_message().
   message_subscribe_send_message(
     'node',
     $node,
     $wrapper->value(),
     array(),
-    array(),
+    $subscribe_options,
     $context
   );
 }

@@ -410,11 +410,13 @@ function c4m_og_invite_visitors_action_invite_visitors($inviter_uid, $gid, $invi
     return FALSE;
   }
 
+  $from = c4m_message_get_from_field_default_pattern();
+
   // Send the invitation email.
   drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, array(
     'form_fields' => $form_fields,
     'invitation' => $invitation,
-  ), variable_get('site_mail', NULL));
+  ), $from);
 
   drupal_set_message(t('An email notification was sent to %address.', array('%address' => $invitee_email)));
 }
@@ -659,4 +661,80 @@ function c4m_og_invite_visitors_store_invitation($inviter_id, $group_id, $email)
     'token' => $token,
     'invId' => $invId,
   );
+}
+
+/**
+ * Show the pending invitations by email.
+ *
+ * @param string $group_id
+ *   Group id.
+ *
+ * @return string
+ *   Output.
+ */
+function c4m_og_invite_visitors_pending_invitations($group_id) {
+  $output = theme('html_tag', [
+    'element' => [
+      '#tag' => 'h2',
+      '#value' => 'E-mail addresses',
+    ],
+  ]);
+
+  $invitations = db_select('c4m_og_invite_visitors', 'inv')
+    ->fields('inv', [
+      'inv_id',
+      'inv_email',
+      'inv_inviter_id',
+      'inv_created',
+    ])
+    ->condition('inv_group_id', $group_id)
+    ->condition('inv_expired', 0)
+    ->execute()
+    ->fetchAllAssoc('inv_id');
+
+  if ($invitations) {
+    $header = [
+      'Email',
+      'Invited by',
+      'Invited on',
+      'Actions',
+    ];
+    $rows = [];
+    foreach ($invitations as $inv_id => $invitation) {
+      $user = entity_metadata_wrapper('user', $invitation->inv_inviter_id);
+      $rows[] = [
+        $invitation->inv_email,
+        $user->name->value(),
+        format_date($invitation->inv_created, 'short'),
+        l(t('delete'), 'group/node/' . $group_id . '/admin/invitations/email/delete/' . $invitation->inv_id),
+      ];
+    }
+
+    $output .= theme('table', ['header' => $header, 'rows' => $rows]);
+  }
+  else {
+    $output .= theme('html_tag', [
+      'element' => [
+        '#tag' => 'p',
+        '#value' => 'No invitations.',
+      ],
+    ]);
+  }
+
+  return $output;
+}
+
+/**
+ * Delete invitation.
+ *
+ * @param string $group_id
+ *   The group id.
+ * @param string $inv_id
+ *   The invitation id.
+ */
+function c4m_og_invite_visitors_delete_invitation($group_id, $inv_id) {
+  return db_delete('c4m_og_invite_visitors')
+    ->condition('inv_group_id', $group_id)
+    ->condition('inv_id', $inv_id)
+    ->execute();
 }
