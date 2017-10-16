@@ -609,7 +609,7 @@ function c4m_features_og_manage_project_details() {
   }
 
   // Administrators.
-  $admins = c4m_og_get_group_members($project->nid, FALSE, 'project');
+  $admins = c4m_og_get_group_admins($project->nid, FALSE, 'project');
   if ($list = c4m_features_og_manage_list_group_admins($admins)) {
     $details['admins'] = $list;
   }

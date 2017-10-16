@@ -29,3 +29,19 @@ function c4m_user_og_schema() {
 
   return $schema;
 }
+
+/**
+ * Delete Project / Programme memberships.
+ */
+function c4m_user_og_update_7001() {
+  // Although db_query is recommended only for SELECT queries, we cannot use
+  // JOINs in db_delete, so we use db_query.
+  // https://www.drupal.org/node/2693899
+  $query = "DELETE gm FROM {og_membership} gm
+    INNER JOIN {users} u ON gm.etid = u.uid AND gm.entity_type = 'user' AND group_type = 'node'
+    INNER JOIN {node} n ON gm.gid = n.nid AND n.type = 'project'
+    LEFT OUTER JOIN {og_users_roles} ur ON gm.etid = ur.uid AND gm.gid = ur.gid
+    LEFT OUTER JOIN {og_role} r ON ur.rid = r.rid
+    WHERE (ISNULL(ur.uid) OR r.name = 'member') AND gm.etid <> n.uid;";
+  db_query($query);
+}
