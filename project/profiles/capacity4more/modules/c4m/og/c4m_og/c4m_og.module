@@ -228,14 +228,14 @@ function c4m_og_menu() {
 
   $items['group/%/%/admin/people/invitations/email/delete/%'] = array(
     'page callback' => '_c4m_og_invitations_delete',
-    'page arguments' => [5, 2, 7],
+    'page arguments' => [6, 2, 8],
     'access callback' => 'c4m_og_user_is_owner',
     'access arguments' => [1, 2],
   );
 
   $items['group/%/%/admin/people/invitations/username/delete/%'] = array(
     'page callback' => '_c4m_og_invitations_delete',
-    'page arguments' => [5, 2, 7],
+    'page arguments' => [6, 2, 8],
     'access callback' => 'c4m_og_user_is_owner',
     'access arguments' => [1, 2],
   );
@@ -766,7 +766,7 @@ function _c4m_og_invitations_delete($invitation_type, $group_id, $id) {
     drupal_set_message('Could not delete the invitation.');
   }
 
-  drupal_goto('group/node/' . $group_id . '/admin/invitations');
+  drupal_goto('group/node/' . $group_id . '/admin/people/invitations');
 }
 
 /**
