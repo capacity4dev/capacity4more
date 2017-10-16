@@ -1,5 +1,5 @@
 language: php
-
+dist: precise
 env:
   - INSTALL_PROFILE=1
     BEHAT_TAG="api"
