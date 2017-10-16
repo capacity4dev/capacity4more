@@ -706,7 +706,7 @@ function c4m_og_invite_visitors_pending_invitations($group_id) {
         $invitation->inv_email,
         $user->name->value(),
         format_date($invitation->inv_created, 'short'),
-        l(t('delete'), 'group/node/' . $group_id . '/admin/invitations/email/delete/' . $invitation->inv_id),
+        l(t('delete'), 'group/node/' . $group_id . '/admin/people/invitations/email/delete/' . $invitation->inv_id),
       ];
     }
 
