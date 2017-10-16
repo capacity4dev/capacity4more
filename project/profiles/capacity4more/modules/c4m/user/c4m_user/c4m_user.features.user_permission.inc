@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_user.features.user_permission.inc
@@ -631,6 +632,15 @@ function c4m_user_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'panels',
+  );
+
+  // Exported permission: 'bypass email confirmation'.
+  $permissions['bypass email confirmation'] = array(
+    'name' => 'bypass email confirmation',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'email_confirm',
   );
 
   // Exported permission: 'bypass maxlength'.
