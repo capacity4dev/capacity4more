@@ -229,7 +229,7 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $gid) {
     '#type' => 'link',
     '#href' => str_replace('/invite-visitors', '', $_GET['q']),
     '#title' => 'Manage all group memberships',
-    '#access' => _c4m_features_og_members_is_power_user(),
+    '#access' => c4m_features_og_members_is_power_user(),
   );
   $form['c4m_og_invite_visitors'] = array(
     '#type' => 'fieldset',

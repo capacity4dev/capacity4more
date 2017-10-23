@@ -2541,7 +2541,7 @@ function c4m_og_view_node_access($node, $account) {
       $allowed_wiki_page = $node->type == 'wiki_page' && $user_type == C4M_USER_TYPE_GM && c4m_content_wiki_page_is_editable_by_members($node);
 
       // Only power user or content author may view the node.
-      if (_c4m_features_og_members_is_power_user($group) || $node->uid == $account->uid || $allowed_wiki_page) {
+      if (c4m_features_og_members_is_power_user($group) || $node->uid == $account->uid || $allowed_wiki_page) {
         return NODE_ACCESS_ALLOW;
       }
       else {
@@ -2802,7 +2802,7 @@ function c4m_og_add_content_author_options_to_power_users(&$form) {
   }
 
   // Show authoring information tab to GAs and GO, when editing group content.
-  if (_c4m_features_og_members_is_power_user()) {
+  if (c4m_features_og_members_is_power_user()) {
     $form['author']['#access'] = TRUE;
     // Per https://issuetracker.amplexor.com/jira/browse/CFM-1248, there's
     // no need to present the 'Authored on' date field.
