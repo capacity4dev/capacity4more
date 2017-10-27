@@ -39,6 +39,7 @@ before_install:
   - sudo apt-get update > /dev/null
   - composer self-update
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+  - nvm install 6.12 > /dev/null
 
 install:
   - date
@@ -64,7 +65,7 @@ install:
   # Run headless browser environment, only needed for javascript behat tests.
   - $TRAVIS_BUILD_DIR/ci/bin/install_browser.sh
 
-  # Install grunt & bower
+  # Install grunt & gulp & bower
   - $TRAVIS_BUILD_DIR/ci/bin/install_taskrunners.sh
 
   # Install capacity4more profile.

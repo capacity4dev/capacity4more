@@ -13,7 +13,7 @@ source $(dirname $0)/src/bootstrap.sh
 # Show script information.
 echo
 markup_h1_divider
-markup_h1 " Build the theme from its sources using Grunt."
+markup_h1 " Build the theme from its sources using Gulp."
 markup_h1_divider
 echo
 

@@ -1,6 +1,6 @@
-The theme command is a wrapper around the grunt script used to parse the sass
-files (styles), combine javascript files (scripts) and optimize the theme images
-for web (smaller sizes).
+The theme command is a wrapper around the task runner script used to parse the
+sass files (styles), combine javascript files (scripts) and optimize the theme
+images for web (smaller sizes).
 
 The script will every time check if all node modules are in place and if they
 are up to date.
