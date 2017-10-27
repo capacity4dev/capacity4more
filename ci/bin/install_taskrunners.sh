@@ -24,5 +24,8 @@ npm install -g npm@2
 # Install Grunt.
 npm install -g grunt-cli
 
+# Install Gulp.
+npm install -g gulp
+
 # Install Bower.
 npm install -g bower

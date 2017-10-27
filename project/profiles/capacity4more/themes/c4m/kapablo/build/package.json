@@ -4,7 +4,7 @@
   "description": "capacity4more Kapablo Theme",
   "author": "AMPLEXOR NV",
   "license": "MIT",
-  "main": "Gruntfile.js",
+  "main": "gulpfile.js",
   "scripts": {
     "postinstall": "find node_modules/ -name \"*.info\" -type f -delete"
   },
@@ -12,14 +12,21 @@
     "bootstrap-sass": "^3.3.6"
   },
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-autoprefixer": "^3.0.4",
-    "grunt-contrib-clean": "^1.0.0",
-    "grunt-contrib-concat": "^1.0.0",
-    "grunt-contrib-imagemin": "^1.0.0",
-    "grunt-contrib-sass": "^1.0.0",
-    "grunt-contrib-uglify": "^1.0.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-eslint": "^18.0.0"
+    "del": "~3.0.0",
+    "gulp": "~3.9.0",
+    "gulp-autoprefixer": "4.0.0",
+    "gulp-cache": "~0.5.0",
+    "gulp-concat": "~2.6.0",
+    "gulp-eslint": "^4.0.0",
+    "gulp-if": "^2.0.2",
+    "gulp-imagemin": "^3.2.0",
+    "gulp-plumber": "~1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-strip-comments": "^2.5.1",
+    "gulp-uglify": "^3.0.0",
+    "pump": "^1.0.2",
+    "run-sequence": "^2.2.0"
   }
 }

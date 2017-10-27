@@ -61,7 +61,7 @@ install:
   # Run headless browser environment, only needed for javascript behat tests.
   - $TRAVIS_BUILD_DIR/ci/bin/install_browser.sh
 
-  # Install grunt & bower
+  # Install grunt & gulp & bower
   - $TRAVIS_BUILD_DIR/ci/bin/install_taskrunners.sh
 
   # Install capacity4more profile.

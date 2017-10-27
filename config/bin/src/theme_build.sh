@@ -1,5 +1,5 @@
 ################################################################################
-# Functionality to build the theme using Grunt.
+# Functionality to build the theme using Gulp.
 ################################################################################
 
 ##
@@ -7,15 +7,15 @@
 #
 # Params:
 # string $1
-#   the grunt task to build.
+#   the gulp task to build.
 ##
 function theme_build {
   theme_build_npm
-  theme_build_grunt $1
+  theme_build_gulp $1
 }
 
 ##
-# Install/update the NodeJS modules.
+# Install / update the NodeJS modules.
 #
 # The modules will only be installed if they are not installed yet.
 # The modules will only be updated if the --no-update option is not passed.
@@ -33,15 +33,15 @@ function theme_build_npm {
 }
 
 ##
-# Run the Grunt task(s).
+# Run the Gulp task(s).
 #
 # string $1
-#   the grunt task to build.
+#   the gulp task to build.
 ##
-function theme_build_grunt {
+function theme_build_gulp {
   cd "$DIR_PROJECT/profiles/capacity4more/themes/c4m/kapablo/build"
 
-  grunt $1
+  gulp $1
 
   cd "$DIR_ROOT"
 }
