@@ -799,7 +799,7 @@ function theme_c4m_ds_node_promote(array $field) {
   }
 
   // Only power users can promote a node.
-  if (!_c4m_features_og_members_is_power_user($group)) {
+  if (!c4m_features_og_members_is_power_user($group)) {
     return NULL;
   }
 
