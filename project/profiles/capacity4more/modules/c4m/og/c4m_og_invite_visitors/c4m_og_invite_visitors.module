@@ -323,7 +323,7 @@ function _c4m_og_invite_visitors_new_users_form_validate($form, &$form_state) {
       $result = _c4m_og_invite_visitors_get_invitation_by_email($gid, $invitee_email);
       if ($result) {
         // Already invited.
-        form_set_error('invitee', t('@email has already been invited to this group.', array('@email' => $invitee_email)));
+        form_set_error('invitee', t('@email has already been invited.', array('@email' => $invitee_email)));
       }
       else {
         // Not already invited.
