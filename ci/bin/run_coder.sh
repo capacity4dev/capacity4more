@@ -25,7 +25,7 @@ HAS_ERRORS=0
 ##
 code_review () {
   echo "${LWHITE}$1${RESTORE}"
-  phpcs --standard=Drupal -p --colors --extensions=php,module,inc,install,test,profile,theme,js,css,info --ignore=$2 $1
+  phpcs --standard=Drupal -s --colors --extensions=php,module,inc,install,test,profile,theme,js,css,info --ignore=$2 $1
 
   if [ $? -ne 0 ]; then
     HAS_ERRORS=1
