@@ -184,6 +184,7 @@ function c4m_og_invite_users_mail_alter(&$message) {
   $key = $message['key'] = 'group_invite_user';
   $variables = $message['params'];
 
+  $message['from'] = c4m_message_get_from_field_default_pattern();
   $message['subject'] = _c4m_og_invite_users_mail_text($key . '_subject', $variables);
   $message['body'][0] = _c4m_og_invite_users_mail_text($key . '_body', $variables);
 }
@@ -341,4 +342,59 @@ function c4m_og_invite_users_invite($gid, $field_name, $invitee_uid, $message = 
   drupal_mail('og_invite', 'send_invitation', $invitee->mail, $invitee->language, $params);
 
   return TRUE;
+}
+
+/**
+ * Show the pending invitations by username.
+ *
+ * @param string $group_id
+ *   Group id.
+ *
+ * @return string
+ *   Output.
+ */
+function c4m_og_invite_users_pending_invitations($group_id) {
+  $output = theme('html_tag', [
+    'element' => [
+      '#tag' => 'h2',
+      '#value' => 'Users',
+    ],
+  ]);
+
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'og_membership')
+    ->propertyCondition('group_type', 'node')
+    ->propertyCondition('entity_type', 'user')
+    ->propertyCondition('state', OG_STATE_PENDING)
+    ->propertyCondition('gid', $group_id)
+    ->execute();
+
+  if (isset($result['og_membership'])) {
+    $header = [
+      'Firstname Lastname (username)',
+      'Invited on',
+      'Actions',
+    ];
+    foreach (entity_load('og_membership', array_keys($result['og_membership'])) as $og_membership) {
+      $user = entity_metadata_wrapper('user', $og_membership->etid);
+      $rows[] = [
+        $user->c4m_first_name->value() . ' ' . $user->c4m_last_name->value() . ' (' . $user->name->value() . ')',
+        format_date($og_membership->created, 'short'),
+        l(t('delete'), 'group/node/' . $group_id . '/admin/invitations/username/delete/' . $og_membership->id),
+      ];
+    }
+
+    $output .= theme('table', ['header' => $header, 'rows' => $rows]);
+  }
+  else {
+    $output .= theme('html_tag', [
+      'element' => [
+        '#tag' => 'p',
+        '#value' => 'No invitations.',
+      ],
+    ]);
+  }
+
+  return $output;
 }
