@@ -1056,8 +1056,9 @@ function c4m_og_user_is_banned($gid, $account = NULL) {
  */
 function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
   $cache = &drupal_static(__FUNCTION__);
-  if (!isset($cache)) {
-    $cache = db_select('og_role', 'r')
+  $key = $role_name . '::' . $group_bundle;
+  if (!isset($cache[$key])) {
+    $cache[$key] = db_select('og_role', 'r')
       ->fields('r')
       ->condition('name', $role_name)
       ->condition('group_bundle', $group_bundle)
@@ -1065,7 +1066,7 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
       ->fetchObject();
   }
 
-  return $cache;
+  return $cache[$key];
 }
 
 /**

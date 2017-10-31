@@ -1018,3 +1018,53 @@ function c4m_content_project_c4m_content_bundle_alter(&$bundle, $node_wrapper) {
     $bundle = strtolower($node_wrapper->c4m_project_type->value());
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Implemented for og_ui_add_users form. Checks and removes the Administrator
+ * role checkbox. This is required only for projects.
+ */
+function c4m_content_project_form_og_ui_add_users_alter(&$form, &$form_state, $form_id) {
+  $group = entity_load_single($form['group_type']['#value'], $form['gid']['#value']);
+  list(,, $bundle) = entity_extract_ids($form['group_type']['#value'], $group);
+  if ($bundle !== 'project') {
+    return;
+  }
+
+  $role = c4m_og_user_role_load_by_name('administrator member', $bundle);
+  $form['og_user']['roles']['#default_value'] = [$role->rid];
+  $form['og_user']['roles']['#access'] = FALSE;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Implemented for _og_invite_answer_form form.
+ */
+function c4m_content_project_form__og_invite_answer_form_alter(&$form, &$form_state, $form_id) {
+  $form['#submit'][] = '_c4m_content_project_form__og_invite_answer_form_submit';
+}
+
+/**
+ * Submit handler for _og_invite_answer_form form.
+ *
+ * Adds administrator role for users accepting an invitation to a project.
+ */
+function _c4m_content_project_form__og_invite_answer_form_submit($form, &$form_state) {
+  global $user;
+  $answer = $form_state['values']['answer'];
+  if ($answer !== 'approve') {
+    return;
+  }
+  $group_type = $form_state['values']['group_type'];
+  $gid = $form_state['values']['gid'];
+  $group = entity_load_single($group_type, $gid);
+  list(,, $bundle) = entity_extract_ids($group_type, $group);
+  if ($bundle !== 'project') {
+    return;
+  }
+
+  $role = c4m_og_user_role_load_by_name('administrator member', $bundle);
+  og_role_grant($group_type, $gid, $user->uid, $role->rid);
+}
