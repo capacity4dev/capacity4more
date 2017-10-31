@@ -656,6 +656,13 @@ function c4m_og_invite_visitors_user_update(&$edit, $account, $category) {
   // Add the user to the group.
   og_group('node', $group, array('entity' => $account));
 
+  // Add the administrator role for users joining a project.
+  $bundle = 'project';
+  if ($group->type === $bundle) {
+    $role = c4m_og_user_role_load_by_name('administrator member', $bundle);
+    og_role_grant('node', $gid, $account->uid, $role->rid);
+  }
+
   // User is registered, the session variable should be destroyed.
   unset($_SESSION['c4m_og_invite_visitors_gid_join']);
 }
