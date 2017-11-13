@@ -30,11 +30,12 @@ before_install:
   - sudo apt-get update > /dev/null
   - composer self-update
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - nvm install 6.12
 
 install:
   - date
 
-  # Update node.js to 4.x
+  # Update node.js.
   #- $TRAVIS_BUILD_DIR/ci/bin/install_nodejs.sh
 
   # Install Apache + extra PHP packages.
