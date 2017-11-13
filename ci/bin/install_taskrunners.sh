@@ -19,7 +19,7 @@ gem install sass
 npm -v
 
 # Update npm.
-npm install -g npm@2
+npm install -g npm@latest
 
 # Install Grunt.
 npm install -g grunt-cli
