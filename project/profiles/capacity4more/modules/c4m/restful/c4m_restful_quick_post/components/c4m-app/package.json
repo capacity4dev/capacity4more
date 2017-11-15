@@ -4,7 +4,8 @@
   "description": "global C4M component.",
   "main": "src/c4m-app.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "postinstall": "find node_modules/ -name \"*.info\" -type f -delete"
   },
   "author": "Gizra",
   "license": "ISC",
@@ -39,8 +40,5 @@
     "matchdep": "^0.1.2",
     "npmconf": "0.0.24",
     "requirejs": "~2.1"
-  },
-  "scripts": {
-    "postinstall": "find node_modules/ -name \"*.info\" -type f -delete"
   }
 }
