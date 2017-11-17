@@ -52,7 +52,7 @@ function c4m_og_invite_visitors_process_acceptance_access($group, $token) {
   }
 
   // Retrieve the invitation object from the DB.
-  $invitation = c4m_og_invite_visitors_get_invitation($group->nid, $token);
+  $invitation = _c4m_og_invite_visitors_get_invitation_by_token($group->nid, $token);
 
   // Invitation with the requested token could not be found.
   if (!$invitation) {
@@ -76,7 +76,7 @@ function c4m_og_invite_visitors_process_acceptance_access($group, $token) {
 }
 
 /**
- * Get an invitation object from the DB by email and group ID.
+ * Get an invitation object from the DB by group ID and token.
  *
  * @param int $gid
  *   ID of the group we are checking for.
@@ -86,17 +86,19 @@ function c4m_og_invite_visitors_process_acceptance_access($group, $token) {
  * @return bool|object
  *   Invitation object from the DB or FALSE on failure.
  */
-function c4m_og_invite_visitors_get_invitation($gid, $token) {
+function _c4m_og_invite_visitors_get_invitation_by_token($gid, $token) {
   $result = &drupal_static(__FUNCTION__);
 
-  if (!isset($result['invitation-' . $token])) {
+  $key = 'invitation-' . $token;
+
+  if (!isset($result[$key])) {
     $invite_db_fields = array(
       'inv_id',
       'inv_email',
       'inv_expired',
     );
 
-    $result['invitation-' . $token] = db_select('c4m_og_invite_visitors', 'inv')
+    $result[$key] = db_select('c4m_og_invite_visitors', 'inv')
       ->fields('inv', $invite_db_fields)
       ->condition('inv_group_id', $gid)
       ->condition('inv_token', $token)
@@ -105,7 +107,42 @@ function c4m_og_invite_visitors_get_invitation($gid, $token) {
       ->fetchObject();
   }
 
-  return $result['invitation-' . $token];
+  return $result[$key];
+}
+
+/**
+ * Get an invitation object from the DB by group ID and email.
+ *
+ * @param int $gid
+ *   ID of the group we are checking for.
+ * @param string $email
+ *   The invitation email.
+ *
+ * @return bool|object
+ *   Invitation object from the DB or FALSE on failure.
+ */
+function _c4m_og_invite_visitors_get_invitation_by_email($gid, $email) {
+  $result = &drupal_static(__FUNCTION__);
+
+  $key = 'invitation-' . $gid . ':' . $email;
+
+  if (!isset($result[$key])) {
+    $invite_db_fields = array(
+      'inv_id',
+      'inv_email',
+      'inv_expired',
+    );
+
+    $result[$key] = db_select('c4m_og_invite_visitors', 'inv')
+      ->fields('inv', $invite_db_fields)
+      ->condition('inv_group_id', $gid)
+      ->condition('inv_email', $email)
+      ->range(0, 1)
+      ->execute()
+      ->fetchObject();
+  }
+
+  return $result[$key];
 }
 
 /**
@@ -120,7 +157,7 @@ function c4m_og_invite_visitors_process_acceptance($group, $token) {
   global $user;
 
   // Retrieve the invitation object from the DB.
-  $invitation = c4m_og_invite_visitors_get_invitation($group->nid, $token);
+  $invitation = _c4m_og_invite_visitors_get_invitation_by_token($group->nid, $token);
 
   if (user_is_logged_in()) {
 
@@ -229,7 +266,7 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $gid) {
     '#type' => 'link',
     '#href' => str_replace('/invite-visitors', '', $_GET['q']),
     '#title' => 'Manage all group memberships',
-    '#access' => _c4m_features_og_members_is_power_user(),
+    '#access' => c4m_features_og_members_is_power_user(),
   );
   $form['c4m_og_invite_visitors'] = array(
     '#type' => 'fieldset',
@@ -272,14 +309,34 @@ function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $gid) {
 function _c4m_og_invite_visitors_new_users_form_validate($form, &$form_state) {
   // Split the list of email addresses by comma, newline or white space.
   $invitee_emails = preg_split('/\s*[,\n]\s*/', $form_state['values']['invitee']);
-  $form_state['invitee_emails'] = array();
+  $gid = $form_state['values']['gid'];
+  $form_state['invitees'] = array();
 
   foreach (array_filter($invitee_emails) as $invitee_email) {
     if (!valid_email_address($invitee_email)) {
-      form_set_error('invitee', t('Invalid email @email', array('@email' => $invitee_email)));
+      form_set_error('invitee', t('Invalid email @email.', array('@email' => $invitee_email)));
+      continue;
+    }
+    $result = _c4m_og_invite_visitors_determine_user_action($invitee_email, $gid);
+    if ($result === 0) {
+      // Not a registered user.
+      $result = _c4m_og_invite_visitors_get_invitation_by_email($gid, $invitee_email);
+      if ($result) {
+        // Already invited.
+        form_set_error('invitee', t('@email has already been invited.', array('@email' => $invitee_email)));
+      }
+      else {
+        // Not already invited.
+        $form_state['invitees'][$invitee_email] = FALSE;
+      }
+    }
+    elseif ($result > 0) {
+      // Registered user.
+      $form_state['invitees'][$invitee_email] = $result;
     }
     else {
-      $form_state['invitee_emails'][] = $invitee_email;
+      // Spammer or member of the group. Message is already set.
+      form_set_error('invitee');
     }
   }
 }
@@ -293,30 +350,21 @@ function _c4m_og_invite_visitors_new_users_form_validate($form, &$form_state) {
 function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
   global $user;
   $gid = $form_state['values']['gid'];
-  $invitee_emails = $form_state['invitee_emails'];
+  $invitees = $form_state['invitees'];
   $form_fields = array(
     'subject' => $form_state['values']['personal_subject'],
     'body' => $form_state['values']['personal_message'],
   );
 
-  foreach ($invitee_emails as $invitee_email) {
-    // Determine if we should invite this registered user.
-    $action = c4m_og_invite_visitors_determine_user_action($invitee_email, $gid);
-    if (!$action) {
-      $action['type'] = 'invite_visitor';
+  foreach ($invitees as $invitee => $uid) {
+    if (!$uid) {
+      _c4m_og_invite_visitors_action_invite_visitors($user->uid, $gid, $invitee, $form_fields);
     }
-
-    switch ($action['type']) {
-      case 'invite_visitor':
-        c4m_og_invite_visitors_action_invite_visitors($user->uid, $gid, $invitee_email, $form_fields);
-        break;
-
-      case 'invite_user':
-        // Invoke the invite_user functionality.
-        $field_name = key(og_get_group_audience_fields());
-        c4m_og_invite_users_invite($gid, $field_name, $action['uid'], $form_fields['body'], $form_fields['subject']);
-        drupal_set_message(t('An email notification was sent to %address.', array('%address' => $invitee_email)));
-        break;
+    else {
+      // Invoke the invite_user functionality.
+      $field_name = key(og_get_group_audience_fields());
+      c4m_og_invite_users_invite($gid, $field_name, $uid, $form_fields['body'], $form_fields['subject']);
+      drupal_set_message(t('An email notification was sent to %address.', array('%address' => $invitee)));
     }
   }
 }
@@ -332,19 +380,18 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
  * @param int $gid
  *   Group ID for the invitation.
  *
- * @return array
- *   The type of action (invite_user/FALSE) and the error message if FALSE.
+ * @return int
+ *   - 0 if the provided email address doesn't correspond to a registered user.
+ *   - -1 if the provided email address corresponds to a member of the group or
+ *   to a spammer user. An error message is also set.
+ *   - uid - The uid of the user registered with that email address.
  */
-function c4m_og_invite_visitors_determine_user_action($invitee_email, $gid) {
+function _c4m_og_invite_visitors_determine_user_action($invitee_email, $gid) {
   // Try to load the user by email or return early.
   if (!$account = user_load_by_mail($invitee_email)) {
-    return FALSE;
+    return 0;
   }
 
-  $action = array(
-    'type' => FALSE,
-    'uid' => NULL,
-  );
   $wrapper = entity_metadata_wrapper('user', $account);
 
   // Do not invite a user who is already a member of the group.
@@ -361,7 +408,7 @@ function c4m_og_invite_visitors_determine_user_action($invitee_email, $gid) {
       drupal_set_message(t('%user is already a member of this group.', array('%user' => $invitee_email)), 'warning');
     }
 
-    return $action;
+    return -1;
   }
 
   // Do not invite a user who is marked as a spammer.
@@ -372,16 +419,11 @@ function c4m_og_invite_visitors_determine_user_action($invitee_email, $gid) {
     ));
     drupal_set_message($message, 'error');
 
-    return $action;
+    return -1;
   }
 
-  // Proceed and invite the user.
-  $action['type'] = 'invite_user';
-
-  // To invite an existing user we need his/her user ID.
-  $action['uid'] = $account->uid;
-
-  return $action;
+  // To invite an existing user we need his / her uid.
+  return $account->uid;
 }
 
 /**
@@ -395,19 +437,15 @@ function c4m_og_invite_visitors_determine_user_action($invitee_email, $gid) {
  *   Invited visitor's email address.
  * @param array $form_fields
  *   Email personal message and subject.
- *
- * @return string
- *   Return a success or error message to use in drupal_set_message().
  */
-function c4m_og_invite_visitors_action_invite_visitors($inviter_uid, $gid, $invitee_email, array $form_fields) {
+function _c4m_og_invite_visitors_action_invite_visitors($inviter_uid, $gid, $invitee_email, array $form_fields) {
   // Saves invitation in the DB and invites the visitor.
   $invitation = c4m_og_invite_visitors_store_invitation($inviter_uid, $gid, $invitee_email);
 
   // An error saving the invitation to the DB.
   if (!$invitation) {
     drupal_set_message(t('An error occurred inviting %address to the group.', array('%address' => $invitee_email)), 'error');
-
-    return FALSE;
+    return;
   }
 
   $from = c4m_message_get_from_field_default_pattern();
@@ -706,7 +744,7 @@ function c4m_og_invite_visitors_pending_invitations($group_id) {
         $invitation->inv_email,
         $user->name->value(),
         format_date($invitation->inv_created, 'short'),
-        l(t('delete'), 'group/node/' . $group_id . '/admin/invitations/email/delete/' . $invitation->inv_id),
+        l(t('delete'), 'group/node/' . $group_id . '/admin/people/invitations/email/delete/' . $invitation->inv_id),
       ];
     }
 

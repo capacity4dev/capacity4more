@@ -57,7 +57,7 @@ function c4m_user_og_has_group_permission($permission, $group = NULL) {
  *   The group where we are trying to determine the users role for.
  *
  * @return string
- *    The user role.
+ *   The user role.
  */
 function c4m_user_og_get_role_in_group($user, $group) {
   // Group has no owner, return early to prevent showing an "Owner" label for
@@ -119,7 +119,7 @@ function c4m_user_og_get_role_in_group($user, $group) {
  *   The group where we are trying to determine the users role for.
  *
  * @return string
- *    The human readable name of the user role.
+ *   The human readable name of the user role.
  */
 function c4m_user_og_get_role_in_group_human($user, $group) {
   $role = c4m_user_og_get_role_in_group($user, $group);
@@ -193,7 +193,7 @@ function c4m_user_og_get_human_role_name($role, $group = NULL) {
  *   The Group ID (node id).
  *
  * @return int
- *    Number of posts from user within group.
+ *   Number of posts from user within group.
  */
 function c4m_user_og_count_nodes_in_group($uid, $gid) {
   $query = db_select('node', 'n');
@@ -216,7 +216,7 @@ function c4m_user_og_count_nodes_in_group($uid, $gid) {
  *   The Group ID (node id).
  *
  * @return int
- *    Number of comments from user within group.
+ *   Number of comments from user within group.
  */
 function c4m_user_og_count_comments_in_group($uid, $gid) {
   $query = db_select('comment', 'c');
@@ -630,7 +630,7 @@ function c4m_user_og_group_actions_cta($group) {
 
   // CTAs for the group owner and administrators: Manage group and number or
   // new membership requests.
-  if (_c4m_features_og_members_is_power_user($group, $user)) {
+  if (c4m_features_og_members_is_power_user($group, $user)) {
     $exclude_invited_memberships = TRUE;
     if ($pending_requests = c4m_og_get_all_group_memberships_by_state($group->nid, OG_STATE_PENDING, $exclude_invited_memberships)) {
       $pending_id = $group->nid . '_pending';
@@ -724,7 +724,7 @@ function c4m_user_og_group_actions_cta($group) {
 function c4m_user_og_group_management_cta($group) {
   $items = array();
 
-  if (_c4m_features_og_members_is_power_user($group)) {
+  if (c4m_features_og_members_is_power_user($group)) {
     $items['#title'] = t("You're the manager of this !group_type", array('!group_type' => $group->type));
     $items['#links'][] = array(
       '#theme' => 'c4m_group_text_cta',
@@ -857,7 +857,7 @@ function c4m_user_og_c4m_membership_cta($group) {
  */
 function c4m_user_og_c4m_leave_group_cta($group) {
   // Non members and power users should not see this link.
-  if (!og_is_member('node', $group->nid) || _c4m_features_og_members_is_power_user($group)) {
+  if (!og_is_member('node', $group->nid) || c4m_features_og_members_is_power_user($group)) {
     return;
   }
 
@@ -1311,7 +1311,7 @@ function c4m_user_og_invite_access($group = NULL) {
   }
 
   // SAs, GOs and GAs can invite new members.
-  if (_c4m_features_og_members_is_power_user($group)) {
+  if (c4m_features_og_members_is_power_user($group)) {
     return TRUE;
   }
 

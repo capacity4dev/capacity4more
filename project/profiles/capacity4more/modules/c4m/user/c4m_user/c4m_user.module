@@ -180,12 +180,12 @@ function c4m_user_ds_fields_info($entity_type) {
  * Helper function to render C4M user image based on a user entity.
  *
  * @param object $user
- *    The user object.
+ *   The user object.
  * @param string $style
- *    The image style name.
+ *   The image style name.
  *
  * @return string
- *    Rendered link with image inside.
+ *   Rendered link with image inside.
  */
 function c4m_user_image($user, $style = NULL) {
   $output = '';
@@ -206,12 +206,12 @@ function c4m_user_image($user, $style = NULL) {
  * Return the themed initials of a user's full name.
  *
  * @param string $initials
- *    The initials.
+ *   The initials.
  * @param string $link
- *    (optional) Link to use for the output. Defaults to empty string.
+ *   (optional) Link to use for the output. Defaults to empty string.
  *
  * @return string
- *    Rendered html.
+ *   Rendered html.
  */
 function c4m_user_get_themed_initials($initials, $link = '') {
   static $colors;
@@ -253,10 +253,10 @@ function c4m_user_get_themed_initials($initials, $link = '') {
  * Return the initials of a user's full name.
  *
  * @param object $account
- *    The user object.
+ *   The user object.
  *
  * @return string
- *    The initials (max 2).
+ *   The initials (max 2).
  */
 function c4m_user_get_user_initials($account) {
   $name = c4m_user_name($account);
@@ -267,10 +267,10 @@ function c4m_user_get_user_initials($account) {
  * Return the initials (max 2) of a full name.
  *
  * @param string $name
- *    The name.
+ *   The name.
  *
  * @return string
- *    The initials (max 2).
+ *   The initials (max 2).
  */
 function c4m_user_get_initials($name) {
   $words = preg_split("/[\s,_-]+/", $name);
@@ -289,10 +289,10 @@ function c4m_user_get_initials($name) {
  * Using the user entity to get the needed info.
  *
  * @param object $user
- *    The user object.
+ *   The user object.
  *
  * @return string
- *    The first and last name.
+ *   The first and last name.
  */
 function c4m_user_name($user) {
   $wrapper = entity_metadata_wrapper('user', $user);
@@ -316,7 +316,7 @@ function c4m_user_name($user) {
  * Get some background classes (random colors).
  *
  * @return array
- *    Array with colors.
+ *   Array with colors.
  */
 function _c4m_user_initials_colors() {
   return array(
@@ -444,7 +444,7 @@ function theme_c4m_user_views_bulk_operations_confirmation($variables) {
  *   The User ID.
  *
  * @return int
- *    Number of posts.
+ *   Number of posts.
  */
 function c4m_user_count_nodes($uid) {
   $query = db_select('node', 'n');
@@ -464,7 +464,7 @@ function c4m_user_count_nodes($uid) {
  *   Determine if to get only comments of published nodes.
  *
  * @return int
- *    Number of comments.
+ *   Number of comments.
  */
 function c4m_user_count_comments($uid, $node_published = TRUE) {
   $query = db_select('comment', 'c');

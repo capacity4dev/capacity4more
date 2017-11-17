@@ -250,7 +250,7 @@ function c4m_og_invite_users_form__og_invite_form_alter(&$form, &$form_state, $f
     '#type' => 'link',
     '#href' => str_replace('/invite-users', '', $_GET['q']),
     '#title' => 'Manage all group memberships',
-    '#access' => _c4m_features_og_members_is_power_user(),
+    '#access' => c4m_features_og_members_is_power_user(),
   );
 
   $form['subject'] = array(
@@ -381,7 +381,7 @@ function c4m_og_invite_users_pending_invitations($group_id) {
       $rows[] = [
         $user->c4m_first_name->value() . ' ' . $user->c4m_last_name->value() . ' (' . $user->name->value() . ')',
         format_date($og_membership->created, 'short'),
-        l(t('delete'), 'group/node/' . $group_id . '/admin/invitations/username/delete/' . $og_membership->id),
+        l(t('delete'), 'group/node/' . $group_id . '/admin/people/invitations/username/delete/' . $og_membership->id),
       ];
     }
 

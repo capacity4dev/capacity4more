@@ -29,3 +29,6 @@ projects[drupal][patch][] = "../patches/menu_access_check_node_access_first.patc
 
 ; Support for the "reset to alphabetical" in taxonomy listings.
 projects[drupal][patch][] = "https://www.drupal.org/files/order-weighted-terms-941266-35-D7.patch"
+
+; Allows multiple error messages per form element.
+projects[drupal][patch][] = "https://www.drupal.org/files/issues/form.inc-549020-7.x.patch"
