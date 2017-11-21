@@ -24,6 +24,8 @@ projects[drupal][patch][] = "https://www.drupal.org/files/issues/drupal-drupal_t
 
 ; Will prevent forms from being cached, needed for the registration form with ajax handlers.
 ; projects[drupal][patch][] = "https://www.drupal.org/files/issues/drupal-no_cache_form-2819375-42.patch"
+; projects[drupal][patch][] = "https://www.drupal.org/files/issues/drupal-2819375-63.patch"
+
 
 ; Place "addTag('node_access')"" first in the menu access checkes.
 projects[drupal][patch][] = "../patches/menu_access_check_node_access_first.patch"
