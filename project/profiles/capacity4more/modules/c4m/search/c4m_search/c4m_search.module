@@ -121,6 +121,11 @@ function c4m_search_block_view_alter(&$data, $block) {
     module_load_include('inc', 'c4m_search', 'includes/c4m_search.block');
     _c4m_search_block_facetapi_view_alter($data, $block);
   }
+  // Only for blocks provided by the facetapi module.
+  if ($block->module === 'current_search') {
+    module_load_include('inc', 'c4m_search', 'includes/c4m_search.block');
+    _c4m_search_block_current_search_view_alter($data, $block);
+  }
 }
 
 /**
@@ -761,4 +766,33 @@ function c4m_search_highlight_search_keywords($text) {
     $text = preg_replace($key, $replacement, $text);
   }
   return $text;
+}
+
+/**
+ * Implements hook_current_search_items().
+ */
+function c4m_search_current_search_items() {
+  return [
+    'clear_all_filters' => [
+      'handler' => [
+        'label' => t('Clear all filters link'),
+        'class' => 'C4MSearchCurrentSearchClearAllFiltersLink',
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_current_search_links_active_items_alter().
+ *
+ * Highlight keywords for searched text.
+ */
+function c4m_search_current_search_links_active_items_alter(&$items, $context) {
+  foreach ($items as &$item) {
+    // Skip facets.
+    if (isset($item['#facet_field'])) {
+      continue;
+    }
+    $item['#text'] = c4m_search_highlight_search_keywords($item['#text']);
+  }
 }

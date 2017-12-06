@@ -255,6 +255,7 @@
   height: 20px;
   border: 2px solid $color-gray-dark;
   border-radius: 50%;
+  display: inline-block;
 
   font-size: .7rem;
   font-weight: bold;
@@ -327,7 +328,7 @@
 }
 
 
-ul:not([class*="facetapi-facet-c4m-vocab-topic"]) {
+.block-facetapi ul:not([class*="facetapi-facet-c4m-vocab-topic"]) {
   .facetapi-link--article::before {
     content: "\f1ea";
 
@@ -452,6 +453,33 @@ ul:not([class*="facetapi-facet-c4m-vocab-topic"]) {
         content: "\f0c0";
         @extend .facetapi-link;
       }
+    }
+  }
+}
+
+// Current search links.
+.block-current-search {
+  border: 1px solid $color-gray-light;
+  margin-bottom: $padding-base-horizontal;
+  padding: $padding-base-horizontal;
+  position: relative;
+  .block-title {
+    margin-top: 0;
+  }
+
+  li {
+    @include label_style;
+  }
+  .current-search-item-active-links a {
+    text-decoration: none;
+    color: $text-color;
+  }
+  .current-search-item-clear-all {
+    position: absolute;
+    right: $padding-base-horizontal;
+    top: $padding-base-horizontal;
+    a {
+      text-decoration: none;
     }
   }
 }

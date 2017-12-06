@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_features_overview_projects.context.inc
@@ -43,6 +44,12 @@ function c4m_features_overview_projects_context_default_contexts() {
           'delta' => 'search_filter_projects_overview',
           'region' => 'content_above',
           'weight' => '-8',
+        ),
+        'current_search-c4m_current_search_nodes' => array(
+          'module' => 'current_search',
+          'delta' => 'c4m_current_search_nodes',
+          'region' => 'content',
+          'weight' => '-10',
         ),
         'views--exp-c4m_overview_projects-page' => array(
           'module' => 'views',
