@@ -16,7 +16,7 @@ libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
 
 projects[iframeremove][subdir] = "contrib"
-projects[iframeremove][version] = "1.3"
+projects[iframeremove][version] = "1.4"
 
 projects[pathologic][subdir] = "contrib"
 projects[pathologic][version] = "3.1"
