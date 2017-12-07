@@ -3331,3 +3331,25 @@ function c4m_og_get_membership_totals($gid, $uid, $entity_type) {
 
   return empty($result) ? 0 : $result;
 }
+
+/**
+ * Implements hook_entity_delete().
+ *
+ * Delete related vocabularies.
+ */
+function c4m_og_entity_delete($entity, $entity_type) {
+  if ($entity_type != 'node') {
+    return;
+  }
+  if (!in_array($entity->type, ['group', 'project'])) {
+    return;
+  }
+  $categories = c4m_og_vocab_load_group_vocabulary($entity, 'c4m_vocab_category');
+  $tags = c4m_og_vocab_load_group_vocabulary($entity, 'c4m_vocab_tag');
+  if (!empty($categories) && !empty($categories->vid)) {
+    taxonomy_vocabulary_delete($categories->vid);
+  }
+  if (!empty($tags) && !empty($tags->vid)) {
+    taxonomy_vocabulary_delete($tags->vid);
+  }
+}
