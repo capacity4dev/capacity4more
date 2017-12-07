@@ -479,60 +479,6 @@ function _c4m_user_notifications_to_site_admin_group_soft_deleted(
 }
 
 /**
- * Email notification to admins about organic group deletion.
- *
- * @param object $node
- *   Node of type OG group.
- * @param string $group_former_status
- *   Status of OG group, before it was updated.
- */
-function c4m_user_notifications_group_hard_deleted(
-  $node,
-  $group_former_status
-) {
-  $group_admins_ids = c4m_og_get_group_admins_and_owner_ids_for_notification(
-    $node->nid
-  );
-
-  foreach ($group_admins_ids as $admin_id) {
-    _c4m_user_notifications_to_admin_group_hard_deleted(
-      $node,
-      $admin_id,
-      $group_former_status
-    );
-  }
-}
-
-/**
- * Helper function.
- *
- * Email notification to organic group admin / owner, about group being
- * permanently deleted.
- */
-function _c4m_user_notifications_to_admin_group_hard_deleted(
-  $node,
-  $admin_id,
-  $group_former_status
-) {
-  global $user;
-  $message = message_create(
-    'c4m_group_hard_deleted',
-    array('uid' => $admin_id)
-  );
-  // Define functions with which to resolve email template tokens.
-  c4m_message_load_tokens__c4m_group_hard_deleted($message);
-  $message->arguments['@group_former_status'] = $group_former_status;
-
-  $wrapper = entity_metadata_wrapper('message', $message);
-  $wrapper->field_group_node->set($node->nid);
-  $wrapper->field_executing_user->set($user->uid);
-
-  c4m_message_resolve_tokens($message);
-  // Message will be saved in message_notify_send_message().
-  message_notify_send_message($wrapper->value());
-}
-
-/**
  * Email notification about organic group access change.
  */
 function c4m_user_notifications_group_permissions_changed($node, $permissions) {
