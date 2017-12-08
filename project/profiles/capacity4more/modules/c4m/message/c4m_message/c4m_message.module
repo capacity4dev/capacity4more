@@ -193,11 +193,11 @@ function _c4m_message_format_welcome_to_group_from_field(
 
   $message['from'] = format_string(
     '"@name at @site"<@mail>',
-    array(
+    [
       '@name' => c4m_user_name($author),
       '@site' => variable_get('site_name'),
       '@mail' => variable_get('site_mail'),
-    )
+    ]
   );
 }
 
@@ -217,7 +217,7 @@ function _c4m_message_format_notify_admins_membership_approved_from_field(
     return;
   }
 
-  _c4m_message_format_from_field_to_default_pattern($message);
+  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
 }
 
 /**
@@ -234,7 +234,7 @@ function _c4m_message_format_group_published_from_field(
     return;
   }
 
-  _c4m_message_format_from_field_to_default_pattern($message);
+  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
 }
 
 /**
@@ -285,7 +285,7 @@ function _c4m_message_format_group_archived_from_field(
     return;
   }
 
-  _c4m_message_format_from_field_to_default_pattern($message);
+  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
 }
 
 /**
@@ -302,7 +302,7 @@ function _c4m_message_format_group_access_change_from_field(
     return;
   }
 
-  _c4m_message_format_from_field_to_default_pattern($message);
+  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
 }
 
 /**
@@ -319,7 +319,7 @@ function _c4m_message_format_group_unpublished_from_field(
     return;
   }
 
-  _c4m_message_format_from_field_to_default_pattern($message);
+  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
 }
 
 /**
@@ -336,7 +336,7 @@ function _c4m_message_format_group_republished_from_field(
     return;
   }
 
-  _c4m_message_format_from_field_to_default_pattern($message);
+  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
 }
 
 /**
@@ -351,7 +351,7 @@ function _c4m_message_format_admin_demoted_from_field(
     return;
   }
 
-  _c4m_message_format_from_field_to_default_pattern($message);
+  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
 }
 
 /**
@@ -369,7 +369,7 @@ function _c4m_message_format_notify_content_recommendation_from_field(
     return;
   }
 
-  _c4m_message_format_from_field_to_default_pattern($message);
+  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
 }
 
 /**
@@ -387,7 +387,7 @@ function _c4m_message_format_new_content_published_from_field(
     return;
   }
 
-  _c4m_message_format_from_field_to_default_pattern($message);
+  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
 }
 
 /**
@@ -405,7 +405,7 @@ function _c4m_message_format_group_content_updated_from_field(
     return;
   }
 
-  _c4m_message_format_from_field_to_default_pattern($message);
+  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
 }
 
 /**
@@ -424,7 +424,7 @@ function _c4m_message_format_notify_editors_group_content_updated_from_field(
     return;
   }
 
-  _c4m_message_format_from_field_to_default_pattern($message);
+  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
 }
 
 /**
@@ -476,7 +476,7 @@ function _c4m_message_format_notify_subscribers_new_comment_from_field(
     return;
   }
 
-  _c4m_message_format_from_field_to_default_pattern($message);
+  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
 }
 
 /**
@@ -493,7 +493,7 @@ function _c4m_message_format_group_soft_deleted_from_field(
     return;
   }
 
-  _c4m_message_format_from_field_to_default_pattern($message);
+  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
 }
 
 /**
@@ -510,7 +510,7 @@ function _c4m_message_format_notify_promoted_member_from_field(
     return;
   }
 
-  _c4m_message_format_from_field_to_default_pattern($message);
+  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
 }
 
 /**
@@ -528,7 +528,7 @@ function _c4m_message_format_notify_content_followers_new_comment_from_field(
     return;
   }
 
-  _c4m_message_format_from_field_to_default_pattern($message);
+  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
 }
 
 /**
@@ -546,7 +546,7 @@ function _c4m_message_format_membership_request_rejected_from_field(
     return;
   }
 
-  _c4m_message_format_from_field_to_default_pattern($message);
+  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
 }
 
 /**
@@ -559,11 +559,11 @@ function _c4m_message_format_group_status_update_set_from_field(&$message) {
 
   $message['from'] = format_string(
     '"@name at @site"<@mail>',
-    array(
+    [
       '@name' => c4m_user_name($user),
       '@site' => variable_get('site_name'),
       '@mail' => variable_get('site_mail'),
-    )
+    ]
   );
 }
 
@@ -573,14 +573,18 @@ function _c4m_message_format_group_status_update_set_from_field(&$message) {
  * Modifies messages 'From' field to the default pattern.
  *
  * @param object $message
- *   Message entity.
- * @param object $account
- *   Account to resolve [user_name] and [email] from.
+ *   Mail message entity.
+ * @param object $message_entity
+ *   Message API entity.
  */
-function _c4m_message_format_from_field_to_default_pattern(
-  &$message,
-  $account = NULL
-) {
+function _c4m_message_format_from_field_to_default_pattern(&$message, $message_entity = NULL) {
+  $account = NULL;
+
+  if (!empty($message_entity)) {
+    $wrapper = entity_metadata_wrapper('message', $message_entity);
+    $account = $wrapper->field_executing_user->value();
+  }
+
   $message['from'] = c4m_message_get_from_field_default_pattern($account);
 }
 
@@ -602,11 +606,11 @@ function c4m_message_get_from_field_default_pattern($account = NULL) {
 
   return format_string(
     '"@name at @site"<@mail>',
-    array(
+    [
       '@name' => c4m_user_name($account),
       '@site' => variable_get('site_name'),
       '@mail' => $account->mail,
-    )
+    ]
   );
 }
 
@@ -633,10 +637,10 @@ function _c4m_message_format_from_field_to_simple_pattern(
 
   $message['from'] = format_string(
     '"@name"<@mail>',
-    array(
+    [
       '@name' => $name,
       '@mail' => variable_get('site_mail'),
-    )
+    ]
   );
 }
 
@@ -724,20 +728,20 @@ function c4m_message_resolve_tokens(Message $message) {
  *   The Message entity.
  */
 function c4m_message_load_tokens__c4m_log_group_state_change(Message $message) {
-  $message->arguments['@event_user_full_name'] = array(
+  $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -750,35 +754,35 @@ function c4m_message_load_tokens__c4m_log_group_state_change(Message $message) {
  *   The Message entity.
  */
 function c4m_message_load_tokens__c4m_group_request_approved(Message $message) {
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@member_full_name'] = array(
+  $message->arguments['@member_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group_dashboard_url'] = array(
+  $message->arguments['!group_dashboard_url'] = [
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!help_section_url'] = array(
+  $message->arguments['!help_section_url'] = [
     'callback' => 'c4m_message_format_help_section_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@site_contact_link'] = array(
+  $message->arguments['@site_contact_link'] = [
     'callback' => 'c4m_message_format_site_contact_link',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -791,40 +795,40 @@ function c4m_message_load_tokens__c4m_group_request_approved(Message $message) {
  *   The Message entity.
  */
 function c4m_message_load_tokens__c4m_welcome_to_group(Message $message) {
-  $message->arguments['@member_full_name'] = array(
+  $message->arguments['@member_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group_dashboard_url'] = array(
+  $message->arguments['!group_dashboard_url'] = [
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_welcome_message'] = array(
+  $message->arguments['@group_welcome_message'] = [
     'callback' => 'c4m_message_format_group_welcome_message',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!go_public_profile_url'] = array(
+  $message->arguments['!go_public_profile_url'] = [
     'callback' => 'c4m_message_format_group_owner_public_profile_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@go_full_name'] = array(
+  $message->arguments['@go_full_name'] = [
     'callback' => 'c4m_message_format_group_owner_full_name',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -837,75 +841,75 @@ function c4m_message_load_tokens__c4m_welcome_to_group(Message $message) {
  *   The Message entity.
  */
 function c4m_message_load_tokens__c4m_new_membership_request(Message $message) {
-  $message->arguments['@group_admin_full_name'] = array(
+  $message->arguments['@group_admin_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group_dashboard_url'] = array(
+  $message->arguments['!group_dashboard_url'] = [
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@new_member_full_name'] = array(
+  $message->arguments['@new_member_full_name'] = [
     'callback' => 'c4m_message_format_new_member_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@new_member_organisation'] = array(
+  $message->arguments['@new_member_organisation'] = [
     'callback' => 'c4m_message_format_new_member_organisation',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@new_member_organisation_type'] = array(
+  $message->arguments['@new_member_organisation_type'] = [
     'callback' => 'c4m_message_format_new_member_organisation_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@new_member_country'] = array(
+  $message->arguments['@new_member_country'] = [
     'callback' => 'c4m_message_format_new_member_country',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@new_member_expertise'] = array(
+  $message->arguments['@new_member_expertise'] = [
     'callback' => 'c4m_message_format_new_member_expertise',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@new_member_about_me'] = array(
+  $message->arguments['@new_member_about_me'] = [
     'callback' => 'c4m_message_format_new_member_self_description',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group_pending_member_url'] = array(
+  $message->arguments['!group_pending_member_url'] = [
     'callback' => 'c4m_message_format_group_pending_member_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!new_member_public_profile_url'] = array(
+  $message->arguments['!new_member_public_profile_url'] = [
     'callback' => 'c4m_message_format_new_member_public_profile_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@new_member_request_message'] = array(
+  $message->arguments['@new_member_request_message'] = [
     'callback' => 'c4m_message_format_new_member_request_message',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!membership_approve_url'] = array(
+  $message->arguments['!membership_approve_url'] = [
     'callback' => 'c4m_message_format_autologin_approve_membership_link',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!membership_reject_url'] = array(
+  $message->arguments['!membership_reject_url'] = [
     'callback' => 'c4m_message_format_autologin_reject_membership_link',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -920,20 +924,20 @@ function c4m_message_load_tokens__c4m_new_membership_request(Message $message) {
 function c4m_message_load_tokens__c4m_notify_user_membership_pending(
   Message $message
 ) {
-  $message->arguments['@member_full_name'] = array(
+  $message->arguments['@member_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -947,55 +951,55 @@ function c4m_message_load_tokens__c4m_notify_user_membership_pending(
  */
 function c4m_message_load_tokens__c4m_new_member_joined(Message $message) {
 
-  $message->arguments['@group_admin_full_name'] = array(
+  $message->arguments['@group_admin_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group_dashboard_url'] = array(
+  $message->arguments['!group_dashboard_url'] = [
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@new_member_full_name'] = array(
+  $message->arguments['@new_member_full_name'] = [
     'callback' => 'c4m_message_format_new_member_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@new_member_organisation'] = array(
+  $message->arguments['@new_member_organisation'] = [
     'callback' => 'c4m_message_format_new_member_organisation',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@new_member_organisation_type'] = array(
+  $message->arguments['@new_member_organisation_type'] = [
     'callback' => 'c4m_message_format_new_member_organisation_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@new_member_country'] = array(
+  $message->arguments['@new_member_country'] = [
     'callback' => 'c4m_message_format_new_member_country',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@new_member_expertise'] = array(
+  $message->arguments['@new_member_expertise'] = [
     'callback' => 'c4m_message_format_new_member_expertise',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@new_member_about_me'] = array(
+  $message->arguments['@new_member_about_me'] = [
     'callback' => 'c4m_message_format_new_member_self_description',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!new_member_public_profile_url'] = array(
+  $message->arguments['!new_member_public_profile_url'] = [
     'callback' => 'c4m_message_format_new_member_public_profile_url',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1008,40 +1012,40 @@ function c4m_message_load_tokens__c4m_new_member_joined(Message $message) {
  *   The Message entity.
  */
 function c4m_message_load_tokens__c4m_group_archived(Message $message) {
-  $message->arguments['@group_admin_full_name'] = array(
+  $message->arguments['@group_admin_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group_dashboard_url'] = array(
+  $message->arguments['!group_dashboard_url'] = [
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_former_status'] = array(
+  $message->arguments['@group_former_status'] = [
     'callback' => 'c4m_message_format_group_former_status',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@event_user_full_name'] = array(
+  $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!help_section_url'] = array(
+  $message->arguments['!help_section_url'] = [
     'callback' => 'c4m_message_format_help_section_url',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1054,40 +1058,40 @@ function c4m_message_load_tokens__c4m_group_archived(Message $message) {
  *   The Message entity.
  */
 function c4m_message_load_tokens__c4m_group_unpublished(Message $message) {
-  $message->arguments['@group_admin_full_name'] = array(
+  $message->arguments['@group_admin_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group_dashboard_url'] = array(
+  $message->arguments['!group_dashboard_url'] = [
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_former_status'] = array(
+  $message->arguments['@group_former_status'] = [
     'callback' => 'c4m_message_format_group_former_status',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@event_user_full_name'] = array(
+  $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!help_section_url'] = array(
+  $message->arguments['!help_section_url'] = [
     'callback' => 'c4m_message_format_help_section_url',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1100,35 +1104,35 @@ function c4m_message_load_tokens__c4m_group_unpublished(Message $message) {
  *   The Message entity.
  */
 function c4m_message_load_tokens__c4m_group_published(Message $message) {
-  $message->arguments['@group_admin_full_name'] = array(
+  $message->arguments['@group_admin_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group_dashboard_url'] = array(
+  $message->arguments['!group_dashboard_url'] = [
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@event_user_full_name'] = array(
+  $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!help_section_url'] = array(
+  $message->arguments['!help_section_url'] = [
     'callback' => 'c4m_message_format_help_section_url',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1141,40 +1145,40 @@ function c4m_message_load_tokens__c4m_group_published(Message $message) {
  *   The Message entity.
  */
 function c4m_message_load_tokens__c4m_group_republished(Message $message) {
-  $message->arguments['@group_admin_full_name'] = array(
+  $message->arguments['@group_admin_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group_dashboard_url'] = array(
+  $message->arguments['!group_dashboard_url'] = [
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_former_status'] = array(
+  $message->arguments['@group_former_status'] = [
     'callback' => 'c4m_message_format_group_former_status',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@event_user_full_name'] = array(
+  $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!help_section_url'] = array(
+  $message->arguments['!help_section_url'] = [
     'callback' => 'c4m_message_format_help_section_url',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1189,65 +1193,65 @@ function c4m_message_load_tokens__c4m_group_republished(Message $message) {
 function c4m_message_load_tokens__c4m_notify_admins_membership_accepted(
   Message $message
 ) {
-  $message->arguments['@group_admin_full_name'] = array(
+  $message->arguments['@group_admin_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group_dashboard_url'] = array(
+  $message->arguments['!group_dashboard_url'] = [
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@related_user_full_name'] = array(
+  $message->arguments['@related_user_full_name'] = [
     'callback' => 'c4m_message_format_new_member_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@related_user_organisation'] = array(
+  $message->arguments['@related_user_organisation'] = [
     'callback' => 'c4m_message_format_new_member_organisation',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@related_user_organisation_type'] = array(
+  $message->arguments['@related_user_organisation_type'] = [
     'callback' => 'c4m_message_format_new_member_organisation_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@related_user_country'] = array(
+  $message->arguments['@related_user_country'] = [
     'callback' => 'c4m_message_format_new_member_country',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@related_user_expertise'] = array(
+  $message->arguments['@related_user_expertise'] = [
     'callback' => 'c4m_message_format_new_member_expertise',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!related_user_public_profile_url'] = array(
+  $message->arguments['!related_user_public_profile_url'] = [
     'callback' => 'c4m_message_format_new_member_public_profile_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@event_user_full_name'] = array(
+  $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!event_user_url'] = array(
+  $message->arguments['!event_user_url'] = [
     'callback' => 'c4m_message_format_event_user_url',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1260,35 +1264,35 @@ function c4m_message_load_tokens__c4m_notify_admins_membership_accepted(
  *   The Message entity.
  */
 function c4m_message_load_tokens__c4m_group_admin_demoted(Message $message) {
-  $message->arguments['@member_full_name'] = array(
+  $message->arguments['@member_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group_dashboard_url'] = array(
+  $message->arguments['!group_dashboard_url'] = [
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@event_user_full_name'] = array(
+  $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!event_user_message_url'] = array(
+  $message->arguments['!event_user_message_url'] = [
     'callback' => 'c4m_message_format_event_user_message_url',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1303,50 +1307,50 @@ function c4m_message_load_tokens__c4m_group_admin_demoted(Message $message) {
 function c4m_message_load_tokens__c4m_notify_content_recommendation(
   Message $message
 ) {
-  $message->arguments['@user_full_name'] = array(
+  $message->arguments['@user_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@content_node_title'] = array(
+  $message->arguments['@content_node_title'] = [
     'callback' => 'c4m_message_format_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@content_type_name'] = array(
+  $message->arguments['@content_type_name'] = [
     'callback' => 'c4m_message_format_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!content_node_url'] = array(
+  $message->arguments['!content_node_url'] = [
     'callback' => 'c4m_message_format_node_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@content_recommend_count'] = array(
+  $message->arguments['@content_recommend_count'] = [
     'callback' => 'c4m_message_format_node_recommend_count',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@node_teaser_body'] = array(
+  $message->arguments['@node_teaser_body'] = [
     'callback' => 'c4m_message_format_node_body_teaser',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!user_unsubscribe_recommend_url'] = array(
+  $message->arguments['!user_unsubscribe_recommend_url'] = [
     'callback' => 'c4m_message_format_unsubscribe_content_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@event_user_full_name'] = array(
+  $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!event_user_url'] = array(
+  $message->arguments['!event_user_url'] = [
     'callback' => 'c4m_message_format_event_user_url',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1361,60 +1365,60 @@ function c4m_message_load_tokens__c4m_notify_content_recommendation(
 function c4m_message_load_tokens__c4m_content_inserted_or_updated(
   Message $message
 ) {
-  $message->arguments['@user_full_name'] = array(
+  $message->arguments['@user_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@content_node_title'] = array(
+  $message->arguments['@content_node_title'] = [
     'callback' => 'c4m_message_format_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@content_type_name'] = array(
+  $message->arguments['@content_type_name'] = [
     'callback' => 'c4m_message_format_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!content_node_url'] = array(
+  $message->arguments['!content_node_url'] = [
     'callback' => 'c4m_message_format_node_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group_dashboard_url'] = array(
+  $message->arguments['!group_dashboard_url'] = [
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!unsubscribe_group_url'] = array(
+  $message->arguments['!unsubscribe_group_url'] = [
     'callback' => 'c4m_message_format_unsubscribe_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@event_user_full_name'] = array(
+  $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!event_user_url'] = array(
+  $message->arguments['!event_user_url'] = [
     'callback' => 'c4m_message_format_event_user_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!unsubscribe_content_url'] = array(
+  $message->arguments['!unsubscribe_content_url'] = [
     'callback' => 'c4m_message_format_unsubscribe_content_url',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1429,15 +1433,15 @@ function c4m_message_load_tokens__c4m_content_inserted_or_updated(
 function c4m_message_load_tokens__c4m_content_share_inserted_or_updated(
   Message $message
 ) {
-  $message->arguments['!original_group_dashboard_url'] = array(
+  $message->arguments['!original_group_dashboard_url'] = [
     'callback' => 'c4m_message_format_original_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@original_group_node_title'] = array(
+  $message->arguments['@original_group_node_title'] = [
     'callback' => 'c4m_message_format_original_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1450,20 +1454,20 @@ function c4m_message_load_tokens__c4m_content_share_inserted_or_updated(
  *   The Message entity.
  */
 function c4m_message_load_tokens__c4m_group_requested(Message $message) {
-  $message->arguments['@group_owner_full_name'] = array(
+  $message->arguments['@group_owner_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1478,55 +1482,55 @@ function c4m_message_load_tokens__c4m_group_requested(Message $message) {
 function c4m_message_load_tokens__c4m_notify_subscribers_new_comment(
   Message $message
 ) {
-  $message->arguments['@user_full_name'] = array(
+  $message->arguments['@user_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@comment_content_title'] = array(
+  $message->arguments['@comment_content_title'] = [
     'callback' => 'c4m_message_format_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@comment_content_type'] = array(
+  $message->arguments['@comment_content_type'] = [
     'callback' => 'c4m_message_format_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!comment_content_url'] = array(
+  $message->arguments['!comment_content_url'] = [
     'callback' => 'c4m_message_format_node_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@comment_teaser_body'] = array(
+  $message->arguments['@comment_teaser_body'] = [
     'callback' => 'c4m_message_format_comment_body_teaser',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!unsubscribe_content_comments_url'] = array(
+  $message->arguments['!unsubscribe_content_comments_url'] = [
     'callback' => 'c4m_message_format_unsubscribe_content_comments_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@event_user_full_name'] = array(
+  $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!event_user_url'] = array(
+  $message->arguments['!event_user_url'] = [
     'callback' => 'c4m_message_format_event_user_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!comment_url'] = array(
+  $message->arguments['!comment_url'] = [
     'callback' => 'c4m_message_format_comment_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!comment_reply_url'] = array(
+  $message->arguments['!comment_reply_url'] = [
     'callback' => 'c4m_message_format_comment_reply_url',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1539,35 +1543,35 @@ function c4m_message_load_tokens__c4m_notify_subscribers_new_comment(
  *   The Message entity.
  */
 function c4m_message_load_tokens__c4m_group_access_change(Message $message) {
-  $message->arguments['@group_admin_full_name'] = array(
+  $message->arguments['@group_admin_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_permissions'] = array(
+  $message->arguments['@group_permissions'] = [
     'callback' => 'c4m_message_format_group_permissions',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@event_user_full_name'] = array(
+  $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!help_section_url'] = array(
+  $message->arguments['!help_section_url'] = [
     'callback' => 'c4m_message_format_help_section_url',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1580,40 +1584,40 @@ function c4m_message_load_tokens__c4m_group_access_change(Message $message) {
  *   The Message entity.
  */
 function c4m_message_load_tokens__c4m_notify_promoted_member(Message $message) {
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@event_user_full_name'] = array(
+  $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!event_user_message_url'] = array(
+  $message->arguments['!event_user_message_url'] = [
     'callback' => 'c4m_message_format_event_user_message_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@member_full_name'] = array(
+  $message->arguments['@member_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group_dashboard_url'] = array(
+  $message->arguments['!group_dashboard_url'] = [
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!help_section_url'] = array(
+  $message->arguments['!help_section_url'] = [
     'callback' => 'c4m_message_format_help_section_url',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1628,55 +1632,55 @@ function c4m_message_load_tokens__c4m_notify_promoted_member(Message $message) {
 function c4m_message_load_tokens__c4m_notify_content_followers_new_comment(
   Message $message
 ) {
-  $message->arguments['@user_full_name'] = array(
+  $message->arguments['@user_full_name'] = [
     'callback' => 'c4m_message_format_addressee_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@comment_content_title'] = array(
+  $message->arguments['@comment_content_title'] = [
     'callback' => 'c4m_message_format_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@comment_content_type'] = array(
+  $message->arguments['@comment_content_type'] = [
     'callback' => 'c4m_message_format_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!comment_content_url'] = array(
+  $message->arguments['!comment_content_url'] = [
     'callback' => 'c4m_message_format_node_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@comment_teaser_body'] = array(
+  $message->arguments['@comment_teaser_body'] = [
     'callback' => 'c4m_message_format_comment_body_teaser',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!unsubscribe_content_comments_url'] = array(
+  $message->arguments['!unsubscribe_content_comments_url'] = [
     'callback' => 'c4m_message_format_unsubscribe_content_comments_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@event_user_full_name'] = array(
+  $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!event_user_url'] = array(
+  $message->arguments['!event_user_url'] = [
     'callback' => 'c4m_message_format_event_user_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!comment_url'] = array(
+  $message->arguments['!comment_url'] = [
     'callback' => 'c4m_message_format_comment_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!comment_reply_url'] = array(
+  $message->arguments['!comment_reply_url'] = [
     'callback' => 'c4m_message_format_comment_reply_url',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1690,40 +1694,40 @@ function c4m_message_load_tokens__c4m_notify_content_followers_new_comment(
  */
 function c4m_message_load_tokens__c4m_group_request_submitted(Message $message
 ) {
-  $message->arguments['!group_dashboard_url'] = array(
+  $message->arguments['!group_dashboard_url'] = [
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@event_user_full_name'] = array(
+  $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!event_user_url'] = array(
+  $message->arguments['!event_user_url'] = [
     'callback' => 'c4m_message_format_event_user_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@message_to_site_admins'] = array(
+  $message->arguments['@message_to_site_admins'] = [
     'callback' => 'c4m_message_format_group_message_to_admins',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!pending_groups_overview'] = array(
+  $message->arguments['!pending_groups_overview'] = [
     'callback' => 'c4m_message_format_pending_groups_overview',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1736,30 +1740,30 @@ function c4m_message_load_tokens__c4m_group_request_submitted(Message $message
  *   The Message entity.
  */
 function c4m_message_load_tokens__c4m_group_soft_deleted(Message $message) {
-  $message->arguments['!group_dashboard_url'] = array(
+  $message->arguments['!group_dashboard_url'] = [
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@event_user_full_name'] = array(
+  $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!help_section_url'] = array(
+  $message->arguments['!help_section_url'] = [
     'callback' => 'c4m_message_format_help_section_url',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1774,30 +1778,30 @@ function c4m_message_load_tokens__c4m_group_soft_deleted(Message $message) {
 function c4m_message_load_tokens__c4m_membership_request_rejected(
   Message $message
 ) {
-  $message->arguments['!group_dashboard_url'] = array(
+  $message->arguments['!group_dashboard_url'] = [
     'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_title'] = array(
+  $message->arguments['@group_node_title'] = [
     'callback' => 'c4m_message_format_group_node_title',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@group_node_type'] = array(
+  $message->arguments['@group_node_type'] = [
     'callback' => 'c4m_message_format_group_node_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@event_user_full_name'] = array(
+  $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!event_user_url'] = array(
+  $message->arguments['!event_user_url'] = [
     'callback' => 'c4m_message_format_event_user_url',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -1825,7 +1829,7 @@ function c4m_message_format_addressee_uid(Message $message) {
 function c4m_message_format_group_gid(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  return $wrapper->field_group_node->value(array('identifier' => TRUE));
+  return $wrapper->field_group_node->value(['identifier' => TRUE]);
 }
 
 /**
@@ -1918,9 +1922,8 @@ function c4m_message_format_new_member_country(Message $message) {
  */
 function c4m_message_format_new_member_expertise(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $expertises = $wrapper->field_related_user->c4m_vocab_topic_expertise->value(
-  );
-  $expertise_names = array();
+  $expertises = $wrapper->field_related_user->c4m_vocab_topic_expertise->value();
+  $expertise_names = [];
 
   foreach ($expertises as $expertise) {
     $expertise_names[] = $expertise->name;
@@ -1958,13 +1961,13 @@ function c4m_message_format_new_member_self_description(Message $message) {
  */
 function c4m_message_format_group_pending_member_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $gid = $wrapper->field_group_node->value(array('identifier' => TRUE));
-  $mid = $wrapper->field_group_membership->value(array('identifier' => TRUE));
+  $gid = $wrapper->field_group_node->value(['identifier' => TRUE]);
+  $mid = $wrapper->field_group_membership->value(['identifier' => TRUE]);
 
-  $options = array(
+  $options = [
     'absolute' => TRUE,
-    'purl' => array('disabled' => TRUE),
-  );
+    'purl' => ['disabled' => TRUE],
+  ];
 
   return url(
     'group/node/' . $gid . '/admin/people/edit-membership/' . $mid,
@@ -1983,12 +1986,12 @@ function c4m_message_format_group_pending_member_url(Message $message) {
  */
 function c4m_message_format_new_member_public_profile_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $uid = $wrapper->field_related_user->value(array('identifier' => TRUE));
+  $uid = $wrapper->field_related_user->value(['identifier' => TRUE]);
 
-  $options = array(
+  $options = [
     'absolute' => TRUE,
-    'purl' => array('disabled' => TRUE),
-  );
+    'purl' => ['disabled' => TRUE],
+  ];
 
   return url('user/' . $uid, $options);
 }
@@ -2035,12 +2038,12 @@ function c4m_message_format_group_owner_full_name(Message $message) {
  */
 function c4m_message_format_group_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $nid = $wrapper->field_group_node->value(array('identifier' => TRUE));
+  $nid = $wrapper->field_group_node->value(['identifier' => TRUE]);
 
-  $options = array(
+  $options = [
     'absolute' => TRUE,
-    'purl' => array('disabled' => TRUE),
-  );
+    'purl' => ['disabled' => TRUE],
+  ];
 
   return url('node/' . $nid, $options);
 }
@@ -2064,14 +2067,14 @@ function c4m_message_format_original_group_url(Message $message) {
     $node->og_group_ref->value()
   );
 
-  $url_options = array(
+  $url_options = [
     'absolute' => TRUE,
-    'purl' => array(
+    'purl' => [
       'provider' => 'og_purl|node',
       'enabled' => TRUE,
       'id' => $group_wrapper->nid->value(),
-    ),
-  );
+    ],
+  ];
 
   return url('<front>', $url_options);
 }
@@ -2086,10 +2089,10 @@ function c4m_message_format_original_group_url(Message $message) {
  *   Return help guidance url.
  */
 function c4m_message_format_help_section_url(Message $message) {
-  $options = array(
+  $options = [
     'absolute' => TRUE,
-    'purl' => array('disabled' => TRUE),
-  );
+    'purl' => ['disabled' => TRUE],
+  ];
 
   return url('help-guidance/help-guidance', $options);
 }
@@ -2161,8 +2164,7 @@ function c4m_message_format_group_welcome_message(Message $message) {
     return '';
   }
 
-  $group_message = $wrapper->field_group_node->c4m_group_welcome_message->value(
-  );
+  $group_message = $wrapper->field_group_node->c4m_group_welcome_message->value();
 
   return $group_message ? $group_message : '';
 }
@@ -2214,10 +2216,10 @@ function c4m_message_format_pending_groups_overview(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $group = $wrapper->field_group_node->value();
 
-  $options = array(
+  $options = [
     'absolute' => TRUE,
-    'purl' => array('disabled' => TRUE),
-  );
+    'purl' => ['disabled' => TRUE],
+  ];
 
   return url('admin/c4m/' . $group->type . 's/pending', $options);
 }
@@ -2235,10 +2237,10 @@ function c4m_message_format_group_owner_public_profile_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $author_id = $wrapper->field_group_node->author->getIdentifier();
 
-  $options = array(
+  $options = [
     'absolute' => TRUE,
-    'purl' => array('disabled' => TRUE),
-  );
+    'purl' => ['disabled' => TRUE],
+  ];
 
   return url('user/' . $author_id, $options);
 }
@@ -2255,7 +2257,7 @@ function c4m_message_format_group_owner_public_profile_url(Message $message) {
 function c4m_message_format_event_user_id(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  return $wrapper->field_executing_user->value(array('identifier' => TRUE));
+  return $wrapper->field_executing_user->value(['identifier' => TRUE]);
 }
 
 /**
@@ -2284,12 +2286,12 @@ function c4m_message_format_event_user_full_name(Message $message) {
  */
 function c4m_message_format_event_user_message_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $uid = $wrapper->field_executing_user->value(array('identifier' => TRUE));
+  $uid = $wrapper->field_executing_user->value(['identifier' => TRUE]);
 
-  $options = array(
+  $options = [
     'absolute' => TRUE,
-    'purl' => array('disabled' => TRUE),
-  );
+    'purl' => ['disabled' => TRUE],
+  ];
 
   return url('user/' . $uid . '/contact', $options);
 }
@@ -2305,12 +2307,12 @@ function c4m_message_format_event_user_message_url(Message $message) {
  */
 function c4m_message_format_event_user_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $uid = $wrapper->field_executing_user->value(array('identifier' => TRUE));
+  $uid = $wrapper->field_executing_user->value(['identifier' => TRUE]);
 
-  $options = array(
+  $options = [
     'absolute' => TRUE,
-    'purl' => array('disabled' => TRUE),
-  );
+    'purl' => ['disabled' => TRUE],
+  ];
 
   return url('user/' . $uid, $options);
 }
@@ -2359,13 +2361,13 @@ function c4m_message_format_node_type(Message $message) {
 function c4m_message_format_node_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  $options = array(
+  $options = [
     'absolute' => TRUE,
-    'purl' => array('disabled' => TRUE),
-  );
+    'purl' => ['disabled' => TRUE],
+  ];
 
   return url(
-    'node/' . $wrapper->field_node->value(array('identifier' => TRUE)),
+    'node/' . $wrapper->field_node->value(['identifier' => TRUE]),
     $options
   );
 }
@@ -2382,12 +2384,12 @@ function c4m_message_format_node_url(Message $message) {
 function c4m_message_format_comment_reply_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  $node_id = $wrapper->field_node->value(array('identifier' => TRUE));
-  $comment_id = $wrapper->field_comment->value(array('identifier' => TRUE));
+  $node_id = $wrapper->field_node->value(['identifier' => TRUE]);
+  $comment_id = $wrapper->field_comment->value(['identifier' => TRUE]);
 
-  $options = array(
+  $options = [
     'absolute' => TRUE,
-  );
+  ];
 
   return url('comment/reply/' . $node_id . '/' . $comment_id, $options);
 }
@@ -2405,7 +2407,7 @@ function c4m_message_format_comment_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
   $node_url = c4m_message_format_node_url($message);
-  $comment_id = $wrapper->field_comment->value(array('identifier' => TRUE));
+  $comment_id = $wrapper->field_comment->value(['identifier' => TRUE]);
 
   // Url example: http://capacity4more.dev/nobelprize/wiki/prizes#comment-24.
   return $node_url . '#comment-' . $comment_id;
@@ -2424,12 +2426,12 @@ function c4m_message_format_node_recommend_count(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $node = $wrapper->field_node->value();
 
-  $property_info = array(
+  $property_info = [
     'flag_name' => 'c4m_og_content_recommend',
-  );
+  ];
   $count = c4m_helper_entity_entity_get_properties(
     $node,
-    array(),
+    [],
     '',
     'node',
     $property_info
@@ -2542,7 +2544,7 @@ function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
   // Group field at message is 'field_group_node'.
   $field_suffix = $flag_suffix == 'group' ? 'group_node' : $flag_suffix;
   $field = "field_{$field_suffix}";
-  $nid = $wrapper->$field->value(array('identifier' => TRUE));
+  $nid = $wrapper->$field->value(['identifier' => TRUE]);
   if ($flag_suffix == 'comment') {
     // The identifier we got is actually cid. Need to get the correct one.
     $comment = comment_load($nid);
@@ -2553,10 +2555,10 @@ function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
   $account = user_load($uid);
   $hash = c4m_user_profile_get_or_create_account_unsubscribe_hash($account);
 
-  $options = array(
+  $options = [
     'absolute' => TRUE,
-    'purl' => array('disabled' => TRUE),
-  );
+    'purl' => ['disabled' => TRUE],
+  ];
 
   return url(
     'user/' . $uid . '/unsubscribe/' . $flag_suffix . '/' . $nid . '/' . $hash,
@@ -2751,15 +2753,15 @@ function c4m_message_get_valid_entity_types() {
  *   The Message entity.
  */
 function c4m_message_load_general_arguments(Message $message) {
-  $message->arguments['!date'] = array(
+  $message->arguments['!date'] = [
     'callback' => 'c4m_message_format_date_for_message',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group_info'] = array(
+  $message->arguments['!group_info'] = [
     'callback' => 'c4m_messages_group_info',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -2804,7 +2806,7 @@ function c4m_messages_group_info(Message $message) {
         $wrapper->field_group_node->label(),
         $wrapper->field_group_node->value()->purl
       );
-      $group_info = t('Group: !link', array('!link' => $link));
+      $group_info = t('Group: !link', ['!link' => $link]);
     }
   }
 
@@ -2822,20 +2824,20 @@ function c4m_messages_group_info(Message $message) {
 function c4m_message_load__c4m_insert__node__discussion(Message $message) {
   c4m_message_load_general_arguments($message);
 
-  $message->arguments['!content'] = array(
+  $message->arguments['!content'] = [
     'callback' => 'c4m_message_format_rendered_node',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@operation'] = array(
+  $message->arguments['@operation'] = [
     'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!icon'] = array(
+  $message->arguments['!icon'] = [
     'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -2849,20 +2851,20 @@ function c4m_message_load__c4m_insert__node__discussion(Message $message) {
 function c4m_message_load__c4m_insert__node__news(Message $message) {
   c4m_message_load_general_arguments($message);
 
-  $message->arguments['!content'] = array(
+  $message->arguments['!content'] = [
     'callback' => 'c4m_message_format_rendered_node',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@operation'] = array(
+  $message->arguments['@operation'] = [
     'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!icon'] = array(
+  $message->arguments['!icon'] = [
     'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -2876,20 +2878,20 @@ function c4m_message_load__c4m_insert__node__news(Message $message) {
 function c4m_message_load__c4m_insert__node__article(Message $message) {
   c4m_message_load_general_arguments($message);
 
-  $message->arguments['@operation'] = array(
+  $message->arguments['@operation'] = [
     'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!content'] = array(
+  $message->arguments['!content'] = [
     'callback' => 'c4m_message_format_rendered_node',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!icon'] = array(
+  $message->arguments['!icon'] = [
     'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -2903,20 +2905,20 @@ function c4m_message_load__c4m_insert__node__article(Message $message) {
 function c4m_message_load__c4m_insert__node__wiki_page(Message $message) {
   c4m_message_load_general_arguments($message);
 
-  $message->arguments['@operation'] = array(
+  $message->arguments['@operation'] = [
     'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!content'] = array(
+  $message->arguments['!content'] = [
     'callback' => 'c4m_message_format_rendered_node',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!icon'] = array(
+  $message->arguments['!icon'] = [
     'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -2930,20 +2932,20 @@ function c4m_message_load__c4m_insert__node__wiki_page(Message $message) {
 function c4m_message_load__c4m_insert__node__document(Message $message) {
   c4m_message_load_general_arguments($message);
 
-  $message->arguments['!content'] = array(
+  $message->arguments['!content'] = [
     'callback' => 'c4m_message_format_rendered_node',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@operation'] = array(
+  $message->arguments['@operation'] = [
     'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!icon'] = array(
+  $message->arguments['!icon'] = [
     'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -2957,25 +2959,25 @@ function c4m_message_load__c4m_insert__node__document(Message $message) {
 function c4m_message_load__c4m_insert__node__photo(Message $message) {
   c4m_message_load_general_arguments($message);
 
-  $message->arguments['!content'] = array(
+  $message->arguments['!content'] = [
     'callback' => 'c4m_message_format_rendered_node',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@operation'] = array(
+  $message->arguments['@operation'] = [
     'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@photoalbum'] = array(
+  $message->arguments['@photoalbum'] = [
     'callback' => 'c4m_message_format_photo_photoalbum',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!icon'] = array(
+  $message->arguments['!icon'] = [
     'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -2989,34 +2991,34 @@ function c4m_message_load__c4m_insert__node__photo(Message $message) {
 function c4m_message_load__c4m_insert__node__share(Message $message) {
   c4m_message_load_general_arguments($message);
 
-  $message->arguments['!content'] = array(
+  $message->arguments['!content'] = [
     'callback' => 'c4m_message_format_rendered_node',
     'pass message' => TRUE,
-  );
-  $message->arguments['!icon'] = array(
+  ];
+  $message->arguments['!icon'] = [
     'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@operation'] = array(
+  $message->arguments['@operation'] = [
     'callback' => 'c4m_message_format_node_share',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group'] = array(
+  $message->arguments['!group'] = [
     'callback' => 'c4m_message_format_group_share',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group_type'] = array(
+  $message->arguments['!group_type'] = [
     'callback' => 'c4m_message_format_original_group_type',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!group_original'] = array(
+  $message->arguments['!group_original'] = [
     'callback' => 'c4m_message_format_original_group_share',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -3030,20 +3032,20 @@ function c4m_message_load__c4m_insert__node__share(Message $message) {
 function c4m_message_load__c4m_insert__node__photoalbum(Message $message) {
   c4m_message_load_general_arguments($message);
 
-  $message->arguments['!content'] = array(
+  $message->arguments['!content'] = [
     'callback' => 'c4m_message_format_rendered_node',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@operation'] = array(
+  $message->arguments['@operation'] = [
     'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!icon'] = array(
+  $message->arguments['!icon'] = [
     'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -3057,20 +3059,20 @@ function c4m_message_load__c4m_insert__node__photoalbum(Message $message) {
 function c4m_message_load__c4m_insert__node__event(Message $message) {
   c4m_message_load_general_arguments($message);
 
-  $message->arguments['!content'] = array(
+  $message->arguments['!content'] = [
     'callback' => 'c4m_message_format_rendered_node',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['@operation'] = array(
+  $message->arguments['@operation'] = [
     'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!icon'] = array(
+  $message->arguments['!icon'] = [
     'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -3084,20 +3086,20 @@ function c4m_message_load__c4m_insert__node__event(Message $message) {
 function c4m_message_load__c4m_insert__comment(Message $message) {
   c4m_message_load_general_arguments($message);
 
-  $message->arguments['@node_type'] = array(
+  $message->arguments['@node_type'] = [
     'callback' => 'c4m_message_format_comment',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!content'] = array(
+  $message->arguments['!content'] = [
     'callback' => 'c4m_message_format_rendered_comment',
     'pass message' => TRUE,
-  );
+  ];
 
-  $message->arguments['!icon'] = array(
+  $message->arguments['!icon'] = [
     'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
-  );
+  ];
 }
 
 /**
@@ -3163,7 +3165,7 @@ function c4m_message_format_comment(Message $message) {
 
   return format_string(
     '@article @node_type',
-    array('@article' => $info['article'], '@node_type' => $info['singular'])
+    ['@article' => $info['article'], '@node_type' => $info['singular']]
   );
 }
 
@@ -3218,12 +3220,12 @@ function c4m_message_format_node_icon(Message $message) {
 
   $info = c4m_helper_entity_label_info($node);
 
-  $icon_tag = array(
+  $icon_tag = [
     '#type' => 'html_tag',
     '#tag' => 'i',
     '#value' => '',
-    '#attributes' => array('class' => array('fa', $info['icon'])),
-  );
+    '#attributes' => ['class' => ['fa', $info['icon']]],
+  ];
 
   return drupal_render($icon_tag);
 }
@@ -3245,27 +3247,27 @@ function c4m_message_format_group_share(Message $message) {
     $wrapper->field_node->og_group_ref->value()
   );
 
-  $url_options = array(
+  $url_options = [
     'absolute' => TRUE,
-    'purl' => array(
+    'purl' => [
       'provider' => 'og_purl|node',
       'id' => $group_wrapper->nid->value(),
       'enabled' => TRUE,
-    ),
-  );
+    ],
+  ];
 
   $bundle = $group_wrapper->getBundle();
   drupal_alter('c4m_content_bundle', $bundle, $group_wrapper);
 
   return t(
     '@group_type !group_url',
-    array(
+    [
       '@group_type' => $bundle,
       '!group_url' => l(
         $group_wrapper->title->value(),
         url('<front>', $url_options)
       ),
-    )
+    ]
   );
 }
 
@@ -3294,7 +3296,7 @@ function c4m_message_format_original_group_share(Message $message) {
     $group_wrapper->title->value(),
     url(
       'node/' . $group_wrapper->get('nid')->value(),
-      array('purl' => array('disabled' => TRUE), 'absolute' => TRUE)
+      ['purl' => ['disabled' => TRUE], 'absolute' => TRUE]
 
     )
   );
@@ -3344,7 +3346,7 @@ function c4m_message_format_node_share(Message $message) {
 
   return t(
     'shared @article @node_type',
-    array('@article' => $info['article'], '@node_type' => $info['singular'])
+    ['@article' => $info['article'], '@node_type' => $info['singular']]
   );
 }
 
@@ -3390,7 +3392,7 @@ function c4m_message_format_rendered_comment(Message $message) {
  *   The non-saved message entity.
  */
 function c4m_message__insert__comment($comment) {
-  $values = array('uid' => $comment->uid);
+  $values = ['uid' => $comment->uid];
   $message = message_create('c4m_insert__comment', $values);
 
   $node = node_load($comment->nid);
@@ -3434,7 +3436,7 @@ function c4m_message__update__comment($comment) {
 
   if (!$message) {
     // Message doesn't exist - create a new message.
-    $values = array('uid' => $comment->uid);
+    $values = ['uid' => $comment->uid];
     $message = message_create('c4m_insert__comment', $values);
   }
   $node = node_load($comment->nid);
@@ -3461,7 +3463,7 @@ function c4m_message__insert__node($node) {
     return FALSE;
   }
 
-  $values = array('uid' => $node->uid);
+  $values = ['uid' => $node->uid];
   $message = message_create('c4m_insert__node__' . $node->type, $values);
 
   c4m_message_prepare_insert_entity($message, 'node', $node);
@@ -3550,10 +3552,10 @@ function c4m_message__update__node($node, $account = NULL) {
     }
     else {
       // Need to create new message, not to update existing one.
-      $values = array(
+      $values = [
         'uid' => $account->uid,
         'timestamp' => $node->timestamp,
-      );
+      ];
       $message = message_create(
         'c4m_insert__node__' . $node->type,
         $values,
@@ -3563,10 +3565,10 @@ function c4m_message__update__node($node, $account = NULL) {
   }
   else {
     // More than the threshold - need to create a new message.
-    $values = array(
+    $values = [
       'uid' => $account->uid,
       'timestamp' => $node->timestamp,
-    );
+    ];
     $message = message_create(
       'c4m_insert__node__' . $node->type,
       $values,
@@ -3614,7 +3616,7 @@ function c4m_message_prepare_insert_entity(
   }
 
   $group_id = $node_wrapper->{OG_AUDIENCE_FIELD}->value(
-    array('identifier' => TRUE)
+    ['identifier' => TRUE]
   );
   $message_wrapper->field_group_node->set($group_id);
 }
@@ -3664,7 +3666,7 @@ function c4m_message_preprocess_node__document(&$variables) {
   $file_type = $document['type'];
   $variables['file_info'] = t(
     'Filetype: @filetype | Filesize: @filesize',
-    array('@filetype' => $file_type, '@filesize' => $file_size)
+    ['@filetype' => $file_type, '@filesize' => $file_size]
   );
 }
 
@@ -3693,7 +3695,7 @@ function c4m_message_preprocess_node__event(&$variables) {
 
   $variables['event_info'] = t(
     'From @start to @end',
-    array('@start' => $start_date_time, '@end' => $end_date_time)
+    ['@start' => $start_date_time, '@end' => $end_date_time]
   );
 }
 
@@ -3712,8 +3714,8 @@ function c4m_message_load_homepage_activity_stream() {
   $filter = !empty($get_query['filter'])
     ? $get_query['filter']
     : '';
-  $groups = array();
-  $interests = array();
+  $groups = [];
+  $interests = [];
   $hide_articles = FALSE;
   $group_context = (bool) og_context();
 
@@ -3761,12 +3763,12 @@ function c4m_message_load_homepage_activity_stream() {
 
       case 'showAll':
       default:
-        $groups = array();
+        $groups = [];
         break;
     }
   }
 
-  $request = array(
+  $request = [
     'group' => $groups,
     'topics' => $interests,
     'html' => TRUE,
@@ -3775,28 +3777,28 @@ function c4m_message_load_homepage_activity_stream() {
     'homepage' => '1',
     'hide_articles' => $hide_articles,
     'group_context' => $group_context,
-  );
+  ];
 
   $activities = c4m_message_get_activities($request);
 
   // URL options.
-  $options = array(
-    'purl' => array(
+  $options = [
+    'purl' => [
       'disabled' => TRUE,
-    ),
+    ],
     'absolute' => TRUE,
-  );
+  ];
 
   // Pass info via Drupal.settings.
-  $settings['c4m'] = array(
+  $settings['c4m'] = [
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'activities' => $activities,
-    'data' => array(
+    'data' => [
       'request' => $request,
-      'entity' => array('group' => $groups),
-    ),
-  );
+      'entity' => ['group' => $groups],
+    ],
+  ];
   drupal_add_js($settings, 'setting');
 }
 
@@ -3934,7 +3936,7 @@ function c4m_message_query_activity_stream_entity_field_access_alter(
     if (!($table instanceof SelectQueryInterface) && $table == $base_table) {
       // Set the subquery.
       $subquery = db_select('node_access', 'na')
-        ->fields('na', array('nid'));
+        ->fields('na', ['nid']);
 
       // Plugable_node_access model does not take into consideration restricted
       // group status ('c4m_og_status' field), while non members that match the
@@ -4055,13 +4057,13 @@ function c4m_message_query_activity_stream_entity_field_access_alter(
  * Implements hook_c4m_helper_entity_metrics_info().
  */
 function c4m_message_c4m_helper_entity_metrics_info() {
-  return array(
-    'c4m_user_last_activity' => array(
+  return [
+    'c4m_user_last_activity' => [
       'type' => 'last_activity',
       'context' => 'user',
       'callback' => 'c4m_message_get_user_last_activity',
-    ),
-  );
+    ],
+  ];
 }
 
 /**
@@ -4075,7 +4077,7 @@ function c4m_message_c4m_helper_entity_metrics_info() {
  */
 function c4m_message_get_user_last_activity($uid) {
   $query = db_select('message', 'm');
-  $query->fields('m', array('timestamp'));
+  $query->fields('m', ['timestamp']);
   $query->condition('uid', $uid);
   $query->orderBy('timestamp', 'DESC');
   $query->range(0, 1);
@@ -4110,14 +4112,14 @@ function c4m_message_get_query_condition_index_by_field_name(
   foreach ($query_filter as $group_index => $group) {
     foreach ($group['conditions'] as $condition_index => $condition) {
       if (is_string($condition['field']) && $condition['field'] == $field) {
-        return array(
+        return [
           'group' => $group_index,
           'index' => $condition_index,
-        );
+        ];
       }
     }
   }
-  return array();
+  return [];
 }
 
 /**
@@ -4164,10 +4166,10 @@ function c4m_features_homepage_filter_form_create_submit(
   array &$form,
   array &$form_state
 ) {
-  $options = array(
-    'query' => array(
+  $options = [
+    'query' => [
       'filter' => $form_state['values']['homepage-filter'],
-    ),
-  );
-  $form_state['redirect'] = array('<front>', $options);
+    ],
+  ];
+  $form_state['redirect'] = ['<front>', $options];
 }

@@ -8,12 +8,10 @@
 /**
  * Sends mail notification to content comments subscribers on new comment.
  *
- * @param int $cid
- *   Comment id.
- * @param int $nid
- *   Node id.
+ * @param object $comment
+ *   The drupal comment entity object.
  */
-function _c4m_user_notifications_notify_subscribe_commenter_new_comment($cid, $nid) {
+function _c4m_user_notifications_notify_subscribe_commenter_new_comment($comment) {
   global $user;
   $message = message_create('c4m_notify_content_followers_new_comment');
 
@@ -21,11 +19,11 @@ function _c4m_user_notifications_notify_subscribe_commenter_new_comment($cid, $n
   c4m_message_load_tokens__c4m_notify_content_followers_new_comment($message);
 
   $wrapper = entity_metadata_wrapper('message', $message);
-  $wrapper->field_node->set($nid);
-  $wrapper->field_comment->set($cid);
+  $wrapper->field_node->set($comment->nid);
+  $wrapper->field_comment->set($comment->cid);
   $wrapper->field_executing_user->set($user->uid);
 
-  $node = node_load($nid);
+  $node = node_load($comment->nid);
 
   // Flag suffix that is used at unsubscribe mechanism.
   $flag_suffix = 'comment';
@@ -60,7 +58,7 @@ function _c4m_user_notifications_notify_subscribe_commenter_new_comment($cid, $n
  * @param int $nid
  *   Node id.
  */
-function _c4m_user_notifications_notify_subscribe_follower_new_comment($cid, $nid) {
+function _c4m_user_notifications_notify_subscribe_follower_new_comment($comment) {
   global $user;
   $message = message_create('c4m_notify_subscribers_new_comment');
 
@@ -68,11 +66,11 @@ function _c4m_user_notifications_notify_subscribe_follower_new_comment($cid, $ni
   c4m_message_load_tokens__c4m_notify_subscribers_new_comment($message);
 
   $wrapper = entity_metadata_wrapper('message', $message);
-  $wrapper->field_node->set($nid);
-  $wrapper->field_comment->set($cid);
+  $wrapper->field_node->set($comment->nid);
+  $wrapper->field_comment->set($comment->cid);
   $wrapper->field_executing_user->set($user->uid);
 
-  $node = node_load($nid);
+  $node = node_load($comment->nid);
 
   // Flag suffix that is used at unsubscribe mechanism.
   $flag_suffix = 'comment';
