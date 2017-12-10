@@ -545,5 +545,87 @@ var jQuery = jQuery || {};
         }
     }
 
+  Drupal.behaviors.disableSubmitUntilAllRequired = {
+    updateSubmitButtons: function (emptyTextfields, emptyWidgetfields, submitButtons) {
+      if (emptyTextfields || emptyWidgetfields) {
+        submitButtons.attr("disabled", "disabled");
+      }
+      else {
+        submitButtons.removeAttr("disabled");
+      }
+    }, attach: function (context) {
+      var requiredTextFields = $('form .required');
+      var requiredWidgets = $('form .required-checkbox');
+      var submitButtons = $('form .form-submit, form .form-preview');
+
+      if ((requiredTextFields.length + requiredWidgets.length) <= 0) {
+        return;
+      }
+
+      var emptyTextfields = false;
+      var emptyWidgetfields = false;
+
+      if (requiredTextFields.length > 0) {
+        emptyTextfields = true;
+      }
+
+      if (requiredWidgets.length > 0) {
+        emptyWidgetfields = true;
+      }
+
+      requiredTextFields.keyup(function() {
+        emptyTextfields = false;
+
+        requiredTextFields.each(function() {
+          if ($(this).val() === '') {
+            if ($(this).parent().find('iframe')) {
+              if ($(this).parent().find('iframe').contents().find("p").text() === '') {
+                  emptyTextfields = true;
+              }
+            } else {
+              emptyTextfields = true;
+            }
+          }
+        });
+
+        Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(emptyTextfields, emptyWidgetfields, submitButtons);
+      });
+
+      requiredWidgets.click(function() {
+        emptyWidgetfields = false;
+
+        requiredWidgets.each(function() {
+          if ($(this).val() === '') {
+            emptyWidgetfields = true;
+          }
+        });
+
+        Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(emptyTextfields, emptyWidgetfields, submitButtons);
+      });
+    }
+  };
+
+  Drupal.behaviors.hideSubmitButton = {
+    attach: function(context) {
+      $('form.node-form', context).once('hideSubmitButton', function () {
+        var $form = $(this);
+        $form.find('#edit-submit').click(function (e) {
+          var el = $(this);
+          el.after('<input type="hidden" name="' + el.attr('name') + '" value="' + el.attr('value') + '" />');
+          return true;
+        });
+        $form.submit(function (e) {
+          if (!e.isPropagationStopped()) {
+            $form.find('#edit-submit').attr("disabled", "disabled");
+            $form.find('#edit-cancel').attr("disabled", "disabled");
+            $form.find('#edit-delete').attr("disabled", "disabled");
+            $form.find("#edit-preview-changes").addClass("disabled-preview");
+            return true;
+          }
+        });
+      });
+    }
+  };
+
 })
 (jQuery);
