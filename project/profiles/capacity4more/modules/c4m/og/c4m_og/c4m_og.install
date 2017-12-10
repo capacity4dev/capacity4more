@@ -53,3 +53,11 @@ function _c4m_og_install_og_variable_realm() {
 function _c4m_og_update_7000() {
   module_enable(array('session_api'));
 }
+
+/**
+ * Adjust og settings.
+ */
+function c4m_og_update_7001() {
+  variable_set('og_use_queue', 1);
+  variable_set('og_orphans_delete', 1);
+}

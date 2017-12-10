@@ -230,27 +230,6 @@ function c4m_user_notifications_node_update($node) {
 }
 
 /**
- * Implements hook_node_delete().
- *
- * Triggers email notification for node (group/project) delete.
- */
-function c4m_user_notifications_node_delete($node) {
-  // Don't send notifications, if activated from CLI (dummy content migration).
-  if (drupal_is_cli()) {
-    return;
-  }
-
-  if (!og_is_group('node', $node)) {
-    return;
-  }
-
-  $wrapper = entity_metadata_wrapper('node', $node);
-  $group_former_status = $wrapper->c4m_og_status->value();
-
-  c4m_user_notifications_group_hard_deleted($node, $group_former_status);
-}
-
-/**
  * Implements hook_comment_insert().
  *
  * Triggers email notifications for comment insert.
