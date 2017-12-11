@@ -27,7 +27,6 @@ function _c4m_user_notifications_notify_subscribe_commenter_new_comment($comment
 
   // Flag suffix that is used at unsubscribe mechanism.
   $flag_suffix = 'comment';
-  $additional_flag_suffix = 'node';
 
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
@@ -39,9 +38,13 @@ function _c4m_user_notifications_notify_subscribe_commenter_new_comment($comment
   // 'follow node' flags will be returned.
   $context = [
     'entity_type' => $flag_suffix,
-    'entity_id' => $nid,
-    'additional_flag_suffix' => $additional_flag_suffix,
-    'intergroup_operation' => 'intersect',
+    'entity_id' => $comment->nid,
+    'additional_flag_context' => [
+      [
+        'additional_flag_name' => 'node',
+        'additional_flag_operation' => 'intersect',
+      ],
+    ],
   ];
 
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
@@ -74,7 +77,6 @@ function _c4m_user_notifications_notify_subscribe_follower_new_comment($comment)
 
   // Flag suffix that is used at unsubscribe mechanism.
   $flag_suffix = 'comment';
-  $additional_flag_suffix = 'node';
 
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
@@ -86,9 +88,13 @@ function _c4m_user_notifications_notify_subscribe_follower_new_comment($comment)
   // 'follow node' flags will be returned.
   $context = [
     'entity_type' => $flag_suffix,
-    'entity_id' => $nid,
-    'additional_flag_suffix' => $additional_flag_suffix,
-    'intergroup_operation' => 'diff',
+    'entity_id' => $comment->nid,
+    'additional_flag_context' => [
+      [
+        'additional_flag_name' => 'node',
+        'additional_flag_operation' => 'diff',
+      ],
+    ],
   ];
 
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
@@ -271,9 +277,14 @@ function _c4m_user_notifications_notify_subscribe_content_revision($node, $users
     // This configuration will result in selecting subscribers that
     // follow content node group, and do not follow content node itself.
     $context['entity_id'] = $gid;
-    $context['additional_entity_id'] = $node->nid;
-    $context['additional_flag_suffix'] = 'node';
-    $context['intergroup_operation'] = 'diff';
+
+    $context['additional_flag_context'] = [
+      [
+        'additional_flag_name' => 'node',
+        'additional_flag_operation' => 'diff',
+        'additional_flag_entity_id' => $node->nid,
+      ],
+    ];
   }
   elseif ($users_group == 'content_editors') {
     $context['entity_id'] = $node->nid;

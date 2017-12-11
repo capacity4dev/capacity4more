@@ -33,36 +33,27 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
 
   $users = flag_get_entity_flags($flagged_entity_type, $entity_id, $flag_name);
 
-  // Set filtered users to full list of $users - if no filtering required,
-  // this wil insure that noting gets filtered.
   $filtered_users = array_keys($users);
 
-  // If we need to filter users according to additional flag.
-  if (isset($context['additional_flag_suffix']) && isset($context['intergroup_operation'])) {
-    // When 'additional flag' is provided, users will be filtered using
-    // operation defined at 'intergroup_operation'.
-    // When 'intergroup_operation' is set to 'intersect', only users that got
-    // 'entity_id' marked by flag AND 'additional_entity_id' marked by
-    // additional flag are returned.
-    // When 'intergroup_operation' is set to 'diff', only users that got
-    // 'entity_id' marked by flag AND NOT got 'additional_entity_id' marked by
-    // additional flag are returned.
-    // If 'additional_entity_id' is not provided, it's set to 'entity_id' =>
-    // both flags are set on same entity.
-    $flag_name = 'subscribe_c4m_follow_' . $context['additional_flag_suffix'];
-    $additional_entity_id = isset($context['additional_entity_id']) ? $context['additional_entity_id'] : $entity_id;
-    $filtered_users = flag_get_entity_flags(
-      $flagged_entity_type,
-      $additional_entity_id,
-      $flag_name
-    );
-    // Intergroup operations can be 'intersect' or 'diff'.
-    $function = 'array_' . $context['intergroup_operation'];
-    // Function is either array_intersect() or array_diff().
-    $filtered_users = $function(
-      array_keys($users),
-      array_keys($filtered_users)
-    );
+  if (!empty($context['additional_flag_context']) && is_array($context['additional_flag_context'])) {
+    foreach ($context['additional_flag_context'] as $flag_context) {
+      $flag_name = 'subscribe_c4m_follow_' . $flag_context['additional_flag_name'];
+      $flag_entity_id = !empty($flag_context['additional_flag_entity_id']) ? $flag_context['additional_flag_entity_id'] : $entity_id;
+
+      $flagged_users = flag_get_entity_flags(
+        $flagged_entity_type,
+        $flag_entity_id,
+        $flag_name
+      );
+
+      // Operation can be 'intersect' or 'diff'.
+      $function = 'array_' . $flag_context['additional_flag_operation'];
+      // Function is either array_intersect() or array_diff().
+      $filtered_users = $function(
+        $filtered_users,
+        array_keys($flagged_users)
+      );
+    }
   }
 
   // Need to load the group to which content belongs, take sure user is not
