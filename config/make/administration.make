@@ -92,6 +92,7 @@ projects[restful][download][url] = "https://github.com/Gizra/restful.git"
 projects[restful][download][branch] = 7.x-1.x
 projects[restful][subdir] = "contrib"
 projects[restful][type] = "module"
+projects[restful][patch][] = "../patches/restful-fix-rr.patch"
 
 projects[term_reference_tree][subdir] = "contrib"
 projects[term_reference_tree][version] = "1.10"
