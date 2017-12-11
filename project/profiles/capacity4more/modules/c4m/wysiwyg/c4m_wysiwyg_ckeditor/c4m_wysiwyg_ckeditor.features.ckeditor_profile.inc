@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_wysiwyg_ckeditor.features.ckeditor_profile.inc

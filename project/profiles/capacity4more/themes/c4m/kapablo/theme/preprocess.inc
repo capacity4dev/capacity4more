@@ -124,6 +124,16 @@ function kapablo_preprocess_views_view(&$vars) {
  * @see page--og--project.tpl.php
  */
 function kapablo_preprocess_page(&$variables) {
+
+  drupal_add_js(
+    '//ec.europa.eu/wel/cookie-consent/consent.js',
+    [
+      'type' => 'external',
+      'scope' => 'header',
+      'group' => JS_THEME,
+      'weight' => 1000,
+    ]
+  );
   // Determine if the current context is a project.
   $context = og_context();
   if ($context) {
