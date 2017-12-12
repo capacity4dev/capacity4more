@@ -444,10 +444,12 @@ function c4m_search_default_search_api_index() {
             "fields" : {
               "name" : true,
               "mail" : true,
+              "c4m_organisation_type" : true,
               "c4m_first_name" : true,
+              "c4m_job_title" : true,
               "c4m_last_name" : true,
               "c4m_organisation" : true,
-              "c4m_organisation_type" : true
+              "c4m_body:value" : true
             },
             "title" : 0,
             "alt" : 1,
@@ -460,10 +462,12 @@ function c4m_search_default_search_api_index() {
           "settings" : { "fields" : {
               "name" : true,
               "mail" : true,
+              "c4m_organisation_type" : true,
               "c4m_first_name" : true,
+              "c4m_job_title" : true,
               "c4m_last_name" : true,
               "c4m_organisation" : true,
-              "c4m_organisation_type" : true
+              "c4m_body:value" : true
             }
           }
         },
