@@ -573,16 +573,17 @@ var jQuery = jQuery || {};
         emptyWidgetfields = true;
       }
 
-      requiredTextFields.keyup(function() {
+      requiredTextFields.keyup(function () {
         emptyTextfields = false;
 
-        requiredTextFields.each(function() {
+        requiredTextFields.each(function () {
           if ($(this).val() === '') {
             if ($(this).parent().find('iframe')) {
               if ($(this).parent().find('iframe').contents().find("p").text() === '') {
                   emptyTextfields = true;
               }
-            } else {
+            }
+            else {
               emptyTextfields = true;
             }
           }
@@ -591,10 +592,10 @@ var jQuery = jQuery || {};
         Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(emptyTextfields, emptyWidgetfields, submitButtons);
       });
 
-      requiredWidgets.click(function() {
+      requiredWidgets.click(function () {
         emptyWidgetfields = false;
 
-        requiredWidgets.each(function() {
+        requiredWidgets.each(function () {
           if ($(this).val() === '') {
             emptyWidgetfields = true;
           }
