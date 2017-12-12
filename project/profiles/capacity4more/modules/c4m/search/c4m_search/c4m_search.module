@@ -197,12 +197,12 @@ function c4m_search_theme() {
  * $query->setOption('limit', 0);
  *
  * @param array $filters
- *    The filters to be added to the query.
+ *   The filters to be added to the query.
  * @param array $options
- *    Additional options to be added to the query.
+ *   Additional options to be added to the query.
  *
  * @return array
- *    Result set of the query.
+ *   Result set of the query.
  */
 function c4m_search_custom_search(array $filters, array $options = array()) {
   if (empty($filters)) {
