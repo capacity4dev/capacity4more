@@ -647,6 +647,10 @@ function c4m_search_form_views_exposed_form_alter(
 function c4m_search_submit_handler_search_within_results($form, &$form_state) {
   $path = drupal_get_query_parameters();
 
+  if (!empty($path['op'])) {
+    // The form is resetted.
+    return;
+  }
   if (!isset($path['search_params'])) {
     return;
   }
@@ -662,15 +666,28 @@ function c4m_search_submit_handler_search_within_results($form, &$form_state) {
   // If the pager was not clicked then the form was submitted.
   else {
     $new_value = $form_state['values']['search'];
-    // If the user clicks "Search within search results" without having a
-    // previous searched string, the text $params['text'] is not set.
-    if ($form_state['values']['search_within_results'] === 1 && isset($params['text']) && $params['text'] !== '') {
-      $params['text'] .= ' ' . $new_value;
+    if ($form_state['values']['search_within_results'] === 1) {
+      // If the user clicks "Search within search results" without having a
+      // previous searched string, the text $params['text'] is not set.
+      if (!empty($params['text'])) {
+        $params['text'] .= $new_value !== '' ? ' ' . $new_value : '';
+      }
+      else {
+        if ($new_value !== '') {
+          $params['text'] = $new_value;
+        }
+        else {
+          unset($params['text']);
+        }
+      }
     }
-    // Simple form submission or a search within results but with no initial
-    // value.
     else {
-      $params['text'] = $new_value;
+      // Simple form submission or a search not within results.
+      // We're resetting the params array to wipe out the facets.
+      $params = [];
+      if ($new_value !== '') {
+        $params['text'] = $new_value;
+      }
     }
   }
   drupal_goto(current_path(), array('query' => $params));
