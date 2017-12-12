@@ -133,13 +133,6 @@ function c4m_search_block_view_alter(&$data, $block) {
  */
 function c4m_search_facetapi_widgets() {
   return array(
-    'c4m_search_links_content_type' => array(
-      'handler' => array(
-        'label' => t('Content Type'),
-        'class' => 'C4mSearchWidgetLinksContentTypes',
-        'query types' => array('term'),
-      ),
-    ),
     'c4m_search_links_grouped' => array(
       'handler' => array(
         'label' => t('Links Grouped'),
@@ -515,7 +508,7 @@ function c4m_search_facet_items_alter(&$build, &$settings) {
       }
     }
   }
-  if ($settings->settings['widget'] == 'c4m_search_links_content_type') {
+  if ($settings->facet === 'type') {
     if (isset($build['discussion']['#active'])) {
       $discussion_items = _c4m_search_get_facet_items('c4m_discussion_type');
       $list = array(
