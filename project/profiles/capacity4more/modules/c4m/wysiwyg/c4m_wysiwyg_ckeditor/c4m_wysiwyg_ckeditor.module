@@ -109,6 +109,7 @@ function c4m_wysiwyg_ckeditor_media_wysiwyg_format_form_prepare_alter(
  * Define all external domains that use cookies.
  *
  * @return array
+ *   A list with all domains that contain cookies.
  */
 function _c4m_wysiwyg_ckeditor_ckeditor_iframes_with_cookies() {
   return [
@@ -129,7 +130,7 @@ function _c4m_wysiwyg_ckeditor_ckeditor_iframes_with_cookies() {
     'soundcloud',
     'audioboom',
     'mixcloud',
-    'mindmeister'
+    'mindmeister',
   ];
 }
 
@@ -150,10 +151,15 @@ function c4m_wysiwyg_ckeditor_filter_info() {
 /**
  * Returns tips for defined filter.
  *
- * @param $filter
- * @param $format
+ * @param string $filter
+ *   Filter for which the tips are added.
+ * @param string $format
+ *   Format of the filter.
  * @param bool $long
+ *   Decide the type of the tips.
+ *
  * @return string
+ *   Text that describes ckeditor filter.
  */
 function _c4m_wysiwyg_ckeditor_iframe_cck_filter_tips(
   $filter,
@@ -205,10 +211,10 @@ function _c4m_wysiwyg_ckeditor_iframe_cck_filter_process(
       !empty($services_replaced[$service]) ?
         $services_replaced[$service]++ : $services_replaced[$service] = 0;
       $wrapper_div = $dom->createElement('div');
-      $wrapper_div->setAttribute('class',$service . '_frame');
+      $wrapper_div->setAttribute('class', $service . '_frame');
       $wrapper_div->setAttribute(
         'id',
-        "validate-consent-" .$service . "-" . $services_replaced[$service]
+        "validate-consent-" . $service . "-" . $services_replaced[$service]
       );
       $iframe->parentNode->replaceChild($wrapper_div, $iframe);
       $wrapper_div->appendChild($iframe);
