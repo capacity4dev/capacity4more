@@ -569,3 +569,10 @@ function capacity4more_update_7001() {
 function capacity4more_update_7002() {
   variable_set('entity_rebuild_on_flush', FALSE);
 }
+
+/**
+ * Enable current_search_links module.
+ */
+function capacity4more_update_7003() {
+  module_enable(['current_search_links']);
+}

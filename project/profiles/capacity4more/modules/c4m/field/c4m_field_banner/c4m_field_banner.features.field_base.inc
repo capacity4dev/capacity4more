@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_field_banner.features.field_base.inc

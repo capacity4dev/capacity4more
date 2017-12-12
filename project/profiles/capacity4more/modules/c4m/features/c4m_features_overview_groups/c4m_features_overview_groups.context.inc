@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_features_overview_groups.context.inc
@@ -43,6 +44,12 @@ function c4m_features_overview_groups_context_default_contexts() {
           'delta' => 'search_filter_groups_overview',
           'region' => 'content_above',
           'weight' => '-9',
+        ),
+        'current_search-c4m_current_search_nodes' => array(
+          'module' => 'current_search',
+          'delta' => 'c4m_current_search_nodes',
+          'region' => 'content',
+          'weight' => '-10',
         ),
         'c4m_content_group-c4m_block_create_group' => array(
           'module' => 'c4m_content_group',

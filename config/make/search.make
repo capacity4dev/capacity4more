@@ -3,8 +3,16 @@ api = 2
 
 ; Search.
 
+projects[current_search_links][subdir] = "contrib"
+projects[current_search_links][version] = "1.x-dev"
+projects[current_search_links][download][type] = "git"
+projects[current_search_links][download][url] = "https://git.drupal.org/project/current_search_links.git"
+projects[current_search_links][download][revision] = "55c035d131f99a131f49de2decd3cc08640f33b0"
+projects[current_search_links][patch][] = "https://www.drupal.org/files/issues/current_search_links-theming-hooks-2929123-2.patch"
+
 projects[facetapi][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
+projects[facetapi][patch][] = "https://www.drupal.org/files/issues/facetapi-exportable-current-search-searcher-1469002-0.patch"
 
 projects[facetapi_bonus][subdir] = "contrib"
 projects[facetapi_bonus][version] = "1.2"

@@ -6,6 +6,7 @@ dependencies[] = c4m_content_discussion
 dependencies[] = c4m_og
 dependencies[] = c4m_views
 dependencies[] = context
+dependencies[] = current_search
 dependencies[] = entity
 dependencies[] = facetapi
 dependencies[] = path_breadcrumbs

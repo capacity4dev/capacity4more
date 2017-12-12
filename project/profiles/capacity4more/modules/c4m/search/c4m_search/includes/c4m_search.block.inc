@@ -68,3 +68,16 @@ function _c4m_search_block_facetapi_view_alter(&$data, $block) {
   // Override the title.
   $data['subject'] = $titles[$block->delta];
 }
+
+/**
+ * Override the default current_search block titles.
+ *
+ * @param mixed $data
+ *   The render array.
+ * @param object $block
+ *   The block information for who the block is being displayed.
+ */
+function _c4m_search_block_current_search_view_alter(&$data, $block) {
+  // Override the title.
+  $data['subject'] = t('You searched for:');
+}
