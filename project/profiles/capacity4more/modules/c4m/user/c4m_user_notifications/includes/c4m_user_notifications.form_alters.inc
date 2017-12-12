@@ -17,6 +17,8 @@
  *   Drupal form_state array.
  */
 function _c4m_user_notifications_form_c4m_og_reject_membership_request_alter(array &$form, array &$form_state) {
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.notify');
+
   $form['#submit'][] = '_c4m_user_notifications_notify_user_og_group_membership_rejected';
   $form['#submit'][] = 'c4m_og_route_to_group_people';
 }
@@ -30,6 +32,8 @@ function _c4m_user_notifications_form_c4m_og_reject_membership_request_alter(arr
  *   Drupal form_state array.
  */
 function _c4m_user_notifications_form_og_ui_add_users_alter(array &$form, array &$form_state) {
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.notify');
+
   // Apply only to SAs.
   $site_admin_role = user_role_load_by_name('administrator');
   if (!user_has_role($site_admin_role->rid)) {

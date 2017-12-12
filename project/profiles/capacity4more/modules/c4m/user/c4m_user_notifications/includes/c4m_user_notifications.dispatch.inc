@@ -5,6 +5,9 @@
  * Business logic to dispatch and trigger the proper notifications.
  */
 
+module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.notify');
+module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.notify_subscribe');
+
 /**
  * Dispatch notifications when a new membership is added to a group.
  *

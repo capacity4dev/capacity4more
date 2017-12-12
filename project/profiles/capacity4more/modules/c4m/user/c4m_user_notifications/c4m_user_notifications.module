@@ -10,14 +10,13 @@
  */
 module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.helper');
 module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.logger');
-module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
-module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.notify');
-module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.notify_subscribe');
 
 /**
  * Implements hook_og_membership_insert().
  */
 function c4m_user_notifications_og_membership_insert($og_membership) {
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
+
   _c4m_user_notifications_og_membership_insert($og_membership);
 }
 
@@ -25,6 +24,8 @@ function c4m_user_notifications_og_membership_insert($og_membership) {
  * Implements hook_og_membership_update().
  */
 function c4m_user_notifications_og_membership_update($og_membership) {
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
+
   _c4m_user_notifications_dispatch_og_membership_update($og_membership);
 }
 
@@ -32,6 +33,8 @@ function c4m_user_notifications_og_membership_update($og_membership) {
  * Implements hook_og_role_grant().
  */
 function c4m_user_notifications_og_role_grant($entity_type, $gid, $uid, $rid) {
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
+
   _c4m_user_notifications_og_role_grant($gid, $uid, $rid);
 }
 
@@ -39,6 +42,8 @@ function c4m_user_notifications_og_role_grant($entity_type, $gid, $uid, $rid) {
  * Implements hook_og_role_revoke().
  */
 function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
+
   _c4m_user_notifications_og_role_revoke($gid, $uid, $rid);
 }
 
@@ -46,6 +51,8 @@ function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
  * Implements hook_node_insert().
  */
 function c4m_user_notifications_node_insert($node) {
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
+
   _c4m_user_notifications_node_insert($node);
 }
 
@@ -53,6 +60,8 @@ function c4m_user_notifications_node_insert($node) {
  * Implements hook_node_update().
  */
 function c4m_user_notifications_node_update($node) {
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
+
   _c4m_user_notifications_node_update($node);
 }
 
@@ -60,6 +69,8 @@ function c4m_user_notifications_node_update($node) {
  * Implements hook_comment_insert().
  */
 function c4m_user_notifications_comment_insert($comment) {
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
+
   _c4m_user_notifications_comment_insert($comment);
 }
 
@@ -67,6 +78,8 @@ function c4m_user_notifications_comment_insert($comment) {
  * Implements hook_flag_flag().
  */
 function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging) {
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
+
   _c4m_user_notifications_flag_flag($flag, $entity_id);
 }
 
