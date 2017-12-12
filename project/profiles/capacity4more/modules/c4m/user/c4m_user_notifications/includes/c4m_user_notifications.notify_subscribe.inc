@@ -56,10 +56,8 @@ function _c4m_user_notifications_notify_subscribe_commenter_new_comment($comment
 /**
  * Sends mail notification to content subscribers on new comment.
  *
- * @param int $cid
- *   Comment id.
- * @param int $nid
- *   Node id.
+ * @param object $comment
+ *   The drupal comment entity object.
  */
 function _c4m_user_notifications_notify_subscribe_follower_new_comment($comment) {
   global $user;
