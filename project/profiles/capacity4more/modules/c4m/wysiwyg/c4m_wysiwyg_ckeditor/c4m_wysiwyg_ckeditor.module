@@ -200,14 +200,14 @@ function _c4m_wysiwyg_ckeditor_iframe_cck_filter_process(
     // Get the domain name.
     preg_match('/([^.]+)\.[^.]+$/', $host, $matches);
     $service = $matches[1];
-    // Alter media source so it will be rendered after the cookie policy is
-    // accepted.
-    $iframe->setAttribute(
-      "src",
-      "//ec.europa.eu/cookie-consent/?name=" . $service . "&oriurl=" . $src
-    );
     // Check if host exists in our list of cookies.
     if (in_array($service, $services)) {
+      // Alter media source so it will be rendered after the cookie policy is
+      // accepted.
+      $iframe->setAttribute(
+        "src",
+        "//ec.europa.eu/cookie-consent/?name=" . $service . "&oriurl=" . $src
+      );
       !empty($services_replaced[$service]) ?
         $services_replaced[$service]++ : $services_replaced[$service] = 0;
       $wrapper_div = $dom->createElement('div');
@@ -221,5 +221,8 @@ function _c4m_wysiwyg_ckeditor_iframe_cck_filter_process(
     }
   }
 
-  return filter_dom_serialize($dom);
+  // Update DOM only if there was at least one service replaced.
+  if (count($services_replaced) > 0) {
+    return filter_dom_serialize($dom);
+  }
 }
