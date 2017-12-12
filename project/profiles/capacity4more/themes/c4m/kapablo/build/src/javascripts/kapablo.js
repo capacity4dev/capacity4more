@@ -607,7 +607,7 @@ var jQuery = jQuery || {};
   };
 
   Drupal.behaviors.hideSubmitButton = {
-    attach: function(context) {
+    attach: function (context) {
       $('form.node-form', context).once('hideSubmitButton', function () {
         var $form = $(this);
         $form.find('#edit-submit').click(function (e) {
