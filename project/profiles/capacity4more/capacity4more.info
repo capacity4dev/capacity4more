@@ -28,6 +28,7 @@ dependencies[] = better_formats
 dependencies[] = blockreference
 dependencies[] = context
 dependencies[] = ctools
+dependencies[] = current_search_links
 dependencies[] = date
 dependencies[] = date_popup
 dependencies[] = diff

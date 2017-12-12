@@ -54,6 +54,12 @@ function c4m_features_og_discussions_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'current_search-c4m_current_search_nodes' => array(
+          'module' => 'current_search',
+          'delta' => 'c4m_current_search_nodes',
+          'region' => 'content',
+          'weight' => '-10',
+        ),
         'views-335198393aafdd0f0f94e4359fccdd84' => array(
           'module' => 'views',
           'delta' => '335198393aafdd0f0f94e4359fccdd84',

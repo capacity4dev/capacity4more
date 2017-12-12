@@ -27,9 +27,9 @@ function c4m_features_og_events_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'c4m_search_nodes-search_overview_no_summary' => array(
-          'module' => 'c4m_search_nodes',
-          'delta' => 'search_overview_no_summary',
+        'current_search-c4m_current_search_nodes' => array(
+          'module' => 'current_search',
+          'delta' => 'c4m_current_search_nodes',
           'region' => 'content',
           'weight' => '-10',
         ),

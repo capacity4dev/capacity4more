@@ -49,33 +49,6 @@ function c4m_search_nodes_views_pre_render(&$view) {
 }
 
 /**
- * Implements hook_block_info().
- */
-function c4m_search_nodes_block_info() {
-  $blocks['search_overview'] = array(
-    'info' => t('Search: Global overview'),
-    'cache' => DRUPAL_CACHE_GLOBAL,
-  );
-  $blocks['search_overview_no_summary'] = array(
-    'info' => t('Search: Global overview without summary'),
-    'cache' => DRUPAL_CACHE_GLOBAL,
-  );
-  return $blocks;
-}
-
-/**
- * Implements hook_block_view().
- */
-function c4m_search_nodes_block_view($delta = '') {
-  module_load_include('inc', 'c4m_search_nodes', 'includes/c4m_search_nodes.block');
-  $callback = '_c4m_search_nodes_block_' . $delta;
-  if (!function_exists($callback)) {
-    return NULL;
-  }
-  return $callback();
-}
-
-/**
  * Implements hook_exit().
  *
  * Reindex the viewed node if statistics are enabled. The same hook is used by
