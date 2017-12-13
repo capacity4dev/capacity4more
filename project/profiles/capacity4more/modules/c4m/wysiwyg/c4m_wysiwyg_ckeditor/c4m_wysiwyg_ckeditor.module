@@ -225,4 +225,5 @@ function _c4m_wysiwyg_ckeditor_iframe_cck_filter_process(
   if (count($services_replaced) > 0) {
     return filter_dom_serialize($dom);
   }
+  return $text;
 }
