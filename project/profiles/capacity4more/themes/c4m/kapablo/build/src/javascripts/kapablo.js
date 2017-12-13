@@ -546,13 +546,36 @@ var jQuery = jQuery || {};
     }
 
   Drupal.behaviors.disableSubmitUntilAllRequired = {
-    updateSubmitButtons: function (emptyTextfields, emptyWidgetfields, submitButtons) {
-      if (emptyTextfields || emptyWidgetfields) {
+    updateSubmitButtons: function (
+      emptyTextfields,
+      emptyWidgetfields,
+      emptyImageWidget,
+      emptyTopicWidget,
+      submitButtons
+    ) {
+
+      if (emptyTextfields || emptyWidgetfields || emptyImageWidget || emptyTopicWidget) {
         submitButtons.attr("disabled", "disabled");
       }
       else {
         submitButtons.removeAttr("disabled");
       }
+    }, checkTextFields: function (requiredTextFields) {
+      var emptyTextfields = false;
+      requiredTextFields.each(function () {
+        if ($(this).val() === '') {
+          if (($(this).prop("type") === 'textarea') && ($(this).parent().find('iframe'))) {
+            if ($(this).parent().find('iframe').contents().find("p").text() === '') {
+              emptyTextfields = true;
+            }
+          }
+          else {
+            emptyTextfields = true;
+          }
+        }
+      });
+
+      return emptyTextfields;
     }, attach: function (context) {
       var requiredTextFields = $('form .required');
       var requiredWidgets = $('form .required-checkbox');
@@ -564,32 +587,48 @@ var jQuery = jQuery || {};
 
       var emptyTextfields = false;
       var emptyWidgetfields = false;
+      var emptyTopicWidget = false;
+      var emptyImageWidget = false;
 
-      if (requiredTextFields.length > 0) {
-        emptyTextfields = true;
-      }
-
+      emptyTextfields = Drupal.behaviors.disableSubmitUntilAllRequired.checkTextFields(requiredTextFields);
       if (requiredWidgets.length > 0) {
         emptyWidgetfields = true;
       }
 
-      requiredTextFields.keyup(function () {
-        emptyTextfields = false;
-
-        requiredTextFields.each(function () {
-          if ($(this).val() === '') {
-            if ($(this).parent().find('iframe')) {
-              if ($(this).parent().find('iframe').contents().find("p").text() === '') {
-                  emptyTextfields = true;
-              }
-            }
-            else {
-              emptyTextfields = true;
-            }
-          }
+      // Banner element.
+      if ($("#edit-image-banner .form-required").length) {
+        if ($("#edit-image-banner input.fid").val() === '0') {
+          emptyImageWidget = true;
+        }
+      }
+      // Topics widget.
+      if ($(".c4m_vocab_topic .form-required").length > 0) {
+        var selectedTopics = $(".c4m_vocab_topic .selected-values .taxonomy-term-selected:not(.ng-hide)");
+        if (selectedTopics.length <= 0) {
+          emptyTopicWidget = true;
+        }
+        $(".c4m_vocab_topic").click( function () {
+          selectedTopics = $(".c4m_vocab_topic .selected-values .taxonomy-term-selected:not(.ng-hide)");
+          emptyTopicWidget = (selectedTopics.length <= 0);
+          Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
+            emptyTextfields,
+            emptyWidgetfields,
+            emptyImageWidget,
+            emptyTopicWidget,
+            submitButtons
+          );
         });
+      }
 
-        Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(emptyTextfields, emptyWidgetfields, submitButtons);
+      requiredTextFields.keyup(function () {
+        emptyTextfields = Drupal.behaviors.disableSubmitUntilAllRequired.checkTextFields(requiredTextFields);
+        Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
+          emptyTextfields,
+          emptyWidgetfields,
+          emptyImageWidget,
+          emptyTopicWidget,
+          submitButtons
+        );
       });
 
       requiredWidgets.click(function () {
@@ -601,8 +640,23 @@ var jQuery = jQuery || {};
           }
         });
 
-        Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(emptyTextfields, emptyWidgetfields, submitButtons);
+        Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
+          emptyTextfields,
+          emptyWidgetfields,
+          emptyImageWidget,
+          emptyTopicWidget,
+          submitButtons
+        );
       });
+
+      // Initialize on page load.
+      Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
+        emptyTextfields,
+        emptyWidgetfields,
+        emptyImageWidget,
+        emptyTopicWidget,
+        submitButtons
+      );
     }
   };
 
