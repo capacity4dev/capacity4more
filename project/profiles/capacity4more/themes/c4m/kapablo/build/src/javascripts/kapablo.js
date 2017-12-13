@@ -607,7 +607,7 @@ var jQuery = jQuery || {};
         if (selectedTopics.length <= 0) {
           emptyTopicWidget = true;
         }
-        $(".c4m_vocab_topic").click( function () {
+        $(".c4m_vocab_topic").click(function () {
           selectedTopics = $(".c4m_vocab_topic .selected-values .taxonomy-term-selected:not(.ng-hide)");
           emptyTopicWidget = (selectedTopics.length <= 0);
           Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
@@ -620,7 +620,7 @@ var jQuery = jQuery || {};
         });
       }
 
-      requiredTextFields.keyup(function () {
+      requiredTextFields.change(function () {
         emptyTextfields = Drupal.behaviors.disableSubmitUntilAllRequired.checkTextFields(requiredTextFields);
         Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
           emptyTextfields,
