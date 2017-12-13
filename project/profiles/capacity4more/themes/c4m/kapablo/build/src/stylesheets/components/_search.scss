@@ -615,3 +615,27 @@
     display: block;
   }
 }
+
+// ========================================================================== //
+// Items per page controller
+// ========================================================================== //
+.items-per-page-container {
+  float: right;
+
+  .item-list,
+  .list-inline {
+    display: inline-block;
+  }
+
+  .list-inline {
+    // Override Bootstrap's -5px margin.
+    margin-left: 5px;
+  }
+
+  a {
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}

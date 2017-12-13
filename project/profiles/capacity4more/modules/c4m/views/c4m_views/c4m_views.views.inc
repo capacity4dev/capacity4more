@@ -19,6 +19,14 @@ function c4m_views_views_data() {
     ],
   ];
 
+  $data['views']['c4m_views_items_per_page'] = [
+    'title' => t('Items per page'),
+    'help' => t('Adds the links to control the number of items per page.'),
+    'area' => [
+      'handler' => 'c4m_views_handler_area_items_per_page',
+    ],
+  ];
+
   $data['views']['c4m_views_node_add'] = [
     'title' => t('Add new Node link'),
     'help' => t('Shows a link to a node creation form. The link will only be shown if the user has the permission to create new content of the given node type.'),

@@ -604,10 +604,13 @@ function c4m_search_form_views_exposed_form_alter(
   &$form_state,
   $form_id
 ) {
+  if (isset($form['items_per_page'])) {
+    $form['items_per_page']['#access'] = FALSE;
+  }
+
   if (!isset($form['#info']['filter-search_api_views_fulltext'])) {
     return;
   }
-
   $form['#info']['filter-search_api_views_fulltext']['label'] = '';
   $form['text']['#type'] = 'hidden';
 
