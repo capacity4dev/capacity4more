@@ -38,6 +38,7 @@
     "karma-script-launcher": "^0.1.0",
     "matchdep": "^0.1.2",
     "npmconf": "0.0.24",
-    "requirejs": "~2.1"
+    "requirejs": "~2.1",
+    "semver": "^4.3.6"
   }
 }
