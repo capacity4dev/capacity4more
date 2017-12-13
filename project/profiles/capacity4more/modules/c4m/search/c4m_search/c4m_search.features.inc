@@ -363,10 +363,12 @@ function c4m_search_default_search_api_index() {
       "index_directly" : 1,
       "cron_limit" : "50",
       "fields" : {
+        "c4m_body:value" : { "type" : "text" },
         "c4m_country" : { "type" : "string" },
         "c4m_first_name" : { "type" : "string" },
         "c4m_is_deleted" : { "type" : "boolean" },
         "c4m_is_spammer" : { "type" : "boolean" },
+        "c4m_job_title" : { "type" : "text" },
         "c4m_last_name" : { "type" : "string" },
         "c4m_og_membership_type" : { "type" : "list\\u003Cstring\\u003E" },
         "c4m_organisation" : { "type" : "string" },
@@ -442,10 +444,12 @@ function c4m_search_default_search_api_index() {
             "fields" : {
               "name" : true,
               "mail" : true,
+              "c4m_organisation_type" : true,
               "c4m_first_name" : true,
+              "c4m_job_title" : true,
               "c4m_last_name" : true,
               "c4m_organisation" : true,
-              "c4m_organisation_type" : true
+              "c4m_body:value" : true
             },
             "title" : 0,
             "alt" : 1,
@@ -458,10 +462,12 @@ function c4m_search_default_search_api_index() {
           "settings" : { "fields" : {
               "name" : true,
               "mail" : true,
+              "c4m_organisation_type" : true,
               "c4m_first_name" : true,
+              "c4m_job_title" : true,
               "c4m_last_name" : true,
               "c4m_organisation" : true,
-              "c4m_organisation_type" : true
+              "c4m_body:value" : true
             }
           }
         },
