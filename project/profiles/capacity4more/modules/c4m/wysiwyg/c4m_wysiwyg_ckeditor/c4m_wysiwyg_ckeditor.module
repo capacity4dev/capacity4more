@@ -183,7 +183,7 @@ function _c4m_wysiwyg_ckeditor_iframe_cck_filter_process(
 ) {
   // Check if there is an iframe in the text.
   if (!preg_match('/<\s*iframe /mis', $text)) {
-    return;
+    return $text;
   }
   // Load the text into a dom object.
   $dom = new DOMDocument();
