@@ -24,6 +24,7 @@ function c4m_features_overview_events_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Past events';
+  $handler->display->display_options['css_class'] = 'view-items-with-dashed-separator';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -60,7 +61,7 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['header']['c4m_views_result']['field'] = 'c4m_views_result';
   $handler->display->display_options['header']['c4m_views_result']['ui_name'] = 'Number of items';
   $handler->display->display_options['header']['c4m_views_result']['empty'] = TRUE;
-  $handler->display->display_options['header']['c4m_views_result']['content'] = 'Events (@total in total, @start - @end shown)';
+  $handler->display->display_options['header']['c4m_views_result']['content'] = '<span class="total-items">Events (@total in total, @start - @end shown)</span>';
   /* Header: Items per page */
   $handler->display->display_options['header']['c4m_views_items_per_page']['id'] = 'c4m_views_items_per_page';
   $handler->display->display_options['header']['c4m_views_items_per_page']['table'] = 'views';
@@ -263,6 +264,7 @@ function c4m_features_overview_events_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Past Events';
+  $handler->display->display_options['css_class'] = 'view-items-with-dashed-separator';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'All upcoming events';
   $handler->display->display_options['link_display'] = 'custom_url';
