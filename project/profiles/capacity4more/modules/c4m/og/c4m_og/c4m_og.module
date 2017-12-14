@@ -470,7 +470,7 @@ function c4m_og_notify_user_group_approved(array &$form, array &$form_state) {
   $gid = $form_state['values']['gid'];
   $admin_comment = $form_state['values']['message_from_admin'];
 
-  c4m_user_notifications_notify_user_group_approved($gid, $admin_comment);
+  _c4m_user_notifications_notify_og_group_status_approved($gid, $admin_comment);
 }
 
 /**
@@ -3076,8 +3076,8 @@ function _c4m_og_registration_form_labels_by_group($gid) {
   $wrapper = entity_metadata_wrapper('node', $gid);
 
   // Get membership request type (open/moderated).
-  $membership_type = $wrapper->field_membership_open_request->value();
-  if ($membership_type == C4M_OG_MODERATED_GROUP) {
+  $group_membership_request_type = _c4m_user_notifications_get_group_membership_request_type($wrapper);
+  if ($group_membership_request_type == C4M_OG_MODERATED_GROUP) {
     $join_phrase = t('request membership for');
     $button_label = t('Request membership for group');
   }

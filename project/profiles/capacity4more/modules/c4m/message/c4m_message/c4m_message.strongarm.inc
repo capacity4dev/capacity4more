@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_message.strongarm.inc
@@ -1393,6 +1394,35 @@ function c4m_message_strongarm() {
     ),
   );
   $export['field_bundle_settings_message__c4m_welcome_to_group'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'message_delete_on_entity_delete';
+  $strongarm->value = array(
+    'comment' => 'comment',
+    'flagging' => 'flagging',
+    'message_type' => 'message_type',
+    'node' => 'node',
+    'taxonomy_term' => 'taxonomy_term',
+    'taxonomy_vocabulary' => 'taxonomy_vocabulary',
+    'user' => 'user',
+  );
+  $export['message_delete_on_entity_delete'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'message_subscribe_flag_prefix';
+  $strongarm->value = 'subscribe';
+  $export['message_subscribe_flag_prefix'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'message_subscribe_use_queue';
+  $strongarm->value = 1;
+  $export['message_subscribe_use_queue'] = $strongarm;
 
   return $export;
 }
