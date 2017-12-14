@@ -40,9 +40,6 @@ projects[context_no_title][version] = "1.0"
 projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1"
 
-projects[eu_cookie_compliance][subdir] = "contrib"
-projects[eu_cookie_compliance][version] = "1.x-dev"
-
 projects[elysia_cron][subdir] = "contrib"
 projects[elysia_cron][version] = "2.4"
 
