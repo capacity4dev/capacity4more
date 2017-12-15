@@ -170,4 +170,23 @@
   blockquote, img, ol, table, ul {
     page-break-inside: avoid;
   }
+
+  a {
+    text-decoration: underline;
+  }
+
+  #user-bar .userbar-userprofile {
+    display: none;
+  }
+
+  ul.nav-tabs {
+    display: none;
+  }
+
+  // Hide comments and form.
+  #comment-form,
+  .comment-form,
+  .content-col ul.links {
+    display: none;
+  }
 }

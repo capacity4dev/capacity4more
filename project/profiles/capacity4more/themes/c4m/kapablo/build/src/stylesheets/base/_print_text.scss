@@ -1,0 +1,7 @@
+@media print {
+  body.text-only-print {
+    img {
+      display: none;
+    }
+  }
+}
