@@ -9,17 +9,22 @@
  * Implements hook_install().
  */
 function c4m_analytics_install() {
-  // Set the scope of the Piwik JS to "footer".
-  variable_set('piwik_js_scope', 'footer');
-  // Set the Piwik custom variables.
-  variable_set('piwik_custom_var', array(
-    'slots' => array(
-      1 => array(
-        'slot' => 1,
-        'name' => 'Current page - unaliased path',
-        'value' => '[current-page:url:unaliased:path]',
-        'scope' => 'page',
-      ),
-    ),
-  ));
+  c4m_analytics_update_7002();
+}
+
+/**
+ * Disable piwik and enable the nexteuropa_piwik module.
+ */
+function c4m_analytics_update_7001() {
+  module_disable(['piwik']);
+  module_enable(['nexteuropa_piwik']);
+}
+
+/**
+ * Set default variables for the piwik site.
+ */
+function c4m_analytics_update_7002() {
+  variable_set('nexteuropa_piwik_site_id', 105);
+  variable_set('nexteuropa_piwik_site_instance', "europa.eu");
+  variable_set('nexteuropa_piwik_site_path', "europa.eu/capacity4dev");
 }
