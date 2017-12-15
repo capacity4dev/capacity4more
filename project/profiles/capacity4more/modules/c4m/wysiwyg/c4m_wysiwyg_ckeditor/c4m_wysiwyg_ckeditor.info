@@ -4,6 +4,7 @@ core = 7.x
 package = capacity4more - WYSIWYG
 dependencies[] = c4m_features_og_media
 dependencies[] = c4m_moodle
+dependencies[] = c4m_wysiwyg_ckeditor
 dependencies[] = ckeditor
 dependencies[] = ctools
 dependencies[] = features
