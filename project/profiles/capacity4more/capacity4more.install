@@ -78,6 +78,9 @@ function capacity4more_install() {
   // Set default mail messages.
   _capacity4more_install_set_default_mail_messages();
 
+  // Add lazyloader settings.
+  _capacity4more_add_lazyloader_settings();
+
   // Path aliases.
   variable_set('pathauto_update_action', '2');
 }
@@ -329,7 +332,7 @@ function _capacity4more_install_save_theme($name, $status) {
  * Add an array of blocks to the given theme.
  *
  * @param array $blocks
- *    Array of blocks.
+ *   Array of blocks.
  */
 function _capacity4more_install_save_theme_blocks(array $blocks) {
   $query = db_insert('block')->fields(
@@ -509,6 +512,21 @@ function _capacity4more_install_set_default_mail_messages() {
   c4m_mail_install_update_messages();
 }
 
+/**
+ * Add lazyloader settings.
+ */
+function _capacity4more_add_lazyloader_settings() {
+  variable_set('lazyloader_distance', '200');
+  variable_set('lazyloader_enabled', 1);
+  variable_set('lazyloader_exclude_option', 'exclude');
+  variable_set('lazyloader_icon', '0');
+  variable_set('lazyloader_paths', 'media/*/format-form
+admin/*
+node/add/*
+node/*/edit');
+  variable_set('lazyloader_placeholder', '');
+}
+
 /******************************************************************************
  * UPDATES GO HERE
  ******************************************************************************/
@@ -540,3 +558,12 @@ function capacity4more_update_7003() {
 function capacity4more_update_7004() {
   module_disable(['eu_cookie_compliance']);
 }
+
+/**
+ * Enable lazyloader module.
+ */
+function capacity4more_update_7005() {
+  module_enable(['lazyloader']);
+  _capacity4more_add_lazyloader_settings();
+}
+
