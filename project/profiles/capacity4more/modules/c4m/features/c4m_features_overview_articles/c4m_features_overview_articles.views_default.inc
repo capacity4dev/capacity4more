@@ -313,6 +313,11 @@ function c4m_features_overview_articles_views_default_views() {
   $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['header']['search_api_spellcheck']['field'] = 'search_api_spellcheck';
   $handler->display->display_options['header']['search_api_spellcheck']['empty'] = TRUE;
+  /* Header: Sort by */
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sort by';
   /* Header: Number of items */
   $handler->display->display_options['header']['c4m_views_result']['id'] = 'c4m_views_result';
   $handler->display->display_options['header']['c4m_views_result']['table'] = 'views';
@@ -325,11 +330,6 @@ function c4m_features_overview_articles_views_default_views() {
   $handler->display->display_options['header']['c4m_views_items_per_page']['table'] = 'views';
   $handler->display->display_options['header']['c4m_views_items_per_page']['field'] = 'c4m_views_items_per_page';
   $handler->display->display_options['header']['c4m_views_items_per_page']['ui_name'] = 'Items per page';
-  /* Header: Sort by */
-  $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
-  $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
-  $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
-  $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sort by';
   /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_c4m_search_nodes';
