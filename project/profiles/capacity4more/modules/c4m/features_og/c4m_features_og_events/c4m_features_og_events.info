@@ -6,6 +6,7 @@ dependencies[] = c4m_og
 dependencies[] = c4m_search_nodes
 dependencies[] = context
 dependencies[] = ctools
+dependencies[] = current_search
 dependencies[] = entity
 dependencies[] = facetapi
 dependencies[] = path_breadcrumbs

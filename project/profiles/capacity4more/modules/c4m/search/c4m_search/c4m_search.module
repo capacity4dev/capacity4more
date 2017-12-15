@@ -197,12 +197,12 @@ function c4m_search_theme() {
  * $query->setOption('limit', 0);
  *
  * @param array $filters
- *    The filters to be added to the query.
+ *   The filters to be added to the query.
  * @param array $options
- *    Additional options to be added to the query.
+ *   Additional options to be added to the query.
  *
  * @return array
- *    Result set of the query.
+ *   Result set of the query.
  */
 function c4m_search_custom_search(array $filters, array $options = array()) {
   if (empty($filters)) {
@@ -604,10 +604,13 @@ function c4m_search_form_views_exposed_form_alter(
   &$form_state,
   $form_id
 ) {
+  if (isset($form['items_per_page'])) {
+    $form['items_per_page']['#access'] = FALSE;
+  }
+
   if (!isset($form['#info']['filter-search_api_views_fulltext'])) {
     return;
   }
-
   $form['#info']['filter-search_api_views_fulltext']['label'] = '';
   $form['text']['#type'] = 'hidden';
 

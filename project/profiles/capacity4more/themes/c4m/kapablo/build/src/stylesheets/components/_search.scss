@@ -59,7 +59,6 @@
 }
 
 .search-api-sort {
-  margin: 20px 0;
   position: relative;
 
   img {
@@ -506,20 +505,6 @@
   margin: 0 0 15px 0;
 }
 
-.view-items-with-dashed-separator,
-.view-c4m-search-nodes,
-.view-c4m-overview-groups,
-.view-c4m-overview-articles,
-.view-c4m-overview-projects,
-.view-c4m-overview-events-landing,
-.view-c4m-overview-events {
-  .view-header {
-    padding-bottom: 15px;
-    border-bottom: 1px dashed $color-gray-light;
-    min-height: 30px;
-  }
-}
-
 .view-mode-teaser:not(.user-profile) .user-name a,
 .view-mode-teaser .fa,
 .view-mode-teaser .posted-by,
@@ -613,5 +598,30 @@
 
   #c4m-search-redirect-form {
     display: block;
+  }
+}
+
+// ========================================================================== //
+// Items per page controller
+// ========================================================================== //
+.items-per-page-container {
+  float: right;
+  margin-top: 20px;
+
+  .item-list,
+  .list-inline {
+    display: inline-block;
+  }
+
+  .list-inline {
+    // Override Bootstrap's -5px margin.
+    margin-left: 5px;
+  }
+
+  a {
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
   }
 }
