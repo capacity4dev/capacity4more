@@ -7,7 +7,7 @@
 
 include_once 'c4m_features_overview_events.features.inc';
 
-define('C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE', 'Sort by Start Date');
+define('C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE', 'Start Date');
 define('C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_RELEVANCE', 'Relevance');
 
 /**
@@ -35,7 +35,7 @@ function c4m_features_overview_events_c4m_search_page_info() {
  * block per view, so we need to alter some stuff. Here the default sort.
  */
 function c4m_features_overview_events_search_api_sorts_default_sort_alter(&$default_sort, $search_sorts, $keys) {
-  // Change default sort into 'Sort by Start Date' for events overviews.
+  // Change default sort into 'Start Date' for events overviews.
   if (FALSE === strpos(current_path(), 'events', 0)) {
     return;
   }
