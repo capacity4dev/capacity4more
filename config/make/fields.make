@@ -17,6 +17,8 @@ projects[dragndrop_upload][version] = "1.x-dev"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.5"
+; Fix PHP7 to export empty field_groups via features.
+projects[field_group][patch][] = https://www.drupal.org/files/issues/php7_uniform_variable-2649648-5.patch
 
 projects[geocoder][subdir] = "contrib"
 projects[geocoder][version] = "1.3"
