@@ -18,11 +18,11 @@ projects[search_api_attachments][subdir] = "contrib"
 projects[search_api_attachments][version] = "1.10"
 
 projects[search_api_solr][subdir] = "contrib"
-projects[search_api_solr][version] = "1.11"
-projects[search_api_solr][patch][] = "https://www.drupal.org/files/issues/2711685-support-solr6-7.patch"
+projects[search_api_solr][version] = "1.12"
+;projects[search_api_solr][patch][] = "https://www.drupal.org/files/issues/2711685-support-solr6-7.patch"
 
 projects[search_api_sorts][subdir] = "contrib"
-projects[search_api_sorts][version] = "1.x-dev"
+projects[search_api_sorts][version] = "1.7"
 
 projects[search_api_spellcheck][subdir] = "contrib"
 projects[search_api_spellcheck][version] = "1.0"
