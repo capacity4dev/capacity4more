@@ -117,7 +117,7 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
         );
       }
 
-      if (!$target_access && !_c4m_features_og_members_is_power_user()) {
+      if (!$target_access && !c4m_features_og_members_is_power_user()) {
         // User is not group member and can't add content. Falsify the query.
         $query->propertyCondition(
           $entity_info['entity keys']['id'],

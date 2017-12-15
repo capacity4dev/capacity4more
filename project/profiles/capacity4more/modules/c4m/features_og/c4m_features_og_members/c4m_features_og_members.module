@@ -429,7 +429,7 @@ function _c4m_features_og_members_get_admin_role($group) {
  * @return bool
  *   Is the user a power user.
  */
-function _c4m_features_og_members_is_power_user($group = NULL, $user = NULL) {
+function c4m_features_og_members_is_power_user($group = NULL, $user = NULL) {
   if (!isset($user)) {
     global $user;
   }

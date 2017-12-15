@@ -294,7 +294,7 @@ function c4m_features_og_group_dashboard_promote_flag_access($action, $flag, $en
     $group = c4m_og_get_group_of_content($entity_id);
 
     // Verify also that the group of promoted content is the current context.
-    return $context['gid'] == $group->nid && _c4m_features_og_members_is_power_user();
+    return $context['gid'] == $group->nid && c4m_features_og_members_is_power_user();
   }
 
   return flag_page_access($action, $flag, $entity_id);

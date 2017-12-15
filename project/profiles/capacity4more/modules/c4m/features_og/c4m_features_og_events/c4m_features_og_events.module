@@ -201,7 +201,7 @@ function c4m_features_og_events_upcoming_events_get_events($range, $topics = arr
   }
 
   // Filter out all projects events.
-  $all_projects_ids = _c4m_content_get_all_node_ids_by_type('project');
+  $all_projects_ids = c4m_content_get_all_node_ids_by_type('project');
   if ($all_projects_ids) {
     $query->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $all_projects_ids, 'NOT IN');
   }

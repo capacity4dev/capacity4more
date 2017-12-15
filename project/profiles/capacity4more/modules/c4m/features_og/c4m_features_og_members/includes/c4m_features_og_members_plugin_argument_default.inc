@@ -22,7 +22,7 @@ class c4m_features_og_members_plugin_argument_default extends views_plugin_argum
     $state = array(1);
     // If current user is group owner, 'administrator member' or has the
     // site wide role administrator, also allow pending memberships to be shown.
-    if (_c4m_features_og_members_is_power_user($group)) {
+    if (c4m_features_og_members_is_power_user($group)) {
       $state[] = 2;
     }
 
