@@ -549,13 +549,13 @@ var jQuery = jQuery || {};
     updateSubmitButtons: function (
       emptyTextfields,
       emptyWidgetfields,
-      emptyImageWidget,
-//       emptyTopicWidget,
+//       emptyImageWidget,
+      emptyTopicWidget,
       submitButtons
     ) {
 
 //       if (emptyTextfields || emptyWidgetfields || emptyImageWidget || emptyTopicWidget) {
-    if (emptyTextfields || emptyWidgetfields || emptyImageWidget) {
+    if (emptyTextfields || emptyWidgetfields || emptyTopicWidget) {
         submitButtons.attr("disabled", "disabled");
       }
       else {
@@ -588,8 +588,8 @@ var jQuery = jQuery || {};
 
       var emptyTextfields = false;
       var emptyWidgetfields = false;
-      var emptyImageWidget = false;
-//       var emptyTopicWidget = false;
+//       var emptyImageWidget = false;
+      var emptyTopicWidget = false;
 
       emptyTextfields = Drupal.behaviors.disableSubmitUntilAllRequired.checkTextFields(requiredTextFields);
       if (requiredWidgets.length > 0) {
@@ -597,37 +597,37 @@ var jQuery = jQuery || {};
       }
 
       // Banner element.
-      if ($("#edit-image-banner .form-required").length) {
-        if ($("#edit-image-banner input.fid").val() === '0') {
-          emptyImageWidget = true;
-        }
-      }
-      // Topics widget.
-//       if ($(".c4m_vocab_topic .form-required").length > 0) {
-//         var selectedTopics = $(".c4m_vocab_topic .selected-values .taxonomy-term-selected:not(.ng-hide)");
-//         if (selectedTopics.length <= 0) {
-//           emptyTopicWidget = true;
+//       if ($("#edit-image-banner .form-required").length) {
+//         if ($("#edit-image-banner input.fid").val() === '0') {
+//           emptyImageWidget = true;
 //         }
-//         $(".c4m_vocab_topic").click(function () {
-//           selectedTopics = $(".c4m_vocab_topic .selected-values .taxonomy-term-selected:not(.ng-hide)");
-//           emptyTopicWidget = (selectedTopics.length <= 0);
-//           Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
-//             emptyTextfields,
-//             emptyWidgetfields,
-//             emptyImageWidget,
-//             emptyTopicWidget,
-//             submitButtons
-//           );
-//         });
 //       }
+      // Topics widget.
+      if ($(".c4m_vocab_topic .form-required").length > 0) {
+        var selectedTopics = $(".c4m_vocab_topic .selected-values .taxonomy-term-selected:not(.ng-hide)");
+        if (selectedTopics.length <= 0) {
+          emptyTopicWidget = true;
+        }
+        $(".c4m_vocab_topic").click(function () {
+          selectedTopics = $(".c4m_vocab_topic .selected-values .taxonomy-term-selected:not(.ng-hide)");
+          emptyTopicWidget = (selectedTopics.length <= 0);
+          Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
+            emptyTextfields,
+            emptyWidgetfields,
+//             emptyImageWidget,
+            emptyTopicWidget,
+            submitButtons
+          );
+        });
+      }
 
       requiredTextFields.change(function () {
         emptyTextfields = Drupal.behaviors.disableSubmitUntilAllRequired.checkTextFields(requiredTextFields);
         Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
           emptyTextfields,
           emptyWidgetfields,
-          emptyImageWidget,
-//           emptyTopicWidget,
+//           emptyImageWidget,
+          emptyTopicWidget,
           submitButtons
         );
       });
@@ -644,8 +644,8 @@ var jQuery = jQuery || {};
         Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
           emptyTextfields,
           emptyWidgetfields,
-          emptyImageWidget,
-//           emptyTopicWidget,
+//           emptyImageWidget,
+          emptyTopicWidget,
           submitButtons
         );
       });
@@ -654,8 +654,8 @@ var jQuery = jQuery || {};
       Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
         emptyTextfields,
         emptyWidgetfields,
-        emptyImageWidget,
-//         emptyTopicWidget,
+//         emptyImageWidget,
+        emptyTopicWidget,
         submitButtons
       );
     }
