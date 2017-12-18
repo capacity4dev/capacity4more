@@ -604,13 +604,35 @@ var jQuery = jQuery || {};
 //       }
       // Topics widget.
       if ($(".c4m_vocab_topic .form-required").length > 0) {
-        var selectedTopics = $(".c4m_vocab_topic .selected-values .taxonomy-term-selected:not(.ng-hide)");
-        if (selectedTopics.length <= 0) {
+        emptyTopicWidget = true;
+        $(".c4m_vocab_topic input[type='checkbox']").each(function ( index ) {
+          if ($(this).prop("checked")) {
+            emptyTopicWidget = false;
+          }
+        });
+        $( ".c4m_vocab_topic" ).on("change", ":checkbox", function () {
           emptyTopicWidget = true;
-        }
+          $(".c4m_vocab_topic input[type='checkbox']").each(function ( index ) {
+            if ($(this).prop("checked")) {
+              emptyTopicWidget = false;
+            }
+          });
+          Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
+            emptyTextfields,
+            emptyWidgetfields,
+//             emptyImageWidget,
+            emptyTopicWidget,
+            submitButtons
+          );
+        });
+
         $(".c4m_vocab_topic").click(function () {
-          selectedTopics = $(".c4m_vocab_topic .selected-values .taxonomy-term-selected:not(.ng-hide)");
-          emptyTopicWidget = (selectedTopics.length <= 0);
+          emptyTopicWidget = true;
+          $(".c4m_vocab_topic input[type='checkbox']").each(function ( index ) {
+            if ($(this).prop("checked")) {
+              emptyTopicWidget = false;
+            }
+          });
           Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
             emptyTextfields,
             emptyWidgetfields,
