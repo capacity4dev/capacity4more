@@ -43,6 +43,7 @@ dependencies[] = file_download_count
 dependencies[] = flag
 ;dependencies[] = inline_entity_form
 dependencies[] = jquery_update
+dependencies[] = lazyloader
 dependencies[] = libraries
 dependencies[] = message
 dependencies[] = message_notify
