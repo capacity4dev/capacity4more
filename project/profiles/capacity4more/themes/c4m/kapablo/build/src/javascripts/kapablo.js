@@ -367,11 +367,15 @@ var jQuery = jQuery || {};
      * Disable form buttons on AJAX calls and enable them when AJAX is completed.
      */
     $(document).ajaxStart((function () {
-            $(".form-submit").addClass("drupal-ajax-disabled").attr("disabled", "disabled");
-        })
+        $(".form-submit").addClass("drupal-ajax-disabled").attr("disabled", "disabled");
+    })
     ).ajaxComplete((function () {
-            $(".drupal-ajax-disabled").removeAttr("disabled");
-        })
+        $(".drupal-ajax-disabled").removeClass('drupal-ajax-disabled').each(function () {
+          if (!$(this).hasClass(/-disabled/)) {
+            $(this).removeAttr('disabled');
+          }
+        });
+      })
     );
 
     /**
@@ -549,19 +553,24 @@ var jQuery = jQuery || {};
     updateSubmitButtons: function (
       emptyTextfields,
       emptyWidgetfields,
-//       emptyImageWidget,
+      // emptyImageWidget,
       emptyTopicWidget,
       submitButtons
     ) {
-
-//       if (emptyTextfields || emptyWidgetfields || emptyImageWidget || emptyTopicWidget) {
-    if (emptyTextfields || emptyWidgetfields || emptyTopicWidget) {
-        submitButtons.attr("disabled", "disabled");
+      // if (emptyTextfields || emptyWidgetfields || emptyImageWidget || emptyTopicWidget) {
+      if (emptyTextfields || emptyWidgetfields || emptyTopicWidget) {
+        submitButtons.addClass('form-disabled').attr('disabled', 'disabled');
       }
       else {
-        submitButtons.removeAttr("disabled");
+        submitButtons.removeClass('form-disabled').each(function () {
+          if (!$(this).hasClass(/-disabled/)) {
+            $(this).removeAttr('disabled');
+          }
+        });
       }
-    }, checkTextFields: function (requiredTextFields) {
+    },
+
+    checkTextFields: function (requiredTextFields) {
       var emptyTextfields = false;
       requiredTextFields.each(function () {
         if ($(this).val() === '') {
@@ -577,7 +586,13 @@ var jQuery = jQuery || {};
       });
 
       return emptyTextfields;
-    }, attach: function (context) {
+    },
+
+    attach: function (context) {
+      // Make sure this is executed only once per page.
+      if (context !== document) {
+        return;
+      }
       var requiredTextFields = $('form .required');
       var requiredWidgets = $('form .required-checkbox');
       var submitButtons = $('form .form-submit, form .form-preview');
@@ -588,7 +603,7 @@ var jQuery = jQuery || {};
 
       var emptyTextfields = false;
       var emptyWidgetfields = false;
-//       var emptyImageWidget = false;
+      // var emptyImageWidget = false;
       var emptyTopicWidget = false;
 
       emptyTextfields = Drupal.behaviors.disableSubmitUntilAllRequired.checkTextFields(requiredTextFields);
@@ -597,11 +612,12 @@ var jQuery = jQuery || {};
       }
 
       // Banner element.
-//       if ($("#edit-image-banner .form-required").length) {
-//         if ($("#edit-image-banner input.fid").val() === '0') {
-//           emptyImageWidget = true;
-//         }
-//       }
+      // if ($("#edit-image-banner .form-required").length) {
+      //   if ($("#edit-image-banner input.fid").val() === '0') {
+      //     emptyImageWidget = true;
+      //   }
+      // }
+
       // Topics widget.
       if ($(".c4m_vocab_topic .form-required").length > 0) {
         emptyTopicWidget = true;
@@ -620,7 +636,7 @@ var jQuery = jQuery || {};
           Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
             emptyTextfields,
             emptyWidgetfields,
-//             emptyImageWidget,
+            // emptyImageWidget,
             emptyTopicWidget,
             submitButtons
           );
@@ -636,7 +652,7 @@ var jQuery = jQuery || {};
           Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
             emptyTextfields,
             emptyWidgetfields,
-//             emptyImageWidget,
+            // emptyImageWidget,
             emptyTopicWidget,
             submitButtons
           );
@@ -648,7 +664,7 @@ var jQuery = jQuery || {};
         Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
           emptyTextfields,
           emptyWidgetfields,
-//           emptyImageWidget,
+          // emptyImageWidget,
           emptyTopicWidget,
           submitButtons
         );
@@ -666,7 +682,7 @@ var jQuery = jQuery || {};
         Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
           emptyTextfields,
           emptyWidgetfields,
-//           emptyImageWidget,
+          // emptyImageWidget,
           emptyTopicWidget,
           submitButtons
         );
@@ -676,16 +692,16 @@ var jQuery = jQuery || {};
       Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
         emptyTextfields,
         emptyWidgetfields,
-//         emptyImageWidget,
+        // emptyImageWidget,
         emptyTopicWidget,
         submitButtons
       );
     }
   };
 
-  Drupal.behaviors.hideSubmitButton = {
+  Drupal.behaviors.disableSubmitButtons = {
     attach: function (context) {
-      $('form.node-form', context).once('hideSubmitButton', function () {
+      $('form.node-form', context).once('disableSubmitButtons', function () {
         var $form = $(this);
         $form.find('#edit-submit').click(function (e) {
           var el = $(this);
@@ -694,9 +710,9 @@ var jQuery = jQuery || {};
         });
         $form.submit(function (e) {
           if (!e.isPropagationStopped()) {
-            $form.find('#edit-submit').attr("disabled", "disabled");
-            $form.find('#edit-cancel').attr("disabled", "disabled");
-            $form.find('#edit-delete').attr("disabled", "disabled");
+            $form.find('#edit-submit').addClass('form-disabled').attr("disabled", "disabled");
+            $form.find('#edit-cancel').addClass('form-disabled').attr("disabled", "disabled");
+            $form.find('#edit-delete').addClass('form-disabled').attr("disabled", "disabled");
             $form.find("#edit-preview-changes").addClass("disabled-preview");
             return true;
           }
@@ -707,3 +723,23 @@ var jQuery = jQuery || {};
 
 })
 (jQuery);
+
+// https://github.com/NV/jquery-regexp-classes
+(function(hasClass) {
+  jQuery.fn.hasClass = function hasClassRegExp( selector ) {
+    if ( selector && typeof selector.test === "function" ) {
+      for ( var i = 0, l = this.length; i < l; i++ ) {
+        var classNames = this[i].className.split( /\s+/ );
+        for ( var c = 0, cl = classNames.length; c < cl; c++ ) {
+          if (selector.test( classNames[c]) ) {
+            return true;
+          }
+        }
+      }
+      return false;
+    } else {
+      return hasClass.call(this, selector);
+    }
+  }
+
+})(jQuery.fn.hasClass);
