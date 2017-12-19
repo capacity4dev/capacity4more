@@ -8,14 +8,6 @@
 drupal_add_js(drupal_get_path('module', 'c4m_content_book') . '/js/book-print.js');
 ?>
 <div class="book-print">
-    <div class="group-indications">
-        <div class="group-indications--access">
-            <i class="top-buffer group-icon group-public node-icon as-group-public"></i>
-            <span class="top-buffer indication label label-access public group-access">
-            public
-            </span>
-        </div>
-    </div>
     <?php print $contents; ?>
     <?php if (!empty($comments)): ?>
         <h2><?php print t("Comments"); ?></h2>
