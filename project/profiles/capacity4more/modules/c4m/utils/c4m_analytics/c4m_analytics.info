@@ -2,4 +2,4 @@ name = Piwik Analytics
 description = This module provides integration with Piwik Analytics.
 core = 7.x
 package = capacity4more - Utilities
-dependencies[] = piwik
+dependencies[] = nexteuropa_piwik

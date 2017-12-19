@@ -47,7 +47,6 @@ dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = path
 dependencies[] = pathauto
-dependencies[] = piwik
 dependencies[] = redirect
 dependencies[] = restful
 dependencies[] = save_draft
