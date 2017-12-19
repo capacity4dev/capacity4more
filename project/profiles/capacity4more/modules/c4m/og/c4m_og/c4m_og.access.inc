@@ -223,12 +223,7 @@ function c4m_og_form_group_node_form_alter(array &$form, array &$form_state) {
       'class' => 'organisation-icon',
     ];
 
-    $organisation_field_options[$name] = drupal_render($organisation['icon'])
-      . filter_xss($organisation['title'])
-      . '<div>'
-      . filter_xss($organisation['description']['value']) . '</br>'
-      . t('Accessible to users with email domains: @domains', ['@domains' => implode(', ', $organisation['domains'])])
-      . '</div>';
+    $organisation_field_options[$name] = drupal_render($organisation['icon']) . filter_xss($organisation['title']) . '<span class="fa fa-times"></span>';
   }
 
   if (!empty($form_state['node'])) {
@@ -275,8 +270,23 @@ function c4m_og_form_group_node_form_alter(array &$form, array &$form_state) {
     '#weight' => 20,
     '#description' => t('Define by organisation and/or email domain what users can view this Group. Only members can post content to the Group.'),
   ];
+
+  $form['pluggable_group_access']['restricted_organisations_selector'] = [
+    '#type' => 'container',
+    '#states' => [
+      // Show the checkboxes only when "restricted" is selected.
+      'visible' => [
+        ':input[name="pluggable_group_access"]' => ['value' => 'restricted'],
+      ],
+    ],
+    '#weight' => 23,
+  ];
+  $form['pluggable_group_access']['restricted_organisations_selector']['button'] = [
+    '#markup' => '<button type="button" class="btn btn--primary" id="restrictedOrganisationsButton" data-contentwrapper=".form-item-restricted-organisations">Select organisations</button>',
+  ];
+
   $form['pluggable_group_access']['restricted_organisations'] = [
-    '#weight' => 25,
+    '#weight' => 24,
     '#title' => t('Allow users to access this Group by their organisation'),
     '#description' => t('Users belonging to these organisations will have access to this Group. Users must request to join this Group.'),
     '#type' => 'checkboxes',
@@ -289,6 +299,7 @@ function c4m_og_form_group_node_form_alter(array &$form, array &$form_state) {
     ],
     '#default_value' => $default_organisations,
   ];
+
   $form['pluggable_group_access']['restricted_by_domain'] = [
     '#weight' => 26,
     '#title' => t('Allow users to access this Group by their email domain'),

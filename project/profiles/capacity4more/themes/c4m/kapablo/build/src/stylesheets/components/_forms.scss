@@ -280,3 +280,31 @@ form {
 .reference-autocomplete {
   overflow: hidden;
 }
+
+body:not(.no-js) {
+  .form-item-restricted-organisations {
+    label {
+      padding: 0;
+
+      .fa {
+        padding-left: .5em;
+      }
+    }
+
+    input {
+      display: none;
+    }
+
+    img {
+      margin-right: .5em;
+    }
+  }
+}
+
+#edit-restricted-organisations-selector {
+  .popover {
+    img {
+      display: none;
+    }
+  }
+}
