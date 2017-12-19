@@ -36,6 +36,27 @@
   }
 }
 
+// Book print page.
+.book-print {
+  .book-print--children .book-print--item {
+    border-top: 1px solid $gray;
+  }
+  .group-indications {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+.node-wiki-page {
+  #printThisBookPage {
+    float: right;
+    .dropdown-menu {
+      left: auto;
+      right: 0;
+    }
+  }
+}
+
 @media (max-width: $screen-sm-min) {
   .c4m-sidebar-book-navigation {
     padding-top: 5vh;

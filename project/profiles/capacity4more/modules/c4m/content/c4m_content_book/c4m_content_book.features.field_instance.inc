@@ -100,6 +100,13 @@ function c4m_content_book_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'print' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),

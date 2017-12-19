@@ -573,13 +573,19 @@ function c4m_helper_entity_c4m_content_actions_info() {
  * @param object $node
  *    The node object.
  *
- * @return string
+ * @return null|string
  *    Rendered output of the share link.
  */
 function c4m_helper_entity_print_action($node = NULL) {
   $output = array(
-    '#theme'     => 'c4m_helper_entity_actions_print'
+    '#theme' => 'c4m_helper_entity_actions_print'
   );
+
+  if (!empty($node->type)) {
+    if (in_array($node->type, ['book', 'group', 'wiki_page'])) {
+      return;
+    }
+  }
 
   return render($output);
 }

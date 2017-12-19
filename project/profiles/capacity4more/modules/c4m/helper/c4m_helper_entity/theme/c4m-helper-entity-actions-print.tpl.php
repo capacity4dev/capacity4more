@@ -11,7 +11,7 @@
         <i class="fa fa-print" aria-hidden="true"></i><span class="action">Print page</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="dLabel">
-        <li><a href="javascript:document.body.classList.remove('text - only -print');window.print()"><i class="fa fa-print" aria-hidden="true"></i><span class="action">Print this page</span></a></li>
-        <li><a href="javascript:document.body.classList.add('text - only -print');window.print()"><i class="fa fa-file-text-o" aria-hidden="true"></i><span class="action">Text-only</span></a></li>
+        <li><a href="javascript: jQuery('body').removeClass('text-only-print'); window.print();"><i class="fa fa-print" aria-hidden="true"></i><span class="action">Print this page</span></a></li>
+        <li><a href="javascript: jQuery('body').addClass('text-only-print'); window.print();"><i class="fa fa-file-text-o" aria-hidden="true"></i><span class="action">Text-only</span></a></li>
     </ul>
 </div>
