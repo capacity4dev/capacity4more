@@ -11,6 +11,7 @@ projects[message][version] = "1.12"
 
 projects[message_subscribe][subdir] = "contrib"
 projects[message_subscribe][version] = "1.0-rc2"
+projects[message_subscribe][patch][] = "https://www.drupal.org/files/issues/prevent_loop_of_message-2303795-12.patch"
 
 projects[message_notify][subdir] = "contrib"
 projects[message_notify][version] = "2.5"

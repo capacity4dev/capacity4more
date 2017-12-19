@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_features_overview_events.views_default.inc
@@ -23,6 +24,7 @@ function c4m_features_overview_events_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Past events';
+  $handler->display->display_options['css_class'] = 'view-items-with-dashed-separator';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -34,6 +36,11 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['reset_button'] = TRUE;
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page'] = TRUE;
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options'] = '10, 20, 50';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'teaser';
@@ -42,19 +49,24 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['header']['search_api_spellcheck']['field'] = 'search_api_spellcheck';
   $handler->display->display_options['header']['search_api_spellcheck']['empty'] = TRUE;
-  /* Header: Number of items */
-  $handler->display->display_options['header']['c4m_views_result']['id'] = 'c4m_views_result';
-  $handler->display->display_options['header']['c4m_views_result']['table'] = 'views';
-  $handler->display->display_options['header']['c4m_views_result']['field'] = 'c4m_views_result';
-  $handler->display->display_options['header']['c4m_views_result']['ui_name'] = 'Number of items';
-  $handler->display->display_options['header']['c4m_views_result']['empty'] = TRUE;
-  $handler->display->display_options['header']['c4m_views_result']['content'] = 'Events (@total in total, @start - @end shown)';
   /* Header: Sort results */
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sort results';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['empty'] = TRUE;
+  /* Header: Number of items */
+  $handler->display->display_options['header']['c4m_views_result']['id'] = 'c4m_views_result';
+  $handler->display->display_options['header']['c4m_views_result']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_result']['field'] = 'c4m_views_result';
+  $handler->display->display_options['header']['c4m_views_result']['ui_name'] = 'Number of items';
+  $handler->display->display_options['header']['c4m_views_result']['empty'] = TRUE;
+  $handler->display->display_options['header']['c4m_views_result']['content'] = '<span class="total-items">Events (@total in total, @start - @end shown)</span>';
+  /* Header: Items per page */
+  $handler->display->display_options['header']['c4m_views_items_per_page']['id'] = 'c4m_views_items_per_page';
+  $handler->display->display_options['header']['c4m_views_items_per_page']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_items_per_page']['field'] = 'c4m_views_items_per_page';
+  $handler->display->display_options['header']['c4m_views_items_per_page']['ui_name'] = 'Items per page';
   /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_c4m_search_nodes';
@@ -110,12 +122,6 @@ function c4m_features_overview_events_views_default_views() {
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Upcoming events';
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '5';
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
@@ -181,12 +187,6 @@ function c4m_features_overview_events_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '5';
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
@@ -264,6 +264,7 @@ function c4m_features_overview_events_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Past Events';
+  $handler->display->display_options['css_class'] = 'view-items-with-dashed-separator';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'All upcoming events';
   $handler->display->display_options['link_display'] = 'custom_url';

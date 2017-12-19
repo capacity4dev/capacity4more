@@ -193,15 +193,6 @@ function c4m_user_user_default_permissions() {
     'module' => 'ds',
   );
 
-  // Exported permission: 'administer EU Cookie Compliance popup'.
-  $permissions['administer EU Cookie Compliance popup'] = array(
-    'name' => 'administer EU Cookie Compliance popup',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'eu_cookie_compliance',
-  );
-
   // Exported permission: 'administer actions'.
   $permissions['administer actions'] = array(
     'name' => 'administer actions',
@@ -1343,17 +1334,6 @@ function c4m_user_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'user_revision',
-  );
-
-  // Exported permission: 'display EU Cookie Compliance popup'.
-  $permissions['display EU Cookie Compliance popup'] = array(
-    'name' => 'display EU Cookie Compliance popup',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
-      'authenticated user' => 'authenticated user',
-    ),
-    'module' => 'eu_cookie_compliance',
   );
 
   // Exported permission: 'edit any article content'.

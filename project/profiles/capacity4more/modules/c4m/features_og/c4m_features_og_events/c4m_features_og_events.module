@@ -5,7 +5,7 @@
  * Code for the Group Events feature.
  */
 
-define('C4M_FEATURES_OG_EVENTS_SORT_BY_START_DATE', "Sort by Start Date");
+define('C4M_FEATURES_OG_EVENTS_SORT_BY_START_DATE', "Start Date");
 
 include_once 'c4m_features_og_events.features.inc';
 
@@ -44,7 +44,7 @@ function c4m_features_og_events_ctools_plugin_directory($module, $plugin) {
  * block per view, so we need to alter some stuff. Here the default sort.
  */
 function c4m_features_og_events_search_api_sorts_default_sort_alter(&$default_sort, $search_sorts, $keys) {
-  // Change default sort into 'Sort by Start Date' for events overviews.
+  // Change default sort into 'Start Date' for events overviews.
   if (FALSE === strpos(current_path(), 'calendar', 0)) {
     return;
   }
