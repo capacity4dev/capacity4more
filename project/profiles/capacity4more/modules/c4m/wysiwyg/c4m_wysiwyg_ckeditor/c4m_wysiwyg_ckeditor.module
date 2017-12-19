@@ -208,8 +208,10 @@ function _c4m_wysiwyg_ckeditor_iframe_cck_filter_process(
         "src",
         "//ec.europa.eu/cookie-consent/?name=" . $service . "&oriurl=" . $src
       );
-      !empty($services_replaced[$service]) ?
+
+      array_key_exists($service, $services_replaced) ?
         $services_replaced[$service]++ : $services_replaced[$service] = 0;
+
       $wrapper_div = $dom->createElement('div');
       $wrapper_div->setAttribute('class', $service . '_frame');
       $wrapper_div->setAttribute(

@@ -252,33 +252,33 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
           ),
         ),
       ),
-      'media_filter' => array(
+      'c4m_wysiwyg_ckeditor_iframe_cck' => array(
         'weight' => -46,
         'status' => 1,
         'settings' => array(),
       ),
-      'youtube_prevent_rel' => array(
+      'media_filter' => array(
         'weight' => -45,
         'status' => 1,
         'settings' => array(),
       ),
-      'filter_htmlcorrector' => array(
+      'youtube_prevent_rel' => array(
         'weight' => -44,
         'status' => 1,
         'settings' => array(),
       ),
-      'filter_autop' => array(
+      'filter_htmlcorrector' => array(
         'weight' => -43,
         'status' => 1,
         'settings' => array(),
       ),
-      'c4m_wysiwyg_ckeditor_iframe_cck' => array(
-        'weight' => 0,
+      'filter_autop' => array(
+        'weight' => -42,
         'status' => 1,
         'settings' => array(),
       ),
       'pathologic' => array(
-        'weight' => 50,
+        'weight' => -35,
         'status' => 1,
         'settings' => array(
           'settings_source' => 'global',
@@ -379,28 +379,28 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
           ),
         ),
       ),
-      'media_filter' => array(
+      'c4m_wysiwyg_ckeditor_iframe_cck' => array(
         'weight' => -47,
         'status' => 1,
         'settings' => array(),
       ),
+      'media_filter' => array(
+        'weight' => -46,
+        'status' => 1,
+        'settings' => array(),
+      ),
       'youtube_prevent_rel' => array(
-        'weight' => -44,
+        'weight' => -45,
         'status' => 1,
         'settings' => array(),
       ),
       'filter_autop' => array(
-        'weight' => -43,
-        'status' => 1,
-        'settings' => array(),
-      ),
-      'c4m_wysiwyg_ckeditor_iframe_cck' => array(
-        'weight' => 0,
+        'weight' => -44,
         'status' => 1,
         'settings' => array(),
       ),
       'pathologic' => array(
-        'weight' => 50,
+        'weight' => -35,
         'status' => 1,
         'settings' => array(
           'settings_source' => 'global',
