@@ -588,11 +588,16 @@ var jQuery = jQuery || {};
       return emptyTextfields;
     },
 
-    attach: function (context) {
+    attach: function (context, settings) {
       // Make sure this is executed only once per page.
       if (context !== document) {
         return;
       }
+
+      if (settings.c4m && settings.c4m.skipCriticalJS) {
+        return;
+      }
+
       var requiredTextFields = $('form .required');
       var requiredWidgets = $('form .required-checkbox');
       var submitButtons = $('form .form-submit, form .form-preview');

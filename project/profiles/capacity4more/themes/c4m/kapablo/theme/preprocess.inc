@@ -193,6 +193,10 @@ function kapablo_preprocess_page(&$variables) {
     unset($variables['page']['content_top']['c4m_content_group_header_name_banner_group']);
     unset($variables['page']['content_top']['og_menu_og_single_menu_block']);
   }
+
+  if (variable_get('kapablo_skip_critical_js', FALSE)) {
+    drupal_add_js(array('c4m' => array('skipCriticalJS' => TRUE)), 'setting');
+  }
 }
 
 /**
