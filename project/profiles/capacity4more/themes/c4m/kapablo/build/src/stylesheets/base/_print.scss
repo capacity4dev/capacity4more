@@ -60,6 +60,10 @@
     width: 100% !important;
   }
 
+  #toolbar {
+    display: none;
+  }
+
   // Hide unnecessary elements.
   #articles-panel .block-title,
   #block-c4m-features-learning-space-learning-intro img,
