@@ -46,15 +46,14 @@
     right: 0;
     top: 0;
   }
-}
-.node-wiki-page {
-  #printThisBookPage {
-    float: right;
-    .dropdown-menu {
-      left: auto;
-      right: 0;
-    }
+  .book-print--navigation {
+    color: $brand-primary;
+    margin-top: 50px;
   }
+}
+
+#printThisBookPage {
+  float: right;
 }
 
 @media (max-width: $screen-sm-min) {
