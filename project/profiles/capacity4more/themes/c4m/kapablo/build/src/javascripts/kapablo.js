@@ -358,7 +358,7 @@ var jQuery = jQuery || {};
     Drupal.behaviors.restrictedOrganisations = {
         syncSelectedOrganisations: function () {
             $(".form-item-restricted-organisations input").each(
-                function() {
+                function () {
                     if ($(this).attr('checked')) {
                         $(this).parent().show();
                     }
