@@ -367,11 +367,15 @@ var jQuery = jQuery || {};
      * Disable form buttons on AJAX calls and enable them when AJAX is completed.
      */
     $(document).ajaxStart((function () {
-            $(".form-submit").addClass("drupal-ajax-disabled").attr("disabled", "disabled");
-        })
+        $(".form-submit").addClass("drupal-ajax-disabled").attr("disabled", "disabled");
+    })
     ).ajaxComplete((function () {
-            $(".drupal-ajax-disabled").removeAttr("disabled");
-        })
+        $(".drupal-ajax-disabled").removeClass('drupal-ajax-disabled').each(function () {
+          if (!$(this).hasClass(/-disabled/)) {
+            $(this).removeAttr('disabled');
+          }
+        });
+      })
     );
 
     /**
@@ -545,5 +549,202 @@ var jQuery = jQuery || {};
         }
     }
 
+  Drupal.behaviors.disableSubmitUntilAllRequired = {
+    updateSubmitButtons: function (
+      emptyTextfields,
+      emptyWidgetfields,
+      // emptyImageWidget,
+      emptyTopicWidget,
+      submitButtons
+    ) {
+      // if (emptyTextfields || emptyWidgetfields || emptyImageWidget || emptyTopicWidget) {
+      if (emptyTextfields || emptyWidgetfields || emptyTopicWidget) {
+        submitButtons.addClass('form-disabled').attr('disabled', 'disabled');
+      }
+      else {
+        submitButtons.removeClass('form-disabled').each(function () {
+          if (!$(this).hasClass(/-disabled/)) {
+            $(this).removeAttr('disabled');
+          }
+        });
+      }
+    },
+
+    checkTextFields: function (requiredTextFields) {
+      var emptyTextfields = false;
+      requiredTextFields.each(function () {
+        if ($(this).val() === '') {
+          if (($(this).prop("type") === 'textarea') && ($(this).parent().find('iframe'))) {
+            if ($(this).parent().find('iframe').contents().find("p").text() === '') {
+              emptyTextfields = true;
+            }
+          }
+          else {
+            emptyTextfields = true;
+          }
+        }
+      });
+
+      return emptyTextfields;
+    },
+
+    attach: function (context, settings) {
+      // Make sure this is executed only once per page.
+      if (context !== document) {
+        return;
+      }
+
+      if (settings.c4m && settings.c4m.skipCriticalJS) {
+        return;
+      }
+
+      var requiredTextFields = $('form .required');
+      var requiredWidgets = $('form .required-checkbox');
+      var submitButtons = $('form .form-submit, form .form-preview');
+
+      if ((requiredTextFields.length + requiredWidgets.length) <= 0) {
+        return;
+      }
+
+      var emptyTextfields = false;
+      var emptyWidgetfields = false;
+      // var emptyImageWidget = false;
+      var emptyTopicWidget = false;
+
+      emptyTextfields = Drupal.behaviors.disableSubmitUntilAllRequired.checkTextFields(requiredTextFields);
+      if (requiredWidgets.length > 0) {
+        emptyWidgetfields = true;
+      }
+
+      // Banner element.
+      // if ($("#edit-image-banner .form-required").length) {
+      //   if ($("#edit-image-banner input.fid").val() === '0') {
+      //     emptyImageWidget = true;
+      //   }
+      // }
+
+      // Topics widget.
+      if ($(".c4m_vocab_topic .form-required").length > 0) {
+        emptyTopicWidget = true;
+        $(".c4m_vocab_topic input[type='checkbox']").each(function ( index ) {
+          if ($(this).prop("checked")) {
+            emptyTopicWidget = false;
+          }
+        });
+        $( ".c4m_vocab_topic" ).on("change", ":checkbox", function () {
+          emptyTopicWidget = true;
+          $(".c4m_vocab_topic input[type='checkbox']").each(function ( index ) {
+            if ($(this).prop("checked")) {
+              emptyTopicWidget = false;
+            }
+          });
+          Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
+            emptyTextfields,
+            emptyWidgetfields,
+            // emptyImageWidget,
+            emptyTopicWidget,
+            submitButtons
+          );
+        });
+
+        $(".c4m_vocab_topic").click(function () {
+          emptyTopicWidget = true;
+          $(".c4m_vocab_topic input[type='checkbox']").each(function ( index ) {
+            if ($(this).prop("checked")) {
+              emptyTopicWidget = false;
+            }
+          });
+          Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
+            emptyTextfields,
+            emptyWidgetfields,
+            // emptyImageWidget,
+            emptyTopicWidget,
+            submitButtons
+          );
+        });
+      }
+
+      requiredTextFields.change(function () {
+        emptyTextfields = Drupal.behaviors.disableSubmitUntilAllRequired.checkTextFields(requiredTextFields);
+        Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
+          emptyTextfields,
+          emptyWidgetfields,
+          // emptyImageWidget,
+          emptyTopicWidget,
+          submitButtons
+        );
+      });
+
+      requiredWidgets.click(function () {
+        emptyWidgetfields = false;
+
+        requiredWidgets.each(function () {
+          if ($(this).val() === '') {
+            emptyWidgetfields = true;
+          }
+        });
+
+        Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
+          emptyTextfields,
+          emptyWidgetfields,
+          // emptyImageWidget,
+          emptyTopicWidget,
+          submitButtons
+        );
+      });
+
+      // Initialize on page load.
+      Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons(
+        emptyTextfields,
+        emptyWidgetfields,
+        // emptyImageWidget,
+        emptyTopicWidget,
+        submitButtons
+      );
+    }
+  };
+
+  Drupal.behaviors.disableSubmitButtons = {
+    attach: function (context) {
+      $('form.node-form', context).once('disableSubmitButtons', function () {
+        var $form = $(this);
+        $form.find('#edit-submit').click(function (e) {
+          var el = $(this);
+          el.after('<input type="hidden" name="' + el.attr('name') + '" value="' + el.attr('value') + '" />');
+          return true;
+        });
+        $form.submit(function (e) {
+          if (!e.isPropagationStopped()) {
+            $form.find('#edit-submit').addClass('form-disabled').attr("disabled", "disabled");
+            $form.find('#edit-cancel').addClass('form-disabled').attr("disabled", "disabled");
+            $form.find('#edit-delete').addClass('form-disabled').attr("disabled", "disabled");
+            $form.find("#edit-preview-changes").addClass("disabled-preview");
+            return true;
+          }
+        });
+      });
+    }
+  };
+
 })
 (jQuery);
+
+// https://github.com/NV/jquery-regexp-classes
+(function(hasClass) {
+  jQuery.fn.hasClass = function hasClassRegExp( selector ) {
+    if ( selector && typeof selector.test === "function" ) {
+      for ( var i = 0, l = this.length; i < l; i++ ) {
+        var classNames = this[i].className.split( /\s+/ );
+        for ( var c = 0, cl = classNames.length; c < cl; c++ ) {
+          if (selector.test( classNames[c]) ) {
+            return true;
+          }
+        }
+      }
+      return false;
+    } else {
+      return hasClass.call(this, selector);
+    }
+  }
+
+})(jQuery.fn.hasClass);

@@ -26,7 +26,7 @@
     </div>
     <div class="selected-values"
          ng-show="data.<?php print $vocabulary_machine_name; ?>">
-      <div class="value taxonomy-term-selected"
+      <div class="value taxonomy-term-selected ng-hide"
            ng-show="value === true && data.<?php print $vocabulary_machine_name; ?>[key]"
            ng-repeat="(key, value) in model.<?php print $vocabulary_machine_name; ?>">
         <div class="level-1" >
