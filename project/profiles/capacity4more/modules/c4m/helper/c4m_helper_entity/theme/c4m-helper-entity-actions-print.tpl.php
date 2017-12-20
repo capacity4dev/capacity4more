@@ -4,7 +4,6 @@
  * @file
  * Template file for c4m_helper_entity_print_action.
  */
-
 ?>
 <div class="dropdown">
     <a id="printThisPage" data-target="#" href="javascript:window.print()" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">

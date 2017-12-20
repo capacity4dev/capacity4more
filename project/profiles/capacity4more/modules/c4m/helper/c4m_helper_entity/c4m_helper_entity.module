@@ -578,7 +578,7 @@ function c4m_helper_entity_c4m_content_actions_info() {
  */
 function c4m_helper_entity_print_action($node = NULL) {
   $output = array(
-    '#theme' => 'c4m_helper_entity_actions_print'
+    '#theme' => 'c4m_helper_entity_actions_print',
   );
 
   if (!empty($node->type)) {
