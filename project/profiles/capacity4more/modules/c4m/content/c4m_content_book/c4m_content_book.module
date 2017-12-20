@@ -473,12 +473,6 @@ function c4m_content_book_theme() {
       ],
       'template' => 'c4m-content-book-export-html',
       'path' => $template_path,
-      '#attach' => [
-        'js' => [
-          'type' => 'file',
-          'data' => drupal_get_path('module', 'c4m_content_book') . '/js/book-print.js',
-        ],
-      ],
     ],
     'c4m_content_book_node_export_html' => [
       'variables' => [
@@ -522,7 +516,7 @@ function c4m_content_book_ds_fields_info($entity_type) {
  * @return string
  *   Print button markup.
  */
-function _c4m_content_book_dsfield_print_button($field) {
+function _c4m_content_book_dsfield_print_button(array $field) {
   $nid = ($field['entity']->nid) ? $field['entity']->nid : 0;
   $bid = ($field['entity']->book['bid']) ? $field['entity']->book['bid'] : 0;
   return theme(

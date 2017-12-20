@@ -5,7 +5,7 @@
  * Template for the book export.
  */
 
-drupal_add_js(drupal_get_path('module', 'c4m_content_book') . '/js/book-print.js');
+drupal_add_js(drupal_get_path('module', 'c4m_content_book') . '/js/book-print.js', array('scope' => 'footer'));
 ?>
 <div class="book-print">
     <?php if (!empty($status)): ?>

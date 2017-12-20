@@ -16,8 +16,10 @@ var jQuery = jQuery || {};
    */
   Drupal.behaviors.bookStructurePrint = {
     attach: function () {
-      window.print();
-      window.top.close();
+      $(window).bind("load", function() {
+        window.print();
+        window.top.close();
+      });
     }
   };
 
