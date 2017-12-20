@@ -388,6 +388,14 @@ function c4m_content_book_print($node) {
   $contents = book_export_traverse($tree, 'c4m_content_book_node_export');
   $comments = '';
   $cids = comment_get_thread($node, COMMENT_MODE_FLAT, 100);
+  $status = FALSE;
+  if (!empty($node->book['bid'])) {
+    $block = node_load($node->book['bid']);
+    $block_wrapper = entity_metadata_wrapper('node', $block);
+    if (!empty($block_wrapper->c4m_og_status->value())) {
+      $status = $block_wrapper->c4m_og_status->value();
+    }
+  }
   if (!empty($cids)) {
     $comments = comment_load_multiple($cids);
     $comments = comment_view_multiple($comments, $node, $view_mode = 'full', $weight = 0, $langcode = NULL);
@@ -398,7 +406,8 @@ function c4m_content_book_print($node) {
     [
       'title' => $node->title,
       'contents' => $contents,
-      'comments' => $comments
+      'comments' => $comments,
+      'status' => $status
     ]
   );
 }
@@ -444,7 +453,12 @@ function c4m_content_book_theme() {
   $template_path = drupal_get_path('module', 'c4m_content_book') . '/templates';
   return [
     'c4m_content_book_export_html' => [
-      'variables' => ['title' => NULL, 'contents' => NULL, 'comments' => NULL],
+      'variables' => [
+        'title' => NULL,
+        'contents' => NULL,
+        'comments' => NULL,
+        'status' => NULL,
+      ],
       'template' => 'c4m-content-book-export-html',
       'path' => $template_path,
       '#attach' => [
@@ -455,7 +469,11 @@ function c4m_content_book_theme() {
       ],
     ],
     'c4m_content_book_node_export_html' => [
-      'variables' => ['content' => NULL, 'children' => NULL, 'hierarchy' => NULL],
+      'variables' => [
+        'content' => NULL,
+        'children' => NULL,
+        'hierarchy' => NULL
+      ],
       'template' => 'c4m-content-book-node-export-html',
       'path' => $template_path,
     ],
