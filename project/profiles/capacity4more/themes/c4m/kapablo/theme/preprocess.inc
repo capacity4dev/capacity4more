@@ -22,6 +22,23 @@ function kapablo_preprocess_message(&$variables) {
 
   $variables['content'] = $message->getText();
 
+  if (c4m_message_delete_message_access($message)) {
+    $link_options = [
+      'attributes' => ['class' => ['action-delete']],
+      'html' => TRUE,
+      'query' => ['destination' => request_path()],
+    ];
+    if ($group = c4m_og_current_group()) {
+      $link_options += [
+        'purl' => [
+          'provider' => 'og_purl|node',
+          'id' => $group->nid,
+        ],
+      ];
+    }
+    $variables['content'] .= l('<i class="fa fa-window-close" title="' . t('Delete activity') . '"></i>', 'activity/' . $message->mid . '/delete', $link_options);
+  }
+
   // Getting the name of the icon image file from the message type.
   $icon_type = explode('__', $message->type);
 
