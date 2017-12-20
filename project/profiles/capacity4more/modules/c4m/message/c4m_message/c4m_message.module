@@ -2781,10 +2781,10 @@ function c4m_message_format_date_for_message(Message $message) {
  * Get group info for activity stream.
  *
  * @param Message $message
- *    The message object.
+ *   The message object.
  *
  * @return string
- *    The group info.
+ *   The group info.
  *
  * @throws \EntityMetadataWrapperException
  *    Throws EntityMetadataWrapperException error.
@@ -3354,10 +3354,10 @@ function c4m_message_format_node_share(Message $message) {
  * Return the body of the comment.
  *
  * @param Message $message
- *    The message object.
+ *   The message object.
  *
  * @return string
- *    Rendered comment.
+ *   Rendered comment.
  */
 function c4m_message_format_rendered_comment(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
@@ -3586,11 +3586,11 @@ function c4m_message__update__node($node, $account = NULL) {
  * Set the message fields values.
  *
  * @param Message $message
- *    The message entity.
+ *   The message entity.
  * @param string $entity_type
- *    The entity type.
+ *   The entity type.
  * @param object $entity
- *    The Entity for we create/update message.
+ *   The Entity for we create/update message.
  */
 function c4m_message_prepare_insert_entity(
   Message &$message,
@@ -3891,7 +3891,7 @@ function c4m_message_query_activity_stream_homepage_alter(SelectQuery &$query) {
  * Alter field access for activity stream entities.
  *
  * @param \SelectQuery $query
- *    The query to be altered.
+ *   The query to be altered.
  */
 function c4m_message_query_activity_stream_entity_field_access_alter(
   SelectQuery &$query
