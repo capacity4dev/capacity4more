@@ -650,8 +650,6 @@ var jQuery = jQuery || {};
       this.requiredTopicFields = forms.find('.c4m_vocab_topic').has('.form-required');
       this.submitButtons = forms.find('.form-actions').find('.form-submit, .form-preview');
 
-      this.checkFields();
-
       // Text fields.
       this.requiredTextFields.change(function () {
         // @todo Only Text Fields are needed to be checked here.
