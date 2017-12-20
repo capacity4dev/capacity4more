@@ -16,7 +16,7 @@ var jQuery = jQuery || {};
    */
   Drupal.behaviors.bookStructurePrint = {
     attach: function () {
-      $(window).bind("load", function() {
+      $(window).bind("load", function () {
         window.print();
         window.top.close();
       });
