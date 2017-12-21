@@ -225,7 +225,7 @@ function _c4m_wysiwyg_ckeditor_iframe_cck_filter_process(
 
   // Update DOM only if there was at least one service replaced.
   if (count($services_replaced) > 0) {
-    return filter_dom_serialize($dom);
+    return $dom->saveHTML();
   }
   return $text;
 }
