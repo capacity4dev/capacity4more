@@ -18,7 +18,9 @@ var jQuery = jQuery || {};
     attach: function () {
       $(window).bind("load", function () {
         window.print();
-        window.top.close();
+        window.onafterprint = function () {
+          window.top.close();
+        };
       });
     }
   };
