@@ -36,7 +36,8 @@ function kapablo_preprocess_message(&$variables) {
         ],
       ];
     }
-    $variables['content'] .= l('<i class="fa fa-window-close" title="' . t('Delete activity') . '"></i>', 'activity/' . $message->mid . '/delete', $link_options);
+    $title = t('Delete activity');
+    $variables['content'] .= l('<i class="fa fa-window-close" title="' . $title . '"></i>', 'activity/' . $message->mid . '/delete', $link_options);
   }
 
   // Getting the name of the icon image file from the message type.
