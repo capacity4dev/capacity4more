@@ -20,6 +20,9 @@ include_once 'c4m_og_purl.uri_info.inc';
  * Denies access to global pages, if under OG context (under PURL).
  */
 function c4m_og_purl_init() {
+  // Redirect based on purl aliases.
+  c4m_og_purl_redirect();
+
   $item = menu_get_item();
 
   if (empty($item['path'])) {
@@ -59,6 +62,24 @@ function c4m_og_purl_init() {
     // Conflict between menu item and context.
     drupal_access_denied();
     drupal_exit();
+  }
+}
+
+/**
+ * Redirects based on purl aliases.
+ */
+function c4m_og_purl_redirect() {
+  $path = current_path();
+  $args = explode('/', $path);
+  $arg = $args[0];
+  $alias = db_query('SELECT new_path FROM {c4m_og_purl_aliases} WHERE old_path = :old_path', [':old_path' => $arg])->fetchField();
+  if ($alias) {
+    $args[0] = $alias;
+    $new_path = implode('/', $args);
+    $options = ['query' => drupal_get_query_parameters()];
+    // If destination is present in query params it may override the redirect.
+    unset($_GET['destination']);
+    drupal_goto($new_path, $options, '301');
   }
 }
 
@@ -565,6 +586,7 @@ function c4m_og_purl_form_alter(array &$form, array $form_state) {
     'exists' => 'c4m_og_purl_exists',
     'replace' => '-',
     'replace_pattern' => '[^a-z0-9_-]+',
+    'error_message' => t('The name is already taken. Please choose another.'),
   );
 }
 
@@ -578,5 +600,54 @@ function c4m_og_purl_form_alter(array &$form, array $form_state) {
  *   TRUE or FALSE.
  */
 function c4m_og_purl_exists($value) {
-  return FALSE;
+  $alias = db_query('SELECT old_path FROM {c4m_og_purl_aliases} WHERE old_path = :old_path', [':old_path' => $value])->fetchField();
+  return (bool) $alias;
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * Put c4m_og_purl form_alter implementation after og_purl.
+ */
+function c4m_og_purl_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter' && isset($implementations['c4m_og_purl'])) {
+    $c4m_og_purl = $implementations['c4m_og_purl'];
+    unset($implementations['c4m_og_purl']);
+    $implementations['c4m_og_purl'] = $c4m_og_purl;
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function c4m_og_purl_node_update($node) {
+  if (!og_is_group('node', $node)) {
+    return;
+  }
+
+  if (!isset($node->purl) || !isset($node->original->purl)) {
+    return;
+  }
+
+  // $node->original->purl is a string containing the original path.
+  if ($node->purl['value'] === $node->original->purl) {
+    return;
+  }
+
+  $alias = [
+    'old_path' => $node->original->purl,
+    'new_path' => $node->purl['value'],
+  ];
+  drupal_write_record('c4m_og_purl_aliases', $alias);
+
+  // Update older aliases that point to the updated alias.
+  db_update('c4m_og_purl_aliases')
+    ->fields(['new_path' => $alias['new_path']])
+    ->condition('new_path', $alias['old_path'])
+    ->execute();
+
+  // Avoid circular redirects.
+  db_delete('c4m_og_purl_aliases')
+    ->where('old_path = new_path')
+    ->execute();
 }
