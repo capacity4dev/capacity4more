@@ -544,3 +544,39 @@ function c4m_og_purl_group_content_access() {
 
   return og_context() && user_access('access content');
 }
+
+/**
+ * Implements hook_form_alter().
+ */
+function c4m_og_purl_form_alter(array &$form, array $form_state) {
+  if (empty($form['#node_edit_form'])
+    || !og_is_group_type(
+      'node',
+      $form['#node']->type
+    )
+  ) {
+    return;
+  }
+  $form['og_purl']['purl']['value']['#title'] = t('Group path');
+  $form['og_purl']['purl']['value']['#type'] = 'machine_name';
+  $form['og_purl']['purl']['value']['#machine_name'] = array(
+    'source' => array('title'),
+    'label' => t('Group path'),
+    'exists' => 'c4m_og_purl_exists',
+    'replace' => '-',
+    'replace_pattern' => '[^a-z0-9_-]+',
+  );
+}
+
+/**
+ * Function to check if a path is a purl path.
+ *
+ * @param string $value
+ *   Group path.
+ *
+ * @return bool
+ *   TRUE or FALSE.
+ */
+function c4m_og_purl_exists($value) {
+  return FALSE;
+}
