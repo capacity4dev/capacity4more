@@ -846,6 +846,34 @@ function c4m_message_default_message_type() {
     "entity_type" : "message_type",
     "rdf_mapping" : []
   }');
+  $items['c4m_notify_subscribe_content_of_interest'] = entity_import('message_type', '{
+    "name" : "c4m_notify_subscribe_content_of_interest",
+    "description" : "Notify Subscribe - Content of Interest",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003ENew @content_type_name about @topic_name\\u003C\\/p\\u003E\\r\\n",
+          "format" : "mail",
+          "safe_value" : "\\u003Cp\\u003ENew @content_type_name about @topic_name\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E @event_action the following @content_type_name: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cem\\u003E@node_teaser_body \\u003C\\/em\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!content_node_url\\u0022\\u003ERead more...\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EYou\\u0027re receiving this e-mail because you\\u0027re subscribed to \\u003Cstrong\\u003E@topic_name\\u003C\\/strong\\u003E - if you no longer wish to receive notifications related to \\u003Cstrong\\u003E@topic_name\\u003C\\/strong\\u003E, please \\u003Ca href=\\u0022!unsubscribe_topic_url\\u0022\\u003Eunsubscribe.\\u003C\\/a\\u003E\\u003C\\/p\\u003E",
+          "format" : "mail",
+          "safe_value" : "\\u003Cp\\u003EDear @user_full_name,\\u003C\\/p\\u003E\\n\\n\\u003Cp\\u003E\\u003Ca href=\\u0022!event_user_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@event_user_full_name\\u003C\\/a\\u003E @event_action the following @content_type_name: \\u003Cstrong\\u003E\\u003Ca href=\\u0022!content_node_url\\u0022\\u003E@content_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E\\u003C\\/p\\u003E\\n\\n\\u003Cp\\u003E\\u003Cem\\u003E@node_teaser_body \\u003C\\/em\\u003E\\u003Cbr \\/\\u003E\\n\\u003Ca href=\\u0022!content_node_url\\u0022\\u003ERead more...\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n\\n\\u003Cp\\u003EYou\\u0027re receiving this e-mail because you\\u0027re subscribed to \\u003Cstrong\\u003E@topic_name\\u003C\\/strong\\u003E - if you no longer wish to receive notifications related to \\u003Cstrong\\u003E@topic_name\\u003C\\/strong\\u003E, please \\u003Ca href=\\u0022!unsubscribe_topic_url\\u0022\\u003Eunsubscribe.\\u003C\\/a\\u003E\\u003C\\/p\\u003E"
+        }
+      ]
+    },
+    "entity_type" : "message_type",
+    "rdf_mapping" : []
+  }');
   $items['c4m_notify_subscribers_new_comment'] = entity_import('message_type', '{
     "name" : "c4m_notify_subscribers_new_comment",
     "description" : "c4m Notify Subscribers New Comment",
