@@ -1422,6 +1422,59 @@ function c4m_message_load_tokens__c4m_content_inserted_or_updated(
 }
 
 /**
+ * Add callbacks to c4m_notify_subscribe_content_of_interest message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_content_of_interest(
+  Message $message
+) {
+  $message->arguments['@user_full_name'] = [
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['@content_node_title'] = [
+    'callback' => 'c4m_message_format_node_title',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['@content_type_name'] = [
+    'callback' => 'c4m_message_format_node_type',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['!content_node_url'] = [
+    'callback' => 'c4m_message_format_node_url',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['@topic_name'] = [
+    'callback' => 'c4m_message_format_topic_name',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['!unsubscribe_topic_url'] = [
+    'callback' => 'c4m_message_format_unsubscribe_topic_url',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['@event_user_full_name'] = [
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['!event_user_url'] = [
+    'callback' => 'c4m_message_format_event_user_url',
+    'pass message' => TRUE,
+  ];
+}
+
+/**
  * Add callbacks to c4m_new_content_share_published message arguments.
  *
  * For each token at email template, assigns a function that will be used
@@ -3348,6 +3401,36 @@ function c4m_message_format_node_share(Message $message) {
     'shared @article @node_type',
     ['@article' => $info['article'], '@node_type' => $info['singular']]
   );
+}
+
+/**
+ * Return the formatted unsubscribe url for taxonomy terms.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The unsubscribe link.
+ */
+function c4m_message_format_unsubscribe_topic_url(Message $message) {
+  return _c4m_message_format_unsubscribe_url($message, 'taxonomy_term');
+}
+
+/**
+ * Return the formatted share operation.
+ *
+ * Retrieve proper icon for a content type (and maybe subtype).
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The icon class.
+ */
+function c4m_message_format_topic_name(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  return $wrapper->field_taxonomy_term->label();
 }
 
 /**

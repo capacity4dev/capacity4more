@@ -219,6 +219,115 @@ function _c4m_user_notifications_notify_subscribe_group_content($node, $action, 
 }
 
 /**
+ * Notify subscribers when content is published with topics/regions of interest.
+ *
+ * Sends mail notification to topic subscribers, when content is add that
+ * matches one of their topics of interest or regions/countries of interest.
+ *
+ * @param object $node
+ *   Content node that was added / published.
+ */
+function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $action = 'publish') {
+  global $user;
+
+  $message = message_create('c4m_notify_subscribe_content_of_interest');
+  // Define functions with which to resolve email template tokens.
+  c4m_message_load_tokens__c4m_content_of_interest($message);
+
+  // Resolve body field, in teaser mode, and assign value to it's token.
+  $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
+  $message->arguments['@node_teaser_body'] = strip_tags(
+    $body_teaser[0]['#markup']
+  );
+
+  switch ($action) {
+    case 'highlight':
+      $message->arguments['@event_action'] = t('highlighted');
+      break;
+    case 'recommend':
+      $message->arguments['@event_action'] = t('recommended');
+      break;
+    case 'publish':
+    default:
+      $message->arguments['@event_action'] = t('published');
+      break;
+  }
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_node->set($node->nid);
+  $wrapper->field_executing_user->set($user->uid);
+
+  // Flag suffix that is used at unsubscribe mechanism.
+  $flag_suffix = 'term';
+
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+
+  // Iterate over all tagged topic terms.
+  foreach ($node_wrapper->get('c4m_vocab_topic')->value() as $term) {
+    $wrapper->field_taxonomy_term->set($term->tid);
+
+    // Construct the context, with parameters that will be used by
+    // c4m_user_notifications_message_subscribe_get_subscribers().
+    $context = [
+      'entity_type' => $flag_suffix,
+      'entity_id' => $term->tid,
+    ];
+
+    // If Group content, additional flag context needed to prevent duplicates.
+    if (isset($node_wrapper->{OG_AUDIENCE_FIELD})) {
+      $context['additional_flaget_subg_context'] = [
+        [
+          'additional_flag_name' => 'group',
+          'additional_flag_operation' => 'diff',
+          'additional_flag_entity_id' =>
+            $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')->value(),
+        ],
+      ];
+    }
+    $subscribe_options = [];
+    // Skip access checks for new revisions of nodes as most people don't have
+    // 'revision access' permission.
+    if (isset($node->vid) && isset($node->original->vid) && $node->vid !== $node->original->vid) {
+      $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
+    }
+    // Message will be saved in message_subscribe_send_message().
+    message_subscribe_send_message('taxonomy_term', $term, $wrapper->value(), [], $subscribe_options, $context);
+  }
+
+  // Iterate over all tagged geo terms.
+  foreach ($node_wrapper->get('c4m_vocab_geo')->value() as $term) {
+    $wrapper->field_taxonomy_term->set($term->tid);
+
+    // Construct the context, with parameters that will be used by
+    // c4m_user_notifications_message_subscribe_get_subscribers().
+    $context = [
+      'entity_type' => $flag_suffix,
+      'entity_id' => $term->tid,
+    ];
+
+    // If Group content, additional flag context needed to prevent duplicates.
+    if (isset($node_wrapper->{OG_AUDIENCE_FIELD})) {
+      $context['additional_flaget_subg_context'] = [
+        [
+          'additional_flag_name' => 'group',
+          'additional_flag_operation' => 'diff',
+          'additional_flag_entity_id' =>
+            $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')->value(),
+        ],
+      ];
+    }
+    $subscribe_options = [];
+    // Skip access checks for new revisions of nodes as most people don't have
+    // 'revision access' permission.
+    if (isset($node->vid) && isset($node->original->vid) && $node->vid !== $node->original->vid) {
+      $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
+    }
+    // Message will be saved in message_subscribe_send_message().
+    message_subscribe_send_message('taxonomy_term', $term, $wrapper->value(), [], $subscribe_options, $context);
+  }
+}
+
+/**
  * Send specific notifications on content updates.
  *
  * When content is updated, sends mail notification to two groups of users:

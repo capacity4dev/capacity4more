@@ -5223,64 +5223,6 @@ function c4m_message_field_default_field_instances() {
   );
 
   // Exported field_instance:
-  // 'message-c4m_notify_subscribe_content_of_interest-field_group_node'.
-  $field_instances['message-c4m_notify_subscribe_content_of_interest-field_group_node'] = array(
-    'bundle' => 'c4m_notify_subscribe_content_of_interest',
-    'default_value' => NULL,
-    'default_value_function' => '',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'bypass_access' => FALSE,
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 0,
-      ),
-      'message_notify_email_body' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'message_notify_email_subject' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'ds_extras_field_template' => '',
-    'entity_type' => 'message',
-    'field_name' => 'field_group_node',
-    'label' => 'Group node',
-    'required' => 0,
-    'settings' => array(
-      'behaviors' => array(
-        'prepopulate' => array(
-          'status' => 0,
-        ),
-      ),
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'entityreference',
-      'settings' => array(
-        'match_operator' => 'CONTAINS',
-        'path' => '',
-        'size' => 60,
-      ),
-      'type' => 'entityreference_autocomplete',
-      'weight' => 2,
-    ),
-  );
-
-  // Exported field_instance:
   // 'message-c4m_notify_subscribe_content_of_interest-field_node'.
   $field_instances['message-c4m_notify_subscribe_content_of_interest-field_node'] = array(
     'bundle' => 'c4m_notify_subscribe_content_of_interest',
@@ -5335,6 +5277,56 @@ function c4m_message_field_default_field_instances() {
       ),
       'type' => 'entityreference_autocomplete',
       'weight' => 6,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'message-c4m_notify_subscribe_content_of_interest-field_taxonomy_term'.
+  $field_instances['message-c4m_notify_subscribe_content_of_interest-field_taxonomy_term'] = array(
+    'bundle' => 'c4m_notify_subscribe_content_of_interest',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'bypass_access' => FALSE,
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 3,
+      ),
+      'message_notify_email_body' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'message_notify_email_subject' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'message',
+    'field_name' => 'field_taxonomy_term',
+    'label' => 'Topic Term',
+    'required' => FALSE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 7,
     ),
   );
 
@@ -5724,6 +5716,7 @@ function c4m_message_field_default_field_instances() {
   t('Operation');
   t('Reference to user that has executed the event that led to issuing email notification');
   t('This is the text of all messages of this type.');
+  t('Topic Term');
 
   return $field_instances;
 }

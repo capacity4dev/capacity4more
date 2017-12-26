@@ -1450,7 +1450,8 @@ function c4m_user_profile_message_subscribe_get_subscribers_alter(
 ) {
   $entity_type = $values['context']['entity_type'];
   $entity_id = $values['context']['entity_id'];
-  $uids = c4m_user_profile_get_subscribed($entity_type, $entity_id, $uids);
+  $flagged_entity_type = $entity_type == 'term' ? 'taxonomy_term' : 'node';
+  $uids = c4m_user_profile_get_subscribed($flagged_entity_type, $entity_id, $uids);
 }
 
 /**
