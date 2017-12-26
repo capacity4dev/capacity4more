@@ -76,9 +76,9 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
   }
   // In this case, entity is a term, and it's notification is not supported
   // for current MVP.
-  else {
-    return [];
-  }
+//  else {
+//    $users =
+//  }
 
   // Filtering users and preparing final user list.
   $users = user_load_multiple(array_keys($users));
