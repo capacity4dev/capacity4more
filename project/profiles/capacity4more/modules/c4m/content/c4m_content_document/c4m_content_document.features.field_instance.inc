@@ -239,7 +239,7 @@ function c4m_content_document_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'c4m_body',
     'label' => 'Description',
-    'required' => 1,
+    'required' => 0,
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
@@ -276,6 +276,12 @@ function c4m_content_document_field_default_field_instances() {
       'active' => 1,
       'module' => 'text',
       'settings' => array(
+        'maxlength_js' => '',
+        'maxlength_js_enforce' => 0,
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'maxlength_js_label_summary' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'maxlength_js_summary' => '',
+        'maxlength_js_truncate_html' => 0,
         'rows' => 20,
         'summary_display' => 'default',
         'summary_rows' => 5,
@@ -768,15 +774,16 @@ function c4m_content_document_field_default_field_instances() {
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_vocab_document_type',
     'label' => 'Type of Document',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
+      'active' => 0,
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
