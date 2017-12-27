@@ -74,19 +74,49 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
       $group = NULL;
     }
   }
-  // In this case, entity is a term, and it's notification is not supported
-  // for current MVP.
-//  else {
-//    $users =
-//  }
+
+  // Notifications for interests are "dynamic", meaning one message ID serves
+  // different term ID's.
+  // We also need to check the original node's access for the user.
+  if ($message->type === 'c4m_notify_subscribe_content_of_interest') {
+    $wrapper = entity_metadata_wrapper('message', $message);
+    $wrapper->field_taxonomy_term->set($entity_id);
+
+    // Is this a group?
+    $node = node_load($wrapper->field_node->get('nid')->value());
+
+    // Node is a group.
+    if (og_is_group_type('node', $node->type)) {
+      $group = $node;
+    }
+    // Node is group content.
+    elseif (og_is_group_content_type('node', $node->type)) {
+      $group = c4m_og_get_group_of_content($node);
+    }
+    // Site content which does not belong to a group. For example, 'article'.
+    else {
+      $group = NULL;
+    }
+  }
 
   // Filtering users and preparing final user list.
   $users = user_load_multiple(array_keys($users));
+
+  // Already subscribed users.
+  $previous_recipients = _c4m_user_notifications_get_message_unique_recipients($message->mid);
+
   foreach ($users as $key => &$value) {
     // When node is group or group content, filter banned users.
-    if (!is_null($group) && c4m_user_og_get_role_in_group($value, $group) == 'blocked') {
-      unset($users[$key]);
-      continue;
+    if (!is_null($group)) {
+      if (c4m_user_og_get_role_in_group($value, $group) == 'blocked') {
+        unset($users[$key]);
+        continue;
+      }
+
+      if (!node_access('view', $group, user_load($key))) {
+        unset($users[$key]);
+        continue;
+      }
     }
 
     if (array_search($key, $filtered_users) !== FALSE) {
@@ -96,6 +126,12 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
     else {
       // If not found, filter the user.
       unset($users[$key]);
+      continue;
+    }
+
+    if (array_search($key, $previous_recipients) !== FALSE) {
+      unset ($users[$key]);
+      continue;
     }
   }
 
@@ -112,11 +148,55 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
       // - The group we share the node to.
       if (!node_access('view', $node, $user) || !node_access('view', $original_node, $user)) {
         unset($users[$key]);
+        continue;
       }
     }
   }
 
+  $all_subscribers = array_merge($previous_recipients, array_keys($users));
+
+  if (count($all_subscribers) > 0) {
+    $all_subscribers = array_values(array_unique($all_subscribers));
+    _c4m_user_notifications_set_message_unique_recipients($message->mid, $all_subscribers);
+  }
+
   return $users;
+}
+
+/**
+ * Helper function to get UID's already subscribed for a specific notification.
+ *
+ * @param int $mid
+ *   Message ID.
+ *
+ * @return array
+ *   UID's that already received this message.
+ */
+function _c4m_user_notifications_get_message_unique_recipients($mid) {
+  $recipients = db_query('SELECT recipients FROM {message_recipients_unique} WHERE mid = :mid', [':mid' => $mid])->fetchAssoc();
+
+  if (empty($recipients['recipients'])) {
+    return [];
+  }
+
+  return array_values(unserialize($recipients['recipients']));
+}
+
+/**
+ * Helper function to set UID's subscribed for a specific notification.
+ *
+ * @param $mid
+ *   Message ID.
+ * @param array $uids
+ *   Array of UID's that will receive this notification.
+ */
+function _c4m_user_notifications_set_message_unique_recipients($mid, $uids) {
+  db_merge('message_recipients_unique')
+    ->key(['mid' => $mid])
+    ->fields([
+      'recipients' => serialize($uids),
+    ])
+    ->execute();
 }
 
 /**

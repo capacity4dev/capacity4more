@@ -234,11 +234,15 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_content_of_interest($message);
 
-  // Resolve body field, in teaser mode, and assign value to it's token.
-  $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
-  $message->arguments['@node_teaser_body'] = strip_tags(
-    $body_teaser[0]['#markup']
-  );
+  if ($node->type == 'article') {
+    $body_teaser = field_view_field('node', $node, 'c4m_intro_text', 'teaser');
+  }
+  else {
+    // Resolve body field, in teaser mode, and assign value to it's token.
+    $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
+  }
+
+  $message->arguments['@node_teaser_body'] = strip_tags($body_teaser[0]['#markup']);
 
   switch ($action) {
     case 'highlight':
