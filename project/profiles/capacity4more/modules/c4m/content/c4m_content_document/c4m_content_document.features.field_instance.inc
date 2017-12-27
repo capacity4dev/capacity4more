@@ -301,7 +301,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
-          'text' => 'Download [file:name]',
+          'show_pdf_preview_link' => TRUE,
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
         'weight' => 3,
@@ -310,7 +310,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
-          'text' => 'Download [file:name]',
+          'show_pdf_preview_link' => TRUE,
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
         'weight' => 2,
@@ -340,7 +340,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
-          'text' => 'Download [file:name]',
+          'show_pdf_preview_link' => FALSE,
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
         'weight' => 2,
@@ -355,7 +355,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
-          'text' => 'Download [file:name]',
+          'show_pdf_preview_link' => FALSE,
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
         'weight' => 7,
@@ -388,7 +388,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
-          'text' => 'Download [file:name]',
+          'show_pdf_preview_link' => TRUE,
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
         'weight' => 7,
@@ -397,7 +397,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
-          'text' => 'Download [file:name]',
+          'show_pdf_preview_link' => TRUE,
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
         'weight' => 6,
