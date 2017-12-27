@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Custom theme function to theme the file field.

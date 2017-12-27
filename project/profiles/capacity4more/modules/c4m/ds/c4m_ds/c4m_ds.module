@@ -867,12 +867,12 @@ function c4m_ds_ds_pre_render_alter(&$layout_render_array, $context, &$vars) {
  * Format the string with the amount of posts and comments a user has posted.
  *
  * @param int $post_count
- *    The number of posts.
+ *   The number of posts.
  * @param int $comment_count
- *    The number of comments.
+ *   The number of comments.
  *
  * @return null|string
- *    Formatted string with number of posts and comments.
+ *   Formatted string with number of posts and comments.
  */
 function c4m_ds_user_activity_summary_helper($post_count = 0, $comment_count = 0) {
   $output = '';
