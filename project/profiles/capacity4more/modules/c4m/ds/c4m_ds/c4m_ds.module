@@ -632,15 +632,6 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
-  $fields['file']['c4m_ds_document_preview'] = array(
-    'title' => t('C4M document preview'),
-    'field_type' => DS_FIELD_TYPE_FUNCTION,
-    // Currently for document only.
-    'ui_limit' => array('document|*'),
-    'file' => $path . '/includes/c4m_ds.theme.file.inc',
-    'function' => 'theme_c4m_ds_document_preview',
-  );
-
   $fields['user']['c4m_ds_article_notable_contribution'] = array(
     'title' => t('Notable contributions (V&V)'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,

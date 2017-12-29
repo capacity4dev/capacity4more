@@ -78,29 +78,3 @@ function theme_c4m_link_and_size($variables) {
 
   return $output;
 }
-
-/**
- * DS function field.
- *
- * Render preview of document
- *
- * @param array $field
- *   The field definition.
- *
- * @return string
- *   The rendered version.
- */
-function theme_c4m_ds_document_preview(array $field) {
-  $output = '';
-
-  if (isset($field['entity'])) {
-    $entity = $field['entity'];
-
-    $tag['element'] = array(
-      '#tag' => 'i',
-      '#value' => 'To be replaced by document preview.',
-    );
-    $output .= theme_html_tag($tag);
-  }
-  return $output;
-}
