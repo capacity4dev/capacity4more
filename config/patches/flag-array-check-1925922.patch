@@ -1,13 +1,13 @@
 diff --git a/includes/flag/flag_flag.inc b/includes/flag/flag_flag.inc
-index 2b96b9f..f883ff4 100644
+index 2b96b9f..7c66995 100644
 --- a/includes/flag/flag_flag.inc
 +++ b/includes/flag/flag_flag.inc
 @@ -129,7 +129,11 @@ class flag_flag {
  
      // Populate the options with the defaults.
      $options = (array) unserialize($row->options);
--    $options += $flag->options();    
-+
+-    $options += $flag->options();
++    
 +    // Make sure flag->options is an array first.
 +    if (is_array($options) && is_array($flag->options())) {
 +      $options += $flag->options();
