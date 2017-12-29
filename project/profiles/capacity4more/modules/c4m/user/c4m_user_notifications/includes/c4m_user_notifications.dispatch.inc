@@ -185,8 +185,6 @@ function _c4m_user_notifications_flag_flag($flag, $entity_id) {
   if ($flag->name != 'c4m_og_content_recommend') {
     return;
   }
-
-
 }
 
 /**
@@ -364,6 +362,7 @@ function _c4m_user_notifications_dispatch_content_action($node, $action) {
       // content tagged with a common topic of interest.
       _c4m_user_notifications_dispatch_content_of_interest($node);
       break;
+
     case 'update':
       if ($node->original->status != NODE_PUBLISHED) {
         // Send MT24 - Subscribed topic followers are informed about new
@@ -381,7 +380,6 @@ function _c4m_user_notifications_dispatch_content_action($node, $action) {
   if (!isset($wrapper->{OG_AUDIENCE_FIELD}->c4m_og_status)) {
     return;
   }
-
 
   // Check if the node's group reference's status is published so we don't
   // trigger notifications in draft/pending/... groups.

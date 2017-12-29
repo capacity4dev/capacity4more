@@ -85,10 +85,9 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
 
     // Check if the user already received the notification before.
     if (array_search($key, $previous_recipients) !== FALSE) {
-      unset ($users[$key]);
+      unset($users[$key]);
       continue;
     }
-
 
     // If this is a share action, we have to check access to both source and
     // target node (+ group).
@@ -123,7 +122,7 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
  * Check if an entity_id is either a group itself or group content.
  *
  * @param int $nid
- *   The node ID
+ *   The node ID.
  *
  * @return object
  *   Group node object or NULL.
@@ -164,7 +163,7 @@ function _c4m_user_notifications_message_subscribe_get_subscribers_get_group($ni
  * @return array
  *   Array with all users filtered by the additional flag contexts.
  */
-function _c4m_user_notifications_message_subscribe_filter_additional_flag_contexts(array $context, $users, $entity_id, $flagged_entity_type) {
+function _c4m_user_notifications_message_subscribe_filter_additional_flag_contexts(array $context, array $users, $entity_id, $flagged_entity_type) {
   $filtered_users = array_keys($users);
 
   if (!empty($context['additional_flag_context']) && is_array($context['additional_flag_context'])) {
@@ -233,12 +232,12 @@ function _c4m_user_notifications_get_message_unique_recipients($mid) {
 /**
  * Helper function to set UID's subscribed for a specific notification.
  *
- * @param $mid
+ * @param int $mid
  *   Message ID.
  * @param array $uids
  *   Array of UID's that will receive this notification.
  */
-function _c4m_user_notifications_set_message_unique_recipients($mid, $uids) {
+function _c4m_user_notifications_set_message_unique_recipients($mid, array $uids) {
   db_merge('message_recipients_unique')
     ->key(['mid' => $mid])
     ->fields([

@@ -248,9 +248,11 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
     case 'highlight':
       $message->arguments['@event_action'] = t('highlighted');
       break;
+
     case 'recommend':
       $message->arguments['@event_action'] = t('recommended');
       break;
+
     case 'publish':
     default:
       $message->arguments['@event_action'] = t('published');
@@ -283,8 +285,7 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
         [
           'additional_flag_name' => 'group',
           'additional_flag_operation' => 'diff',
-          'additional_flag_entity_id' =>
-            $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')->value(),
+          'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')->value(),
         ],
       ];
     }
@@ -315,8 +316,7 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
         [
           'additional_flag_name' => 'group',
           'additional_flag_operation' => 'diff',
-          'additional_flag_entity_id' =>
-            $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')->value(),
+          'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')->value(),
         ],
       ];
     }
