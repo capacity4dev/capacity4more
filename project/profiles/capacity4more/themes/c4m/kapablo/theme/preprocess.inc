@@ -8,7 +8,7 @@
 /**
  * Implements theme_preprocess_message().
  *
- *  Activity stream messages preprocess.
+ * Activity stream messages preprocess.
  */
 function kapablo_preprocess_message(&$variables) {
   if ($variables['view_mode'] != 'activity_group' && $variables['view_mode'] != 'activity_global') {
@@ -21,6 +21,24 @@ function kapablo_preprocess_message(&$variables) {
   $variables['theme_hook_suggestions'][] = "message__{$message->type}__activity_stream";
 
   $variables['content'] = $message->getText();
+
+  if (c4m_message_delete_message_access($message)) {
+    $link_options = [
+      'attributes' => ['class' => ['action-delete']],
+      'html' => TRUE,
+      'query' => ['destination' => request_path()],
+    ];
+    if ($group = c4m_og_current_group()) {
+      $link_options += [
+        'purl' => [
+          'provider' => 'og_purl|node',
+          'id' => $group->nid,
+        ],
+      ];
+    }
+    $title = t('Delete activity');
+    $variables['content'] .= l('<i class="fa fa-window-close" title="' . $title . '"></i>', 'activity/' . $message->mid . '/delete', $link_options);
+  }
 
   // Getting the name of the icon image file from the message type.
   $icon_type = explode('__', $message->type);

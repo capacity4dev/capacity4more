@@ -20,6 +20,32 @@
             }
         }
     }
+
+  .message {
+    position: relative;
+  }
+
+  .action-delete {
+    background: white;
+    position: absolute;
+    right: 0;
+    // Compensate for the h2's margin top.
+    top: 25px;
+
+    .message-c4m-insert--comment & {
+      top: 10px;
+    }
+  }
+  @media (min-width: $screen-desktop) {
+    .action-delete {
+      display: none;
+    }
+
+    .message:hover .action-delete {
+      display: block;
+    }
+  }
+
     h2 {
         margin-top: 25px;
         margin-bottom: 6px;
