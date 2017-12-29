@@ -180,13 +180,23 @@ function c4m_user_subscribe_user_update(&$edit, $account, $category) {
       }
     }
 
-    $new_terms = array_udiff($account->{$vocab}[LANGUAGE_NONE], $account->original->{$vocab}[LANGUAGE_NONE], '_c4m_user_subscribe_user_compare_terms_array');
+    // Subscribe the user to tags that were not selected before.
+    $new_terms = array_udiff(
+      is_array($account->{$vocab}[LANGUAGE_NONE]) ? $account->{$vocab}[LANGUAGE_NONE] : [],
+      is_array($account->original->{$vocab}[LANGUAGE_NONE]) ? $account->original->{$vocab}[LANGUAGE_NONE] : [],
+      '_c4m_user_subscribe_user_compare_terms_array'
+    );
 
     if (!empty($new_terms)) {
       _c4m_user_subscribe_user_flag_terms($new_terms, $account);
     }
 
-    $old_terms = array_udiff($account->original->{$vocab}[LANGUAGE_NONE], $account->{$vocab}[LANGUAGE_NONE], '_c4m_user_subscribe_user_compare_terms_array');
+    // Unsubscribe the user from tags he deselected.
+    $old_terms = array_udiff(
+      is_array($account->original->{$vocab}[LANGUAGE_NONE]) ? $account->original->{$vocab}[LANGUAGE_NONE] : [],
+      is_array($account->{$vocab}[LANGUAGE_NONE]) ? $account->{$vocab}[LANGUAGE_NONE] : [],
+      '_c4m_user_subscribe_user_compare_terms_array'
+    );
 
     if (!empty($old_terms)) {
       _c4m_user_subscribe_user_unflag_terms($old_terms, $account);
