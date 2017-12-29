@@ -174,19 +174,29 @@ function c4m_user_subscribe_user_update(&$edit, $account, $category) {
       continue;
     }
 
-    if (isset($account->original->{$vocab}[LANGUAGE_NONE]) && isset ($account->{$vocab}[LANGUAGE_NONE])) {
+    if (isset($account->original->{$vocab}[LANGUAGE_NONE]) && isset($account->{$vocab}[LANGUAGE_NONE])) {
       if ($account->original->{$vocab}[LANGUAGE_NONE] === $account->{$vocab}[LANGUAGE_NONE]) {
         continue;
       }
     }
 
-    $new_terms = array_udiff($account->{$vocab}[LANGUAGE_NONE], $account->original->{$vocab}[LANGUAGE_NONE], '_c4m_user_subscribe_user_compare_terms_array');
+    // Subscribe the user to tags that were not selected before.
+    $new_terms = array_udiff(
+      (is_array($account->{$vocab}) && array_key_exists(LANGUAGE_NONE, $account->{$vocab})) ? $account->{$vocab}[LANGUAGE_NONE] : [],
+      (is_array($account->original->{$vocab}) && array_key_exists(LANGUAGE_NONE, $account->original->{$vocab})) ? $account->original->{$vocab}[LANGUAGE_NONE] : [],
+      '_c4m_user_subscribe_user_compare_terms_array'
+    );
 
     if (!empty($new_terms)) {
       _c4m_user_subscribe_user_flag_terms($new_terms, $account);
     }
 
-    $old_terms = array_udiff($account->original->{$vocab}[LANGUAGE_NONE], $account->{$vocab}[LANGUAGE_NONE], '_c4m_user_subscribe_user_compare_terms_array');
+    // Unsubscribe the user from tags he deselected.
+    $old_terms = array_udiff(
+      (is_array($account->original->{$vocab}) && array_key_exists(LANGUAGE_NONE, $account->original->{$vocab})) ? $account->original->{$vocab}[LANGUAGE_NONE] : [],
+      (is_array($account->{$vocab}) && array_key_exists(LANGUAGE_NONE, $account->{$vocab})) ? $account->{$vocab}[LANGUAGE_NONE] : [],
+      '_c4m_user_subscribe_user_compare_terms_array'
+    );
 
     if (!empty($old_terms)) {
       _c4m_user_subscribe_user_unflag_terms($old_terms, $account);
@@ -205,6 +215,7 @@ function c4m_user_subscribe_user_update(&$edit, $account, $category) {
  *   Key to assign values to keys.
  *
  * @return array
+ *   Multidimensional array grouped by $uid_key.
  */
 function _c4m_user_subscribe_group_term_ids_by_uid(array $data_array, $uid_key, $term_key) {
   $return = [];
@@ -225,7 +236,7 @@ function _c4m_user_subscribe_group_term_ids_by_uid(array $data_array, $uid_key, 
  * @return mixed
  *   Compare result.
  */
-function _c4m_user_subscribe_user_compare_terms_array($a, $b) {
+function _c4m_user_subscribe_user_compare_terms_array(array $a, array $b) {
   return $a['tid'] - $b['tid'];
 }
 
@@ -234,8 +245,10 @@ function _c4m_user_subscribe_user_compare_terms_array($a, $b) {
  *
  * @param array $terms
  *   Array of tids.
+ * @param object $account
+ *   Drupal user entity object.
  */
-function _c4m_user_subscribe_user_flag_terms($terms, $account) {
+function _c4m_user_subscribe_user_flag_terms(array $terms, $account) {
   $flag = flag_get_flag('subscribe_c4m_follow_term');
   foreach ($terms as $term) {
     $flag->flag('flag', $term['tid'], $account, TRUE);
@@ -247,8 +260,10 @@ function _c4m_user_subscribe_user_flag_terms($terms, $account) {
  *
  * @param array $terms
  *   Array of tids.
+ * @param object $account
+ *   Drupal user entity object.
  */
-function _c4m_user_subscribe_user_unflag_terms($terms, $account) {
+function _c4m_user_subscribe_user_unflag_terms(array $terms, $account) {
   $flag = flag_get_flag('subscribe_c4m_follow_term');
   foreach ($terms as $term) {
     $flag->flag('unflag', $term['tid'], $account, TRUE);
