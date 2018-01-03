@@ -64,15 +64,24 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
       );
     }
 
-    $form['send-notification'] = array(
+    $form['send_notification'] = array(
       '#type' => 'checkbox',
       '#title' => t('Send Notification'),
       // Default to true only on new content.
       '#default_value' => empty($form_state['node']->nid),
       '#limit_validation_errors' => array(),
-      '#weight' => 100,
+      '#weight' => 101,
     );
   };
+
+  $form['post_activity'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Post Activity'),
+    // Default to true only on new content.
+    '#default_value' => empty($form_state['node']->nid),
+    '#access' => _c4m_content_post_activity_access($form_state),
+    '#weight' => 100,
+  ];
 
   // Allow power users to create revisions.
   $form['revision_information']['revision']['#access'] = c4m_features_og_members_is_power_user();
@@ -127,6 +136,8 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     );
   }
 
+  // Put actions after "Send Notification" and "Post Activity" checkboxes.
+  $form['actions']['#weight'] = 200;
   $form['actions']['cancel'] = array(
     '#type' => 'submit',
     '#value' => t('Cancel'),
@@ -141,6 +152,29 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
   if ($is_unpublish && $is_og_group) {
     $form['actions']['draft']['#access'] = FALSE;
   }
+}
+
+/**
+ * Access callback for the "Post Activity" checkbox.
+ *
+ * @param array $form_state
+ *   The $form_state array.
+ *
+ * @return bool
+ *   TRUE if the checkbox should be displayed.
+ */
+function _c4m_content_post_activity_access(array $form_state) {
+  $op = empty($form_state['node']->nid) ? 'insert' : 'update';
+  $content_types = c4m_message_get_valid_node_types($op);
+  if (in_array($form_state['node']->type, $content_types) && c4m_features_og_members_is_power_user()) {
+    return TRUE;
+  }
+
+  if ($form_state['node']->type === 'article' && c4m_user_is_site_admin()) {
+    return TRUE;
+  }
+
+  return FALSE;
 }
 
 /**
@@ -194,20 +228,24 @@ function c4m_content_construct_path_to_content_page($content_type) {
 /**
  * Implements hook_node_submit().
  *
- * If 'Send Notification' checkbox exists, add a parameter with value  to the
+ * If 'Send Notification' checkbox exists, add a parameter with value to the
  * node in order to determine if we should send the notification on the
+ * hook_node_update / insert.
+ *
+ * If 'Post Activity' checkbox is present in the form but it's not checked, set
+ * _skip_message parameter so the activity will not be posted on
  * hook_node_update / insert.
  */
 function c4m_content_node_submit(&$node, $form, $form_state) {
-  if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
-    return;
+  $send_notification = in_array($node->type, c4m_og_get_group_content_notification_types()) &&  !empty($form_state['values']['send_notification']);
+  if ($send_notification) {
+    $node->c4m_send_notification = TRUE;
   }
 
-  if (!isset($form_state['values']['send-notification'])) {
-    return;
+  $skip_message = _c4m_content_post_activity_access($form_state) && empty($form_state['values']['post_activity']);
+  if ($skip_message) {
+    $node->_skip_message = TRUE;
   }
-
-  $node->c4m_send_notification = $form_state['values']['send-notification'];
 }
 
 /**

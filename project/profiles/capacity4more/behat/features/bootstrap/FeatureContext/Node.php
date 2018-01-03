@@ -150,6 +150,7 @@ trait Node {
 
     $steps[] = new Step\When('I visit "' . $this->humanToMachineReadable($group, '-') . '/node/' .  $nid . '/edit"');
     $steps[] = new Step\When('I fill in "title" with "' . $new_title . '"');
+    $steps[] = new Step\When('I check the box "edit-post-activity"');
     $steps[] = new Step\When('I press "Save"');
     return $steps;
   }
@@ -189,6 +190,7 @@ trait Node {
         $steps[] = new Step\When('I fill in "title" with "Some new title' . $i . '"');
       }
 
+      $steps[] = new Step\When('I check the box "edit-post-activity"');
       $steps[] = new Step\When('I press "Save"');
     }
     return $steps;
