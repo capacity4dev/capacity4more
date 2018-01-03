@@ -269,7 +269,22 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
   $node_wrapper = entity_metadata_wrapper('node', $node);
 
   // Iterate over all tagged topic terms.
-  foreach ($node_wrapper->get('c4m_vocab_topic')->value() as $term) {
+  $topic_terms = $node_wrapper->get('c4m_vocab_topic')->value();
+  foreach ($topic_terms as $term_key => $term) {
+    // Uncommenting next section will only trigger notifications for the deepest
+    // level of hierarchy. Decision was made to solve this on the subscription
+    // side: users are only subscribed to the deepest level, so they might
+    // receive notifications for content more specific then their interest.
+    // E.G. User interest is "Energy" (without a specific subtopic selected),
+    // and content is tagged with "Energy > Solar Power", the user will receive
+    // the notification. Uncommenting the snippet below will match tags on the
+    // same level only.
+    /*
+    if (_c4m_user_notifications_notify_subscribe_content_of_interest_filter_parents_with_selected_children($term, $term_key, $topic_terms)) {
+      continue;
+    }
+    */
+
     $wrapper->field_taxonomy_term->set($term->tid);
 
     // Construct the context, with parameters that will be used by
@@ -285,7 +300,8 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
         [
           'additional_flag_name' => 'group',
           'additional_flag_operation' => 'diff',
-          'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')->value(),
+          'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')
+            ->value(),
         ],
       ];
     }
@@ -299,8 +315,24 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
     message_subscribe_send_message('taxonomy_term', $term, $wrapper->value(), [], $subscribe_options, $context);
   }
 
-  // Iterate over all tagged geo terms.
-  foreach ($node_wrapper->get('c4m_vocab_geo')->value() as $term) {
+  // Iterate over all tagged geo terms terms.
+  $geo_terms = $node_wrapper->get('c4m_vocab_geo')->value();
+
+  foreach ($geo_terms as $term_key => $term) {
+    // Uncommenting next section will only trigger notifications for the deepest
+    // level of hierarchy. Decision was made to solve this on the subscription
+    // side: users are only subscribed to the deepest level, so they might
+    // receive notifications for content more specific then their interest.
+    // E.G. User interest is "Europe & Russia > EU Member States" (without a
+    // specific country selected), and content is tagged with "Europe & Russia >
+    // EU Member States > France", the user will receive the notification.
+    // Uncommenting the snippet below will match tags on the same level only.
+    /*
+    if (_c4m_user_notifications_notify_subscribe_content_of_interest_filter_parents_with_selected_children($term, $term_key, $geo_terms)) {
+      continue;
+    }
+    */
+
     $wrapper->field_taxonomy_term->set($term->tid);
 
     // Construct the context, with parameters that will be used by
@@ -316,7 +348,8 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
         [
           'additional_flag_name' => 'group',
           'additional_flag_operation' => 'diff',
-          'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')->value(),
+          'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')
+            ->value(),
         ],
       ];
     }
@@ -329,6 +362,34 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
     // Message will be saved in message_subscribe_send_message().
     message_subscribe_send_message('taxonomy_term', $term, $wrapper->value(), [], $subscribe_options, $context);
   }
+}
+
+/**
+ * Load a term's (sub)tree and remove any selected children.
+ *
+ * @param object $term
+ *   Drupal taxonomy entity object.
+ * @param int $term_key
+ *   Array key in the terms array.
+ * @param array $terms
+ *   Reference to the terms array, so we can unset keys.
+ */
+function _c4m_user_notifications_notify_subscribe_content_of_interest_filter_parents_with_selected_children($term, $term_key, array &$terms) {
+  $subtree_terms = taxonomy_get_tree($term->vid, $term->tid, 1);
+
+  if (!empty($subtree_terms)) {
+    foreach ($subtree_terms as $subterm) {
+      // $terms does not have proper $key => $value structure so we have no
+      // other option that to iterate over it completely.
+      foreach ($terms as $key => $element) {
+        if ($subterm->tid == $element->tid) {
+          unset($terms[$term_key]);
+          return TRUE;
+        }
+      }
+    }
+  }
+  return FALSE;
 }
 
 /**
