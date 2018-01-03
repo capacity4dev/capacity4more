@@ -495,9 +495,9 @@ function c4m_content_theme() {
  * Helper to determine the current context.
  *
  * @return string
- *    Returns one of the following contexts:
- *    - group: we are in a group
- *    - global: we are outside a group
+ *   Returns one of the following contexts:
+ *   - group: we are in a group
+ *   - global: we are outside a group
  */
 function c4m_content_current_context() {
   $gid = c4m_og_current_group_id();
@@ -869,7 +869,7 @@ function c4m_content_toggle_highlight_access($group, $node, $status) {
 function c4m_content_toggle_highlight($group, $node, $status, $ajax = 'nojs') {
   $wrapper = entity_metadata_wrapper('node', $node);
 
-  // Add parameter to node that will signal to cancel  notification that is
+  // Add parameter to node that will signal to cancel notification that is
   // triggered, as a result of node update, because we should not send
   // a notification for highlight.
   $node->c4m_send_notification = FALSE;
@@ -1253,8 +1253,8 @@ function c4m_content_deny_access() {
  * @param object $group
  *   Group, for which link is created.
  *
- * @return Html
- *    Html block representing the link.
+ * @return string
+ *   HTML block representing the link.
  */
 function c4m_content_create_toggle_group_notification_link($account, $group) {
   $user_subscribed = _c4m_content_group_is_subscribed_to_group_notifications($account, $group);
@@ -1295,7 +1295,7 @@ function c4m_content_create_toggle_group_notification_link($account, $group) {
 /**
  * Themes toggle group notifications link.
  *
- * @return \Html|void
+ * @return string
  *   Rendered html for field.
  */
 function c4m_content_theme_toggle_group_notification_link() {

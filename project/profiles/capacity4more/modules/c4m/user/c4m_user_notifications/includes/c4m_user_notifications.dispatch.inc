@@ -256,7 +256,7 @@ function _c4m_user_notifications_node_insert($node) {
     return;
   }
 
-  if (_c4m_user_notifications_has_skip_message($node)) {
+  if (_c4m_user_notifications_has_skip_notification($node)) {
     return;
   }
 
@@ -401,7 +401,7 @@ function _c4m_user_notifications_node_update($node) {
     return;
   }
 
-  if (_c4m_user_notifications_has_skip_message($node)) {
+  if (_c4m_user_notifications_has_skip_notification($node)) {
     return;
   }
 
