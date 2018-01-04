@@ -83,9 +83,6 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     '#weight' => 100,
   ];
 
-  // Allow power users to create revisions.
-  $form['revision_information']['revision']['#access'] = c4m_features_og_members_is_power_user();
-
   // Hide Book tab for all content types.
   if (isset($form['book'])) {
     // Check if outline is allowed.
