@@ -265,9 +265,7 @@ function _c4m_user_subscribe_user_flag_terms(array $terms, $account) {
 /**
  * Load a term's (sub)tree and remove any selected children.
  *
- * @param object $term
- *   Drupal taxonomy entity object.
- * @param int $term_key
+ * @param int $term_tid
  *   Array key in the terms array.
  * @param array $terms
  *   Reference to the terms array, so we can unset keys.
@@ -281,7 +279,7 @@ function _c4m_user_subscribe_has_term_children($term_tid, array &$terms) {
       // $terms does not have proper $key => $value structure so we have no
       // other option that to iterate over it completely.
       foreach ($terms as $key => $element) {
-        if ($subterm->tid == $element['tid'] ) {
+        if ($subterm->tid == $element['tid']) {
           return TRUE;
         }
       }

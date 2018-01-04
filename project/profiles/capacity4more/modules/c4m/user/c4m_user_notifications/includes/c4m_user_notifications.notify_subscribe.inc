@@ -271,20 +271,6 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
   // Iterate over all tagged topic terms.
   $topic_terms = $node_wrapper->get('c4m_vocab_topic')->value();
   foreach ($topic_terms as $term_key => $term) {
-    // Uncommenting next section will only trigger notifications for the deepest
-    // level of hierarchy. Decision was made to solve this on the subscription
-    // side: users are only subscribed to the deepest level, so they might
-    // receive notifications for content more specific then their interest.
-    // E.G. User interest is "Energy" (without a specific subtopic selected),
-    // and content is tagged with "Energy > Solar Power", the user will receive
-    // the notification. Uncommenting the snippet below will match tags on the
-    // same level only.
-    /*
-    if (_c4m_user_notifications_notify_subscribe_content_of_interest_filter_parents_with_selected_children($term, $term_key, $topic_terms)) {
-      continue;
-    }
-    */
-
     $wrapper->field_taxonomy_term->set($term->tid);
 
     // Construct the context, with parameters that will be used by
@@ -319,20 +305,6 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
   $geo_terms = $node_wrapper->get('c4m_vocab_geo')->value();
 
   foreach ($geo_terms as $term_key => $term) {
-    // Uncommenting next section will only trigger notifications for the deepest
-    // level of hierarchy. Decision was made to solve this on the subscription
-    // side: users are only subscribed to the deepest level, so they might
-    // receive notifications for content more specific then their interest.
-    // E.G. User interest is "Europe & Russia > EU Member States" (without a
-    // specific country selected), and content is tagged with "Europe & Russia >
-    // EU Member States > France", the user will receive the notification.
-    // Uncommenting the snippet below will match tags on the same level only.
-    /*
-    if (_c4m_user_notifications_notify_subscribe_content_of_interest_filter_parents_with_selected_children($term, $term_key, $geo_terms)) {
-      continue;
-    }
-    */
-
     $wrapper->field_taxonomy_term->set($term->tid);
 
     // Construct the context, with parameters that will be used by
