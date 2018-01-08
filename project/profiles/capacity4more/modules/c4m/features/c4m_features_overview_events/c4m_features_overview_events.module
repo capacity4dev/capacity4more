@@ -242,3 +242,35 @@ function _c4m_features_overview_events_count_via_views($type) {
 
   return _c4m_helper_entity_total_count_via_views('c4m_overview_events_landing', $mapped_views[$type]);
 }
+
+/**
+ * Implements hook_menu_link_alter().
+ */
+function c4m_features_overview_events_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  if (!in_array($root_path, ["events", "events/week", "events/list"])) {
+    return;
+  }
+  if (empty($data['tabs'][0]['output'])) {
+    return;
+  }
+  foreach ($data['tabs'][0]['output'] as &$tab) {
+    $tab['#link']['localized_options'] = [
+      'attributes' => [
+        'class' => ['events-tabs events-calendar-tab'],
+      ],
+    ];
+    if (in_array($tab['#link']['path'], ["events/month", "events/week"])) {
+      $tab['#prefix'] = "<div class='event-tab-wrapper'><span>" . t("View as") . "</span>";
+      if ($root_path == "events/list") {
+        if ($tab['#link']['path'] == "events/week") {
+          $tab['#prefix'] = "<div class='hidden'>";
+        }
+      }
+      if (!empty($tab['#active'])) {
+        $tab['#prefix'] = "<div class='hidden'>";
+      }
+      $tab['#suffix'] = "</div>";
+    }
+  }
+
+}
