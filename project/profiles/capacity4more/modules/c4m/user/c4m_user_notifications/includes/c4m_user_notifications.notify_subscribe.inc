@@ -337,34 +337,6 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
 }
 
 /**
- * Load a term's (sub)tree and remove any selected children.
- *
- * @param object $term
- *   Drupal taxonomy entity object.
- * @param int $term_key
- *   Array key in the terms array.
- * @param array $terms
- *   Reference to the terms array, so we can unset keys.
- */
-function _c4m_user_notifications_notify_subscribe_content_of_interest_filter_parents_with_selected_children($term, $term_key, array &$terms) {
-  $subtree_terms = taxonomy_get_tree($term->vid, $term->tid, 1);
-
-  if (!empty($subtree_terms)) {
-    foreach ($subtree_terms as $subterm) {
-      // $terms does not have proper $key => $value structure so we have no
-      // other option that to iterate over it completely.
-      foreach ($terms as $key => $element) {
-        if ($subterm->tid == $element->tid) {
-          unset($terms[$term_key]);
-          return TRUE;
-        }
-      }
-    }
-  }
-  return FALSE;
-}
-
-/**
  * Send specific notifications on content updates.
  *
  * When content is updated, sends mail notification to two groups of users:

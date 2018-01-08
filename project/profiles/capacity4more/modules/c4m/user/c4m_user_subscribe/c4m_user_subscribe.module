@@ -257,6 +257,7 @@ function _c4m_user_subscribe_user_flag_terms(array $terms, $account) {
       $flag->flag('flag', $term['tid'], $account, TRUE);
     }
     else {
+      // We unsubscribe a user from a "parent" term if he selected children.
       _c4m_user_subscribe_user_unflag_terms([0 => ['tid' => $term['tid']]], $account);
     }
   }
