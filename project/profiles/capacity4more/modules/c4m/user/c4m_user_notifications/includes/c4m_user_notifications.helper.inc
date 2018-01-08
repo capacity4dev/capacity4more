@@ -270,34 +270,16 @@ function _c4m_user_notifications_is_node_unpublished($node) {
 }
 
 /**
- * Check if the entity has explicitly set a flag to skip messages.
- *
- * @param object $entity
- *   The drupal entity object.
- *
- * @return bool
- *   TRUE if a _skip_message flag is set.
- */
-function _c4m_user_notifications_has_skip_message($entity) {
-  // The current node was explicitly set to not send a message.
-  if (!empty($entity->_skip_message)) {
-    return TRUE;
-  }
-
-  return FALSE;
-}
-
-/**
  * Check if the entity has explicitly set a flag to skip notifications.
  *
  * @param object $node
  *   The drupal node object.
  *
  * @return bool
- *   TRUE if a _skip_message flag is set.
+ *   TRUE if the c4m_send_notification flag is set to FALSE.
  */
 function _c4m_user_notifications_has_skip_notification($node) {
-  // The node has an explicit flag to prevent notifications.
+  // The node has an explicit flag set to FALSE to prevent notifications.
   if (isset($node->c4m_send_notification) && !$node->c4m_send_notification) {
     return TRUE;
   }

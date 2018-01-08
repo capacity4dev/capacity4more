@@ -433,8 +433,8 @@ function c4m_features_og_members_is_power_user($group = NULL, $user = NULL) {
   if (!isset($user)) {
     global $user;
   }
-  // The user has the sitewide role 'administrator'.
-  if (in_array('administrator', $user->roles)) {
+
+  if (c4m_user_is_site_admin($user)) {
     return TRUE;
   }
 
