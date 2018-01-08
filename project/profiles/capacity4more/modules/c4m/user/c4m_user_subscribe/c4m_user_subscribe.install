@@ -42,13 +42,16 @@ function c4m_user_subscribe_update_7002(&$sandbox) {
 }
 
 /**
- * @param $sandbox
- * @param $table
- * @param $vocab_tid_name
+ * Helper function to subscriber users to vocabs.
  *
- * @return null|string
+ * @param array $sandbox
+ *   Persistent sandbox array with batch progress and status.
+ * @param string $table
+ *   Name of the database table.
+ * @param string $vocab_tid_name
+ *   Name of the key to fetch values for.
  */
-function _c4m_user_subscribe_to_vocab(&$sandbox, $table, $vocab_tid_name) {
+function _c4m_user_subscribe_to_vocab(array &$sandbox, $table, $vocab_tid_name) {
   if (!isset($sandbox['progress'])) {
     $sandbox['progress'] = 0;
     $sandbox['max'] = db_query("SELECT COUNT(*) FROM {" . $table . "} WHERE bundle = 'user'")->fetchField();
