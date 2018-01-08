@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_event.features.field_instance.inc
@@ -336,16 +337,27 @@ function c4m_content_event_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
-        'module' => 'date',
+        'module' => 'addtocal',
         'settings' => array(
+          'description' => array(
+            'field' => 'c4m_body',
+            'tokenized' => '',
+          ),
+          'description_tokenized' => '',
           'format_type' => 'c4m_long_with_time',
           'fromto' => 'both',
+          'location' => array(
+            'field' => 'c4m_location_address',
+            'tokenized' => '',
+          ),
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
-          'show_remaining_days' => FALSE,
+          'past_events' => 1,
+          'show_repeat_rule' => 'hide',
+          'view_mode' => 'full',
         ),
-        'type' => 'date_default',
+        'type' => 'addtocal_view',
         'weight' => 5,
       ),
       'highlight_list' => array(
