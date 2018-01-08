@@ -1453,13 +1453,13 @@ function c4m_message_load_tokens__c4m_content_of_interest(
     'pass message' => TRUE,
   ];
 
-  $message->arguments['@topic_name'] = [
-    'callback' => 'c4m_message_format_topic_name',
+  $message->arguments['@term_name'] = [
+    'callback' => 'c4m_message_format_taxonomy_term_name',
     'pass message' => TRUE,
   ];
 
-  $message->arguments['!unsubscribe_topic_url'] = [
-    'callback' => 'c4m_message_format_unsubscribe_topic_url',
+  $message->arguments['!unsubscribe_term_url'] = [
+    'callback' => 'c4m_message_format_unsubscribe_taxonomy_term_url',
     'pass message' => TRUE,
   ];
 
@@ -3412,7 +3412,7 @@ function c4m_message_format_node_share(Message $message) {
  * @return string
  *   The unsubscribe link.
  */
-function c4m_message_format_unsubscribe_topic_url(Message $message) {
+function c4m_message_format_unsubscribe_taxonomy_term_url(Message $message) {
   return _c4m_message_format_unsubscribe_url($message, 'taxonomy_term');
 }
 
@@ -3427,7 +3427,7 @@ function c4m_message_format_unsubscribe_topic_url(Message $message) {
  * @return string
  *   The icon class.
  */
-function c4m_message_format_topic_name(Message $message) {
+function c4m_message_format_taxonomy_term_name(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
   return $wrapper->field_taxonomy_term->label();
