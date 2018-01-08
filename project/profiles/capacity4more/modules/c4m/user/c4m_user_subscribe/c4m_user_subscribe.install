@@ -9,34 +9,10 @@
  * Implements hook_update_N().
  */
 function c4m_user_subscribe_update_7001(&$sandbox) {
-  $ret = [];
+  $table = 'field_data_c4m_vocab_topic';
+  $vocab_tid_name = 'c4m_vocab_topic_tid';
 
-  if (!isset($sandbox['progress'])) {
-    $sandbox['progress'] = 0;
-    $sandbox['max'] = db_query("SELECT COUNT(*) FROM {field_data_c4m_vocab_topic} WHERE bundle = 'user'")->fetchField();
-    $sandbox['messages'] = [];
-  }
-
-  $limit = 100;
-
-  $results = db_select('field_data_c4m_vocab_topic', 'v')
-    ->fields('v', ['entity_id', 'c4m_vocab_topic_tid'])
-    ->condition('v.bundle', 'user')
-    ->range($sandbox['progress'], $limit)
-    ->orderBy('entity_id')
-    ->execute()
-    ->fetchAll();
-
-  $assoc = _c4m_user_subscribe_group_term_ids_by_uid($results, 'entity_id', 'c4m_vocab_topic_tid');
-
-  foreach ($assoc as $uid => $terms) {
-    $account = user_load($uid);
-    _c4m_user_subscribe_user_flag_terms($terms, $account);
-
-    $sandbox['progress'] += count($terms);
-  }
-
-  $sandbox['#finished'] = ($sandbox['progress'] >= $sandbox['max']) ? TRUE : ($sandbox['progress'] / $sandbox['max']);
+  _c4m_user_subscribe_to_vocab($sandbox, $table, $vocab_tid_name);
 
   if ($sandbox['#finished']) {
     return t('Completed the update hook and subscribed: @count_users to @count_terms topics of interest subscriptions.',
@@ -51,25 +27,45 @@ function c4m_user_subscribe_update_7001(&$sandbox) {
  * Implements hook_update_N().
  */
 function c4m_user_subscribe_update_7002(&$sandbox) {
-  $ret = [];
+  $table = 'field_data_c4m_vocab_geo';
+  $vocab_tid_name = 'c4m_vocab_geo_tid';
 
+  _c4m_user_subscribe_to_vocab($sandbox, $table, $vocab_tid_name);
+
+  if ($sandbox['#finished']) {
+    return t('Completed the update hook and subscribed: @count_users to @count_terms regions/countries of interest subscriptions.',
+      [
+        '@count_users' => $sandbox['progress'],
+        '@count_terms' => $sandbox['max'],
+      ]);
+  }
+}
+
+/**
+ * @param $sandbox
+ * @param $table
+ * @param $vocab_tid_name
+ *
+ * @return null|string
+ */
+function _c4m_user_subscribe_to_vocab(&$sandbox, $table, $vocab_tid_name) {
   if (!isset($sandbox['progress'])) {
     $sandbox['progress'] = 0;
-    $sandbox['max'] = db_query("SELECT COUNT(*) FROM {field_data_c4m_vocab_geo} WHERE bundle = 'user'")->fetchField();
+    $sandbox['max'] = db_query("SELECT COUNT(*) FROM {" . $table . "} WHERE bundle = 'user'")->fetchField();
     $sandbox['messages'] = [];
   }
 
   $limit = 100;
 
-  $results = db_select('field_data_c4m_vocab_geo', 'v')
-    ->fields('v', ['entity_id', 'c4m_vocab_geo_tid'])
+  $results = db_select($table, 'v')
+    ->fields('v', ['entity_id', $vocab_tid_name])
     ->condition('v.bundle', 'user')
     ->range($sandbox['progress'], $limit)
     ->orderBy('entity_id')
     ->execute()
     ->fetchAll();
 
-  $assoc = _c4m_user_subscribe_group_term_ids_by_uid($results, 'entity_id', 'c4m_vocab_geo_tid');
+  $assoc = _c4m_user_subscribe_group_term_ids_by_uid($results, 'entity_id', $vocab_tid_name);
 
   foreach ($assoc as $uid => $terms) {
     $account = user_load($uid);
@@ -79,12 +75,4 @@ function c4m_user_subscribe_update_7002(&$sandbox) {
   }
 
   $sandbox['#finished'] = ($sandbox['progress'] >= $sandbox['max']) ? TRUE : ($sandbox['progress'] / $sandbox['max']);
-
-  if ($sandbox['#finished']) {
-    return t('Completed the update hook and subscribed: @count_users to @count_terms regions/countries of interest subscriptions.',
-      [
-        '@count_users' => $sandbox['progress'],
-        '@count_terms' => $sandbox['max'],
-      ]);
-  }
 }
