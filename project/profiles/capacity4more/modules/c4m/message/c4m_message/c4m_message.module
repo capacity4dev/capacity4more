@@ -3828,7 +3828,13 @@ function c4m_message_get_activities(array $request) {
     // Load the activity stream.
     $activity_stream_handler = restful_get_restful_handler('activity_stream');
 
+    // Lazyloader is not compatible with Activity stream which uses Angular for
+    // rendering. So, we should make sure it's disabled while loading the
+    // Activity stream.
+    $lazyloader_status = variable_get('lazyloader_enabled', TRUE);
+    variable_set('lazyloader_enabled', FALSE);
     $activities = $activity_stream_handler->get('', $request);
+    variable_set('lazyloader_enabled', $lazyloader_status);
 
     cache_set($cache_key, $activities, 'cache_activity_stream', time() + C4M_MESSAGE_EXPIRE_TIME);
   }
