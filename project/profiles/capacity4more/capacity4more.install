@@ -523,7 +523,10 @@ function _capacity4more_add_lazyloader_settings() {
   variable_set('lazyloader_paths', 'media/*/format-form
 admin/*
 node/add/*
-node/*/edit');
+node/*/edit
+api/*
+overlay-file/*
+media/browser*');
   variable_set('lazyloader_placeholder', '');
 }
 
@@ -567,3 +570,9 @@ function capacity4more_update_7005() {
   _capacity4more_add_lazyloader_settings();
 }
 
+/**
+ * Adjust Lazyloader settings. Add api/*, mediabrowser and overlay-file/* paths.
+ */
+function capacity4more_update_7006() {
+  _capacity4more_add_lazyloader_settings();
+}
