@@ -69,6 +69,10 @@ function c4m_og_purl_init() {
  * Redirects based on purl aliases.
  */
 function c4m_og_purl_redirect() {
+  if (!db_table_exists('c4m_og_purl_aliases')) {
+    return;
+  }
+
   $path = current_path();
   $args = explode('/', $path);
   $arg = $args[0];
