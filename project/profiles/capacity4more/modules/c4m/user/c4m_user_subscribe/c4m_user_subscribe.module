@@ -250,9 +250,43 @@ function _c4m_user_subscribe_user_compare_terms_array(array $a, array $b) {
  */
 function _c4m_user_subscribe_user_flag_terms(array $terms, $account) {
   $flag = flag_get_flag('subscribe_c4m_follow_term');
+
   foreach ($terms as $term) {
-    $flag->flag('flag', $term['tid'], $account, TRUE);
+    // Only to the deepest level!
+    if (!_c4m_user_subscribe_has_term_children($term['tid'], $terms)) {
+      $flag->flag('flag', $term['tid'], $account, TRUE);
+    }
+    else {
+      // We unsubscribe a user from a "parent" term if he selected children.
+      _c4m_user_subscribe_user_unflag_terms([0 => ['tid' => $term['tid']]], $account);
+    }
   }
+}
+
+/**
+ * Load a term's (sub)tree and remove any selected children.
+ *
+ * @param int $term_tid
+ *   Array key in the terms array.
+ * @param array $terms
+ *   Reference to the terms array, so we can unset keys.
+ */
+function _c4m_user_subscribe_has_term_children($term_tid, array &$terms) {
+  $term = taxonomy_term_load($term_tid);
+  $subtree_terms = taxonomy_get_tree($term->vid, $term->tid, 1);
+
+  if (!empty($subtree_terms)) {
+    foreach ($subtree_terms as $subterm) {
+      // $terms does not have proper $key => $value structure so we have no
+      // other option that to iterate over it completely.
+      foreach ($terms as $key => $element) {
+        if ($subterm->tid == $element['tid']) {
+          return TRUE;
+        }
+      }
+    }
+  }
+  return FALSE;
 }
 
 /**

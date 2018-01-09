@@ -269,7 +269,8 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
   $node_wrapper = entity_metadata_wrapper('node', $node);
 
   // Iterate over all tagged topic terms.
-  foreach ($node_wrapper->get('c4m_vocab_topic')->value() as $term) {
+  $topic_terms = $node_wrapper->get('c4m_vocab_topic')->value();
+  foreach ($topic_terms as $term_key => $term) {
     $wrapper->field_taxonomy_term->set($term->tid);
 
     // Construct the context, with parameters that will be used by
@@ -285,7 +286,8 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
         [
           'additional_flag_name' => 'group',
           'additional_flag_operation' => 'diff',
-          'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')->value(),
+          'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')
+            ->value(),
         ],
       ];
     }
@@ -299,8 +301,10 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
     message_subscribe_send_message('taxonomy_term', $term, $wrapper->value(), [], $subscribe_options, $context);
   }
 
-  // Iterate over all tagged geo terms.
-  foreach ($node_wrapper->get('c4m_vocab_geo')->value() as $term) {
+  // Iterate over all tagged geo terms terms.
+  $geo_terms = $node_wrapper->get('c4m_vocab_geo')->value();
+
+  foreach ($geo_terms as $term_key => $term) {
     $wrapper->field_taxonomy_term->set($term->tid);
 
     // Construct the context, with parameters that will be used by
@@ -316,7 +320,8 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
         [
           'additional_flag_name' => 'group',
           'additional_flag_operation' => 'diff',
-          'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')->value(),
+          'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')
+            ->value(),
         ],
       ];
     }
