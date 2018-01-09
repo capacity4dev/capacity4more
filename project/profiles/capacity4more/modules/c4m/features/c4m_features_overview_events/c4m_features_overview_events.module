@@ -260,7 +260,8 @@ function c4m_features_overview_events_menu_local_tasks_alter(&$data, $router_ite
       ],
     ];
     if (in_array($tab['#link']['path'], ["events/month", "events/week"])) {
-      $tab['#prefix'] = "<div class='event-tab-wrapper'><span>" . t("View as") . "</span>";
+      $tab_prefix = t("View as");
+      $tab['#prefix'] = "<div class='event-tab-wrapper'><span>" . $tab_prefix . "</span>";
       if ($root_path == "events/list") {
         if ($tab['#link']['path'] == "events/week") {
           $tab['#prefix'] = "<div class='hidden'>";
