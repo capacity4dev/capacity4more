@@ -263,65 +263,48 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
   $wrapper->field_node->set($node->nid);
   $wrapper->field_executing_user->set($user->uid);
 
-  // Flag suffix that is used at unsubscribe mechanism.
-  $flag_suffix = 'term';
-
-  $node_wrapper = entity_metadata_wrapper('node', $node);
-
   // Iterate over all tagged topic terms.
-  $topic_terms = $node_wrapper->get('c4m_vocab_topic')->value();
-  foreach ($topic_terms as $term_key => $term) {
-    $wrapper->field_taxonomy_term->set($term->tid);
-
-    // Construct the context, with parameters that will be used by
-    // c4m_user_notifications_message_subscribe_get_subscribers().
-    $context = [
-      'entity_type' => $flag_suffix,
-      'entity_id' => $term->tid,
-    ];
-
-    // If Group content, additional flag context needed to prevent duplicates.
-    if (isset($node_wrapper->{OG_AUDIENCE_FIELD})) {
-      $context['additional_flaget_subg_context'] = [
-        [
-          'additional_flag_name' => 'group',
-          'additional_flag_operation' => 'diff',
-          'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')
-            ->value(),
-        ],
-      ];
-    }
-    $subscribe_options = [];
-    // Skip access checks for new revisions of nodes as most people don't have
-    // 'revision access' permission.
-    if (isset($node->vid) && isset($node->original->vid) && $node->vid !== $node->original->vid) {
-      $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
-    }
-    // Message will be saved in message_subscribe_send_message().
-    message_subscribe_send_message('taxonomy_term', $term, $wrapper->value(), [], $subscribe_options, $context);
-  }
+  _c4m_user_notifications_notify_subscribe_content_of_interest_for_vocabulary($node, 'c4m_vocab_topic', $wrapper);
 
   // Iterate over all tagged geo terms terms.
-  $geo_terms = $node_wrapper->get('c4m_vocab_geo')->value();
+  _c4m_user_notifications_notify_subscribe_content_of_interest_for_vocabulary($node, 'c4m_vocab_geo', $wrapper);
+}
 
-  foreach ($geo_terms as $term_key => $term) {
+/**
+ * Take a vocabulary name and schedule a message for all subscribers.
+ *
+ * @param object $node
+ *   Drupal node entity object.
+ * @param string $vocabulary
+ *   Name of the vocabulary.
+ * @param object $wrapper
+ *   Drupal message entity object.
+ *
+ * @throws \Exception
+ */
+function _c4m_user_notifications_notify_subscribe_content_of_interest_for_vocabulary($node, $vocabulary, $wrapper) {
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+  $vocab_terms = $node_wrapper->get($vocabulary)->value();
+  foreach ($vocab_terms as $term_key => $term) {
     $wrapper->field_taxonomy_term->set($term->tid);
 
     // Construct the context, with parameters that will be used by
     // c4m_user_notifications_message_subscribe_get_subscribers().
     $context = [
-      'entity_type' => $flag_suffix,
+      'entity_type' => 'term',
       'entity_id' => $term->tid,
     ];
 
+    var_dump($node_wrapper->{OG_AUDIENCE_FIELD});
+
     // If Group content, additional flag context needed to prevent duplicates.
     if (isset($node_wrapper->{OG_AUDIENCE_FIELD})) {
-      $context['additional_flaget_subg_context'] = [
+      $context['additional_flag_context'] = [
         [
           'additional_flag_name' => 'group',
           'additional_flag_operation' => 'diff',
-          'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')
-            ->value(),
+          'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')->value(),
+          'additional_flag_entity_type' => 'node',
         ],
       ];
     }

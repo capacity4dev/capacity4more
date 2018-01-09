@@ -58,12 +58,19 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
     );
   }
 
-  // Filtering users and preparing final user list.
-  $users = user_load_multiple(array_keys($users));
 
   // Load the list of users that already received this message (same message id)
   // to prevent duplicates.
   $previous_recipients = _c4m_user_notifications_get_message_unique_recipients($message->mid);
+
+  foreach($previous_recipients as $recipient) {
+    if (array_key_exists($recipient, $users)) {
+      unset ($users[$recipient]);
+    }
+  }
+
+  // Filtering users and preparing final user list.
+  $users = user_load_multiple(array_keys($users));
 
   // Iterate over all users and unset users based on properties, roles...
   foreach ($users as $key => &$user_object) {
@@ -81,12 +88,6 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
         unset($users[$key]);
         continue;
       }
-    }
-
-    // Check if the user already received the notification before.
-    if (array_search($key, $previous_recipients) !== FALSE) {
-      unset($users[$key]);
-      continue;
     }
 
     // If this is a share action, we have to check access to both source and
@@ -170,9 +171,10 @@ function _c4m_user_notifications_message_subscribe_filter_additional_flag_contex
     foreach ($context['additional_flag_context'] as $flag_context) {
       $flag_name = 'subscribe_c4m_follow_' . $flag_context['additional_flag_name'];
       $flag_entity_id = !empty($flag_context['additional_flag_entity_id']) ? $flag_context['additional_flag_entity_id'] : $entity_id;
+      $flag_entity_type = !empty($flag_context['additional_flag_entity_type']) ? $flag_context['additional_flag_entity_type'] : $flagged_entity_type;
 
       $flagged_users = flag_get_entity_flags(
-        $flagged_entity_type,
+        $flag_entity_type,
         $flag_entity_id,
         $flag_name
       );
