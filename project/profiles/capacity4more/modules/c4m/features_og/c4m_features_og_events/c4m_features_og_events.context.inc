@@ -21,6 +21,10 @@ function c4m_features_og_events_context_default_contexts() {
     'path' => array(
       'values' => array(
         'calendar' => 'calendar',
+        'calendar/month' => 'calendar/month',
+        'calendar/month/*' => 'calendar/month/*',
+        'calendar/week' => 'calendar/week',
+        'calendar/week/*' => 'calendar/week/*',
       ),
     ),
   );
