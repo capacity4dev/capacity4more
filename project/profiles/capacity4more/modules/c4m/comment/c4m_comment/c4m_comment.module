@@ -25,7 +25,7 @@ function c4m_comment_module_implements_alter(&$implementations, $hook) {
 }
 
 /**
- * Implements hook_form_BASE_FORM_ID_alter().
+ * Implements hook_form_BASE_FORM_ID_alter() for node_form().
  */
 function c4m_comment_form_node_form_alter(array &$form, array $form_state) {
   $node = $form['#node'];
@@ -46,6 +46,44 @@ function c4m_comment_form_node_form_alter(array &$form, array $form_state) {
   // If the user has access to the node form, he can also change the comment
   // settings for this content entry.
   $form['comment_settings']['#access'] = TRUE;
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for comment_form().
+ */
+function c4m_comment_form_comment_form_alter(array &$form, array $form_state) {
+  $form['post_activity'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Post Activity'),
+    // Default to true only on new content.
+    '#default_value' => TRUE,
+    '#access' => _c4m_comment_post_activity_access(),
+  ];
+}
+
+/**
+ * Implements hook_field_attach_submit().
+ *
+ * Sets the _skip_message flag, if needed, for comment entity.
+ */
+function c4m_comment_field_attach_submit($entity_type, $entity, $form, &$form_state) {
+  if ($entity_type !== 'comment') {
+    return;
+  }
+  $skip_message = _c4m_comment_post_activity_access() && empty($form_state['values']['post_activity']);
+  if ($skip_message) {
+    $entity->_skip_message = TRUE;
+  }
+}
+
+/**
+ * Access callback for the "Post Activity" checkbox.
+ *
+ * @return bool
+ *   TRUE if the checkbox should be displayed.
+ */
+function _c4m_comment_post_activity_access() {
+  return c4m_user_is_site_admin();
 }
 
 /**

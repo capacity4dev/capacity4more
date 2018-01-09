@@ -355,6 +355,61 @@ var jQuery = jQuery || {};
         }
     };
 
+    Drupal.behaviors.restrictedOrganisations = {
+        syncSelectedOrganisations: function () {
+            $(".form-item-restricted-organisations input").each(
+                function () {
+                    if ($(this).attr('checked')) {
+                        $(this).parent().show();
+                    }
+                    else {
+                        $(this).parent().hide();
+                    }
+                }
+            );
+        },
+        syncSelectedOrganisation: function (element) {
+            var summaryLabel = $(".form-item-restricted-organisations label[for=" + $(element).attr("id") + "]");
+            var originalInput = $("input[id=" + $(element).attr("id") + "]");
+
+            if (element.checked) {
+                $(summaryLabel).show();
+                $(originalInput).attr('checked', 'checked');
+            }
+            else {
+                $(summaryLabel).hide();
+                $(originalInput).removeAttr('checked');
+            }
+        },
+        attach: function (context, settings) {
+            // Initial state.
+            Drupal.behaviors.restrictedOrganisations.syncSelectedOrganisations();
+
+            // Load the content on attach only.
+            var content = $("#restrictedOrganisationsButton", context).data("contentwrapper");
+
+            $('.form-item-restricted-organisations input').on("change", function () {
+                Drupal.behaviors.restrictedOrganisations.syncSelectedOrganisation(this);
+            });
+
+            // Dynamically load (swap) the content in the popover body.
+            $("#restrictedOrganisationsButton", context).once("restrictedOrganisationsButton").popover({
+                html: true,
+                placement: "right",
+                content: function () {
+                    return $(content).html();
+                }
+            }).on('shown.bs.popover', function () {
+                // Items inherit the state of the "original" checkboxes, which is hidden if unchecked.
+                $("#edit-restricted-organisations-selector label").show();
+                $("#edit-restricted-organisations-selector input").once("restrictedOrganisationsListener").on("change", function () {
+                    Drupal.behaviors.restrictedOrganisations.syncSelectedOrganisation(this);
+                });
+            });
+        }
+
+    };
+
     /**
      * Automatically focus the registration form on the mail field after page load.
      */
