@@ -295,15 +295,14 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest_for_vocabu
       'entity_id' => $term->tid,
     ];
 
-    var_dump($node_wrapper->{OG_AUDIENCE_FIELD});
-
     // If Group content, additional flag context needed to prevent duplicates.
     if (isset($node_wrapper->{OG_AUDIENCE_FIELD})) {
       $context['additional_flag_context'] = [
         [
           'additional_flag_name' => 'group',
           'additional_flag_operation' => 'diff',
-          'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')->value(),
+          'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')
+            ->value(),
           'additional_flag_entity_type' => 'node',
         ],
       ];

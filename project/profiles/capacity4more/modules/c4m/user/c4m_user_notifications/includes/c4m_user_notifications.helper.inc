@@ -58,14 +58,13 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
     );
   }
 
-
   // Load the list of users that already received this message (same message id)
   // to prevent duplicates.
   $previous_recipients = _c4m_user_notifications_get_message_unique_recipients($message->mid);
 
-  foreach($previous_recipients as $recipient) {
+  foreach ($previous_recipients as $recipient) {
     if (array_key_exists($recipient, $users)) {
-      unset ($users[$recipient]);
+      unset($users[$recipient]);
     }
   }
 
