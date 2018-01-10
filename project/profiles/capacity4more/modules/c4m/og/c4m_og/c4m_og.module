@@ -2476,6 +2476,7 @@ function c4m_og_view_node_access($node, $account) {
       if (c4m_og_user_can_access_restricted_group($node, $account, 'view')) {
         // Published state is allowed for restricted group.
         $allowed_states[C4M_USER_TYPE_NON_MEMBER][] = 'published';
+        $allowed_states[C4M_USER_TYPE_NON_MEMBER][] = 'archived';
       }
     }
 
