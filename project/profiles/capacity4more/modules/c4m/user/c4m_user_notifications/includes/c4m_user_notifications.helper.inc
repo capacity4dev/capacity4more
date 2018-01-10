@@ -31,23 +31,156 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
   $flag_name = 'subscribe_c4m_follow_' . $entity_type;
   $flagged_entity_type = $entity_type == 'term' ? 'taxonomy_term' : 'node';
 
+  // Starting point: all users subscribed to the entity (flagged).
   $users = flag_get_entity_flags($flagged_entity_type, $entity_id, $flag_name);
 
+  // When creating messages, we can indicate additional context(s) to either
+  // exclude users (diff) or make it stricter (intersect).
+  $filtered_users = _c4m_user_notifications_message_subscribe_filter_additional_flag_contexts($context, $users, $entity_id, $flagged_entity_type);
+
+  $group = NULL;
+
+  // If content belongs to a group, we load the group to make sure the user is
+  // not banned at that group.
+  if ($flagged_entity_type == 'node') {
+    $group = _c4m_user_notifications_message_subscribe_get_subscribers_get_group($entity_id);
+  }
+
+  if ($message->type === 'c4m_notify_subscribe_content_of_interest') {
+    // Notifications for interests are "dynamic", meaning one message ID serves
+    // different term ID's.
+    $wrapper = entity_metadata_wrapper('message', $message);
+    $wrapper->field_taxonomy_term->set($entity_id);
+
+    // If the original node belongs to a group, we will need to check access.
+    $group = _c4m_user_notifications_message_subscribe_get_subscribers_get_group(
+      $wrapper->field_node->get('nid')->value()
+    );
+  }
+
+  // Load the list of users that already received this message (same message id)
+  // to prevent duplicates.
+  $previous_recipients = _c4m_user_notifications_get_message_unique_recipients($message->mid);
+
+  foreach ($previous_recipients as $recipient) {
+    if (array_key_exists($recipient, $users)) {
+      unset($users[$recipient]);
+    }
+  }
+
+  // Filtering users and preparing final user list.
+  $users = user_load_multiple(array_keys($users));
+
+  // Iterate over all users and unset users based on properties, roles...
+  foreach ($users as $key => &$user_object) {
+
+    // Content has, is, or is related to, a group.
+    if (!is_null($group)) {
+
+      // Users who are banned should not receive a notification.
+      if (c4m_user_og_get_role_in_group($user_object, $group) == 'blocked') {
+        unset($users[$key]);
+        continue;
+      }
+
+      if (!node_access('view', $group, $user_object)) {
+        unset($users[$key]);
+        continue;
+      }
+    }
+
+    // If this is a share action, we have to check access to both source and
+    // target node (+ group).
+    if ($message->type === 'c4m_new_content_share_published') {
+      $node = node_load($entity_id);
+      $original_node_array = $message->field_node;
+      $original_node = node_load($original_node_array[LANGUAGE_NONE][0]['target_id']);
+
+      if (!node_access('view', $node, $user_object) || !node_access('view', $original_node, $user_object)) {
+        unset($users[$key]);
+        continue;
+      }
+    }
+
+    // If user is found at filtering array, set it's notifier to mail.
+    if (array_search($key, $filtered_users) !== FALSE) {
+      $user_object = ['notifiers' => ['email' => 'email']];
+    }
+    else {
+      // If not found, filter the user.
+      unset($users[$key]);
+      continue;
+    }
+  }
+
+  _c4m_user_notifications_update_message_unique_recipients($message->mid, $previous_recipients, $users);
+
+  return $users;
+}
+
+/**
+ * Check if an entity_id is either a group itself or group content.
+ *
+ * @param int $nid
+ *   The node ID.
+ *
+ * @return object
+ *   Group node object or NULL.
+ */
+function _c4m_user_notifications_message_subscribe_get_subscribers_get_group($nid) {
+  $node = node_load($nid);
+
+  // Node is a group.
+  if (og_is_group_type('node', $node->type)) {
+    $group = $node;
+  }
+  // Node is group content.
+  elseif (og_is_group_content_type('node', $node->type)) {
+    $group = c4m_og_get_group_of_content($node);
+  }
+  // Site content which does not belong to a group. For example, 'article'.
+  else {
+    $group = NULL;
+  }
+  return $group;
+}
+
+/**
+ * Process additional flag contexts to restrict subscriptions.
+ *
+ * @param array $context
+ *   Array keyed with the entity type and array of entity IDs as the
+ *   value. According to this context this function will retrieve the
+ *   related subscribers.
+ * @param array $users
+ *   Array with all the flagged users.
+ * @param int $entity_id
+ *   Original flag's entity id. If no separate additional entity ID is passed,
+ *   this will be used as a fallback.
+ * @param string $flagged_entity_type
+ *   Entity type the flag will apply to.
+ *
+ * @return array
+ *   Array with all users filtered by the additional flag contexts.
+ */
+function _c4m_user_notifications_message_subscribe_filter_additional_flag_contexts(array $context, array $users, $entity_id, $flagged_entity_type) {
   $filtered_users = array_keys($users);
 
   if (!empty($context['additional_flag_context']) && is_array($context['additional_flag_context'])) {
     foreach ($context['additional_flag_context'] as $flag_context) {
       $flag_name = 'subscribe_c4m_follow_' . $flag_context['additional_flag_name'];
       $flag_entity_id = !empty($flag_context['additional_flag_entity_id']) ? $flag_context['additional_flag_entity_id'] : $entity_id;
+      $flag_entity_type = !empty($flag_context['additional_flag_entity_type']) ? $flag_context['additional_flag_entity_type'] : $flagged_entity_type;
 
       $flagged_users = flag_get_entity_flags(
-        $flagged_entity_type,
+        $flag_entity_type,
         $flag_entity_id,
         $flag_name
       );
 
       // Operation can be 'intersect' or 'diff'.
       $function = 'array_' . $flag_context['additional_flag_operation'];
+
       // Function is either array_intersect() or array_diff().
       $filtered_users = $function(
         $filtered_users,
@@ -55,68 +188,63 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
       );
     }
   }
+  return $filtered_users;
+}
 
-  // Need to load the group to which content belongs, take sure user is not
-  // banned at that group.
-  if ($flagged_entity_type == 'node') {
-    $node = node_load($entity_id);
+/**
+ * Merge the previous recipients and new users to one array and store it.
+ *
+ * @param int $mid
+ *   Message entity ID.
+ * @param array $previous_recipients
+ *   Array of user ID's of already-subscribed users.
+ * @param array $users
+ *   Array of users that were added/subscribed now.
+ */
+function _c4m_user_notifications_update_message_unique_recipients($mid, array $previous_recipients, array $users) {
+  $all_subscribers = array_merge($previous_recipients, array_keys($users));
 
-    // Node is a group.
-    if (og_is_group_type('node', $node->type)) {
-      $group = $node;
-    }
-    // Node is group content.
-    elseif (og_is_group_content_type('node', $node->type)) {
-      $group = c4m_og_get_group_of_content($node);
-    }
-    // Site content which does not belong to a group. For example, 'article'.
-    else {
-      $group = NULL;
-    }
+  // Only makes sense if there are any.
+  if (count($all_subscribers) > 0) {
+    $all_subscribers = array_values(array_unique($all_subscribers));
+    _c4m_user_notifications_set_message_unique_recipients($mid, $all_subscribers);
   }
-  // In this case, entity is a term, and it's notification is not supported
-  // for current MVP.
-  else {
+}
+
+/**
+ * Helper function to get UID's already subscribed for a specific notification.
+ *
+ * @param int $mid
+ *   Message ID.
+ *
+ * @return array
+ *   UID's that already received this message.
+ */
+function _c4m_user_notifications_get_message_unique_recipients($mid) {
+  $recipients = db_query('SELECT recipients FROM {message_recipients_unique} WHERE mid = :mid', [':mid' => $mid])->fetchAssoc();
+
+  if (empty($recipients['recipients'])) {
     return [];
   }
 
-  // Filtering users and preparing final user list.
-  $users = user_load_multiple(array_keys($users));
-  foreach ($users as $key => &$value) {
-    // When node is group or group content, filter banned users.
-    if (!is_null($group) && c4m_user_og_get_role_in_group($value, $group) == 'blocked') {
-      unset($users[$key]);
-      continue;
-    }
+  return array_values(unserialize($recipients['recipients']));
+}
 
-    if (array_search($key, $filtered_users) !== FALSE) {
-      // If user is found at filtering array, set it's notifier to mail.
-      $value = ['notifiers' => ['email' => 'email']];
-    }
-    else {
-      // If not found, filter the user.
-      unset($users[$key]);
-    }
-  }
-
-  // If this is a share action, we have to filter users that don't have access.
-  if ($message->type === 'c4m_new_content_share_published') {
-    $original_node_array = $message->field_node;
-    $original_node = node_load($original_node_array[LANGUAGE_NONE][0]['target_id']);
-
-    foreach ($users as $key => $user_value) {
-      $user = user_load($key);
-
-      // Check if the user has access to:
-      // - The original node (being shared).
-      // - The group we share the node to.
-      if (!node_access('view', $node, $user) || !node_access('view', $original_node, $user)) {
-        unset($users[$key]);
-      }
-    }
-  }
-
-  return $users;
+/**
+ * Helper function to set UID's subscribed for a specific notification.
+ *
+ * @param int $mid
+ *   Message ID.
+ * @param array $uids
+ *   Array of UID's that will receive this notification.
+ */
+function _c4m_user_notifications_set_message_unique_recipients($mid, array $uids) {
+  db_merge('message_recipients_unique')
+    ->key(['mid' => $mid])
+    ->fields([
+      'recipients' => serialize($uids),
+    ])
+    ->execute();
 }
 
 /**

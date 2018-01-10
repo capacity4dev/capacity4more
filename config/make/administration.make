@@ -82,6 +82,7 @@ projects[ds][version] = "2.14"
 
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.9"
+projects[flag][patch][] = "../patches/flag-array-check-1925922.patch"
 
 projects[node_gallery][subdir] = "contrib"
 projects[node_gallery][version] = "1.1"
