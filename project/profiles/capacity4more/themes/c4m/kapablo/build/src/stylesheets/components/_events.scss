@@ -227,8 +227,47 @@
           color: $color-white;
         }
       }
+      .c4m-event {
+        .c4m-event--on-hover {
+          height: 100%;
+          top: 0;
+          white-space: nowrap;
+        }
+      }
+    }
+    .week-view {
+      .c4m-event {
+        .c4m-event--on-hover {
+          font-size: 14px;
+          width: 300px;
+          z-index: 2;
+        }
+      }
     }
 
+    .c4m-event {
+      position: relative;
+      .c4m-event--on-hover {
+        border-radius: 5px;
+        color: white;
+        display: none;
+        padding: 5px 10px;
+        position: absolute;
+      }
+      &:hover {
+        >.view-item-c4m_events_calendar >.weekview {
+          a {
+            opacity: 0;
+          }
+        }
+        .c4m-event--on-hover {
+          display: block;
+        }
+      }
+      .c4m-event--on-hover:hover {
+        display: block;
+      }
+    }
     .header-body-divider {
       display: none;
     }

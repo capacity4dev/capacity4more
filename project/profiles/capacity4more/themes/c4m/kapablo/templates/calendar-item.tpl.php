@@ -7,7 +7,7 @@
 
 $index = 0;
 ?>
-<div class="<?php print !empty($item->class) ? $item->class : 'item'; ?>">
+<div class="<?php print !empty($item->class) ? $item->class : 'item'; ?> c4m-event">
   <div class="view-item view-item-<?php print $view->name ?>">
     <?php
       $element_style = '';
@@ -27,5 +27,10 @@ $index = 0;
       <?php else : ?>
       <?php endif;?>
     </div>
-  </div>   
+  </div>
+    <div class="c4m-event--on-hover" <?php print $element_style; ?>>
+      <?php foreach ($rendered_fields as $field): ?>
+        <?php print $field; ?>
+      <?php endforeach; ?>
+    </div>
 </div>
