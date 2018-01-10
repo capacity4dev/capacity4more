@@ -157,11 +157,6 @@ function _c4m_user_notifications_flag_flag($flag, $entity_id) {
     return;
   }
 
-  // If not recommendation flag, return early.
-  if ($flag->name != 'c4m_og_content_recommend') {
-    return;
-  }
-
   $node = node_load($entity_id);
 
   // Not all content types will trigger notifications.
@@ -171,9 +166,25 @@ function _c4m_user_notifications_flag_flag($flag, $entity_id) {
     return;
   }
 
-  // Send MT23 - Inform subscribed users of the node that this content was
-  // recommended by a non-anonymous user.
-  _c4m_user_notifications_notify_subscribe_follower_new_recommend($entity_id);
+  switch ($flag->name) {
+    case 'c4m_og_content_recommend':
+      // Send MT23 - Inform subscribed users of the node that this content was
+      // recommended by a non-anonymous user.
+      _c4m_user_notifications_notify_subscribe_follower_new_recommend($entity_id);
+      break;
+
+    // Excluded case 'c4m_og_content_highlight': as per requirements.
+    case 'promote_content':
+      // Send MT24 - Inform subscribed users of topics/regions and countries of
+      // interests this content was highlighted.
+      _c4m_user_notifications_notify_subscribe_content_of_interest($node, 'highlight');
+      break;
+  }
+
+  // If not recommendation flag, return early.
+  if ($flag->name != 'c4m_og_content_recommend') {
+    return;
+  }
 }
 
 /**
@@ -261,7 +272,7 @@ function _c4m_user_notifications_node_insert($node) {
   }
 
   _c4m_user_notifications_dispatch_new_group_request($node);
-  _c4m_user_notifications_dispatch_og_content_action($node, 'insert');
+  _c4m_user_notifications_dispatch_content_action($node, 'insert');
 }
 
 /**
@@ -297,11 +308,12 @@ function _c4m_user_notifications_dispatch_new_group_request($node) {
  * @param string $action
  *   Insert of update action string.
  *
+ * @Send MT24 - Subscription notification
  * @Send MT25 - Subscription notification
  * @Send MT51 - Subscription notification
  * @Send MT53 - Subscription notification
  */
-function _c4m_user_notifications_dispatch_og_content_action($node, $action) {
+function _c4m_user_notifications_dispatch_content_action($node, $action) {
   $action_values = ['insert' => 'insert', 'update' => 'update'];
 
   // Check if the action string is valid.
@@ -330,18 +342,39 @@ function _c4m_user_notifications_dispatch_og_content_action($node, $action) {
     }
   }
 
-  // Check if the node is of a type that triggers a notification.
-  if (!in_array($node->type, $allowed_og_content_types)) {
-    return;
-  }
-
   // 'Send Notification' checkbox on content form was set, but not checked.
   if (_c4m_user_notifications_has_skip_notification($node)) {
     return;
   }
-
   // Load current node wrapper.
   $wrapper = entity_metadata_wrapper('node', $node);
+
+  $allowed_global_content_types = c4m_og_get_extended_content_notification_types();
+
+  if (!in_array($node->type, $allowed_global_content_types)) {
+    return;
+  }
+
+  // Global content logic.
+  switch ($action) {
+    case 'insert':
+      // Send MT24 - Subscribed topic followers are informed about new
+      // content tagged with a common topic of interest.
+      _c4m_user_notifications_dispatch_content_of_interest($node);
+      break;
+
+    case 'update':
+      if ($node->original->status != NODE_PUBLISHED) {
+        // Send MT24 - Subscribed topic followers are informed about new
+        // content tagged with a common topic of interest.
+        _c4m_user_notifications_dispatch_content_of_interest($node);
+      }
+  }
+
+  // Restricted group content logic.
+  if (!in_array($node->type, $allowed_og_content_types)) {
+    return;
+  }
 
   // Check if the node's group reference has a status field.
   if (!isset($wrapper->{OG_AUDIENCE_FIELD}->c4m_og_status)) {
@@ -406,7 +439,7 @@ function _c4m_user_notifications_node_update($node) {
   }
 
   _c4m_user_notifications_dispatch_og_update($node);
-  _c4m_user_notifications_dispatch_og_content_action($node, 'update');
+  _c4m_user_notifications_dispatch_content_action($node, 'update');
 }
 
 /**
@@ -500,6 +533,7 @@ function _c4m_user_notifications_dispatch_og_group_access_update($node, $wrapper
  *   Drupal entity metadata wrapper object of the old group node revision.
  *
  * @Send MT12 - Simple notification
+ * @Send MT24 - Subscription notification
  * @Send MT28 - Simple notification
  * @Send MT29 - Simple notification
  * @Send MT30 - Simple notification
@@ -522,6 +556,9 @@ function _c4m_user_notifications_dispatch_og_group_status_update($node, $wrapper
         if ($group_status_old === 'draft') {
           // Send MT28 - Inform group admins the group was published.
           _c4m_user_notifications_notify_og_group_status_published($node);
+
+          // Send MT24 - Inform topic subscribers a new group is published.
+          _c4m_user_notifications_notify_subscribe_content_of_interest($node);
         }
         // Republishing a group after it got archived in the past.
         elseif ($group_status_old === 'archived') {
@@ -610,6 +647,16 @@ function _c4m_user_notifications_comment_insert($comment) {
  */
 function _c4m_user_notifications_dispatch_group_content_insert($node) {
   _c4m_user_notifications_notify_subscribe_group_content($node, 'insert');
+}
+
+/**
+ * Email notification about new content with topics/regions of interest.
+ *
+ * @param object $node
+ *   Drupal node entity being inserted.
+ */
+function _c4m_user_notifications_dispatch_content_of_interest($node) {
+  _c4m_user_notifications_notify_subscribe_content_of_interest($node);
 }
 
 /**

@@ -484,7 +484,11 @@ function c4m_content_book_theme() {
       'path' => $template_path,
     ],
     'c4m_content_book_print_button' => [
-      'variables' => ["nid" => NULL, "bid" => NULL],
+      'variables' => [
+        "book_url" => NULL,
+        "page_url" => NULL,
+        "page_subpages_url" => NULL,
+      ],
       'template' => 'c4m-content-book-print-button',
       'path' => $template_path,
     ],
@@ -519,11 +523,33 @@ function c4m_content_book_ds_fields_info($entity_type) {
 function _c4m_content_book_dsfield_print_button(array $field) {
   $nid = ($field['entity']->nid) ? $field['entity']->nid : 0;
   $bid = ($field['entity']->book['bid']) ? $field['entity']->book['bid'] : 0;
-  return theme(
-    'c4m_content_book_print_button',
-    [
-      'nid' => $nid,
-      'bid' => $bid,
-    ]
-  );
+  $print_urls = [
+    'page_url' => l(
+      t('Print page'),
+      '/book/' . $nid . '/print',
+      [
+        'query' => ['no_children' => 'true'],
+        'absolute' => TRUE,
+        'attributes' => ['target' => '_blank'],
+      ]
+    ),
+    'page_subpages_url' => l(
+      t('Print page & sub-pages'),
+      '/book/' . $nid . '/print',
+      [
+        'absolute' => TRUE,
+        'attributes' => ['target' => '_blank'],
+      ]
+    ),
+    'book_url' => l(
+      t('Print all pages & sub-pages'),
+      '/book/' . $bid . '/print',
+      [
+        'absolute' => TRUE,
+        'attributes' => ['target' => '_blank'],
+      ]
+    ),
+  ];
+
+  return theme('c4m_content_book_print_button', $print_urls);
 }
