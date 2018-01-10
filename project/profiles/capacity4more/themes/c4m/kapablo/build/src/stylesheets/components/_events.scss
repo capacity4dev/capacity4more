@@ -99,7 +99,7 @@
   }
   .addtocal_menu {
     background: $color-white;
-    &:hover {
+    a:hover {
       background: none;
       text-decoration: underline;
     }
@@ -122,33 +122,36 @@
 }
 
 // Events overview.
-body.page-events {
-  .tabs--primary.nav-tabs {
-    border: none;
-    float: right;
-    li.active {
-      display: none;
+.events-calendar-tabs{
+  float: right;
+
+  li {
+    float: left;
+    list-style: none;
+    padding: 5px;
+    a::before {
+      content: "\f073";
+      font: normal normal normal 14px/1 FontAwesome;
+      margin-right: 5px;
     }
   }
-}
-
-.events-tabs.events-calendar-tab:before {
-  content: "\f073";
-  font: normal normal normal 14px/1 FontAwesome;
-  margin-right: 5px;
-}
-
-.event-tab-wrapper {
-  background: $color-gray-light;
-  color: $color-black;
-  float: left;
-  margin-top: -15px;
-  padding: 5px;
-  span {
-    font-size: 12px;
-  }
-  a {
-    color: $color-black;
+  .tab-calendar {
+    background: #C5C7C8;
+    color: #000;
+    float: left;
+    margin-left: 10px;
+    margin-top: -18px;
+    padding: 5px;
+    a {
+      color: $color-black;
+    }
+    span {
+      font-size: 10px;
+      font-weight: bold;
+      float: left;
+      text-transform: uppercase;
+      width: 100%;
+    }
   }
 }
 

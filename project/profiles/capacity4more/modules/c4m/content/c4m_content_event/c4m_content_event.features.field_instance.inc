@@ -340,15 +340,17 @@ function c4m_content_event_field_default_field_instances() {
         'module' => 'addtocal',
         'settings' => array(
           'description' => array(
-            'field' => 'c4m_body',
-            'tokenized' => '',
+            'field' => 'tokenize output',
+            'tokenized' => '[node:c4m_body]
+Organised by: [node:c4m_organised_by]
+[node:url]',
           ),
           'description_tokenized' => '',
           'format_type' => 'c4m_long_with_time',
           'fromto' => 'both',
           'location' => array(
-            'field' => 'c4m_location_address',
-            'tokenized' => '',
+            'field' => 'tokenize output',
+            'tokenized' => '[node:c4m_location_address:locality], [node:c4m_location_address:thoroughfare] [node:c4m_location_address:premise], [node:c4m_location_address:country]',
           ),
           'multiple_from' => '',
           'multiple_number' => '',

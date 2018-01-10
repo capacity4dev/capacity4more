@@ -81,7 +81,7 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
 
   /* Display: Month */
-  $handler = $view->new_display('page', 'Month', 'page_1');
+  $handler = $view->new_display('page', 'Month', 'month');
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'date_views_pager';
   $handler->display->display_options['pager']['options']['date_id'] = 'month';
@@ -150,10 +150,11 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['arguments']['date_argument']['date_fields'] = array(
     'field_data_c4m_datetime_end.c4m_datetime_end_value' => 'field_data_c4m_datetime_end.c4m_datetime_end_value',
   );
-  $handler->display->display_options['path'] = 'events/month';
-  $handler->display->display_options['menu']['type'] = 'default tab';
-  $handler->display->display_options['menu']['title'] = 'Month';
-  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['path'] = 'events/calendar';
+  $handler->display->display_options['menu']['type'] = 'normal';
+  $handler->display->display_options['menu']['title'] = 'Events';
+  $handler->display->display_options['menu']['weight'] = '6';
+  $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
   $handler->display->display_options['tab_options']['type'] = 'normal';
@@ -334,7 +335,7 @@ function c4m_features_overview_events_views_default_views() {
   );
 
   /* Display: Week */
-  $handler = $view->new_display('page', 'Week', 'page_4');
+  $handler = $view->new_display('page', 'Week', 'week');
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'date_views_pager';
   $handler->display->display_options['pager']['options']['date_id'] = 'week';
@@ -416,7 +417,204 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['arguments']['date_argument']['date_fields'] = array(
     'field_data_c4m_datetime_end.c4m_datetime_end_value' => 'field_data_c4m_datetime_end.c4m_datetime_end_value',
   );
-  $handler->display->display_options['path'] = 'events/week';
+  $handler->display->display_options['path'] = 'events/calendar/week';
+  $handler->display->display_options['menu']['title'] = 'Week';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
+  $handler->display->display_options['tab_options']['type'] = 'normal';
+  $handler->display->display_options['tab_options']['title'] = 'Calendar';
+  $handler->display->display_options['tab_options']['weight'] = '0';
+
+  /* Display: Group - Month */
+  $handler = $view->new_display('page', 'Group - Month', 'og_month');
+  $handler->display->display_options['defaults']['access'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'c4m_og_access_og_context';
+  $handler->display->display_options['access']['feature'] = 'c4m_features_og_events';
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'date_views_pager';
+  $handler->display->display_options['pager']['options']['date_id'] = 'month';
+  $handler->display->display_options['pager']['options']['pager_position'] = 'both';
+  $handler->display->display_options['pager']['options']['link_format'] = 'clean';
+  $handler->display->display_options['pager']['options']['skip_empty_pages'] = 0;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'calendar_style';
+  $handler->display->display_options['style_options']['name_size'] = '3';
+  $handler->display->display_options['style_options']['mini'] = '0';
+  $handler->display->display_options['style_options']['with_weekno'] = '0';
+  $handler->display->display_options['style_options']['multiday_theme'] = '1';
+  $handler->display->display_options['style_options']['theme_style'] = '1';
+  $handler->display->display_options['style_options']['max_items'] = '0';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'c4m_event_row';
+  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+  $handler->display->display_options['row_options']['colors']['legend'] = 'c4m_event_type';
+  $handler->display->display_options['row_options']['colors']['calendar_colors_type'] = array(
+    'article' => '#ffffff',
+    'banner' => '#ffffff',
+    'book' => '#ffffff',
+    'discussion' => '#ffffff',
+    'document' => '#ffffff',
+    'event' => '#c74d4d',
+    'featured' => '#ffffff',
+    'feed' => '#ffffff',
+    'group' => '#ffffff',
+    'inthe_picture' => '#ffffff',
+    'news' => '#ffffff',
+    'organisation' => '#ffffff',
+    'page_element' => '#ffffff',
+    'photo' => '#ffffff',
+    'photoalbum' => '#ffffff',
+    'project' => '#ffffff',
+    'share' => '#ffffff',
+    'topic' => '#ffffff',
+    'wiki_page' => '#ffffff',
+  );
+  $handler->display->display_options['row_options']['colors']['calendar_colors_group'] = array(
+    24 => '#ffffff',
+    25 => '#ffffff',
+    30 => '#ffffff',
+    31 => '#ffffff',
+    36 => '#ffffff',
+    37 => '#ffffff',
+    38 => '#ffffff',
+    40 => '#ffffff',
+  );
+  $handler->display->display_options['row_options']['colors']['c4m_event_type'] = array(
+    'event' => '#42709e',
+    'learning' => '#42c530',
+    'meeting' => '#f49c2a',
+  );
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Content: Groups (og_group_ref) */
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['default_argument_type'] = 'og_context';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['summary_options']['items_per_page'] = '25';
+  /* Contextual filter: Date: Date (node) */
+  $handler->display->display_options['arguments']['date_argument']['id'] = 'date_argument';
+  $handler->display->display_options['arguments']['date_argument']['table'] = 'node';
+  $handler->display->display_options['arguments']['date_argument']['field'] = 'date_argument';
+  $handler->display->display_options['arguments']['date_argument']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['date_argument']['default_argument_type'] = 'date';
+  $handler->display->display_options['arguments']['date_argument']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['date_argument']['add_delta'] = 'yes';
+  $handler->display->display_options['arguments']['date_argument']['date_fields'] = array(
+    'field_data_c4m_datetime_end.c4m_datetime_end_value' => 'field_data_c4m_datetime_end.c4m_datetime_end_value',
+  );
+  $handler->display->display_options['path'] = 'calendar/month';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Month';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
+  $handler->display->display_options['tab_options']['type'] = 'normal';
+  $handler->display->display_options['tab_options']['title'] = 'Calendar';
+  $handler->display->display_options['tab_options']['weight'] = '0';
+
+  /* Display: Group - Week */
+  $handler = $view->new_display('page', 'Group - Week', 'og_week');
+  $handler->display->display_options['defaults']['access'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'c4m_og_access_og_context';
+  $handler->display->display_options['access']['feature'] = 'c4m_features_og_events';
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'date_views_pager';
+  $handler->display->display_options['pager']['options']['date_id'] = 'month';
+  $handler->display->display_options['pager']['options']['pager_position'] = 'both';
+  $handler->display->display_options['pager']['options']['link_format'] = 'clean';
+  $handler->display->display_options['pager']['options']['skip_empty_pages'] = 0;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'calendar_style';
+  $handler->display->display_options['style_options']['calendar_type'] = 'week';
+  $handler->display->display_options['style_options']['name_size'] = '3';
+  $handler->display->display_options['style_options']['mini'] = '0';
+  $handler->display->display_options['style_options']['with_weekno'] = '0';
+  $handler->display->display_options['style_options']['multiday_theme'] = '1';
+  $handler->display->display_options['style_options']['theme_style'] = '1';
+  $handler->display->display_options['style_options']['max_items'] = '0';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'c4m_event_row';
+  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+  $handler->display->display_options['row_options']['colors']['legend'] = 'c4m_event_type';
+  $handler->display->display_options['row_options']['colors']['calendar_colors_type'] = array(
+    'article' => '#ffffff',
+    'banner' => '#ffffff',
+    'book' => '#ffffff',
+    'discussion' => '#ffffff',
+    'document' => '#ffffff',
+    'event' => '#c74d4d',
+    'featured' => '#ffffff',
+    'feed' => '#ffffff',
+    'group' => '#ffffff',
+    'inthe_picture' => '#ffffff',
+    'news' => '#ffffff',
+    'organisation' => '#ffffff',
+    'page_element' => '#ffffff',
+    'photo' => '#ffffff',
+    'photoalbum' => '#ffffff',
+    'project' => '#ffffff',
+    'share' => '#ffffff',
+    'topic' => '#ffffff',
+    'wiki_page' => '#ffffff',
+  );
+  $handler->display->display_options['row_options']['colors']['calendar_colors_group'] = array(
+    24 => '#ffffff',
+    25 => '#ffffff',
+    30 => '#ffffff',
+    31 => '#ffffff',
+    36 => '#ffffff',
+    37 => '#ffffff',
+    38 => '#ffffff',
+    40 => '#ffffff',
+  );
+  $handler->display->display_options['row_options']['colors']['c4m_event_type'] = array(
+    'event' => '#42709e',
+    'learning' => '#42c530',
+    'meeting' => '#f49c2a',
+  );
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['title']['hide_alter_empty'] = FALSE;
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Content: Groups (og_group_ref) */
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['default_argument_type'] = 'og_context';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['summary_options']['items_per_page'] = '25';
+  /* Contextual filter: Date: Date (node) */
+  $handler->display->display_options['arguments']['date_argument']['id'] = 'date_argument';
+  $handler->display->display_options['arguments']['date_argument']['table'] = 'node';
+  $handler->display->display_options['arguments']['date_argument']['field'] = 'date_argument';
+  $handler->display->display_options['arguments']['date_argument']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['date_argument']['default_argument_type'] = 'date';
+  $handler->display->display_options['arguments']['date_argument']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['date_argument']['granularity'] = 'week';
+  $handler->display->display_options['arguments']['date_argument']['granularity_reset'] = 0;
+  $handler->display->display_options['arguments']['date_argument']['add_delta'] = 'yes';
+  $handler->display->display_options['arguments']['date_argument']['date_fields'] = array(
+    'field_data_c4m_datetime_end.c4m_datetime_end_value' => 'field_data_c4m_datetime_end.c4m_datetime_end_value',
+  );
+  $handler->display->display_options['path'] = 'calendar/week';
   $handler->display->display_options['menu']['type'] = 'tab';
   $handler->display->display_options['menu']['title'] = 'Week';
   $handler->display->display_options['menu']['weight'] = '0';
@@ -758,8 +956,7 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['header']['area']['content'] = '<h2><i class="fa fa-clock-o"></i> Upcoming events</h2>';
   $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   $handler->display->display_options['defaults']['footer'] = FALSE;
-  $handler->display->display_options['path'] = 'events/list';
-  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['path'] = 'events';
   $handler->display->display_options['menu']['title'] = 'Switch to list view';
   $handler->display->display_options['menu']['weight'] = '-1';
   $handler->display->display_options['menu']['context'] = 0;

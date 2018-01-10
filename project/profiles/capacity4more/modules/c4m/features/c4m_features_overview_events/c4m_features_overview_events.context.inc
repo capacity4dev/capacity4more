@@ -21,10 +21,8 @@ function c4m_features_overview_events_context_default_contexts() {
     'path' => array(
       'values' => array(
         'events' => 'events',
-        'events/week' => 'events/week',
-        'events/list' => 'events/list',
-        'events/week/*' => 'events/week/*',
-        'events/month/*' => 'events/month/*',
+        'events/calendar' => 'events/calendar',
+        'events/calendar/*' => 'events/calendar/*',
       ),
     ),
   );
@@ -41,13 +39,13 @@ function c4m_features_overview_events_context_default_contexts() {
           'module' => 'views',
           'delta' => '7bb1ca745e57e37fa0b09b237cb1086c',
           'region' => 'sidebar_first',
-          'weight' => '-80',
+          'weight' => '-78',
         ),
         'c4m_features_overview_events-event_views_links' => array(
           'module' => 'c4m_features_overview_events',
           'delta' => 'event_views_links',
           'region' => 'sidebar_first',
-          'weight' => '-79',
+          'weight' => '-78',
         ),
       ),
     ),
