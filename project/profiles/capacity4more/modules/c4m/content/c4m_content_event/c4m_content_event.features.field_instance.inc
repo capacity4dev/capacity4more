@@ -341,8 +341,7 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(
           'description' => array(
             'field' => 'tokenize output',
-            'tokenized' => '[node:c4m_body]
-Organised by: [node:c4m_organised_by]
+            'tokenized' => '[node:c4m_body] Organised by: [node:c4m_link]
 [node:url]',
           ),
           'description_tokenized' => '',
@@ -350,7 +349,7 @@ Organised by: [node:c4m_organised_by]
           'fromto' => 'both',
           'location' => array(
             'field' => 'tokenize output',
-            'tokenized' => '[node:c4m_location_address:locality], [node:c4m_location_address:thoroughfare] [node:c4m_location_address:premise], [node:c4m_location_address:country]',
+            'tokenized' => '[node:c4m_location_address:locality]\\, [node:c4m_location_address:thoroughfare] [node:c4m_location_address:premise]\\, [node:c4m_location_address:country]',
           ),
           'multiple_from' => '',
           'multiple_number' => '',
