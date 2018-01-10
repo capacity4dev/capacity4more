@@ -242,23 +242,3 @@ function _c4m_features_overview_events_count_via_views($type) {
 
   return _c4m_helper_entity_total_count_via_views('c4m_overview_events_landing', $mapped_views[$type]);
 }
-
-/**
- * Implements hook_menu_link_alter().
- */
-function c4m_features_overview_events_addtocal_extract_event_info_alter(
-  &$info,
-  $entity_type,
-  $entity
-) {
-  $entity_wrapper = entity_metadata_wrapper('node', $entity);
-  if (!empty($entity_wrapper->c4m_event_type)) {
-    $info['title'] = $info['title'] . ' - ' . $entity_wrapper->c4m_event_type->value();
-  }
-  if (!empty($info['location'])) {
-    str_replace("\r\n", "", $info['location']);
-  }
-  if (!empty($info['description'])) {
-    $info['description'] = strip_tags($info['description']);
-  }
-}
