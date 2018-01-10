@@ -151,10 +151,7 @@ function c4m_features_overview_events_views_default_views() {
     'field_data_c4m_datetime_end.c4m_datetime_end_value' => 'field_data_c4m_datetime_end.c4m_datetime_end_value',
   );
   $handler->display->display_options['path'] = 'events/calendar';
-  $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'Events';
-  $handler->display->display_options['menu']['weight'] = '6';
-  $handler->display->display_options['menu']['name'] = 'main-menu';
+  $handler->display->display_options['menu']['weight'] = '-1';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
   $handler->display->display_options['tab_options']['type'] = 'normal';
@@ -958,8 +955,10 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   $handler->display->display_options['defaults']['footer'] = FALSE;
   $handler->display->display_options['path'] = 'events';
-  $handler->display->display_options['menu']['title'] = 'Switch to list view';
-  $handler->display->display_options['menu']['weight'] = '-1';
+  $handler->display->display_options['menu']['type'] = 'normal';
+  $handler->display->display_options['menu']['title'] = 'Events';
+  $handler->display->display_options['menu']['weight'] = '6';
+  $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
 
