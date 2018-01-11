@@ -63,6 +63,9 @@ function c4m_comment_form_comment_form_alter(array &$form, array $form_state) {
     '#default_value' => TRUE,
     '#access' => _c4m_comment_post_activity_access(),
   ];
+
+  // Don't display author info.
+  $form['author']['#access'] = FALSE;
 }
 
 /**
