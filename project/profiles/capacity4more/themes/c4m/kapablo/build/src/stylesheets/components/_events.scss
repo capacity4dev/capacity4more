@@ -211,8 +211,12 @@
       border: none;
     }
 
-    #multi-day-container tr {
-      background: $well-bg;
+    #multi-day-container {
+      overflow: visible;
+
+      tr {
+        background: $well-bg;
+      }
     }
 
     td {
