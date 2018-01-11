@@ -66,6 +66,7 @@
   <?php print $scripts; ?>
 </head>
 <body<?php print $body_attributes; ?>>
+<div id="scroll-top"><i class="fa fa-4x fa-angle-up"></i></div>
 <div id="skip-link">
   <a href="#main-content"
      class="element-invisible element-focusable"><?php print t(

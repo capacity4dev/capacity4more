@@ -241,3 +241,26 @@ cite {
 .btn + .panel-separator {
   margin-bottom: 2em;
 }
+
+#scroll-top {
+  display:none;
+  background-color: $color-gray-lighter;
+  border-radius: 50%;
+  bottom:50px;
+  color: $color-white;
+  cursor: pointer;
+  height: 60px;
+  margin:0 auto;
+  position:fixed;
+  right:50px;
+  width: 60px;
+  z-index: 100;
+  &:hover {
+    background-color: $color-gray-light;
+  }
+  i {
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+  }
+}

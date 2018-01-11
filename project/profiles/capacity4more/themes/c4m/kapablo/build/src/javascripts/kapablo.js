@@ -410,6 +410,31 @@ var jQuery = jQuery || {};
 
     };
 
+  /**
+   * Scroll to top functionality.
+   *
+   * @type {{attach: Drupal.behaviors.registration.attach}}
+   */
+  Drupal.behaviors.scrollToTop = {
+    attach: function (context, settings) {
+      $(window).scroll(function () {
+        if ($(this).scrollTop() > 50) {
+          $("#scroll-top:hidden").stop(true, true).fadeIn();
+        }
+        else {
+          $("#scroll-top").stop(true, true).fadeOut();
+        }
+      });
+      $(function () {
+          $("#scroll-top").on("click", (function (e) {
+              e.preventDefault();
+              $("html,body").animate({scrollTop: 0}, "2000");
+              return false;
+          }));
+      });
+    }
+  };
+
     /**
      * Automatically focus the registration form on the mail field after page load.
      */
