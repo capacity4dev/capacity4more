@@ -56,6 +56,7 @@ function c4m_comment_form_comment_form_alter(array &$form, array $form_state) {
     return;
   }
 
+  // Add "Post Activity" checkbox.
   $form['post_activity'] = [
     '#type' => 'checkbox',
     '#title' => t('Post Activity'),
@@ -285,7 +286,7 @@ function c4m_comment_user_cancel($edit, $account, $method) {
  * Implements hook_comment_view().
  *
  * When a user is forbidden to take actions on a comment we should display the
- * links only once, hence we remove it from all threads besides the main one.
+ * links only once, hence we remove it from all comments.
  */
 function c4m_comment_comment_view($comment, $view_mode, $langcode) {
   // The comment is not forbidden for actions.
