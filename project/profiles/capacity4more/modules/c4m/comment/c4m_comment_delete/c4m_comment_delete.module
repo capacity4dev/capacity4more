@@ -72,15 +72,23 @@ function c4m_comment_delete_comment_view($comment) {
     return;
   }
 
-  if (!user_access('administer comments')) {
-    if (c4m_comment_delete_access_check($comment->cid)) {
-      $comment->content['links']['comment']['#links'] = array_reverse($comment->content['links']['comment']['#links'], TRUE);
-      $comment->content['links']['comment']['#links']['comment-delete'] = array(
-        'title' => t('delete'),
-        'href'  => "comment/" . $comment->cid . '/delete',
-      );
-    }
+  // Check if the link is already there.
+  if (isset($comment->content['links']['comment']['#links']['comment-delete'])) {
+    return;
   }
+
+  if (!c4m_comment_delete_access_check($comment->cid)) {
+    return;
+  }
+
+  // Prepend the delete link to keep the same order of links as for SA.
+  $delete_link = [
+    'comment-delete' => [
+      'title' => t('delete'),
+      'href' => 'comment/' . $comment->cid . '/delete',
+    ],
+  ];
+  $comment->content['links']['comment']['#links'] = $delete_link + $comment->content['links']['comment']['#links'];
 }
 
 /**
@@ -110,6 +118,10 @@ function c4m_comment_delete_access_check($cid) {
     if ($user->uid == $comment->uid) {
       return TRUE;
     }
+  }
+
+  if (c4m_features_og_members_is_power_user()) {
+    return TRUE;
   }
 
   return FALSE;
