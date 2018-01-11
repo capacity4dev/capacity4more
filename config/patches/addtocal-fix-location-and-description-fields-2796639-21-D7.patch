@@ -1,0 +1,43 @@
+diff --git a/addtocal.module b/addtocal.module
+index de0adf1..da8e09b 100644
+--- a/addtocal.module
++++ b/addtocal.module
+@@ -10,7 +10,7 @@
+ function addtocal_menu() {
+
+   $items = array();
+-
++
+   foreach (addtocal_get_addtocal_entities() as $entity_name => $values) {
+     $items[$entity_name . '/%entity_object/%/%/addtocal.ics'] = array(
+       'load arguments' => array($entity_name),
+@@ -430,14 +430,11 @@ function addtocal_extract_event_info($entity_type, $entity, $entity_id, $field_n
+
+   $timezone = $dates[0]['timezone_db'];
+
+-  if (isset($display['settings']['location_field'])) {
+-    $location = addtocal_field_get_value($entity_type, $entity, $display['settings']['location_field']);
++  if (isset($display['settings']['location']['field'])) {
++    $location = addtocal_field_get_value($entity_type, $entity, $display['settings']['location']);
+   }
+-  if (isset($display['settings']['description_field'])) {
+-    $description = addtocal_field_get_value($entity_type, $entity, $display['settings']['description_field']);
+-    if (strlen($description) > 1024) {
+-      $description = truncate_utf8($description, 1024, TRUE, TRUE);
+-    }
++  if (isset($display['settings']['description']['field'])) {
++    $description = addtocal_field_get_value($entity_type, $entity, $display['settings']['description']);
+   }
+
+   $uri = entity_uri($entity_type, $entity);
+@@ -600,6 +597,10 @@ function addtocal_download_ics($entity, $field_name, $view_mode) {
+   $display = addtocal_get_display($entity, $entity_type, $field_name, $view_mode);
+   $info = addtocal_extract_event_info($entity_type, $entity, $entity_id, $field_name, $display);
+
++  foreach($info as &$i) {
++    $i = str_replace("\n", "\\n", $i);
++  }
++
+   $url = isset($query['url']) ? $query['url'] : '';
+   $description = $info['description'];
+   $location = $info['location'];
