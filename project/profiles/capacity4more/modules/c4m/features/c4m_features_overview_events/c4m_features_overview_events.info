@@ -25,5 +25,4 @@ features[path_breadcrumbs][] = events_upcoming
 features[views_view][] = c4m_events_calendar
 features[views_view][] = c4m_overview_events
 features[views_view][] = c4m_overview_events_landing
-features_exclude[dependencies][c4m_og] = c4m_og
 files[] = views/plugins/c4m_features_overview_events_views_plugin_row.inc

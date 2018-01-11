@@ -263,7 +263,7 @@ function c4m_features_og_events_preprocess_views_view(&$vars) {
     if ($vars['display_id'] == 'page') {
       $url_options = _c4m_features_og_events_get_group_url_options();
       $vars['month_view_url'] = l(
-        t("Switch to month view"),
+        t("Switch to calendar view"),
         url('calendar/month', $url_options),
         ['absolute' => TRUE]
       );
