@@ -235,6 +235,13 @@
       }
     }
     .week-view {
+      .all-day {
+        .c4m-event {
+          .c4m-event--on-hover {
+            top: 0;
+          }
+        }
+      }
       .c4m-event {
         .c4m-event--on-hover {
           font-size: 14px;
