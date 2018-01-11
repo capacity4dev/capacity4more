@@ -10,7 +10,7 @@ projects[currency][subdir] = "contrib"
 projects[currency][version] = "2.6"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.9"
+projects[date][version] = "2.10"
 
 projects[dragndrop_upload][subdir] = "contrib"
 projects[dragndrop_upload][version] = "1.x-dev"
