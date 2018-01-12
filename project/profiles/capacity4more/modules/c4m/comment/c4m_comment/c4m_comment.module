@@ -2,8 +2,10 @@
 
 /**
  * @file
- * Extra functionality for comments.
+ * Code for the Comment feature.
  */
+
+include_once 'c4m_comment.features.inc';
 
 /**
  * Implements hook_module_implements_alter().
