@@ -52,10 +52,13 @@ function c4m_comment_form_node_form_alter(array &$form, array $form_state) {
  * Implements hook_form_BASE_FORM_ID_alter() for comment_form().
  */
 function c4m_comment_form_comment_form_alter(array &$form, array $form_state) {
+  if (isset($form_state['comment']->cid)) {
+    return;
+  }
+
   $form['post_activity'] = [
     '#type' => 'checkbox',
     '#title' => t('Post Activity'),
-    // Default to true only on new content.
     '#default_value' => TRUE,
     '#access' => _c4m_comment_post_activity_access(),
   ];
