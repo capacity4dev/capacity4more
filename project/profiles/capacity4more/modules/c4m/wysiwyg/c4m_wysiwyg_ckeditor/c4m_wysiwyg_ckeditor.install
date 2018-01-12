@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Install file for c4m_wysiwyg_ckeditor module.
+ */
+
+/**
+ * Enable media_ckeditor.
+ */
+function c4m_wysiwyg_ckeditor_update_7001() {
+  module_enable(['media_ckeditor']);
+}
