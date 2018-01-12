@@ -406,15 +406,15 @@ function _c4m_user_notifications_is_node_unpublished($node) {
 /**
  * Check if the entity has explicitly set a flag to skip notifications.
  *
- * @param object $node
- *   The drupal node object.
+ * @param object $entity
+ *   The entity object.
  *
  * @return bool
  *   TRUE if the c4m_send_notification flag is set to FALSE.
  */
-function _c4m_user_notifications_has_skip_notification($node) {
+function _c4m_user_notifications_has_skip_notification($entity) {
   // The node has an explicit flag set to FALSE to prevent notifications.
-  if (isset($node->c4m_send_notification) && !$node->c4m_send_notification) {
+  if (isset($entity->c4m_send_notification) && !$entity->c4m_send_notification) {
     return TRUE;
   }
 

@@ -75,6 +75,13 @@ function c4m_comment_form_comment_form_alter(array &$form, array $form_state) {
       '#access' => _c4m_comment_post_activity_access(),
     ];
 
+    // Add "Send Notification" checkbox.
+    $form['send_notification'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Send Notification'),
+      '#default_value' => TRUE,
+    ];
+
     // Don't display author info.
     $form['author']['#access'] = FALSE;
   }
@@ -93,6 +100,8 @@ function c4m_comment_field_attach_submit($entity_type, $entity, $form, &$form_st
   if ($skip_message) {
     $entity->_skip_message = TRUE;
   }
+
+  $entity->c4m_send_notification = !empty($form_state['values']['send_notification']);
 }
 
 /**

@@ -609,6 +609,10 @@ function _c4m_user_notifications_comment_insert($comment) {
     return;
   }
 
+  if (_c4m_user_notifications_has_skip_notification($comment)) {
+    return;
+  }
+
   $node = node_load($comment->nid);
 
   if (_c4m_user_notifications_is_node_unpublished($node)) {
