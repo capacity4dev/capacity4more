@@ -107,3 +107,10 @@ function c4m_user_notifications_form_c4m_og_reject_membership_request_alter(arra
 function c4m_user_notifications_message_subscribe_get_subscribers($message, $subscribe_options, $context) {
   return _c4m_user_notifications_message_subscribe_get_subscribers($message, $context);
 }
+
+/**
+ * Implements hook_cron_queue_info_alter().
+ */
+function c4m_user_notifications_cron_queue_info_alter(&$queues) {
+  $queues['message_subscribe']['time'] = 90;
+}
