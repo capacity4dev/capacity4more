@@ -576,3 +576,10 @@ function capacity4more_update_7005() {
 function capacity4more_update_7006() {
   _capacity4more_add_lazyloader_settings();
 }
+
+/**
+ * Enable modules for calendar.
+ */
+function capacity4more_update_7007() {
+  module_enable(['addtocal', 'calendar']);
+}

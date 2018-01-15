@@ -3,6 +3,7 @@ description = This module provides the Event content type.
 core = 7.x
 package = capacity4more - Content
 dependencies[] = addressfield
+dependencies[] = addtocal
 dependencies[] = c4m_comment
 dependencies[] = c4m_content_document
 dependencies[] = c4m_content_topic
