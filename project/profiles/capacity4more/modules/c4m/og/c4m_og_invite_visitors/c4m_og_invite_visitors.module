@@ -14,13 +14,13 @@ function c4m_og_invite_visitors_menu() {
   $items = array();
 
   $items['group/%/%/admin/people/overview'] = array(
-    'title' => 'People overview',
+    'title' => 'Manage memberships',
     'weight' => 0,
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
 
   $items['group/%/%/admin/people/invite-visitors'] = array(
-    'title' => 'Invite group members',
+    'title' => 'Invite members',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('_c4m_og_invite_visitors_new_users_form', 2),
     'type' => MENU_LOCAL_TASK,
