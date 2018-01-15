@@ -85,6 +85,25 @@
       content: ' ';
     }
   }
+
+  .addtocal {
+    background: none;
+    border: none;
+    font: normal normal normal 14px/1 FontAwesome;
+    padding-left: 15px;
+    padding-top: 0;
+    &:before {
+      content: "\f133";
+      margin-right: 5px;
+    }
+  }
+  .addtocal_menu {
+    background: $color-white;
+    a:hover {
+      background: none;
+      text-decoration: underline;
+    }
+  }
 }
 
 .event-location {
@@ -99,5 +118,119 @@
     color: $color-text;
     content: "\2022";
     margin: 0 0.5em 0 0.25em;
+  }
+}
+
+// Events overview.
+.events-calendar-tabs{
+  float: right;
+
+  li {
+    float: left;
+    list-style: none;
+    padding: 5px;
+    a::before {
+      content: "\f073";
+      font: normal normal normal 14px/1 FontAwesome;
+      margin-right: 5px;
+    }
+  }
+  .tab-calendar {
+    background: #C5C7C8;
+    color: #000;
+    float: left;
+    margin-left: 10px;
+    margin-top: -18px;
+    padding: 5px;
+    a {
+      color: $color-black;
+    }
+    span {
+      font-size: 10px;
+      font-weight: bold;
+      float: left;
+      text-transform: uppercase;
+      width: 100%;
+    }
+  }
+}
+
+.view-c4m-events-calendar {
+  .view-header {
+    padding-bottom: 0;
+    .date-nav-wrapper {
+      float: left;
+      margin-bottom: 0;
+      padding-bottom: 0;
+
+      .date-heading {
+        display: block;
+      }
+      .pager {
+        display: none;
+      }
+    }
+  }
+
+  .date-heading {
+    display: none;
+  }
+  .date-nav-wrapper ul.pager {
+    list-style: none;
+
+    li {
+      background: none;
+      border-radius: 0;
+      color: $link-color;
+    }
+
+    .date-prev {
+      left: 0;
+      position: absolute;
+      right: auto;
+    }
+  }
+
+  .calendar-calendar {
+    #header-container {
+      background: $color-black;
+    }
+    th, tr.holder {
+      background: $color-black;
+      border: none;
+      color: $color-white;
+      font-family: initial;
+      font-size: 12px;
+      font-weight: initial;
+      padding: 5px;
+      text-transform: uppercase;
+    }
+
+    .full tr td.today {
+      background: #fde7c4;
+      border: none;
+    }
+
+    #multi-day-container tr {
+      background: $well-bg;
+    }
+
+    td {
+      color: $color-black;
+      a {
+        color: $color-white;
+      }
+    }
+    .month-view {
+      td {
+        span {
+          color: $color-white;
+        }
+      }
+    }
+
+    .header-body-divider {
+      display: none;
+    }
   }
 }
