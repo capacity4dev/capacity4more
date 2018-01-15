@@ -89,6 +89,9 @@ projects[node_gallery][version] = "1.1"
 projects[node_gallery][patch][] = https://www.drupal.org/files/issues/node_gallery-entity-delete-exception-2006772-1.patch
 projects[node_gallery][patch][] = "../patches/node-gallery-unpublished-frontend.patch"
 
+projects[queue_ui][subdir] = "contrib"
+projects[queue_ui][version] = "2.x-dev"
+
 projects[restful][download][type] = "git"
 projects[restful][download][url] = "https://github.com/Gizra/restful.git"
 projects[restful][download][branch] = 7.x-1.x
