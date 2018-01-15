@@ -95,6 +95,18 @@ function c4m_content_share_form($form, &$form_state) {
   // Re-assign groups options list.
   $orig_form['og_group_ref'][LANGUAGE_NONE][0]['default']['#options'] = $groups;
 
+  // Change the autocomplete path.
+  $orig_form['og_group_ref'][LANGUAGE_NONE][0]['admin'][0]['target_id']['#autocomplete_path'] = url(
+    'node/' . $og_context['gid'] . '/c4m-autocomplete-share-groups/' . $node->nid,
+    array(
+      'absolute' => TRUE,
+      'purl' => array(
+        'provider' => 'og_purl|node',
+        'id' => $og_context['gid'],
+      ),
+    )
+  );
+
   // Create form element based on the original form['og_group_ref'].
   $form['og_group_ref'] = $orig_form['og_group_ref'];
   $form['og_group_ref'][LANGUAGE_NONE]['#title'] = t('Share to');
@@ -181,6 +193,7 @@ function c4m_content_share_form_validate($form, &$form_state) {
  */
 function c4m_content_share_form_submit($form, &$form_state) {
   $values = $form_state['values'];
+  $inputs = $form_state['input'];
 
   $node = new stdClass();
   $node->title = $values['title'];
@@ -205,6 +218,16 @@ function c4m_content_share_form_submit($form, &$form_state) {
    */
 
   $node_wrapper = entity_metadata_wrapper('node', $node);
+
+  // Use the admin field if none was selected in the default reference field.
+  if ($values['og_group_ref'] == '_none') {
+    if (!empty($inputs['og_group_ref'][LANGUAGE_NONE][0]['admin'][0]['target_id'])) {
+      $admin_group_ref = $inputs['og_group_ref'][LANGUAGE_NONE][0]['admin'][0]['target_id'];
+      if (preg_match("/.+\((\d+)\)/", $admin_group_ref, $matches)) {
+        $values['og_group_ref'] = $matches[1];
+      }
+    }
+  }
 
   $node_wrapper->og_group_ref->set($values['og_group_ref']);
   $node_wrapper->c4m_source_entity->set($values['c4m_source_entity']);
