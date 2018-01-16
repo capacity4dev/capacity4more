@@ -113,6 +113,8 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
     }
   }
 
+  ksort($users);
+
   _c4m_user_notifications_update_message_unique_recipients($message->mid, $previous_recipients, $users);
 
   return $users;
