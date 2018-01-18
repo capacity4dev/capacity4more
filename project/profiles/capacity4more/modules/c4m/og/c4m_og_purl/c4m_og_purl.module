@@ -629,7 +629,7 @@ function c4m_og_purl_node_update($node) {
     return;
   }
 
-  if (!isset($node->purl) || !isset($node->original->purl)) {
+  if (!isset($node->purl) || !isset($node->original->purl) || !isset($node->purl['value'])) {
     return;
   }
 
