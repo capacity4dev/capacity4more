@@ -416,23 +416,25 @@ var jQuery = jQuery || {};
    * @type {{attach: Drupal.behaviors.registration.attach}}
    */
   Drupal.behaviors.scrollToTop = {
-    attach: function (context, settings) {
-      $(window).scroll(function () {
-        if ($(this).scrollTop() > 50) {
-          $("#scroll-top:hidden").stop(true, true).fadeIn();
-        }
-        else {
-          $("#scroll-top").stop(true, true).fadeOut();
-        }
-      });
-      $(function () {
-          $("#scroll-top").on("click", (function (e) {
-              e.preventDefault();
-              $("html,body").animate({scrollTop: 0}, "2000");
-              return false;
+      attach: function (context, settings) {
+          var windowHeight = window.innerHeight;
+
+          $('.container--push .page-content').add(window).on('scroll', (function () {
+              if ($(this).scrollTop() > windowHeight / 2) {
+                  $("#scroll-top:hidden").stop(true, true).fadeIn();
+              }
+              else {
+                  $("#scroll-top").stop(true, true).fadeOut();
+              }
           }));
-      });
-    }
+          $(function () {
+              $("#scroll-top").on("click", (function (e) {
+                  e.preventDefault();
+                  $("html, body, .container--push .page-content").animate({scrollTop: 0}, "2000");
+                  return false;
+              }));
+          });
+      }
   };
 
     /**
