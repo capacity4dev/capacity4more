@@ -16,6 +16,14 @@ function c4m_message_schema() {
   return $schema;
 }
 
+function c4m_message_install() {
+  c4m_message_update_7001();
+  c4m_message_update_7002();
+  c4m_message_update_7003();
+  c4m_message_update_7004();
+  c4m_message_update_7005();
+}
+
 /**
  * Implements hook_update_N().
  *
