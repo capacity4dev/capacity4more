@@ -1,23 +1,24 @@
 diff --git a/message_subscribe.module b/message_subscribe.module
-index f17b494..a994117 100755
+index f17b494..f51219a 100755
 --- a/message_subscribe.module
 +++ b/message_subscribe.module
-@@ -106,6 +106,7 @@ function message_subscribe_send_message($entity_type, $entity, Message $message,
-     $context = $context ? $context : message_subscribe_get_basic_context($entity_type, $entity, $subscribe_options, $context);
- 
-     $subscribe_options['skip context'] = TRUE;
-+    $subscribe_options['uids'] = message_subscribe_get_subscribers($entity_type, $entity, $message, $subscribe_options, $context);
- 
-     // Add item to the queue.
-     $task = array(
-@@ -258,9 +259,11 @@ function message_subscribe_get_subscribers($entity_type, $entity, Message $messa
-     }
+@@ -147,6 +147,10 @@ function message_subscribe_send_message($entity_type, $entity, Message $message,
+     return $message;
    }
  
--  // See if the author of the entity gets notified.
++  if ($message->type === 'c4m_notify_subscribe_content_of_interest') {
++    $message->field_taxonomy_term[LANGUAGE_NONE][0]['target_id'] = $id;
++  }
++
+   foreach ($uids as $uid => $values) {
+     $last_uid = $uid;
+     // Clone the message in case it will need to be saved, it won't
+@@ -259,8 +263,10 @@ function message_subscribe_get_subscribers($entity_type, $entity, Message $messa
+   }
+ 
+   // See if the author of the entity gets notified.
 -  if (!$notify_message_owner && array_key_exists ($entity->uid , $uids)) {
 -    unset($uids[$entity->uid]);
-+    // See if the author of the entity gets notified.
 +  if (!empty($entity->uid)) {
 +    if (!$notify_message_owner && array_key_exists ($entity->uid , $uids)) {
 +      unset($uids[$entity->uid]);
