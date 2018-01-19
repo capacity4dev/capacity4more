@@ -95,7 +95,8 @@ function _c4m_message_get_messages_subscribe_notifies() {
   // SUBSCRIPTION :: MT53 :: Group Content Shared.
   $messages[] = _c4m_message_get_messages_mt53();
 
-  // SUBSCRIPTION :: MT51 :: Your Content Edited by Admin (to original author/editors).
+  // SUBSCRIPTION :: MT51 :: Your Content Edited by Admin (to original
+  // content author/editors).
   $messages[] = _c4m_message_get_messages_mt51();
 
   // SUBSCRIPTION :: MT54 :: Content Published about Term of Interest.
