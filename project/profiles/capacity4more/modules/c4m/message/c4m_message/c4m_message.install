@@ -16,6 +16,9 @@ function c4m_message_schema() {
   return $schema;
 }
 
+/**
+ * Implements hook_install().
+ */
 function c4m_message_install() {
   c4m_message_update_7001();
   c4m_message_update_7002();
