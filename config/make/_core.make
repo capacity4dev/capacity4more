@@ -35,3 +35,6 @@ projects[drupal][patch][] = "https://www.drupal.org/files/order-weighted-terms-9
 
 ; Allows multiple error messages per form element.
 projects[drupal][patch][] = "https://www.drupal.org/files/issues/form.inc-549020-7.x.patch"
+
+; Error with mime mails with subjects > 46 characters.
+projects[drupal][patch][] = "../patches/300387-18-mime-encode-clutter.patch"
