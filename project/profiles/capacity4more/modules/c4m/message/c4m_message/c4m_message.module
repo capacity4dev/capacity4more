@@ -3932,6 +3932,10 @@ function c4m_message_get_activities(array $request) {
  * marked as permanent so they may not get deleted.
  */
 function _c4m_message_clear_activity_stream_cache() {
+  if (!db_table_exists('cache_activity_stream')) {
+    return;
+  }
+
   db_truncate('cache_activity_stream')->execute();
 }
 
