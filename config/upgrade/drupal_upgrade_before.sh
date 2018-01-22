@@ -1,2 +1,2 @@
 # Revert all features
-drupal_drush -y fra
+drupal_drush -y fra --force

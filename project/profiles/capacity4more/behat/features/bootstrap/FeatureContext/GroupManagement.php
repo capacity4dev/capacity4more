@@ -70,7 +70,6 @@ trait GroupManagement {
     $steps = array();
 
     $steps[] = new Step\When('I should see "Group status"');
-    $steps[] = new Step\When('I should see the link "Archive group"');
     $steps[] = new Step\When('I should see "Thumbnail image"');
 
     return $steps;

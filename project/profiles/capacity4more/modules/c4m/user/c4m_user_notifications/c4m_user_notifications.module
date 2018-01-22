@@ -114,3 +114,41 @@ function c4m_user_notifications_message_subscribe_get_subscribers($message, $sub
 function c4m_user_notifications_cron_queue_info_alter(&$queues) {
   $queues['message_subscribe']['time'] = 90;
 }
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function c4m_user_notifications_cron_queue_info() {
+  $queues = [];
+  $queues['c4m_user_notifications'] = [
+    'worker callback' => 'c4m_user_notifications_queue_dispatch_message',
+    'time' => 45,
+  ];
+
+  return $queues;
+}
+
+/**
+ * Gets parameters, retrieves recipients and creates the subscribe message.
+ *
+ * @param array $data
+ *   Data array containing all the message parameters.
+ *
+ * @throws \Exception
+ */
+function c4m_user_notifications_queue_dispatch_message(array $data) {
+  // Initialize variables we are about to overwrite via the extract.
+  $entity_type = '';
+  $entity = NULL;
+  $message = NULL;
+  $notify_options = [];
+  $subscribe_options = [];
+  $context = [];
+
+  extract($data, EXTR_OVERWRITE);
+
+  // Time intensive functionality, this is the reason we do this via a queue.
+  $subscribe_options['uids'] = message_subscribe_get_subscribers($entity_type, $entity, $message, $subscribe_options, $context);
+
+  message_subscribe_send_message($entity_type, $entity, $message, $notify_options, $subscribe_options, $context);
+}

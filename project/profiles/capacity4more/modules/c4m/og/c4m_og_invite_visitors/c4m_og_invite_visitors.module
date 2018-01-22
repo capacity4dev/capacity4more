@@ -12,8 +12,15 @@
  */
 function c4m_og_invite_visitors_menu() {
   $items = array();
+
+  $items['group/%/%/admin/people/overview'] = array(
+    'title' => 'Manage memberships',
+    'weight' => 0,
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+
   $items['group/%/%/admin/people/invite-visitors'] = array(
-    'title' => 'Invite group members',
+    'title' => 'Invite members',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('_c4m_og_invite_visitors_new_users_form', 2),
     'type' => MENU_LOCAL_TASK,
@@ -195,7 +202,7 @@ function c4m_og_invite_visitors_og_ui_get_group_admin($group_type, $gid) {
   $items = array();
   if (og_user_access($group_type, $gid, 'invite visitors')) {
     $items['c4m_og_invite_visitors'] = array(
-      'title' => t('Invite group members'),
+      'title' => t('Invite members'),
       'description' => t('Invite users or create new users and add them as group members.'),
       'href' => 'admin/people/invite-visitors',
     );
