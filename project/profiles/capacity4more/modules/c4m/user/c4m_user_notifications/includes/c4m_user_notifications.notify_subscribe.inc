@@ -50,7 +50,71 @@ function _c4m_user_notifications_notify_subscribe_commenter_new_comment($comment
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
 
   // Message will be saved in message_subscribe_send_message().
-  message_subscribe_send_message('node', $node, $wrapper->value(), [], $subscribe_options, $context);
+  _c4m_user_notifications_subscribe_send_message('node', $node, $wrapper->value(), [], $subscribe_options, $context);
+}
+
+/**
+ * Takes parameters message_subscribe expects and creates a queue task for it.
+ *
+ * @param string $entity_type
+ *   The entity type.
+ * @param object $entity
+ *   The entity object.
+ * @param object $message
+ *   The Message object.
+ * @param array $notify_options
+ *   Optional; Array of options to pass to message_notify_send_message()
+ *   keyed by the notifier name.
+ * @param array $subscribe_options
+ *   Optional; Array with the following optional values:
+ *   - "save message": Determine if the Message should be saved. Defaults
+ *     to TRUE.
+ *   - "skip context": Determine if extracting basic context should be
+ *     skipped in message_subscribe_get_subscribers(). Defaults to FALSE.
+ *   - "last uid": The last user ID to query.
+ *   - "uids": Array of user IDs to be processed. Setting this, will cause
+ *     skipping message_subscribe_get_subscribers() to get the subscribed
+ *     users. For example:
+ *     $subscribe_options['uids'] = array(
+ *       1 => array(
+ *        'notifiers' => array('email'),
+ *       ),
+ *     );
+ *   - "range": The number of items to fetch in the query.
+ *   - "end time": The timestamp of the time limit for the function to
+ *     execute. Defaults to FALSE, meaning there is no time limitation.
+ *   - "use queue": Determine if queue API should be used to
+ *   - "queue": Set to TRUE to indicate the processing is done via a queue
+ *     worker. see message_subscribe_queue_worker().
+ *   - "entity access": Determine if access to view the entity should be applied
+ *     when getting the list of subscribed users. Defaults to TRUE.
+ *   - "notify blocked users": Determine whether blocked users
+ *      should be notified. Typically this should be used in conjunction with
+ *      "entity access" to ensure that blocked users don't receive notifications
+ *      about entities which they used to have access to
+ *      before they were blocked. Defaults to FALSE.
+ *   - "notify message owner": Determines if the user that created the entity
+ *      gets notified of their own action. If TRUE the author will get notified.
+ *      Defaults to FALSE.
+ * @param array $context
+ *   Optional; Array keyed with the entity type and array of entity IDs as
+ *   the value. For example, if the event is related to a node
+ *   entity, the implementing module might pass along with the node
+ *   itself, the node author and related taxonomy terms.
+ */
+function _c4m_user_notifications_subscribe_send_message($entity_type, $entity, $message, array $notify_options, array $subscribe_options, array $context) {
+  $queue = DrupalQueue::get('c4m_user_notifications');
+
+  $task = [
+    'entity_type' => $entity_type,
+    'entity' => $entity,
+    'message' => $message,
+    'notify_options' => $notify_options,
+    'subscribe_options' => $subscribe_options,
+    'context' => $context,
+  ];
+
+  $queue->createItem($task);
 }
 
 /**
@@ -98,7 +162,7 @@ function _c4m_user_notifications_notify_subscribe_follower_new_comment($comment)
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
 
   // Message will be saved in message_subscribe_send_message().
-  message_subscribe_send_message('node', $node, $wrapper->value(), [], $subscribe_options, $context);
+  _c4m_user_notifications_subscribe_send_message('node', $node, $wrapper->value(), [], $subscribe_options, $context);
 }
 
 /**
@@ -133,7 +197,7 @@ function _c4m_user_notifications_notify_subscribe_follower_new_recommend($nid) {
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
 
   // Message will be saved in message_subscribe_send_message().
-  message_subscribe_send_message('node', $node, $wrapper->value(), [], $subscribe_options, $context);
+  _c4m_user_notifications_subscribe_send_message('node', $node, $wrapper->value(), [], $subscribe_options, $context);
 }
 
 /**
@@ -215,7 +279,7 @@ function _c4m_user_notifications_notify_subscribe_group_content($node, $action, 
     $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
   }
   // Message will be saved in message_subscribe_send_message().
-  message_subscribe_send_message('node', $node, $wrapper->value(), [], $subscribe_options, $context);
+  _c4m_user_notifications_subscribe_send_message('node', $node, $wrapper->value(), [], $subscribe_options, $context);
 }
 
 /**
@@ -314,7 +378,7 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest_for_vocabu
       $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
     }
     // Message will be saved in message_subscribe_send_message().
-    message_subscribe_send_message('taxonomy_term', $term, $wrapper->value(), [], $subscribe_options, $context);
+    _c4m_user_notifications_subscribe_send_message('taxonomy_term', $term, $wrapper->value(), [], $subscribe_options, $context);
   }
 }
 
@@ -391,5 +455,5 @@ function _c4m_user_notifications_notify_subscribe_content_revision($node, $users
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
 
   // Message will be saved in message_subscribe_send_message().
-  message_subscribe_send_message('node', $node, $message_wrapper->value(), [], $subscribe_options, $context);
+  _c4m_user_notifications_subscribe_send_message('node', $node, $message_wrapper->value(), [], $subscribe_options, $context);
 }

@@ -250,6 +250,40 @@ function c4m_content_share_node_view($node, $view_mode, $langcode) {
 }
 
 /**
+ * Implements hook_node_delete().
+ */
+function c4m_content_share_node_delete($node) {
+  // If a source/target group is deleted, the content within is deleted as well,
+  // therefore these nodes will end up in the if cause below anyway.
+  // If a source node is deleted, delete all messages/shares.
+  if ($targets = _c4m_content_share_get_shared_targets($node)) {
+    node_delete_multiple(array_keys($targets));
+  }
+}
+
+/**
+ * Get all the shares for a node (if any).
+ *
+ * @param object $node
+ *   Drupal node entity object.
+ *
+ * @return array
+ *   Result set or empty array if no shares found.
+ */
+function _c4m_content_share_get_shared_targets($node) {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->fieldCondition('c4m_source_entity', 'target_id', $node->nid, '=');
+
+  $result = $query->execute();
+  if (isset($result['node'])) {
+    return $result['node'];
+  }
+
+  return [];
+}
+
+/**
  * Access callback checks if the current user is group member.
  *
  * @return void|bool

@@ -583,3 +583,10 @@ function capacity4more_update_7006() {
 function capacity4more_update_7007() {
   module_enable(['addtocal', 'calendar']);
 }
+
+/**
+ * Enable modules for queue_ui.
+ */
+function capacity4more_update_7008() {
+  module_enable(['queue_ui']);
+}

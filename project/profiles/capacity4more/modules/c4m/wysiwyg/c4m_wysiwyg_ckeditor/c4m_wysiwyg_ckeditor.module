@@ -187,7 +187,8 @@ function _c4m_wysiwyg_ckeditor_iframe_cck_filter_process(
   }
   // Load the text into a dom object.
   $dom = new DOMDocument();
-  $dom->loadHTML($text);
+  $dom->loadHTML(mb_convert_encoding($text, 'HTML-ENTITIES', 'UTF-8'));
+
   $services = _c4m_wysiwyg_ckeditor_ckeditor_iframes_with_cookies();
   $services_replaced = [];
 
