@@ -62,6 +62,74 @@ function c4m_message_entity_update($entity, $entity_type) {
 }
 
 /**
+ * Formats the default from field as "capacity4dev <site_mail>".
+ *
+ * @param object $message
+ *   Drupal Message entity object.
+ */
+function _c4m_message_format_from_website($message) {
+  _c4m_message_format_from_field_to_simple_pattern($message, FALSE);
+}
+
+/**
+ * Formats the from field as "The capacity4dev team <site_mail>".
+ *
+ * @param object $message
+ *   Drupal Message entity object.
+ */
+function _c4m_message_format_from_the_team($message) {
+  $message_entity = $message['params']['message_entity'];
+
+  $valid_message_types = [
+    'c4m_group_request_approved' => TRUE,
+    'c4m_group_request_submitted' => TRUE,
+    'c4m_new_member_joined' => TRUE,
+    'c4m_new_membership_request' => TRUE,
+  ];
+
+  if (!empty($valid_message_types[$message_entity->type])) {
+    _c4m_message_format_from_field_to_simple_pattern($message, TRUE);
+  }
+}
+
+/**
+ * Formats the from field as "Firstname Lastname <site_mail>".
+ *
+ * @param object $message
+ *   Drupal Message entity object.
+ */
+function _c4m_message_format_from_user_first_last($message) {
+  $message_entity = $message['params']['message_entity'];
+
+  $valid_message_types = [
+    'c4m_notify_admins_membership_approved' => TRUE,
+    'c4m_group_published' => TRUE,
+    'c4m_group_archived' => TRUE,
+    'c4m_group_access_change' => TRUE,
+    'c4m_group_unpublished' => TRUE,
+    'c4m_group_republished' => TRUE,
+    'c4m_group_admin_demoted' => TRUE,
+    'c4m_notify_content_recommendation' => TRUE,
+    'c4m_new_content_published' => TRUE,
+    'c4m_group_content_updated' => TRUE,
+    'c4m_notify_editors_group_content_updated' => TRUE,
+    'c4m_notify_subscribers_new_comment' => TRUE,
+    'c4m_group_hard_deleted' => TRUE,
+    'c4m_group_soft_deleted' => TRUE,
+    'c4m_notify_promoted_member' => TRUE,
+    'c4m_notify_content_followers_new_comment' => TRUE,
+    'c4m_membership_request_rejected' => TRUE,
+    'c4m_welcome_to_group' => TRUE,
+    'c4m_new_content_share_published' => TRUE,
+    'c4m_notify_subscribe_content_of_interest' => TRUE,
+  ];
+
+  if (!empty($valid_message_types[$message_entity->type])) {
+    _c4m_message_format_from_field_to_default_pattern($message);
+  }
+}
+
+/**
  * Implements hook_mail_alter().
  *
  * Adds ability to alter message fields per message type.
@@ -74,502 +142,18 @@ function c4m_message_mail_alter(&$message) {
     // There's no message entity inside - return early.
     return;
   }
-  $message_entity = $message['params']['message_entity'];
 
-  _c4m_message_format_welcome_to_group_from_field($message, $message_entity);
-  _c4m_message_format_new_member_joined_from_field($message, $message_entity);
-  _c4m_message_format_new_membership_request_from_field(
-    $message,
-    $message_entity
-  );
-  _c4m_message_format_group_archived_from_field($message, $message_entity);
-  _c4m_message_format_group_unpublished_from_field($message, $message_entity);
-  _c4m_message_format_group_published_from_field($message, $message_entity);
-  _c4m_message_format_group_republished_from_field($message, $message_entity);
-  _c4m_message_format_notify_admins_membership_approved_from_field(
-    $message,
-    $message_entity
-  );
-  _c4m_message_format_admin_demoted_from_field($message, $message_entity);
-  _c4m_message_format_notify_content_recommendation_from_field(
-    $message,
-    $message_entity
-  );
-  _c4m_message_format_group_requested_from_field($message, $message_entity);
-  _c4m_message_format_notify_subscribers_new_comment_from_field(
-    $message,
-    $message_entity
-  );
-  _c4m_message_format_group_access_change_from_field($message, $message_entity);
-  _c4m_message_format_new_content_published_from_field(
-    $message,
-    $message_entity
-  );
-  _c4m_message_format_group_content_updated_from_field(
-    $message,
-    $message_entity
-  );
-  _c4m_message_format_notify_editors_group_content_updated_from_field(
-    $message,
-    $message_entity
-  );
-  _c4m_message_format_notify_promoted_member_from_field(
-    $message,
-    $message_entity
-  );
-  _c4m_message_format_notify_content_followers_new_comment_from_field(
-    $message,
-    $message_entity
-  );
-  _c4m_message_format_group_request_submitted_from_field(
-    $message,
-    $message_entity
-  );
-  _c4m_message_format_group_soft_deleted_from_field($message, $message_entity);
-  _c4m_message_format_membership_request_rejected_from_field(
-    $message,
-    $message_entity
-  );
-  _c4m_message_format_group_request_approved_from_field(
-    $message,
-    $message_entity
-  );
-  _c4m_message_format_notify_user_membership_pending_from_field(
-    $message,
-    $message_entity
-  );
+  // Default from form: $message['from'] = "capacity4dev <site_mail>".
+  _c4m_message_format_from_website($message);
+
+  // Exception: $message['from'] = "The capacity4dev team <site_mail>".
+  _c4m_message_format_from_the_team($message);
+
+  // Exception: $message['from'] = "Firstname Lastname <site_mail>".
+  _c4m_message_format_from_user_first_last($message);
 }
 
 /**
- * Helper function.
- *
- * Formats 'c4m_group_request_approved' message From field, per MT12 template.
- */
-function _c4m_message_format_group_request_approved_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_group_request_approved') {
-    // For message type other than c4m_group_archived - return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_simple_pattern($message, TRUE);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_notify_user_membership_pending' message From field,
- * per MT48 template.
- */
-function _c4m_message_format_notify_user_membership_pending_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_notify_user_membership_pending') {
-    // For message type other than c4m_group_archived - return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_simple_pattern($message);
-}
-
-/**
- * Formats 'c4m_welcome_to_group' message From field, per MT10 template.
- */
-function _c4m_message_format_welcome_to_group_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_welcome_to_group') {
-    // For message type other than c4m_welcome_to_group - return early.
-    return;
-  }
-
-  // Set the 'From' format.
-  $wrapper = entity_metadata_wrapper('message', $message_entity);
-  $author = $wrapper->field_group_node->author->value();
-
-  $message['from'] = format_string(
-    '"@name at @site"<@mail>',
-    [
-      '@name' => c4m_user_name($author),
-      '@site' => variable_get('site_name'),
-      '@mail' => variable_get('site_mail'),
-    ]
-  );
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_notify_admins_membership_approved' message From field,
- * as defined at template MT40.
- */
-function _c4m_message_format_notify_admins_membership_approved_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_notify_admins_membership_approved') {
-    // For message type other than c4m_notify_admins_membership_approved -
-    // return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_group_published' message From field, per MT28 template.
- */
-function _c4m_message_format_group_published_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_group_published') {
-    // For message type other than c4m_group_published - return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_new_membership_request' message From field, per MT15 template.
- */
-function _c4m_message_format_new_membership_request_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_new_membership_request') {
-    // For message type other than c4m_new_membership_request - return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_simple_pattern($message, TRUE);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_new_member_joined' message From field, per requirement.
- */
-function _c4m_message_format_new_member_joined_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_new_member_joined') {
-    // For message type other than c4m_new_member_joined - return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_simple_pattern($message, TRUE);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_group_archived' message From field, per MT30 template.
- */
-function _c4m_message_format_group_archived_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_group_archived') {
-    // For message type other than c4m_group_archived - return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_group_access_change' message From field, per MT34 template.
- */
-function _c4m_message_format_group_access_change_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_group_access_change') {
-    // For message type other than c4m_group_access_change - return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_group_unpublished' message From field, per MT29 template.
- */
-function _c4m_message_format_group_unpublished_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_group_unpublished') {
-    // For message type other than c4m_group_unpublished - return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_group_republished' message From field, per MT31 template.
- */
-function _c4m_message_format_group_republished_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_group_republished') {
-    // For message type other than c4m_group_republished - return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
-}
-
-/**
- * Formats 'c4m_group_admin_demoted' message From field, per MT36 template.
- */
-function _c4m_message_format_admin_demoted_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_group_admin_demoted') {
-    // For message type other than c4m_group_admin_demoted - return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_notify_content_recommendation' message From field, per MT23.
- */
-function _c4m_message_format_notify_content_recommendation_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_notify_content_recommendation') {
-    // For message type other than c4m_notify_content_recommendation,
-    // return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_new_content_published' message From field, per MT25.
- */
-function _c4m_message_format_new_content_published_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_new_content_published') {
-    // For message type other than c4m_new_content_published,
-    // return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_group_content_updated' message From field, per MT25.
- */
-function _c4m_message_format_group_content_updated_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_group_content_updated') {
-    // For message type other than c4m_new_content_published,
-    // return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_notify_editors_group_content_updated' message From field,
- * per MT51.
- */
-function _c4m_message_format_notify_editors_group_content_updated_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_notify_editors_group_content_updated') {
-    // For message type other than c4m_new_content_published,
-    // return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_group_requested' message From field, per MT49 template.
- */
-function _c4m_message_format_group_requested_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_group_requested') {
-    // For message type other than c4m_group_requested - return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_simple_pattern($message);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_group_request_submitted' message From field, per MT10 template.
- */
-function _c4m_message_format_group_request_submitted_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_group_request_submitted') {
-    // For message type other than c4m_group_request_submitted - return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_simple_pattern($message, TRUE);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_notify_subscribers_new_comment' message From field, per MT22.
- */
-function _c4m_message_format_notify_subscribers_new_comment_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_notify_subscribers_new_comment') {
-    // For message type other than c4m_notify_content_recommendation,
-    // return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_group_soft_deleted' message From field, per MT32 template.
- */
-function _c4m_message_format_group_soft_deleted_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_group_soft_deleted') {
-    // For message type other than c4m_group_soft_deleted - return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_notify_promoted_member' message From field, per MT35 template.
- */
-function _c4m_message_format_notify_promoted_member_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_notify_promoted_member') {
-    // For message type other than c4m_notify_promoted_member - return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_notify_content_followers_new_comment' From field, per MT26.
- */
-function _c4m_message_format_notify_content_followers_new_comment_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_notify_content_followers_new_comment') {
-    // For message type other than c4m_notify_content_recommendation,
-    // return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
-}
-
-/**
- * Helper function.
- *
- * Formats 'c4m_membership_request_rejected' From field, per MT17.
- */
-function _c4m_message_format_membership_request_rejected_from_field(
-  &$message,
-  $message_entity
-) {
-  if ($message_entity->type != 'c4m_membership_request_rejected') {
-    // For message type other than c4m_membership_request_rejected,
-    // return early.
-    return;
-  }
-
-  _c4m_message_format_from_field_to_default_pattern($message, $message_entity);
-}
-
-/**
- * Helper function.
- *
- * Formats 'group change state' messages From field, per template requirement.
- */
-function _c4m_message_format_group_status_update_set_from_field(&$message) {
-  global $user;
-
-  $message['from'] = format_string(
-    '"@name at @site"<@mail>',
-    [
-      '@name' => c4m_user_name($user),
-      '@site' => variable_get('site_name'),
-      '@mail' => variable_get('site_mail'),
-    ]
-  );
-}
-
-/**
- * Helper function.
- *
  * Modifies messages 'From' field to the default pattern.
  *
  * @param object $message
@@ -609,7 +193,7 @@ function c4m_message_get_from_field_default_pattern($account = NULL) {
     [
       '@name' => c4m_user_name($account),
       '@site' => variable_get('site_name'),
-      '@mail' => $account->mail,
+      '@mail' => variable_get('site_mail'),
     ]
   );
 }
@@ -625,23 +209,17 @@ function c4m_message_get_from_field_default_pattern($account = NULL) {
  * @param bool $add_team
  *   Whether to add 'team' into [name], or not.
  */
-function _c4m_message_format_from_field_to_simple_pattern(
-  &$message,
-  $add_team = FALSE
-) {
+function _c4m_message_format_from_field_to_simple_pattern(&$message, $add_team = FALSE) {
   $name = variable_get('site_name');
 
   if ($add_team) {
     $name = 'The ' . $name . ' team';
   }
 
-  $message['from'] = format_string(
-    '"@name"<@mail>',
-    [
-      '@name' => $name,
-      '@mail' => variable_get('site_mail'),
-    ]
-  );
+  $message['from'] = format_string('"@name"<@mail>', [
+    '@name' => $name,
+    '@mail' => variable_get('site_mail'),
+  ]);
 }
 
 /**
