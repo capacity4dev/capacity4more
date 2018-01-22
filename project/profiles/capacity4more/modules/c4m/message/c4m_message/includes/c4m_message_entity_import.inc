@@ -718,7 +718,7 @@ function _c4m_message_get_messages_mt32() {
   return '
   {
   "name" : "c4m_group_soft_deleted",
-  "description" : "NOTIFY :: MT31 :: Group Soft-Deleted",
+  "description" : "NOTIFY :: MT32 :: Group Soft-Deleted",
   "argument_keys" : [],
   "argument" : [],
   "category" : "message_type",
