@@ -48,6 +48,10 @@ function c4m_content_share_menu() {
  */
 function _c4m_content_share_groups_autocomplete_callback($node_id, $string = '') {
   $matches = [];
+  $current_group = og_context();
+  if (empty($current_group['gid'])) {
+    return;
+  }
 
   $field = field_info_field('og_group_ref');
   $instance = field_info_instance('node', 'og_group_ref', 'share');
@@ -67,7 +71,9 @@ function _c4m_content_share_groups_autocomplete_callback($node_id, $string = '')
     }
 
     foreach ($groups as $group_id => $group_label) {
-      $matches[$group_label . ' (' . $group_id . ')'] = '<div class="reference-autocomplete">' . $group_label . '</div>';
+      if ($group_id != $current_group['gid']) {
+        $matches[$group_label . ' (' . $group_id . ')'] = '<div class="reference-autocomplete">' . $group_label . '</div>';
+      }
     }
   }
 
