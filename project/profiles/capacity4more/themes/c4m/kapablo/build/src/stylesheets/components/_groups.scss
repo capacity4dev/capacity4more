@@ -430,6 +430,17 @@
             display: inline-block;
             width: 20px;
           }
+          &.see-more {
+            a {
+              color: $color-link;
+            }
+            i {
+              color: $color-link;
+              font-size: 17px;
+              font-weight: bold;
+              padding-left: 5px;
+            }
+          }
         }
       }
     }

@@ -23,9 +23,9 @@ function c4m_features_og_manage_group_status_content_type_render($subtype, $conf
   $block->module = 'c4m_features_og_manage';
   $block->title = '';
 
-  $group_status_and_thumbnail = c4m_features_og_manage_group_status_and_thumbnail();
+  $group_status_statistics_and_thumbnail = c4m_features_og_manage_group_status_statistics_and_thumbnail();
 
-  $block->content = theme('c4m_features_og_manage_group_status', array('info' => $group_status_and_thumbnail));
+  $block->content = theme('c4m_features_og_manage_group_status', array('info' => $group_status_statistics_and_thumbnail));
 
   return $block;
 }
