@@ -1091,7 +1091,6 @@ function _c4m_og_export_members_form_submit($form, &$form_state) {
     ->execute()
     ->fetchAll();
 
-
   if (empty($members)) {
     return;
   }
