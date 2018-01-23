@@ -936,9 +936,7 @@ function c4m_user_user_default_permissions() {
   // Exported permission: 'customize ckeditor'.
   $permissions['customize ckeditor'] = array(
     'name' => 'customize ckeditor',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
+    'roles' => array(),
     'module' => 'ckeditor',
   );
 
