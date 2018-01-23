@@ -1018,6 +1018,7 @@ function _c4m_og_export_content_form_submit($form, &$form_state) {
     ->fetchAll();
 
   if (empty($content)) {
+    drupal_set_message("There was no content added/updated between " . $values['start_date'] . " and " . $values['start_date'] . ".");
     return;
   }
 
@@ -1084,14 +1085,15 @@ function _c4m_og_export_members_form_submit($form, &$form_state) {
   $query->groupBy('ogm.etid');
   $query->condition('ogm.entity_type', 'user');
   $query->condition('ogm.gid', $group->nid);
-  $query->condition('u.created', $start_time, '>=');
-  $query->condition('u.created', $end_time, '<=');
+  $query->condition('ogm.created', $start_time, '>=');
+  $query->condition('ogm.created', $end_time, '<=');
 
   $members = $query
     ->execute()
     ->fetchAll();
 
   if (empty($members)) {
+    drupal_set_message("No membership activity between " . $values['start_date'] . " and " . $values['start_date'] . ".");
     return;
   }
   $group_users = [];
