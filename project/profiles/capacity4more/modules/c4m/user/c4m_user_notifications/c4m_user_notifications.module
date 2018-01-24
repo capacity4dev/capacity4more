@@ -78,6 +78,10 @@ function c4m_user_notifications_comment_insert($comment) {
  * Implements hook_flag_flag().
  */
 function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging) {
+  if ($flag->entity_type != 'node') {
+    return;
+  }
+
   module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
 
   _c4m_user_notifications_flag_flag($flag, $entity_id);
