@@ -644,6 +644,7 @@ var jQuery = jQuery || {};
     requiredTopicFields: null,
     emptyTopicFields: null,
 
+    forms: null,
     submitButtons: null,
 
     updateSubmitButtons: function () {
@@ -662,7 +663,7 @@ var jQuery = jQuery || {};
     checkTextFields: function () {
       var emptyFields = false;
       this.requiredTextFields.each(function () {
-        if ($(this).val() === '') {
+        if ($(this).val() === '' || $(this).val() === '_none' && $(this).prop('tagName').toLowerCase() === 'select') {
           if (($(this).prop("type") === 'textarea') && ($(this).parent().find('iframe'))) {
             if ($(this).parent().find('iframe').contents().find("p").text() === '') {
               emptyFields = true;
@@ -717,20 +718,12 @@ var jQuery = jQuery || {};
       this.checkTopicFields();
     },
 
-    attach: function (context) {
-      // Make sure the rest of the code is not executed on AJAX calls.
-      if (context !== document) {
-        // @todo Only Image Fields are needed to be checked here.
-        this.checkFields();
-        return;
-      }
-
-      var forms = $('form');
-      this.requiredTextFields = forms.find('.required');
-      this.requiredImageFields = forms.find('.field-type-image').has('.form-required');
-      this.requiredWidgetFields = forms.find('.required-checkbox');
-      this.requiredTopicFields = forms.find('.c4m_vocab_topic').has('.form-required');
-      this.submitButtons = forms.find('.form-actions').find('.form-submit, .form-preview');
+    initializeFields: function () {
+      this.requiredTextFields = this.forms.find('.required');
+      this.requiredImageFields = this.forms.find('.field-type-image').has('.form-required');
+      this.requiredWidgetFields = this.forms.find('.required-checkbox');
+      this.requiredTopicFields = this.forms.find('.c4m_vocab_topic').has('.form-required');
+      this.submitButtons = this.forms.find('.form-actions').find('.form-submit, .form-preview');
 
       // Text fields.
       this.requiredTextFields.change(function () {
@@ -752,6 +745,23 @@ var jQuery = jQuery || {};
         Drupal.behaviors.disableSubmitUntilAllRequired.checkFields();
         Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons();
       });
+    },
+
+    attach: function (context) {
+      // Make sure the rest of the code is not executed on AJAX calls.
+      if (context !== document) {
+        // Initialize fields when fields get replaced, eg email field on
+        // registration form. Otherwise, for image fields, the tagName is FORM
+        // or the id is empty.
+        if ($(context).prop('tagName').toLowerCase() === 'div' && $(context).attr('id')) {
+          this.initializeFields();
+        }
+        this.checkFields();
+        return;
+      }
+
+      this.forms = $('form');
+      this.initializeFields();
 
       // Initialize on page load after 1 sec. Allow Angular script to run.
       setTimeout(function () {
