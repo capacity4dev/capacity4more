@@ -1030,14 +1030,14 @@ function _c4m_og_export_content_form_submit($form, &$form_state) {
 
   $output = "Title|Type|Author|Views|Recommendations|Comments|Downloads|Shares\n";
   foreach ($content as $item) {
-    $output .= !empty($item->title) ? $item->title : '';
-    $output .= '|' . (!empty($item->type) ? $item->type : '');
-    $output .= '|' . (!empty($item->name) ? $item->name : '');
-    $output .= '|' . (!empty($item->totalcount) ? $item->totalcount : 0);
-    $output .= '|' . (!empty($item->count) ? $item->count : 0);
-    $output .= '|' . (!empty($item->comments) ? $item->comments : 0);
-    $output .= '|' . (!empty($item->downloads) ? $item->downloads : 0);
-    $output .= '|' . (!empty($item->shares) ? $item->shares : 0);
+    $output .= '"' . (!empty($item->title) ? str_replace("|", "", $item->title) : '');
+    $output .= '"|"' . (!empty($item->type) ? str_replace("|", "", $item->type) : '');
+    $output .= '"|"' . (!empty($item->name) ? str_replace("|", "", $item->name) : '');
+    $output .= '"|"' . (!empty($item->totalcount) ? $item->totalcount : 0);
+    $output .= '"|"' . (!empty($item->count) ? $item->count : 0);
+    $output .= '"|"' . (!empty($item->comments) ? $item->comments : 0);
+    $output .= '"|"' . (!empty($item->downloads) ? $item->downloads : 0);
+    $output .= '"|"' . (!empty($item->shares) ? $item->shares : 0) . '"';
     $output .= "\n";
   }
   print $output;
@@ -1085,8 +1085,8 @@ function _c4m_og_export_members_form_submit($form, &$form_state) {
   $query->groupBy('ogm.etid');
   $query->condition('ogm.entity_type', 'user');
   $query->condition('ogm.gid', $group->nid);
-  $query->condition('u.created', $start_time, '>=');
-  $query->condition('u.created', $end_time, '<=');
+  $query->condition('ogm.created', $start_time, '>=');
+  $query->condition('ogm.created', $end_time, '<=');
 
   $members = $query
     ->execute()
@@ -1112,15 +1112,15 @@ function _c4m_og_export_members_form_submit($form, &$form_state) {
 
   $output = "First name|Last name|Total content posted|Total comments posted|Invited by|Group Member since|Membership status|Member role|Last login on c4d|Last activity in group|Organisation name|Organisation type|Country\n";
   foreach ($members as $item) {
-    $output .= !empty($item->c4m_first_name_value) ? $item->c4m_first_name_value : '';
-    $output .= '|' . (!empty($item->c4m_last_name_value) ? $item->c4m_last_name_value : '');
-    $output .= '|' . (!empty($item->content) ? $item->content : 0);
-    $output .= '|' . (!empty($item->comments) ? $item->comments : 0);
-    $output .= '|' . (!empty($group_users[$item->inv_inviter_id]) ? $group_users[$item->inv_inviter_id] : '');
-    $output .= '|' . (!empty($item->created) ? date('d/m/Y h:i', $item->created) : '');
-    $output .= '|' . (!empty($item->status) ? $item->status : 1);
-    $output .= '|' . (!empty($item->name) ? $item->name : '');
-    $output .= '|' . (!empty($item->login) ? date('d/m/Y h:i', $item->login) : '');
+    $output .= '"' . (!empty($item->c4m_first_name_value) ? str_replace("|", "", $item->c4m_first_name_value) : '');
+    $output .= '"|"' . (!empty($item->c4m_last_name_value) ? str_replace("|", "", $item->c4m_last_name_value) : '');
+    $output .= '"|"' . (!empty($item->content) ? $item->content : 0);
+    $output .= '"|"' . (!empty($item->comments) ? $item->comments : 0);
+    $output .= '"|"' . (!empty($group_users[$item->inv_inviter_id]) ? $group_users[$item->inv_inviter_id] : '');
+    $output .= '"|"' . (!empty($item->created) ? date('d/m/Y h:i', $item->created) : '');
+    $output .= '"|"' . (!empty($item->status) ? $item->status : 0);
+    $output .= '"|"' . (!empty($item->name) ? str_replace("|", "", $item->name) : '');
+    $output .= '"|"' . (!empty($item->login) ? date('d/m/Y h:i', $item->login) : '');
     $last_activity = 0;
     if (!empty($item->node_action)) {
       $last_activity = $item->node_action;
@@ -1130,10 +1130,10 @@ function _c4m_og_export_members_form_submit($form, &$form_state) {
         $last_activity = $item->comments_action;
       }
     }
-    $output .= '|' . (!empty($last_activity) ? date('d/m/Y h:i', $last_activity) : '');
-    $output .= '|' . (!empty($item->c4m_organisation_value) ? $item->c4m_organisation_value : '');
-    $output .= '|' . (!empty($item->c4m_organisation_type_value) ? $item->c4m_organisation_type_value : '');
-    $output .= '|' . (!empty($item->c4m_country_value) ? $item->c4m_country_value : '');
+    $output .= '"|"' . (!empty($last_activity) ? date('d/m/Y h:i', $last_activity) : '');
+    $output .= '"|"' . (!empty($item->c4m_organisation_value) ? str_replace("|", "", $item->c4m_organisation_value) : '');
+    $output .= '"|"' . (!empty($item->c4m_organisation_type_value) ? str_replace("|", "", $item->c4m_organisation_type_value) : '');
+    $output .= '"|"' . (!empty($item->c4m_country_value) ? str_replace("|", "", $item->c4m_country_value) : '') . '"';
     $output .= "\n";
   }
   print $output;

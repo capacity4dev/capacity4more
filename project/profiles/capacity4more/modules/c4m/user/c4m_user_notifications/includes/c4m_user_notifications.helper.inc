@@ -58,9 +58,13 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
     );
   }
 
+  if ($message->is_new) {
+    $message->save();
+  }
+
   // Load the list of users that already received this message (same message id)
   // to prevent duplicates.
-  $previous_recipients = _c4m_user_notifications_get_message_unique_recipients($message->mid);
+  $previous_recipients = _c4m_user_notifications_get_message_unique_recipients($message->identifier());
 
   foreach ($previous_recipients as $recipient) {
     if (array_key_exists($recipient, $users)) {
@@ -115,7 +119,7 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
 
   ksort($users);
 
-  _c4m_user_notifications_update_message_unique_recipients($message->mid, $previous_recipients, $users);
+  _c4m_user_notifications_update_message_unique_recipients($message->identifier(), $previous_recipients, $users);
 
   return $users;
 }
