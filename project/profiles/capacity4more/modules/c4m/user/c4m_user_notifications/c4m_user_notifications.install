@@ -13,6 +13,13 @@ function c4m_user_notifications_update_7001() {
 }
 
 /**
+ * Implements hook_update_N().
+ */
+function c4m_user_notifications_update_7002() {
+  module_enable(['message_digest']);
+}
+
+/**
  * Implements hook_schema().
  */
 function c4m_user_notifications_schema() {
