@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * @file
+ * Install and update hooks for the c4m_message_digest module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function c4m_message_digest_schema() {
+  $schema['message_digest_preferences'] = [
+    'fields' => [
+      'fid' => [
+        'description' => 'The {flag}.fid of the stored preference.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'entity_type' => [
+        'description' => "The entity type (e.g. node, comment, etc').",
+        'type' => 'varchar',
+        'length' => '32',
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'entity_id' => [
+        'description' => 'The entity id.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'uid' => [
+        'description' => 'The {users}.uid of the user.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'preference' => [
+        'description' => 'The machine name of the digest preference.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+    ],
+    'indexes' => [
+      'fid' => ['fid'],
+      'entity_id' => ['entity_id'],
+      'uid' => ['uid'],
+    ],
+    'foreign keys' => [
+      'flag' => [
+        'table' => 'file_managed',
+        'columns' => ['fid' => 'fid'],
+      ],
+      'users' => [
+        'table' => 'users',
+        'columns' => ['uid' => 'uid'],
+      ],
+    ],
+  ];
+
+  return $schema;
+}

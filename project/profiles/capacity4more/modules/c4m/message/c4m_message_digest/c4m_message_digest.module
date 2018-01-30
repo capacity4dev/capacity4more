@@ -1,0 +1,82 @@
+<?php
+
+/**
+ * @file
+ * This module provides message digest functionality.
+ */
+
+/**
+ * Retrieve the digest preference for a flag/entity/user combination.
+ *
+ * @param int $fid
+ *   Flag ID.
+ * @param string $entity_type
+ *   Entity type.
+ * @param int $entity_id
+ *   Entity ID.
+ * @param int $uid
+ *   User ID.
+ *
+ * @return \C4mMessagePreference|null
+ *   Valid C4mMessagePreference instance or NULL.
+ */
+function c4m_message_digest_get_preference($fid, $entity_type, $entity_id, $uid) {
+  $select = db_select('message_digest_preferences', 'mdp');
+  $select->fields('mdp')
+    ->condition('fid', $fid)
+    ->condition('entity_type', $entity_type)
+    ->condition('entity_id', $entity_id)
+    ->condition('uid', $uid);
+
+  $result = $select->execute();
+
+  if ($record = $result->fetchAssoc()) {
+    // Init and return new value object.
+    try {
+      return new C4mMessagePreference($record['fid'], $record['entity_type'], $record['entity_id'], $record['uid'], $record['preference']);
+    }
+    catch (InvalidArgumentException $e) {
+      watchdog('c4m_message_digest', 'Could not retrieve the message preferences.');
+      watchdog('c4m_message_digest', 'Stacktrace: @e', ['@e' => var_export($e, TRUE)]);
+
+      return NULL;
+    }
+  }
+
+  return NULL;
+}
+
+/**
+ * Store (save or update) preferences for a flag/entity/user combination.
+ *
+ * @param \C4mMessagePreference $preference
+ *   Preference value object.
+ */
+function c4m_message_digest_set_preference(C4mMessagePreference $preference) {
+  try {
+    db_merge('message_digest_preferences')
+      ->key([
+        'fid' => $preference->getFid(),
+        'entity_type' => $preference->getEntityType(),
+        'entity_id' => $preference->getEntityId(),
+        'uid' => $preference->getUid(),
+      ])
+      ->fields([
+        'fid' => $preference->getFid(),
+        'entity_type' => $preference->getEntityType(),
+        'entity_id' => $preference->getEntityId(),
+        'uid' => $preference->getUid(),
+        'preference' => $preference->getPreference(),
+      ])
+      ->execute();
+  }
+  catch (InvalidMergeQueryException $e) {
+    watchdog('c4m_message_digest', 'Something went wrong with the mergequery to store preferences.');
+    watchdog('c4m_message_digest', 'Stacktrace: @e', ['@e' => var_export($e, TRUE)]);
+  }
+  catch (Exception $e) {
+    watchdog('c4m_message_digest', 'Something went wrong while storing preferences.');
+    watchdog('c4m_message_digest', 'Stacktrace: @e', ['@e' => var_export($e, TRUE)]);
+
+  }
+}
