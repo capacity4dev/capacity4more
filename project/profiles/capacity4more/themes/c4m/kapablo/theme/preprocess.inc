@@ -22,20 +22,26 @@ function kapablo_preprocess_message(&$variables) {
 
   $variables['content'] = $message->getText();
 
+  // Compute the destination. Either request_path() if the message is not
+  // loaded through REST services or the group front page or the site front
+  // page.
+  $destination = request_path();
+  if ($destination === 'api/activity_stream') {
+    $query_params = drupal_get_query_parameters();
+    if (!empty($query_params['group'])) {
+      $destination = url('node/' . $query_params['group']);
+    }
+    else {
+      $destination = url('<front>');
+    }
+  }
+
   if (c4m_message_delete_message_access($message)) {
     $link_options = [
       'attributes' => ['class' => ['action-delete']],
       'html' => TRUE,
-      'query' => ['destination' => request_path()],
+      'query' => ['destination' => $destination],
     ];
-    if ($group = c4m_og_current_group()) {
-      $link_options += [
-        'purl' => [
-          'provider' => 'og_purl|node',
-          'id' => $group->nid,
-        ],
-      ];
-    }
     $title = t('Delete activity');
     $variables['content'] .= l('<i class="fa fa-window-close" title="' . $title . '"></i>', 'activity/' . $message->mid . '/delete', $link_options);
   }
