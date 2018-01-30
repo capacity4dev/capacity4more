@@ -156,21 +156,3 @@ function c4m_user_notifications_queue_dispatch_message(array $data) {
 
   message_subscribe_send_message($entity_type, $entity, $message, $notify_options, $subscribe_options, $context);
 }
-
-/**
- * Implements hook_ctools_plugin_api().
- */
-function c4m_user_notifications_ctools_plugin_api($module, $api) {
-  if ($module == 'message_notify' && $api == 'notifier') {
-    return array('version' => 1);
-  }
-}
-
-/**
- * Implements hook_ctools_plugin_directory().
- */
-function c4m_user_notifications_ctools_plugin_directory($owner, $plugin_type) {
-  if ($owner == 'message_notify') {
-    return 'plugins/' . $plugin_type;
-  }
-}
