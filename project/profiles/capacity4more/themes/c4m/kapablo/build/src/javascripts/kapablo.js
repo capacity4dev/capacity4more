@@ -763,7 +763,8 @@ var jQuery = jQuery || {};
 
   Drupal.behaviors.disableSubmitButtons = {
     attach: function (context) {
-      $('form.node-form', context).once('disableSubmitButtons', function () {
+      // We can target all forms not only form.node-form.
+      $('form', context).once('disableSubmitButtons', function () {
         var $form = $(this);
         $form.find('#edit-submit').click(function (e) {
           var el = $(this);
