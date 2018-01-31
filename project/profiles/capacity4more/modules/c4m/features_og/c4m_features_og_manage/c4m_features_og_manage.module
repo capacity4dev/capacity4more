@@ -821,7 +821,7 @@ function c4m_features_og_manage_project_thumbnail() {
     'purl' => array('enabled' => TRUE),
   );
   $path = 'group/node/' . $group->nid . '/admin/statistics';
-  $info['content_statistics'] = l(t("Group statistics"), $path, $options);
+  $info['content_statistics'] = l(t("Project statistics"), $path, $options);
   $info['member_statistics'] = l(t("Member statistics"), $path, $options);
 
   // Project thumbnail image with edit link.

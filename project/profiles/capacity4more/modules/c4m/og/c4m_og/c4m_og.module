@@ -221,7 +221,7 @@ function c4m_og_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_og_export_statistics_build_form', 1, 2),
     'access callback' => 'c4m_features_og_members_is_power_user',
-    'title' => 'Group statistics',
+    'title' => 'Statistics',
   );
 
   return $items;
