@@ -6,6 +6,20 @@
  */
 
 /**
+ * Implements hook_install().
+ */
+function c4m_message_digest_install() {
+  c4m_message_digest_update_7001();
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function c4m_message_digest_update_7001() {
+  variable_set('message_subscribe_default_notifiers', []);
+}
+
+/**
  * Implements hook_schema().
  */
 function c4m_message_digest_schema() {

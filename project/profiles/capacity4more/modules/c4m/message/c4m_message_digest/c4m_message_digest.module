@@ -5,6 +5,8 @@
  * This module provides message digest functionality.
  */
 
+define('C4M_MESSAGE_DIGEST_FREQUENCY_NEVER', 'never');
+
 /**
  * Retrieve the digest preference for a flag/entity/user combination.
  *
@@ -78,5 +80,23 @@ function c4m_message_digest_set_preference(C4mMessagePreference $preference) {
     watchdog('c4m_message_digest', 'Something went wrong while storing preferences.');
     watchdog('c4m_message_digest', 'Stacktrace: @e', ['@e' => var_export($e, TRUE)]);
 
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function c4m_message_digest_ctools_plugin_api($module, $api) {
+  if ($module == 'message_notify' && $api == 'notifier') {
+    return array('version' => 1);
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_message_digest_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'message_notify') {
+    return 'plugins/' . $plugin_type;
   }
 }

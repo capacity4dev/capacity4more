@@ -326,6 +326,7 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_node->set($node->nid);
   $wrapper->field_executing_user->set($user->uid);
+  $wrapper->save();
 
   // Iterate over all tagged topic terms.
   _c4m_user_notifications_notify_subscribe_content_of_interest_for_vocabulary($node, 'c4m_vocab_topic', $wrapper);

@@ -34,6 +34,8 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
   // Starting point: all users subscribed to the entity (flagged).
   $users = flag_get_entity_flags($flagged_entity_type, $entity_id, $flag_name);
 
+  $flag = flag_get_flag($flag_name);
+
   // When creating messages, we can indicate additional context(s) to either
   // exclude users (diff) or make it stricter (intersect).
   $filtered_users = _c4m_user_notifications_message_subscribe_filter_additional_flag_contexts($context, $users, $entity_id, $flagged_entity_type);
@@ -58,7 +60,7 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
     );
   }
 
-  if ($message->is_new) {
+  if (empty($message->identifier())) {
     $message->save();
   }
 
@@ -106,9 +108,29 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
       }
     }
 
-    // If user is found at filtering array, set it's notifier to mail.
+    // If user is found at filtering array, retrieve its notifier and set it.
     if (array_search($key, $filtered_users) !== FALSE) {
-      $user_object = ['notifiers' => ['email' => 'email']];
+      if (!module_exists('c4m_message_digest')) {
+        $user_object = ['notifiers' => ['email' => 'email']];
+      }
+      else {
+        $preference = c4m_message_digest_get_preference($flag->fid, $flagged_entity_type, $entity_id, $user_object->uid);
+
+        if (!empty($preference)) {
+          if ($preference->getPreference() === C4M_MESSAGE_DIGEST_FREQUENCY_NEVER) {
+            unset($users[$key]);
+            continue;
+          }
+          $user_object = ['notifiers' => [$preference->getPreference() => $preference->getPreference()]];
+        }
+        else {
+          // No specific preference; use immediate notification.
+//          $user_object = ['notifiers' => ['email' => 'email']];
+
+          unset($users[$key]);
+          continue;
+        }
+      }
     }
     else {
       // If not found, filter the user.
