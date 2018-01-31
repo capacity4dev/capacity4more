@@ -27,10 +27,10 @@ function c4m_content_share_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  $items['node/%node/c4m-autocomplete-share-groups/%'] = array(
+  $items['c4m-autocomplete-share-groups/%node'] = array(
     'title' => 'Available groups/projects for sharing content',
     'page callback' => '_c4m_content_share_groups_autocomplete_callback',
-    'page arguments' => array(3),
+    'page arguments' => array(1),
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
@@ -46,13 +46,10 @@ function c4m_content_share_menu() {
  * @param string $string
  *   Input from the text field.
  */
-function _c4m_content_share_groups_autocomplete_callback($node_id, $string = '') {
+function _c4m_content_share_groups_autocomplete_callback($node, $string = '') {
   $matches = [];
-  $current_group = og_context();
-  if (empty($current_group['gid'])) {
-    return;
-  }
 
+  $gid = $node->og_group_ref[LANGUAGE_NONE][0]['target_id'];
   $field = field_info_field('og_group_ref');
   $instance = field_info_instance('node', 'og_group_ref', 'share');
 
@@ -62,7 +59,6 @@ function _c4m_content_share_groups_autocomplete_callback($node_id, $string = '')
     $groups = $searched_groups['group'];
 
     // Remove groups already shared TO.
-    $node = node_load($node_id);
     $groups_shared = c4m_content_share_get_shared_groups($node);
     foreach ($groups_shared as $id_shared) {
       if (!empty($groups[$id_shared])) {
@@ -71,7 +67,7 @@ function _c4m_content_share_groups_autocomplete_callback($node_id, $string = '')
     }
 
     foreach ($groups as $group_id => $group_label) {
-      if ($group_id != $current_group['gid']) {
+      if ($group_id != $gid) {
         $matches[$group_label . ' (' . $group_id . ')'] = '<div class="reference-autocomplete">' . $group_label . '</div>';
       }
     }
