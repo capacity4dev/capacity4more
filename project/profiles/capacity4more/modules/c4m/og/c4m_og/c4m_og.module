@@ -1033,11 +1033,11 @@ function _c4m_og_export_content_form_submit($form, &$form_state) {
     $output .= '"' . (!empty($item->title) ? str_replace("|", "", $item->title) : '');
     $output .= '"|"' . (!empty($item->type) ? str_replace("|", "", $item->type) : '');
     $output .= '"|"' . (!empty($item->name) ? str_replace("|", "", $item->name) : '');
-    $output .= '"|"' . (!empty($item->totalcount) ? $item->totalcount : 0);
-    $output .= '"|"' . (!empty($item->count) ? $item->count : 0);
-    $output .= '"|"' . (!empty($item->comments) ? $item->comments : 0);
-    $output .= '"|"' . (!empty($item->downloads) ? $item->downloads : 0);
-    $output .= '"|"' . (!empty($item->shares) ? $item->shares : 0) . '"';
+    $output .= '"|' . (!empty($item->totalcount) ? $item->totalcount : 0);
+    $output .= '|' . (!empty($item->count) ? $item->count : 0);
+    $output .= '|' . (!empty($item->comments) ? $item->comments : 0);
+    $output .= '|' . (!empty($item->downloads) ? $item->downloads : 0);
+    $output .= '|' . (!empty($item->shares) ? $item->shares : 0);
     $output .= "\n";
   }
   print $output;
@@ -1114,12 +1114,12 @@ function _c4m_og_export_members_form_submit($form, &$form_state) {
   foreach ($members as $item) {
     $output .= '"' . (!empty($item->c4m_first_name_value) ? str_replace("|", "", $item->c4m_first_name_value) : '');
     $output .= '"|"' . (!empty($item->c4m_last_name_value) ? str_replace("|", "", $item->c4m_last_name_value) : '');
-    $output .= '"|"' . (!empty($item->content) ? $item->content : 0);
-    $output .= '"|"' . (!empty($item->comments) ? $item->comments : 0);
-    $output .= '"|"' . (!empty($group_users[$item->inv_inviter_id]) ? $group_users[$item->inv_inviter_id] : '');
-    $output .= '"|"' . (!empty($item->created) ? date('d/m/Y h:i', $item->created) : '');
-    $output .= '"|"' . (!empty($item->status) ? $item->status : 0);
-    $output .= '"|"' . (!empty($item->name) ? str_replace("|", "", $item->name) : '');
+    $output .= '"|' . (!empty($item->content) ? $item->content : 0);
+    $output .= '|' . (!empty($item->comments) ? $item->comments : 0);
+    $output .= '|' . (!empty($group_users[$item->inv_inviter_id]) ? $group_users[$item->inv_inviter_id] : '');
+    $output .= '|"' . (!empty($item->created) ? date('d/m/Y h:i', $item->created) : '');
+    $output .= '"|' . (!empty($item->status) ? $item->status : 0);
+    $output .= '|"' . (!empty($item->name) ? str_replace("|", "", $item->name) : '');
     $output .= '"|"' . (!empty($item->login) ? date('d/m/Y h:i', $item->login) : '');
     $last_activity = 0;
     if (!empty($item->node_action)) {
