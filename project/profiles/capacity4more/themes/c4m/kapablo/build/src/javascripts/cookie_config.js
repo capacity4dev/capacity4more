@@ -1,7 +1,7 @@
 var consent_required_cookies = {
     "a": {
-        "europa": ["_pk_ses.105.f0be", "_pk_id.105.f0be"],
-        "youtube": ["_ga", "1P_JAR", "APISID", "CONSENT", "HSID", "LOGIN_INFO", "NID", "OTZ", "PREF", "SAPISID", "SID", "SIDCC", "SSID", "VISITOR_INFO1_LIVE", "YSC", "_ga", "llbcs", "wide", "GPS"],
+        "europa": ["*"],
+        "youtube": ["*"],
         "dailymotion": ["1stsearch", "DSID", "G_ENABLED_IDPS", "HRL8", "IDE", "NID", "__gfp_64b", "_csrf/link", "_ga", "_gat", "_gid", "cc", "client_token", "clsu", "damd", "dmvk", "ev_sync_dd", "ev_sync_pm", "ev_sync_rc", "everest_g_v2", "everest_session_v2", "ff", "gglck", "guid", "lang", "mt_misc", "mt_mop", "sequence_number", "ss", "ts", "uuidc", "v1st", "ymvw"],
         "google": ["1P_JAR", "APISID", "CONSENT", "HSID", "NID", "OTZ", "SAPISID", "SID", "SIDCC", "SSID", "__qca"],
         "slideshare": ["CP3", "RT", "SERVERID", "UID", "UIDR", "__utma", "__utmb", "__utmc", "__utmt", "__utmv", "__utmz", "_bizo_bzid", "_bizo_cksm", "_bizo_np_stats", "_cookie_id", "_uv_id", "bcookie", "flash", "language", "linkedin_oauth_y4wa9oe4c6nu", "linkedin_oauth_y4wa9oe4c6nu_crc", "logged_in", "ssdc", "sso_redirect"],
