@@ -242,3 +242,20 @@ function _c4m_features_overview_events_count_via_views($type) {
 
   return _c4m_helper_entity_total_count_via_views('c4m_overview_events_landing', $mapped_views[$type]);
 }
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * Make sure the access checks are done for the event nodes.
+ */
+function c4m_features_overview_events_views_pre_render(&$view) {
+  if ($view->name !== 'c4m_events_calendar') {
+    return;
+  }
+  foreach ($view->result as $key => $result) {
+    $node = node_load($result->nid);
+    if (!node_access('view', $node)) {
+      unset($view->result[$key]);
+    }
+  }
+}
