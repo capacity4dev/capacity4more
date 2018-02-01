@@ -41,7 +41,7 @@ function c4m_content_share_menu() {
 /**
  * Returns available group for sharing content in autocomplete text fields.
  *
- * @param int $node_id
+ * @param object $node
  *   Id of the shred node.
  * @param string $string
  *   Input from the text field.
