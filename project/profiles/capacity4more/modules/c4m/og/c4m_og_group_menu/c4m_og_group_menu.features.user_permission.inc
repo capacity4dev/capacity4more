@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_og_group_menu.features.user_permission.inc

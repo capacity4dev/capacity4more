@@ -16,7 +16,8 @@ libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
 
 projects[iframeremove][subdir] = "contrib"
-projects[iframeremove][version] = "1.1"
+projects[iframeremove][version] = "1.4"
+projects[iframeremove][patch][] = "../patches/suppress-invalid-dom-messages.patch"
 
 projects[pathologic][subdir] = "contrib"
 projects[pathologic][version] = "3.1"

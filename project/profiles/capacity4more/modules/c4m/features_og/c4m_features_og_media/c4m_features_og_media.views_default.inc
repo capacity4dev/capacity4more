@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_features_og_media.views_default.inc
@@ -38,6 +39,8 @@ function c4m_features_og_media_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '5';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page'] = TRUE;
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options'] = '10, 20, 50';
   $handler->display->display_options['pager']['options']['tags']['first'] = '«';
   $handler->display->display_options['pager']['options']['tags']['previous'] = '‹';
   $handler->display->display_options['pager']['options']['tags']['next'] = '›';
@@ -64,6 +67,12 @@ function c4m_features_og_media_views_default_views() {
   $handler->display->display_options['header']['c4m_views_node_add']['ui_name'] = 'Add photo link';
   $handler->display->display_options['header']['c4m_views_node_add']['node_type'] = 'photo';
   $handler->display->display_options['header']['c4m_views_node_add']['link_text'] = 'Add a new photo';
+  /* Header: Sort results */
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sort results';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['empty'] = TRUE;
   /* Header: Number of items */
   $handler->display->display_options['header']['c4m_views_result']['id'] = 'c4m_views_result';
   $handler->display->display_options['header']['c4m_views_result']['table'] = 'views';
@@ -71,12 +80,11 @@ function c4m_features_og_media_views_default_views() {
   $handler->display->display_options['header']['c4m_views_result']['ui_name'] = 'Number of items';
   $handler->display->display_options['header']['c4m_views_result']['empty'] = TRUE;
   $handler->display->display_options['header']['c4m_views_result']['content'] = '<span class="total-items">@total items</span>';
-  /* Header: Sort results */
-  $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
-  $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
-  $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
-  $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sort results';
-  $handler->display->display_options['header']['c4m_views_search_api_sorts']['empty'] = TRUE;
+  /* Header: Items per page */
+  $handler->display->display_options['header']['c4m_views_items_per_page']['id'] = 'c4m_views_items_per_page';
+  $handler->display->display_options['header']['c4m_views_items_per_page']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_items_per_page']['field'] = 'c4m_views_items_per_page';
+  $handler->display->display_options['header']['c4m_views_items_per_page']['ui_name'] = 'Items per page';
   /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_c4m_search_nodes';
@@ -136,16 +144,6 @@ function c4m_features_og_media_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '5';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '«';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹';
-  $handler->display->display_options['pager']['options']['tags']['next'] = '›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = '»';
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['path'] = 'media';
   $handler->display->display_options['menu']['type'] = 'normal';
@@ -172,13 +170,6 @@ function c4m_features_og_media_views_default_views() {
   $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['header']['search_api_spellcheck']['field'] = 'search_api_spellcheck';
   $handler->display->display_options['header']['search_api_spellcheck']['empty'] = TRUE;
-  /* Header: Number of items */
-  $handler->display->display_options['header']['c4m_views_result']['id'] = 'c4m_views_result';
-  $handler->display->display_options['header']['c4m_views_result']['table'] = 'views';
-  $handler->display->display_options['header']['c4m_views_result']['field'] = 'c4m_views_result';
-  $handler->display->display_options['header']['c4m_views_result']['ui_name'] = 'Number of items';
-  $handler->display->display_options['header']['c4m_views_result']['empty'] = TRUE;
-  $handler->display->display_options['header']['c4m_views_result']['content'] = '<span class="total-items">@total items</span>';
   /* Header: Sort results */
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
@@ -187,6 +178,18 @@ function c4m_features_og_media_views_default_views() {
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['empty'] = TRUE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Header: Number of items */
+  $handler->display->display_options['header']['c4m_views_result']['id'] = 'c4m_views_result';
+  $handler->display->display_options['header']['c4m_views_result']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_result']['field'] = 'c4m_views_result';
+  $handler->display->display_options['header']['c4m_views_result']['ui_name'] = 'Number of items';
+  $handler->display->display_options['header']['c4m_views_result']['empty'] = TRUE;
+  $handler->display->display_options['header']['c4m_views_result']['content'] = '<span class="total-items">@total items</span>';
+  /* Header: Items per page */
+  $handler->display->display_options['header']['c4m_views_items_per_page']['id'] = 'c4m_views_items_per_page';
+  $handler->display->display_options['header']['c4m_views_items_per_page']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_items_per_page']['field'] = 'c4m_views_items_per_page';
+  $handler->display->display_options['header']['c4m_views_items_per_page']['ui_name'] = 'Items per page';
   /* Filter criterion: Node is published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'search_api_index_c4m_search_nodes';

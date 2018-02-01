@@ -5,6 +5,7 @@ package = capacity4more - Views
 
 ; Views Handlers
 files[] = views/handlers/c4m_views_handler_area_custom_link.inc
+files[] = views/handlers/c4m_views_handler_area_items_per_page.inc
 files[] = views/handlers/c4m_views_handler_area_node_add.inc
 files[] = views/handlers/c4m_views_handler_area_result.inc
 files[] = views/handlers/c4m_views_handler_area_search_api_sorts.inc

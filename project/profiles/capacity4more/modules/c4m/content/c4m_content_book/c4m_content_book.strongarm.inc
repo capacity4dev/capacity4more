@@ -75,7 +75,7 @@ function c4m_content_book_strongarm() {
         'custom_settings' => FALSE,
       ),
       'print' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'c4m_related' => array(
         'custom_settings' => FALSE,
@@ -117,6 +117,15 @@ function c4m_content_book_strongarm() {
         'custom_settings' => FALSE,
       ),
       'block_list' => array(
+        'custom_settings' => FALSE,
+      ),
+      'highlight_list' => array(
+        'custom_settings' => FALSE,
+      ),
+      'group_dashboard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'pinned_content' => array(
         'custom_settings' => FALSE,
       ),
     ),

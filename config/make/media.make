@@ -3,6 +3,9 @@ api = 2
 
 ; Media
 
+projects[lazyloader][subdir] = "contrib"
+projects[lazyloader][version] = "1.4"
+
 projects[media][subdir] = "contrib"
 projects[media][version] = "2.0-rc3"
 

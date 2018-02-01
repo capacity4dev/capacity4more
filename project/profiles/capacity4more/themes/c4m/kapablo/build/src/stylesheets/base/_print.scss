@@ -15,17 +15,13 @@
     color: $color-black;
   }
 
+  .container {
+    width: 100% !important;
+  }
+
   // Set logo size.
   .header-logo {
     width: 6cm;
-  }
-
-  // Breadcrumb floating right.
-  .header-breadcrumb ol.breadcrumb {
-    float: right;
-    margin-top: -1cm;
-    text-align: right;
-    width: 10cm;
   }
 
   // Extra margins for text column next to icons.
@@ -60,32 +56,47 @@
     width: 100% !important;
   }
 
+  #toolbar {
+    display: none;
+  }
+
   // Hide unnecessary elements.
   #articles-panel .block-title,
   #block-c4m-features-learning-space-learning-intro img,
   #block-c4m-search-filter-search-filter,
   #block-c4m-search-filter-search-filter-interests,
+  #block-og-menu-og-single-menu-block,
   #c4m-search-form,
+  #comment-form,
   #footer-bottom-wrapper,
   #footer-top-wrapper,
   #header-content-wrapper,
   #top-menu,
+  #user-bar .userbar-userprofile,
+  .alert-block,
   .book-navigation,
   .field-name-c4m-content-wiki-page-collapse,
   .field-name-c4m-ds-content-actions,
+  .content-col ul.links,
+  .comment-form,
   .group-banner,
   .group-details,
   .group-node-actions,
-  .not-front #content-top-wrapper,
+  .group-right.col-sm-4,
+  .node-create-document,
   .pane-c4m-search-og-c4m-search-group-form,
   .pane-featured-block,
+  .pane-quick-form,
   .pager--wrapper,
   .register-login-links,
   .search-api-sort,
+  .search-form,
   .see-more-link,
   .show-more-wrapper,
+  .trigger.js-navigationButton,
   .view-c4m-overview-inthe-picture-blocks,
-  .view-footer {
+  .view-footer,
+  ul.nav-tabs {
     display: none;
   }
 
@@ -169,5 +180,9 @@
   // Prevent large elements to be split across pages.
   blockquote, img, ol, table, ul {
     page-break-inside: avoid;
+  }
+
+  a {
+    text-decoration: underline;
   }
 }

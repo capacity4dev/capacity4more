@@ -1,5 +1,4 @@
 <?php
-// @codingStandardsIgnoreFile
 
 /**
  * @file
@@ -11,22 +10,8 @@
  *
  * @ingroup views_area_handlers
  */
+// @codingStandardsIgnoreLine
 class c4m_views_handler_area_search_api_sorts extends views_handler_area {
-  /**
-   * {@inheritdoc}
-   */
-  public function option_definition() {
-    $options = parent::option_definition();
-
-    return $options;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function options_form(&$form, &$form_state) {
-    parent::options_form($form, $form_state);
-  }
 
   /**
    * {@inheritdoc}

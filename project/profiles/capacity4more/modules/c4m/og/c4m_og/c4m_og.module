@@ -134,29 +134,6 @@ function c4m_og_get_group_type_name($node = NULL) {
 }
 
 /**
- * Implements hook_form_alter().
- */
-function c4m_og_form_alter(array &$form, array $form_state) {
-  if (empty($form['#node_edit_form'])
-    || !og_is_group_type(
-      'node',
-      $form['#node']->type
-    )
-  ) {
-    return;
-  }
-  $form['og_purl']['purl']['value']['#title'] = t('Group path');
-  $form['og_purl']['purl']['value']['#type'] = 'machine_name';
-  $form['og_purl']['purl']['value']['#machine_name'] = array(
-    'source' => array('title'),
-    'label' => t('Group path'),
-    'exists' => 'c4m_og_purl_exists',
-    'replace' => '-',
-    'replace_pattern' => '[^a-z0-9_-]+',
-  );
-}
-
-/**
  * Implements hook_menu().
  */
 function c4m_og_menu() {
@@ -470,7 +447,7 @@ function c4m_og_notify_user_group_approved(array &$form, array &$form_state) {
   $gid = $form_state['values']['gid'];
   $admin_comment = $form_state['values']['message_from_admin'];
 
-  c4m_user_notifications_notify_user_group_approved($gid, $admin_comment);
+  _c4m_user_notifications_notify_og_group_status_approved($gid, $admin_comment);
 }
 
 /**
@@ -1267,19 +1244,6 @@ function _c4m_og_alter_group_form(array &$form, array &$form_state, $title = '')
     // Remove "Save as draft" button.
     $form['actions']['draft']['#access'] = FALSE;
   }
-}
-
-/**
- * Function to check if a path is a purl path.
- *
- * @param string $value
- *   Group path.
- *
- * @return bool
- *   TRUE or FALSE.
- */
-function c4m_og_purl_exists($value) {
-  return FALSE;
 }
 
 /**
@@ -3077,8 +3041,8 @@ function _c4m_og_registration_form_labels_by_group($gid) {
   $wrapper = entity_metadata_wrapper('node', $gid);
 
   // Get membership request type (open/moderated).
-  $membership_type = $wrapper->field_membership_open_request->value();
-  if ($membership_type == C4M_OG_MODERATED_GROUP) {
+  $group_membership_request_type = _c4m_user_notifications_get_group_membership_request_type($wrapper);
+  if ($group_membership_request_type == C4M_OG_MODERATED_GROUP) {
     $join_phrase = t('request membership for');
     $button_label = t('Request membership for group');
   }
@@ -3332,4 +3296,26 @@ function c4m_og_get_membership_totals($gid, $uid, $entity_type) {
   $result = $wrapper->{$field}->value();
 
   return empty($result) ? 0 : $result;
+}
+
+/**
+ * Implements hook_entity_delete().
+ *
+ * Delete related vocabularies.
+ */
+function c4m_og_entity_delete($entity, $entity_type) {
+  if ($entity_type != 'node') {
+    return;
+  }
+  if (!in_array($entity->type, ['group', 'project'])) {
+    return;
+  }
+  $categories = c4m_og_vocab_load_group_vocabulary($entity, 'c4m_vocab_category');
+  $tags = c4m_og_vocab_load_group_vocabulary($entity, 'c4m_vocab_tag');
+  if (!empty($categories) && !empty($categories->vid)) {
+    taxonomy_vocabulary_delete($categories->vid);
+  }
+  if (!empty($tags) && !empty($tags->vid)) {
+    taxonomy_vocabulary_delete($tags->vid);
+  }
 }

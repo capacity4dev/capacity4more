@@ -11,9 +11,7 @@ projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.8"
 
 projects[entityreference][subdir] = "contrib"
-projects[entityreference][version] = "1.2"
-; Fixed in core since 7.42
-;projects[entityreference][patch][] = "https://www.drupal.org/files/entityreference-decode_option_labels-1665818-32_0.patch"
+projects[entityreference][version] = "1.5"
 
 projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "3.0-alpha3"
@@ -31,7 +29,7 @@ projects[path_redirect_import][subdir] = "contrib"
 projects[path_redirect_import][version] = "1.0-rc4"
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.6"
+projects[token][version] = "1.7"
 
 projects[transliteration][subdir] = contrib
 projects[transliteration][version] = "3.2"

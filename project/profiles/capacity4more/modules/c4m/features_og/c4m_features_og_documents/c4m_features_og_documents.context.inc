@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_features_og_documents.context.inc
@@ -54,6 +55,12 @@ function c4m_features_og_documents_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'current_search-c4m_current_search_nodes' => array(
+          'module' => 'current_search',
+          'delta' => 'c4m_current_search_nodes',
+          'region' => 'content',
+          'weight' => '-10',
+        ),
         'views-7372782a23f49e1db577016cb840d3bb' => array(
           'module' => 'views',
           'delta' => '7372782a23f49e1db577016cb840d3bb',

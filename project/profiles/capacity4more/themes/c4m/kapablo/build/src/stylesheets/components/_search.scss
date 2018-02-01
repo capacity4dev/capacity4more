@@ -59,7 +59,6 @@
 }
 
 .search-api-sort {
-  margin: 20px 0;
   position: relative;
 
   img {
@@ -255,6 +254,7 @@
   height: 20px;
   border: 2px solid $color-gray-dark;
   border-radius: 50%;
+  display: inline-block;
 
   font-size: .7rem;
   font-weight: bold;
@@ -327,7 +327,7 @@
 }
 
 
-ul:not([class*="facetapi-facet-c4m-vocab-topic"]) {
+.block-facetapi ul:not([class*="facetapi-facet-c4m-vocab-topic"]) {
   .facetapi-link--article::before {
     content: "\f1ea";
 
@@ -456,6 +456,33 @@ ul:not([class*="facetapi-facet-c4m-vocab-topic"]) {
   }
 }
 
+// Current search links.
+.block-current-search {
+  border: 1px solid $color-gray-light;
+  margin-bottom: $padding-base-horizontal;
+  padding: $padding-base-horizontal;
+  position: relative;
+  .block-title {
+    margin-top: 0;
+  }
+
+  li {
+    @include label_style;
+  }
+  .current-search-item-active-links a {
+    text-decoration: none;
+    color: $text-color;
+  }
+  .current-search-item-clear-all {
+    position: absolute;
+    right: $padding-base-horizontal;
+    top: $padding-base-horizontal;
+    a {
+      text-decoration: none;
+    }
+  }
+}
+
 .view-content {
   clear: both;
 }
@@ -476,20 +503,6 @@ ul:not([class*="facetapi-facet-c4m-vocab-topic"]) {
 
 .group-header {
   margin: 0 0 15px 0;
-}
-
-.view-items-with-dashed-separator,
-.view-c4m-search-nodes,
-.view-c4m-overview-groups,
-.view-c4m-overview-articles,
-.view-c4m-overview-projects,
-.view-c4m-overview-events-landing,
-.view-c4m-overview-events {
-  .view-header {
-    padding-bottom: 15px;
-    border-bottom: 1px dashed $color-gray-light;
-    min-height: 30px;
-  }
 }
 
 .view-mode-teaser:not(.user-profile) .user-name a,
@@ -585,5 +598,30 @@ ul:not([class*="facetapi-facet-c4m-vocab-topic"]) {
 
   #c4m-search-redirect-form {
     display: block;
+  }
+}
+
+// ========================================================================== //
+// Items per page controller
+// ========================================================================== //
+.items-per-page-container {
+  float: right;
+  margin-top: 20px;
+
+  .item-list,
+  .list-inline {
+    display: inline-block;
+  }
+
+  .list-inline {
+    // Override Bootstrap's -5px margin.
+    margin-left: 5px;
+  }
+
+  a {
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
   }
 }

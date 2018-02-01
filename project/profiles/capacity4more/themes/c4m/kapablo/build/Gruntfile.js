@@ -115,7 +115,8 @@ module.exports = function (grunt) {
                   '<%= project.dst %>/js/kapablo.concat.js': [
                       '<%= project.src %>/javascripts/kapablo.js',
                       '<%= project.src %>/javascripts/classie.js',
-                      '<%= project.src %>/javascripts/sidebarEffects.js'
+                      '<%= project.src %>/javascripts/sidebarEffects.js',
+                      '<%= project.src %>/javascripts/cookie_config.js'
                   ]
                 }
             },
@@ -142,7 +143,8 @@ module.exports = function (grunt) {
                   '<%= project.dst %>/js/kapablo.concat.js': [
                       '<%= project.src %>/javascripts/kapablo.js',
                       '<%= project.src %>/javascripts/classie.js',
-                      '<%= project.src %>/javascripts/sidebarEffects.js'
+                      '<%= project.src %>/javascripts/sidebarEffects.js',
+                      '<%= project.src %>/javascripts/cookie_config.js'
                   ]
                 }
             }

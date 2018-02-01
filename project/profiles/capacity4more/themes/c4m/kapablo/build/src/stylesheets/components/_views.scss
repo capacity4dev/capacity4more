@@ -102,33 +102,6 @@
   }
 }
 
-.view-c4m-overview-articles,
-.view-c4m-overview-groups,
-.view-c4m-overview-projects,
-.view-c4m-overview-events-landing,
-.view-c4m-overview-events {
-  margin-bottom: 2rem;
-}
-
-.view-items-with-dashed-separator .views-row,
-.view-c4m-overview-articles .views-row,
-.view-c4m-overview-groups .views-row,
-.view-c4m-overview-projects .views-row,
-.view-c4m-overview-events-landing .views-row,
-.view-c4m-overview-events .views-row {
-  margin-top: 2rem;
-}
-
-.view-items-with-dashed-separator .views-row:last-of-type,
-.view-c4m-overview-articles .views-row:last-of-type,
-.view-c4m-overview-groups .views-row:last-of-type,
-.view-c4m-overview-events-landing .views-row:last-of-type,
-.view-c4m-overview-events .views-row:last-of-type,
-.view-c4m-search-nodes .views-row:last-of-type {
-  padding-bottom: 28px;
-  border-bottom: 1px dashed $color-gray-light;
-}
-
 .pager--wrapper {
   border-top: none;
   margin: 20px 0;
@@ -206,5 +179,66 @@
     &:last-of-type {
       margin-bottom: 0;
     }
+  }
+}
+
+// ========================================================================== //
+// View header
+// ========================================================================== //
+.view-header {
+  margin-bottom: 2rem;
+  @include clearfix();
+
+  .node-create:after {
+    content: '\A';
+    white-space: pre;
+  }
+
+  a {
+    &.node-create-news,
+    &.node-create-discussion,
+    &.node-create-event,
+    &.node-create-document,
+    &.node-create-photoalbum,
+    &.node-create-photo {
+      background-color: $color-text-alternative;
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+
+      .fa {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .total-items {
+    display: inline-block;
+    float: left;
+    margin-top: 20px;
+  }
+}
+
+// All .node-add-wrapper need a 10px bottom margin and the last one needs a 20px
+// margin. We don't have :last-of-type for classes, so we have to do a trick.
+.node-add-wrapper {
+  margin-bottom: 20px;
+  & + .node-add-wrapper {
+    margin-top: -10px;
+  }
+}
+
+// ========================================================================== //
+// Views with dashed separator for header & footer
+// ========================================================================== //
+.view-items-with-dashed-separator {
+  margin-bottom: 2rem;
+  .view-header {
+    border-bottom: 1px dashed $color-gray-light;
+    padding-bottom: 2rem;
+  }
+  .views-row-last {
+    border-bottom: 1px dashed $color-gray-light;
+    padding-bottom: 2rem;
   }
 }

@@ -28,7 +28,7 @@ function c4m_message_ctools_plugin_directory($module, $plugin) {
  *   message_entity_delete().
  */
 function c4m_message_entity_delete($entity, $entity_type) {
-  if (!c4m_message_handle_entity($entity, $entity_type, 'delete')) {
+  if (!c4m_message_handle_entity($entity, $entity_type, 'delete') && $entity_type !== 'message') {
     return;
   }
   _c4m_message_clear_activity_stream_cache();
@@ -121,6 +121,7 @@ function _c4m_message_format_from_user_first_last($message) {
     'c4m_membership_request_rejected' => TRUE,
     'c4m_welcome_to_group' => TRUE,
     'c4m_new_content_share_published' => TRUE,
+    'c4m_notify_subscribe_content_of_interest' => TRUE,
   ];
 
   if (!empty($valid_message_types[$message_entity->type])) {
@@ -156,11 +157,18 @@ function c4m_message_mail_alter(&$message) {
  * Modifies messages 'From' field to the default pattern.
  *
  * @param object $message
- *   Message entity.
- * @param object $account
- *   OPTIONAL: Account to resolve [user_name] and [email] from.
+ *   Mail message entity.
+ * @param object $message_entity
+ *   Message API entity.
  */
-function _c4m_message_format_from_field_to_default_pattern(&$message, $account = NULL) {
+function _c4m_message_format_from_field_to_default_pattern(&$message, $message_entity = NULL) {
+  $account = NULL;
+
+  if (!empty($message_entity)) {
+    $wrapper = entity_metadata_wrapper('message', $message_entity);
+    $account = $wrapper->field_executing_user->value();
+  }
+
   $message['from'] = c4m_message_get_from_field_default_pattern($account);
 }
 
@@ -992,6 +1000,59 @@ function c4m_message_load_tokens__c4m_content_inserted_or_updated(
 }
 
 /**
+ * Add callbacks to c4m_notify_subscribe_content_of_interest message arguments.
+ *
+ * For each token at email template, assigns a function that will be used
+ * to resolve token value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_tokens__c4m_content_of_interest(
+  Message $message
+) {
+  $message->arguments['@user_full_name'] = [
+    'callback' => 'c4m_message_format_addressee_full_name',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['@content_node_title'] = [
+    'callback' => 'c4m_message_format_node_title',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['@content_type_name'] = [
+    'callback' => 'c4m_message_format_node_type',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['!content_node_url'] = [
+    'callback' => 'c4m_message_format_node_url',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['@term_name'] = [
+    'callback' => 'c4m_message_format_taxonomy_term_name',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['!unsubscribe_term_url'] = [
+    'callback' => 'c4m_message_format_unsubscribe_taxonomy_term_url',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['@event_user_full_name'] = [
+    'callback' => 'c4m_message_format_event_user_full_name',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['!event_user_url'] = [
+    'callback' => 'c4m_message_format_event_user_url',
+    'pass message' => TRUE,
+  ];
+}
+
+/**
  * Add callbacks to c4m_new_content_share_published message arguments.
  *
  * For each token at email template, assigns a function that will be used
@@ -1254,47 +1315,6 @@ function c4m_message_load_tokens__c4m_notify_content_followers_new_comment(
 }
 
 /**
- * Add callbacks to c4m_group_hard_deleted message arguments.
- *
- * For each token at email template, assigns a function that will be used
- * to resolve token value.
- *
- * @param Message $message
- *   The Message entity.
- */
-function c4m_message_load_tokens__c4m_group_hard_deleted(Message $message) {
-  $message->arguments['@group_admin_full_name'] = [
-    'callback' => 'c4m_message_format_addressee_full_name',
-    'pass message' => TRUE,
-  ];
-
-  $message->arguments['!group_dashboard_url'] = [
-    'callback' => 'c4m_message_format_group_url',
-    'pass message' => TRUE,
-  ];
-
-  $message->arguments['@group_node_title'] = [
-    'callback' => 'c4m_message_format_group_node_title',
-    'pass message' => TRUE,
-  ];
-
-  $message->arguments['@group_node_type'] = [
-    'callback' => 'c4m_message_format_group_node_type',
-    'pass message' => TRUE,
-  ];
-
-  $message->arguments['@event_user_full_name'] = [
-    'callback' => 'c4m_message_format_event_user_full_name',
-    'pass message' => TRUE,
-  ];
-
-  $message->arguments['!help_section_url'] = [
-    'callback' => 'c4m_message_format_help_section_url',
-    'pass message' => TRUE,
-  ];
-}
-
-/**
  * Add callbacks to c4m_group_request_submitted message arguments.
  *
  * For each token at email template, assigns a function that will be used
@@ -1378,7 +1398,7 @@ function c4m_message_load_tokens__c4m_group_soft_deleted(Message $message) {
 }
 
 /**
- * Add callbacks to c4m_group_hard_deleted message arguments.
+ * Add callbacks to c4m_membership_request_rejected message arguments.
  *
  * For each token at email template, assigns a function that will be used
  * to resolve token value.
@@ -2962,6 +2982,36 @@ function c4m_message_format_node_share(Message $message) {
 }
 
 /**
+ * Return the formatted unsubscribe url for taxonomy terms.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The unsubscribe link.
+ */
+function c4m_message_format_unsubscribe_taxonomy_term_url(Message $message) {
+  return _c4m_message_format_unsubscribe_url($message, 'taxonomy_term');
+}
+
+/**
+ * Return the formatted share operation.
+ *
+ * Retrieve proper icon for a content type (and maybe subtype).
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The icon class.
+ */
+function c4m_message_format_taxonomy_term_name(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  return $wrapper->field_taxonomy_term->label();
+}
+
+/**
  * Return the body of the comment.
  *
  * @param Message $message
@@ -3439,7 +3489,13 @@ function c4m_message_get_activities(array $request) {
     // Load the activity stream.
     $activity_stream_handler = restful_get_restful_handler('activity_stream');
 
+    // Lazyloader is not compatible with Activity stream which uses Angular for
+    // rendering. So, we should make sure it's disabled while loading the
+    // Activity stream.
+    $lazyloader_status = variable_get('lazyloader_enabled', TRUE);
+    variable_set('lazyloader_enabled', FALSE);
     $activities = $activity_stream_handler->get('', $request);
+    variable_set('lazyloader_enabled', $lazyloader_status);
 
     cache_set($cache_key, $activities, 'cache_activity_stream', time() + C4M_MESSAGE_EXPIRE_TIME);
   }
@@ -3454,6 +3510,10 @@ function c4m_message_get_activities(array $request) {
  * marked as permanent so they may not get deleted.
  */
 function _c4m_message_clear_activity_stream_cache() {
+  if (!db_table_exists('cache_activity_stream')) {
+    return;
+  }
+
   db_truncate('cache_activity_stream')->execute();
 }
 
@@ -3783,4 +3843,62 @@ function c4m_features_homepage_filter_form_create_submit(
     ],
   ];
   $form_state['redirect'] = ['<front>', $options];
+}
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_message_menu() {
+  $items = [];
+
+  $items['activity/%message/delete'] = [
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['c4m_message_delete_message_confirm', 1],
+    'access callback' => 'c4m_message_delete_message_access',
+    'access arguments' => [1],
+  ];
+
+  return $items;
+}
+
+/**
+ * Page callback for delete message menu item.
+ */
+function c4m_message_delete_message_confirm($form, &$form_state, $message) {
+  $form['mid'] = ['#type' => 'value', '#value' => $message->mid];
+  $form['destination'] = ['#type' => 'value', '#value' => $_GET['destination']];
+
+  $question = t('Are you sure you want to delete this message?');
+  return confirm_form($form, $question, $_GET['destination']);
+}
+
+/**
+ * Submit callback for delete message confirm form.
+ */
+function c4m_message_delete_message_confirm_submit($form, &$form_state) {
+  message_delete_multiple([$form_state['values']['mid']]);
+  $form_state['redirect'] = $form_state['values']['destination'];
+}
+
+/**
+ * Access callback for delete message menu item.
+ *
+ * @param object $message
+ *   Message object.
+ */
+function c4m_message_delete_message_access($message) {
+  if (!($group = c4m_og_current_group())) {
+    // No group in context. User should be SA.
+    return c4m_user_is_site_admin();
+  }
+  else {
+    // Group in context should be the same as message's group.
+    if ($group->nid != $message->field_group_node[LANGUAGE_NONE][0]['target_id']) {
+      return FALSE;
+    }
+    else {
+      // User should be GA or GO or SA.
+      return c4m_features_og_members_is_power_user($group);
+    }
+  }
 }
