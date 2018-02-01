@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_admin_groups.views_default.inc
@@ -116,6 +117,16 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['label'] = 'Edit';
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = 'Merge';
+  $handler->display->display_options['fields']['nid']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['nid']['alter']['text'] = 'Merge';
+  $handler->display->display_options['fields']['nid']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['nid']['alter']['path'] = 'node/[nid]/merge';
+  $handler->display->display_options['fields']['nid']['alter']['absolute'] = TRUE;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';

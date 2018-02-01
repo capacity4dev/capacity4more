@@ -227,7 +227,7 @@ function c4m_og_menu() {
   $items['node/%node/merge'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_og_merge_groups_build_form', 1),
-    'access callback' => 'c4m_features_og_members_is_power_user',
+    'access arguments' => ['merge group content'],
     'title' => 'Merge content',
   );
 
@@ -3681,10 +3681,12 @@ function c4m_og_merge_groups_build_form_submit($form, &$form_state) {
   $values = $form_state['values'];
   $group = og_context();
 
+  // Add merge users operation to batch.
   $operations = [
     ['_c4m_og_merge_users_batch', [$group['gid'], $values['target_group']]],
   ];
   if (!empty($values['content_types'])) {
+    // Add merge wiki pages operation to batch.
     if (!empty($values['content_types']['wiki_page'])) {
       $operations[] = [
         '_c4m_og_merge_wiki_pages_batch',
@@ -3693,10 +3695,8 @@ function c4m_og_merge_groups_build_form_submit($form, &$form_state) {
           $values['target_group'],
         ],
       ];
-      unset($values['content_types']['wiki_page']);
     }
-  }
-  if (!empty($values['content_types'])) {
+    // Add merge content types operation to batch.
     $operations[] = [
       '_c4m_og_merge_content_batch',
       [
@@ -3706,7 +3706,7 @@ function c4m_og_merge_groups_build_form_submit($form, &$form_state) {
       ],
     ];
   }
-
+  // Add merge taxonomies operation to batch.
   $operations[] = [
     '_c4m_og_merge_taxonomies_batch',
     [
@@ -3714,7 +3714,8 @@ function c4m_og_merge_groups_build_form_submit($form, &$form_state) {
       $values['target_group'],
     ],
   ];
-  // Reset counter for debug information.
+  // Add the delete group operations to batch.
+  $operations[] = ['_c4m_og_merge_group_detele_batch', [$group['gid']]];
   $_SESSION['http_request_count'] = 0;
   $batch = array(
     'title' => t('Group content is being merged'),
@@ -3725,7 +3726,7 @@ function c4m_og_merge_groups_build_form_submit($form, &$form_state) {
 }
 
 /**
- * Merge users.
+ * Merge users to target group.
  */
 function _c4m_og_merge_users_batch($gid, $target_gid, &$context) {
   $users_query = db_select('og_membership', 'ogm')
@@ -3741,20 +3742,43 @@ function _c4m_og_merge_users_batch($gid, $target_gid, &$context) {
       og_group('node', $target_gid, ['entity' => $user]);
     }
   }
-//  $context['message'] = t('All users were merged.');
-//  $context['results'] = ['da', 'da2'];
 }
 
 /**
- * Merge wiki pages.
+ * Merge wiki pages to target group.
  */
 function _c4m_og_merge_wiki_pages_batch($gid, $target_gid, &$context) {
 
-  $context['message'] = t('All wiki pages were merged.');
+  $content_query = db_select('og_membership', 'ogm');
+  $content_query->leftJoin('node', 'n', 'n.nid = ogm.etid');
+  $content_query->fields('ogm', array('etid'));
+  $content_query->condition('ogm.entity_type', 'node')
+    ->condition('ogm.gid', $gid)
+    ->condition('ogm.state', 1)
+    ->condition('n.type', 'wiki_page');
+
+  $n_ids = $content_query->execute()->fetchCol();
+  $nodes = node_load_multiple($n_ids);
+  if (!empty($nodes)) {
+    $target_group = node_load($target_gid);
+    foreach ($nodes as $node) {
+      if (empty($target_group->book['bid']) || empty($target_group->book['mlid'])) {
+        $node->book['bid'] = 'new';
+        $node->book['plid'] = 0;
+      }
+      else {
+        // Move the wiki page to the book of the target group.
+        // The book merge will be completed after the content batch is finished.
+        $node->book['bid'] = $target_group->book['bid'];
+        $node->book['plid'] = $target_group->book['mlid'];
+      }
+      book_node_update($node);
+    }
+  }
 }
 
 /**
- * Merge users.
+ * Merge content from selected content types to target group.
  */
 function _c4m_og_merge_content_batch($gid, $target_gid, $content_types, &$context) {
   $content_query = db_select('og_membership', 'ogm');
@@ -3765,20 +3789,43 @@ function _c4m_og_merge_content_batch($gid, $target_gid, $content_types, &$contex
     ->condition('ogm.state', 1)
     ->condition('n.type', $content_types, 'IN');
 
-  $nids = $content_query->execute()->fetchCol();
-  if (!empty($nids)) {
-    $nodes = node_load_multiple($nids);
+  $n_ids = $content_query->execute()->fetchCol();
+
+  if (!empty($n_ids)) {
+    if (empty($content_types['document'])) {
+      $doc_agenda_query = db_select('field_data_c4m_document_agenda', 'da')
+        ->fields('da', ['c4m_document_agenda_target_id'])
+        ->condition('entity_id', $n_ids, 'IN');
+      $doc_agenda_ids = $doc_agenda_query->execute()->fetchCol();
+      if (!empty($doc_agenda_ids)) {
+        $n_ids = array_merge($n_ids, $doc_agenda_ids);
+      }
+      $doc_presentation_query = db_select('field_data_c4m_document_presentation', 'dp')
+        ->fields('dp', ['c4m_document_presentation_target_id'])
+        ->condition('entity_id', $n_ids, 'IN');
+      $doc_presentation_ids = $doc_presentation_query->execute()->fetchCol();
+      if (!empty($doc_presentation_ids)) {
+        $n_ids = array_merge($n_ids, $doc_presentation_ids);
+      }
+      $related_doc_query = db_select('field_data_c4m_related_document', 'rd')
+        ->fields('rd', ['c4m_related_document_target_id'])
+        ->condition('entity_id', $n_ids, 'IN');
+      $doc_ids = $related_doc_query->execute()->fetchCol();
+      if (!empty($doc_ids)) {
+        $n_ids = array_merge($n_ids, $doc_ids);
+      }
+    }
+    $nodes = node_load_multiple($n_ids);
     foreach ($nodes as $node) {
       $node_wrapper = entity_metadata_wrapper('node', $node);
       $node_wrapper->og_group_ref->set($target_gid);
       $node_wrapper->save();
     }
   }
-  $context['message'] = t('All content was merged.');
 }
 
 /**
- * Merge taxonomies.
+ * Merge taxonomies into the target group.
  */
 function _c4m_og_merge_taxonomies_batch($gid, $target_gid, &$context) {
   $group = node_load($gid);
@@ -3800,39 +3847,70 @@ function _c4m_og_merge_taxonomies_batch($gid, $target_gid, &$context) {
 }
 
 /**
+ * Delete merged group.
+ */
+function _c4m_og_merge_group_detele_batch($gid, &$context) {
+  $query = db_select('og_membership', 'ogm');
+  $query->leftJoin('node', 'n', 'n.nid = ogm.etid');
+  $query->fields('ogm', array('etid'));
+  $query->condition('ogm.entity_type', 'node')
+    ->condition('ogm.gid', $gid);
+
+  $n_ids = $query->execute()->fetchCol();
+  if (!empty($n_ids)) {
+    node_delete_multiple($n_ids);
+  }
+  node_delete($gid);
+}
+
+/**
  * After group merge is completed.
  */
 function _c4m_og_merge_finished($success, $results, $operations) {
-  // The 'success' parameter means no fatal PHP errors were detected. All
-  // other error management should be handled using 'results'.
   if ($success) {
-    $message = format_plural(count($results), 'One processed.', '@count processed');
+    drupal_set_message(t("Group was successfully merged."));
   }
   else {
-    $message = t('Finished with an error.');
+    drupal_set_message(t('Finished with errors.'));
   }
-  foreach ($results as $result) {
-    drupal_set_message($result);
-  }
-  drupal_set_message($message);
 }
 
-//// this is what runs multiple times per batch
-//// progress and limit and is updated during each run
-//function mymodule_import_stuff_process($progress, $limit, &$context) {
-//  // use $progress and $limit to only run that amount of records
-//  // example using db_select
-//  $query = db_select('node', 'n');
-//  $query->fields('n.nid');
-//  $query->orderBy('n.nid', 'ASC');
-//  $query->range($progress, $limit);
-//  $nodes = $query->execute()->fetchAll();
-//  foreach ($nodes as $node) {
-//    // processing
-//  }
-//
-//  // update progress for message
-//  $progress = $progress + $limit;
-//  // update message during each run so you know where you are in the process
-//  $context['message'] = 'Now processing ' . $progress . ' - ' . $context['results'][0] . ' imported';
-//}
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_og_form_node_delete_confirm_alter(&$form, &$form_state, $form_id) {
+  if (empty($form['#node'])) {
+    return;
+  }
+  $node = $form['#node'];
+
+  if (!user_access('merge group content')) {
+    return;
+  }
+  if (!in_array($node->type, ['group', 'project'])) {
+    return;
+  }
+
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('disabled' => FALSE),
+  );
+  $merge_url = url('node/' . $node->nid . '/merge', $options);
+
+  $form['description']['#markup'] = t('Please note that deleting this 
+  @type will also delete all content and memberships permanently. 
+  <a href="@url">Click here</a> if you\'d like to merge this content to another 
+  @type instead.', ['@type' => $node->type, '@url' => $merge_url]);
+}
+
+/**
+ * Implements hook_permission().
+ */
+function c4m_og_permission() {
+  $perms['merge group content'] = array(
+    'title' => t('Merge group content'),
+    'description' => t('Allows the user to merge a group into another.'),
+  );
+
+  return $perms;
+}

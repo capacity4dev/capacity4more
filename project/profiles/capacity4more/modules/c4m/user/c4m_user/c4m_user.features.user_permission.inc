@@ -1911,6 +1911,15 @@ function c4m_user_user_default_permissions() {
     'module' => 'features',
   );
 
+  // Exported permission: 'merge group content'.
+  $permissions['merge group content'] = array(
+    'name' => 'merge group content',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'c4m_og',
+  );
+
   // Exported permission: 'notify of path changes'.
   $permissions['notify of path changes'] = array(
     'name' => 'notify of path changes',
