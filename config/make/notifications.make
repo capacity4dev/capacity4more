@@ -9,9 +9,6 @@ projects[mailsystem][subdir] = "contrib"
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.12"
 
-projects[message_digest][subdir] = "contrib"
-projects[message_digest][version] = "1.0"
-
 projects[message_subscribe][subdir] = "contrib"
 projects[message_subscribe][version] = "1.x-dev"
 projects[message_subscribe][patch][] = "https://www.drupal.org/files/issues/prevent_loop_of_message-2303795-12.patch"

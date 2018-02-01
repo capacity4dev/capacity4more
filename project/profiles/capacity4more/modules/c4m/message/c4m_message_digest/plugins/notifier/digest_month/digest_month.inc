@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Ctools plugin definition for monthly interval.
+ */
+
 $plugin = array(
   'title' => t('Monthly Message Digest'),
   'description' => t('Send Message via monthly digest.'),

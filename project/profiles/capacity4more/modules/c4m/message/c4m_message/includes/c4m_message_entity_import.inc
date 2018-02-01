@@ -186,7 +186,7 @@ function _c4m_message_get_messages_mt10() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003ENew @group_node_type\u0026nbsp;request\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear Administrator,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E requested a new @group_node_type: \u003Ca href=\u0022!group_dashboard_url\u0022\u003E@group_node_title\u003C\/a\u003E.\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\n\u003Cstrong\u003EReason\u003C\/strong\u003E: \u003Cem\u003E@message_to_site_admins\u003C\/em\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003ETo edit the status of this @group_node_type: \u003Ca href=\u0022!pending_groups_overview\u0022\u003Emanage pending @group_node_type\u003C\/a\u003E.\u003C\/p\u003E\r\n",
@@ -264,7 +264,7 @@ function _c4m_message_get_messages_mt13() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EWelcome to @group_node_title\u0026nbsp;\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @member_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\nThank you for joining \u003Cstrong\u003E\u003Ca href=\u0022!group_dashboard_url\u0022 rel=\u0022nofollow\u0022\u003E@group_node_title\u003C\/a\u003E\u003C\/strong\u003E at [site:name].\u003C\/p\u003E\r\n\r\n\u003Cp\u003E@group_welcome_message\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!go_public_profile_url\u0022 rel=\u0022nofollow\u0022\u003E@go_full_name\u003C\/a\u003E,\u003Cbr \/\u003E\r\n@group_node_type Administrator - @group_node_title\u003C\/p\u003E\r\n",
@@ -303,7 +303,7 @@ function _c4m_message_get_messages_mt14() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EA new member joined @group_node_title \u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @group_admin_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\nA new member joined \u003Ca href=\u0022!group_dashboard_url\u0022 rel=\u0022nofollow\u0022\u003E@group_node_title\u003C\/a\u003E at [site:name].\u003Cbr \/\u003E\r\nPlease find their details below:\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cstrong\u003E@new_member_full_name\u003C\/strong\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003E@new_member_organisation, @new_member_organisation_type\u003C\/p\u003E\r\n\r\n\u003Cp\u003EBased in @new_member_country\u003C\/p\u003E\r\n\r\n\u003Cp\u003EExpertise: @new_member_expertise\u003C\/p\u003E\r\n\r\n\u003Cp\u003EAbout: @new_member_about_me\u003C\/p\u003E\r\n\r\n\u003Cp\u003EView this member\u0027s \u003Ca href=\u0022!new_member_public_profile_url\u0022 rel=\u0022nofollow\u0022\u003Eprofile\u003C\/a\u003E at [site:name].\u003C\/p\u003E\r\n",
@@ -342,7 +342,7 @@ function _c4m_message_get_messages_mt15() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EA new member requested to join @group_node_title\u0026nbsp;\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @group_admin_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\nA new member requested to join \u003Ca href=\u0022!group_dashboard_url\u0022 rel=\u0022nofollow\u0022\u003E@group_node_title\u003C\/a\u003E at [site:name].\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!group_pending_member_url\u0022 rel=\u0022nofollow\u0022\u003EManage this request\u003C\/a\u003E\u003Cbr \/\u003E\r\nPlease find their details below:\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cstrong\u003E@new_member_full_name\u003C\/strong\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003E@new_member_organisation, @new_member_organisation_type\u003C\/p\u003E\r\n\r\n\u003Cp\u003EBased in @new_member_country\u003C\/p\u003E\r\n\r\n\u003Cp\u003EExpertise: @new_member_expertise\u003C\/p\u003E\r\n\r\n\u003Cp\u003EAbout: @new_member_about_me\u003C\/p\u003E\r\n\r\n\u003Cp\u003EMessage from this member:\u003Cbr \/\u003E\r\n\u003Cem\u003E@new_member_request_message\u003C\/em\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003EView this member\u0027s \u003Ca href=\u0022!new_member_public_profile_url\u0022 rel=\u0022nofollow\u0022\u003Eprofile\u003C\/a\u003E at [site:name].\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Ca href=\u0022!membership_approve_url\u0022\u003EApprove\u003C\/a\u003E - \u003Ca href=\u0022!membership_reject_url\u0022\u003EReject\u003C\/a\u003E\u003C\/p\u003E\r\n",
@@ -381,7 +381,7 @@ function _c4m_message_get_messages_mt17() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EYour membership request to join @group_node_title\u0026nbsp; was rejected\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear colleague,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\nThank you for your interest in the group \u003Cstrong\u003E\u003Ca href=\u0022!group_dashboard_url\u0022 rel=\u0022nofollow\u0022\u003E@group_node_title\u003C\/a\u003E\u003C\/strong\u003E.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EUnfortunately we cannot accept your membership request because @membership_reject_reason.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EThank you for your understanding.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EDon\u0027t hesitate to contact me if your have further questions.\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E,\u003Cbr \/\u003E\r\n@group_node_type Administrator - @group_node_title\u003C\/p\u003E\r\n",
@@ -420,12 +420,33 @@ function _c4m_message_get_messages_mt22() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EYou received a reply to your comment\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E added a new comment on the following @comment_content_type: \u003Cstrong\u003E\u003Ca href=\u0022!comment_content_url\u0022\u003E@comment_content_title\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cem\u003E@comment_teaser_body \u003C\/em\u003E\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!comment_url\u0022\u003ERead more...\u003C\/a\u003E or directly \u003Ca href=\u0022!comment_reply_url\u0022\u003Ereply to this comment\u003C\/a\u003E.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYou\u0027re receiving this e-mail because a new comment was made - if you no longer wish to receive notifications of comments on this content, please \u003Ca href=\u0022!unsubscribe_content_comments_url\u0022\u003Eunsubscribe\u003C\/a\u003E.\u003C\/p\u003E\r\n",
         "format" : "mail",
         "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E added a new comment on the following @comment_content_type: \u003Cstrong\u003E\u003Ca href=\u0022!comment_content_url\u0022\u003E@comment_content_title\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E\n\n\u003Cp\u003E\u003Cem\u003E@comment_teaser_body \u003C\/em\u003E\u003Cbr \/\u003E\n\u003Ca href=\u0022!comment_url\u0022\u003ERead more...\u003C\/a\u003E or directly \u003Ca href=\u0022!comment_reply_url\u0022\u003Ereply to this comment\u003C\/a\u003E.\u003C\/p\u003E\n\n\u003Cp\u003EYou\u0027re receiving this e-mail because a new comment was made - if you no longer wish to receive notifications of comments on this content, please \u003Ca href=\u0022!unsubscribe_content_comments_url\u0022\u003Eunsubscribe\u003C\/a\u003E.\u003C\/p\u003E\n"
+      },
+      {
+        "value" : " \u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E replied to your comment on the following @comment_content_type: \u003Cstrong\u003E\u003Ca href=\u0022!comment_content_url\u0022\u003E@comment_content_title\u003C\/a\u003E\u003C\/strong\u003E",
+        "format" : "mail",
+        "safe_value" : " \u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E replied to your comment on the following @comment_content_type: \u003Cstrong\u003E\u003Ca href=\u0022!comment_content_url\u0022\u003E@comment_content_title\u003C\/a\u003E\u003C\/strong\u003E"
+      }
+    ]
+  },
+  "message_header" : { "und" : [
+      {
+        "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n  \r\n\u003Cp\u003EDiscover the latest updates you\u0027re subscribed to!\u003C\/p\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n  \n\u003Cp\u003EDiscover the latest updates you\u0027re subscribed to!\u003C\/p\u003E"
+      }
+    ]
+  },
+  "message_footer" : { "und" : [
+      {
+        "value" : "\u003Cp\u003EYou are receiving these updates because you are subscribed to capacity4dev notification message(s) - to manage these, update your \u003Ca href=\u0022!user_settings_url\u0022\u003Enotification settings\u003C\/a\u003E.\u003C\/p\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EYou are receiving these updates because you are subscribed to capacity4dev notification message(s) - to manage these, update your \u003Ca href=\u0022!user_settings_url\u0022\u003Enotification settings\u003C\/a\u003E.\u003C\/p\u003E"
       }
     ]
   },
@@ -459,12 +480,33 @@ function _c4m_message_get_messages_mt23() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EYour @content_type_name\u0026nbsp;was recommended\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E recommended your @content_type_name: \u003Cstrong\u003E\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cem\u003E@node_teaser_body \u003C\/em\u003E\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!content_node_url\u0022\u003ERead more...\u003C\/a\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003ETotal recommendations: @content_recommend_count\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYou\u0027re receiving this e-mail because another member recommended your post - if you no longer wish to receive notifications when your content is recommended, please \u003Ca href=\u0022!user_unsubscribe_recommend_url\u0022\u003Eunsubscribe.\u003C\/a\u003E\u003C\/p\u003E\r\n",
         "format" : "mail",
         "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E recommended your @content_type_name: \u003Cstrong\u003E\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E\n\n\u003Cp\u003E\u003Cem\u003E@node_teaser_body \u003C\/em\u003E\u003Cbr \/\u003E\n\u003Ca href=\u0022!content_node_url\u0022\u003ERead more...\u003C\/a\u003E\u003C\/p\u003E\n\n\u003Cp\u003ETotal recommendations: @content_recommend_count\u003C\/p\u003E\n\n\u003Cp\u003EYou\u0027re receiving this e-mail because another member recommended your post - if you no longer wish to receive notifications when your content is recommended, please \u003Ca href=\u0022!user_unsubscribe_recommend_url\u0022\u003Eunsubscribe.\u003C\/a\u003E\u003C\/p\u003E\n"
+      },
+      {
+        "value" : "\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E, @content_type_name recommended by \u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E, @content_type_name recommended by \u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E"
+      }
+    ]
+  },
+  "message_header" : { "und" : [
+      {
+        "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n  \r\n\u003Cp\u003EDiscover the latest updates you\u0027re subscribed to!\u003C\/p\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n  \n\u003Cp\u003EDiscover the latest updates you\u0027re subscribed to!\u003C\/p\u003E"
+      }
+    ]
+  },
+  "message_footer" : { "und" : [
+      {
+        "value" : "\u003Cp\u003EYou are receiving these updates because you are subscribed to capacity4dev notification message(s) - to manage these, update your \u003Ca href=\u0022!user_settings_url\u0022\u003Enotification settings\u003C\/a\u003E.\u003C\/p\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EYou are receiving these updates because you are subscribed to capacity4dev notification message(s) - to manage these, update your \u003Ca href=\u0022!user_settings_url\u0022\u003Enotification settings\u003C\/a\u003E.\u003C\/p\u003E"
       }
     ]
   },
@@ -498,12 +540,33 @@ function _c4m_message_get_messages_mt25() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003ENew @content_type_name from @group_node_title\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E @event_action\u0026nbsp;the following @content_type_name: \u003Cstrong\u003E\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cem\u003E@node_teaser_body \u003C\/em\u003E\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!content_node_url\u0022\u003ERead more...\u003C\/a\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYou\u0027re receiving this e-mail because you\u0027re subscribed to \u003Ca href=\u0022!group_dashboard_url\u0022\u003E@group_node_title\u003C\/a\u003E\u0026nbsp;- if you no longer wish to receive notifications from this @group_node_type, please \u003Ca href=\u0022!unsubscribe_group_url\u0022\u003Eunsubscribe.\u003C\/a\u003E\u003C\/p\u003E\r\n",
         "format" : "mail",
         "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E @event_action\u0026nbsp;the following @content_type_name: \u003Cstrong\u003E\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E\n\n\u003Cp\u003E\u003Cem\u003E@node_teaser_body \u003C\/em\u003E\u003Cbr \/\u003E\n\u003Ca href=\u0022!content_node_url\u0022\u003ERead more...\u003C\/a\u003E\u003C\/p\u003E\n\n\u003Cp\u003EYou\u0027re receiving this e-mail because you\u0027re subscribed to \u003Ca href=\u0022!group_dashboard_url\u0022\u003E@group_node_title\u003C\/a\u003E\u0026nbsp;- if you no longer wish to receive notifications from this @group_node_type, please \u003Ca href=\u0022!unsubscribe_group_url\u0022\u003Eunsubscribe.\u003C\/a\u003E\u003C\/p\u003E\n"
+      },
+      {
+        "value" : "\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E, @content_type_name @event_action by \u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E, @content_type_name @event_action by \u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E"
+      }
+    ]
+  },
+  "message_header" : { "und" : [
+      {
+        "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n  \r\n\u003Cp\u003EDiscover the latest updates you\u0027re subscribed to!\u003C\/p\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n  \n\u003Cp\u003EDiscover the latest updates you\u0027re subscribed to!\u003C\/p\u003E"
+      }
+    ]
+  },
+  "message_footer" : { "und" : [
+      {
+        "value" : "\u003Cp\u003EYou are receiving these updates because you are subscribed to capacity4dev notification message(s) - to manage these, update your \u003Ca href=\u0022!user_settings_url\u0022\u003Enotification settings\u003C\/a\u003E.\u003C\/p\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EYou are receiving these updates because you are subscribed to capacity4dev notification message(s) - to manage these, update your \u003Ca href=\u0022!user_settings_url\u0022\u003Enotification settings\u003C\/a\u003E.\u003C\/p\u003E"
       }
     ]
   },
@@ -537,12 +600,33 @@ function _c4m_message_get_messages_mt26() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EYou\u0027ve received a new comment\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E posted a\u0026nbsp; comment on your @comment_content_type: \u003Cstrong\u003E\u003Ca href=\u0022!comment_content_url\u0022\u003E@comment_content_title\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cem\u003E@comment_teaser_body \u003C\/em\u003E\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!comment_url\u0022\u003ERead more...\u003C\/a\u003E or directly \u003Ca href=\u0022!comment_reply_url\u0022\u003Ereply to this comment\u003C\/a\u003E.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYou\u0027re receiving this e-mail because another member commented on your post - if you no longer wish to receive notifications, please \u003Ca href=\u0022!unsubscribe_content_comments_url\u0022\u003Eunsubscribe\u003C\/a\u003E.\u003C\/p\u003E\r\n",
         "format" : "mail",
         "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E posted a\u0026nbsp; comment on your @comment_content_type: \u003Cstrong\u003E\u003Ca href=\u0022!comment_content_url\u0022\u003E@comment_content_title\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E\n\n\u003Cp\u003E\u003Cem\u003E@comment_teaser_body \u003C\/em\u003E\u003Cbr \/\u003E\n\u003Ca href=\u0022!comment_url\u0022\u003ERead more...\u003C\/a\u003E or directly \u003Ca href=\u0022!comment_reply_url\u0022\u003Ereply to this comment\u003C\/a\u003E.\u003C\/p\u003E\n\n\u003Cp\u003EYou\u0027re receiving this e-mail because another member commented on your post - if you no longer wish to receive notifications, please \u003Ca href=\u0022!unsubscribe_content_comments_url\u0022\u003Eunsubscribe\u003C\/a\u003E.\u003C\/p\u003E\n"
+      },
+      {
+        "value" : "\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E commented on the following @comment_content_type: \u003Cstrong\u003E\u003Ca href=\u0022!comment_content_url\u0022\u003E@comment_content_title\u003C\/a\u003E\u003C\/strong\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E commented on the following @comment_content_type: \u003Cstrong\u003E\u003Ca href=\u0022!comment_content_url\u0022\u003E@comment_content_title\u003C\/a\u003E\u003C\/strong\u003E"
+      }
+    ]
+  },
+  "message_header" : { "und" : [
+      {
+        "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n  \r\n\u003Cp\u003EDiscover the latest updates you\u0027re subscribed to!\u003C\/p\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n  \n\u003Cp\u003EDiscover the latest updates you\u0027re subscribed to!\u003C\/p\u003E"
+      }
+    ]
+  },
+  "message_footer" : { "und" : [
+      {
+        "value" : "\u003Cp\u003EYou are receiving these updates because you are subscribed to capacity4dev notification message(s) - to manage these, update your \u003Ca href=\u0022!user_settings_url\u0022\u003Enotification settings\u003C\/a\u003E.\u003C\/p\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EYou are receiving these updates because you are subscribed to capacity4dev notification message(s) - to manage these, update your \u003Ca href=\u0022!user_settings_url\u0022\u003Enotification settings\u003C\/a\u003E.\u003C\/p\u003E"
       }
     ]
   },
@@ -576,7 +660,7 @@ function _c4m_message_get_messages_mt28() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EYour @group_node_type\u0026nbsp;@group_node_title\u0026nbsp;is published\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @group_admin_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\nCongratulations!\u0026nbsp;\u003Ca href=\u0022!group_dashboard_url\u0022 rel=\u0022nofollow\u0022\u003E@group_node_title\u003C\/a\u003E is now published.\u003C\/p\u003E\r\n\r\n\u003Cp\u003E@event_user_full_name updated the status of this @group_node_type from Draft to Published.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYou can consult \u003Ca href=\u0022!help_section_url\u0022 rel=\u0022nofollow\u0022\u003Ethis help section\u003C\/a\u003E to find out more about @group_node_type statuses and what they imply.\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\nThe capacity4dev team\u003C\/p\u003E\r\n",
@@ -615,7 +699,7 @@ function _c4m_message_get_messages_mt29() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EYour @group_node_type\u0026nbsp;@group_node_title\u0026nbsp;is no longer published\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @group_admin_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!group_dashboard_url\u0022 rel=\u0022nofollow\u0022\u003E@group_node_title\u003C\/a\u003E\u0026nbsp;reverted back to Draft status.\u003C\/p\u003E\r\n\r\n\u003Cp\u003E@event_user_full_name\u0026nbsp;updated the status of this @group_node_type from @group_former_status to Draft.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYou can consult \u003Ca href=\u0022!help_section_url\u0022 rel=\u0022nofollow\u0022\u003Ethis help section\u003C\/a\u003E to find out more about @group_node_type statuses and what they imply.\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\nThe capacity4dev team\u003C\/p\u003E\r\n",
@@ -654,7 +738,7 @@ function _c4m_message_get_messages_mt30() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EYour @group_node_type @group_node_title is archived\u003C\/p\u003E\r\n\r\n\u003Cp\u003E \u003C\/p\u003E\r\n\r\n\u003Cp\u003E \u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @group_admin_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!group_dashboard_url\u0022 rel=\u0022nofollow\u0022\u003E@group_node_title\u003C\/a\u003E is now archived.\u003C\/p\u003E\r\n\r\n\u003Cp\u003E@event_user_full_name updated the status of this @group_node_type from @group_former_status to Archived.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYou can consult \u003Ca href=\u0022!help_section_url\u0022 rel=\u0022nofollow\u0022\u003Ethis help section\u003C\/a\u003E to find out more about @group_node_type statuses and what they imply.\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\nThe capacity4dev team\u003C\/p\u003E\r\n",
@@ -693,7 +777,7 @@ function _c4m_message_get_messages_mt31() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EYour @group_node_type\u0026nbsp;@group_node_title\u0026nbsp;is published once again\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @group_admin_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!group_dashboard_url\u0022 rel=\u0022nofollow\u0022\u003E@group_node_title\u003C\/a\u003E was published once again.\u003C\/p\u003E\r\n\r\n\u003Cp\u003E@event_user_full_name\u0026nbsp;updated the status of this @group_node_type from @group_former_status to Published.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYou can consult \u003Ca href=\u0022!help_section_url\u0022 rel=\u0022nofollow\u0022\u003Ethis help section\u003C\/a\u003E to find out more about @group_node_type statuses and what they imply.\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\nThe capacity4dev team\u003C\/p\u003E\r\n",
@@ -732,7 +816,7 @@ function _c4m_message_get_messages_mt32() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EThe @group_node_type\u0026nbsp;@group_node_title was\u0026nbsp;deleted\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear administrator,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!group_dashboard_url\u0022 rel=\u0022nofollow\u0022\u003E@group_node_title\u003C\/a\u003E has been deleted.\u003C\/p\u003E\r\n\r\n\u003Cp\u003E@event_user_full_name updated the status of this @group_node_type from @group_former_status to Deleted.\u003C\/p\u003E\r\n",
@@ -771,7 +855,7 @@ function _c4m_message_get_messages_mt34() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EYour @group_node_type @group_node_title has new permissions!\u003C\/p\u003E\r\n\r\n\u003Cp\u003E \u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @group_admin_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E@event_user_full_name updated the permissions of this @group_node_type to @group_permissions.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYou can consult \u003Ca href=\u0022!help_section_url\u0022 rel=\u0022nofollow\u0022\u003Ethis help section\u003C\/a\u003E to find out more about Group permissions and what they imply.\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\nThe capacity4dev team\u003C\/p\u003E\r\n",
@@ -810,7 +894,7 @@ function _c4m_message_get_messages_mt35() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EYou are now administrator for\u0026nbsp;@group_node_type: @group_node_title\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @member_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYou are now an administrator for the @group_node_type \u003Ca href=\u0022!group_dashboard_url\u0022\u003E@group_node_title\u003C\/a\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003EDiscover new functionalities and find out how you can administer this @group_node_type by consulting the following \u003Ca href=\u0022!help_section_url\u0022 rel=\u0022nofollow\u0022\u003Ehelp section\u003C\/a\u003E.\u003C\/p\u003E\r\n\r\n\u003Cp\u003Eif you have any questions about your role as administrator, please feel free to \u003Ca href=\u0022!event_user_message_url\u0022\u003Econtact me\u003C\/a\u003E.\u003C\/p\u003E\r\n\r\n\u003Cp\u003E@event_user_full_name\u003Cbr \/\u003E\r\n@group_node_type Administrator, @group_node_title\u003C\/p\u003E\r\n",
@@ -849,7 +933,7 @@ function _c4m_message_get_messages_mt36() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EYou are no longer administrator for @group_node_type: @group_node_title\u003C\/p\u003E\r\n\r\n\u003Cp\u003E \u003C\/p\u003E\r\n\r\n\u003Cp\u003E \u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @member_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYour administration rights for the @group_node_type \u003Ca href=\u0022!group_dashboard_url\u0022 rel=\u0022nofollow\u0022\u003E@group_node_title\u003C\/a\u003E have been removed.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EIf you have any questions about your new role within this @group_node_type, please feel free to \u003Ca href=\u0022!event_user_message_url\u0022 rel=\u0022nofollow\u0022\u003Econtact me\u003C\/a\u003E.\u003C\/p\u003E\r\n\r\n\u003Cp\u003E@event_user_full_name\u003Cbr \/\u003E\r\n@group_node_type Administrator, @group_node_title\u003C\/p\u003E\r\n",
@@ -888,7 +972,7 @@ function _c4m_message_get_messages_mt40() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003E@group_node_title:\u0026nbsp;a new member was accepted\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @group_admin_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E just approved the following user\u0027s membership request to join our @group_node_type \u003Cstrong\u003E\u003Ca href=\u0022!group_dashboard_url\u0022 rel=\u0022nofollow\u0022\u003E@group_node_title\u003C\/a\u003E\u003C\/strong\u003E at [site:name]:\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cstrong\u003E@related_user_full_name\u003C\/strong\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003E@related_user_organisation, (@related_user_organisation_type)\u003C\/p\u003E\r\n\r\n\u003Cp\u003EBased in @related_user_country\u003C\/p\u003E\r\n\r\n\u003Cp\u003EExpertise: @related_user_expertise\u003C\/p\u003E\r\n\r\n\u003Cp\u003EView this member\u0027s \u003Ca href=\u0022!related_user_public_profile_url\u0022 rel=\u0022nofollow\u0022\u003Eprofile\u003C\/a\u003E at [site:name].\u003C\/p\u003E\r\n",
@@ -927,12 +1011,33 @@ function _c4m_message_get_messages_mt46() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003E@content_type_name @content_node_title from @group_node_title got updated\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E updated the following @content_type_name: \u003Cstrong\u003E\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cem\u003E@node_teaser_body \u003C\/em\u003E\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!content_node_url\u0022\u003ERead more...\u003C\/a\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYou\u0027re receiving this e-mail because you\u0027re subscribed to \u003Ca href=\u0022!group_dashboard_url\u0022\u003E@group_node_title\u003C\/a\u003E - if you no longer wish to receive notifications from this @group_node_type, please \u003Ca href=\u0022!unsubscribe_group_url\u0022\u003Eunsubscribe.\u003C\/a\u003E\u003C\/p\u003E\r\n",
         "format" : "mail",
         "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E updated the following @content_type_name: \u003Cstrong\u003E\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E\n\n\u003Cp\u003E\u003Cem\u003E@node_teaser_body \u003C\/em\u003E\u003Cbr \/\u003E\n\u003Ca href=\u0022!content_node_url\u0022\u003ERead more...\u003C\/a\u003E\u003C\/p\u003E\n\n\u003Cp\u003EYou\u0027re receiving this e-mail because you\u0027re subscribed to \u003Ca href=\u0022!group_dashboard_url\u0022\u003E@group_node_title\u003C\/a\u003E - if you no longer wish to receive notifications from this @group_node_type, please \u003Ca href=\u0022!unsubscribe_group_url\u0022\u003Eunsubscribe.\u003C\/a\u003E\u003C\/p\u003E\n"
+      },
+      {
+        "value" : "\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E, @content_type_name updated by \u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E, @content_type_name updated by \u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E"
+      }
+    ]
+  },
+  "message_header" : { "und" : [
+      {
+        "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n  \r\n\u003Cp\u003EDiscover the latest updates you\u0027re subscribed to!\u003C\/p\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n  \n\u003Cp\u003EDiscover the latest updates you\u0027re subscribed to!\u003C\/p\u003E"
+      }
+    ]
+  },
+  "message_footer" : { "und" : [
+      {
+        "value" : "\u003Cp\u003EYou are receiving these updates because you are subscribed to capacity4dev notification message(s) - to manage these, update your \u003Ca href=\u0022!user_settings_url\u0022\u003Enotification settings\u003C\/a\u003E.\u003C\/p\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EYou are receiving these updates because you are subscribed to capacity4dev notification message(s) - to manage these, update your \u003Ca href=\u0022!user_settings_url\u0022\u003Enotification settings\u003C\/a\u003E.\u003C\/p\u003E"
       }
     ]
   },
@@ -966,7 +1071,7 @@ function _c4m_message_get_messages_mt48() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EYour request to join\u0026nbsp;@group_node_title\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @member_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\nThank you for requesting membership to @group_node_title at [site:name].\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYour membership is currently waiting to be approved by one of the @group_node_type\u2019s administrators, and should be processed shortly.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EIf you have any questions, please feel free to \u003Ca href=\u0022mailto:capacity4dev@ec.europa.eu\u0022\u003Econtact us\u003C\/a\u003E; we will be happy to help.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EThe [site:name] team\u003C\/p\u003E\r\n",
@@ -1005,7 +1110,7 @@ function _c4m_message_get_messages_mt49() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EYour @group_node_type\u0026nbsp;request on [site:name]\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @group_owner_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\nThank you for requesting the creation of the following @group_node_type: @group_node_title at [site:name].\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYour request is currently pending review by one of the site\u0027s administrators and should be treated shortly.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EIf you have any questions, please feel free to \u003Ca href=\u0022mailto:capacity4dev@ec.europa.eu\u0022 rel=\u0022nofollow\u0022\u003Econtact us\u003C\/a\u003E.\u003C\/p\u003E\r\n\r\n\u003Cp\u003EThe [site:name] team\u003C\/p\u003E\r\n",
@@ -1044,12 +1149,33 @@ function _c4m_message_get_messages_mt51() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003EYour @content_type_name @content_node_title was updated\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E edited the following @content_type_name: \u003Cstrong\u003E\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003ETake a look at the latest changes by accessing this @content_type_name\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!content_node_url\u0022\u003ERead more...\u003C\/a\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYou\u0027re receiving this e-mail because you\u0027re subscribed to the @content_type_name \u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E\u0026nbsp;- if you no longer wish to receive notifications from this @content_type_name, please \u003Ca href=\u0022!unsubscribe_content_url\u0022\u003Eunsubscribe.\u003C\/a\u003E\u003C\/p\u003E\r\n",
         "format" : "mail",
         "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E edited the following @content_type_name: \u003Cstrong\u003E\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E\n\n\u003Cp\u003ETake a look at the latest changes by accessing this @content_type_name\u003Cbr \/\u003E\n\u003Ca href=\u0022!content_node_url\u0022\u003ERead more...\u003C\/a\u003E\u003C\/p\u003E\n\n\u003Cp\u003EYou\u0027re receiving this e-mail because you\u0027re subscribed to the @content_type_name \u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E\u0026nbsp;- if you no longer wish to receive notifications from this @content_type_name, please \u003Ca href=\u0022!unsubscribe_content_url\u0022\u003Eunsubscribe.\u003C\/a\u003E\u003C\/p\u003E\n"
+      },
+      {
+        "value" : "\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E, @content_type_name was updated by \u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E, @content_type_name was updated by \u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E"
+      }
+    ]
+  },
+  "message_header" : { "und" : [
+      {
+        "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n  \r\n\u003Cp\u003EDiscover the latest updates you\u0027re subscribed to!\u003C\/p\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n  \n\u003Cp\u003EDiscover the latest updates you\u0027re subscribed to!\u003C\/p\u003E"
+      }
+    ]
+  },
+  "message_footer" : { "und" : [
+      {
+        "value" : "\u003Cp\u003EYou are receiving these updates because you are subscribed to capacity4dev notification message(s) - to manage these, update your \u003Ca href=\u0022!user_settings_url\u0022\u003Enotification settings\u003C\/a\u003E.\u003C\/p\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EYou are receiving these updates because you are subscribed to capacity4dev notification message(s) - to manage these, update your \u003Ca href=\u0022!user_settings_url\u0022\u003Enotification settings\u003C\/a\u003E.\u003C\/p\u003E"
       }
     ]
   },
@@ -1083,12 +1209,33 @@ function _c4m_message_get_messages_mt53() {
   "message_text" : { "und" : [
       {
         "value" : "\u003Cp\u003ENew @content_type_name was shared to @group_node_title\u003C\/p\u003E\r\n",
-        "format" : "filtered_html"
+        "format" : "mail"
       },
       {
         "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E @event_action the following @content_type_name from \u003Ca href=\u0022!original_group_dashboard_url\u0022\u003E@original_group_node_title\u003C\/a\u003E: \u003Cstrong\u003E\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E\u003C\/strong\u003E.\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cem\u003E@node_teaser_body\u003C\/em\u003E\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!content_node_url\u0022\u003ERead more...\u003C\/a\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYou\u0027re receiving this e-mail because you\u0027re subscribed to \u003Ca href=\u0022!group_dashboard_url\u0022\u003E@group_node_title\u003C\/a\u003E - if you no longer wish to receive notifications from this @group_node_type, please \u003Ca href=\u0022!unsubscribe_group_url\u0022\u003Eunsubscribe.\u003C\/a\u003E\u003C\/p\u003E\r\n",
         "format" : "mail",
         "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E @event_action the following @content_type_name from \u003Ca href=\u0022!original_group_dashboard_url\u0022\u003E@original_group_node_title\u003C\/a\u003E: \u003Cstrong\u003E\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E\u003C\/strong\u003E.\u003C\/p\u003E\n\n\u003Cp\u003E\u003Cem\u003E@node_teaser_body\u003C\/em\u003E\u003Cbr \/\u003E\n\u003Ca href=\u0022!content_node_url\u0022\u003ERead more...\u003C\/a\u003E\u003C\/p\u003E\n\n\u003Cp\u003EYou\u0027re receiving this e-mail because you\u0027re subscribed to \u003Ca href=\u0022!group_dashboard_url\u0022\u003E@group_node_title\u003C\/a\u003E - if you no longer wish to receive notifications from this @group_node_type, please \u003Ca href=\u0022!unsubscribe_group_url\u0022\u003Eunsubscribe.\u003C\/a\u003E\u003C\/p\u003E\n"
+      },
+      {
+        "value" : "\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E, @content_type_name was shared to \u003Ca href=\u0022!group_dashboard_url\u0022\u003E@group_node_title\u003C\/a\u003E by \u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E, @content_type_name was shared to \u003Ca href=\u0022!group_dashboard_url\u0022\u003E@group_node_title\u003C\/a\u003E by \u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E"
+      }
+    ]
+  },
+  "message_header" : { "und" : [
+      {
+        "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n  \r\n\u003Cp\u003EDiscover the latest updates you\u0027re subscribed to!\u003C\/p\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n  \n\u003Cp\u003EDiscover the latest updates you\u0027re subscribed to!\u003C\/p\u003E"
+      }
+    ]
+  },
+  "message_footer" : { "und" : [
+      {
+        "value" : "\u003Cp\u003EYou are receiving these updates because you are subscribed to capacity4dev notification message(s) - to manage these, update your \u003Ca href=\u0022!user_settings_url\u0022\u003Enotification settings\u003C\/a\u003E.\u003C\/p\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EYou are receiving these updates because you are subscribed to capacity4dev notification message(s) - to manage these, update your \u003Ca href=\u0022!user_settings_url\u0022\u003Enotification settings\u003C\/a\u003E.\u003C\/p\u003E"
       }
     ]
   },
@@ -1129,6 +1276,27 @@ function _c4m_message_get_messages_mt54() {
         "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E @event_action the following @content_type_name: \u003Cstrong\u003E\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cem\u003E@node_teaser_body \u003C\/em\u003E\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!content_node_url\u0022\u003ERead more...\u003C\/a\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYou\u0027re receiving this e-mail because you\u0027re subscribed to \u003Cstrong\u003E@term_name\u003C\/strong\u003E - if you no longer wish to receive notifications related to this topic, please \u003Ca href=\u0022!unsubscribe_term_url\u0022\u003Eunsubscribe.\u003C\/a\u003E\u003C\/p\u003E",
         "format" : "mail",
         "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E @event_action the following @content_type_name: \u003Cstrong\u003E\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E\n\n\u003Cp\u003E\u003Cem\u003E@node_teaser_body \u003C\/em\u003E\u003Cbr \/\u003E\n\u003Ca href=\u0022!content_node_url\u0022\u003ERead more...\u003C\/a\u003E\u003C\/p\u003E\n\n\u003Cp\u003EYou\u0027re receiving this e-mail because you\u0027re subscribed to \u003Cstrong\u003E@term_name\u003C\/strong\u003E - if you no longer wish to receive notifications related to this topic, please \u003Ca href=\u0022!unsubscribe_term_url\u0022\u003Eunsubscribe.\u003C\/a\u003E\u003C\/p\u003E"
+      },
+      {
+        "value" : "\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E, @content_type_name @event_action by \u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E, @content_type_name @event_action by \u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E"
+      }
+    ]
+  },
+  "message_header" : { "und" : [
+      {
+        "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n  \r\n\u003Cp\u003EDiscover the latest updates you\u0027re subscribed to!\u003C\/p\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n  \n\u003Cp\u003EDiscover the latest updates you\u0027re subscribed to!\u003C\/p\u003E"
+      }
+    ]
+  },
+  "message_footer" : { "und" : [
+      {
+        "value" : "\u003Cp\u003EYou are receiving these updates because you are subscribed to capacity4dev notification message(s) - to manage these, update your \u003Ca href=\u0022!user_settings_url\u0022\u003Enotification settings\u003C\/a\u003E.\u003C\/p\u003E",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EYou are receiving these updates because you are subscribed to capacity4dev notification message(s) - to manage these, update your \u003Ca href=\u0022!user_settings_url\u0022\u003Enotification settings\u003C\/a\u003E.\u003C\/p\u003E"
       }
     ]
   },

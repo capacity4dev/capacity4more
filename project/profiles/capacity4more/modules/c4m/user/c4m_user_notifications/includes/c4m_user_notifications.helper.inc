@@ -121,14 +121,17 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
             unset($users[$key]);
             continue;
           }
-          $user_object = ['notifiers' => [$preference->getPreference() => $preference->getPreference()]];
+          $user_object = [
+            'notifiers' => [$preference->getPreference() => $preference->getPreference()],
+            'entity_id' => $entity_id,
+          ];
         }
         else {
           // No specific preference; use immediate notification.
-//          $user_object = ['notifiers' => ['email' => 'email']];
-
-          unset($users[$key]);
-          continue;
+          $user_object = [
+            'notifiers' => ['email' => 'email'],
+            'entity_id' => $entity_id,
+          ];
         }
       }
     }

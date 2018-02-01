@@ -88,7 +88,7 @@ function c4m_message_digest_set_preference(C4mMessagePreference $preference) {
  */
 function c4m_message_digest_ctools_plugin_api($module, $api) {
   if ($module == 'message_notify' && $api == 'notifier') {
-    return array('version' => 1);
+    return ['version' => 1];
   }
 }
 
@@ -99,4 +99,152 @@ function c4m_message_digest_ctools_plugin_directory($owner, $plugin_type) {
   if ($owner == 'message_notify') {
     return 'plugins/' . $plugin_type;
   }
+}
+
+/**
+ * Calls the {c4m_message_digest_grouping_info} hook and returns its result.
+ *
+ * @return array
+ *   All the (cached) callback information keyed by message_type.
+ */
+function c4m_message_digest_get_grouping_info() {
+  $cache_key = 'c4m_message_digest:grouping_info';
+  $info = &drupal_static($cache_key);
+
+  // Retrieve from Cache if not loaded before.
+  if (!isset($info)) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
+      $info = $cache->data;
+    }
+    else {
+      $hook = 'c4m_message_digest_grouping_info';
+      $info = module_invoke_all($hook);
+      cache_set($cache_key, $info);
+    }
+  }
+
+  return $info;
+}
+
+/**
+ * Implements hook_c4m_message_digest_grouping_info().
+ */
+function c4m_message_digest_c4m_message_digest_grouping_info() {
+  return [
+    'c4m_notify_subscribe_content_of_interest' => [
+      'title_callback' => 'c4m_message_digest_format_taxonomy_term_title',
+      'title_callback_argument_field' => 'field_taxonomy_term',
+    ],
+    'c4m_notify_editors_group_content_updated' => [
+      'title_callback' => 'c4m_message_digest_format_group_title',
+      'title_callback_argument_field' => 'field_group_node',
+    ],
+    'c4m_new_content_share_published' => [
+      'title_callback' => 'c4m_message_digest_format_group_title',
+      'title_callback_argument_field' => 'field_group_node',
+    ],
+    'c4m_group_content_updated' => [
+      'title_callback' => 'c4m_message_digest_format_group_title',
+      'title_callback_argument_field' => 'field_group_node',
+    ],
+    'c4m_new_content_published' => [
+      'title_callback' => 'c4m_message_digest_format_group_title',
+      'title_callback_argument_field' => 'field_group_node',
+    ],
+    'c4m_notify_content_followers_new_comment' => [
+      'title_callback' => 'c4m_message_digest_format_node_title',
+      'title_callback_argument_field' => 'field_node',
+    ],
+    'c4m_notify_content_recommendation' => [
+      'title_callback' => 'c4m_message_digest_format_node_title',
+      'title_callback_argument_field' => 'field_node',
+    ],
+    'c4m_notify_subscribers_new_comment' => [
+      'title_callback' => 'c4m_message_digest_format_node_title',
+      'title_callback_argument_field' => 'field_node',
+    ],
+  ];
+}
+
+/**
+ * Callback to format a taxonomy term hierarchy to group digest messages.
+ *
+ * @param int $tid
+ *   Taxonomy term id.
+ *
+ * @return string
+ *   Formatted title (with icon and hierarchy).
+ */
+function c4m_message_digest_format_taxonomy_term_title($tid = 0) {
+  $output = [];
+  $separator = ' > ';
+
+  if (empty($tid)) {
+    return '';
+  }
+
+  $taxonomy_tree = taxonomy_get_parents_all($tid);
+
+  if (empty($taxonomy_tree)) {
+    return '';
+  }
+
+  $icon_path = drupal_get_path('module', 'c4m_message_digest') . '/icons/tags.png';
+  $icon = '<img src="' . url($icon_path, ['absolute' => TRUE]) . '" alt="Taxonomy term label"> ';
+
+  foreach ($taxonomy_tree as $term) {
+    $output[] = $term->name;
+  }
+
+  return $icon . implode($separator, $output);
+}
+
+/**
+ * Callback to format a node to group digest messages.
+ *
+ * @param int $nid
+ *   Node id.
+ *
+ * @return string
+ *   Formatted title (with content type icon).
+ */
+function c4m_message_digest_format_node_title($nid = 0) {
+  if (empty($nid)) {
+    return '';
+  }
+
+  $node = node_load($nid);
+
+  $icon_path = drupal_get_path('module', 'c4m_message_digest') . '/icons/' . $node->type . '.png';
+  $icon = '<img src="' . url($icon_path, ['absolute' => TRUE]) . '" alt="' . $node->type . '"> ';
+
+  return $icon . $node->title;
+}
+
+/**
+ * Callback to format a group/project to group digest messages.
+ *
+ * @param int $gid
+ *   Group/project node id.
+ *
+ * @return string
+ *   Formatted title (with group/project type icon).
+ */
+function c4m_message_digest_format_group_title($gid = 0) {
+  if (empty($gid)) {
+    return '';
+  }
+
+  $group = node_load($gid);
+
+  if ($group->type === 'project') {
+    $icon_path = drupal_get_path('module', 'c4m_message_digest') . '/icons/projects.png';
+    $icon = '<img src="' . url($icon_path, ['absolute' => TRUE]) . '" alt="Project"> ';
+  }
+  else {
+    $icon_path = drupal_get_path('module', 'c4m_message_digest') . '/icons/groups.png';
+    $icon = '<img src="' . url($icon_path, ['absolute' => TRUE]) . '" alt="Group"> ';
+  }
+
+  return $icon . $group->title;
 }

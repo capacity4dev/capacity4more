@@ -920,6 +920,11 @@ function c4m_message_load_tokens__c4m_notify_content_recommendation(
     'pass message' => TRUE,
   ];
 
+  $message->arguments['!user_settings_url'] = [
+    'callback' => 'c4m_message_format_user_settings_url',
+    'pass message' => TRUE,
+  ];
+
   $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
@@ -983,6 +988,11 @@ function c4m_message_load_tokens__c4m_content_inserted_or_updated(
     'pass message' => TRUE,
   ];
 
+  $message->arguments['!user_settings_url'] = [
+    'callback' => 'c4m_message_format_user_settings_url',
+    'pass message' => TRUE,
+  ];
+
   $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
@@ -1041,6 +1051,11 @@ function c4m_message_load_tokens__c4m_content_of_interest(
     'pass message' => TRUE,
   ];
 
+  $message->arguments['!user_settings_url'] = [
+    'callback' => 'c4m_message_format_user_settings_url',
+    'pass message' => TRUE,
+  ];
+
   $message->arguments['@event_user_full_name'] = [
     'callback' => 'c4m_message_format_event_user_full_name',
     'pass message' => TRUE,
@@ -1066,6 +1081,11 @@ function c4m_message_load_tokens__c4m_content_share_inserted_or_updated(
 ) {
   $message->arguments['!original_group_dashboard_url'] = [
     'callback' => 'c4m_message_format_original_group_url',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['!user_settings_url'] = [
+    'callback' => 'c4m_message_format_user_settings_url',
     'pass message' => TRUE,
   ];
 
@@ -1140,6 +1160,11 @@ function c4m_message_load_tokens__c4m_notify_subscribers_new_comment(
 
   $message->arguments['!unsubscribe_content_comments_url'] = [
     'callback' => 'c4m_message_format_unsubscribe_content_comments_url',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['!user_settings_url'] = [
+    'callback' => 'c4m_message_format_user_settings_url',
     'pass message' => TRUE,
   ];
 
@@ -1290,6 +1315,11 @@ function c4m_message_load_tokens__c4m_notify_content_followers_new_comment(
 
   $message->arguments['!unsubscribe_content_comments_url'] = [
     'callback' => 'c4m_message_format_unsubscribe_content_comments_url',
+    'pass message' => TRUE,
+  ];
+
+  $message->arguments['!user_settings_url'] = [
+    'callback' => 'c4m_message_format_user_settings_url',
     'pass message' => TRUE,
   ];
 
@@ -2130,6 +2160,19 @@ function c4m_message_format_unsubscribe_content_url(Message $message) {
 }
 
 /**
+ * Returns a url that is used to manage settings.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Unsubscribe url.
+ */
+function c4m_message_format_user_settings_url(Message $message) {
+  return _c4m_message_format_user_settings_url($message);
+}
+
+/**
  * Returns a url that is used to unsubscribe from following content comments.
  *
  * @param Message $message
@@ -2193,6 +2236,31 @@ function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
 
   return url(
     'user/' . $uid . '/unsubscribe/' . $flag_suffix . '/' . $nid . '/' . $hash,
+    $options
+  );
+}
+
+/**
+ * Helper function.
+ *
+ * Returns a url that is used to manage your settings.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Settings url.
+ */
+function _c4m_message_format_user_settings_url(Message $message) {
+  $uid = $message->uid;
+
+  $options = [
+    'absolute' => TRUE,
+    'purl' => ['disabled' => TRUE],
+  ];
+
+  return url(
+    'user/' . $uid . '/settings',
     $options
   );
 }
