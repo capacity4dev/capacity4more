@@ -776,16 +776,14 @@ var jQuery = jQuery || {};
       // We can target all forms not only form.node-form.
       $('form', context).once('disableSubmitButtons', function () {
         var $form = $(this);
-        $form.find('#edit-submit').click(function (e) {
+        $form.find('#edit-submit, #edit-draft, #edit-cancel, #edit-delete').click(function (e) {
           var el = $(this);
           el.after('<input type="hidden" name="' + el.attr('name') + '" value="' + el.attr('value') + '" />');
           return true;
         });
         $form.submit(function (e) {
           if (!e.isPropagationStopped()) {
-            $form.find('#edit-submit').addClass('form-disabled').attr("disabled", "disabled");
-            $form.find('#edit-cancel').addClass('form-disabled').attr("disabled", "disabled");
-            $form.find('#edit-delete').addClass('form-disabled').attr("disabled", "disabled");
+            $form.find('#edit-submit, #edit-draft, #edit-cancel, #edit-delete').addClass('form-disabled').attr('disabled', 'disabled');
             $form.find("#edit-preview-changes").addClass("disabled-preview");
             return true;
           }
