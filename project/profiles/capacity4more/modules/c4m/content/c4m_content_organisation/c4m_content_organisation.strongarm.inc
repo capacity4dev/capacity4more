@@ -56,7 +56,7 @@ function c4m_content_organisation_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_subject_field_organisation';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['comment_subject_field_organisation'] = $strongarm;
 
   $strongarm = new stdClass();
