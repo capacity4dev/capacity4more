@@ -813,6 +813,17 @@ function c4m_features_og_manage_project_thumbnail() {
       url('group/' . $project->entity_type . '/' . $project->nid . '/admin/people', $link_options)
     ),
   ];
+
+  // Statistics.
+  $group = c4m_og_current_group();
+  $options = array(
+    'absolute' => TRUE,
+    'purl' => array('enabled' => TRUE),
+  );
+  $path = 'group/node/' . $group->nid . '/admin/statistics';
+  $info['content_statistics'] = l(t("Project statistics"), $path, $options);
+  $info['member_statistics'] = l(t("Member statistics"), $path, $options);
+
   // Project thumbnail image with edit link.
   $info['thumbnail_image'] = NULL;
   $file = $wrapper->c4m_media->value();
