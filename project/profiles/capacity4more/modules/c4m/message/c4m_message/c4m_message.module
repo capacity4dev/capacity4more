@@ -3887,18 +3887,13 @@ function c4m_message_delete_message_confirm_submit($form, &$form_state) {
  *   Message object.
  */
 function c4m_message_delete_message_access($message) {
-  if (!($group = c4m_og_current_group())) {
-    // No group in context. User should be SA.
+  if (!isset($message->field_group_node[LANGUAGE_NONE][0]['target_id'])) {
+    // No group for the message. User should be SA.
     return c4m_user_is_site_admin();
   }
   else {
-    // Group in context should be the same as message's group.
-    if ($group->nid != $message->field_group_node[LANGUAGE_NONE][0]['target_id']) {
-      return FALSE;
-    }
-    else {
-      // User should be GA or GO or SA.
-      return c4m_features_og_members_is_power_user($group);
-    }
+    $group = node_load($message->field_group_node[LANGUAGE_NONE][0]['target_id']);
+    // User should be GA or GO or SA.
+    return c4m_features_og_members_is_power_user($group);
   }
 }

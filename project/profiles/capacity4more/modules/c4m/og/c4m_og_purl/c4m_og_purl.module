@@ -224,25 +224,25 @@ function _c4m_og_purl_path_is_add_group_content($path, $gid) {
  *   The allowed list.
  */
 function _c4m_og_purl_allowed_paths() {
-  return array(
-    'dashboard',
-    'node',
-    'group',
-    'wiki',
-    'documents',
-    'discussions',
-    'media',
+  return [
     'calendar',
     'comment',
-    'members',
+    'dashboard',
+    'discussions',
+    'documents',
+    'flag/confirm/%/%/%',
+    'group',
     'manage',
+    'media',
+    'members',
     'news',
-    'quick-post',
-    'searchgroup',
+    'node',
     'overlay-file',
     'overlay-node',
-    'flag/confirm/%/%/%',
-  );
+    'quick-post',
+    'searchgroup',
+    'wiki',
+  ];
 }
 
 /**
