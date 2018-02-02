@@ -508,6 +508,7 @@ function c4m_content_theme() {
   $theme['c4m_website_statistics_summary'] = array(
     'variables' => array(
       'data' => array(),
+      'more_link' => array(),
     ),
     'file' => 'c4m_content.theme.inc',
     'path' => drupal_get_path('module', 'c4m_content') . '/includes',
