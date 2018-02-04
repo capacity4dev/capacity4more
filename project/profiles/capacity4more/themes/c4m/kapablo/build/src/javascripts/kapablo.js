@@ -635,20 +635,23 @@ var jQuery = jQuery || {};
     requiredImageFields: null,
     emptyImageFields: null,
 
+    requiredDragAndDropFields: null,
+    emptyDragAndDropFields: null,
+
     requiredTextFields: null,
     emptyTextFields: null,
 
     requiredWidgetFields: null,
     emptyWidgetFields: null,
 
-    requiredTopicFields: null,
-    emptyTopicFields: null,
+    requiredAngularFields: null,
+    emptyAngularFields: null,
 
     forms: null,
     submitButtons: null,
 
     updateSubmitButtons: function () {
-      if (this.emptyTextFields || this.emptyWidgetFields || this.emptyImageFields || this.emptyTopicFields) {
+      if (this.emptyImageFields || this.emptyDragAndDropFields || this.emptyTextFields || this.emptyWidgetFields || this.emptyAngularFields) {
         this.submitButtons.addClass('form-disabled').attr('disabled', 'disabled');
       }
       else {
@@ -658,6 +661,30 @@ var jQuery = jQuery || {};
           }
         });
       }
+    },
+
+    checkImageFields: function () {
+      var emptyFields = false;
+      this.requiredImageFields.each(function () {
+        var fid = $(this).find('input.fid');
+        if (fid.val() === '0') {
+          emptyFields = true;
+        }
+      });
+
+      this.emptyImageFields = emptyFields;
+    },
+
+    checkDragAndDropFields: function () {
+      var emptyFields = false;
+      this.requiredDragAndDropFields.each(function () {
+        var fid = $(this).find("input[name$='[fid]']");
+        if (fid.val() === '0') {
+          emptyFields = true;
+        }
+      });
+
+      this.emptyDragAndDropFields = emptyFields;
     },
 
     checkTextFields: function () {
@@ -678,17 +705,6 @@ var jQuery = jQuery || {};
       this.emptyTextFields = emptyFields;
     },
 
-    checkImageFields: function () {
-      var emptyFields = false;
-      this.requiredImageFields.each(function () {
-        if ($(this).find('input.fid').val() === '0') {
-          emptyFields = true;
-        }
-      });
-
-      this.emptyImageFields = emptyFields;
-    },
-
     checkWidgetFields: function () {
       var emptyFields = false;
       this.requiredWidgetFields.each(function () {
@@ -700,29 +716,31 @@ var jQuery = jQuery || {};
       this.emptyWidgetFields = emptyFields;
     },
 
-    checkTopicFields: function () {
+    checkAngularFields: function () {
       var emptyFields = false;
-      this.requiredTopicFields.each(function () {
+      this.requiredAngularFields.each(function () {
         if ($(this).find('.selected-values > .ng-scope:not(.ng-hide)').length === 0) {
           emptyFields = true;
         }
       });
 
-      this.emptyTopicFields = emptyFields;
+      this.emptyAngularFields = emptyFields;
     },
 
     checkFields: function () {
-      this.checkWidgetFields();
       this.checkImageFields();
+      this.checkDragAndDropFields();
       this.checkTextFields();
-      this.checkTopicFields();
+      this.checkWidgetFields();
+      this.checkAngularFields();
     },
 
     initializeFields: function () {
-      this.requiredTextFields = this.forms.find('.required');
       this.requiredImageFields = this.forms.find('.field-type-image').has('.form-required');
+      this.requiredDragAndDropFields = this.forms.find('.field-widget-dragndrop-upload-file').has('.form-required');
+      this.requiredTextFields = this.forms.find('.required');
       this.requiredWidgetFields = this.forms.find('.required-checkbox');
-      this.requiredTopicFields = this.forms.find('.c4m_vocab_topic').has('.form-required');
+      this.requiredAngularFields = this.forms.find('.c4m_vocab_topic, .c4m_vocab_document_type').has('.form-required');
       this.submitButtons = this.forms.find('.form-actions').find('.form-submit, .form-preview');
 
       // Text fields.
@@ -739,9 +757,9 @@ var jQuery = jQuery || {};
         Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons();
       });
 
-      // Topics.
-      this.requiredTopicFields.click(function () {
-        // @todo Only Topic Fields are needed to be checked here.
+      // Angular fields.
+      this.requiredAngularFields.click(function () {
+        // @todo Only Angular Fields are needed to be checked here.
         Drupal.behaviors.disableSubmitUntilAllRequired.checkFields();
         Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons();
       });
@@ -757,6 +775,7 @@ var jQuery = jQuery || {};
           this.initializeFields();
         }
         this.checkFields();
+        this.updateSubmitButtons();
         return;
       }
 
