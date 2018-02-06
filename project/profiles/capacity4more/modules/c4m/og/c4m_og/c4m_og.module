@@ -3634,10 +3634,15 @@ function c4m_og_merge_groups_build_form($form, $form_state, $group) {
     );
   }
 
+  $form['users'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Merge users'),
+    '#default_value' => 1,
+  );
+
   $form['target_group'] = array(
     '#type' => 'textfield',
     '#title' => t("Merge to"),
-    '#required' => TRUE,
     '#entityreference' => array(
       'target_type' => 'node',
       'handler' => 'c4m_selection',
@@ -3681,9 +3686,15 @@ function c4m_og_merge_groups_build_form_submit($form, &$form_state) {
   $group = og_context();
 
   // Add merge users operation to batch.
-  $operations = [
-    ['_c4m_og_merge_users_batch', [$group['gid'], $values['target_group']]],
-  ];
+  $operations = [];
+
+  if (!empty($values['users'])) {
+    $operations[] = [
+      '_c4m_og_merge_users_batch',
+      [$group['gid'], $values['target_group']],
+    ];
+  }
+
   if (!empty($values['content_types'])) {
     // Add merge wiki pages operation to batch.
     if (!empty($values['content_types']['wiki_page'])) {
@@ -3752,34 +3763,39 @@ function _c4m_og_merge_users_batch($gid, $target_gid, &$context) {
  * Merge wiki pages to target group.
  */
 function _c4m_og_merge_wiki_pages_batch($gid, $target_gid, &$context) {
+  if (!empty($gid) && !empty($target_gid)) {
+    $content_query = db_select('og_membership', 'ogm');
+    $content_query->leftJoin('node', 'n', 'n.nid = ogm.etid');
+    $content_query->fields('ogm', array('etid'));
+    $content_query->condition('ogm.entity_type', 'node')
+      ->condition('ogm.gid', $gid)
+      ->condition('ogm.state', 1)
+      ->condition('n.type', 'wiki_page');
 
-  $content_query = db_select('og_membership', 'ogm');
-  $content_query->leftJoin('node', 'n', 'n.nid = ogm.etid');
-  $content_query->fields('ogm', array('etid'));
-  $content_query->condition('ogm.entity_type', 'node')
-    ->condition('ogm.gid', $gid)
-    ->condition('ogm.state', 1)
-    ->condition('n.type', 'wiki_page');
-
-  $n_ids = $content_query->execute()->fetchCol();
-  if (!empty($n_ids)) {
-    $nodes = node_load_multiple($n_ids);
-    if (!empty($nodes)) {
-      $target_group = node_load($target_gid);
-      foreach ($nodes as $node) {
-        if (empty($target_group->book['bid']) || empty($target_group->book['mlid'])) {
-          $node->book['bid'] = 'new';
-          $node->book['plid'] = 0;
+    $n_ids = $content_query->execute()->fetchCol();
+    if (!empty($n_ids)) {
+      $nodes = node_load_multiple($n_ids);
+      if (!empty($nodes)) {
+        $target_group = node_load($target_gid);
+        foreach ($nodes as $node) {
+          if (empty($target_group->book['bid']) || empty($target_group->book['mlid'])) {
+            $node->book['bid'] = 'new';
+            $node->book['plid'] = 0;
+          }
+          else {
+            // Move the wiki page to the book of the target group.
+            // The book merge will be completed after the content batch is done.
+            $node->book['bid'] = $target_group->book['bid'];
+            $node->book['plid'] = $target_group->book['mlid'];
+          }
+          book_node_update($node);
         }
-        else {
-          // Move the wiki page to the book of the target group.
-          // The book merge will be completed after the content batch is done.
-          $node->book['bid'] = $target_group->book['bid'];
-          $node->book['plid'] = $target_group->book['mlid'];
-        }
-        book_node_update($node);
       }
     }
+
+    $context['results'] = [
+      'target_gid' => $target_gid,
+    ];
   }
 }
 
@@ -3831,6 +3847,9 @@ function _c4m_og_merge_content_batch($gid, $target_gid, $content_types, &$contex
         }
       }
     }
+    $context['results'] = [
+      'target_gid' => $target_gid,
+    ];
   }
 }
 
@@ -3859,6 +3878,9 @@ function _c4m_og_merge_taxonomies_batch($gid, $target_gid, &$context) {
         taxonomy_term_save($term);
       }
     }
+    $context['results'] = [
+      'target_gid' => $target_gid,
+    ];
   }
 }
 
