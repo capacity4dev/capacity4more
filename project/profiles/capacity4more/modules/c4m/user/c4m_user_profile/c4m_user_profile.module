@@ -270,6 +270,16 @@ function c4m_user_profile_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['user/%user/settings'] = array(
+    'title' => 'Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_profile_settings_form', 1),
+    'access callback' => 'user_edit_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'c4m_user_profile.pages.inc',
+  );
+
   return $items;
 }
 

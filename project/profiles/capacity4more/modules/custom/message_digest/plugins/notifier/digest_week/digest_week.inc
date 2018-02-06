@@ -6,7 +6,7 @@
  */
 
 $plugin = array(
-  'title' => t('Weekly Message Digest'),
+  'title' => t('Weekly'),
   'description' => t('Send Message via weekly digest.'),
   'class' => 'MessageDigestWeek',
   'view_modes' => array(

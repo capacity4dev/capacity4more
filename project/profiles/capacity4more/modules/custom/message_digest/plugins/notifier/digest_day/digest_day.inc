@@ -6,7 +6,7 @@
  */
 
 $plugin = array(
-  'title' => t('Daily Message Digest'),
+  'title' => t('Daily'),
   'description' => t('Send Message via daily digest.'),
   'class' => 'MessageDigestDay',
   'view_modes' => array(

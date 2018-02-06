@@ -1,0 +1,38 @@
+.user_settings_row {
+  clear: both;
+  display: block;
+  margin-bottom: .5em;
+
+  select {
+    display: inline-block;
+    width: 10em;
+  }
+
+  .form-group {
+    display: inline-block;
+    margin: 0 1em 0 0;
+  }
+}
+
+#c4m-user-profile-settings-form {
+  fieldset {
+    margin-bottom: 1.5em;
+  }
+
+  h3 {
+    margin-top: 1em;
+  }
+
+  .node-icon {
+    float: none;
+  }
+
+  .group-type-icon {
+    margin: 2px;
+    text-align: center;
+  }
+
+  .disable-notifications {
+    float: right;
+  }
+}

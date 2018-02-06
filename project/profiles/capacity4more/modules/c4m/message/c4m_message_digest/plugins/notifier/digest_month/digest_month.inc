@@ -6,7 +6,7 @@
  */
 
 $plugin = array(
-  'title' => t('Monthly Message Digest'),
+  'title' => t('Monthly'),
   'description' => t('Send Message via monthly digest.'),
   'class' => 'MessageDigestMonth',
   'view_modes' => array(
