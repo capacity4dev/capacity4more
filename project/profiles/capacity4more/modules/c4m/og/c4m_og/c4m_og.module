@@ -3729,18 +3729,23 @@ function c4m_og_merge_groups_build_form_submit($form, &$form_state) {
  * Merge users to target group.
  */
 function _c4m_og_merge_users_batch($gid, $target_gid, &$context) {
-  $users_query = db_select('og_membership', 'ogm')
-    ->fields('ogm', array('id'))
-    ->condition('entity_type', 'user')
-    ->condition('gid', $gid)
-    ->condition('gid', $target_gid, '!=')
-    ->condition('state', 1);
-  $user_ids = $users_query->execute()->fetchCol();
-  $users = user_load_multiple($user_ids);
-  if (!empty($users)) {
-    foreach ($users as $user) {
-      og_group('node', $target_gid, ['entity' => $user]);
+  if (!empty($gid) && !empty($target_gid)) {
+    $users_query = db_select('og_membership', 'ogm')
+      ->fields('ogm', array('id'))
+      ->condition('entity_type', 'user')
+      ->condition('gid', $gid)
+      ->condition('gid', $target_gid, '!=')
+      ->condition('state', 1);
+    $user_ids = $users_query->execute()->fetchCol();
+    $users = user_load_multiple($user_ids);
+    if (!empty($users)) {
+      foreach ($users as $user) {
+        og_group('node', $target_gid, ['entity' => $user]);
+      }
     }
+    $context['results'] = [
+      'target_gid' => $target_gid,
+    ];
   }
 }
 
@@ -3758,21 +3763,23 @@ function _c4m_og_merge_wiki_pages_batch($gid, $target_gid, &$context) {
     ->condition('n.type', 'wiki_page');
 
   $n_ids = $content_query->execute()->fetchCol();
-  $nodes = node_load_multiple($n_ids);
-  if (!empty($nodes)) {
-    $target_group = node_load($target_gid);
-    foreach ($nodes as $node) {
-      if (empty($target_group->book['bid']) || empty($target_group->book['mlid'])) {
-        $node->book['bid'] = 'new';
-        $node->book['plid'] = 0;
+  if (!empty($n_ids)) {
+    $nodes = node_load_multiple($n_ids);
+    if (!empty($nodes)) {
+      $target_group = node_load($target_gid);
+      foreach ($nodes as $node) {
+        if (empty($target_group->book['bid']) || empty($target_group->book['mlid'])) {
+          $node->book['bid'] = 'new';
+          $node->book['plid'] = 0;
+        }
+        else {
+          // Move the wiki page to the book of the target group.
+          // The book merge will be completed after the content batch is finished.
+          $node->book['bid'] = $target_group->book['bid'];
+          $node->book['plid'] = $target_group->book['mlid'];
+        }
+        book_node_update($node);
       }
-      else {
-        // Move the wiki page to the book of the target group.
-        // The book merge will be completed after the content batch is finished.
-        $node->book['bid'] = $target_group->book['bid'];
-        $node->book['plid'] = $target_group->book['mlid'];
-      }
-      book_node_update($node);
     }
   }
 }
@@ -3781,45 +3788,49 @@ function _c4m_og_merge_wiki_pages_batch($gid, $target_gid, &$context) {
  * Merge content from selected content types to target group.
  */
 function _c4m_og_merge_content_batch($gid, $target_gid, $content_types, &$context) {
-  $content_query = db_select('og_membership', 'ogm');
-  $content_query->leftJoin('node', 'n', 'n.nid = ogm.etid');
-  $content_query->fields('ogm', array('etid'));
-  $content_query->condition('ogm.entity_type', 'node')
-    ->condition('ogm.gid', $gid)
-    ->condition('ogm.state', 1)
-    ->condition('n.type', $content_types, 'IN');
+  if (!empty($gid) && !empty($content_types) && !empty($target_gid)) {
+    $content_query = db_select('og_membership', 'ogm');
+    $content_query->leftJoin('node', 'n', 'n.nid = ogm.etid');
+    $content_query->fields('ogm', array('etid'));
+    $content_query->condition('ogm.entity_type', 'node')
+      ->condition('ogm.gid', $gid)
+      ->condition('ogm.state', 1)
+      ->condition('n.type', $content_types, 'IN');
 
-  $n_ids = $content_query->execute()->fetchCol();
+    $n_ids = $content_query->execute()->fetchCol();
 
-  if (!empty($n_ids)) {
-    if (empty($content_types['document'])) {
-      $doc_agenda_query = db_select('field_data_c4m_document_agenda', 'da')
-        ->fields('da', ['c4m_document_agenda_target_id'])
-        ->condition('entity_id', $n_ids, 'IN');
-      $doc_agenda_ids = $doc_agenda_query->execute()->fetchCol();
-      if (!empty($doc_agenda_ids)) {
-        $n_ids = array_merge($n_ids, $doc_agenda_ids);
+    if (!empty($n_ids)) {
+      if (empty($content_types['document'])) {
+        $doc_agenda_query = db_select('field_data_c4m_document_agenda', 'da')
+          ->fields('da', ['c4m_document_agenda_target_id'])
+          ->condition('entity_id', $n_ids, 'IN');
+        $doc_agenda_ids = $doc_agenda_query->execute()->fetchCol();
+        if (!empty($doc_agenda_ids)) {
+          $n_ids = array_merge($n_ids, $doc_agenda_ids);
+        }
+        $doc_presentation_query = db_select('field_data_c4m_document_presentation', 'dp')
+          ->fields('dp', ['c4m_document_presentation_target_id'])
+          ->condition('entity_id', $n_ids, 'IN');
+        $doc_presentation_ids = $doc_presentation_query->execute()->fetchCol();
+        if (!empty($doc_presentation_ids)) {
+          $n_ids = array_merge($n_ids, $doc_presentation_ids);
+        }
+        $related_doc_query = db_select('field_data_c4m_related_document', 'rd')
+          ->fields('rd', ['c4m_related_document_target_id'])
+          ->condition('entity_id', $n_ids, 'IN');
+        $doc_ids = $related_doc_query->execute()->fetchCol();
+        if (!empty($doc_ids)) {
+          $n_ids = array_merge($n_ids, $doc_ids);
+        }
       }
-      $doc_presentation_query = db_select('field_data_c4m_document_presentation', 'dp')
-        ->fields('dp', ['c4m_document_presentation_target_id'])
-        ->condition('entity_id', $n_ids, 'IN');
-      $doc_presentation_ids = $doc_presentation_query->execute()->fetchCol();
-      if (!empty($doc_presentation_ids)) {
-        $n_ids = array_merge($n_ids, $doc_presentation_ids);
+      $nodes = node_load_multiple($n_ids);
+      if (!empty($nodes)) {
+        foreach ($nodes as $node) {
+          $node_wrapper = entity_metadata_wrapper('node', $node);
+          $node_wrapper->og_group_ref->set($target_gid);
+          $node_wrapper->save();
+        }
       }
-      $related_doc_query = db_select('field_data_c4m_related_document', 'rd')
-        ->fields('rd', ['c4m_related_document_target_id'])
-        ->condition('entity_id', $n_ids, 'IN');
-      $doc_ids = $related_doc_query->execute()->fetchCol();
-      if (!empty($doc_ids)) {
-        $n_ids = array_merge($n_ids, $doc_ids);
-      }
-    }
-    $nodes = node_load_multiple($n_ids);
-    foreach ($nodes as $node) {
-      $node_wrapper = entity_metadata_wrapper('node', $node);
-      $node_wrapper->og_group_ref->set($target_gid);
-      $node_wrapper->save();
     }
   }
 }
@@ -3828,21 +3839,27 @@ function _c4m_og_merge_content_batch($gid, $target_gid, $content_types, &$contex
  * Merge taxonomies into the target group.
  */
 function _c4m_og_merge_taxonomies_batch($gid, $target_gid, &$context) {
-  $group = node_load($gid);
-  $target_group = node_load($target_gid);
-  $categories = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
-  $tags = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_tag');
-  $target_categories = c4m_og_vocab_load_group_vocabulary($target_group, 'c4m_vocab_category');
-  $target_tags = c4m_og_vocab_load_group_vocabulary($target_group, 'c4m_vocab_tag');
-  $category_terms = taxonomy_get_tree($categories->vid);
-  $tag_terms = taxonomy_get_tree($tags->vid);
-  foreach ($category_terms as $term) {
-    $term->vid = $target_categories->vid;
-    taxonomy_term_save($term);
-  }
-  foreach ($tag_terms as $term) {
-    $term->vid = $target_tags->vid;
-    taxonomy_term_save($term);
+  if (!empty($gid) && !empty($target_id)) {
+    $group = node_load($gid);
+    $target_group = node_load($target_gid);
+    $categories = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
+    $tags = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_tag');
+    $target_categories = c4m_og_vocab_load_group_vocabulary($target_group, 'c4m_vocab_category');
+    $target_tags = c4m_og_vocab_load_group_vocabulary($target_group, 'c4m_vocab_tag');
+    $category_terms = taxonomy_get_tree($categories->vid);
+    $tag_terms = taxonomy_get_tree($tags->vid);
+    if (!empty($category_terms)) {
+      foreach ($category_terms as $term) {
+        $term->vid = $target_categories->vid;
+        taxonomy_term_save($term);
+      }
+    }
+    if (!empty($tag_terms)) {
+      foreach ($tag_terms as $term) {
+        $term->vid = $target_tags->vid;
+        taxonomy_term_save($term);
+      }
+    }
   }
 }
 
@@ -3850,17 +3867,19 @@ function _c4m_og_merge_taxonomies_batch($gid, $target_gid, &$context) {
  * Delete merged group.
  */
 function _c4m_og_merge_group_detele_batch($gid, &$context) {
-  $query = db_select('og_membership', 'ogm');
-  $query->leftJoin('node', 'n', 'n.nid = ogm.etid');
-  $query->fields('ogm', array('etid'));
-  $query->condition('ogm.entity_type', 'node')
-    ->condition('ogm.gid', $gid);
+  if (!empty($gid)) {
+    $query = db_select('og_membership', 'ogm');
+    $query->leftJoin('node', 'n', 'n.nid = ogm.etid');
+    $query->fields('ogm', array('etid'));
+    $query->condition('ogm.entity_type', 'node')
+      ->condition('ogm.gid', $gid);
 
-  $n_ids = $query->execute()->fetchCol();
-  if (!empty($n_ids)) {
-    node_delete_multiple($n_ids);
+    $n_ids = $query->execute()->fetchCol();
+    if (!empty($n_ids)) {
+      node_delete_multiple($n_ids);
+    }
+    node_delete($gid);
   }
-  node_delete($gid);
 }
 
 /**
@@ -3869,6 +3888,9 @@ function _c4m_og_merge_group_detele_batch($gid, &$context) {
 function _c4m_og_merge_finished($success, $results, $operations) {
   if ($success) {
     drupal_set_message(t("Group was successfully merged."));
+    if (!empty($results['target_gid'])) {
+      drupal_goto('node/' . $results['target_gid']);
+    }
   }
   else {
     drupal_set_message(t('Finished with errors.'));
