@@ -3616,7 +3616,6 @@ function c4m_og_entity_delete($entity, $entity_type) {
   }
 }
 
-
 /**
  * Form builder.
  *
@@ -3774,7 +3773,7 @@ function _c4m_og_merge_wiki_pages_batch($gid, $target_gid, &$context) {
         }
         else {
           // Move the wiki page to the book of the target group.
-          // The book merge will be completed after the content batch is finished.
+          // The book merge will be completed after the content batch is done.
           $node->book['bid'] = $target_group->book['bid'];
           $node->book['plid'] = $target_group->book['mlid'];
         }
