@@ -6,69 +6,30 @@
  */
 
 define('C4M_MESSAGE_DIGEST_FREQUENCY_NEVER', 'never');
-
-/**
- * Retrieve the digest preference for a flag/entity/user combination.
- *
- * @param int $fid
- *   Flag ID.
- * @param string $entity_type
- *   Entity type.
- * @param int $entity_id
- *   Entity ID.
- * @param int $uid
- *   User ID.
- *
- * @return \C4mMessagePreference|null
- *   Valid C4mMessagePreference instance or NULL.
- */
-function c4m_message_digest_get_preference($fid, $entity_type, $entity_id, $uid) {
-  $select = db_select('message_digest_preferences', 'mdp');
-  $select->fields('mdp')
-    ->condition('fid', $fid)
-    ->condition('entity_type', $entity_type)
-    ->condition('entity_id', $entity_id)
-    ->condition('uid', $uid);
-
-  $result = $select->execute();
-
-  if ($record = $result->fetchAssoc()) {
-    // Init and return new value object.
-    try {
-      return new C4mMessagePreference($record['fid'], $record['entity_type'], $record['entity_id'], $record['uid'], $record['preference']);
-    }
-    catch (InvalidArgumentException $e) {
-      watchdog('c4m_message_digest', 'Could not retrieve the message preferences.');
-      watchdog('c4m_message_digest', 'Stacktrace: @e', ['@e' => var_export($e, TRUE)]);
-
-      return NULL;
-    }
-  }
-
-  return NULL;
-}
+define('C4M_MESSAGE_DIGEST_FREQUENCY_IMMEDIATELY', 'email');
+define('C4M_MESSAGE_DIGEST_FREQUENCY_DEFAULT', 'digest_week');
 
 /**
  * Store (save or update) preferences for a flag/entity/user combination.
  *
- * @param \C4mMessagePreference $preference
- *   Preference value object.
+ * @param object $flagging
+ *   Flagging object.
  */
-function c4m_message_digest_set_preference(C4mMessagePreference $preference) {
+function c4m_message_digest_set_preference($flagging) {
   try {
-    db_merge('message_digest_preferences')
+    db_merge('flagging')
       ->key([
-        'fid' => $preference->getFid(),
-        'entity_type' => $preference->getEntityType(),
-        'entity_id' => $preference->getEntityId(),
-        'uid' => $preference->getUid(),
+        'fid' => $flagging->fid,
+        'entity_type' => $flagging->entity_type,
+        'entity_id' => $flagging->entity_id,
+        'uid' => $flagging->uid,
       ])
       ->fields([
-        'fid' => $preference->getFid(),
-        'entity_type' => $preference->getEntityType(),
-        'entity_id' => $preference->getEntityId(),
-        'uid' => $preference->getUid(),
-        'preference' => $preference->getPreference(),
+        'fid' => $flagging->fid,
+        'entity_type' => $flagging->entity_type,
+        'entity_id' => $flagging->entity_id,
+        'uid' => $flagging->uid,
+        'preference' => $flagging->preference,
       ])
       ->execute();
   }
@@ -263,4 +224,26 @@ function _c4m_message_digest_get_subscribers_remove_unsubscribed($users) {
       unset($users[$index]);
     }
   }
+}
+
+/**
+ * Get the notifier for a flagging object.
+ *
+ * @param object $flagged_user
+ *   Flagging object.
+ *
+ * @return null|array
+ *   If a preference is not never, return it as an array, otherwise null.
+ */
+function c4m_message_digest_get_notifier($flagged_user) {
+  if ($flagged_user->preference === C4M_MESSAGE_DIGEST_FREQUENCY_NEVER) {
+    $user_notifier = NULL;
+  }
+  else {
+    $user_notifier = [
+      'notifiers' => [$flagged_user->preference => $flagged_user->preference],
+      'entity_id' => $flagged_user->entity_id,
+    ];
+  }
+  return $user_notifier;
 }

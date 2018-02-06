@@ -4,4 +4,3 @@ core = 7.x
 package = capacity4more - Message
 dependencies[] = c4m_message
 dependencies[] = message_digest
-files[] = includes/c4m_message_digest_preferences.inc

@@ -215,14 +215,8 @@ function c4m_user_profile_settings_form_submit(array $form, array &$form_state) 
   if (!empty($updates)) {
     foreach ($updates as $flagging_id => $update) {
       $flagging = flagging_load($flagging_id);
-      $preference = c4m_message_digest_get_preference($flagging->fid, $flagging->entity_type, $flagging->entity_id, check_plain($form_state['values']['user']));
-      if (empty($preference)) {
-        $preference = new C4mMessagePreference($flagging->fid, $flagging->entity_type, $flagging->entity_id, check_plain($form_state['values']['user']), $update);
-      }
-      else {
-        $preference = $preference->updatePreference($update);
-      }
-      c4m_message_digest_set_preference($preference);
+      $flagging->preference = $update;
+      c4m_message_digest_set_preference($flagging);
     }
   }
 
@@ -293,13 +287,7 @@ function _c4m_user_profile_settings_form_interests(array &$form, array $digest_o
   foreach ($flaggings as $flagging_id) {
     $flagging = flagging_load($flagging_id);
 
-    // Get preference.
-    $preference = c4m_message_digest_get_preference($flagging->fid, $flagging->entity_type, $flagging->entity_id, $account->uid);
-    // Default to weekly.
-    $default_option = 'digest_week';
-    if (!empty($preference)) {
-      $default_option = $preference->getPreference();
-    }
+    $default_option = $flagging->preference;
 
     $taxonomy_term = entity_load_single($flagging->entity_type, $flagging->entity_id);
     $parents = taxonomy_get_parents_all($taxonomy_term->tid);
@@ -365,13 +353,7 @@ function _c4m_user_profile_settings_form_groups(array &$form, array $digest_opti
   foreach ($flaggings as $flagging_id) {
     $flagging = flagging_load($flagging_id);
 
-    // Get preference.
-    $preference = c4m_message_digest_get_preference($flagging->fid, $flagging->entity_type, $flagging->entity_id, $account->uid);
-    // Default to weekly.
-    $default_option = 'digest_week';
-    if (!empty($preference)) {
-      $default_option = $preference->getPreference();
-    }
+    $default_option = $flagging->preference;
 
     $group = entity_load_single($flagging->entity_type, $flagging->entity_id);
 
@@ -475,13 +457,7 @@ function _c4m_user_profile_settings_form_nodes(array &$form, array $digest_optio
   foreach ($flaggings as $flagging_id) {
     $flagging = flagging_load($flagging_id);
 
-    // Get preference.
-    $preference = c4m_message_digest_get_preference($flagging->fid, $flagging->entity_type, $flagging->entity_id, $account->uid);
-    // Default to weekly.
-    $default_option = 'digest_week';
-    if (!empty($preference)) {
-      $default_option = $preference->getPreference();
-    }
+    $default_option = $flagging->preference;
 
     $node = entity_load_single($flagging->entity_type, $flagging->entity_id);
 
@@ -536,13 +512,7 @@ function _c4m_user_profile_settings_form_comments(array &$form, array $digest_op
   foreach ($flaggings as $flagging_id) {
     $flagging = flagging_load($flagging_id);
 
-    // Get preference.
-    $preference = c4m_message_digest_get_preference($flagging->fid, $flagging->entity_type, $flagging->entity_id, $account->uid);
-    // Default to weekly.
-    $default_option = 'digest_week';
-    if (!empty($preference)) {
-      $default_option = $preference->getPreference();
-    }
+    $default_option = $flagging->preference;
 
     $node = entity_load_single($flagging->entity_type, $flagging->entity_id);
 

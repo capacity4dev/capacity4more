@@ -1400,14 +1400,8 @@ function c4m_user_profile_unsubscribe_user($account, $entity_type, $entity_id) {
       continue;
     }
 
-    $preference = c4m_message_digest_get_preference($flagging->fid, $flagging->entity_type, $flagging->entity_id, $account->uid);
-    if (empty($preference)) {
-      $preference = new C4mMessagePreference($flagging->fid, $flagging->entity_type, $flagging->entity_id, $account->uid, C4M_MESSAGE_DIGEST_FREQUENCY_NEVER);
-    }
-    else {
-      $preference = $preference->updatePreference(C4M_MESSAGE_DIGEST_FREQUENCY_NEVER);
-    }
-    c4m_message_digest_set_preference($preference);
+    $flagging->preference = C4M_MESSAGE_DIGEST_FREQUENCY_NEVER;
+    c4m_message_digest_set_preference($flagging);
     break;
   }
 
