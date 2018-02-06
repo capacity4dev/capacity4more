@@ -3624,6 +3624,27 @@ function c4m_og_entity_delete($entity, $entity_type) {
 }
 
 /**
+ * Returns content type labels.
+ *
+ * @param array $machine_names
+ *   Content type machine names.
+ *
+ * @return array
+ *   Returns array of content type labels.
+ */
+function c4m_og_get_content_type_labels(array $machine_names) {
+  $query = db_select('node_type', 'nt')
+    ->fields('nt', array('type', 'name'))
+    ->condition('type', $machine_names, 'IN');
+  $results = $query->execute()->fetchAll();
+  $content_types = [];
+  foreach ($results as $result) {
+    $content_types[$result->type] = $result->name;
+  }
+  return $content_types;
+}
+
+/**
  * Form builder.
  *
  * Merge group content.
@@ -3632,12 +3653,12 @@ function c4m_og_merge_groups_build_form($form, $form_state, $group) {
   $current_group = c4m_og_current_group();
   $content_types = c4m_og_feature_enabled_content_types();
   if (!empty($content_types)) {
-    $final_array = array_combine($content_types, $content_types);
+    $options = c4m_og_get_content_type_labels($content_types);
     $form['content_types'] = array(
       '#title' => t('Select the different content types to merge to the target group. Note that all other  (unselected) content will be deleted permanently.'),
       '#type' => 'checkboxes',
-      '#options' => $final_array,
-      '#default_value' => $final_array,
+      '#options' => $options,
+      '#default_value' => $content_types,
     );
   }
 
