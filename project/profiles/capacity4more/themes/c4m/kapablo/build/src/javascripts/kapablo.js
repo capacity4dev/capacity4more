@@ -744,7 +744,7 @@ var jQuery = jQuery || {};
       this.submitButtons = this.forms.find('.form-actions').find('.form-submit, .form-preview');
 
       // Text fields.
-      this.requiredTextFields.on('input', function () {
+      this.requiredTextFields.on('input change', function () {
         // @todo Only Text Fields are needed to be checked here.
         Drupal.behaviors.disableSubmitUntilAllRequired.checkFields();
         Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons();
