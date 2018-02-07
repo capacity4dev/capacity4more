@@ -393,7 +393,9 @@ function c4m_search_form($form, &$form_state) {
   // Submit button.
   $form['basic']['submit'] = array(
     '#type' => 'submit',
-    '#value' => '<i class="fa fa-search"></i>',
+    '#value' => 'Submit',
+    '#hide_text' => TRUE,
+    '#icon' => '<i class="fa fa-search"></i>',
   );
 
   return $form;
@@ -461,7 +463,9 @@ function c4m_search_redirect_form($form, &$form_state, $redirect_url, $title = N
   // Submit button.
   $form['basic']['submit'] = array(
     '#type' => 'submit',
-    '#value' => '<i class="fa fa-search"></i>',
+    '#value' => 'Submit',
+    '#hide_text' => TRUE,
+    '#icon' => '<i class="fa fa-search"></i>',
   );
 
   return $form;
