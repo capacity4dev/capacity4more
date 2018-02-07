@@ -571,10 +571,10 @@ function c4m_helper_entity_c4m_content_actions_info() {
  * Callback to show the print buttons.
  *
  * @param object $node
- *    The node object.
+ *   The node object.
  *
  * @return null|string
- *    Rendered output of the share link.
+ *   Rendered output of the share link.
  */
 function c4m_helper_entity_print_action($node = NULL) {
   $output = array(

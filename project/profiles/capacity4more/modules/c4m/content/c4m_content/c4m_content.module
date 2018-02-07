@@ -1484,3 +1484,34 @@ function c4m_content_node_access_records($node) {
 
   return c4m_content_group_node_access_records($group);
 }
+
+/**
+ * Implements hook_ds_fields_info().
+ */
+function c4m_content_ds_fields_info($entity_type) {
+  $fields = [
+    'c4m_dsfield_print_page_button' => [
+      'title' => t('C4M - Print page button'),
+      'field_type' => DS_FIELD_TYPE_FUNCTION,
+      'function' => '_c4m_content_dsfield_print_button',
+    ],
+  ];
+
+  return [$entity_type => $fields];
+}
+
+/**
+ * Defines ds field for page print.
+ *
+ * @param array $field
+ *   Field settings.
+ *
+ * @return string
+ *   Output of the ds field.
+ */
+function _c4m_content_dsfield_print_button(array $field) {
+  $output = array(
+    '#theme' => 'c4m_helper_entity_actions_print',
+  );
+  return render($output);
+}

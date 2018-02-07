@@ -71,6 +71,7 @@
   #footer-bottom-wrapper,
   #footer-top-wrapper,
   #header-content-wrapper,
+  #printThisPage,
   #top-menu,
   #user-bar .userbar-userprofile,
   .alert-block,
@@ -78,6 +79,7 @@
   .fa-search,
   .field-name-c4m-content-wiki-page-collapse,
   .field-name-c4m-ds-content-actions,
+  .field-name-c4m-ds-content-footer-stats,
   .content-col ul.links,
   .comment-form,
   .comment-wrapper,
@@ -103,6 +105,9 @@
   .view .total-items,
   ul.nav-tabs {
     display: none;
+  }
+  .fa-search {
+    display: none !important;
   }
 
   // Expand group navigation.
@@ -215,7 +220,7 @@
     }
   }
   .page-container, .page-content, .container--push {
-    height: auto;
+    height: auto !important;
   }
 
 }
