@@ -3650,7 +3650,10 @@ function c4m_og_get_content_type_labels(array $machine_names) {
  * Merge group content.
  */
 function c4m_og_merge_groups_build_form($form, $form_state, $group) {
-  $current_group = c4m_og_current_group();
+  $node = menu_get_object();
+  if (!og_is_group('node', $node)) {
+    drupal_goto('<front>');
+  }
   $content_types = c4m_og_feature_enabled_content_types();
   if (!empty($content_types)) {
     $options = c4m_og_get_content_type_labels($content_types);
@@ -3676,7 +3679,7 @@ function c4m_og_merge_groups_build_form($form, $form_state, $group) {
       'handler' => 'c4m_selection',
       'type' => 'single',
       'handler_settings' => array(
-        'target_bundles' => array('group' => $current_group->type),
+        'target_bundles' => array('group' => $node->type),
         'sort' => array(
           'direction' => 'ASC',
           'property' => 'title',
@@ -3834,7 +3837,7 @@ function _c4m_og_merge_wiki_pages_batch($gid, $target_gid, &$context) {
  * Merge content from selected content types to target group.
  */
 function _c4m_og_merge_content_batch($gid, $target_gid, $content_types, &$context) {
-  if (!empty($gid) && !empty($content_types) && !empty($target_gid)) {
+  if (empty($gid) || empty($content_types) || empty($target_gid)) {
     return;
   }
   $content_query = db_select('og_membership', 'ogm');
