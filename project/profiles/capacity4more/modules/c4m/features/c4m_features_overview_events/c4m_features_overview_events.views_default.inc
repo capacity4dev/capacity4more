@@ -140,9 +140,9 @@ function c4m_features_overview_events_views_default_views() {
     40 => '#ffffff',
   );
   $handler->display->display_options['row_options']['colors']['c4m_event_type'] = array(
-    'event' => '#42709e',
-    'learning' => '#42c530',
-    'meeting' => '#f49c2a',
+    'event' => '#347C98',
+    'learning' => '#B0C35A',
+    'meeting' => '#EE6A32',
   );
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
@@ -392,9 +392,9 @@ function c4m_features_overview_events_views_default_views() {
     40 => '#ffffff',
   );
   $handler->display->display_options['row_options']['colors']['c4m_event_type'] = array(
-    'event' => '#42709e',
-    'learning' => '#42c530',
-    'meeting' => '#f49c2a',
+    'event' => '#347C98',
+    'learning' => '#B0C35A',
+    'meeting' => '#EE6A32',
   );
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
@@ -501,9 +501,9 @@ function c4m_features_overview_events_views_default_views() {
     40 => '#ffffff',
   );
   $handler->display->display_options['row_options']['colors']['c4m_event_type'] = array(
-    'event' => '#42709e',
-    'learning' => '#42c530',
-    'meeting' => '#f49c2a',
+    'event' => '#347C98',
+    'learning' => '#B0C35A',
+    'meeting' => '#EE6A32',
   );
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
@@ -593,9 +593,9 @@ function c4m_features_overview_events_views_default_views() {
     40 => '#ffffff',
   );
   $handler->display->display_options['row_options']['colors']['c4m_event_type'] = array(
-    'event' => '#42709e',
-    'learning' => '#42c530',
-    'meeting' => '#f49c2a',
+    'event' => '#347C98',
+    'learning' => '#B0C35A',
+    'meeting' => '#EE6A32',
   );
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
