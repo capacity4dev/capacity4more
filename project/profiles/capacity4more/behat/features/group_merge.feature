@@ -8,7 +8,7 @@ Feature: Merge Groups & Projects
     And   I click the "#edit-merge" element
     And   I wait
     Then  User "galileo" is a member of Group "Football Talk"
-    And   User "mariecurie" is a member of Group "Football Talk"
+    And   User "mariecurie" has "administrator member" role in Group "Football Talk"
 
   @javascript
   Scenario: Check if wiki pages of merged group are added to the book structure of the new group
