@@ -13,13 +13,13 @@
 <?php print render($title_suffix); ?>
 
   <div class="view-header">
-    <?php
-      $list_view_url = l(t('Switch to list view'), '/events', ['absolute' => TRUE]);
-      $week_view_url = l(t('Week'), '/events/calendar/week', ['absolute' => TRUE]);
-    ?>
     <ul class="events-calendar-tabs">
-        <li><?php print $list_view_url; ?></li>
-        <li class="tab-calendar"><span><?php print t('View as'); ?></span><?php print $week_view_url; ?></li>
+      <?php if (!empty($list_view_url)): ?>
+          <li><?php print $list_view_url; ?></li>
+      <?php endif; ?>
+      <?php if (!empty($week_view_url)): ?>
+          <li class="tab-calendar"><span><?php print t('View as'); ?></span><?php print $week_view_url; ?></li>
+      <?php endif; ?>
     </ul>
     <?php if ($header): ?>
       <?php print $header; ?>
