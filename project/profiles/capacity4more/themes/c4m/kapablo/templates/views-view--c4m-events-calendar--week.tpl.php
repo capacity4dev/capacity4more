@@ -12,12 +12,11 @@
 <?php endif; ?>
 <?php print render($title_suffix); ?>
   <div class="view-header">
-    <?php
-    $month_view_url = l(t('Month'), '/events/calendar', ['absolute' => TRUE]);
-    ?>
-    <ul class="events-calendar-tabs">
-      <li class="tab-calendar"><span><?php print t('View as'); ?></span><?php print $month_view_url; ?></li>
-    </ul>
+    <?php if (!empty($week_view_url)): ?>
+        <ul class="events-calendar-tabs">
+            <li class="tab-calendar"><span><?php print t('View as'); ?></span><?php print $month_view_url; ?></li>
+        </ul>
+    <?php endif; ?>
     <?php if ($header): ?>
       <?php print $header; ?>
     <?php endif; ?>
