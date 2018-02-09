@@ -55,6 +55,7 @@ projects[file_entity][version] = "2.15"
 
 projects[file_download_count][subdir] = "contrib"
 projects[file_download_count][version] = "1.0-rc1"
+projects[file_download_count][patch][] = "../patches/file-download-count-skip-download-count.patch"
 
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.8"

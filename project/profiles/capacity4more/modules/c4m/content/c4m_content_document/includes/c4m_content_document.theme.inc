@@ -116,6 +116,7 @@ function c4m_content_document_ds_field_pdf_preview(array $field) {
   }
 
   $file_uri = file_entity_download_uri((object) $document);
+  $file_uri['options']['query']['skip_file_download_count'] = TRUE;
   $file_url = url($file_uri['path'], $file_uri['options']);
   $output = [
     '#theme' => 'html_tag',
