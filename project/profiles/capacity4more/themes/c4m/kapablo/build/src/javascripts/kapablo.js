@@ -652,12 +652,19 @@ var jQuery = jQuery || {};
 
     updateSubmitButtons: function () {
       if (this.emptyImageFields || this.emptyDragAndDropFields || this.emptyTextFields || this.emptyWidgetFields || this.emptyAngularFields) {
-        this.submitButtons.addClass('form-disabled').attr('disabled', 'disabled');
+        if (!this.submitButtons.hasClass('form-disabled')) {
+          this.submitButtons.closest('.form-actions').before('<p class="required-fields-message text-danger">' + Drupal.t('Please fill in required fields before submitting the form') + '</p>');
+          this.submitButtons.addClass('form-disabled').attr('disabled', 'disabled');
+        }
       }
       else {
         this.submitButtons.removeClass('form-disabled').each(function () {
           if (!$(this).hasClass(/-disabled/)) {
             $(this).removeAttr('disabled');
+            var $message = $(this).closest('.form-actions').prev();
+            if ($message.hasClass('required-fields-message')) {
+              $message.remove();
+            }
           }
         });
       }
