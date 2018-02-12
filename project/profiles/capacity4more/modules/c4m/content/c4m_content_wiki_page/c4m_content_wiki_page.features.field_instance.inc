@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_wiki_page.features.field_instance.inc
@@ -167,7 +168,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 10,
+        'weight' => 11,
       ),
       'highlight_list' => array(
         'label' => 'above',
@@ -315,7 +316,7 @@ There is no moderation, so changes will be published immediately.',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 29,
+        'weight' => 30,
       ),
       'highlight_list' => array(
         'label' => 'above',
@@ -420,7 +421,7 @@ There is no moderation, so changes will be published immediately.',
           'view_mode' => 'teaser',
         ),
         'type' => 'entityreference_entity_view',
-        'weight' => 11,
+        'weight' => 12,
       ),
       'highlight_list' => array(
         'label' => 'above',
@@ -1005,7 +1006,7 @@ There is no moderation, so changes will be published immediately.',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 31,
+        'weight' => 32,
       ),
       'highlight_list' => array(
         'label' => 'above',

@@ -61,6 +61,60 @@ function theme_c4m_ds_submitted_by_and_on(array $field) {
 /**
  * DS function field.
  *
+ * Render "Submitted by" User first and last name and updated on timestamp.
+ * (extends default ds field with first + last name).
+ *
+ * @param array $field
+ *   The field that needs to be rendered.
+ *
+ * @return mixed
+ *   The rendered field.
+ */
+function theme_c4m_ds_submitted_by_and_updated_on(array $field) {
+  if (empty($field['entity'])) {
+    return;
+  }
+
+  $entity = $field['entity'];
+  $user = user_load($entity->uid);
+  $name = c4m_user_name($user);
+  $options = array(
+    'attributes' => array('class' => array('user-name')),
+    'purl' => array('disabled' => TRUE),
+  );
+
+  // If user is not anonymous, set link on user name.
+  if ($entity->uid > 0) {
+    $name = l($name, 'user/' . $user->uid, $options);
+  }
+  else {
+    $plain_user_name['element'] = array(
+      '#tag' => 'span',
+      '#attributes' => array(
+        'class' => array('user-name'),
+      ),
+      '#value' => $name,
+    );
+    $name = theme_html_tag($plain_user_name);
+  }
+
+  $tag['element'] = array(
+    '#tag' => 'span',
+    '#attributes' => array(
+      'class' => array('creation-date'),
+      'data-toggle' => 'tooltip',
+      'data-placement' => 'bottom',
+      'title' => format_date($entity->changed, 'custom', 'd M Y H:i'),
+    ),
+    '#value' => c4m_helper_date_time_ago($entity->changed, $field['formatter']),
+  );
+
+  return $name . theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
  * Render node creation date according to time ago.
  *
  * If timestamp is within 24h of now: Indicate the time ago:
@@ -96,6 +150,51 @@ function theme_c4m_ds_creation_date(array $field) {
     ),
     '#value' => c4m_helper_date_time_ago(
       $field['entity']->created,
+      $field['formatter']
+    ),
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
+ * Render node update date according to time ago.
+ *
+ * If timestamp is within 24h of now: Indicate the time ago:
+ *  - x seconds ago
+ *  - x minutes ago
+ *  - x hours ago
+ * If timestamp is more then 1 day go: Show as a date (with or without time):
+ * - 5 January 2015 (, 16:47)
+ * - 28 August 2014 (, 9:05)
+ *
+ * @param array $field
+ *   The field that needs to be rendered.
+ *
+ * @return mixed
+ *   The rendered field.
+ */
+function theme_c4m_ds_update_date(array $field) {
+  if (empty($field['entity'])) {
+    return;
+  }
+
+  $tag['element'] = array(
+    '#tag' => 'span',
+    '#attributes' => array(
+      'class' => array('creation-date'),
+      'data-toggle' => 'tooltip',
+      'data-placement' => 'bottom',
+      'title' => format_date(
+        $field['entity']->changed,
+        'custom',
+        'd F Y - H:i'
+      ),
+    ),
+    '#value' => c4m_helper_date_time_ago(
+      $field['entity']->changed,
       $field['formatter']
     ),
   );

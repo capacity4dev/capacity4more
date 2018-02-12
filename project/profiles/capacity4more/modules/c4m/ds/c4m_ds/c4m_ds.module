@@ -314,12 +314,34 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
+  $fields['node']['c4m_ds_submitted_by_and_updated_on'] = array(
+    'title' => t('User name + last update date'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_ds.theme.node.inc',
+    'function' => 'theme_c4m_ds_submitted_by_and_updated_on',
+    'properties' => array(
+      'formatters' => $date_formatters,
+    ),
+  );
+
   $fields['node']['c4m_ds_creation_date'] = array(
     'title' => t('C4M creation date'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
     'ui_limit' => array('*|*'),
     'file' => $path . '/includes/c4m_ds.theme.node.inc',
     'function' => 'theme_c4m_ds_creation_date',
+    'properties' => array(
+      'formatters' => $date_formatters,
+    ),
+  );
+
+  $fields['node']['c4m_ds_update_date'] = array(
+    'title' => t('C4M update date'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_ds.theme.node.inc',
+    'function' => 'theme_c4m_ds_update_date',
     'properties' => array(
       'formatters' => $date_formatters,
     ),
