@@ -228,6 +228,7 @@ function _c4m_og_purl_allowed_paths() {
     'calendar',
     'comment',
     'dashboard',
+    'draft-content',
     'discussions',
     'documents',
     'flag/confirm/%/%/%',
