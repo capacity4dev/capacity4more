@@ -598,3 +598,10 @@ function capacity4more_update_7008() {
 function capacity4more_update_7009() {
   _capacity4more_add_lazyloader_settings();
 }
+
+/**
+ * Enable draggableviews module.
+ */
+function capacity4more_update_7010() {
+  module_enable(['draggableviews']);
+}

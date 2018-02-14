@@ -32,6 +32,7 @@ dependencies[] = current_search_links
 dependencies[] = date
 dependencies[] = date_popup
 dependencies[] = diff
+dependencies[] = draggableviews
 dependencies[] = entity
 dependencies[] = entity_token
 dependencies[] = entityreference

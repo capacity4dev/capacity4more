@@ -3,6 +3,9 @@ api = 2
 
 ; Views
 
+projects[draggableviews][subdir] = "contrib"
+projects[draggableviews][version] = "2.1"
+
 projects[views][subdir] = "contrib"
 projects[views][version] = "3.14"
 
