@@ -130,7 +130,7 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
     }
 
     if (!$user_object) {
-      unset ($users[$key]);
+      unset($users[$key]);
       continue;
     }
   }

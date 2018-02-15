@@ -175,6 +175,7 @@ function c4m_user_profile_settings_form(array $form, array &$form_state, $accoun
   _c4m_user_profile_settings_form_groups($form, $digest_options, $original_values, $account);
   _c4m_user_profile_settings_form_nodes($form, $digest_options, $original_values, $account);
   _c4m_user_profile_settings_form_comments($form, $digest_options, $original_values, $account);
+  _c4m_user_profile_settings_form_extra_settings($form, $form_state, $account);
 
   $form['original_preferences'] = [
     '#type' => 'value',
@@ -200,7 +201,7 @@ function c4m_user_profile_settings_form(array $form, array &$form_state, $accoun
 }
 
 /**
- * Validate the user settings form.
+ * Submit handler for the user settings form.
  *
  * @param array $form
  *   Form build array.
@@ -220,7 +221,30 @@ function c4m_user_profile_settings_form_submit(array $form, array &$form_state) 
     }
   }
 
+  _c4m_user_profile_settings_form_submit_extra_settings($form, $form_state);
+
   drupal_set_message(t('Successfully saved preferences'));
+}
+
+/**
+ * Saves extra settings in the user settings form.
+ *
+ * @param array $form
+ *   Form build array.
+ * @param array $form_state
+ *   Form state array.
+ */
+function _c4m_user_profile_settings_form_submit_extra_settings(array $form, array &$form_state) {
+  global $user;
+
+  $edit = [
+    'overlay' => !empty($form_state['values']['overlay']),
+    'mimemail_textonly' => !empty($form_state['values']['mimemail_textonly']),
+    'timezone' => $form_state['values']['timezone'],
+    'contact' => $form_state['values']['contact'],
+  ];
+
+  user_save($user, $edit);
 }
 
 /**
@@ -535,6 +559,75 @@ function _c4m_user_profile_settings_form_comments(array &$form, array $digest_op
       '#suffix' => '<span>' . drupal_render($icon_tag) . ' ' . $node_link . '</span></div>',
     ];
     $original_values[$flagging_id] = $default_option;
+  }
+}
+
+/**
+ * Extra settings form items in the Settings form.
+ *
+ * @param array $form
+ *   Form build array.
+ * @param array $form_state
+ *   Form state array.
+ * @param object $account
+ *   Drupal user entity object.
+ */
+function _c4m_user_profile_settings_form_extra_settings(array &$form, array &$form_state, $account) {
+  // Add Overlay settings.
+  // @see overlay_form_user_profile_form_alter()
+  if (user_access('access overlay', $account)) {
+    $form['overlay_control'] = [
+      '#type' => 'fieldset',
+      '#title' => t('Administrative overlay'),
+    ];
+
+    $form['overlay_control']['overlay'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Use the overlay for administrative pages.'),
+      '#description' => t('Show administrative pages on top of the page you started from.'),
+      '#default_value' => isset($account->data['overlay']) ? $account->data['overlay'] : 1,
+    ];
+  }
+
+  // Add Email settings.
+  // @see mimemail_form_user_profile_form_alter()
+  $form['mimemail'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Email settings'),
+    '#access' => user_access('edit mimemail user settings'),
+  ];
+  $form['mimemail']['mimemail_textonly'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Plaintext email only'),
+    '#default_value' => !empty($account->data['mimemail_textonly']) ? $account->data['mimemail_textonly'] : FALSE,
+    '#description' => t('Check this option if you do not wish to receive email messages with graphics and styles.'),
+  ];
+
+  // Add checkbox for contact options.
+  // @see contact_form_user_profile_form_alter().
+  $form['mimemail']['contact'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Members are allowed to contact you through your personal contact form'),
+    '#default_value' => !empty($account->data['contact']) ? $account->data['contact'] : FALSE,
+    '#group' => 'group_public_profile',
+  ];
+
+  // Add Locale settings.
+  // @see system_user_timezone()
+  $form['timezone'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Locale settings'),
+  ];
+  $form['timezone']['timezone'] = [
+    '#type' => 'select',
+    '#title' => t('Time zone'),
+    '#default_value' => isset($account->timezone) ? $account->timezone : variable_get('date_default_timezone', ''),
+    '#options' => system_time_zones(FALSE),
+    '#description' => t('Select the desired local time and time zone. Dates and times throughout this site will be displayed using this time zone.'),
+  ];
+  if (!isset($account->timezone) && empty($form_state['input']['timezone'])) {
+    $form['timezone']['timezone']['#attributes'] = ['class' => ['timezone-detect']];
+    drupal_add_js('misc/timezone.js');
   }
 }
 

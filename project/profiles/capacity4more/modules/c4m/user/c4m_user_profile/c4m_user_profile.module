@@ -152,9 +152,9 @@ function c4m_user_profile_facet_items_alter(&$build, &$settings) {
  * Display full country name instead of country code.
  *
  * @param array $build
- *    The facets.
+ *   The facets.
  * @param object $settings
- *    Facet settings.
+ *   Facet settings.
  */
 function _c4m_user_profile_facet_country_alter(array &$build, $settings) {
   $field = field_info_field($settings->facet);
@@ -360,6 +360,16 @@ function c4m_user_profile_form_user_register_form_alter(
     drupal_set_title(t('Registration'));
   }
 
+  // Add checkbox for contact options.
+  // @see contact_form_user_profile_form_alter().
+  $form['contact'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Members are allowed to contact you through your personal contact form'),
+    '#default_value' => variable_get('contact_default_status', 1),
+    '#weight' => 14,
+    '#group' => 'group_public_profile',
+  ];
+
   c4m_user_profile_alter_user_form($form, $form_state, TRUE);
 
   // Add Cancel button.
@@ -447,25 +457,6 @@ function c4m_user_profile_alter_user_form(
   $form['c4m_is_organisation_user'][LANGUAGE_NONE]['#type'] = 'hidden';
   $form['c4m_is_invalid_email'][LANGUAGE_NONE]['#type'] = 'hidden';
 
-  // The default contact value is different on registration (general setting).
-  // On the user edit form, the default value is stored as per user and this
-  // value is already present in the form values (original contact field).
-  $contact_default_value = ($is_registration) ?
-    variable_get('contact_default_status', 1) :
-    $form['contact']['contact']['#default_value'];
-
-  // Add checkbox for contact options.
-  // @see contact_form_user_profile_form_alter().
-  $form['contact'] = array(
-    '#type' => 'checkbox',
-    '#title' => t(
-      'Members are allowed to contact you through your personal contact form'
-    ),
-    '#default_value' => $contact_default_value,
-    '#weight' => 14,
-    '#group' => 'group_public_profile',
-  );
-
   // Move the email input first.
   $form['mail'] = $form['account']['mail'];
   $form['mail']['#weight'] = -100;
@@ -521,11 +512,6 @@ function c4m_user_profile_alter_user_form(
 
     $form['mail']['#suffix'] = $suffix . $form['mail']['#suffix'];
   }
-
-  // Make fieldsets incollapsible.
-  $form['contact']['#collapsible'] = FALSE;
-  $form['timezone']['#collapsible'] = FALSE;
-  $form['mimemail']['#collapsible'] = FALSE;
 
   // Adjust validators.
   // Remove default one and replace it with a custom one.
@@ -595,6 +581,13 @@ function c4m_user_profile_form_user_profile_form_alter(
 
   $form['mail']['#description'] = 'Please note you will have to provide your password and confirm your new address to change your e-mail address.';
 
+  // Hide Overlay, Email, Locale and Contact settings. They are moved to
+  // Settings page.
+  $form['overlay_control']['#access'] = FALSE;
+  $form['mimemail']['#access'] = FALSE;
+  $form['timezone']['#access'] = FALSE;
+  $form['contact']['#access'] = FALSE;
+
   // Hide the spammer / deleted checkboxes.
   $form['c4m_is_deleted']['#access'] = FALSE;
   $form['c4m_is_deleted_by_uid']['#access'] = FALSE;
@@ -612,18 +605,18 @@ function c4m_user_profile_form_user_profile_form_alter(
 
   // Introduce simple Cancel button (goes to user profile)
   $form['actions']['cancel']['#access'] = FALSE;
-  $form['actions']['simple_cancel'] = array(
+  $form['actions']['simple_cancel'] = [
     '#type' => 'button',
-    '#submit' => array('c4m_user_profile_simple_cancel'),
+    '#submit' => ['c4m_user_profile_simple_cancel'],
     "#executes_submit_callback" => TRUE,
     '#value' => t('Cancel'),
-  );
+  ];
 
   if ($account->uid == $user->uid) {
-    $form['actions']['delete'] = array(
+    $form['actions']['delete'] = [
       '#type' => 'markup',
       '#markup' => l(t('Delete account'), 'user/' . $account->uid . '/leave'),
-    );
+    ];
   }
 }
 
