@@ -217,12 +217,12 @@ function c4m_og_menu() {
     'access arguments' => [1, 2],
   );
 
-  $items['group/%/%/admin/statistics'] = array(
+  $items['admin/statistics'] = [
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_og_export_statistics_build_form', 1, 2),
-    'access callback' => 'c4m_features_og_members_is_power_user',
+    'page arguments' => ['c4m_og_export_statistics_build_form'],
+    'access callback' => 'c4m_features_og_members_is_power_user_access_callback',
     'title' => 'Statistics',
-  );
+  ];
 
   $items['node/%node/merge'] = array(
     'page callback' => 'drupal_get_form',
@@ -877,7 +877,7 @@ function c4m_og_replace_owner_build_form_submit($form, &$form_state) {
  *
  * Group owner replace form.
  */
-function c4m_og_export_statistics_build_form($form, $form_state, $entity_type, $etid) {
+function c4m_og_export_statistics_build_form($form, $form_state) {
 
   $format = 'Y-m-d';
 

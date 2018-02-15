@@ -225,6 +225,7 @@ function _c4m_og_purl_path_is_add_group_content($path, $gid) {
  */
 function _c4m_og_purl_allowed_paths() {
   return [
+    'admin/statistics',
     'calendar',
     'comment',
     'dashboard',
