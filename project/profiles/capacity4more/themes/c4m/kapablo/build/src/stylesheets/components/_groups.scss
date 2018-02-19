@@ -797,19 +797,25 @@
   padding-top: 15px;
 }
 
-.pane-c4m-overview-og-highlights .pane-title {
-  margin-bottom: 10px;
+.pane-c4m-overview-og-highlights {
+  .pane-title {
+    margin-bottom: 10px;
+  }
+  .views-row:first-of-type {
+    margin-top: 0;
+  }
+  .views-row,
+  .views-row + .views-row:not(.no-border),
+  .view-footer {
+    margin-top: 1rem;
+    padding-top: 1rem;
+  }
+  .view-footer {
+    border-top: 1px dashed $color-gray-light;
+    text-align: right;
+  }
 }
 
-.pane-c4m-overview-og-highlights .views-row:first-of-type {
-  margin-top: 0;
-}
-
-.pane-c4m-overview-og-highlights .views-row,
-.pane-c4m-overview-og-highlights .views-row + .views-row {
-  margin-top: 1rem;
-  padding-top: 1rem;
-}
 
 .group-node-documents {
   margin-top: 25px;
