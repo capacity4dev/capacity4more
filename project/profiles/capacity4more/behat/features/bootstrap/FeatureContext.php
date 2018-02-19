@@ -23,6 +23,7 @@ require __DIR__ . '/FeatureContext/Group.php';
 require __DIR__ . '/FeatureContext/GroupDashboard.php';
 require __DIR__ . '/FeatureContext/GroupManagement.php';
 require __DIR__ . '/FeatureContext/GroupMembers.php';
+require __DIR__ . '/FeatureContext/GroupMerge.php';
 require __DIR__ . '/FeatureContext/Highlights.php';
 require __DIR__ . '/FeatureContext/Homepage.php';
 require __DIR__ . '/FeatureContext/Learning.php';
@@ -70,6 +71,7 @@ class FeatureContext extends DrupalContext {
   use FeatureContext\GroupDashboard;
   use FeatureContext\GroupManagement;
   use FeatureContext\GroupMembers;
+  use FeatureContext\GroupMerge;
   use FeatureContext\Highlights;
   use FeatureContext\Homepage;
   use FeatureContext\Learning;

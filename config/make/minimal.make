@@ -12,6 +12,7 @@ projects[entity][version] = "1.8"
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.5"
+projects[entityreference][patch][] = "https://www.drupal.org/files/entity_reference-attach_selection_handler_on_form_element-2014535-1.patch"
 
 projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "3.0-alpha3"
