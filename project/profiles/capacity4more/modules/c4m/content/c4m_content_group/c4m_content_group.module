@@ -779,17 +779,6 @@ function _c4m_content_group_is_subscribed_to_group_notifications($account, $grou
   $user_flags = flag_get_user_flags('node', $group->nid);
   $user_subscribed = array_key_exists('subscribe_c4m_follow_group', $user_flags);
 
-  if ($user_subscribed) {
-    $wrapper = entity_metadata_wrapper('user', $account);
-    foreach ($wrapper->c4m_optout_group->value(array('identifier' => TRUE)) as $existing_id) {
-      if ($existing_id == $group->nid) {
-        // User unsubscribed from entity.
-        $user_subscribed = FALSE;
-        break;
-      }
-    }
-  }
-
   return $user_subscribed;
 }
 
@@ -811,14 +800,5 @@ function _c4m_content_group_toggle_group_notifications($account, $group) {
   else {
     // Flag.
     flag('flag', 'subscribe_c4m_follow_group', $group->nid);
-
-    // If required, unset optout_group field.
-    $wrapper = entity_metadata_wrapper('user', $account);
-    $unsubscribed = $wrapper->c4m_optout_group->value(array('identifier' => TRUE));
-    // If group id is found at array of unsubscribed groups, unset it.
-    if (($index = array_search($group->nid, $unsubscribed)) !== FALSE) {
-      $wrapper->c4m_optout_group->offsetUnset($index);
-      $wrapper->save();
-    }
   }
 }

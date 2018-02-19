@@ -248,3 +248,19 @@ function c4m_message_digest_format_group_title($gid = 0) {
 
   return $icon . $group->title;
 }
+
+/**
+ * Removes unsubscribed users from subscribers list.
+ *
+ * User is unsubscribed when preference columns is set to "never".
+ *
+ * @param object $users
+ *   User info from flagging table.
+ */
+function _c4m_message_digest_get_subscribers_remove_unsubscribed($users) {
+  foreach ($users as $index => $user) {
+    if ($user->preference === C4M_MESSAGE_DIGEST_FREQUENCY_NEVER) {
+      unset($users[$index]);
+    }
+  }
+}

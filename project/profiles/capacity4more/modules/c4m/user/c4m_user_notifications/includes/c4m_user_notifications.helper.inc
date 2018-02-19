@@ -34,6 +34,8 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
   // Starting point: all users subscribed to the entity (flagged).
   $users = flag_get_entity_flags($flagged_entity_type, $entity_id, $flag_name);
 
+  _c4m_message_digest_get_subscribers_remove_unsubscribed($users);
+
   $flag = flag_get_flag($flag_name);
 
   // When creating messages, we can indicate additional context(s) to either
@@ -48,10 +50,11 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
     $group = _c4m_user_notifications_message_subscribe_get_subscribers_get_group($entity_id);
   }
 
+  $wrapper = entity_metadata_wrapper('message', $message);
+
   if ($message->type === 'c4m_notify_subscribe_content_of_interest') {
     // Notifications for interests are "dynamic", meaning one message ID serves
     // different term ID's.
-    $wrapper = entity_metadata_wrapper('message', $message);
     $wrapper->field_taxonomy_term->set($entity_id);
 
     // If the original node belongs to a group, we will need to check access.
@@ -60,6 +63,10 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
     );
   }
 
+  // The first time recipients are loaded, no mid is available yet.
+  // However, we need this to store/retrieve recipients for a message, to
+  // prevent users getting one message twice (if they are subscribed to multiple
+  // topics/regions of interest for example.
   if (empty($message->identifier())) {
     $message->save();
   }
@@ -67,6 +74,14 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
   // Load the list of users that already received this message (same message id)
   // to prevent duplicates.
   $previous_recipients = _c4m_user_notifications_get_message_unique_recipients($message->identifier());
+
+  // Remove executing user, he knows what he did.
+  if (!empty($wrapper->field_executing_user)) {
+    $executing_user = $wrapper->field_executing_user->get('uid')->value();
+    if (array_key_exists($executing_user, $flagged_users)) {
+      unset($flagged_users[$executing_user]);
+    }
+  }
 
   foreach ($previous_recipients as $recipient) {
     if (array_key_exists($recipient, $users)) {
