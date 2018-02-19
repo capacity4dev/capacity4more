@@ -37,15 +37,25 @@ function c4m_search_nodes_track_change($nid) {
 
 /**
  * Implements hook_views_pre_render().
- *
- * Set search page title to "Search <site-name>".
  */
 function c4m_search_nodes_views_pre_render(&$view) {
   if ($view->name === 'c4m_search_nodes') {
+    // Set search page title to "Search <site-name>".
     $site_name = variable_get('site_name');
     $title = t('Search @site-name', array('@site-name' => $site_name));
     $view->build_info['title'] = $title;
   }
+
+  if ($view->name === 'c4m_group_draft_content') {
+    // Make sure the access checks are done for the draft nodes.
+    foreach ($view->result as $key => $result) {
+      $node = node_load($result->entity);
+      if (!node_access('view', $node)) {
+        unset($view->result[$key]);
+      }
+    }
+  }
+
 }
 
 /**
