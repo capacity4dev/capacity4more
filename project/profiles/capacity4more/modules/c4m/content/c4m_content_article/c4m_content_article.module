@@ -91,12 +91,6 @@ function c4m_content_article_subscribe_contributors($node) {
 
   // Get the correct flag object to subscribe to the node.
   $flag_name = 'subscribe_c4m_follow_node';
-
-  _c4m_content_article_subscribe_contributors_flag($node, $flag_name);
-
-  // Get the correct flag object to subscribe to the commenting on the node.
-  $flag_name = 'subscribe_c4m_follow_comment';
-
   _c4m_content_article_subscribe_contributors_flag($node, $flag_name);
 }
 

@@ -11,16 +11,6 @@
 function c4m_features_og_group_dashboard_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: 'flag subscribe_c4m_follow_comment'.
-  $permissions['flag subscribe_c4m_follow_comment'] = array(
-    'name' => 'flag subscribe_c4m_follow_comment',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'authenticated user' => 'authenticated user',
-    ),
-    'module' => 'flag',
-  );
-
   // Exported permission: 'flag subscribe_c4m_follow_content'.
   $permissions['flag subscribe_c4m_follow_content'] = array(
     'name' => 'flag subscribe_c4m_follow_content',
@@ -53,16 +43,6 @@ function c4m_features_og_group_dashboard_user_default_permissions() {
   // Exported permission: 'flag subscribe_c4m_follow_term'.
   $permissions['flag subscribe_c4m_follow_term'] = array(
     'name' => 'flag subscribe_c4m_follow_term',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'authenticated user' => 'authenticated user',
-    ),
-    'module' => 'flag',
-  );
-
-  // Exported permission: 'unflag subscribe_c4m_follow_comment'.
-  $permissions['unflag subscribe_c4m_follow_comment'] = array(
-    'name' => 'unflag subscribe_c4m_follow_comment',
     'roles' => array(
       'administrator' => 'administrator',
       'authenticated user' => 'authenticated user',

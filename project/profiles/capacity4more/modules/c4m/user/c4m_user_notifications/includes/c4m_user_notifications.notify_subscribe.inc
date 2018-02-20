@@ -26,15 +26,15 @@ function _c4m_user_notifications_notify_subscribe_commenter_new_comment($comment
   $node = node_load($comment->nid);
 
   // Flag suffix that is used at unsubscribe mechanism.
-  $flag_suffix = 'comment';
+  $flag_suffix = 'content';
 
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
   // With current setting:
-  // 'flag' - follow comment,
-  // 'additional flag' - follow node,
-  // 'intergroup_operation' - 'intersect',
-  // only users that are marked with 'follow comment' AND also marked with
+  // 'flag' - follow content;
+  // 'additional flag' - follow node;
+  // 'intergroup_operation' - 'intersect'.
+  // Only users that are marked with 'follow content' AND also marked with
   // 'follow node' flags will be returned.
   $context = [
     'entity_type' => $flag_suffix,
@@ -138,15 +138,15 @@ function _c4m_user_notifications_notify_subscribe_follower_new_comment($comment)
   $node = node_load($comment->nid);
 
   // Flag suffix that is used at unsubscribe mechanism.
-  $flag_suffix = 'comment';
+  $flag_suffix = 'content';
 
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
   // With current setting:
-  // 'flag' - follow comment,
-  // 'additional flag' - follow node,
-  // 'intergroup_operation' - 'diff',
-  // only users that are marked with 'follow comment' AND NOT marked with
+  // 'flag' - follow content;
+  // 'additional flag' - follow node;
+  // 'intergroup_operation' - 'diff'.
+  // Only users that are marked with 'follow content' AND NOT marked with
   // 'follow node' flags will be returned.
   $context = [
     'entity_type' => $flag_suffix,
