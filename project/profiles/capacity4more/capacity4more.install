@@ -605,3 +605,10 @@ function capacity4more_update_7009() {
 function capacity4more_update_7010() {
   module_enable(['draggableviews']);
 }
+
+/**
+ * Enable masquerade module.
+ */
+function capacity4more_update_7011() {
+  module_enable(['masquerade']);
+}
