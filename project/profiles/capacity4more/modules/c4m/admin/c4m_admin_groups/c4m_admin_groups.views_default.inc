@@ -214,7 +214,7 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['relationships']['flag_count_rel']['id'] = 'flag_count_rel';
   $handler->display->display_options['relationships']['flag_count_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['flag_count_rel']['field'] = 'flag_count_rel';
-  $handler->display->display_options['relationships']['flag_count_rel']['label'] = 'flag_promote_counter';
+  $handler->display->display_options['relationships']['flag_count_rel']['label'] = 'follow_group';
   $handler->display->display_options['relationships']['flag_count_rel']['required'] = 0;
   $handler->display->display_options['relationships']['flag_count_rel']['flag'] = 'subscribe_c4m_follow_group';
   /* Relationship: Flags: c4m_og_content_recommend counter */
@@ -385,7 +385,7 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['count']['table'] = 'flag_counts';
   $handler->display->display_options['fields']['count']['field'] = 'count';
   $handler->display->display_options['fields']['count']['relationship'] = 'flag_count_rel';
-  $handler->display->display_options['fields']['count']['label'] = 'Group Followers';
+  $handler->display->display_options['fields']['count']['label'] = 'Group Notification Subscriptions';
   $handler->display->display_options['fields']['count']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['count']['separator'] = '';
   /* Field: Flags: Flag counter */
@@ -396,6 +396,13 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['count_1']['label'] = 'Group Recommendations';
   $handler->display->display_options['fields']['count_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['count_1']['separator'] = '';
+  /* Field: Content: Group metrics */
+  $handler->display->display_options['fields']['group_metrics_11']['id'] = 'group_metrics_11';
+  $handler->display->display_options['fields']['group_metrics_11']['table'] = 'node';
+  $handler->display->display_options['fields']['group_metrics_11']['field'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics_11']['label'] = 'Content follows';
+  $handler->display->display_options['fields']['group_metrics_11']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_metrics_11']['c4m_admin_groups_group_metric'] = 'group::content_follows';
   /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics_13']['id'] = 'group_metrics_13';
   $handler->display->display_options['fields']['group_metrics_13']['table'] = 'node';
