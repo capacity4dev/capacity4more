@@ -315,7 +315,7 @@ function _c4m_user_notifications_dispatch_content_action($node, $action) {
 
   // For content shares from group A to group B we need a different template and
   // tokens.
-  if ($node->type == 'share') {
+  if ($node->type === 'share') {
     // Check if the source node type is a content type that triggers a
     // notification.
     if (!empty($node->source_bundle) && in_array($node->source_bundle, $allowed_og_content_types)) {

@@ -242,7 +242,7 @@ function _c4m_user_notifications_notify_subscribe_group_content($node, $action, 
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_content_inserted_or_updated($message);
 
-  if ($action == 'share') {
+  if ($action === 'share') {
     // Extra tokens for shares.
     c4m_message_load_tokens__c4m_content_share_inserted_or_updated($message);
   }
@@ -300,7 +300,7 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_content_of_interest($message);
 
-  if ($node->type == 'article') {
+  if ($node->type === 'article') {
     $body_teaser = field_view_field('node', $node, 'c4m_intro_text', 'teaser');
   }
   else {
@@ -434,7 +434,7 @@ function _c4m_user_notifications_notify_subscribe_content_revision($node, $users
     'entity_type' => $flag_suffix,
   ];
 
-  if ($users_group == 'group_followers') {
+  if ('group_followers' === $users_group) {
     // Resolve content node body field, in teaser mode, and assign value to
     // it's token.
     $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');

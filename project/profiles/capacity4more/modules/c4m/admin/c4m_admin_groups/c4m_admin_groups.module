@@ -11,27 +11,27 @@ include_once 'c4m_admin_groups.features.inc';
  * Implements hook_menu().
  */
 function c4m_admin_groups_menu() {
-  $items = array();
+  $items = [];
 
-  $items['admin/c4m/groups'] = array(
+  $items['admin/c4m/groups'] = [
     'title' => 'Groups',
     'description' => 'Administration interface to manage groups & their status.',
     'page callback' => 'views_embed_view',
-    'page arguments' => array('c4m_admin_groups', 'page'),
-    'access arguments' => array('administer nodes'),
+    'page arguments' => ['c4m_admin_groups', 'page'],
+    'access arguments' => ['administer nodes'],
     'type' => MENU_NORMAL_ITEM,
     'menu_name' => 'management',
-  );
+  ];
 
-  $items['admin/c4m/groups/export'] = array(
+  $items['admin/c4m/groups/export'] = [
     'title' => 'Export',
     'description' => 'Capacity4more groups export.',
     'page callback' => 'c4m_admin_groups_groups_export_page',
-    'access arguments' => array('administer nodes'),
+    'access arguments' => ['administer nodes'],
     'file' => 'c4m_admin_groups.admin.inc',
     'type' => MENU_LOCAL_TASK,
     'weight' => 10,
-  );
+  ];
 
   return $items;
 }

@@ -1083,14 +1083,14 @@ function _c4m_og_export_members_form_submit($form, &$form_state) {
   $query->leftJoin('node_revision', 'nr', 'nr.uid = ogm.etid AND nr.nid = ogmc.etid');
   $query->leftJoin('og_users_roles', 'ur', 'ur.uid = ogm.etid AND ur.gid = ' . $group->nid);
   $query->leftJoin('og_role', 'r', 'r.rid = ur.rid');
-  $query->fields('u', array('login'));
-  $query->fields('ogm', array('created', 'state', 'etid'));
-  $query->fields('fn', array('c4m_first_name_value'));
-  $query->fields('ln', array('c4m_last_name_value'));
-  $query->fields('ot', array('c4m_organisation_type_value'));
-  $query->fields('oname', array('c4m_organisation_value'));
-  $query->fields('country', array('c4m_country_value'));
-  $query->fields('inv', array('inv_inviter_id'));
+  $query->fields('u', ['login']);
+  $query->fields('ogm', ['created', 'state', 'etid']);
+  $query->fields('fn', ['c4m_first_name_value']);
+  $query->fields('ln', ['c4m_last_name_value']);
+  $query->fields('ot', ['c4m_organisation_type_value']);
+  $query->fields('oname', ['c4m_organisation_value']);
+  $query->fields('country', ['c4m_country_value']);
+  $query->fields('inv', ['inv_inviter_id']);
   $query->addExpression('COUNT(n.nid)', 'content');
   $query->addExpression('COUNT(c.cid)', 'comments');
   $query->addExpression('MAX(c.changed)', 'comments_action');
@@ -2430,24 +2430,24 @@ function c4m_og_group_comment_metric($og_id) {
  * Implements hook_c4m_helper_entity_metrics_info().
  */
 function c4m_og_c4m_helper_entity_metrics_info() {
-  return array(
-    'c4m_og_content_recommendations' => array(
-      'type'     => 'content_recommendations',
-      'context'  => 'group',
+  return [
+    'c4m_og_content_recommendations' => [
+      'type' => 'content_recommendations',
+      'context' => 'group',
       'callback' => 'c4m_og_get_content_recommendations',
-      'weight'   => 100,
-    ),
-    'c4m_user_group_memberships' => array(
+      'weight' => 100,
+    ],
+    'c4m_user_group_memberships' => [
       'type' => 'group_memberships',
-      'context'  => 'user',
+      'context' => 'user',
       'callback' => 'c4m_og_get_user_group_memberships_count',
-    ),
-    'c4m_user_group_pending_memberships' => array(
+    ],
+    'c4m_user_group_pending_memberships' => [
       'type' => 'group_pending_memberships',
-      'context'  => 'user',
+      'context' => 'user',
       'callback' => 'c4m_og_get_user_group_pending_memberships_count',
-    ),
-  );
+    ],
+  ];
 }
 
 /**
@@ -2653,7 +2653,7 @@ function c4m_og_get_group_content_bundles() {
  *   Notification types.
  */
 function c4m_og_get_group_content_notification_types() {
-  return array('discussion', 'document', 'event', 'wiki_page', 'news');
+  return ['discussion', 'document', 'event', 'wiki_page', 'news'];
 }
 
 /**
