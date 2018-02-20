@@ -723,7 +723,7 @@ function c4m_features_og_manage_group_status_statistics_and_thumbnail() {
   $wrapper = entity_metadata_wrapper('node', $group);
 
   $purl = [
-    'provider' => "og_purl|node",
+    'provider' => 'og_purl|node',
     'id' => $group->nid,
   ];
   $link_options = ['purl' => $purl, 'absolute' => TRUE];
@@ -737,13 +737,13 @@ function c4m_features_og_manage_group_status_statistics_and_thumbnail() {
   ];
 
   // Group statistics.
-  $statistics_options = array(
+  $statistics_options = [
     'absolute' => TRUE,
-    'purl' => array('enabled' => TRUE),
-  );
-  $path = 'group/node/' . $group->nid . '/admin/statistics';
-  $info['content_statistics'] = l(t("Group statistics"), $path, $statistics_options);
-  $info['member_statistics'] = l(t("Member statistics"), $path, $statistics_options);
+    'purl' => ['enabled' => TRUE],
+  ];
+  $path = 'admin/statistics';
+  $info['content_statistics'] = l(t('Group statistics'), $path, $statistics_options);
+  $info['member_statistics'] = l(t('Member statistics'), $path, $statistics_options);
 
   // Group thumbnail image with edit link.
   $info['thumbnail_image'] = NULL;
@@ -815,14 +815,13 @@ function c4m_features_og_manage_project_thumbnail() {
   ];
 
   // Statistics.
-  $group = c4m_og_current_group();
-  $options = array(
+  $options = [
     'absolute' => TRUE,
-    'purl' => array('enabled' => TRUE),
-  );
-  $path = 'group/node/' . $group->nid . '/admin/statistics';
-  $info['content_statistics'] = l(t("Project statistics"), $path, $options);
-  $info['member_statistics'] = l(t("Member statistics"), $path, $options);
+    'purl' => ['enabled' => TRUE],
+  ];
+  $path = 'admin/statistics';
+  $info['content_statistics'] = l(t('Project statistics'), $path, $options);
+  $info['member_statistics'] = l(t('Member statistics'), $path, $options);
 
   // Project thumbnail image with edit link.
   $info['thumbnail_image'] = NULL;
