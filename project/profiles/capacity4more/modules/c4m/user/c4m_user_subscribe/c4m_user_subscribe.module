@@ -265,3 +265,34 @@ function _c4m_user_subscribe_user_unflag_terms(array $terms, $account) {
     $flag->flag('unflag', $term['tid'], $account, TRUE);
   }
 }
+
+/**
+ * Implements hook_c4m_content_actions_info().
+ */
+function c4m_user_subscribe_c4m_content_actions_info() {
+  return [
+    'action_follow' => [
+      'context' => ['group', 'global'],
+      'callback' => 'c4m_user_subscribe_action_follow',
+      'weight' => '3',
+    ],
+  ];
+}
+
+/**
+ * Callback to show the Follow content link.
+ *
+ * @param object $node
+ *   The node object.
+ *
+ * @return string
+ *   Rendered output of the follow link.
+ */
+function c4m_user_subscribe_action_follow($node = NULL) {
+  if (empty($node->nid)) {
+    return '';
+  }
+
+  $flag_link = flag_create_link('subscribe_c4m_follow_content', $node->nid);
+  return $flag_link;
+}
