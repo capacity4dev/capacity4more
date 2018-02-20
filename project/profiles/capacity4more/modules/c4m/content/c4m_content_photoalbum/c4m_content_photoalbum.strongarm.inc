@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_photoalbum.strongarm.inc
@@ -247,6 +248,10 @@ function c4m_content_photoalbum_strongarm() {
           ),
           'activity_group' => array(
             'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'full' => array(
+            'weight' => '31',
             'visible' => FALSE,
           ),
         ),

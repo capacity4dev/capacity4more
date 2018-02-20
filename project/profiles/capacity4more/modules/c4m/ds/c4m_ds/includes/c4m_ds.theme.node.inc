@@ -184,7 +184,7 @@ function theme_c4m_ds_update_date(array $field) {
   $tag['element'] = array(
     '#tag' => 'span',
     '#attributes' => array(
-      'class' => array('creation-date'),
+      'class' => array('update-date'),
       'data-toggle' => 'tooltip',
       'data-placement' => 'bottom',
       'title' => format_date(
@@ -302,7 +302,39 @@ function theme_c4m_ds_entity_type_label(array $field) {
  * @return mixed
  *   The rendered field.
  */
+function theme_c4m_ds_type_update_action(array $field) {
+  return _theme_c4m_ds_type_action($field, 'update action');
+}
+
+/**
+ * DS function field.
+ *
+ * Render <content type> posted by.
+ *
+ * @param array $field
+ *   The field that needs to be rendered.
+ *
+ * @return mixed
+ *   The rendered field.
+ */
 function theme_c4m_ds_type_insert_action(array $field) {
+  return _theme_c4m_ds_type_action($field, 'insert action');
+}
+
+/**
+ * DS function field.
+ *
+ * Render <content type> posted by.
+ *
+ * @param array $field
+ *   The field that needs to be rendered.
+ * @param string $action
+ *   The action that needs to be rendered.
+ *
+ * @return mixed
+ *   The rendered field.
+ */
+function _theme_c4m_ds_type_action(array $field, $action) {
   $output = '';
 
   if (empty($field['entity'])) {
@@ -362,7 +394,7 @@ function theme_c4m_ds_type_insert_action(array $field) {
       '#attributes' => array(
         'class' => array('posted-by'),
       ),
-      '#value' => $label_info['insert action'],
+      '#value' => $label_info[$action],
     );
   }
 
