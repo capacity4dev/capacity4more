@@ -30,17 +30,7 @@ function c4m_user_subscribe_node_update($node) {
  * content.
  */
 function c4m_user_subscribe_comment_insert($comment) {
-  $node = node_load($comment->nid);
-
-  if (!in_array($node->type, c4m_og_get_extended_content_notification_types())) {
-    // Inserted comment is on content that does not require notification.
-    return;
-  }
-
-  $account = user_load($comment->uid);
-
-  // Add 'follow comment' flag.
-  flag('flag', 'subscribe_c4m_follow_comment', $node->nid, $account);
+  flag('flag', 'subscribe_c4m_follow_content', $comment->nid);
 }
 
 /**

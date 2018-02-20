@@ -26,7 +26,7 @@ function _c4m_user_notifications_notify_subscribe_commenter_new_comment($comment
   $node = node_load($comment->nid);
 
   // Flag suffix that is used at unsubscribe mechanism.
-  $flag_suffix = 'content';
+  $flag_suffix = 'node';
 
   // Construct the context, with parameters that will be used by
   // c4m_user_notifications_message_subscribe_get_subscribers().
@@ -39,12 +39,6 @@ function _c4m_user_notifications_notify_subscribe_commenter_new_comment($comment
   $context = [
     'entity_type' => $flag_suffix,
     'entity_id' => $comment->nid,
-    'additional_flag_context' => [
-      [
-        'additional_flag_name' => 'node',
-        'additional_flag_operation' => 'intersect',
-      ],
-    ],
   ];
 
   $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
@@ -274,6 +268,76 @@ function _c4m_user_notifications_notify_subscribe_group_content($node, $action, 
     'entity_id' => $gid,
   ];
 
+  if ($action === 'update') {
+    $context['additional_flag_context'] = [
+      [
+        'additional_flag_name' => 'node',
+        'additional_flag_operation' => 'diff',
+        'additional_flag_entity_id' => $node->nid,
+        'additional_flag_entity_type' => 'node',
+      ],
+      [
+        'additional_flag_name' => 'content',
+        'additional_flag_operation' => 'diff',
+        'additional_flag_entity_id' => $node->nid,
+        'additional_flag_entity_type' => 'node',
+      ],
+    ];
+  }
+  elseif ($action === 'insert') {
+    $context['additional_flag_context'] = [
+      [
+        'additional_flag_name' => 'node',
+        'additional_flag_operation' => 'diff',
+        'additional_flag_entity_id' => $node->nid,
+        'additional_flag_entity_type' => 'node',
+      ],
+    ];
+  }
+
+  $subscribe_options = [];
+  // Skip access checks for new revisions of nodes as most people don't have
+  // 'revision access' permission.
+  if (isset($node->vid) && isset($node->original->vid) && $node->vid !== $node->original->vid) {
+    $subscribe_options = _c4m_user_notifications_get_skip_entity_access_options();
+  }
+  // Message will be saved in message_subscribe_send_message().
+  _c4m_user_notifications_subscribe_send_message('node', $node, $wrapper->value(), [], $subscribe_options, $context);
+}
+
+/**
+ * Notify subscribers when content is updated.
+ *
+ * Sends mail notification to follow content subscribers.
+ *
+ * @param object $node
+ *   Content node that was added / updated.
+ */
+function _c4m_user_notifications_notify_subscribe_content($node) {
+  global $user;
+
+  $message = message_create('c4m_content_updated');
+  // Define functions with which to resolve email template tokens.
+  c4m_message_load_tokens__c4m_content_inserted_or_updated($message);
+
+  // Resolve comment body field, in teaser mode, and assign value to it's token.
+  $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
+  $message->arguments['@node_teaser_body'] = strip_tags(
+    $body_teaser[0]['#markup']
+  );
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_node->set($node->nid);
+  $wrapper->field_executing_user->set($user->uid);
+
+  // Flag suffix that is used at unsubscribe mechanism.
+  $flag_suffix = 'content';
+  // Construct the context, with parameters that will be used by
+  // c4m_user_notifications_message_subscribe_get_subscribers().
+  $context = [
+    'entity_type' => $flag_suffix,
+    'entity_id' => $node->nid,
+  ];
+
   $subscribe_options = [];
   // Skip access checks for new revisions of nodes as most people don't have
   // 'revision access' permission.
@@ -312,18 +376,20 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
     $message->arguments['@node_teaser_body'] = strip_tags($body_teaser[0]['#markup']);
   }
 
+  $info = [];
   switch ($action) {
     case 'highlight':
       $message->arguments['@event_action'] = t('highlighted');
       break;
 
-    case 'recommend':
-      $message->arguments['@event_action'] = t('recommended');
-      break;
-
     case 'publish':
     default:
       $message->arguments['@event_action'] = t('published');
+      if (!og_is_group('node', $node)) {
+        // We don't need extra filtering when publishing a group / project.
+        $info['no_follow_group'] = TRUE;
+        $info['no_follow_node'] = TRUE;
+      }
       break;
   }
 
@@ -333,15 +399,17 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
   $wrapper->save();
 
   // Iterate over all tagged topic terms.
-  _c4m_user_notifications_notify_subscribe_content_of_interest_for_vocabulary($node, 'c4m_vocab_topic', $wrapper);
+  _c4m_user_notifications_notify_subscribe_content_of_interest_for_vocabulary($info, $node, 'c4m_vocab_topic', $wrapper);
 
   // Iterate over all tagged geo terms terms.
-  _c4m_user_notifications_notify_subscribe_content_of_interest_for_vocabulary($node, 'c4m_vocab_geo', $wrapper);
+  _c4m_user_notifications_notify_subscribe_content_of_interest_for_vocabulary($info, $node, 'c4m_vocab_geo', $wrapper);
 }
 
 /**
  * Take a vocabulary name and schedule a message for all subscribers.
  *
+ * @param array $info
+ *   Array of flags.
  * @param object $node
  *   Drupal node entity object.
  * @param string $vocabulary
@@ -351,7 +419,7 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
  *
  * @throws \Exception
  */
-function _c4m_user_notifications_notify_subscribe_content_of_interest_for_vocabulary($node, $vocabulary, $wrapper) {
+function _c4m_user_notifications_notify_subscribe_content_of_interest_for_vocabulary(array $info, $node, $vocabulary, $wrapper) {
   $node_wrapper = entity_metadata_wrapper('node', $node);
   $vocab_terms = $node_wrapper->get($vocabulary)->value();
   foreach ($vocab_terms as $term_key => $term) {
@@ -364,16 +432,24 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest_for_vocabu
       'entity_id' => $term->tid,
     ];
 
+    // Additional flag context needed to prevent duplicates.
+    if (!empty($info['no_follow_node'])) {
+      $context['additional_flag_context'][] = [
+        'additional_flag_name' => 'node',
+        'additional_flag_operation' => 'diff',
+        'additional_flag_entity_id' => $node->nid,
+        'additional_flag_entity_type' => 'node',
+      ];
+    }
+
     // If Group content, additional flag context needed to prevent duplicates.
-    if (isset($node_wrapper->{OG_AUDIENCE_FIELD})) {
-      $context['additional_flag_context'] = [
-        [
-          'additional_flag_name' => 'group',
-          'additional_flag_operation' => 'diff',
-          'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')
-            ->value(),
-          'additional_flag_entity_type' => 'node',
-        ],
+    if (isset($node_wrapper->{OG_AUDIENCE_FIELD}) && !empty($info['no_follow_group'])) {
+      $context['additional_flag_context'][] = [
+        'additional_flag_name' => 'group',
+        'additional_flag_operation' => 'diff',
+        'additional_flag_entity_id' => $node_wrapper->{OG_AUDIENCE_FIELD}->get('nid')
+          ->value(),
+        'additional_flag_entity_type' => 'node',
       ];
     }
     $subscribe_options = [];
@@ -398,6 +474,8 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest_for_vocabu
  * @param string $users_group
  *   Use 'group_followers' when notifying group followers about content update.
  *   Use 'content_editors' when notifying content editors about content update.
+ *   Use 'content_followers' when notifying content followers about content
+ *   update.
  */
 function _c4m_user_notifications_notify_subscribe_content_revision($node, $users_group) {
   global $user;
@@ -411,6 +489,11 @@ function _c4m_user_notifications_notify_subscribe_content_revision($node, $users
     case 'group_followers':
       $message_type = 'c4m_group_content_updated';
       $flag_suffix = 'group';
+      break;
+
+    case 'content_followers':
+      $message_type = 'c4m_group_content_updated';
+      $flag_suffix = 'content';
       break;
 
     default:
@@ -453,9 +536,14 @@ function _c4m_user_notifications_notify_subscribe_content_revision($node, $users
         'additional_flag_operation' => 'diff',
         'additional_flag_entity_id' => $node->nid,
       ],
+      [
+        'additional_flag_name' => 'content',
+        'additional_flag_operation' => 'diff',
+        'additional_flag_entity_id' => $node->nid,
+      ],
     ];
   }
-  elseif ($users_group == 'content_editors') {
+  else {
     $context['entity_id'] = $node->nid;
   }
 
