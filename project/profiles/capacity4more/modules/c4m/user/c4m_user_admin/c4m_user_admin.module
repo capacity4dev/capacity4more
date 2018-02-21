@@ -303,3 +303,14 @@ function c4m_user_admin_user_presave(&$edit, $account, $category) {
     $account->original->status = 1;
   }
 }
+
+/**
+ * Implements hook_field_extra_fields_alter().
+ *
+ * Remove the masquerade field added by masquerade module for the user form.
+ */
+function c4m_user_admin_field_extra_fields_alter(&$info) {
+  if (isset($info['user']['user']['form']['masquerade'])) {
+    unset($info['user']['user']['form']['masquerade']);
+  }
+}
