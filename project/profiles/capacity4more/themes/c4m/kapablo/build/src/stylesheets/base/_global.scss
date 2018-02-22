@@ -266,3 +266,13 @@ cite {
     width: 100%;
   }
 }
+
+.update-date-wrapper {
+  float: left;
+  margin-bottom: -20px;
+  padding-top: 20px;
+  width: 100%;
+  .update-date {
+    float: right;
+  }
+}
