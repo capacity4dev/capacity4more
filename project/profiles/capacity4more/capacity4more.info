@@ -46,6 +46,7 @@ dependencies[] = flag
 dependencies[] = jquery_update
 dependencies[] = lazyloader
 dependencies[] = libraries
+dependencies[] = masquerade
 dependencies[] = message
 dependencies[] = message_notify
 dependencies[] = message_subscribe
