@@ -748,7 +748,7 @@ var jQuery = jQuery || {};
       this.requiredTextFields = this.forms.find('.required');
       this.requiredWidgetFields = this.forms.find('.required-checkbox');
       this.requiredAngularFields = this.forms.find('.c4m_vocab_topic, .c4m_vocab_document_type').has('.form-required');
-      this.submitButtons = this.forms.find('.form-actions').find('.form-submit, .form-preview');
+      this.submitButtons = this.forms.find('.form-actions').find('.form-submit, .form-preview').not('#edit-cancel, #edit-delete');
 
       // Text fields.
       this.requiredTextFields.on('input change', function () {
