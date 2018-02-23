@@ -632,25 +632,66 @@ var jQuery = jQuery || {};
     }
 
   Drupal.behaviors.disableSubmitUntilAllRequired = {
-    requiredImageFields: null,
-    emptyImageFields: null,
+    forms: [],
 
-    requiredDragAndDropFields: null,
-    emptyDragAndDropFields: null,
+    attach: function (context) {
+      // Make sure the rest of the code is not executed on AJAX calls.
+      if (context !== document) {
+        // Initialize fields when fields get replaced, eg email field on
+        // registration form. Otherwise, for image fields, the tagName is FORM
+        // or the id is empty.
+        if ($(context).prop('tagName').toLowerCase() === 'div' && $(context).attr('id')) {
+          $.each(Drupal.behaviors.disableSubmitUntilAllRequired.forms, function () {
+            this.initializeFields();
+          });
+        }
+        $.each(Drupal.behaviors.disableSubmitUntilAllRequired.forms, function () {
+          this.checkFields();
+          this.updateSubmitButtons();
+        });
+        return;
+      }
 
-    requiredTextFields: null,
-    emptyTextFields: null,
+      var index = 0;
+      $('form').each(function () {
+        if ($(this).attr('id')) {
+          Drupal.behaviors.disableSubmitUntilAllRequired.forms[index] = new formDisableSubmitUntilAllRequired();
+          Drupal.behaviors.disableSubmitUntilAllRequired.forms[index].form = $(this);
+          Drupal.behaviors.disableSubmitUntilAllRequired.forms[index].initializeFields();
+          index++;
+        }
+      });
 
-    requiredWidgetFields: null,
-    emptyWidgetFields: null,
+      // Initialize on page load after 1 sec. Allow Angular script to run.
+      setTimeout(function () {
+        $.each(Drupal.behaviors.disableSubmitUntilAllRequired.forms, function () {
+          this.checkFields();
+          this.updateSubmitButtons();
+        });
+      }, 1000);
+    }
+  };
 
-    requiredAngularFields: null,
-    emptyAngularFields: null,
+  function formDisableSubmitUntilAllRequired() {
+    this.requiredImageFields = null;
+    this.emptyImageFields = null;
 
-    forms: null,
-    submitButtons: null,
+    this.requiredDragAndDropFields = null;
+    this.emptyDragAndDropFields = null;
 
-    updateSubmitButtons: function () {
+    this.requiredTextFields = null;
+    this.emptyTextFields = null;
+
+    this.requiredWidgetFields = null;
+    this.emptyWidgetFields = null;
+
+    this.requiredAngularFields = null;
+    this.emptyAngularFields = null;
+
+    this.form = null;
+    this.submitButtons = null;
+
+    this.updateSubmitButtons = function () {
       if (this.emptyImageFields || this.emptyDragAndDropFields || this.emptyTextFields || this.emptyWidgetFields || this.emptyAngularFields) {
         if (!this.submitButtons.hasClass('form-disabled')) {
           this.submitButtons.closest('.form-actions').before('<p class="required-fields-message text-danger">' + Drupal.t('Please fill in required fields before submitting the form') + '</p>');
@@ -661,16 +702,13 @@ var jQuery = jQuery || {};
         this.submitButtons.removeClass('form-disabled').each(function () {
           if (!$(this).hasClass(/-disabled/)) {
             $(this).removeAttr('disabled');
-            var $message = $(this).closest('.form-actions').prev();
-            if ($message.hasClass('required-fields-message')) {
-              $message.remove();
-            }
           }
         });
+        this.form.find('.required-fields-message').remove();
       }
-    },
+    };
 
-    checkImageFields: function () {
+    this.checkImageFields = function () {
       var emptyFields = false;
       this.requiredImageFields.each(function () {
         var fid = $(this).find('input.fid');
@@ -680,9 +718,9 @@ var jQuery = jQuery || {};
       });
 
       this.emptyImageFields = emptyFields;
-    },
+    };
 
-    checkDragAndDropFields: function () {
+    this.checkDragAndDropFields = function () {
       var emptyFields = false;
       this.requiredDragAndDropFields.each(function () {
         var fid = $(this).find("input[name$='[fid]']");
@@ -692,9 +730,9 @@ var jQuery = jQuery || {};
       });
 
       this.emptyDragAndDropFields = emptyFields;
-    },
+    };
 
-    checkTextFields: function () {
+    this.checkTextFields = function () {
       var emptyFields = false;
       this.requiredTextFields.each(function () {
         if ($(this).val() === '' || $(this).val() === '_none' && $(this).prop('tagName').toLowerCase() === 'select') {
@@ -710,9 +748,9 @@ var jQuery = jQuery || {};
       });
 
       this.emptyTextFields = emptyFields;
-    },
+    };
 
-    checkWidgetFields: function () {
+    this.checkWidgetFields = function () {
       var emptyFields = false;
       this.requiredWidgetFields.each(function () {
         if ($(this).val() === '') {
@@ -721,9 +759,9 @@ var jQuery = jQuery || {};
       });
 
       this.emptyWidgetFields = emptyFields;
-    },
+    };
 
-    checkAngularFields: function () {
+    this.checkAngularFields = function () {
       var emptyFields = false;
       this.requiredAngularFields.each(function () {
         if ($(this).find('.selected-values > .ng-scope:not(.ng-hide)').length === 0) {
@@ -732,70 +770,48 @@ var jQuery = jQuery || {};
       });
 
       this.emptyAngularFields = emptyFields;
-    },
+    };
 
-    checkFields: function () {
+    this.checkFields = function () {
       this.checkImageFields();
       this.checkDragAndDropFields();
       this.checkTextFields();
       this.checkWidgetFields();
       this.checkAngularFields();
-    },
+    };
 
-    initializeFields: function () {
-      this.requiredImageFields = this.forms.find('.field-type-image').has('.form-required');
-      this.requiredDragAndDropFields = this.forms.find('.field-widget-dragndrop-upload-file').has('.form-required');
-      this.requiredTextFields = this.forms.find('.required');
-      this.requiredWidgetFields = this.forms.find('.required-checkbox');
-      this.requiredAngularFields = this.forms.find('.c4m_vocab_topic, .c4m_vocab_document_type').has('.form-required');
-      this.submitButtons = this.forms.find('.form-actions').find('.form-submit, .form-preview').not('#edit-cancel, #edit-delete');
+    this.initializeFields = function () {
+      this.requiredImageFields = this.form.find('.field-type-image').has('.form-required');
+      this.requiredDragAndDropFields = this.form.find('.field-widget-dragndrop-upload-file').has('.form-required');
+      this.requiredTextFields = this.form.find('.required');
+      this.requiredWidgetFields = this.form.find('.required-checkbox');
+      this.requiredAngularFields = this.form.find('.c4m_vocab_topic, .c4m_vocab_document_type').has('.form-required');
+      this.submitButtons = this.form.find('.form-actions').find('.form-submit, .form-preview').not('#edit-cancel, #edit-delete');
+
+      var self = this;
 
       // Text fields.
       this.requiredTextFields.on('input change', function () {
         // @todo Only Text Fields are needed to be checked here.
-        Drupal.behaviors.disableSubmitUntilAllRequired.checkFields();
-        Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons();
+        self.checkFields();
+        self.updateSubmitButtons();
       });
 
       // Widgets.
       this.requiredWidgetFields.click(function () {
         // @todo Only Widget Fields are needed to be checked here.
-        Drupal.behaviors.disableSubmitUntilAllRequired.checkFields();
-        Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons();
+        self.checkFields();
+        self.updateSubmitButtons();
       });
 
       // Angular fields.
       this.requiredAngularFields.click(function () {
         // @todo Only Angular Fields are needed to be checked here.
-        Drupal.behaviors.disableSubmitUntilAllRequired.checkFields();
-        Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons();
+        self.checkFields();
+        self.updateSubmitButtons();
       });
-    },
-
-    attach: function (context) {
-      // Make sure the rest of the code is not executed on AJAX calls.
-      if (context !== document) {
-        // Initialize fields when fields get replaced, eg email field on
-        // registration form. Otherwise, for image fields, the tagName is FORM
-        // or the id is empty.
-        if ($(context).prop('tagName').toLowerCase() === 'div' && $(context).attr('id')) {
-          this.initializeFields();
-        }
-        this.checkFields();
-        this.updateSubmitButtons();
-        return;
-      }
-
-      this.forms = $('form');
-      this.initializeFields();
-
-      // Initialize on page load after 1 sec. Allow Angular script to run.
-      setTimeout(function () {
-        Drupal.behaviors.disableSubmitUntilAllRequired.checkFields();
-        Drupal.behaviors.disableSubmitUntilAllRequired.updateSubmitButtons();
-      }, 1000);
     }
-  };
+  }
 
   Drupal.behaviors.disableSubmitButtons = {
     attach: function (context) {
