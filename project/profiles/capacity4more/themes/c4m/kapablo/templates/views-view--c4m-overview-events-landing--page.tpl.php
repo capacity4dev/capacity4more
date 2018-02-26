@@ -13,7 +13,7 @@
 <?php print render($title_suffix); ?>
   <div class="view-header">
     <?php
-    $month_view_url = l(t('Switch to calendar view'), '/events/calendar', ['absolute' => TRUE]);
+    $month_view_url = l(t('Switch to calendar view'), 'events/calendar');
     ?>
     <ul class="events-calendar-tabs">
       <li><?php print $month_view_url; ?></li>

@@ -259,7 +259,6 @@ function _c4m_features_og_events_count_via_views($type) {
  * Implements hook_preprocess_views_view().
  */
 function c4m_features_og_events_preprocess_views_view(&$vars) {
-
   $view = $vars['view'];
   $url_options = _c4m_features_og_events_get_group_url_options();
   $week_path = 'calendar/week';
@@ -267,11 +266,7 @@ function c4m_features_og_events_preprocess_views_view(&$vars) {
 
   if ($vars['name'] == 'c4m_overview_og_events_landing') {
     if ($vars['display_id'] == 'page') {
-      $vars['month_view_url'] = l(
-        t("Switch to calendar view"),
-        url($month_path, $url_options),
-        ['absolute' => TRUE]
-      );
+      $vars['month_view_url'] = l(t('Switch to calendar view'), $month_path, $url_options);
     }
   }
 
@@ -315,23 +310,9 @@ function c4m_features_og_events_preprocess_views_view(&$vars) {
     }
   }
 
-  $vars['week_view_url'] = l(
-    t("Week"),
-    url($week_path, $url_options),
-    ['absolute' => TRUE]
-  );
-
-  $vars['month_view_url'] = l(
-    t("Month"),
-    url($month_path, $url_options),
-    ['absolute' => TRUE]
-  );
-
-  $vars['list_view_url'] = l(
-    t("Switch to list view"),
-    url('calendar', $url_options),
-    ['absolute' => TRUE]
-  );
+  $vars['week_view_url'] = l(t('Week'), $week_path, $url_options);
+  $vars['month_view_url'] = l(t('Month'), $month_path, $url_options);
+  $vars['list_view_url'] = l(t('Switch to list view'), 'calendar', $url_options);
 }
 
 /**
