@@ -56,14 +56,12 @@ function c4m_comment_form_node_form_alter(array &$form, array $form_state) {
 function c4m_comment_form_comment_form_alter(array &$form, array $form_state) {
   if (isset($form_state['comment']->cid)) {
     $comment = $form_state['comment'];
-    // If the user is not SA, but edits a comment (is a GA) the author needs to
-    // be changed. comment_form() sets the current user and we need to use the
-    // original user.
-    if (c4m_comment_edit_access_check($comment)) {
-      $form['author']['name']['#value'] = !$comment->uid && $comment->name ? $comment->name : $comment->registered_name;
-    }
     if (!c4m_user_is_site_admin()) {
       $form['author']['#access'] = FALSE;
+      // If the user is not SA, but edits a comment (is GA) the author needs to
+      // be changed. comment_form() sets the current user and we need to use the
+      // original user.
+      $form['author']['name']['#value'] = !$comment->uid && $comment->name ? $comment->name : $comment->registered_name;
     }
   }
   else {
