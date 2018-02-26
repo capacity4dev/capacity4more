@@ -36,10 +36,6 @@ function c4m_helper_captcha_form_alter(&$form, &$form_state, $form_id) {
             'type' => 'external',
           ),
           array(
-            'data' => drupal_get_path('module', 'c4m_helper_captcha') . '/js/c4m_helper_captcha.js',
-            'type' => 'file',
-          ),
-          array(
             'data' => array(
               'c4m_captcha_forms' => array(
                 $form_id,
