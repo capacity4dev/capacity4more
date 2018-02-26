@@ -700,6 +700,7 @@ var jQuery = jQuery || {};
       }
       else {
         this.submitButtons.removeClass('form-disabled').each(function () {
+          // The button may have other classes like ".drupal-ajax-disabled".
           if (!$(this).hasClass(/-disabled/)) {
             $(this).removeAttr('disabled');
           }
@@ -783,7 +784,9 @@ var jQuery = jQuery || {};
     this.initializeFields = function () {
       this.requiredImageFields = this.form.find('.field-type-image').has('.form-required');
       this.requiredDragAndDropFields = this.form.find('.field-widget-dragndrop-upload-file').has('.form-required');
-      this.requiredTextFields = this.form.find('.required');
+      // #security_code is for captcha inputs. We cannot alter that code as it's
+      // part of captchalib.
+      this.requiredTextFields = this.form.find('.required, #security_code');
       this.requiredWidgetFields = this.form.find('.required-checkbox');
       this.requiredAngularFields = this.form.find('.c4m_vocab_topic, .c4m_vocab_document_type').has('.form-required');
       this.submitButtons = this.form.find('.form-actions').find('.form-submit, .form-preview').not('#edit-cancel, #edit-delete');
@@ -820,14 +823,17 @@ var jQuery = jQuery || {};
         var $form = $(this);
         $form.find('#edit-submit, #edit-draft, #edit-cancel, #edit-delete').click(function (e) {
           var el = $(this);
-          el.after('<input type="hidden" name="' + el.attr('name') + '" value="' + el.attr('value') + '" />');
+          // Even though the input is clicked the form might not get submitted
+          // due to javascript validation. So, we have to remove hidden input
+          // added on previous submit buttons clicked.
+          el.closest('form').find('.input_button_name').remove();
+          el.after('<input type="hidden" class="input_button_name" name="' + el.attr('name') + '" value="' + el.attr('value') + '" />');
           return true;
         });
         $form.submit(function (e) {
-          if (!e.isPropagationStopped()) {
+          if (!e.isDefaultPrevented()) {
             $form.find('#edit-submit, #edit-draft, #edit-cancel, #edit-delete').addClass('form-disabled').attr('disabled', 'disabled');
-            $form.find("#edit-preview-changes").addClass("disabled-preview");
-            return true;
+            $form.find('#edit-preview-changes').addClass('disabled-preview');
           }
         });
       });
