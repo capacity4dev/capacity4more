@@ -205,7 +205,7 @@
   }
 
   // Display background for icons.
-  body:not(.text-only-print) .node-icon {
+  body:not(.text-only-print) i.node-icon {
     // Group icons.
     &.as-group-public {
       background: url('../images/icons/group-access-public.png') no-repeat center center !important;
