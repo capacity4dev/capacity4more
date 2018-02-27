@@ -76,6 +76,7 @@
   #user-bar .userbar-userprofile,
   .alert-block,
   .book-navigation,
+  .download-link,
   .fa-search,
   .field-name-c4m-content-wiki-page-collapse,
   .field-name-c4m-ds-content-actions,
@@ -94,6 +95,7 @@
   .pane-featured-block,
   .pane-quick-form,
   .pager--wrapper,
+  .preview-link,
   .register-login-links,
   .search-api-sort,
   .search-form,
@@ -106,7 +108,8 @@
   ul.nav-tabs {
     display: none;
   }
-  .fa-search {
+  .fa-search,
+  .field-name-c4m-ds-content-footer-stats {
     display: none !important;
   }
 
@@ -202,7 +205,7 @@
   }
 
   // Display background for icons.
-  body:not(.text-only-print) .node-icon {
+  body:not(.text-only-print) i.node-icon {
     // Group icons.
     &.as-group-public {
       background: url('../images/icons/group-access-public.png') no-repeat center center !important;
