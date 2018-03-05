@@ -72,7 +72,13 @@ function _c4m_user_subscribe_to_vocab(array &$sandbox, $table, $vocab_tid_name) 
 
   foreach ($assoc as $uid => $terms) {
     $account = user_load($uid);
-    _c4m_user_subscribe_user_flag_terms($terms, $account);
+
+    if (!$account || $account->uid == 0) {
+      watchdog('c4m_user_subscribe', 'Unable to load UID: @uid', ['@uid' => $uid]);
+    }
+    else {
+      _c4m_user_subscribe_user_flag_terms($terms, $account);
+    }
 
     $sandbox['progress'] += count($terms);
   }
