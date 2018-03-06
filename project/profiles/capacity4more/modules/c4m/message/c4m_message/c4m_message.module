@@ -917,7 +917,7 @@ function c4m_message_load_tokens__c4m_notify_content_recommendation(
   ];
 
   $message->arguments['!user_unsubscribe_recommend_url'] = [
-    'callback' => 'c4m_message_format_unsubscribe_content_url',
+    'callback' => 'c4m_message_format_unsubscribe_node_url',
     'pass message' => TRUE,
   ];
 
@@ -1005,7 +1005,7 @@ function c4m_message_load_tokens__c4m_content_inserted_or_updated(
   ];
 
   $message->arguments['!unsubscribe_content_url'] = [
-    'callback' => 'c4m_message_format_unsubscribe_content_url',
+    'callback' => 'c4m_message_format_unsubscribe_node_url',
     'pass message' => TRUE,
   ];
 }
@@ -1160,7 +1160,7 @@ function c4m_message_load_tokens__c4m_notify_subscribers_new_comment(
   ];
 
   $message->arguments['!unsubscribe_content_comments_url'] = [
-    'callback' => 'c4m_message_format_unsubscribe_content_comments_url',
+    'callback' => 'c4m_message_format_unsubscribe_content_url',
     'pass message' => TRUE,
   ];
 
@@ -1315,7 +1315,7 @@ function c4m_message_load_tokens__c4m_notify_content_followers_new_comment(
   ];
 
   $message->arguments['!unsubscribe_content_comments_url'] = [
-    'callback' => 'c4m_message_format_unsubscribe_content_comments_url',
+    'callback' => 'c4m_message_format_unsubscribe_content_url',
     'pass message' => TRUE,
   ];
 
@@ -2148,7 +2148,7 @@ function c4m_message_format_comment_body_teaser(Message $message) {
 }
 
 /**
- * Returns a url that is used to unsubscribe from following flagged node.
+ * Returns a url that is used to unsubscribe from following node.
  *
  * @param Message $message
  *   The Message entity.
@@ -2156,7 +2156,7 @@ function c4m_message_format_comment_body_teaser(Message $message) {
  * @return string
  *   Unsubscribe url.
  */
-function c4m_message_format_unsubscribe_content_url(Message $message) {
+function c4m_message_format_unsubscribe_node_url(Message $message) {
   return _c4m_message_format_unsubscribe_url($message, 'node');
 }
 
@@ -2174,7 +2174,7 @@ function c4m_message_format_user_settings_url(Message $message) {
 }
 
 /**
- * Returns a url that is used to unsubscribe from following content comments.
+ * Returns a url that is used to unsubscribe from following content.
  *
  * @param Message $message
  *   The Message entity.
@@ -2182,8 +2182,8 @@ function c4m_message_format_user_settings_url(Message $message) {
  * @return string
  *   Unsubscribe url.
  */
-function c4m_message_format_unsubscribe_content_comments_url(Message $message) {
-  return _c4m_message_format_unsubscribe_url($message, 'comment');
+function c4m_message_format_unsubscribe_content_url(Message $message) {
+  return _c4m_message_format_unsubscribe_url($message, 'content');
 }
 
 /**
@@ -2220,11 +2220,6 @@ function _c4m_message_format_unsubscribe_url(Message $message, $flag_suffix) {
   $field_suffix = $flag_suffix == 'group' ? 'group_node' : $flag_suffix;
   $field = "field_{$field_suffix}";
   $entity_id = $wrapper->$field->value(['identifier' => TRUE]);
-  if ($flag_suffix == 'comment') {
-    // The identifier we got is actually cid. Need to get the correct one.
-    $comment = comment_load($entity_id);
-    $entity_id = $comment->nid;
-  }
 
   $uid = $message->uid;
   $hash = c4m_user_profile_get_unsubscribe_hash($uid, $flag_suffix, $entity_id);
