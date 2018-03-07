@@ -89,20 +89,3 @@ Feature: Testing user creation/manipulations.
     And  I fill in "pass[pass2]" with "1111"
     And  I press "Create new account"
     Then I should see the text "Created a new user account for behatuser"
-
-    @api
-    Scenario Outline: Verify that all users can have an unsubscribe hash.
-      Given Account with "<username>" username should have an unsubscribe hash.
-
-      Examples:
-      | username             |
-      | admin                |
-      | mariecurie           |
-      | isaacnewton          |
-      | badhairday           |
-      | galileo              |
-      | survivalofthefittest |
-      | turing               |
-      | president            |
-      | alfrednobel          |
-      | charlesbabbage       |

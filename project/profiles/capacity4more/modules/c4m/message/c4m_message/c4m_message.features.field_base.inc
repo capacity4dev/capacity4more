@@ -309,6 +309,52 @@ function c4m_message_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
+  // Exported field_base: 'message_footer'.
+  $field_bases['message_footer'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(
+      0 => 'message_type',
+    ),
+    'field_name' => 'message_footer',
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 1,
+    'module' => 'text',
+    'settings' => array(
+      'message_text' => TRUE,
+    ),
+    'translatable' => 1,
+    'type' => 'text_long',
+  );
+
+  // Exported field_base: 'message_header'.
+  $field_bases['message_header'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(
+      0 => 'message_type',
+    ),
+    'field_name' => 'message_header',
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 1,
+    'module' => 'text',
+    'settings' => array(
+      'message_text' => TRUE,
+    ),
+    'translatable' => 1,
+    'type' => 'text_long',
+  );
+
   // Exported field_base: 'message_text'.
   $field_bases['message_text'] = array(
     'active' => 1,

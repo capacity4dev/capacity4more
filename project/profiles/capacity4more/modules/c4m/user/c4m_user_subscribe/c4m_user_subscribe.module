@@ -33,11 +33,7 @@ function c4m_user_subscribe_node_update($node) {
     return;
   }
 
-  // If user has not unsubscribed from that type of notifications.
-  if (!_c4m_user_subscribe_entity_notifications_disabled($node->nid, 'comment')) {
-    flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
-  }
-
+  flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
   flag('flag', 'subscribe_c4m_follow_node', $node->nid);
 }
 
@@ -59,40 +55,6 @@ function c4m_user_subscribe_comment_insert($comment) {
 
   // Add 'follow comment' flag.
   flag('flag', 'subscribe_c4m_follow_comment', $node->nid, $account);
-}
-
-/**
- * Helper function.
- *
- * Checks if user has disabled notifications for entity flagged by input flag.
- *
- * @param int $entity_id
- *   Entity ID.
- * @param string $flag_suffix
- *   Suffix of flag that is being checked.
- *   Possible values: "group, node, comment, term".
- *
- * @return bool
- *   Whether user has disabled notifications flagged by flag, for entity.
- */
-function _c4m_user_subscribe_entity_notifications_disabled($entity_id, $flag_suffix) {
-  global $user;
-
-  if (!in_array($flag_suffix, c4m_features_og_group_dashboard_get_notification_flags_suffixes())) {
-    // Unknown flag suffix.
-    return FALSE;
-  }
-
-  $wrapper = entity_metadata_wrapper('user', $user);
-  $field = "c4m_optout_{$flag_suffix}";
-  foreach ($wrapper->$field->value(['identifier' => TRUE]) as $existing_id) {
-    if ($existing_id == $entity_id) {
-      // User unsubscribed from entity.
-      return TRUE;
-    }
-  }
-
-  return FALSE;
 }
 
 /**

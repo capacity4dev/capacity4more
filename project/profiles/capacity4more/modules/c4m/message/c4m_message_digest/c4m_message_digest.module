@@ -1,0 +1,249 @@
+<?php
+
+/**
+ * @file
+ * This module provides message digest functionality.
+ */
+
+define('C4M_MESSAGE_DIGEST_FREQUENCY_NEVER', 'never');
+define('C4M_MESSAGE_DIGEST_FREQUENCY_IMMEDIATELY', 'email');
+define('C4M_MESSAGE_DIGEST_FREQUENCY_DEFAULT', 'digest_week');
+
+/**
+ * Store (save or update) preferences for a flag/entity/user combination.
+ *
+ * @param object $flagging
+ *   Flagging object.
+ */
+function c4m_message_digest_set_preference($flagging) {
+  try {
+    db_merge('flagging')
+      ->key([
+        'fid' => $flagging->fid,
+        'entity_type' => $flagging->entity_type,
+        'entity_id' => $flagging->entity_id,
+        'uid' => $flagging->uid,
+      ])
+      ->fields([
+        'fid' => $flagging->fid,
+        'entity_type' => $flagging->entity_type,
+        'entity_id' => $flagging->entity_id,
+        'uid' => $flagging->uid,
+        'preference' => $flagging->preference,
+      ])
+      ->execute();
+  }
+  catch (InvalidMergeQueryException $e) {
+    watchdog('c4m_message_digest', 'Something went wrong with the mergequery to store preferences.');
+    watchdog('c4m_message_digest', 'Stacktrace: @e', ['@e' => var_export($e, TRUE)]);
+  }
+  catch (Exception $e) {
+    watchdog('c4m_message_digest', 'Something went wrong while storing preferences.');
+    watchdog('c4m_message_digest', 'Stacktrace: @e', ['@e' => var_export($e, TRUE)]);
+
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function c4m_message_digest_ctools_plugin_api($module, $api) {
+  if ($module == 'message_notify' && $api == 'notifier') {
+    return ['version' => 1];
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_message_digest_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'message_notify') {
+    return 'plugins/' . $plugin_type;
+  }
+}
+
+/**
+ * Calls the {c4m_message_digest_grouping_info} hook and returns its result.
+ *
+ * @return array
+ *   All the (cached) callback information keyed by message_type.
+ */
+function c4m_message_digest_get_grouping_info() {
+  $cache_key = 'c4m_message_digest:grouping_info';
+  $info = &drupal_static($cache_key);
+
+  // Retrieve from Cache if not loaded before.
+  if (!isset($info)) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
+      $info = $cache->data;
+    }
+    else {
+      $hook = 'c4m_message_digest_grouping_info';
+      $info = module_invoke_all($hook);
+      cache_set($cache_key, $info);
+    }
+  }
+
+  return $info;
+}
+
+/**
+ * Implements hook_c4m_message_digest_grouping_info().
+ */
+function c4m_message_digest_c4m_message_digest_grouping_info() {
+  return [
+    'c4m_notify_subscribe_content_of_interest' => [
+      'title_callback' => 'c4m_message_digest_format_taxonomy_term_title',
+      'title_callback_argument_field' => 'field_taxonomy_term',
+    ],
+    'c4m_notify_editors_group_content_updated' => [
+      'title_callback' => 'c4m_message_digest_format_group_title',
+      'title_callback_argument_field' => 'field_group_node',
+    ],
+    'c4m_new_content_share_published' => [
+      'title_callback' => 'c4m_message_digest_format_group_title',
+      'title_callback_argument_field' => 'field_group_node',
+    ],
+    'c4m_group_content_updated' => [
+      'title_callback' => 'c4m_message_digest_format_group_title',
+      'title_callback_argument_field' => 'field_group_node',
+    ],
+    'c4m_new_content_published' => [
+      'title_callback' => 'c4m_message_digest_format_group_title',
+      'title_callback_argument_field' => 'field_group_node',
+    ],
+    'c4m_notify_content_followers_new_comment' => [
+      'title_callback' => 'c4m_message_digest_format_node_title',
+      'title_callback_argument_field' => 'field_node',
+    ],
+    'c4m_notify_content_recommendation' => [
+      'title_callback' => 'c4m_message_digest_format_node_title',
+      'title_callback_argument_field' => 'field_node',
+    ],
+    'c4m_notify_subscribers_new_comment' => [
+      'title_callback' => 'c4m_message_digest_format_node_title',
+      'title_callback_argument_field' => 'field_node',
+    ],
+  ];
+}
+
+/**
+ * Callback to format a taxonomy term hierarchy to group digest messages.
+ *
+ * @param int $tid
+ *   Taxonomy term id.
+ *
+ * @return string
+ *   Formatted title (with icon and hierarchy).
+ */
+function c4m_message_digest_format_taxonomy_term_title($tid = 0) {
+  $output = [];
+  $separator = ' > ';
+
+  if (empty($tid)) {
+    return '';
+  }
+
+  $taxonomy_tree = taxonomy_get_parents_all($tid);
+
+  if (empty($taxonomy_tree)) {
+    return '';
+  }
+
+  $icon_path = drupal_get_path('module', 'c4m_message_digest') . '/icons/tags.png';
+  $icon = '<img src="' . url($icon_path, ['absolute' => TRUE]) . '" alt="Taxonomy term label"> ';
+
+  foreach ($taxonomy_tree as $term) {
+    $output[] = $term->name;
+  }
+
+  return $icon . implode($separator, $output);
+}
+
+/**
+ * Callback to format a node to group digest messages.
+ *
+ * @param int $nid
+ *   Node id.
+ *
+ * @return string
+ *   Formatted title (with content type icon).
+ */
+function c4m_message_digest_format_node_title($nid = 0) {
+  if (empty($nid)) {
+    return '';
+  }
+
+  $node = node_load($nid);
+
+  $icon_path = drupal_get_path('module', 'c4m_message_digest') . '/icons/' . $node->type . '.png';
+  $icon = '<img src="' . url($icon_path, ['absolute' => TRUE]) . '" alt="' . $node->type . '"> ';
+
+  return $icon . $node->title;
+}
+
+/**
+ * Callback to format a group/project to group digest messages.
+ *
+ * @param int $gid
+ *   Group/project node id.
+ *
+ * @return string
+ *   Formatted title (with group/project type icon).
+ */
+function c4m_message_digest_format_group_title($gid = 0) {
+  if (empty($gid)) {
+    return '';
+  }
+
+  $group = node_load($gid);
+
+  if ($group->type === 'project') {
+    $icon_path = drupal_get_path('module', 'c4m_message_digest') . '/icons/projects.png';
+    $icon = '<img src="' . url($icon_path, ['absolute' => TRUE]) . '" alt="Project"> ';
+  }
+  else {
+    $icon_path = drupal_get_path('module', 'c4m_message_digest') . '/icons/groups.png';
+    $icon = '<img src="' . url($icon_path, ['absolute' => TRUE]) . '" alt="Group"> ';
+  }
+
+  return $icon . $group->title;
+}
+
+/**
+ * Removes unsubscribed users from subscribers list.
+ *
+ * User is unsubscribed when preference columns is set to "never".
+ *
+ * @param object $users
+ *   User info from flagging table.
+ */
+function _c4m_message_digest_get_subscribers_remove_unsubscribed($users) {
+  foreach ($users as $index => $user) {
+    if ($user->preference === C4M_MESSAGE_DIGEST_FREQUENCY_NEVER) {
+      unset($users[$index]);
+    }
+  }
+}
+
+/**
+ * Get the notifier for a flagging object.
+ *
+ * @param object $flagged_user
+ *   Flagging object.
+ *
+ * @return null|array
+ *   If a preference is not never, return it as an array, otherwise null.
+ */
+function c4m_message_digest_get_notifier($flagged_user) {
+  if ($flagged_user->preference === C4M_MESSAGE_DIGEST_FREQUENCY_NEVER) {
+    $user_notifier = NULL;
+  }
+  else {
+    $user_notifier = [
+      'notifiers' => [$flagged_user->preference => $flagged_user->preference],
+      'entity_id' => $flagged_user->entity_id,
+    ];
+  }
+  return $user_notifier;
+}

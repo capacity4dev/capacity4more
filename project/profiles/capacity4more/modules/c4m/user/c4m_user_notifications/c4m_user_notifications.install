@@ -13,6 +13,20 @@ function c4m_user_notifications_update_7001() {
 }
 
 /**
+ * Implements hook_update_N().
+ */
+function c4m_user_notifications_update_7002() {
+  module_enable(['message_digest']);
+}
+
+/**
+ * Notify entity owners of actions on their nodes.
+ */
+function c4m_user_notifications_update_7003() {
+  variable_set('message_subscribe_notify_own_actions', TRUE);
+}
+
+/**
  * Implements hook_schema().
  */
 function c4m_user_notifications_schema() {

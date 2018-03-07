@@ -32,11 +32,13 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
   $flagged_entity_type = $entity_type == 'term' ? 'taxonomy_term' : 'node';
 
   // Starting point: all users subscribed to the entity (flagged).
-  $users = flag_get_entity_flags($flagged_entity_type, $entity_id, $flag_name);
+  $flagged_users = flag_get_entity_flags($flagged_entity_type, $entity_id, $flag_name);
+
+  _c4m_message_digest_get_subscribers_remove_unsubscribed($flagged_users);
 
   // When creating messages, we can indicate additional context(s) to either
   // exclude users (diff) or make it stricter (intersect).
-  $filtered_users = _c4m_user_notifications_message_subscribe_filter_additional_flag_contexts($context, $users, $entity_id, $flagged_entity_type);
+  $filtered_users = _c4m_user_notifications_message_subscribe_filter_additional_flag_contexts($context, $flagged_users, $entity_id, $flagged_entity_type);
 
   $group = NULL;
 
@@ -46,10 +48,11 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
     $group = _c4m_user_notifications_message_subscribe_get_subscribers_get_group($entity_id);
   }
 
+  $wrapper = entity_metadata_wrapper('message', $message);
+
   if ($message->type === 'c4m_notify_subscribe_content_of_interest') {
     // Notifications for interests are "dynamic", meaning one message ID serves
     // different term ID's.
-    $wrapper = entity_metadata_wrapper('message', $message);
     $wrapper->field_taxonomy_term->set($entity_id);
 
     // If the original node belongs to a group, we will need to check access.
@@ -58,7 +61,11 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
     );
   }
 
-  if ($message->is_new) {
+  // The first time recipients are loaded, no mid is available yet.
+  // However, we need this to store/retrieve recipients for a message, to
+  // prevent users getting one message twice (if they are subscribed to multiple
+  // topics/regions of interest for example.
+  if (empty($message->identifier())) {
     $message->save();
   }
 
@@ -66,14 +73,22 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
   // to prevent duplicates.
   $previous_recipients = _c4m_user_notifications_get_message_unique_recipients($message->identifier());
 
+  // Remove executing user, he knows what he did.
+  if (!empty($wrapper->field_executing_user)) {
+    $executing_user = $wrapper->field_executing_user->get('uid')->value();
+    if (array_key_exists($executing_user, $flagged_users)) {
+      unset($flagged_users[$executing_user]);
+    }
+  }
+
   foreach ($previous_recipients as $recipient) {
-    if (array_key_exists($recipient, $users)) {
-      unset($users[$recipient]);
+    if (array_key_exists($recipient, $flagged_users)) {
+      unset($flagged_users[$recipient]);
     }
   }
 
   // Filtering users and preparing final user list.
-  $users = user_load_multiple(array_keys($users));
+  $users = user_load_multiple(array_keys($flagged_users));
 
   // Iterate over all users and unset users based on properties, roles...
   foreach ($users as $key => &$user_object) {
@@ -106,12 +121,15 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
       }
     }
 
-    // If user is found at filtering array, set it's notifier to mail.
+    // If user is found at filtering array, retrieve its notifier and set it.
     if (array_search($key, $filtered_users) !== FALSE) {
-      $user_object = ['notifiers' => ['email' => 'email']];
+      $user_object = _c4m_user_notifications_get_preference($user_object, $flagged_users[$key]);
     }
     else {
-      // If not found, filter the user.
+      $user_object = NULL;
+    }
+
+    if (!$user_object) {
       unset($users[$key]);
       continue;
     }
@@ -122,6 +140,28 @@ function _c4m_user_notifications_message_subscribe_get_subscribers(Message $mess
   _c4m_user_notifications_update_message_unique_recipients($message->identifier(), $previous_recipients, $users);
 
   return $users;
+}
+
+/**
+ * Helper method to get a user's flagging preference and set the notifier.
+ *
+ * @param object $user
+ *   Drupal user object to store notifier in.
+ * @param object $flagged_user
+ *   Flagging object.
+ *
+ * @return null|array
+ *   If a preference was stored, return it as an array, otherwise null.
+ */
+function _c4m_user_notifications_get_preference($user, $flagged_user) {
+  if (!module_exists('c4m_message_digest')) {
+    $user_notifier = ['notifiers' => ['email' => 'email']];
+  }
+  else {
+    $user_notifier = c4m_message_digest_get_notifier($flagged_user);
+  }
+
+  return $user_notifier;
 }
 
 /**
