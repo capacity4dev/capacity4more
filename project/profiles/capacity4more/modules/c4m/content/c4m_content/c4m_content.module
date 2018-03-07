@@ -58,20 +58,20 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
 
     // Adding the message to the user about the draft entity.
     if (isset($form_state['node']->status) && $form_state['node']->status == NODE_NOT_PUBLISHED) {
-      $form['draft-content-message'] = array(
+      $form['draft-content-message'] = [
         '#markup' => _c4m_content_get_draft_message_rendered($form['type']['#value']),
         '#weight' => 99,
-      );
+      ];
     }
 
-    $form['send_notification'] = array(
+    $form['send_notification'] = [
       '#type' => 'checkbox',
       '#title' => t('Send Notification'),
       // Default to true only on new content.
       '#default_value' => empty($form_state['node']->nid),
-      '#limit_validation_errors' => array(),
+      '#limit_validation_errors' => [],
       '#weight' => 101,
-    );
+    ];
   };
 
   $form['post_activity'] = [
@@ -88,10 +88,7 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     // Check if outline is allowed.
     // - User has to have the right administration permission.
     // - Access to outline has to be enabled (admin/config/c4m/book).
-    if (!variable_get('open_book_outline', FALSE) || !user_access(
-        'administer book outlines'
-      )
-    ) {
+    if (!variable_get('open_book_outline', FALSE) || !user_access('administer book outlines')) {
       $form['book']['#access'] = FALSE;
     }
     else {
@@ -108,10 +105,8 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     return;
   }
 
-  // Disable form validation when SA deletes a node.
-  if (!empty($form['actions']['delete']) && c4m_user_is_site_admin()) {
-    $form['actions']['delete']['#limit_validation_errors'] = array();
-  }
+  // Disable form validation when a user deletes a node.
+  $form['actions']['delete']['#limit_validation_errors'] = [];
 
   // Use destination parameter when set.
   $params = drupal_get_query_parameters();
@@ -127,24 +122,24 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
       $destination_on_cancel = c4m_content_construct_path_to_content_page($node->type);
     }
 
-    $form_state['destination_on_cancel'] = array(
+    $form_state['destination_on_cancel'] = [
       '#type' => 'hidden',
       '#value' => $destination_on_cancel,
-    );
+    ];
   }
 
   // Put actions after "Send Notification" and "Post Activity" checkboxes.
   $form['actions']['#weight'] = 200;
-  $form['actions']['cancel'] = array(
+  $form['actions']['cancel'] = [
     '#type' => 'submit',
     '#value' => t('Cancel'),
-    '#submit' => array('c4m_content_cancel_button_callback'),
-    '#limit_validation_errors' => array(),
+    '#submit' => ['c4m_content_cancel_button_callback'],
+    '#limit_validation_errors' => [],
     '#weight' => 14,
-  );
+  ];
 
   $is_unpublish = $form['actions']['draft']['#value'] == t('Unpublish');
-  $is_og_group = in_array($form['type']['#value'], array('group', 'project'));
+  $is_og_group = in_array($form['type']['#value'], ['group', 'project']);
   // Removes Unpublish button from forms.
   if ($is_unpublish && $is_og_group) {
     $form['actions']['draft']['#access'] = FALSE;
