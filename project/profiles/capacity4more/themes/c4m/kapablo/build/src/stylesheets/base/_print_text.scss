@@ -1,15 +1,10 @@
 @media print {
   body.text-only-print {
-    img {
-      display: none;
-    }
-    iframe {
-      display: none;
-    }
+    .embeddedContent,
+    iframe,
+    img,
+    i.group-icon,
     .leaflet-container {
-      display: none;
-    }
-    .embeddedContent {
       display: none;
     }
   }
