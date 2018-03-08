@@ -347,11 +347,6 @@ var jQuery = jQuery || {};
                 $("input[name=\"mail\"]").val("").focus();
                 return false;
             }));
-
-            // AJAX might disable some fields, which causes JavaScript errors on submitting.
-            $("#user-register-form").submit((function () {
-                $(":disabled", this).prop("disabled", false);
-            }));
         }
     };
 
