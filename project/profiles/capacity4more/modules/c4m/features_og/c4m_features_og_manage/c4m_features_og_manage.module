@@ -714,7 +714,7 @@ function c4m_features_og_manage_project_details() {
  *   An array of current group's status and thumbnail image OR false if there's
  *   no group in current context.
  */
-function c4m_features_og_manage_group_status_and_thumbnail() {
+function c4m_features_og_manage_group_status_statistics_and_thumbnail() {
   $group = c4m_og_current_group();
   if (!$group) {
     return FALSE;
@@ -722,26 +722,28 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
 
   $wrapper = entity_metadata_wrapper('node', $group);
 
-  // Pending memberships count link.
-  $pending_memberships_count_text = t(
-    '@count Group membership requests',
-    array(
-      '@count' => c4m_og_get_members_count($group, OG_STATE_PENDING),
-    )
-  );
-  $link_options = array(
-    'absolute' => TRUE,
-    'query' => array(
-      'f[0]' => 'c4m_og_membership_type:' . $group->nid . '_pending',
-    ),
-  );
-  $info = array(
+  $purl = [
+    'provider' => 'og_purl|node',
+    'id' => $group->nid,
+  ];
+  $link_options = ['purl' => $purl, 'absolute' => TRUE];
+  $info = [
     'status' => $wrapper->c4m_og_status->value(),
-    'pending_members_link' => l(
-      $pending_memberships_count_text,
-      url('members', $link_options)
+    'group_title' => t('Group membership'),
+    'manage_members_link' => l(
+      t('Manage all group memberships'),
+      url('group/' . $group->entity_type . '/' . $group->nid . '/admin/people', $link_options)
     ),
-  );
+  ];
+
+  // Group statistics.
+  $statistics_options = [
+    'absolute' => TRUE,
+    'purl' => ['enabled' => TRUE],
+  ];
+  $path = 'admin/statistics';
+  $info['content_statistics'] = l(t('Group statistics'), $path, $statistics_options);
+  $info['member_statistics'] = l(t('Member statistics'), $path, $statistics_options);
 
   // Group thumbnail image with edit link.
   $info['thumbnail_image'] = NULL;
@@ -775,12 +777,6 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
     );
   }
 
-  // Archive group link (If group is not archived already).
-  $info['archive_link'] = $info['status'] != 'archived' ? l(
-    t('Archive group'),
-    url('node/' . $group->nid . '/edit', array('absolute' => TRUE))
-  ) : '';
-
   return $info;
 }
 
@@ -802,6 +798,30 @@ function c4m_features_og_manage_project_thumbnail() {
   }
 
   $wrapper = entity_metadata_wrapper('node', $project);
+
+  // Project membership.
+  $purl = [
+    'provider' => "og_purl|node",
+    'id' => $project->nid,
+  ];
+  $link_options = ['purl' => $purl, 'absolute' => TRUE];
+
+  $info = [
+    'project_title' => t('Project membership'),
+    'manage_members_link' => l(
+      t('Manage all project memberships'),
+      url('group/' . $project->entity_type . '/' . $project->nid . '/admin/people', $link_options)
+    ),
+  ];
+
+  // Statistics.
+  $options = [
+    'absolute' => TRUE,
+    'purl' => ['enabled' => TRUE],
+  ];
+  $path = 'admin/statistics';
+  $info['content_statistics'] = l(t('Project statistics'), $path, $options);
+  $info['member_statistics'] = l(t('Member statistics'), $path, $options);
 
   // Project thumbnail image with edit link.
   $info['thumbnail_image'] = NULL;

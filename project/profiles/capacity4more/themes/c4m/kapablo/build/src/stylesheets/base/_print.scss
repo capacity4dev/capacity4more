@@ -15,17 +15,13 @@
     color: $color-black;
   }
 
+  .container {
+    width: 100% !important;
+  }
+
   // Set logo size.
   .header-logo {
     width: 6cm;
-  }
-
-  // Breadcrumb floating right.
-  .header-breadcrumb ol.breadcrumb {
-    float: right;
-    margin-top: -1cm;
-    text-align: right;
-    width: 10cm;
   }
 
   // Extra margins for text column next to icons.
@@ -60,33 +56,61 @@
     width: 100% !important;
   }
 
+  #toolbar {
+    display: none;
+  }
+
   // Hide unnecessary elements.
   #articles-panel .block-title,
   #block-c4m-features-learning-space-learning-intro img,
   #block-c4m-search-filter-search-filter,
   #block-c4m-search-filter-search-filter-interests,
+  #block-og-menu-og-single-menu-block,
   #c4m-search-form,
+  #comment-form,
   #footer-bottom-wrapper,
   #footer-top-wrapper,
   #header-content-wrapper,
+  #printThisPage,
   #top-menu,
+  #user-bar .userbar-userprofile,
+  .alert-block,
   .book-navigation,
+  .download-link,
+  .fa-search,
   .field-name-c4m-content-wiki-page-collapse,
   .field-name-c4m-ds-content-actions,
+  .field-name-c4m-ds-content-footer-stats,
+  .content-col ul.links,
+  .comment-form,
+  .comment-wrapper,
   .group-banner,
   .group-details,
   .group-node-actions,
-  .not-front #content-top-wrapper,
+  .group-right.col-sm-4,
+  .header-logo,
+  .items-per-page-container,
+  .node-create-document,
   .pane-c4m-search-og-c4m-search-group-form,
   .pane-featured-block,
+  .pane-quick-form,
   .pager--wrapper,
+  .preview-link,
   .register-login-links,
   .search-api-sort,
+  .search-form,
   .see-more-link,
   .show-more-wrapper,
+  .trigger.js-navigationButton,
   .view-c4m-overview-inthe-picture-blocks,
-  .view-footer {
+  .view-footer,
+  .view .total-items,
+  ul.nav-tabs {
     display: none;
+  }
+  .fa-search,
+  .field-name-c4m-ds-content-footer-stats {
+    display: none !important;
   }
 
   // Expand group navigation.
@@ -170,4 +194,36 @@
   blockquote, img, ol, table, ul {
     page-break-inside: avoid;
   }
+
+  a {
+    text-decoration: underline;
+  }
+
+  // Hide scroll top button.
+  #scroll-top {
+    display: none !important;
+  }
+
+  // Display background for icons.
+  body:not(.text-only-print) i.node-icon {
+    // Group icons.
+    &.as-group-public {
+      background: url('../images/icons/group-access-public.png') no-repeat center center !important;
+    }
+    &.as-group-restricted {
+      background: url('../images/icons/group-access-restricted.png') no-repeat center center !important;
+    }
+    &.as-group-private {
+      background: url('../images/icons/group-access-private.png') no-repeat center center !important;
+    }
+
+    // Document extensions.
+    &.as-document {
+      background: url('../images/icons/document-unknown.svg') no-repeat center center !important;
+    }
+  }
+  .page-container, .page-content, .container--push {
+    height: auto !important;
+  }
+
 }

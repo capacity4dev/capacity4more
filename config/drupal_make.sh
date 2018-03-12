@@ -9,6 +9,7 @@ MAKE_FILES=(
   "administration.make"
   "analytics.make"
   "bootstrap.make"
+  "calendar.make"
   "ckeditor.make"
   "configuration.make"
   "fields.make"

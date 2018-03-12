@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_news.field_group.inc
@@ -24,7 +25,6 @@ function c4m_content_news_field_group_info() {
     'weight' => '15',
     'children' => array(
       0 => 'c4m_user_first_and_last_name',
-      1 => 'c4m_ds_creation_date',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -121,8 +121,9 @@ function c4m_content_news_field_group_info() {
     'weight' => '7',
     'children' => array(
       0 => 'c4m_user_picture',
-      1 => 'c4m_ds_type_insert_action',
-      2 => 'group_meta_author',
+      1 => 'c4m_ds_update_date',
+      2 => 'c4m_ds_type_insert_action',
+      3 => 'group_meta_author',
     ),
     'format_type' => 'html5',
     'format_settings' => array(

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_user_profile.field_group.inc
@@ -183,10 +184,11 @@ function c4m_user_profile_field_group_info() {
     'label' => '',
     'weight' => '2',
     'children' => array(
-      0 => 'c4m_user_first_and_last_name',
-      1 => 'c4m_user_country',
-      2 => 'c4m_user_organisation_full',
-      3 => 'c4m_user_contact_link',
+      0 => 'masquerade',
+      1 => 'c4m_user_first_and_last_name',
+      2 => 'c4m_user_country',
+      3 => 'c4m_user_organisation_full',
+      4 => 'c4m_user_contact_link',
     ),
     'format_type' => 'div',
     'format_settings' => array(

@@ -27,6 +27,12 @@ function c4m_features_og_members_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'current_search-c4m_current_search_users' => array(
+          'module' => 'current_search',
+          'delta' => 'c4m_current_search_users',
+          'region' => 'content',
+          'weight' => '-10',
+        ),
         'views-19b677fbcbbec75280a91661ff86b178' => array(
           'module' => 'views',
           'delta' => '19b677fbcbbec75280a91661ff86b178',

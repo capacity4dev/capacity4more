@@ -9,12 +9,12 @@
  * Helper function to get the label of an entity type.
  *
  * @param object $entity
- *    The entity object.
+ *   The entity object.
  * @param string $entity_type
- *    The entity type.
+ *   The entity type.
  *
  * @return mixed
- *    Returns array with the entity type label.
+ *   Returns array with the entity type label.
  */
 function c4m_helper_entity_get_entity_type_label(
   $entity,
@@ -48,12 +48,12 @@ function c4m_helper_entity_get_entity_type_label(
  * Helper function to sort objects on their title.
  *
  * @param object $a
- *    The object containing the title.
+ *   The object containing the title.
  * @param object $b
- *    The object containing the title.
+ *   The object containing the title.
  *
  * @return int
- *    Returns integer to determine $a is lt, gt or equal than $b.
+ *   Returns integer to determine $a is lt, gt or equal than $b.
  *
  * @usage usort($array_entitiy_objects, 'c4m_sort_object_by_title');
  */
@@ -65,16 +65,16 @@ function c4m_sort_object_by_title($a, $b) {
  * Helper function to get the count per entity type and bundle.
  *
  * @param array $variables
- *    Array containing information needed to perform the query.
- *    Info needed is:
- *      - entity_type
- *      - bundles
- *      - state
- *      - og_id
- *      - c4m_status.
+ *   Array containing information needed to perform the query.
+ *   Info needed is:
+ *     - entity_type
+ *     - bundles
+ *     - state
+ *     - og_id
+ *     - c4m_status.
  *
  * @return int
- *    Number of items.
+ *   Number of items.
  */
 function c4m_helper_entity_get_number_of_entities(array $variables) {
   $amount = 0;
@@ -552,4 +552,52 @@ function _c4m_helper_entity_total_count_via_views($view_name, $display_id) {
   $search_api_results = $view->query->getSearchApiResults();
 
   return $search_api_results['result count'];
+}
+
+/**
+ * Implements hook_c4m_content_actions_info().
+ */
+function c4m_helper_entity_c4m_content_actions_info() {
+  return array(
+    'action_print' => array(
+      'context' => array('global', 'group'),
+      'callback' => 'c4m_helper_entity_print_action',
+      'weight' => '6',
+    ),
+  );
+}
+
+/**
+ * Callback to show the print buttons.
+ *
+ * @param object $node
+ *   The node object.
+ *
+ * @return null|string
+ *   Rendered output of the share link.
+ */
+function c4m_helper_entity_print_action($node = NULL) {
+  $output = array(
+    '#theme' => 'c4m_helper_entity_actions_print',
+  );
+
+  if (!empty($node->type)) {
+    if (in_array($node->type, ['book', 'group', 'wiki_page'])) {
+      return;
+    }
+  }
+
+  return render($output);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_helper_entity_theme($existing, $type, $theme, $path) {
+  return array(
+    'c4m_helper_entity_actions_print' => array(
+      'render element' => 'element',
+      'template'  => 'theme/c4m-helper-entity-actions-print',
+    ),
+  );
 }

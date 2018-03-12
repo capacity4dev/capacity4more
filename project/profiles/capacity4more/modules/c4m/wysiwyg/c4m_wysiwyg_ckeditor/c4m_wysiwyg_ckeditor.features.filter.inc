@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_wysiwyg_ckeditor.features.filter.inc
@@ -159,15 +160,15 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
             4 => 'align-left',
             6 => 'align-left-clear',
             8 => 'align-center',
-            9 => 'caption',
-            10 => 'embeddedContent',
-            12 => 'media-image',
-            14 => 'oembed-provider-*',
-            16 => 'oembed-provider-youtube',
-            18 => 'rtecenter',
-            20 => 'rteleft',
-            22 => 'rteright',
-            24 => 'rtejustify',
+            10 => 'caption',
+            12 => 'embeddedContent',
+            14 => 'media-image',
+            16 => 'oembed-provider-*',
+            18 => 'oembed-provider-youtube',
+            20 => 'rtecenter',
+            22 => 'rteleft',
+            24 => 'rteright',
+            26 => 'rtejustify',
           ),
           'rule_valid_ids' => array(),
           'rule_style_urls' => array(),
@@ -232,7 +233,6 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
             39 => 'twitframe.com',
             40 => 'capacity4dev.tweetwally.com',
             41 => 'learn4dev.tweetwally.com',
-            42 => 'capacity4dev.ec.europa.eu/CrisGis',
             43 => 'new.livestream.com',
             44 => 'a.tiles.mapbox.com',
             45 => 'w.soundcloud.com',
@@ -244,35 +244,39 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
             51 => 'www.elespectador.com',
             52 => 'nota.elespectador.com',
             53 => 'www.mindmeister.com',
-            54 => 'www.mindmeister.com/services/auth',
             55 => 'EUTimberRegul.tweetwally.com',
             56 => 'GlobalPFD.tweetwally.com',
             57 => 'flegt.org',
           ),
         ),
       ),
-      'media_filter' => array(
+      'c4m_wysiwyg_ckeditor_iframe_cck' => array(
         'weight' => -46,
         'status' => 1,
         'settings' => array(),
       ),
-      'youtube_prevent_rel' => array(
+      'media_filter' => array(
         'weight' => -45,
         'status' => 1,
         'settings' => array(),
       ),
-      'filter_htmlcorrector' => array(
+      'youtube_prevent_rel' => array(
         'weight' => -44,
         'status' => 1,
         'settings' => array(),
       ),
-      'filter_autop' => array(
+      'filter_htmlcorrector' => array(
         'weight' => -43,
         'status' => 1,
         'settings' => array(),
       ),
+      'filter_autop' => array(
+        'weight' => -42,
+        'status' => 1,
+        'settings' => array(),
+      ),
       'pathologic' => array(
-        'weight' => 50,
+        'weight' => -35,
         'status' => 1,
         'settings' => array(
           'settings_source' => 'global',
@@ -354,7 +358,6 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
             39 => 'twitframe.com',
             40 => 'capacity4dev.tweetwally.com',
             41 => 'learn4dev.tweetwally.com',
-            42 => 'capacity4dev.ec.europa.eu/CrisGis',
             43 => 'new.livestream.com',
             44 => 'a.tiles.mapbox.com',
             45 => 'w.soundcloud.com',
@@ -366,30 +369,34 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
             51 => 'www.elespectador.com',
             52 => 'nota.elespectador.com',
             53 => 'www.mindmeister.com',
-            54 => 'www.mindmeister.com/services/auth',
             55 => 'EUTimberRegul.tweetwally.com',
             56 => 'GlobalPFD.tweetwally.com',
             57 => 'flegt.org',
           ),
         ),
       ),
-      'media_filter' => array(
+      'c4m_wysiwyg_ckeditor_iframe_cck' => array(
         'weight' => -47,
         'status' => 1,
         'settings' => array(),
       ),
+      'media_filter' => array(
+        'weight' => -46,
+        'status' => 1,
+        'settings' => array(),
+      ),
       'youtube_prevent_rel' => array(
-        'weight' => -44,
+        'weight' => -45,
         'status' => 1,
         'settings' => array(),
       ),
       'filter_autop' => array(
-        'weight' => -43,
+        'weight' => -44,
         'status' => 1,
         'settings' => array(),
       ),
       'pathologic' => array(
-        'weight' => 50,
+        'weight' => -35,
         'status' => 1,
         'settings' => array(
           'settings_source' => 'global',

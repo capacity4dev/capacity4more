@@ -5,3 +5,6 @@ api = 2
 
 projects[piwik][subdir] = "contrib"
 projects[piwik][version] = "2.9"
+
+projects[registry_autoload][subdir] = "contrib"
+projects[registry_autoload][version] = "1.3"

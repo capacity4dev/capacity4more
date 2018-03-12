@@ -2,8 +2,10 @@
 
 /**
  * @file
- * Extra functionality for comments.
+ * Code for the Comment feature.
  */
+
+include_once 'c4m_comment.features.inc';
 
 /**
  * Implements hook_module_implements_alter().
@@ -25,7 +27,7 @@ function c4m_comment_module_implements_alter(&$implementations, $hook) {
 }
 
 /**
- * Implements hook_form_BASE_FORM_ID_alter().
+ * Implements hook_form_BASE_FORM_ID_alter() for node_form().
  */
 function c4m_comment_form_node_form_alter(array &$form, array $form_state) {
   $node = $form['#node'];
@@ -46,6 +48,68 @@ function c4m_comment_form_node_form_alter(array &$form, array $form_state) {
   // If the user has access to the node form, he can also change the comment
   // settings for this content entry.
   $form['comment_settings']['#access'] = TRUE;
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for comment_form().
+ */
+function c4m_comment_form_comment_form_alter(array &$form, array $form_state) {
+  if (isset($form_state['comment']->cid)) {
+    $comment = $form_state['comment'];
+    if (!c4m_user_is_site_admin()) {
+      $form['author']['#access'] = FALSE;
+      // If the user is not SA, but edits a comment (is GA) the author needs to
+      // be changed. comment_form() sets the current user and we need to use the
+      // original user.
+      $form['author']['name']['#value'] = !$comment->uid && $comment->name ? $comment->name : $comment->registered_name;
+    }
+  }
+  else {
+    // Add "Post Activity" checkbox.
+    $form['post_activity'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Post Activity'),
+      '#default_value' => TRUE,
+      '#access' => _c4m_comment_post_activity_access(),
+    ];
+
+    // Add "Send Notification" checkbox.
+    $form['send_notification'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Send Notification'),
+      '#default_value' => TRUE,
+    ];
+
+    // Don't display author info.
+    $form['author']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_field_attach_submit().
+ *
+ * Sets the _skip_message flag, if needed, for comment entity.
+ */
+function c4m_comment_field_attach_submit($entity_type, $entity, $form, &$form_state) {
+  if ($entity_type !== 'comment') {
+    return;
+  }
+  $skip_message = _c4m_comment_post_activity_access() && empty($form_state['values']['post_activity']);
+  if ($skip_message) {
+    $entity->_skip_message = TRUE;
+  }
+
+  $entity->c4m_send_notification = !empty($form_state['values']['send_notification']);
+}
+
+/**
+ * Access callback for the "Post Activity" checkbox.
+ *
+ * @return bool
+ *   TRUE if the checkbox should be displayed.
+ */
+function _c4m_comment_post_activity_access() {
+  return c4m_user_is_site_admin();
 }
 
 /**
@@ -244,15 +308,63 @@ function c4m_comment_user_cancel($edit, $account, $method) {
  * Implements hook_comment_view().
  *
  * When a user is forbidden to take actions on a comment we should display the
- * links only once, hence we remove it from all threads besides the main one.
+ * links only once, hence we remove it from all comments.
+ *
+ * Add edit link for GO/GA/PO/PA which don't have the "administer comments"
+ * permission.
  */
 function c4m_comment_comment_view($comment, $view_mode, $langcode) {
   // The comment is not forbidden for actions.
-  if (empty($comment->content['links']['comment']['#links']['comment_forbidden'])) {
+  if (!empty($comment->content['links']['comment']['#links']['comment_forbidden'])) {
+    unset($comment->content['links']['comment']['#links']['comment_forbidden']);
+  }
+
+  if (empty($comment->content['links'])) {
     return;
   }
 
-  unset($comment->content['links']['comment']['#links']['comment_forbidden']);
+  // Check if the link is already there.
+  if (isset($comment->content['links']['comment']['#links']['comment-edit'])) {
+    return;
+  }
+
+  // Check if the user has permissions to see the edit link.
+  if (!c4m_comment_edit_access_check($comment)) {
+    return;
+  }
+
+  // Prepend the edit link to keep the same order of links as for SA.
+  $edit_link = [
+    'comment-edit' => [
+      'title' => t('edit'),
+      'href' => 'comment/' . $comment->cid . '/edit',
+    ],
+  ];
+  $comment->content['links']['comment']['#links'] = $edit_link + $comment->content['links']['comment']['#links'];
+
+}
+
+/**
+ * Access callback for editing comments.
+ *
+ * @see comment_access()
+ */
+function c4m_comment_edit_access_check($comment) {
+  global $user;
+
+  if (user_access('administer comments')) {
+    return TRUE;
+  }
+
+  if ($user->uid && $user->uid == $comment->uid && $comment->status == COMMENT_PUBLISHED && user_access('edit own comments')) {
+    return TRUE;
+  }
+
+  if (c4m_features_og_members_is_power_user()) {
+    return TRUE;
+  }
+
+  return FALSE;
 }
 
 /**
@@ -281,6 +393,12 @@ function c4m_comment_get_group_id($comment) {
 function c4m_comment_menu_alter(&$items) {
   // Alter the comment callback to check the purl access.
   $items['comment/%']['page callback'] = 'c4m_comment_permalink';
+
+  // Alter the access callback for edit comment.
+  if (isset($items['comment/%comment/edit'])) {
+    $items['comment/%comment/edit']['access callback'] = 'c4m_comment_edit_access_check';
+    $items['comment/%comment/edit']['access arguments'] = [1];
+  }
 }
 
 /**

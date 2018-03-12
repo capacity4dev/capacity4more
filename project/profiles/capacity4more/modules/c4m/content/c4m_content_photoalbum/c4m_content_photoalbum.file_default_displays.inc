@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_photoalbum.file_default_displays.inc

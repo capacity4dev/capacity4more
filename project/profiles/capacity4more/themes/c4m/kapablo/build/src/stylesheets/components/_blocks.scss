@@ -26,41 +26,6 @@
   margin: 0;
 }
 
-.node-add-wrapper + .node-add-wrapper {
-  margin-top: 10px;
-}
-
 .page-taxonomy .taxonomy-term {
   padding-bottom: 0!important;
-}
-
-.view {
-
-  .view-header {
-
-    a {
-
-      &.node-create-news,
-      &.node-create-discussion,
-      &.node-create-event,
-      &.node-create-document,
-      &.node-create-photoalbum,
-      &.node-create-photo {
-        background-color: $color-text-alternative;
-        color: #fff;
-        text-decoration: none;
-        text-transform: uppercase;
-
-        .fa {
-          margin-right: 5px;
-        }
-      }
-    }
-
-    .total-items {
-      display: inline-block;
-      float: left;
-      margin: 20px 0;
-    }
-  }
 }

@@ -68,8 +68,8 @@ CAMPAIGNMONITOR_LIST_TITLE="Title of the list"
 
 # Piwik Web Analytics settings.
 PIWIK_SITE_ID="1"
-PIWIK_URL_HTTP="http://capacity4more-piwik.dev.amplexor.com/"
-PIWIK_URL_HTTPS=""
+PIWIK_SITE_PATH="https://europa.eu/capacity4dev"
+PIWIK_SITE_INSTANCE="europa.eu"
 
 ################################################################################
 # Druleton configuration.

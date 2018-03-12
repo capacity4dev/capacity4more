@@ -656,7 +656,7 @@ function c4m_user_og_group_actions_cta($group) {
     }
   }
 
-  if (!og_get_membership('node', $group->nid, 'user', $user->uid)) {
+  if (!c4m_features_og_members_is_power_user()) {
     return;
   }
 
@@ -674,30 +674,18 @@ function c4m_user_og_group_actions_cta($group) {
     'state' => NODE_NOT_PUBLISHED,
     'entity_type' => 'node',
     'og_id' => $group->nid,
-    'uid' => $user->uid,
   );
 
   if ($unpublished_content = c4m_helper_entity_get_number_of_entities($variables)) {
-    $items['new-content'] = array(
+    $items['new-content'] = [
       '#theme' => 'c4m_group_text_cta',
       '#icon' => 'fa-exclamation-triangle',
-      '#text' => t('You have <a href="@content_url">!content_number draft</a> @items',
-        array(
-          '@content_url' => url('user/' . $user->uid . '/content', array(
-            'query' => array(
-              'f' => array(
-                // Unpublished.
-                'status:0',
-                // Container reference.
-                'og_group_ref:' . $group->nid,
-              ),
-            ),
-          )),
-          '!content_number' => $unpublished_content,
-          '@items' => format_plural($unpublished_content, 'item', 'items'),
-        )
-      ),
-    );
+      '#text' => t('You have <a href="@content_url">!content_number draft</a> @items', [
+        '@content_url' => url('draft-content', ['purl' => ['disabled' => FALSE]]),
+        '!content_number' => $unpublished_content,
+        '@items' => format_plural($unpublished_content, 'item', 'items'),
+      ]),
+    ];
   }
 
   // Help & guidance.

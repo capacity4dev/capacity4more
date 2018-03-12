@@ -193,15 +193,6 @@ function c4m_user_user_default_permissions() {
     'module' => 'ds',
   );
 
-  // Exported permission: 'administer EU Cookie Compliance popup'.
-  $permissions['administer EU Cookie Compliance popup'] = array(
-    'name' => 'administer EU Cookie Compliance popup',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'eu_cookie_compliance',
-  );
-
   // Exported permission: 'administer actions'.
   $permissions['administer actions'] = array(
     'name' => 'administer actions',
@@ -945,9 +936,7 @@ function c4m_user_user_default_permissions() {
   // Exported permission: 'customize ckeditor'.
   $permissions['customize ckeditor'] = array(
     'name' => 'customize ckeditor',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
+    'roles' => array(),
     'module' => 'ckeditor',
   );
 
@@ -1343,17 +1332,6 @@ function c4m_user_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'user_revision',
-  );
-
-  // Exported permission: 'display EU Cookie Compliance popup'.
-  $permissions['display EU Cookie Compliance popup'] = array(
-    'name' => 'display EU Cookie Compliance popup',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
-      'authenticated user' => 'authenticated user',
-    ),
-    'module' => 'eu_cookie_compliance',
   );
 
   // Exported permission: 'edit any article content'.
@@ -1931,6 +1909,15 @@ function c4m_user_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'features',
+  );
+
+  // Exported permission: 'merge group content'.
+  $permissions['merge group content'] = array(
+    'name' => 'merge group content',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'c4m_og',
   );
 
   // Exported permission: 'notify of path changes'.

@@ -1,0 +1,15 @@
+diff --git a/iframeremove.module b/iframeremove.module
+index ba5a801..07ac227 100644
+--- a/iframeremove.module
++++ b/iframeremove.module
+@@ -138,6 +138,10 @@ function _iframeremove_iframe($string, $whitelist_regex=array()) {
+     // extract the iframe src. Using regex is way too messy and difficult
+     // to ensure consistency.
+     $dom = new DOMDocument();
++
++    // Suppress potential HTML parse errors.
++    libxml_use_internal_errors(true);
++
+     $dom->loadHTML($string);
+     $to_remove = array();
+     foreach ($dom->getElementsByTagName('iframe') as $iframe) {

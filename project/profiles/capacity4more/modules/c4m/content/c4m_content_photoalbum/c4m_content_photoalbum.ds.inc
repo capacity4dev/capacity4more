@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_photoalbum.ds.inc
@@ -256,12 +257,12 @@ function c4m_content_photoalbum_ds_field_settings_info() {
       ),
     ),
     'c4m_user_picture' => array(
-      'weight' => '5',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'linked_thumbnail',
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '6',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -270,15 +271,21 @@ function c4m_content_photoalbum_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_creation_date' => array(
-      'weight' => '7',
+    'c4m_ds_update_date' => array(
+      'weight' => '4',
       'label' => 'inline',
       'format' => 'j F Y',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'lb' => ' | ',
+          'lb' => 'last update',
           'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'update-date-wrapper',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
         ),
       ),
     ),
@@ -1084,18 +1091,18 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
     'regions' => array(
       'left' => array(
         0 => 'c4m_ds_content_type_label',
-        2 => 'title',
-        4 => 'c4m_ds_content_footer_stats',
-        5 => 'c4m_body',
-        6 => 'node_gallery_view',
+        3 => 'title',
+        6 => 'c4m_ds_content_footer_stats',
+        8 => 'c4m_body',
+        10 => 'node_gallery_view',
       ),
       'right' => array(
-        0 => 'c4m_ds_node_highlight',
-        2 => 'c4m_ds_entity_type_label',
-        3 => 'c4m_ds_content_actions',
-        5 => 'c4m_user_picture',
+        1 => 'c4m_ds_entity_type_label',
+        2 => 'c4m_ds_node_highlight',
+        4 => 'c4m_user_picture',
+        5 => 'c4m_ds_content_actions',
         7 => 'c4m_user_first_and_last_name',
-        9 => 'c4m_ds_creation_date',
+        9 => 'c4m_ds_update_date',
         11 => 'group_node_meta',
         12 => 'group_node_actions',
         13 => 'c4m_vocab_topic',
@@ -1107,16 +1114,16 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
       ),
     ),
     'fields' => array(
-      'c4m_ds_node_highlight' => 'right',
       'c4m_ds_content_type_label' => 'left',
       'c4m_ds_entity_type_label' => 'right',
-      'c4m_ds_content_actions' => 'right',
+      'c4m_ds_node_highlight' => 'right',
       'title' => 'left',
       'c4m_user_picture' => 'right',
+      'c4m_ds_content_actions' => 'right',
       'c4m_ds_content_footer_stats' => 'left',
       'c4m_user_first_and_last_name' => 'right',
       'c4m_body' => 'left',
-      'c4m_ds_creation_date' => 'right',
+      'c4m_ds_update_date' => 'right',
       'node_gallery_view' => 'left',
       'group_node_meta' => 'right',
       'group_node_actions' => 'right',

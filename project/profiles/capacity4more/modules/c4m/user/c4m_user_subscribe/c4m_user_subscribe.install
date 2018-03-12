@@ -1,0 +1,87 @@
+<?php
+
+/**
+ * @file
+ * Install and update hooks for the c4m_user_subscribe functionality.
+ */
+
+/**
+ * Implements hook_update_N().
+ */
+function c4m_user_subscribe_update_7001(&$sandbox) {
+  $table = 'field_data_c4m_vocab_topic';
+  $vocab_tid_name = 'c4m_vocab_topic_tid';
+
+  _c4m_user_subscribe_to_vocab($sandbox, $table, $vocab_tid_name);
+
+  if ($sandbox['#finished']) {
+    return t('Completed the update hook and subscribed: @count_users to @count_terms topics of interest subscriptions.',
+      [
+        '@count_users' => $sandbox['progress'],
+        '@count_terms' => $sandbox['max'],
+      ]);
+  }
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function c4m_user_subscribe_update_7002(&$sandbox) {
+  $table = 'field_data_c4m_vocab_geo';
+  $vocab_tid_name = 'c4m_vocab_geo_tid';
+
+  _c4m_user_subscribe_to_vocab($sandbox, $table, $vocab_tid_name);
+
+  if ($sandbox['#finished']) {
+    return t('Completed the update hook and subscribed: @count_users to @count_terms regions/countries of interest subscriptions.',
+      [
+        '@count_users' => $sandbox['progress'],
+        '@count_terms' => $sandbox['max'],
+      ]);
+  }
+}
+
+/**
+ * Helper function to subscriber users to vocabs.
+ *
+ * @param array $sandbox
+ *   Persistent sandbox array with batch progress and status.
+ * @param string $table
+ *   Name of the database table.
+ * @param string $vocab_tid_name
+ *   Name of the key to fetch values for.
+ */
+function _c4m_user_subscribe_to_vocab(array &$sandbox, $table, $vocab_tid_name) {
+  if (!isset($sandbox['progress'])) {
+    $sandbox['progress'] = 0;
+    $sandbox['max'] = db_query("SELECT COUNT(*) FROM {" . $table . "} WHERE bundle = 'user'")->fetchField();
+    $sandbox['messages'] = [];
+  }
+
+  $limit = 100;
+
+  $results = db_select($table, 'v')
+    ->fields('v', ['entity_id', $vocab_tid_name])
+    ->condition('v.bundle', 'user')
+    ->range($sandbox['progress'], $limit)
+    ->orderBy('entity_id')
+    ->execute()
+    ->fetchAll();
+
+  $assoc = _c4m_user_subscribe_group_term_ids_by_uid($results, 'entity_id', $vocab_tid_name);
+
+  foreach ($assoc as $uid => $terms) {
+    $account = user_load($uid);
+
+    if (!$account || $account->uid == 0) {
+      watchdog('c4m_user_subscribe', 'Unable to load UID: @uid', ['@uid' => $uid]);
+    }
+    else {
+      _c4m_user_subscribe_user_flag_terms($terms, $account);
+    }
+
+    $sandbox['progress'] += count($terms);
+  }
+
+  $sandbox['#finished'] = ($sandbox['progress'] >= $sandbox['max']) ? TRUE : ($sandbox['progress'] / $sandbox['max']);
+}

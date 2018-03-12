@@ -56,7 +56,7 @@ function c4m_content_group_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_subject_field_group';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['comment_subject_field_group'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -81,7 +81,7 @@ function c4m_content_group_strongarm() {
         'custom_settings' => FALSE,
       ),
       'print' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'diff_standard' => array(
         'custom_settings' => FALSE,
@@ -128,6 +128,12 @@ function c4m_content_group_strongarm() {
       'group_dashboard' => array(
         'custom_settings' => TRUE,
       ),
+      'highlight_list' => array(
+        'custom_settings' => FALSE,
+      ),
+      'pinned_content' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -165,6 +171,10 @@ function c4m_content_group_strongarm() {
             'weight' => '31',
             'visible' => FALSE,
           ),
+          'print' => array(
+            'weight' => '1',
+            'visible' => FALSE,
+          ),
         ),
         'highlighted' => array(
           'block_list' => array(
@@ -179,6 +189,7 @@ function c4m_content_group_strongarm() {
             'weight' => '28',
             'visible' => FALSE,
           ),
+          'print' => NULL,
         ),
       ),
     ),

@@ -7,7 +7,7 @@
 
 include_once 'c4m_features_overview_events.features.inc';
 
-define('C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE', 'Sort by Start Date');
+define('C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE', 'Start Date');
 define('C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_RELEVANCE', 'Relevance');
 
 /**
@@ -35,7 +35,7 @@ function c4m_features_overview_events_c4m_search_page_info() {
  * block per view, so we need to alter some stuff. Here the default sort.
  */
 function c4m_features_overview_events_search_api_sorts_default_sort_alter(&$default_sort, $search_sorts, $keys) {
-  // Change default sort into 'Sort by Start Date' for events overviews.
+  // Change default sort into 'Start Date' for events overviews.
   if (FALSE === strpos(current_path(), 'events', 0)) {
     return;
   }
@@ -241,4 +241,79 @@ function _c4m_features_overview_events_count_via_views($type) {
   );
 
   return _c4m_helper_entity_total_count_via_views('c4m_overview_events_landing', $mapped_views[$type]);
+}
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * Make sure the access checks are done for the event nodes.
+ */
+function c4m_features_overview_events_views_pre_render(&$view) {
+  if ($view->name !== 'c4m_events_calendar') {
+    return;
+  }
+  foreach ($view->result as $key => $result) {
+    $node = node_load($result->nid);
+    if (!node_access('view', $node)) {
+      unset($view->result[$key]);
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_view().
+ */
+function c4m_features_overview_events_preprocess_views_view(&$vars) {
+  $view = $vars['view'];
+  $week_path = 'events/calendar/week';
+  $month_path = 'events/calendar';
+  if ($vars['name'] == 'c4m_overview_events_landing') {
+    if ($vars['display_id'] == 'page') {
+      $vars['month_view_url'] = l(t('Switch to calendar view'), $month_path);
+    }
+  }
+
+  if ($view->name != 'c4m_events_calendar') {
+    return;
+  }
+  $calendar_displays = [
+    'month',
+    'week',
+  ];
+  if (!in_array($view->current_display, $calendar_displays)) {
+    return;
+  }
+  if ($view->current_display == 'month') {
+    if (!empty($view->args[0])) {
+      $date = explode("-", $view->args[0]);
+      if (!empty($date[0]) && !empty($date[1])) {
+        $year = $date[0];
+        $current_month = date("m");
+        if ($current_month != $date[1]) {
+          $calendar_date = date_create($view->args[0] . '-01');
+          $year_start_date = date_create($year . '-01-01');
+          $diff = date_diff($calendar_date, $year_start_date);
+          $weeks = floor($diff->days / 7) + 1;
+          $week_path .= "/" . $year . "-W" . $weeks;
+        }
+      }
+    }
+  }
+  else {
+    if (!empty($view->args[0])) {
+      $date = explode("-", $view->args[0]);
+      if (!empty($date[0]) && !empty($date[1])) {
+        $year = $date[0];
+        $week = str_replace("W", '', $date[1]);
+        $year_start_date = date_create($year . "-01-01");
+        $calendar_date = date_add($year_start_date, date_interval_create_from_date_string($week . " weeks"));
+        $month = $calendar_date->format('m');
+        $month_path .= "/" . $year . "-" . $month;
+      }
+    }
+  }
+
+  $vars['week_view_url'] = l(t('Week'), $week_path);
+  $vars['month_view_url'] = l(t('Month'), $month_path);
+  $vars['list_view_url'] = l(t('Switch to list view'), 'events');
 }

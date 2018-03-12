@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Install file for c4m_comment module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_comment_install() {
+  $views_status = variable_get('views_defaults', array());
+  $views_status['admin_views_comment'] = TRUE;
+  variable_set('views_defaults', $views_status);
+}
+
+/**
+ * Disable admin_views_comment view.
+ */
+function c4m_comment_update_7001() {
+  $views_status = variable_get('views_defaults', array());
+  $views_status['admin_views_comment'] = TRUE;
+  variable_set('views_defaults', $views_status);
+}

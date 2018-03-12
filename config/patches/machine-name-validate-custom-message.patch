@@ -1,0 +1,14 @@
+diff --git a/includes/form.inc b/includes/form.inc
+index 3b2032eb72..f94ff60d42 100644
+--- a/includes/form.inc
++++ b/includes/form.inc
+@@ -3718,7 +3718,8 @@ function form_validate_machine_name(&$element, &$form_state) {
+   if ($element['#default_value'] !== $element['#value']) {
+     $function = $element['#machine_name']['exists'];
+     if ($function($element['#value'], $element, $form_state)) {
+-      form_error($element, t('The machine-readable name is already in use. It must be unique.'));
++      $message = isset($element['#machine_name']['error_message']) ? $element['#machine_name']['error_message'] : t('The machine-readable name is already in use. It must be unique.');
++      form_error($element, $message);
+     }
+   }
+ }

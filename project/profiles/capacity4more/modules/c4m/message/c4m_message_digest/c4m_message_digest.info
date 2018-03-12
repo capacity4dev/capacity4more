@@ -1,0 +1,6 @@
+name = Message Digest
+description = This module provides message digest functionality.
+core = 7.x
+package = capacity4more - Message
+dependencies[] = c4m_message
+dependencies[] = message_digest

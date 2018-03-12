@@ -13,7 +13,7 @@ projects[legal][subdir] = "contrib"
 projects[legal][version] = "1.6"
 
 projects[nocurrent_pass][subdir] = "contrib"
-projects[nocurrent_pass][version] = "1.0"
+projects[nocurrent_pass][version] = "1.1"
 
 projects[user_registrationpassword][subdir] = "contrib"
 projects[user_registrationpassword][version] = "1.4"

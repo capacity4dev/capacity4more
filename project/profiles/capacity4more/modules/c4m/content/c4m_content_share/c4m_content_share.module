@@ -27,7 +27,53 @@ function c4m_content_share_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['c4m-autocomplete-share-groups/%node'] = array(
+    'title' => 'Available groups/projects for sharing content',
+    'page callback' => '_c4m_content_share_groups_autocomplete_callback',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
+}
+
+/**
+ * Returns available group for sharing content in autocomplete text fields.
+ *
+ * @param object $node
+ *   Id of the shred node.
+ * @param string $string
+ *   Input from the text field.
+ */
+function _c4m_content_share_groups_autocomplete_callback($node, $string = '') {
+  $matches = [];
+
+  $gid = $node->og_group_ref[LANGUAGE_NONE][0]['target_id'];
+  $field = field_info_field('og_group_ref');
+  $instance = field_info_instance('node', 'og_group_ref', 'share');
+
+  $handler = entityreference_get_selection_handler($field, $instance, 'node', NULL);
+  $searched_groups = $handler->getReferencableEntities($string, 'CONTAINS', 10);
+  if (!empty($searched_groups['group'])) {
+    $groups = $searched_groups['group'];
+
+    // Remove groups already shared TO.
+    $groups_shared = c4m_content_share_get_shared_groups($node);
+    foreach ($groups_shared as $id_shared) {
+      if (!empty($groups[$id_shared])) {
+        unset($groups[$id_shared]);
+      }
+    }
+
+    foreach ($groups as $group_id => $group_label) {
+      if ($group_id != $gid) {
+        $matches[$group_label . ' (' . $group_id . ')'] = '<div class="reference-autocomplete">' . $group_label . '</div>';
+      }
+    }
+  }
+
+  drupal_json_output($matches);
 }
 
 /**

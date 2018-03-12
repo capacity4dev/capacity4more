@@ -104,7 +104,7 @@ class C4mLDAPUser {
     $data = (array) $xml;
     // We expect to have the valid field.
     if (!isset($data['valid'])) {
-      return FALSE;
+      return $data;
     }
 
     // Country is a special case: '<country iso="BE"/>'.

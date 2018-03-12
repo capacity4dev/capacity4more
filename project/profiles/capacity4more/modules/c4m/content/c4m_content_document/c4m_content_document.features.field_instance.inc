@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_document.features.field_instance.inc
@@ -183,7 +184,7 @@ function c4m_content_document_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 5,
+        'weight' => 4,
       ),
       'highlight_list' => array(
         'label' => 'hidden',
@@ -225,7 +226,7 @@ function c4m_content_document_field_default_field_instances() {
           'trim_length' => 300,
         ),
         'type' => 'text_summary_or_trimmed',
-        'weight' => 5,
+        'weight' => 7,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -238,7 +239,7 @@ function c4m_content_document_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'c4m_body',
     'label' => 'Description',
-    'required' => 1,
+    'required' => 0,
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
@@ -275,6 +276,12 @@ function c4m_content_document_field_default_field_instances() {
       'active' => 1,
       'module' => 'text',
       'settings' => array(
+        'maxlength_js' => '',
+        'maxlength_js_enforce' => 0,
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'maxlength_js_label_summary' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'maxlength_js_summary' => '',
+        'maxlength_js_truncate_html' => 0,
         'rows' => 20,
         'summary_display' => 'default',
         'summary_rows' => 5,
@@ -294,7 +301,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
-          'text' => 'Download [file:name]',
+          'show_pdf_preview_link' => TRUE,
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
         'weight' => 3,
@@ -303,7 +310,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
-          'text' => 'Download [file:name]',
+          'show_pdf_preview_link' => TRUE,
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
         'weight' => 2,
@@ -333,7 +340,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
-          'text' => 'Download [file:name]',
+          'show_pdf_preview_link' => FALSE,
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
         'weight' => 2,
@@ -348,7 +355,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
-          'text' => 'Download [file:name]',
+          'show_pdf_preview_link' => FALSE,
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
         'weight' => 7,
@@ -381,7 +388,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
-          'text' => 'Download [file:name]',
+          'show_pdf_preview_link' => TRUE,
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
         'weight' => 7,
@@ -390,10 +397,10 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'c4m_ds',
         'settings' => array(
-          'text' => 'Download [file:name]',
+          'show_pdf_preview_link' => TRUE,
         ),
         'type' => 'c4m_ds_formatter_link_and_size',
-        'weight' => 6,
+        'weight' => 8,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -489,7 +496,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 29,
       ),
       'highlight_list' => array(
         'label' => 'above',
@@ -525,7 +532,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 31,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -643,7 +650,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 33,
+        'weight' => 37,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -758,7 +765,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 34,
+        'weight' => 38,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -767,15 +774,16 @@ function c4m_content_document_field_default_field_instances() {
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_vocab_document_type',
     'label' => 'Type of Document',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
+      'active' => 0,
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
@@ -873,7 +881,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 31,
+        'weight' => 35,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -988,7 +996,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 28,
+        'weight' => 32,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -1102,7 +1110,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 32,
+        'weight' => 36,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -1182,7 +1190,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 30,
       ),
       'highlight_list' => array(
         'label' => 'above',
@@ -1218,7 +1226,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 30,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -1371,7 +1379,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 29,
+        'weight' => 33,
       ),
       'upcoming_event' => array(
         'label' => 'above',
