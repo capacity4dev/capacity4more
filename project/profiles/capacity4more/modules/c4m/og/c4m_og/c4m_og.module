@@ -3775,11 +3775,10 @@ function _c4m_og_merge_users_batch($gid, $target_gid, &$context) {
   }
   // Get users from the source group which are not members of the target group.
   $users_query = db_select('og_membership', 'ogm')
-    ->fields('ogm', array('id'))
+    ->fields('ogm', ['etid'])
     ->condition('entity_type', 'user')
     ->condition('gid', $gid)
-    ->condition('gid', $target_gid, '!=')
-    ->condition('state', 1);
+    ->condition('state', OG_STATE_ACTIVE);
   $user_ids = $users_query->execute()->fetchCol();
   $users = user_load_multiple($user_ids);
   if (!empty($users)) {
