@@ -10,13 +10,13 @@ projects[currency][subdir] = "contrib"
 projects[currency][version] = "2.6"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.9"
+projects[date][version] = "2.10"
 
 projects[dragndrop_upload][subdir] = "contrib"
 projects[dragndrop_upload][version] = "1.x-dev"
 
 projects[field_group][subdir] = "contrib"
-projects[field_group][version] = "1.5"
+projects[field_group][version] = "1.6"
 
 projects[geocoder][subdir] = "contrib"
 projects[geocoder][version] = "1.3"
@@ -45,7 +45,7 @@ projects[money][subdir] = "contrib"
 projects[money][version] = "1.x-dev"
 
 projects[paragraphs][subdir] = "contrib"
-projects[paragraphs][version] = "1.0-rc4"
+projects[paragraphs][version] = "1.0-rc5"
 projects[paragraphs][patch][] = "https://www.drupal.org/files/issues/paragraphs-fix_parents_access-2562463-20-7.x.patch"
 
 projects[reldate][subdir] = "contrib"

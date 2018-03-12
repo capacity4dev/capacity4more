@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_photo.features.inc

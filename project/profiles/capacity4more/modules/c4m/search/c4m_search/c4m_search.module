@@ -121,6 +121,11 @@ function c4m_search_block_view_alter(&$data, $block) {
     module_load_include('inc', 'c4m_search', 'includes/c4m_search.block');
     _c4m_search_block_facetapi_view_alter($data, $block);
   }
+  // Only for blocks provided by the facetapi module.
+  if ($block->module === 'current_search') {
+    module_load_include('inc', 'c4m_search', 'includes/c4m_search.block');
+    _c4m_search_block_current_search_view_alter($data, $block);
+  }
 }
 
 /**
@@ -128,13 +133,6 @@ function c4m_search_block_view_alter(&$data, $block) {
  */
 function c4m_search_facetapi_widgets() {
   return array(
-    'c4m_search_links_content_type' => array(
-      'handler' => array(
-        'label' => t('Content Type'),
-        'class' => 'C4mSearchWidgetLinksContentTypes',
-        'query types' => array('term'),
-      ),
-    ),
     'c4m_search_links_grouped' => array(
       'handler' => array(
         'label' => t('Links Grouped'),
@@ -199,12 +197,12 @@ function c4m_search_theme() {
  * $query->setOption('limit', 0);
  *
  * @param array $filters
- *    The filters to be added to the query.
+ *   The filters to be added to the query.
  * @param array $options
- *    Additional options to be added to the query.
+ *   Additional options to be added to the query.
  *
  * @return array
- *    Result set of the query.
+ *   Result set of the query.
  */
 function c4m_search_custom_search(array $filters, array $options = array()) {
   if (empty($filters)) {
@@ -395,7 +393,9 @@ function c4m_search_form($form, &$form_state) {
   // Submit button.
   $form['basic']['submit'] = array(
     '#type' => 'submit',
-    '#value' => '<i class="fa fa-search"></i>',
+    '#value' => 'Submit',
+    '#hide_text' => TRUE,
+    '#icon' => '<i class="fa fa-search"></i>',
   );
 
   return $form;
@@ -463,7 +463,9 @@ function c4m_search_redirect_form($form, &$form_state, $redirect_url, $title = N
   // Submit button.
   $form['basic']['submit'] = array(
     '#type' => 'submit',
-    '#value' => '<i class="fa fa-search"></i>',
+    '#value' => 'Submit',
+    '#hide_text' => TRUE,
+    '#icon' => '<i class="fa fa-search"></i>',
   );
 
   return $form;
@@ -510,7 +512,7 @@ function c4m_search_facet_items_alter(&$build, &$settings) {
       }
     }
   }
-  if ($settings->settings['widget'] == 'c4m_search_links_content_type') {
+  if ($settings->facet === 'type') {
     if (isset($build['discussion']['#active'])) {
       $discussion_items = _c4m_search_get_facet_items('c4m_discussion_type');
       $list = array(
@@ -606,10 +608,13 @@ function c4m_search_form_views_exposed_form_alter(
   &$form_state,
   $form_id
 ) {
+  if (isset($form['items_per_page'])) {
+    $form['items_per_page']['#access'] = FALSE;
+  }
+
   if (!isset($form['#info']['filter-search_api_views_fulltext'])) {
     return;
   }
-
   $form['#info']['filter-search_api_views_fulltext']['label'] = '';
   $form['text']['#type'] = 'hidden';
 
@@ -647,6 +652,10 @@ function c4m_search_form_views_exposed_form_alter(
 function c4m_search_submit_handler_search_within_results($form, &$form_state) {
   $path = drupal_get_query_parameters();
 
+  if (!empty($path['op'])) {
+    // The form is resetted.
+    return;
+  }
   if (!isset($path['search_params'])) {
     return;
   }
@@ -662,15 +671,28 @@ function c4m_search_submit_handler_search_within_results($form, &$form_state) {
   // If the pager was not clicked then the form was submitted.
   else {
     $new_value = $form_state['values']['search'];
-    // If the user clicks "Search within search results" without having a
-    // previous searched string, the text $params['text'] is not set.
-    if ($form_state['values']['search_within_results'] === 1 && isset($params['text']) && $params['text'] !== '') {
-      $params['text'] .= ' ' . $new_value;
+    if ($form_state['values']['search_within_results'] === 1) {
+      // If the user clicks "Search within search results" without having a
+      // previous searched string, the text $params['text'] is not set.
+      if (!empty($params['text'])) {
+        $params['text'] .= $new_value !== '' ? ' ' . $new_value : '';
+      }
+      else {
+        if ($new_value !== '') {
+          $params['text'] = $new_value;
+        }
+        else {
+          unset($params['text']);
+        }
+      }
     }
-    // Simple form submission or a search within results but with no initial
-    // value.
     else {
-      $params['text'] = $new_value;
+      // Simple form submission or a search not within results.
+      // We're resetting the params array to wipe out the facets.
+      $params = [];
+      if ($new_value !== '') {
+        $params['text'] = $new_value;
+      }
     }
   }
   drupal_goto(current_path(), array('query' => $params));
@@ -748,17 +770,45 @@ function c4m_search_views_post_build(&$view) {
  *   Search text with highlighted keywords.
  */
 function c4m_search_highlight_search_keywords($text) {
-  // We could also have used check_plain() but that replaces quotes too.
-  $text = htmlspecialchars($text, ENT_NOQUOTES, 'UTF-8');
-  $replacements = array(
-    '/(")/' => '<span class="search-keyword">$1</span>',
+  $replacements = [
+    // $text is already passed through checkplain().
+    '/(&quot;)/' => '<span class="search-keyword">$1</span>',
     '/(\s|^)(-|!)/' => '$1<span class="search-keyword">$2</span>',
     '/(\s)AND(\s)/' => '$1<span class="search-keyword">AND</span>$2',
     '/(\s)OR(\s)/' => '$1<span class="search-keyword">OR</span>$2',
     '/(\s)NOT(\s)/' => '$1<span class="search-keyword">NOT</span>$2',
-  );
+  ];
   foreach ($replacements as $key => $replacement) {
     $text = preg_replace($key, $replacement, $text);
   }
   return $text;
+}
+
+/**
+ * Implements hook_current_search_items().
+ */
+function c4m_search_current_search_items() {
+  return [
+    'clear_all_filters' => [
+      'handler' => [
+        'label' => t('Clear all filters link'),
+        'class' => 'C4MSearchCurrentSearchClearAllFiltersLink',
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_current_search_links_active_items_alter().
+ *
+ * Highlight keywords for searched text.
+ */
+function c4m_search_current_search_links_active_items_alter(&$items, $context) {
+  foreach ($items as &$item) {
+    // Skip facets.
+    if (isset($item['#facet_field'])) {
+      continue;
+    }
+    $item['#text'] = c4m_search_highlight_search_keywords($item['#text']);
+  }
 }

@@ -414,6 +414,31 @@ function _c4m_features_og_members_get_admin_role($group) {
 }
 
 /**
+ * Implements hook_views_access_callbacks().
+ */
+function c4m_features_og_members_views_access_callbacks() {
+  return [
+    'c4m_features_og_members_is_power_user_access_callback' => t('C4M Is Power User'),
+  ];
+}
+
+/**
+ * Access callback.
+ */
+function c4m_features_og_members_is_power_user_access_callback() {
+  if (!og_context_is_init()) {
+    // OG context was not determined yet, so register the path and return early.
+    // The next time this access callback will be called, it will not enter
+    // here.
+    og_context_access_callback_register_path($_GET['q']);
+
+    return FALSE;
+  }
+
+  return c4m_features_og_members_is_power_user();
+}
+
+/**
  * Check if a user is power user within a group.
  *
  * Meaning the user:
@@ -433,8 +458,8 @@ function c4m_features_og_members_is_power_user($group = NULL, $user = NULL) {
   if (!isset($user)) {
     global $user;
   }
-  // The user has the sitewide role 'administrator'.
-  if (in_array('administrator', $user->roles)) {
+
+  if (c4m_user_is_site_admin($user)) {
     return TRUE;
   }
 

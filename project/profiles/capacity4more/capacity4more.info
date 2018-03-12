@@ -28,14 +28,15 @@ dependencies[] = better_formats
 dependencies[] = blockreference
 dependencies[] = context
 dependencies[] = ctools
+dependencies[] = current_search_links
 dependencies[] = date
 dependencies[] = date_popup
 dependencies[] = diff
+dependencies[] = draggableviews
 dependencies[] = entity
 dependencies[] = entity_token
 dependencies[] = entityreference
 dependencies[] = entityreference_prepopulate
-dependencies[] = eu_cookie_compliance
 dependencies[] = facetapi
 dependencies[] = features
 dependencies[] = field_group
@@ -43,7 +44,9 @@ dependencies[] = file_download_count
 dependencies[] = flag
 ;dependencies[] = inline_entity_form
 dependencies[] = jquery_update
+dependencies[] = lazyloader
 dependencies[] = libraries
+dependencies[] = masquerade
 dependencies[] = message
 dependencies[] = message_notify
 dependencies[] = message_subscribe
@@ -194,6 +197,7 @@ dependencies[] = c4m_moodle
 ; Message
 dependencies[] = c4m_mail
 dependencies[] = c4m_message
+dependencies[] = c4m_message_digest
 
 ; Widgets
 dependencies[] = c4m_document_widget

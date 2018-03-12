@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_book.features.field_instance.inc
@@ -86,7 +87,7 @@ function c4m_content_book_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -98,6 +99,13 @@ function c4m_content_book_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'print' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
         'weight' => 0,
       ),
       'teaser' => array(

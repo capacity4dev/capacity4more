@@ -89,6 +89,13 @@ function theme_c4m_website_statistics_summary(array $variables) {
     );
   }
 
+  if (!empty($variables['more_link'])) {
+    $list['more_link'] = [
+      'data' => $variables['more_link'] . '<i class="fa fa-angle-right"></i>',
+      'class' => ['see-more'],
+    ];
+  }
+
   $summary = array(
     '#theme' => 'item_list',
     '#items' => $list,

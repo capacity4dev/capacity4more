@@ -90,6 +90,42 @@ function kapablo_facetapi_deactivate_widget($variables) {
 }
 
 /**
+ * Implements theme_facetapi_link_active__current_search_links().
+ *
+ * @see kapablo_facetapi_link_active()
+ */
+function kapablo_facetapi_link_active__current_search_links($variables) {
+  // Sanitizes the link text if necessary.
+  $sanitize = empty($variables['options']['html']);
+  $link_text = ($sanitize) ? check_plain(
+    $variables['text']
+  ) : $variables['text'];
+
+  // Theme function variables for accessible markup.
+  // @see http://drupal.org/node/1316580
+  $accessible_vars = array(
+    'text' => $variables['text'],
+    'active' => TRUE,
+  );
+
+  // Builds link, passes through t() which gives us the ability to change the
+  // position of the widget on a per-language basis.
+  $replacements = array(
+    '!facetapi_deactivate_widget' => '<i class="fa fa-times" title="Remove"></i>',
+    '!facetapi_accessible_markup' => theme(
+      'facetapi_accessible_markup',
+      $accessible_vars
+    ),
+  );
+  $variables['text'] = t(
+      '!facetapi_deactivate_widget !facetapi_accessible_markup',
+      $replacements
+    ) . $link_text;
+  $variables['options']['html'] = TRUE;
+  return theme_link($variables);
+}
+
+/**
  * Implements theme_facetapi_link_active().
  */
 function kapablo_facetapi_link_active($variables) {

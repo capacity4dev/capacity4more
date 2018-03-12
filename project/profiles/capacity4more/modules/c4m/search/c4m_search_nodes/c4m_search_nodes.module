@@ -37,42 +37,25 @@ function c4m_search_nodes_track_change($nid) {
 
 /**
  * Implements hook_views_pre_render().
- *
- * Set search page title to "Search <site-name>".
  */
 function c4m_search_nodes_views_pre_render(&$view) {
   if ($view->name === 'c4m_search_nodes') {
+    // Set search page title to "Search <site-name>".
     $site_name = variable_get('site_name');
     $title = t('Search @site-name', array('@site-name' => $site_name));
     $view->build_info['title'] = $title;
   }
-}
 
-/**
- * Implements hook_block_info().
- */
-function c4m_search_nodes_block_info() {
-  $blocks['search_overview'] = array(
-    'info' => t('Search: Global overview'),
-    'cache' => DRUPAL_CACHE_GLOBAL,
-  );
-  $blocks['search_overview_no_summary'] = array(
-    'info' => t('Search: Global overview without summary'),
-    'cache' => DRUPAL_CACHE_GLOBAL,
-  );
-  return $blocks;
-}
-
-/**
- * Implements hook_block_view().
- */
-function c4m_search_nodes_block_view($delta = '') {
-  module_load_include('inc', 'c4m_search_nodes', 'includes/c4m_search_nodes.block');
-  $callback = '_c4m_search_nodes_block_' . $delta;
-  if (!function_exists($callback)) {
-    return NULL;
+  if ($view->name === 'c4m_group_draft_content') {
+    // Make sure the access checks are done for the draft nodes.
+    foreach ($view->result as $key => $result) {
+      $node = node_load($result->entity);
+      if (!node_access('view', $node)) {
+        unset($view->result[$key]);
+      }
+    }
   }
-  return $callback();
+
 }
 
 /**

@@ -19,38 +19,38 @@ function c4m_user_admin_action_info() {
  * Implements hook_views_data().
  */
 function c4m_user_admin_views_data() {
-  $data['users']['activate_user'] = array(
-    'field' => array(
+  $data['users']['activate_user'] = [
+    'field' => [
       'title' => t('Activate user link'),
       'help' => t('Provide a simple link to activate the user.'),
       'handler' => 'views_handler_field_user_link_activate',
-    ),
-  );
+    ],
+  ];
 
-  $data['users']['reactivate_user'] = array(
-    'field' => array(
+  $data['users']['reactivate_user'] = [
+    'field' => [
       'title' => t('Reactivate user link'),
       'help' => t('Provide a simple link to reactivate the user.'),
       'handler' => 'views_handler_field_user_link_reactivate',
-    ),
-  );
+    ],
+  ];
 
-  $data['users']['resend_activation_email'] = array(
-    'field' => array(
+  $data['users']['resend_activation_email'] = [
+    'field' => [
       'title' => t('Resend activation email link'),
       'help' => t('Provide a simple link to resend activation email.'),
       'handler' => 'views_handler_field_user_link_resend_activation_email',
-    ),
-  );
+    ],
+  ];
 
-  $data['users']['user_metrics'] = array(
+  $data['users']['user_metrics'] = [
     'title' => t('User metrics'),
     'help' => t('Metrics about a user.'),
-    'field' => array(
+    'field' => [
       'handler' => 'views_handler_field_user_metrics',
       'group' => 'Content',
-    ),
-  );
+    ],
+  ];
 
   return $data;
 }
@@ -301,5 +301,16 @@ function c4m_user_admin_user_presave(&$edit, $account, $category) {
     // Reactivate user notification is not required. Cancel notification of
     // user model, by forcing  $account->original->status == $account->status.
     $account->original->status = 1;
+  }
+}
+
+/**
+ * Implements hook_field_extra_fields_alter().
+ *
+ * Remove the masquerade field added by masquerade module for the user form.
+ */
+function c4m_user_admin_field_extra_fields_alter(&$info) {
+  if (isset($info['user']['user']['form']['masquerade'])) {
+    unset($info['user']['user']['form']['masquerade']);
   }
 }

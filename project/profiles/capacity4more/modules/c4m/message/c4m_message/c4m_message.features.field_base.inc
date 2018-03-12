@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_message.features.field_base.inc
@@ -200,9 +201,11 @@ function c4m_message_field_default_field_bases() {
           'discussion' => 'discussion',
           'document' => 'document',
           'event' => 'event',
+          'group' => 'group',
           'news' => 'news',
           'photo' => 'photo',
           'photoalbum' => 'photoalbum',
+          'project' => 'project',
           'share' => 'share',
           'wiki_page' => 'wiki_page',
         ),
@@ -269,6 +272,87 @@ function c4m_message_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'entityreference',
+  );
+
+  // Exported field_base: 'field_taxonomy_term'.
+  $field_bases['field_taxonomy_term'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_taxonomy_term',
+    'indexes' => array(
+      'target_id' => array(
+        0 => 'target_id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'entityreference',
+    'settings' => array(
+      'handler' => 'base',
+      'handler_settings' => array(
+        'behaviors' => array(
+          'views-select-list' => array(
+            'status' => 0,
+          ),
+        ),
+        'sort' => array(
+          'type' => 'none',
+        ),
+        'target_bundles' => array(
+          'c4m_vocab_topic' => 'c4m_vocab_topic',
+        ),
+      ),
+      'target_type' => 'taxonomy_term',
+    ),
+    'translatable' => 0,
+    'type' => 'entityreference',
+  );
+
+  // Exported field_base: 'message_footer'.
+  $field_bases['message_footer'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(
+      0 => 'message_type',
+    ),
+    'field_name' => 'message_footer',
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 1,
+    'module' => 'text',
+    'settings' => array(
+      'message_text' => TRUE,
+    ),
+    'translatable' => 1,
+    'type' => 'text_long',
+  );
+
+  // Exported field_base: 'message_header'.
+  $field_bases['message_header'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(
+      0 => 'message_type',
+    ),
+    'field_name' => 'message_header',
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 1,
+    'module' => 'text',
+    'settings' => array(
+      'message_text' => TRUE,
+    ),
+    'translatable' => 1,
+    'type' => 'text_long',
   );
 
   // Exported field_base: 'message_text'.

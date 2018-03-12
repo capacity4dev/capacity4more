@@ -39,48 +39,56 @@ function c4m_comment_delete_menu_alter(&$items) {
  * Implements hook_permission().
  */
 function c4m_comment_delete_permission() {
-  return array(
-    'delete own comments'            => array(
-      'title'       => t('Delete Own Comments'),
+  return [
+    'delete own comments' => [
+      'title' => t('Delete Own Comments'),
       'description' => t('Controls who can delete comments'),
-    ),
-    'delete own comments at anytime' => array(
+    ],
+    'delete own comments at anytime' => [
       'title' => t('Delete Own Comments at Anytime'),
-    ),
-    'delete any comment'             => array(
+    ],
+    'delete any comment' => [
       'title' => t('Delete Any Comments'),
-    ),
-    'delete any comments at anytime' => array(
+    ],
+    'delete any comments at anytime' => [
       'title' => t('Delete Any Comment anytime'),
-    ),
-    'delete all comment replies'     => array(
+    ],
+    'delete all comment replies' => [
       'title' => t('Delete All Comment Replies'),
-    ),
-    'move all replies up'            => array(
+    ],
+    'move all replies up' => [
       'title' => t('Move all replies up'),
-    ),
-  );
+    ],
+  ];
 }
 
 /**
  * Implements hook_comment_view().
  *
- * Add "Delete comment" link.
+ * Add "delete" comment link.
  */
 function c4m_comment_delete_comment_view($comment) {
   if (empty($comment->content['links'])) {
     return;
   }
 
-  if (!user_access('administer comments')) {
-    if (c4m_comment_delete_access_check($comment->cid)) {
-      $comment->content['links']['comment']['#links'] = array_reverse($comment->content['links']['comment']['#links'], TRUE);
-      $comment->content['links']['comment']['#links']['comment-delete'] = array(
-        'title' => t('delete'),
-        'href'  => "comment/" . $comment->cid . '/delete',
-      );
-    }
+  // Check if the link is already there.
+  if (isset($comment->content['links']['comment']['#links']['comment-delete'])) {
+    return;
   }
+
+  if (!c4m_comment_delete_access_check($comment->cid)) {
+    return;
+  }
+
+  // Prepend the delete link to keep the same order of links as for SA.
+  $delete_link = [
+    'comment-delete' => [
+      'title' => t('delete'),
+      'href' => 'comment/' . $comment->cid . '/delete',
+    ],
+  ];
+  $comment->content['links']['comment']['#links'] = $delete_link + $comment->content['links']['comment']['#links'];
 }
 
 /**
@@ -110,6 +118,10 @@ function c4m_comment_delete_access_check($cid) {
     if ($user->uid == $comment->uid) {
       return TRUE;
     }
+  }
+
+  if (c4m_features_og_members_is_power_user()) {
+    return TRUE;
   }
 
   return FALSE;
