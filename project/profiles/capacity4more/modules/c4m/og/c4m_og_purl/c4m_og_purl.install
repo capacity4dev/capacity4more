@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * @file
+ * Install & Update hooks for c4m_og_purl.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function c4m_og_purl_schema() {
+  $schema['c4m_og_purl_aliases'] = [
+    'description' => "Stores mappings for the groups' aliases.",
+    'fields' => [
+      'old_path' => [
+        'description' => 'Old path.',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ],
+      'new_path' => [
+        'description' => 'New Path.',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['old_path'],
+    'indexes' => [
+      'old_path' => ['old_path'],
+    ],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Installs schema.
+ */
+function c4m_og_purl_update_7001() {
+  drupal_install_schema('c4m_og_purl');
+}

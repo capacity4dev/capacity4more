@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_features_overview_articles.strongarm.inc

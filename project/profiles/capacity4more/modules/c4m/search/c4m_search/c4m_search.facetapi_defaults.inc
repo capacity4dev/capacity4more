@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_search.facetapi_defaults.inc
@@ -1360,7 +1361,7 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet->enabled = TRUE;
   $facet->settings = array(
     'weight' => 0,
-    'widget' => 'c4m_search_links_content_type',
+    'widget' => 'facetapi_links',
     'filters' => array(
       'active_items' => array(
         'status' => 0,

@@ -120,6 +120,12 @@ function c4m_content_group_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'print' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 11,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -274,6 +280,12 @@ function c4m_content_group_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'print' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'smart_trim',
@@ -388,6 +400,12 @@ function c4m_content_group_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 37,
+      ),
+      'print' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 14,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -541,6 +559,12 @@ function c4m_content_group_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'print' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'c4m_field_media',
@@ -647,6 +671,12 @@ function c4m_content_group_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 38,
       ),
+      'print' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'list',
@@ -705,6 +735,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'module' => 'entityreference',
         'settings' => array(
+          'bypass_access' => FALSE,
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',
@@ -715,6 +746,12 @@ function c4m_content_group_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 36,
+      ),
+      'print' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -803,6 +840,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'module' => 'entityreference',
         'settings' => array(
+          'bypass_access' => FALSE,
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',
@@ -831,6 +869,12 @@ function c4m_content_group_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'print' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -951,6 +995,12 @@ function c4m_content_group_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'print' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1079,6 +1129,12 @@ function c4m_content_group_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'print' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 13,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1200,6 +1256,12 @@ function c4m_content_group_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'print' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 10,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1315,6 +1377,12 @@ function c4m_content_group_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'print' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 9,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1435,6 +1503,12 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 0,
       ),
       'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'print' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1572,6 +1646,12 @@ function c4m_content_group_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'print' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1679,6 +1759,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'module' => 'entityreference',
         'settings' => array(
+          'bypass_access' => FALSE,
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',
@@ -1708,6 +1789,12 @@ function c4m_content_group_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'print' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 8,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1718,6 +1805,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'module' => 'entityreference',
         'settings' => array(
+          'bypass_access' => FALSE,
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',

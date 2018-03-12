@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_wiki_page.strongarm.inc
@@ -110,7 +111,7 @@ function c4m_content_wiki_page_strongarm() {
         'custom_settings' => FALSE,
       ),
       'print' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'diff_standard' => array(
         'custom_settings' => FALSE,
@@ -179,7 +180,7 @@ function c4m_content_wiki_page_strongarm() {
       'display' => array(
         'flag_c4m_og_content_highlight' => array(
           'full' => array(
-            'weight' => '30',
+            'weight' => '31',
             'visible' => FALSE,
           ),
           'activity_global' => array(
@@ -214,6 +215,10 @@ function c4m_content_wiki_page_strongarm() {
             'weight' => '33',
             'visible' => FALSE,
           ),
+          'print' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
         ),
         'highlighted' => array(
           'full' => array(
@@ -229,6 +234,7 @@ function c4m_content_wiki_page_strongarm() {
             'visible' => TRUE,
           ),
           'highlight_list' => NULL,
+          'print' => NULL,
         ),
         'promoted' => array(
           'teaser' => array(
@@ -240,6 +246,7 @@ function c4m_content_wiki_page_strongarm() {
             'visible' => TRUE,
           ),
           'highlight_list' => NULL,
+          'print' => NULL,
         ),
       ),
     ),

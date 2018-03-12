@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_discussion.field_group.inc
@@ -24,7 +25,6 @@ function c4m_content_discussion_field_group_info() {
     'weight' => '2',
     'children' => array(
       0 => 'c4m_user_first_and_last_name',
-      1 => 'c4m_ds_creation_date',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -54,7 +54,7 @@ function c4m_content_discussion_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Do more through capacity4dev',
-    'weight' => '8',
+    'weight' => '9',
     'children' => array(
       0 => 'c4m_ds_node_highlight',
       1 => 'c4m_ds_node_promote',
@@ -88,7 +88,7 @@ function c4m_content_discussion_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '9',
+    'weight' => '10',
     'children' => array(
       0 => 'c4m_vocab_date',
       1 => 'c4m_vocab_geo',
@@ -122,8 +122,9 @@ function c4m_content_discussion_field_group_info() {
     'weight' => '7',
     'children' => array(
       0 => 'c4m_user_picture',
-      1 => 'c4m_ds_entity_type_label',
-      2 => 'group_meta_author',
+      1 => 'c4m_ds_update_date',
+      2 => 'c4m_ds_entity_type_label',
+      3 => 'group_meta_author',
     ),
     'format_type' => 'html5',
     'format_settings' => array(

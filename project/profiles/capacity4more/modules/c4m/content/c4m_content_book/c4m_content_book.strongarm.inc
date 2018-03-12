@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_book.strongarm.inc
@@ -56,7 +57,7 @@ function c4m_content_book_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_subject_field_book';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['comment_subject_field_book'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -75,7 +76,7 @@ function c4m_content_book_strongarm() {
         'custom_settings' => FALSE,
       ),
       'print' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'c4m_related' => array(
         'custom_settings' => FALSE,
@@ -117,6 +118,15 @@ function c4m_content_book_strongarm() {
         'custom_settings' => FALSE,
       ),
       'block_list' => array(
+        'custom_settings' => FALSE,
+      ),
+      'highlight_list' => array(
+        'custom_settings' => FALSE,
+      ),
+      'group_dashboard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'pinned_content' => array(
         'custom_settings' => FALSE,
       ),
     ),

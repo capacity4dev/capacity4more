@@ -1,21 +1,22 @@
 <?php
+
 /**
  * @file
  * Definition of views_handler_field_user_link_resend_activation_email.
  */
-
-// @codingStandardsIgnoreFile
 
 /**
  * Field handler to present a link to resend activation mail.
  *
  * @ingroup views_field_handlers
  */
+// @codingStandardsIgnoreLine
 class views_handler_field_user_link_resend_activation_email extends views_handler_field_user_link {
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
+  // @codingStandardsIgnoreLine
   public function render_link($data, $values) {
     $uid = $values->{$this->aliases['uid']};
 
@@ -24,7 +25,8 @@ class views_handler_field_user_link_resend_activation_email extends views_handle
 
     // Verifying there was no login, which means that account was not
     // activated. Link offers an options to 'Resend activation mail'.
-    // No need to check c4m_is_deleted, because it's tightly coupled with status.
+    // No need to check c4m_is_deleted, because it's tightly coupled with
+    // status.
     if (!$account->last_login->value() && !$account->status->value() && !$account->c4m_is_spammer->value() && user_access('administer users')) {
       $this->options['alter']['make_link'] = TRUE;
 

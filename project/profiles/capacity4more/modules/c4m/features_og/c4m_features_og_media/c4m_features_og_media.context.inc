@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_features_og_media.context.inc
@@ -26,6 +27,12 @@ function c4m_features_og_media_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'current_search-c4m_current_search_nodes' => array(
+          'module' => 'current_search',
+          'delta' => 'c4m_current_search_nodes',
+          'region' => 'content',
+          'weight' => '-10',
+        ),
         'views--exp-overview_og_media-page' => array(
           'module' => 'views',
           'delta' => '-exp-overview_og_media-page',

@@ -28,6 +28,12 @@ function c4m_user_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'current_search-c4m_current_search_comments' => array(
+          'module' => 'current_search',
+          'delta' => 'c4m_current_search_comments',
+          'region' => 'content',
+          'weight' => '-10',
+        ),
         'views--exp-my_comments-page' => array(
           'module' => 'views',
           'delta' => '-exp-my_comments-page',
@@ -80,6 +86,12 @@ function c4m_user_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'current_search-c4m_current_search_nodes' => array(
+          'module' => 'current_search',
+          'delta' => 'c4m_current_search_nodes',
+          'region' => 'content',
+          'weight' => '-10',
+        ),
         'views--exp-my_content-page' => array(
           'module' => 'views',
           'delta' => '-exp-my_content-page',

@@ -1,0 +1,15 @@
+diff --git a/plugins/formatter/hal_json/hal_json.inc b/plugins/formatter/hal_json/hal_json.inc
+index db49d29..83a9a3f 100644
+--- a/plugins/formatter/hal_json/hal_json.inc
++++ b/plugins/formatter/hal_json/hal_json.inc
+@@ -7,6 +7,9 @@ $plugin = array(
+   'class' => 'RestfulFormatterHalJson',
+   'curie' => array(
+     'name' => 'hal',
+-    'href' => url('docs/rels', array('absolute' => TRUE)) . '/{rel}',
+   ),
+ );
++
++if (!drupal_is_cli()) {
++  $plugin['curie']['href'] = url('docs/rels', array('absolute' => TRUE)) . '/{rel}';
++}

@@ -152,9 +152,9 @@ function c4m_user_profile_facet_items_alter(&$build, &$settings) {
  * Display full country name instead of country code.
  *
  * @param array $build
- *    The facets.
+ *   The facets.
  * @param object $settings
- *    Facet settings.
+ *   Facet settings.
  */
 function _c4m_user_profile_facet_country_alter(array &$build, $settings) {
   $field = field_info_field($settings->facet);
@@ -270,6 +270,16 @@ function c4m_user_profile_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['user/%user/settings'] = array(
+    'title' => 'Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_profile_settings_form', 1),
+    'access callback' => 'user_edit_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'c4m_user_profile.pages.inc',
+  );
+
   return $items;
 }
 
@@ -349,6 +359,16 @@ function c4m_user_profile_form_user_register_form_alter(
   if (empty($_SESSION['c4m_og_invite_visitors_gid_join'])) {
     drupal_set_title(t('Registration'));
   }
+
+  // Add checkbox for contact options.
+  // @see contact_form_user_profile_form_alter().
+  $form['contact'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Members are allowed to contact you through your personal contact form'),
+    '#default_value' => variable_get('contact_default_status', 1),
+    '#weight' => 14,
+    '#group' => 'group_public_profile',
+  ];
 
   c4m_user_profile_alter_user_form($form, $form_state, TRUE);
 
@@ -437,25 +457,6 @@ function c4m_user_profile_alter_user_form(
   $form['c4m_is_organisation_user'][LANGUAGE_NONE]['#type'] = 'hidden';
   $form['c4m_is_invalid_email'][LANGUAGE_NONE]['#type'] = 'hidden';
 
-  // The default contact value is different on registration (general setting).
-  // On the user edit form, the default value is stored as per user and this
-  // value is already present in the form values (original contact field).
-  $contact_default_value = ($is_registration) ?
-    variable_get('contact_default_status', 1) :
-    $form['contact']['contact']['#default_value'];
-
-  // Add checkbox for contact options.
-  // @see contact_form_user_profile_form_alter().
-  $form['contact'] = array(
-    '#type' => 'checkbox',
-    '#title' => t(
-      'Members are allowed to contact you through your personal contact form'
-    ),
-    '#default_value' => $contact_default_value,
-    '#weight' => 14,
-    '#group' => 'group_public_profile',
-  );
-
   // Move the email input first.
   $form['mail'] = $form['account']['mail'];
   $form['mail']['#weight'] = -100;
@@ -511,11 +512,6 @@ function c4m_user_profile_alter_user_form(
 
     $form['mail']['#suffix'] = $suffix . $form['mail']['#suffix'];
   }
-
-  // Make fieldsets incollapsible.
-  $form['contact']['#collapsible'] = FALSE;
-  $form['timezone']['#collapsible'] = FALSE;
-  $form['mimemail']['#collapsible'] = FALSE;
 
   // Adjust validators.
   // Remove default one and replace it with a custom one.
@@ -585,6 +581,13 @@ function c4m_user_profile_form_user_profile_form_alter(
 
   $form['mail']['#description'] = 'Please note you will have to provide your password and confirm your new address to change your e-mail address.';
 
+  // Hide Overlay, Email, Locale and Contact settings. They are moved to
+  // Settings page.
+  $form['overlay_control']['#access'] = FALSE;
+  $form['mimemail']['#access'] = FALSE;
+  $form['timezone']['#access'] = FALSE;
+  $form['contact']['#access'] = FALSE;
+
   // Hide the spammer / deleted checkboxes.
   $form['c4m_is_deleted']['#access'] = FALSE;
   $form['c4m_is_deleted_by_uid']['#access'] = FALSE;
@@ -602,18 +605,18 @@ function c4m_user_profile_form_user_profile_form_alter(
 
   // Introduce simple Cancel button (goes to user profile)
   $form['actions']['cancel']['#access'] = FALSE;
-  $form['actions']['simple_cancel'] = array(
+  $form['actions']['simple_cancel'] = [
     '#type' => 'button',
-    '#submit' => array('c4m_user_profile_simple_cancel'),
+    '#submit' => ['c4m_user_profile_simple_cancel'],
     "#executes_submit_callback" => TRUE,
     '#value' => t('Cancel'),
-  );
+  ];
 
   if ($account->uid == $user->uid) {
-    $form['actions']['delete'] = array(
+    $form['actions']['delete'] = [
       '#type' => 'markup',
       '#markup' => l(t('Delete account'), 'user/' . $account->uid . '/leave'),
-    );
+    ];
   }
 }
 
@@ -1288,54 +1291,20 @@ function c4m_user_profile_init() {
 }
 
 /**
- * Render a hash for a specific user.
+ * Gets the unsubscribe hash.
  *
- * @param mixed $account
- *   A user account.
+ * @param int $uid
+ *   The user ID.
+ * @param string $flag_suffix
+ *   The flag suffix to unsubscribe from.
+ * @param string $entity_id
+ *   The ID of the entity to unsubscribe from.
  *
  * @return string
- *   The hash string.
+ *   The unsubscribe hash.
  */
-function c4m_user_profile_render_user_unsubscribe_hash($account = NULL) {
-  if (empty($account)) {
-    global $user;
-    $account = $user;
-  }
-
-  $full_name = c4m_user_name($account);
-  $wrapper = entity_metadata_wrapper('user', $account);
-  $username = $wrapper->name->value();
-  $mail = $wrapper->mail->value();
-  $organisation = $wrapper->c4m_organisation->value();
-
-  return md5($username . $mail . $full_name . $organisation . REQUEST_TIME);
-}
-
-/**
- * Gets the unsubscribe hash of an account.
- *
- * If the hash doesn't exists then it's being created and saved.
- *
- * @param object $account
- *   A user account.
- *
- * @return string|bool
- *   The unsubscribe hash of the account.
- */
-function c4m_user_profile_get_or_create_account_unsubscribe_hash($account) {
-  if (empty($account->uid)) {
-    // Anonymous user.
-    return FALSE;
-  }
-
-  $wrapper = entity_metadata_wrapper('user', $account);
-
-  if (!$hash = $wrapper->c4m_unsubscribe_hash->value()) {
-    $hash = c4m_user_profile_render_user_unsubscribe_hash($account);
-    $wrapper->c4m_unsubscribe_hash->set($hash);
-    $wrapper->save();
-  }
-
+function c4m_user_profile_get_unsubscribe_hash($uid, $flag_suffix, $entity_id) {
+  $hash = md5($uid . ':::' . $flag_suffix . ':::' . $entity_id . ':::' . drupal_get_private_key());
   return $hash;
 }
 
@@ -1343,8 +1312,8 @@ function c4m_user_profile_get_or_create_account_unsubscribe_hash($account) {
  * Access callback; Unsubscribe a user.
  *
  * @param object $account
- *   The user ID.
- * @param string $entity_type
+ *   The user account.
+ * @param string $flag_suffix
  *   The flag suffix to unsubscribe from.
  * @param string $entity_id
  *   The ID of the entity to unsubscribe from.
@@ -1354,30 +1323,22 @@ function c4m_user_profile_get_or_create_account_unsubscribe_hash($account) {
  * @return bool
  *   TRUE if user has access.
  */
-function c4m_user_profile_unsubscribe_user_access(
-  $account,
-  $entity_type,
-  $entity_id,
-  $hash
-) {
+function c4m_user_profile_unsubscribe_user_access($account, $flag_suffix, $entity_id, $hash) {
   if (!$account || c4m_user_is_spammer($account) || $account->status === 0) {
     return FALSE;
   }
 
-  $wrapper = entity_metadata_wrapper('user', $account);
-  if ($wrapper->c4m_unsubscribe_hash->value() != $hash) {
-    return FALSE;
-  }
-
-  // Validate we have an optout field for the current entity type.
-  if (!isset($wrapper->{"c4m_optout_{$entity_type}"})) {
+  if (c4m_user_profile_get_unsubscribe_hash($account->uid, $flag_suffix, $entity_id) !== $hash) {
     return FALSE;
   }
 
   // Validate entity ID.
   try {
-    if ($entity_type == 'group' || $entity_type == 'comment') {
+    if ($flag_suffix === 'group' || $flag_suffix === 'comment') {
       $entity_type = 'node';
+    }
+    else {
+      $entity_type = $flag_suffix;
     }
     $wrapper = entity_metadata_wrapper($entity_type, $entity_id);
     if (!$wrapper->value()) {
@@ -1421,105 +1382,24 @@ function c4m_user_profile_leave_user_access($account) {
  *   The ID of the entity to unsubscribe from.
  */
 function c4m_user_profile_unsubscribe_user($account, $entity_type, $entity_id) {
-  $wrapper = entity_metadata_wrapper('user', $account);
-  $field = "c4m_optout_{$entity_type}";
-  foreach ($wrapper->$field->value(
-    array('identifier' => TRUE)
-  ) as $existing_id) {
-    if ($existing_id == $entity_id) {
-      // User already unsubscribed from entity.
-      drupal_set_message(t('Already unsubscribed'), 'warning');
-      drupal_goto();
+  $flag = flag_get_flag('subscribe_c4m_follow_' . ($entity_type === 'taxonomy_term' ? 'term' : $entity_type));
+  module_load_include('inc', 'c4m_user_profile', 'c4m_user_profile.pages');
+  $flaggings = c4m_user_profile_get_flag_flaggings($flag, $account);
+
+  foreach ($flaggings as $flagging_id) {
+    $flagging = flagging_load($flagging_id);
+
+    if ($flagging->entity_id !== $entity_id) {
+      continue;
     }
+
+    $flagging->preference = C4M_MESSAGE_DIGEST_FREQUENCY_NEVER;
+    c4m_message_digest_set_preference($flagging);
+    break;
   }
 
-  $wrapper->{$field}[] = $entity_id;
-  $wrapper->save();
   drupal_set_message(t('Successfully unsubscribed'));
   drupal_goto();
-}
-
-/**
- * Implements hook_message_subscribe_get_subscribers_alter().
- *
- * Remove unsubscribed users from the list when sending a notification.
- */
-function c4m_user_profile_message_subscribe_get_subscribers_alter(
-  &$uids,
-  $values
-) {
-  $entity_type = $values['context']['entity_type'];
-  $entity_id = $values['context']['entity_id'];
-  $uids = c4m_user_profile_get_subscribed($entity_type, $entity_id, $uids);
-}
-
-/**
- * Check which of the given users are subscribed.
- *
- * A subscribed user is one who unsubscribed from a specific entity.
- *
- * @param string $entity_type
- *   The entity type of the content.
- * @param string $entity_id
- *   The entity ID of the content.
- * @param array $uids
- *   Array containing users IDs.
- *
- * @return array
- *   Array containing all subscribed users IDs.
- */
-function c4m_user_profile_get_subscribed(
-  $entity_type,
-  $entity_id,
-  array $uids = array()
-) {
-  if (!$uids) {
-    return array();
-  }
-
-  $uids_keys = array_keys($uids);
-  // Using db_select instead of user_load_multiple to optimize the performance.
-  $query = db_select("field_data_c4m_optout_{$entity_type}", 'o');
-  $query
-    ->fields('o', array('entity_id'))
-    ->condition('entity_id', $uids_keys, 'IN')
-    ->condition("c4m_optout_{$entity_type}_target_id", $entity_id);
-
-  $unsubscribers = $query->execute()->fetchAllKeyed(0, 0);
-
-  // Unset unsubscribers from $uids array.
-  foreach ($unsubscribers as $unsubscriber) {
-    if (in_array($unsubscriber, $uids_keys)) {
-      unset($uids[$unsubscriber]);
-    }
-  }
-
-  return $uids;
-}
-
-/**
- * Implements hook_field_access().
- *
- * Deny access to all 'optout' fields + the hash field.
- */
-function c4m_user_profile_field_access(
-  $op,
-  $field,
-  $entity_type,
-  $entity,
-  $account
-) {
-  $optout_fields = array(
-    'c4m_optout_comment',
-    'c4m_optout_group',
-    'c4m_optout_node',
-    'c4m_optout_taxonomy_term',
-    'c4m_unsubscribe_hash',
-  );
-
-  if (in_array($field['field_name'], $optout_fields)) {
-    return FALSE;
-  }
 }
 
 /**
