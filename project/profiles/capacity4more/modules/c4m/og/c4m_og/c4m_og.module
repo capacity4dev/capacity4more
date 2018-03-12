@@ -3813,7 +3813,13 @@ function c4m_og_merge_groups_form_submit($form, &$form_state) {
     ],
   ];
   // Add the delete group operations to batch.
-  $operations[] = ['_c4m_og_merge_group_detele_batch', [$group['gid']]];
+  $operations[] = [
+    '_c4m_og_merge_group_detele_batch',
+    [
+      $group['gid'],
+      $values['target_group'],
+    ],
+  ];
   $_SESSION['http_request_count'] = 0;
   $batch = array(
     'title' => t('Group content is being merged'),
@@ -3979,7 +3985,7 @@ function _c4m_og_merge_taxonomies_batch($gid, $target_gid, &$context) {
 /**
  * Delete merged group.
  */
-function _c4m_og_merge_group_detele_batch($gid, &$context) {
+function _c4m_og_merge_group_detele_batch($gid, $target_gid, &$context) {
   if (empty($gid)) {
     return;
   }
@@ -3993,6 +3999,7 @@ function _c4m_og_merge_group_detele_batch($gid, &$context) {
   if (!empty($n_ids)) {
     node_delete_multiple($n_ids);
   }
+  module_invoke_all('c4m_group_merge', $gid, $target_gid);
   node_delete($gid);
 }
 

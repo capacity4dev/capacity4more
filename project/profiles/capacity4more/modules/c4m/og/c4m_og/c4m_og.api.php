@@ -36,3 +36,14 @@ function hook_c4m_og_feature_info() {
     ],
   ];
 }
+
+/**
+ * Custom actions before deleting the merged group.
+ *
+ * @param int $group_id
+ *   Merged group.
+ * @param int $target_group_id
+ *   Target group.
+ */
+function hook_c4m_group_merge($group_id, $target_group_id) {
+}

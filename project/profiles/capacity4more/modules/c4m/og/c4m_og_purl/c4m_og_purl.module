@@ -640,9 +640,21 @@ function c4m_og_purl_node_update($node) {
     return;
   }
 
+  c4m_og_purl_save_alias($node->original->purl, $node->purl['value']);
+}
+
+/**
+ * Saves a purl redirect.
+ *
+ * @param string $old_path
+ *   The old path.
+ * @param string $new_path
+ *   The new path.
+ */
+function c4m_og_purl_save_alias($old_path, $new_path) {
   $alias = [
-    'old_path' => $node->original->purl,
-    'new_path' => $node->purl['value'],
+    'old_path' => $old_path,
+    'new_path' => $new_path,
   ];
   drupal_write_record('c4m_og_purl_aliases', $alias);
 
@@ -656,4 +668,13 @@ function c4m_og_purl_node_update($node) {
   db_delete('c4m_og_purl_aliases')
     ->where('old_path = new_path')
     ->execute();
+}
+
+/**
+ * Implements hook_c4m_group_merge().
+ */
+function c4m_og_purl_c4m_group_merge($group_id, $target_group_id) {
+  $group = node_load($group_id);
+  $target_group = node_load($target_group_id);
+  c4m_og_purl_save_alias($group->purl, $target_group->purl);
 }
