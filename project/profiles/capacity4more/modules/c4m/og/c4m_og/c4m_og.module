@@ -224,12 +224,12 @@ function c4m_og_menu() {
     'title' => 'Statistics',
   ];
 
-  $items['node/%node/merge'] = array(
+  $items['node/%node/merge'] = [
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_og_merge_groups_build_form', 1),
+    'page arguments' => ['c4m_og_merge_groups_build_form', 1],
     'access arguments' => ['merge group content'],
     'title' => 'Merge content',
-  );
+  ];
 
   $items['group/%/%/admin/statistics'] = array(
     'page callback' => 'drupal_get_form',
@@ -3657,44 +3657,44 @@ function c4m_og_merge_groups_build_form($form, $form_state, $group) {
   $content_types = c4m_og_feature_enabled_content_types();
   if (!empty($content_types)) {
     $options = c4m_og_get_content_type_labels($content_types);
-    $form['content_types'] = array(
+    $form['content_types'] = [
       '#title' => t('Select the different content types to merge to the target group. Note that all other  (unselected) content will be deleted permanently.'),
       '#type' => 'checkboxes',
       '#options' => $options,
       '#default_value' => $content_types,
-    );
+    ];
   }
 
-  $form['users'] = array(
+  $form['users'] = [
     '#type' => 'checkbox',
     '#title' => t('Merge users'),
     '#default_value' => 1,
-  );
+  ];
 
-  $form['target_group'] = array(
+  $form['target_group'] = [
     '#type' => 'textfield',
-    '#title' => t("Merge to"),
-    '#entityreference' => array(
+    '#title' => t('Merge to'),
+    '#entityreference' => [
       'target_type' => 'node',
       'handler' => 'c4m_selection',
       'type' => 'single',
-      'handler_settings' => array(
-        'target_bundles' => array('group' => $node->type),
-        'sort' => array(
+      'handler_settings' => [
+        'target_bundles' => ['group' => $node->type],
+        'sort' => [
           'direction' => 'ASC',
           'property' => 'title',
           'type' => 'property',
-        ),
-      ),
-    ),
-  );
+        ],
+      ],
+    ],
+  ];
 
   $form['#validate'][] = '_c4m_og_merge_groups_validation';
 
-  $form['merge'] = array(
+  $form['merge'] = [
     '#type' => 'submit',
     '#value' => 'Merge',
-  );
+  ];
 
   return $form;
 }
