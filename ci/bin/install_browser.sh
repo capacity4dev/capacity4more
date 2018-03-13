@@ -1,5 +1,4 @@
-#!/bin/sh
-set -e
+#!/bin/bash
 
 # ---------------------------------------------------------------------------- #
 #
@@ -7,9 +6,8 @@ set -e
 #
 # ---------------------------------------------------------------------------- #
 
-
 # No need for browser if the profile is not installed.
-if [ $INSTALL_PROFILE -ne 1 ]; then
+if [ "$INSTALL_PROFILE" -ne 1 ]; then
  exit 0;
 fi
 
@@ -17,7 +15,6 @@ fi
 if [ "$BEHAT_TAG" != "javascript" ]; then
   exit 0
 fi
-
 
 # Create display.
 export DISPLAY=:99.0
