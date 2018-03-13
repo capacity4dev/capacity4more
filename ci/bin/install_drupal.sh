@@ -1,5 +1,4 @@
-#!/bin/sh
-set -e
+#!/bin/bash
 
 # ---------------------------------------------------------------------------- #
 #
@@ -7,11 +6,9 @@ set -e
 #
 # ---------------------------------------------------------------------------- #
 
-
-if [ $INSTALL_PROFILE -ne 1 ]; then
+if [ "$INSTALL_PROFILE" -ne 1 ]; then
  exit 0;
 fi
-
 
 cd $TRAVIS_BUILD_DIR
 
@@ -21,15 +18,12 @@ cp $TRAVIS_BUILD_DIR/ci/config/config.sh.travis config/config.sh
 ./bin/init -y
 
 # Install the drupal platform based on the config file.
-./bin/install -y --dummy-content --no-login --no-backup --env=ci
+./bin/install -y --dummy-content --no-login --no-backup --env=ci --verbose
 
-# Disable the dblog module to prevent overuse of the mysql server.
-#echo "Disable dblog module to avoid extra stress on MySQL server"
-#cd $TRAVIS_BUILD_DIR/web
-#drush -y dis dblog
+echo "Drupal status"
+
+drush @capacity4more status
 
 # Stay Calm and Clear the Cache!
 echo "Clear all caches"
-drush cc all --yes
-
-cd $TRAVIS_BUILD_DIR
+drush @capacity4more cc all
