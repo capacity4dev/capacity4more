@@ -3955,7 +3955,7 @@ function _c4m_og_merge_content_batch($gid, $target_gid, $content_types, &$contex
  * Merge taxonomies into the target group.
  */
 function _c4m_og_merge_taxonomies_batch($gid, $target_gid, &$context) {
-  if (empty($gid) || empty($target_id)) {
+  if (empty($gid) || empty($target_gid)) {
     return;
   }
   $group = node_load($gid);
