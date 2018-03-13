@@ -3960,27 +3960,36 @@ function _c4m_og_merge_taxonomies_batch($gid, $target_gid, &$context) {
   }
   $group = node_load($gid);
   $target_group = node_load($target_gid);
-  $categories = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
-  $tags = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_tag');
-  $target_categories = c4m_og_vocab_load_group_vocabulary($target_group, 'c4m_vocab_category');
-  $target_tags = c4m_og_vocab_load_group_vocabulary($target_group, 'c4m_vocab_tag');
-  $category_terms = taxonomy_get_tree($categories->vid);
-  $tag_terms = taxonomy_get_tree($tags->vid);
-  if (!empty($category_terms)) {
-    foreach ($category_terms as $term) {
-      $term->vid = $target_categories->vid;
-      taxonomy_term_save($term);
-    }
-  }
-  if (!empty($tag_terms)) {
-    foreach ($tag_terms as $term) {
-      $term->vid = $target_tags->vid;
-      taxonomy_term_save($term);
-    }
-  }
+
+  _c4m_og_merge_taxonomies_by_vocabulary($group, $target_group, 'c4m_vocab_category');
+  _c4m_og_merge_taxonomies_by_vocabulary($group, $target_group, 'c4m_vocab_tag');
+
   $context['results'] = [
     'target_gid' => $target_gid,
   ];
+}
+
+/**
+ * Merges groups' taxonomy terms by vocabulary.
+ *
+ * @param object $group
+ *   Merged group.
+ * @param object $target_group
+ *   Target group.
+ * @param string $vocabulary_name
+ *   Vocabulary name.
+ */
+function _c4m_og_merge_taxonomies_by_vocabulary($group, $target_group, $vocabulary_name) {
+  $vocabulary = c4m_og_vocab_load_group_vocabulary($group, $vocabulary_name);
+  $target_vocabulary = c4m_og_vocab_load_group_vocabulary($target_group, $vocabulary_name);
+  $terms = taxonomy_get_tree($vocabulary->vid);
+  if (!empty($terms)) {
+    foreach ($terms as $term) {
+      $term->vid = $target_vocabulary->vid;
+      taxonomy_term_save($term);
+    }
+  }
+  taxonomy_vocabulary_delete($vocabulary->vid);
 }
 
 /**
