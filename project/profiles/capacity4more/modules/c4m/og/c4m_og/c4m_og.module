@@ -3682,6 +3682,7 @@ function c4m_og_merge_groups_form($form, $form_state, $group) {
       'type' => 'single',
       'handler_settings' => [
         'target_bundles' => ['group' => $node->type],
+        'skip_status_check' => TRUE,
         'sort' => [
           'direction' => 'ASC',
           'property' => 'title',
