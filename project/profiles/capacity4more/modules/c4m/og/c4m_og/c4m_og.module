@@ -3658,7 +3658,7 @@ function c4m_og_merge_groups_form($form, $form_state, $group) {
   if (!empty($content_types)) {
     $options = c4m_og_get_content_type_labels($content_types);
     $form['content_types'] = [
-      '#title' => t('Select the different content types to merge to the target group. Note that all other  (unselected) content will be deleted permanently.'),
+      '#title' => t('Select the different content types to merge to the target @group_type. Note that all other  (unselected) content will be deleted permanently.', ['@group_type' => $node->type]),
       '#type' => 'checkboxes',
       '#options' => $options,
       '#default_value' => $content_types,
@@ -3763,7 +3763,8 @@ function _c4m_og_merge_groups_form_target_group_validate(array $element, array &
 function _c4m_og_merge_groups_validation($form, &$form_state) {
   $current_group = og_context();
   if ($form_state['values']['target_group'] == $current_group['gid']) {
-    form_set_error('target_group', t("Target group can't be the same with the source group."));
+    $current_group = node_load($current_group['gid']);
+    form_set_error('target_group', t("Target @group_type can't be the same with the source @group_type.", ['@group_type' => $current_group->type]));
   }
 }
 
@@ -3822,11 +3823,11 @@ function c4m_og_merge_groups_form_submit($form, &$form_state) {
     ],
   ];
   $_SESSION['http_request_count'] = 0;
-  $batch = array(
-    'title' => t('Group content is being merged'),
+  $batch = [
+    'title' => t('Content is being merged'),
     'operations' => $operations,
     'finished' => '_c4m_og_merge_finished',
-  );
+  ];
   batch_set($batch);
 }
 
@@ -4018,7 +4019,7 @@ function _c4m_og_merge_group_delete_batch($gid, $target_gid, &$context) {
  */
 function _c4m_og_merge_finished($success, $results, $operations) {
   if ($success) {
-    drupal_set_message(t("Group was successfully merged."));
+    drupal_set_message(t('Content was successfully merged.'));
     if (!empty($results['target_gid'])) {
       drupal_goto('node/' . $results['target_gid']);
     }
