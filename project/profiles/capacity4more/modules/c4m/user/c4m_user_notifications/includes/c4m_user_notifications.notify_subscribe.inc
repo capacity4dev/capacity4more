@@ -308,7 +308,7 @@ function _c4m_user_notifications_notify_subscribe_content_of_interest($node, $ac
     $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
   }
 
-  if (!empty($body_teaser[0])) {
+  if (!empty($body_teaser)) {
     $message->arguments['@node_teaser_body'] = strip_tags($body_teaser[0]['#markup']);
   }
 
@@ -438,7 +438,7 @@ function _c4m_user_notifications_notify_subscribe_content_revision($node, $users
     // Resolve content node body field, in teaser mode, and assign value to
     // it's token.
     $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
-    if (!empty($body_teaser[0])) {
+    if (!empty($body_teaser)) {
       $message->arguments['@node_teaser_body'] = strip_tags($body_teaser[0]['#markup']);
     }
 
