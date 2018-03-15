@@ -152,6 +152,11 @@ function _c4m_user_notifications_flag_flag($flag, $entity_id) {
     return;
   }
 
+  // If not recommendation flag, return early.
+  if ($flag->name != 'c4m_og_content_recommend') {
+    return;
+  }
+
   // If anonymous user, return early - no notifications.
   if (user_is_anonymous()) {
     return;
@@ -166,25 +171,9 @@ function _c4m_user_notifications_flag_flag($flag, $entity_id) {
     return;
   }
 
-  switch ($flag->name) {
-    case 'c4m_og_content_recommend':
-      // Send MT23 - Inform subscribed users of the node that this content was
-      // recommended by a non-anonymous user.
-      _c4m_user_notifications_notify_subscribe_follower_new_recommend($entity_id);
-      break;
-
-    // Excluded case 'c4m_og_content_highlight': as per requirements.
-    case 'promote_content':
-      // Send MT24 - Inform subscribed users of topics/regions and countries of
-      // interests this content was highlighted.
-      _c4m_user_notifications_notify_subscribe_content_of_interest($node, 'highlight');
-      break;
-  }
-
-  // If not recommendation flag, return early.
-  if ($flag->name != 'c4m_og_content_recommend') {
-    return;
-  }
+  // Send MT23 - Inform subscribed users of the node that this content was
+  // recommended by a non-anonymous user.
+  _c4m_user_notifications_notify_subscribe_follower_new_recommend($entity_id);
 }
 
 /**
@@ -400,15 +389,21 @@ function _c4m_user_notifications_dispatch_content_action($node, $action) {
           _c4m_user_notifications_dispatch_group_content_insert($node);
         }
         else {
-          // Send MT51 - Subscribed node followers are informed about updates
-          // to the content.
-          // Send MT25 - Subscribed group followers are informed about updated
-          // content in the group (with exclusions to prevent duplicate
-          // notification).
-          // ------------------------------------------------------------------
-          // Send MT25 - Subscribed group followers are informed about updated
-          // content in the group.
-          _c4m_user_notifications_dispatch_group_content_update($node);
+          if ($node->promote && !$node->original->promote) {
+            // If content is highlighted, dispatch MT24.
+            _c4m_user_notifications_notify_subscribe_content_of_interest($node, 'highlight');
+          }
+          else {
+            // Send MT51 - Subscribed node followers are informed about updates
+            // to the content.
+            // Send MT25 - Subscribed group followers are informed about updated
+            // content in the group (with exclusions to prevent duplicate
+            // notification).
+            // ------------------------------------------------------------------
+            // Send MT25 - Subscribed group followers are informed about updated
+            // content in the group.
+            _c4m_user_notifications_dispatch_group_content_update($node);
+          }
         }
         break;
     }
