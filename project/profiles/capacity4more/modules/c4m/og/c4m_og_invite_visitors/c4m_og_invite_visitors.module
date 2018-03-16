@@ -563,7 +563,7 @@ function c4m_og_invite_visitors_form_user_register_form_alter(&$form, &$form_sta
 
   $wrapper = entity_metadata_wrapper('node', $_SESSION['c4m_og_invite_visitors_gid_join']);
 
-  list($join_phrase, $button_label) = _c4m_og_registration_form_labels_by_group($_SESSION['c4m_og_invite_visitors_gid_join']);
+  list($join_phrase, $button_label) = _c4m_og_registration_form_labels_by_group($wrapper->getIdentifier());
 
   $variables = [
     'join_phrase' => $join_phrase,
@@ -582,13 +582,13 @@ function c4m_og_invite_visitors_form_user_register_form_alter(&$form, &$form_sta
  * Setting a message to the user and redirect back to the group.
  */
 function c4m_og_invite_visitors_register_submit($form, &$form_state) {
-  if (!isset($_SESSION['c4m_og_invite_visitors_gid_join']) || !$gid = $_SESSION['c4m_og_invite_visitors_gid_join']) {
+  if (empty($_SESSION['c4m_og_invite_visitors_gid_join'])) {
     return;
   }
 
   // Void the invitation token in the database after registration completes and
   // add the new user ID.
-  c4m_og_invite_visitors_void_invitation($form_state['user']->uid, $form_state['user']->mail, $gid);
+  c4m_og_invite_visitors_void_invitation($form_state['user']->uid, $form_state['user']->mail, $_SESSION['c4m_og_invite_visitors_gid_join']);
 
   // drupal_goto has a fallback to the 'destination' so we must remove it.
   unset($_GET['destination']);
@@ -645,19 +645,18 @@ function c4m_og_invite_visitors_user_update(&$edit, $account, $category) {
     return;
   }
 
-  if (!isset($_SESSION['c4m_og_invite_visitors_gid_join']) || !$gid = $_SESSION['c4m_og_invite_visitors_gid_join']) {
+  if (empty($_SESSION['c4m_og_invite_visitors_gid_join'])) {
     return;
   }
 
   $account = user_load($account->uid);
-
-  $group = node_load($gid);
+  $group = node_load($_SESSION['c4m_og_invite_visitors_gid_join']);
   // Removing the original message of the user_register_form.
   drupal_get_messages('status');
   $message = t('Welcome to group @group_title.', ['@group_title' => $group->title]);
 
   drupal_set_message($message);
-  $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
+  $form_state['redirect'] = drupal_get_path_alias('node/' . $group->nid);
 
   // Add the user to the group.
   og_group('node', $group, ['entity' => $account]);
@@ -666,7 +665,7 @@ function c4m_og_invite_visitors_user_update(&$edit, $account, $category) {
   $bundle = 'project';
   if ($group->type === $bundle) {
     $role = c4m_og_user_role_load_by_name('administrator member', $bundle);
-    og_role_grant('node', $gid, $account->uid, $role->rid);
+    og_role_grant('node', $group->nid, $account->uid, $role->rid);
   }
 
   // User is registered, the session variable should be destroyed.
