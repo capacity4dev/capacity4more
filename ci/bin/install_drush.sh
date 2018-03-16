@@ -1,12 +1,10 @@
-#!/bin/sh
-set -e
+#!/bin/bash
 
 # ---------------------------------------------------------------------------- #
 #
 # Installs Drush.
 #
 # ---------------------------------------------------------------------------- #
-
 
 # Install Drush.
 cd $TRAVIS_BUILD_DIR
@@ -17,4 +15,5 @@ phpenv rehash
 mkdir -p ~/.drush
 cp $TRAVIS_BUILD_DIR/ci/config/aliases.drushrc.php ~/.drush/
 
+# Verify.
 drush --version

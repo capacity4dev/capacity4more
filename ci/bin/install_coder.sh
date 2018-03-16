@@ -1,5 +1,4 @@
-#!/bin/sh
-set -e
+#!/bin/bash
 
 # ---------------------------------------------------------------------------- #
 #
@@ -7,12 +6,10 @@ set -e
 #
 # ---------------------------------------------------------------------------- #
 
-
-if [ $CODE_REVIEW != 1 ]; then
+if [ "$CODE_REVIEW" != 1 ]; then
  exit 0;
 fi
 
-
 cd $TRAVIS_BUILD_DIR
 composer global require drupal/coder:8.2.10
-phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer
+phpcs --config-set installed_paths ~/.config/composer/vendor/drupal/coder/coder_sniffer
