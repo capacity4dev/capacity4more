@@ -176,6 +176,10 @@ function _c4m_user_notifications_get_preference($user, $flagged_user) {
 function _c4m_user_notifications_message_subscribe_get_subscribers_get_group($nid) {
   $node = node_load($nid);
 
+  if (empty($node)) {
+    return NULL;
+  }
+
   // Node is a group.
   if (og_is_group_type('node', $node->type)) {
     $group = $node;
