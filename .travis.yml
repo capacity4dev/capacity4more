@@ -38,7 +38,7 @@ before_install:
   - date
   - sudo apt-get update > /dev/null
   - composer self-update
-  - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
 install:
   - date
