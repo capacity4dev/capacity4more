@@ -23,10 +23,6 @@ markup_h2 "Libraries"
 mkdir -p "$DIR_WEB/sites/all/libraries"
 file_copy_subdirectories "$DIR_PROJECT/libraries" "$DIR_WEB/sites/all/libraries"
 
-markup_h2 "Services"
-cp -a "$DIR_ROOT/config/install/assets/services" "$DIR_WEB"
-
-
 markup_h2 "Robots.txt"
 cp -a "$DIR_ROOT/config/install/assets/robots.txt" "$DIR_WEB"
 message_success "Custom robots.txt file copied to web folder."
