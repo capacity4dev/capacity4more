@@ -38,3 +38,10 @@ function c4m_content_wiki_page_uninstall() {
     variable_set('book_allowed_types', $book_types);
   }
 }
+
+/**
+ * Update URLs for Wiki pages.
+ */
+function c4m_content_wiki_page_update_7001(&$sandbox) {
+  return c4m_content_batch_update_aliases($sandbox, 'minisite', 'wiki_page');
+}

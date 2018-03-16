@@ -1510,3 +1510,59 @@ function _c4m_content_dsfield_print_button(array $field) {
   );
   return render($output);
 }
+
+/**
+ * Helper function to update url aliases.
+ *
+ * @param array $sandbox
+ *   Persistent sandbox array with batch progress and status.
+ * @param string $url_prefix
+ *   URL prefix.
+ * @param string $type
+ *   Node type.
+ *
+ * @return string
+ *   Message.
+ */
+function c4m_content_batch_update_aliases(array &$sandbox, $url_prefix, $type) {
+  $query = db_select('url_alias', 'ua')
+    ->fields('ua', ['source'])
+    ->condition('alias', $url_prefix . '%', 'LIKE');
+  if (!isset($sandbox['progress'])) {
+    $sandbox['progress'] = 0;
+    $sandbox['max'] = $query->execute()->rowCount();
+    $sandbox['messages'] = [];
+  }
+
+  $limit = 100;
+  $results = $query->range(0, $limit)
+    ->orderBy('pid')
+    ->execute()
+    ->fetchCol();
+
+  foreach ($results as &$alias) {
+    $alias = str_replace('node/', '', $alias);
+  }
+
+  $nodes = node_load_multiple($results);
+  foreach ($nodes as $node) {
+    if ($node->type === $type) {
+      $node->path['pathauto'] = TRUE;
+      pathauto_node_update_alias($node, 'update');
+    }
+    $sandbox['progress']++;
+  }
+
+  // Safety check in case that some urls got updated since the batch was
+  // started.
+  if (count($results) < $limit) {
+    $sandbox['progress'] = $sandbox['max'];
+  }
+
+  $sandbox['#finished'] = ($sandbox['progress'] >= $sandbox['max']) ? TRUE : ($sandbox['progress'] / $sandbox['max']);
+
+  return t('Modified aliases to @progress from @max.', [
+    '@progress' => $sandbox['progress'],
+    '@max' => $sandbox['max'],
+  ]);
+}
