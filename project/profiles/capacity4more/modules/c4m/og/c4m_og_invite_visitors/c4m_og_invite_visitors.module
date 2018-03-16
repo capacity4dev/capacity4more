@@ -586,9 +586,17 @@ function c4m_og_invite_visitors_register_submit($form, &$form_state) {
     return;
   }
 
+  $gid = $_SESSION['c4m_og_invite_visitors_gid_join'];
+
   // Void the invitation token in the database after registration completes and
   // add the new user ID.
-  c4m_og_invite_visitors_void_invitation($form_state['user']->uid, $form_state['user']->mail, $_SESSION['c4m_og_invite_visitors_gid_join']);
+  $account = $form_state['user'];
+  c4m_og_invite_visitors_void_invitation($account->uid, $account->mail, $gid);
+  $edit['data'] = [
+    'join_group' => $gid,
+  ];
+  user_save($account, $edit);
+  unset($_SESSION['c4m_og_invite_visitors_gid_join']);
 
   // drupal_goto has a fallback to the 'destination' so we must remove it.
   unset($_GET['destination']);
@@ -645,12 +653,11 @@ function c4m_og_invite_visitors_user_update(&$edit, $account, $category) {
     return;
   }
 
-  if (empty($_SESSION['c4m_og_invite_visitors_gid_join'])) {
+  if (empty($account->data['join_group'])) {
     return;
   }
 
-  $account = user_load($account->uid);
-  $group = node_load($_SESSION['c4m_og_invite_visitors_gid_join']);
+  $group = node_load($account->data['join_group']);
   // Removing the original message of the user_register_form.
   drupal_get_messages('status');
   $message = t('Welcome to group @group_title.', ['@group_title' => $group->title]);
@@ -667,9 +674,6 @@ function c4m_og_invite_visitors_user_update(&$edit, $account, $category) {
     $role = c4m_og_user_role_load_by_name('administrator member', $bundle);
     og_role_grant('node', $group->nid, $account->uid, $role->rid);
   }
-
-  // User is registered, the session variable should be destroyed.
-  unset($_SESSION['c4m_og_invite_visitors_gid_join']);
 }
 
 /**
