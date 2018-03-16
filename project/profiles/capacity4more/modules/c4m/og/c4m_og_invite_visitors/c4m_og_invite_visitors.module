@@ -187,9 +187,9 @@ function c4m_og_invite_visitors_process_acceptance($group, $token) {
   }
 
   // The invited email is not registered. Redirect to the registration form.
-  // Set the group to join in a session variable and redirect to /user/register.
+  // Set the group to join in a session variable and redirect to user/register.
   $_SESSION['c4m_og_invite_visitors_gid_join'] = $group->nid;
-  drupal_goto('/user/register');
+  drupal_goto('user/register');
 }
 
 /**
