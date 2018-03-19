@@ -140,15 +140,6 @@ if [ "$CAMPAIGNMONITOR_CLIENT_ID" != "" ] && [ "$CAMPAIGNMONITOR_API_KEY" != "" 
   echo
 fi
 
-if [ "$LDAP_URL" != "" ] && [ "$LDAP_API" != "" ]; then
-  # Set LDAP configuration.
-  markup_h1 "Set LDAP configuration"
-  php -r "print json_encode(array('client_id' => '$LDAP_URL', 'api_key' => '$LDAP_API'));"
-  drupal_drush vset c4m_ldap_url "$LDAP_URL"
-  drupal_drush vset c4m_ldap_apikey "$LDAP_API"
-  echo
-fi
-
 if [ "$PIWIK_SITE_ID" != "" ] && [ "$PIWIK_SITE_PATH" != "" ] && [ "$PIWIK_SITE_INSTANCE" != "" ]; then
   # Set Piwik Web Analytics related variables.
   markup_h1 "Set Piwik Web Analytics related variables"

@@ -612,3 +612,11 @@ function capacity4more_update_7010() {
 function capacity4more_update_7011() {
   module_enable(['masquerade']);
 }
+
+/**
+ * Uninstall c4m_domain module.
+ */
+function capacity4more_update_7012() {
+  module_disable(['c4m_domain']);
+  drupal_uninstall_modules(['c4m_domain']);
+}

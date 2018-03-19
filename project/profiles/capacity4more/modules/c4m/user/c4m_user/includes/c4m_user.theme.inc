@@ -192,16 +192,11 @@ function theme_c4m_user_first_and_last_name(array $field) {
     // Add organisation icon.
     if (in_array($field['formatter'], array('user_with_icon', 'linked_user_with_icon'))) {
       if (module_exists('c4m_content_organisation')) {
-        // Display only for users that are validated in LDAP.
-        if (!empty($entity->c4m_is_ldap_user[LANGUAGE_NONE][0]['value'])) {
-          $user_mail = $entity->mail;
-          $icon = c4m_content_organisation_get_icon_by_email($user_mail);
-          if ($icon) {
-            $classes[] = 'icon';
-            $output .= '<div class="organisation-icon">' . render(
-                $icon
-              ) . '</div>';
-          }
+        $user_mail = $entity->mail;
+        $icon = c4m_content_organisation_get_icon_by_email($user_mail);
+        if ($icon) {
+          $classes[] = 'icon';
+          $output .= '<div class="organisation-icon">' . render($icon) . '</div>';
         }
       }
     }

@@ -411,21 +411,6 @@ function c4m_user_profile_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
-  // Exported field_base: 'c4m_is_ldap_user'.
-  $field_bases['c4m_is_ldap_user'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'c4m_is_ldap_user',
-    'indexes' => array(),
-    'locked' => 0,
-    'module' => 'number',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'number_integer',
-  );
-
   // Exported field_base: 'c4m_is_organisation_user'.
   $field_bases['c4m_is_organisation_user'] = array(
     'active' => 1,

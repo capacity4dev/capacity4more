@@ -207,9 +207,6 @@ dependencies[] = c4m_og_purl
 dependencies[] = c4m_og_invite_users
 dependencies[] = c4m_og_invite_visitors
 
-; Email Domains
-dependencies[] = c4m_domain
-
 ; Contact
 dependencies[] = c4m_contact
 
