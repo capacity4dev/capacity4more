@@ -13,3 +13,10 @@ function c4m_content_discussion_install() {
   // It can then be overridden without interfere the feature settings.
   variable_set('pathauto_node_discussion_pattern', 'discussion/[node:title]');
 }
+
+/**
+ * Update URLs for Discussions.
+ */
+function c4m_content_discussion_update_7001(&$sandbox) {
+  return c4m_content_batch_update_aliases($sandbox, 'blog', 'discussion');
+}
