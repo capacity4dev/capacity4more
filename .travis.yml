@@ -1,5 +1,8 @@
 language: php
-dist: precise
+dist: trusty
+
+sudo: required
+
 env:
   - INSTALL_PROFILE=1
     BEHAT_TAG="api"
@@ -15,10 +18,16 @@ env:
     SIMPLETEST=0
 
 php:
-  - '5.6'
+  - 7.0
+  - 7.1
+#  - 7.2
+#  - nightly
 
-node_js:
-  - '4'
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: 7.2
+    - php: nightly
 
 mysql:
   database: drupal
@@ -29,16 +38,13 @@ before_install:
   - date
   - sudo apt-get update > /dev/null
   - composer self-update
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
 install:
   - date
 
-  # Update node.js to 4.x
-  #- $TRAVIS_BUILD_DIR/ci/bin/install_nodejs.sh
-
-  # Install Apache + extra PHP packages.
-  - $TRAVIS_BUILD_DIR/ci/bin/install_apache.sh
+  # Install LAMP stack.
+  - $TRAVIS_BUILD_DIR/ci/bin/install_lamp.sh
 
   # Install drush.
   - $TRAVIS_BUILD_DIR/ci/bin/install_drush.sh
@@ -46,14 +52,11 @@ install:
   # Install Coder for code standard reviews.
   - $TRAVIS_BUILD_DIR/ci/bin/install_coder.sh
 
-  # Install MySQL.
-  - $TRAVIS_BUILD_DIR/ci/bin/install_mysql.sh
-
   # Install Apache Solr, pass the name of the SOLR core.
   - $TRAVIS_BUILD_DIR/ci/bin/install_solr.sh capacity4more
 
   # Install Tika, pass the desired version number.
-  - $TRAVIS_BUILD_DIR/ci/bin/install_tika.sh "1.12"
+  - $TRAVIS_BUILD_DIR/ci/bin/install_tika.sh "1.17"
 
   # Configure Behat + Install dependencies.
   - $TRAVIS_BUILD_DIR/ci/bin/install_behat.sh
@@ -65,7 +68,7 @@ install:
   - $TRAVIS_BUILD_DIR/ci/bin/install_taskrunners.sh
 
   # Install capacity4more profile.
-  - travis_wait 45 $TRAVIS_BUILD_DIR/ci/bin/install_drupal.sh
+  - $TRAVIS_BUILD_DIR/ci/bin/install_drupal.sh
 
 before_script:
   - date
@@ -87,6 +90,12 @@ after_script:
 
 after_failure:
   - date
+
+  - echo " ===========    /var/log/apache2/error.log   ============"
+  - sudo cat $TRAVIS_BUILD_DIR/apache-error.log
+
+  - echo " ===========    /var/log/apache2/access.log   ============"
+  - sudo cat $TRAVIS_BUILD_DIR/apache-access.log
 
   # Zip dumps and mail
   - $TRAVIS_BUILD_DIR/ci/bin/report_behat.sh

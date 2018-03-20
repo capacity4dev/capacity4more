@@ -858,6 +858,9 @@ function c4m_ds_theme() {
   $path = drupal_get_path('module', 'c4m_ds') . '/templates';
 
   return array(
+    'c4m_ds_formatter_link_and_size' => array(
+      'variables' => array(),
+    ),
     'c4m_link_and_size' => array(
       'variables' => array(
         'file' => NULL,

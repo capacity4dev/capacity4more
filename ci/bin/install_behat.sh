@@ -1,5 +1,4 @@
-#!/bin/sh
-set -e
+#!/bin/bash
 
 # ---------------------------------------------------------------------------- #
 #
@@ -7,9 +6,8 @@ set -e
 #
 # ---------------------------------------------------------------------------- #
 
-
 # Behat has no use if the profile is not installed.
-if [ $INSTALL_PROFILE != 1 ]; then
+if [ "$INSTALL_PROFILE" != 1 ]; then
  exit 0;
 fi
 
@@ -17,7 +15,6 @@ fi
 if [ "$BEHAT_TAG" = "" ]; then
   exit 0;
 fi
-
 
 cd $TRAVIS_BUILD_DIR/project/profiles/capacity4more/behat
 
