@@ -70,6 +70,23 @@ function _c4m_user_profile_block_user_menu() {
     ],
   ];
 
+  if (isset($_SESSION['masquerading'])) {
+    $menu_list['masquerade_switch'] = [
+      'title' => t('Switch back'),
+      'url' => 'masquerade/unswitch',
+      'options' => [
+        'absolute' => TRUE,
+        'purl' => [
+          'disabled' => TRUE,
+        ],
+        'query' => [
+          'destination' => request_path(),
+          'token' => drupal_get_token('masquerade/unswitch'),
+        ],
+      ],
+    ];
+  }
+
   $menu = [
     '#theme' => 'c4m_user_profile_menu',
     '#menu_items' => $menu_list,
