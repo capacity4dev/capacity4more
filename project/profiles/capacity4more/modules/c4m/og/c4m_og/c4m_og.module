@@ -224,12 +224,12 @@ function c4m_og_menu() {
     'title' => 'Statistics',
   ];
 
-  $items['node/%node/merge'] = array(
+  $items['node/%node/merge'] = [
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_og_merge_groups_build_form', 1),
+    'page arguments' => ['c4m_og_merge_groups_form', 1],
     'access arguments' => ['merge group content'],
     'title' => 'Merge content',
-  );
+  ];
 
   $items['group/%/%/admin/statistics'] = array(
     'page callback' => 'drupal_get_form',
@@ -3649,7 +3649,7 @@ function c4m_og_get_content_type_labels(array $machine_names) {
  *
  * Merge group content.
  */
-function c4m_og_merge_groups_build_form($form, $form_state, $group) {
+function c4m_og_merge_groups_form($form, $form_state, $group) {
   $node = menu_get_object();
   if (!og_is_group('node', $node)) {
     drupal_goto('<front>');
@@ -3657,46 +3657,104 @@ function c4m_og_merge_groups_build_form($form, $form_state, $group) {
   $content_types = c4m_og_feature_enabled_content_types();
   if (!empty($content_types)) {
     $options = c4m_og_get_content_type_labels($content_types);
-    $form['content_types'] = array(
-      '#title' => t('Select the different content types to merge to the target group. Note that all other  (unselected) content will be deleted permanently.'),
+    $form['content_types'] = [
+      '#title' => t('Select the different content types to merge to the target @group_type. Note that all other  (unselected) content will be deleted permanently.', ['@group_type' => $node->type]),
       '#type' => 'checkboxes',
       '#options' => $options,
       '#default_value' => $content_types,
-    );
+    ];
   }
 
-  $form['users'] = array(
+  $form['users'] = [
     '#type' => 'checkbox',
     '#title' => t('Merge users'),
     '#default_value' => 1,
-  );
+  ];
 
-  $form['target_group'] = array(
+  $form['target_group'] = [
     '#type' => 'textfield',
-    '#title' => t("Merge to"),
-    '#entityreference' => array(
+    '#title' => t('Merge to'),
+    '#after_build' => ['_c4m_og_merge_groups_form_target_group_after_build'],
+    '#required' => TRUE,
+    '#entityreference' => [
       'target_type' => 'node',
       'handler' => 'c4m_selection',
       'type' => 'single',
-      'handler_settings' => array(
-        'target_bundles' => array('group' => $node->type),
-        'sort' => array(
+      'handler_settings' => [
+        'target_bundles' => ['group' => $node->type],
+        'skip_status_check' => TRUE,
+        'sort' => [
           'direction' => 'ASC',
           'property' => 'title',
           'type' => 'property',
-        ),
-      ),
-    ),
-  );
+        ],
+      ],
+    ],
+  ];
 
   $form['#validate'][] = '_c4m_og_merge_groups_validation';
 
-  $form['merge'] = array(
+  $form['merge'] = [
     '#type' => 'submit',
     '#value' => 'Merge',
-  );
+  ];
 
   return $form;
+}
+
+/**
+ * After build callback for target_group in c4m_og_merge_groups_form.
+ *
+ * Remove the validator added by entity reference module.
+ *
+ * @param array $element
+ *   The FORM API element.
+ * @param array $form_state
+ *   Form state.
+ *
+ * @return array
+ *   Form element.
+ */
+function _c4m_og_merge_groups_form_target_group_after_build(array &$element, array $form_state) {
+  $element['#element_validate'] = ['_c4m_og_merge_groups_form_target_group_validate'];
+  return $element;
+}
+
+/**
+ * Validate callback for target_group in c4m_og_merge_groups_form.
+ *
+ * @param array $element
+ *   The form element.
+ * @param array $form_state
+ *   The form state array.
+ * @param array $form
+ *   The form array.
+ */
+function _c4m_og_merge_groups_form_target_group_validate(array $element, array &$form_state, array $form) {
+  // Field is required so no need to extra validation.
+  $target_group = $form_state['values']['target_group'];
+  if (!$target_group) {
+    return;
+  }
+
+  // Take "label (entity id)', match the id from parenthesis.
+  if (preg_match("/.+\((\d+)\)/", $target_group, $matches)) {
+    $group_id = $matches[1];
+    $group = node_load($group_id);
+  }
+  else {
+    $group = node_load_multiple(NULL, ['title' => $target_group, 'type' => 'group']);
+    if ($group) {
+      $group = array_shift($group);
+    }
+  }
+
+  if ($group) {
+    form_set_value($element, $group->nid, $form_state);
+  }
+  else {
+    form_set_error('target_group', t("Please select a valid target group."));
+  }
 }
 
 /**
@@ -3705,14 +3763,15 @@ function c4m_og_merge_groups_build_form($form, $form_state, $group) {
 function _c4m_og_merge_groups_validation($form, &$form_state) {
   $current_group = og_context();
   if ($form_state['values']['target_group'] == $current_group['gid']) {
-    form_set_error('target_group', t("Target group can't be the same with the source group."));
+    $current_group = node_load($current_group['gid']);
+    form_set_error('target_group', t("Target @group_type can't be the same with the source @group_type.", ['@group_type' => $current_group->type]));
   }
 }
 
 /**
  * Submit action for group merge form.
  */
-function c4m_og_merge_groups_build_form_submit($form, &$form_state) {
+function c4m_og_merge_groups_form_submit($form, &$form_state) {
   $values = $form_state['values'];
   $group = og_context();
 
@@ -3756,13 +3815,19 @@ function c4m_og_merge_groups_build_form_submit($form, &$form_state) {
     ],
   ];
   // Add the delete group operations to batch.
-  $operations[] = ['_c4m_og_merge_group_detele_batch', [$group['gid']]];
+  $operations[] = [
+    '_c4m_og_merge_group_delete_batch',
+    [
+      $group['gid'],
+      $values['target_group'],
+    ],
+  ];
   $_SESSION['http_request_count'] = 0;
-  $batch = array(
-    'title' => t('Group content is being merged'),
+  $batch = [
+    'title' => t('Content is being merged'),
     'operations' => $operations,
     'finished' => '_c4m_og_merge_finished',
-  );
+  ];
   batch_set($batch);
 }
 
@@ -3775,11 +3840,10 @@ function _c4m_og_merge_users_batch($gid, $target_gid, &$context) {
   }
   // Get users from the source group which are not members of the target group.
   $users_query = db_select('og_membership', 'ogm')
-    ->fields('ogm', array('id'))
+    ->fields('ogm', ['etid'])
     ->condition('entity_type', 'user')
     ->condition('gid', $gid)
-    ->condition('gid', $target_gid, '!=')
-    ->condition('state', 1);
+    ->condition('state', OG_STATE_ACTIVE);
   $user_ids = $users_query->execute()->fetchCol();
   $users = user_load_multiple($user_ids);
   if (!empty($users)) {
@@ -3892,38 +3956,47 @@ function _c4m_og_merge_content_batch($gid, $target_gid, $content_types, &$contex
  * Merge taxonomies into the target group.
  */
 function _c4m_og_merge_taxonomies_batch($gid, $target_gid, &$context) {
-  if (empty($gid) || empty($target_id)) {
+  if (empty($gid) || empty($target_gid)) {
     return;
   }
   $group = node_load($gid);
   $target_group = node_load($target_gid);
-  $categories = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
-  $tags = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_tag');
-  $target_categories = c4m_og_vocab_load_group_vocabulary($target_group, 'c4m_vocab_category');
-  $target_tags = c4m_og_vocab_load_group_vocabulary($target_group, 'c4m_vocab_tag');
-  $category_terms = taxonomy_get_tree($categories->vid);
-  $tag_terms = taxonomy_get_tree($tags->vid);
-  if (!empty($category_terms)) {
-    foreach ($category_terms as $term) {
-      $term->vid = $target_categories->vid;
-      taxonomy_term_save($term);
-    }
-  }
-  if (!empty($tag_terms)) {
-    foreach ($tag_terms as $term) {
-      $term->vid = $target_tags->vid;
-      taxonomy_term_save($term);
-    }
-  }
+
+  _c4m_og_merge_taxonomies_by_vocabulary($group, $target_group, 'c4m_vocab_category');
+  _c4m_og_merge_taxonomies_by_vocabulary($group, $target_group, 'c4m_vocab_tag');
+
   $context['results'] = [
     'target_gid' => $target_gid,
   ];
 }
 
 /**
+ * Merges groups' taxonomy terms by vocabulary.
+ *
+ * @param object $group
+ *   Merged group.
+ * @param object $target_group
+ *   Target group.
+ * @param string $vocabulary_name
+ *   Vocabulary name.
+ */
+function _c4m_og_merge_taxonomies_by_vocabulary($group, $target_group, $vocabulary_name) {
+  $vocabulary = c4m_og_vocab_load_group_vocabulary($group, $vocabulary_name);
+  $target_vocabulary = c4m_og_vocab_load_group_vocabulary($target_group, $vocabulary_name);
+  $terms = taxonomy_get_tree($vocabulary->vid);
+  if (!empty($terms)) {
+    foreach ($terms as $term) {
+      $term->vid = $target_vocabulary->vid;
+      taxonomy_term_save($term);
+    }
+  }
+  taxonomy_vocabulary_delete($vocabulary->vid);
+}
+
+/**
  * Delete merged group.
  */
-function _c4m_og_merge_group_detele_batch($gid, &$context) {
+function _c4m_og_merge_group_delete_batch($gid, $target_gid, &$context) {
   if (empty($gid)) {
     return;
   }
@@ -3937,6 +4010,7 @@ function _c4m_og_merge_group_detele_batch($gid, &$context) {
   if (!empty($n_ids)) {
     node_delete_multiple($n_ids);
   }
+  module_invoke_all('c4m_group_merge', $gid, $target_gid);
   node_delete($gid);
 }
 
@@ -3945,7 +4019,7 @@ function _c4m_og_merge_group_detele_batch($gid, &$context) {
  */
 function _c4m_og_merge_finished($success, $results, $operations) {
   if ($success) {
-    drupal_set_message(t("Group was successfully merged."));
+    drupal_set_message(t('Content was successfully merged.'));
     if (!empty($results['target_gid'])) {
       drupal_goto('node/' . $results['target_gid']);
     }
