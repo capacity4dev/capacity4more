@@ -110,3 +110,15 @@ function c4m_user_profile_update_7001() {
     ->condition('version', 1)
     ->execute();
 }
+
+/**
+ * Delete c4m_unsubscribe_hash field.
+ */
+function c4m_user_profile_update_7002() {
+  $field_name = 'c4m_unsubscribe_hash';
+
+  if (field_info_field($field_name)) {
+    field_delete_field($field_name);
+    field_purge_batch(1);
+  }
+}

@@ -12,6 +12,9 @@ function c4m_message_digest_install() {
   c4m_message_digest_update_7001();
   c4m_message_digest_update_7002();
   c4m_message_digest_update_7003();
+
+  // Convert unsubscribes.
+  c4m_message_digest_update_7008();
 }
 
 /**
@@ -83,9 +86,13 @@ function c4m_message_digest_update_7004() {
   $db_table = 'field_data_' . $field_name;
   $entity_type = 'node';
 
-  _c4m_message_digest_convert_unsubscribes($db_table, $flag_name, $field_name, $entity_type);
+  // Maybe the update hook was already executed.
+  if (field_info_field($field_name)) {
+    _c4m_message_digest_convert_unsubscribes($db_table, $flag_name, $field_name, $entity_type);
 
-  field_delete_field($field_name);
+    field_delete_field($field_name);
+    field_purge_batch(1);
+  }
 }
 
 /**
@@ -97,9 +104,13 @@ function c4m_message_digest_update_7005() {
   $db_table = 'field_data_' . $field_name;
   $entity_type = 'node';
 
-  _c4m_message_digest_convert_unsubscribes($db_table, $flag_name, $field_name, $entity_type);
+  // Maybe the update hook was already executed.
+  if (field_info_field($field_name)) {
+    _c4m_message_digest_convert_unsubscribes($db_table, $flag_name, $field_name, $entity_type);
 
-  field_delete_field($field_name);
+    field_delete_field($field_name);
+    field_purge_batch(1);
+  }
 }
 
 /**
@@ -111,9 +122,13 @@ function c4m_message_digest_update_7006() {
   $db_table = 'field_data_' . $field_name;
   $entity_type = 'node';
 
-  _c4m_message_digest_convert_unsubscribes($db_table, $flag_name, $field_name, $entity_type);
+  // Maybe the update hook was already executed.
+  if (field_info_field($field_name)) {
+    _c4m_message_digest_convert_unsubscribes($db_table, $flag_name, $field_name, $entity_type);
 
-  field_delete_field($field_name);
+    field_delete_field($field_name);
+    field_purge_batch(1);
+  }
 }
 
 /**
@@ -125,9 +140,23 @@ function c4m_message_digest_update_7007() {
   $db_table = 'field_data_' . $field_name;
   $entity_type = 'taxonomy_term';
 
-  _c4m_message_digest_convert_unsubscribes($db_table, $flag_name, $field_name, $entity_type);
+  // Maybe the update hook was already executed.
+  if (field_info_field($field_name)) {
+    _c4m_message_digest_convert_unsubscribes($db_table, $flag_name, $field_name, $entity_type);
 
-  field_delete_field($field_name);
+    field_delete_field($field_name);
+    field_purge_batch(1);
+  }
+}
+
+/**
+ * Convert unsubscribes.
+ */
+function c4m_message_digest_update_7008() {
+  c4m_message_digest_update_7004();
+  c4m_message_digest_update_7005();
+  c4m_message_digest_update_7006();
+  c4m_message_digest_update_7007();
 }
 
 /**
