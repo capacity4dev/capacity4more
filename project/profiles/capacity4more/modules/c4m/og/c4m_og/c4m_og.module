@@ -112,28 +112,6 @@ function c4m_og_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Helper function to get the human readable name of a group type.
- *
- * @param object $node
- *   The node object.
- *
- * @internal param object $group
- *
- * @return string
- *   Human readable name of group type.
- */
-function c4m_og_get_group_type_name($node = NULL) {
-  if (!$node) {
-    $node = c4m_og_current_group();
-  }
-  if (!$node || !og_is_group_type('node', $node->type)) {
-    return NULL;
-  }
-
-  return strtolower(node_type_get_name($node));
-}
-
-/**
  * Implements hook_menu().
  */
 function c4m_og_menu() {
@@ -2527,14 +2505,29 @@ function c4m_og_get_content_flag_count($og_id, $flag_name) {
 function c4m_og_get_group_type(array $group, $subtype = FALSE) {
   if (!empty($group)) {
     if ($group_node = node_load($group['gid'])) {
-      if ($subtype && $group_node->type == 'project') {
-        return $group_node->c4m_project_type[LANGUAGE_NONE][0]['value'];
-      }
-
-      return $group_node->type;
+      return c4m_og_get_group_type_from_node($group_node, $subtype);
     }
   }
   return FALSE;
+}
+
+/**
+ * Helper function to get group type (project|group).
+ *
+ * @param object $group
+ *   The node object to get the type from.
+ * @param bool $subtype
+ *   Return node bundle or dive deeper for subtypes.
+ *
+ * @return string
+ *   Group type (project|group).
+ */
+function c4m_og_get_group_type_from_node($group, $subtype = FALSE) {
+  if ($subtype && $group->type === 'project') {
+    return $group->c4m_project_type[LANGUAGE_NONE][0]['value'];
+  }
+
+  return $group->type;
 }
 
 /**
