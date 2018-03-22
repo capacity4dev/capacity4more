@@ -234,7 +234,7 @@ function _c4m_user_notifications_notify_subscribe_group_content($node, $action, 
 
   $message = message_create($message_type);
   // Define functions with which to resolve email template tokens.
-  c4m_message_load_tokens__c4m_content_inserted_or_updated($message);
+  c4m_message_load_tokens__c4m_group_content_inserted_or_updated($message);
 
   if ($action === 'share') {
     // Extra tokens for shares.
@@ -320,8 +320,13 @@ function _c4m_user_notifications_notify_subscribe_content($node) {
   // Define functions with which to resolve email template tokens.
   c4m_message_load_tokens__c4m_content_inserted_or_updated($message);
 
-  // Resolve comment body field, in teaser mode, and assign value to it's token.
-  $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
+  // Resolve body field, in teaser mode, and assign value to it's token.
+  if ($node->type === 'article') {
+    $body_teaser = field_view_field('node', $node, 'c4m_intro_text', 'teaser');
+  }
+  else {
+    $body_teaser = field_view_field('node', $node, 'c4m_body', 'teaser');
+  }
   $message->arguments['@node_teaser_body'] = strip_tags(
     $body_teaser[0]['#markup']
   );
@@ -502,7 +507,7 @@ function _c4m_user_notifications_notify_subscribe_content_revision($node, $users
 
   $message = message_create($message_type);
   // Define functions with which to resolve email template tokens.
-  c4m_message_load_tokens__c4m_content_inserted_or_updated($message);
+  c4m_message_load_tokens__c4m_group_content_inserted_or_updated($message);
 
   $message_wrapper = entity_metadata_wrapper('message', $message);
   $message_wrapper->field_node->set($node->nid);
