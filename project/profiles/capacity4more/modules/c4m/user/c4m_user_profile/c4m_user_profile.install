@@ -119,7 +119,7 @@ function c4m_user_profile_update_7002() {
   field_purge_batch(1);
 }
 
-/*
+/**
  * Delete c4m_unsubscribe_hash field.
  */
 function c4m_user_profile_update_7003() {
