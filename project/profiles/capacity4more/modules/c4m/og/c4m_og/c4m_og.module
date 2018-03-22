@@ -219,7 +219,7 @@ function c4m_og_menu() {
 
   $items['admin/statistics'] = [
     'page callback' => 'drupal_get_form',
-    'page arguments' => ['c4m_og_export_statistics_build_form'],
+    'page arguments' => ['c4m_og_export_statistics_form'],
     'access callback' => 'c4m_features_og_members_is_power_user_access_callback',
     'title' => 'Statistics',
   ];
@@ -233,7 +233,7 @@ function c4m_og_menu() {
 
   $items['group/%/%/admin/statistics'] = [
     'page callback' => 'drupal_get_form',
-    'page arguments' => ['c4m_og_export_statistics_build_form', 1, 2],
+    'page arguments' => ['c4m_og_export_statistics_form', 1, 2],
     'access callback' => 'c4m_features_og_members_is_power_user',
     'title' => 'Statistics',
   ];
@@ -882,7 +882,7 @@ function c4m_og_replace_owner_build_form_submit($form, &$form_state) {
  *
  * Group owner replace form.
  */
-function c4m_og_export_statistics_build_form($form, $form_state) {
+function c4m_og_export_statistics_form($form, $form_state) {
   $format = 'Y-m-d';
 
   $intervals = [
@@ -969,24 +969,22 @@ function c4m_og_export_statistics_build_form($form, $form_state) {
   $form['export_content_form_submit'] = [
     '#type' => 'submit',
     '#value' => t('Content Export'),
-    '#submit' => ['_c4m_og_export_content_form_submit'],
+    '#submit' => ['_c4m_og_export_statistics_form_submit_content'],
   ];
 
   $form['export_members_form_submit'] = [
     '#type' => 'submit',
     '#value' => t('Members Export'),
-    '#submit' => ['_c4m_og_export_members_form_submit'],
+    '#submit' => ['_c4m_og_export_statistics_form_submit_members'],
   ];
-
-  $form['#validate'][] = '_c4m_og_form_valid_export_form';
 
   return $form;
 }
 
 /**
- * Validation for the group export form.
+ * Validate callback for c4m_og_export_statistics_form.
  */
-function _c4m_og_form_valid_export_form($form, &$form_state) {
+function c4m_og_export_statistics_form_validate($form, &$form_state) {
   $values = $form_state['values'];
   if ($values['start_date'] > $values['end_date']) {
     form_set_error('start_date', t('Please select valid dates.'));
@@ -998,7 +996,7 @@ function _c4m_og_form_valid_export_form($form, &$form_state) {
  *
  * Export content from group.
  */
-function _c4m_og_export_content_form_submit($form, &$form_state) {
+function _c4m_og_export_statistics_form_submit_content($form, &$form_state) {
   $values = $form_state['values'];
   $start_time = strtotime($values['start_date']);
   $end_time = strtotime("+1day", strtotime($values['end_date']));
@@ -1060,7 +1058,7 @@ function _c4m_og_export_content_form_submit($form, &$form_state) {
  *
  * Export members from group.
  */
-function _c4m_og_export_members_form_submit($form, &$form_state) {
+function _c4m_og_export_statistics_form_submit_members($form, &$form_state) {
   $values = $form_state['values'];
   $start_time = strtotime($values['start_date']);
   $end_time = strtotime("+1day", strtotime($values['end_date']));
