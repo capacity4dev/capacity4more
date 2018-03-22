@@ -108,7 +108,7 @@ function c4m_features_og_group_dashboard_update_7003() {
   $flag_follow_content = flag_get_flag('subscribe_c4m_follow_content');
   $flag_follow_comment = flag_get_flag('subscribe_c4m_follow_comment');
   db_query("UPDATE {flagging} f SET fid = @flag_follow_content WHERE fid = @flag_follow_comment", [
-    '@flag_follow_content' => $flag_follow_content,
-    '@flag_follow_comment' => $flag_follow_comment,
+    '@flag_follow_content' => $flag_follow_content->fid,
+    '@flag_follow_comment' => $flag_follow_comment->fid,
   ]);
 }
