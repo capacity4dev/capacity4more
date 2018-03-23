@@ -229,9 +229,8 @@ function c4m_content_construct_path_to_content_page($content_type) {
  * hook_node_update / insert.
  */
 function c4m_content_node_submit(&$node, $form, $form_state) {
-  $send_notification = in_array($node->type, c4m_og_get_group_content_notification_types()) && !empty($form_state['values']['send_notification']);
-  if ($send_notification) {
-    $node->c4m_send_notification = TRUE;
+  if (isset($form_state['values']['send_notification'])) {
+    $node->c4m_send_notification = $form_state['values']['send_notification'];
   }
 
   $skip_message = _c4m_content_post_activity_access($form_state) && empty($form_state['values']['post_activity']);

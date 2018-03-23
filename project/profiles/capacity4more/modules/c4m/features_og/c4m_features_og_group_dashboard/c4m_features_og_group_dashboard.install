@@ -90,3 +90,25 @@ function c4m_features_og_group_dashboard_update_7001() {
     $flag->flag('flag', $entity_id, NULL, TRUE);
   }
 }
+
+/**
+ * Remove subscribe_c4m_follow_group for users no longer members of the group.
+ */
+function c4m_features_og_group_dashboard_update_7002() {
+  db_query("DELETE f FROM {flagging} f 
+INNER JOIN {flag} fl ON f.fid = fl.fid AND fl.name = 'subscribe_c4m_follow_group'
+LEFT JOIN {og_membership} m ON f.entity_id = m.gid AND f.uid = m.etid AND f.entity_type = m.group_type AND m.entity_type = 'user'
+WHERE m.gid IS NULL");
+}
+
+/**
+ * Convert subscribe_c4m_follow_comment flag to subscribe_c4m_follow_content.
+ */
+function c4m_features_og_group_dashboard_update_7003() {
+  $flag_follow_content = flag_get_flag('subscribe_c4m_follow_content');
+  $flag_follow_comment = flag_get_flag('subscribe_c4m_follow_comment');
+  db_query("UPDATE {flagging} f SET fid = @flag_follow_content WHERE fid = @flag_follow_comment", [
+    '@flag_follow_content' => $flag_follow_content->fid,
+    '@flag_follow_comment' => $flag_follow_comment->fid,
+  ]);
+}

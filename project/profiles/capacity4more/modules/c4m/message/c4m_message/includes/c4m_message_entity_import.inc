@@ -1307,6 +1307,45 @@ function _c4m_message_get_messages_mt54() {
 }
 
 /**
+ * Retrieve object for MT55.
+ *
+ * @return string
+ *   Serialized message entity object.
+ */
+function _c4m_message_get_messages_mt55() {
+  return '
+  {
+  "name" : "c4m_content_updated",
+  "description" : "SUBSCRIPTION :: MT55 :: Content Updated",
+  "argument_keys" : [],
+  "argument" : [],
+  "category" : "message_type",
+  "data" : {
+    "token options" : { "clear" : 0 },
+    "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+  },
+  "language" : "",
+  "module" : "c4m_message",
+  "arguments" : null,
+  "message_text" : { "und" : [
+      {
+        "value" : "\u003Cp\u003E@content_type_name @content_node_title got updated\u003C\/p\u003E\r\n",
+        "format" : "filtered_html"
+      },
+      {
+        "value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E updated the following @content_type_name: \u003Cstrong\u003E\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cem\u003E@node_teaser_body \u003C\/em\u003E\u003Cbr \/\u003E\r\n\u003Ca href=\u0022!content_node_url\u0022\u003ERead more...\u003C\/a\u003E\u003C\/p\u003E\r\n\r\n\u003Cp\u003EYou\u0027re receiving this e-mail because you\u0027re subscribed to \u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E - if you no longer wish to receive notifications from this @content_type_name, please \u003Ca href=\u0022!unsubscribe_url\u0022\u003Eunsubscribe.\u003C\/a\u003E\u003C\/p\u003E\r\n",
+        "format" : "mail",
+        "safe_value" : "\u003Cp\u003EDear @user_full_name,\u003C\/p\u003E\n\n\u003Cp\u003E\u003Ca href=\u0022!event_user_url\u0022 rel=\u0022nofollow\u0022\u003E@event_user_full_name\u003C\/a\u003E updated the following @content_type_name: \u003Cstrong\u003E\u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E\n\n\u003Cp\u003E\u003Cem\u003E@node_teaser_body \u003C\/em\u003E\u003Cbr \/\u003E\n\u003Ca href=\u0022!content_node_url\u0022\u003ERead more...\u003C\/a\u003E\u003C\/p\u003E\n\n\u003Cp\u003EYou\u0027re receiving this e-mail because you\u0027re subscribed to \u003Ca href=\u0022!content_node_url\u0022\u003E@content_node_title\u003C\/a\u003E - if you no longer wish to receive notifications from this @content_type_name, please \u003Ca href=\u0022!unsubscribe_url\u0022\u003Eunsubscribe.\u003C\/a\u003E\u003C\/p\u003E\n"
+      }
+    ]
+  },
+  "entity_type" : "message_type",
+  "rdf_mapping" : []
+}
+  ';
+}
+
+/**
  * Retrieve object for Log message 1.
  *
  * @return string

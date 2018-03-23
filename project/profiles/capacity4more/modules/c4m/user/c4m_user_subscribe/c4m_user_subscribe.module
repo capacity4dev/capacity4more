@@ -8,32 +8,18 @@
 /**
  * Implements hook_node_insert().
  *
- * Flags inserted node, if content requires notification.
+ * Flags inserted node.
  */
 function c4m_user_subscribe_node_insert($node) {
-  if (!in_array($node->type, c4m_og_get_extended_content_notification_types())) {
-    // Inserted content does not require notification.
-    return;
-  }
-
-  $account = user_load($node->uid);
-
-  flag('flag', 'subscribe_c4m_follow_comment', $node->nid, $account);
-  flag('flag', 'subscribe_c4m_follow_node', $node->nid, $account);
+  flag('flag', 'subscribe_c4m_follow_node', $node->nid);
 }
 
 /**
  * Implements hook_node_update().
  *
- * Flags updated node, if content requires notification.
+ * Flags updated node.
  */
 function c4m_user_subscribe_node_update($node) {
-  if (!in_array($node->type, c4m_og_get_extended_content_notification_types())) {
-    // Inserted content does not require notification.
-    return;
-  }
-
-  flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
   flag('flag', 'subscribe_c4m_follow_node', $node->nid);
 }
 
@@ -44,17 +30,7 @@ function c4m_user_subscribe_node_update($node) {
  * content.
  */
 function c4m_user_subscribe_comment_insert($comment) {
-  $node = node_load($comment->nid);
-
-  if (!in_array($node->type, c4m_og_get_extended_content_notification_types())) {
-    // Inserted comment is on content that does not require notification.
-    return;
-  }
-
-  $account = user_load($comment->uid);
-
-  // Add 'follow comment' flag.
-  flag('flag', 'subscribe_c4m_follow_comment', $node->nid, $account);
+  flag('flag', 'subscribe_c4m_follow_content', $comment->nid);
 }
 
 /**
@@ -64,7 +40,7 @@ function c4m_user_subscribe_comment_insert($comment) {
  * the user membership is active.
  */
 function c4m_user_subscribe_og_membership_insert(OgMembership $membership) {
-  if ($membership->entity_type != 'user' || $membership->state != OG_STATE_ACTIVE) {
+  if ($membership->entity_type !== 'user' || $membership->state != OG_STATE_ACTIVE) {
     return;
   }
 
@@ -87,7 +63,7 @@ function c4m_user_subscribe_og_membership_update(OgMembership $membership) {
  * the group.
  */
 function c4m_user_subscribe_og_membership_delete(OgMembership $membership) {
-  if ($membership->entity_type != 'user') {
+  if ($membership->entity_type !== 'user') {
     return;
   }
 
@@ -264,4 +240,35 @@ function _c4m_user_subscribe_user_unflag_terms(array $terms, $account) {
   foreach ($terms as $term) {
     $flag->flag('unflag', $term['tid'], $account, TRUE);
   }
+}
+
+/**
+ * Implements hook_c4m_content_actions_info().
+ */
+function c4m_user_subscribe_c4m_content_actions_info() {
+  return [
+    'action_follow' => [
+      'context' => ['group', 'global'],
+      'callback' => 'c4m_user_subscribe_action_follow',
+      'weight' => '3',
+    ],
+  ];
+}
+
+/**
+ * Callback to show the Follow content link.
+ *
+ * @param object $node
+ *   The node object.
+ *
+ * @return string
+ *   Rendered output of the follow link.
+ */
+function c4m_user_subscribe_action_follow($node = NULL) {
+  if (empty($node->nid)) {
+    return '';
+  }
+
+  $flag_link = flag_create_link('subscribe_c4m_follow_content', $node->nid);
+  return $flag_link;
 }

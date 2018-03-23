@@ -315,7 +315,7 @@ function _c4m_user_notifications_dispatch_content_action($node, $action) {
 
   // For content shares from group A to group B we need a different template and
   // tokens.
-  if ($node->type == 'share') {
+  if ($node->type === 'share') {
     // Check if the source node type is a content type that triggers a
     // notification.
     if (!empty($node->source_bundle) && in_array($node->source_bundle, $allowed_og_content_types)) {
@@ -345,23 +345,15 @@ function _c4m_user_notifications_dispatch_content_action($node, $action) {
   }
 
   // Global content logic.
-  switch ($action) {
-    case 'insert':
-      // Send MT24 - Subscribed topic followers are informed about new
-      // content tagged with a common topic of interest.
-      _c4m_user_notifications_dispatch_content_of_interest($node);
-      break;
-
-    case 'update':
-      if ($node->original->status != NODE_PUBLISHED) {
-        // Send MT24 - Subscribed topic followers are informed about new
-        // content tagged with a common topic of interest.
-        _c4m_user_notifications_dispatch_content_of_interest($node);
-      }
+  if ('insert' === $action || 'update' === $action && $node->original->status != NODE_PUBLISHED) {
+    // Send MT24 - Subscribed topic followers are informed about new content
+    // tagged with a common topic of interest.
+    _c4m_user_notifications_notify_subscribe_content_of_interest($node);
   }
 
-  // Restricted group content logic.
   if (!in_array($node->type, $allowed_og_content_types)) {
+    // Send c4m_content_udpated for articles.
+    _c4m_user_notifications_dispatch_content_update($node);
     return;
   }
 
@@ -372,41 +364,28 @@ function _c4m_user_notifications_dispatch_content_action($node, $action) {
 
   // Check if the node's group reference's status is published so we don't
   // trigger notifications in draft/pending/... groups.
-  if ($wrapper->{OG_AUDIENCE_FIELD}->c4m_og_status->value() == 'published') {
-    switch ($action) {
-      case 'insert':
-        // Send MT25 - Subscribed group followers are informed about new
-        // content in the group.
-        _c4m_user_notifications_dispatch_group_content_insert($node);
-        break;
-
-      case 'update':
-        // Node is being published for first time, this corresponds to a node
-        // insert.
-        if ($node->original->status != NODE_PUBLISHED) {
-          // Send MT25 - Subscribed group followers are informed about new
-          // content in the group.
-          _c4m_user_notifications_dispatch_group_content_insert($node);
-        }
-        else {
-          if ($node->promote && !$node->original->promote) {
-            // If content is highlighted, dispatch MT24.
-            _c4m_user_notifications_notify_subscribe_content_of_interest($node, 'highlight');
-          }
-          else {
-            // Send MT51 - Subscribed node followers are informed about updates
-            // to the content.
-            // Send MT25 - Subscribed group followers are informed about updated
-            // content in the group (with exclusions to prevent duplicate
-            // notification).
-            // ------------------------------------------------------------------
-            // Send MT25 - Subscribed group followers are informed about updated
-            // content in the group.
-            _c4m_user_notifications_dispatch_group_content_update($node);
-          }
-        }
-        break;
-    }
+  if ($wrapper->{OG_AUDIENCE_FIELD}->c4m_og_status->value() !== 'published') {
+    return;
+  }
+  if ('insert' === $action || $node->original->status != NODE_PUBLISHED) {
+    // Send MT25 - Subscribed group followers are informed about new content in
+    // the group.
+    _c4m_user_notifications_notify_subscribe_group_content($node, 'insert');
+  }
+  elseif ($node->promote && !$node->original->promote) {
+    // If content is highlighted, dispatch MT24.
+    _c4m_user_notifications_notify_subscribe_content_of_interest($node, 'highlight');
+  }
+  else {
+    // Send MT51 - Subscribed node followers are informed about updates
+    // to the content.
+    // Send MT25 - Subscribed group followers are informed about updated
+    // content in the group (with exclusions to prevent duplicate
+    // notification).
+    // ------------------------------------------------------------------
+    // Send MT25 - Subscribed group followers are informed about updated
+    // content in the group.
+    _c4m_user_notifications_dispatch_group_content_update($node);
   }
 }
 
@@ -639,26 +618,6 @@ function _c4m_user_notifications_comment_insert($comment) {
 }
 
 /**
- * Email notification about new content in a group.
- *
- * @param object $node
- *   Drupal node entity being inserted.
- */
-function _c4m_user_notifications_dispatch_group_content_insert($node) {
-  _c4m_user_notifications_notify_subscribe_group_content($node, 'insert');
-}
-
-/**
- * Email notification about new content with topics/regions of interest.
- *
- * @param object $node
- *   Drupal node entity being inserted.
- */
-function _c4m_user_notifications_dispatch_content_of_interest($node) {
-  _c4m_user_notifications_notify_subscribe_content_of_interest($node);
-}
-
-/**
  * Email notification about content being shared between groups.
  *
  * @param object $source_node
@@ -678,8 +637,9 @@ function _c4m_user_notifications_dispatch_group_content_share($source_node, $tar
  */
 function _c4m_user_notifications_dispatch_group_content_update($node) {
   if ($node->vid !== $node->original->vid) {
-    // New revision of content was published => notify content editors
-    // and group followers.
+    // New revision of content was published => notify content editors, content
+    // followers and  group followers.
+    _c4m_user_notifications_notify_subscribe_content_revision($node, 'content_followers');
     _c4m_user_notifications_notify_subscribe_content_revision($node, 'content_editors');
     _c4m_user_notifications_notify_subscribe_content_revision($node, 'group_followers');
   }
@@ -687,4 +647,14 @@ function _c4m_user_notifications_dispatch_group_content_update($node) {
     // No revision update => notify only group followers.
     _c4m_user_notifications_notify_subscribe_group_content($node, 'update');
   }
+}
+
+/**
+ * Email notification about existing content update outside of an og.
+ *
+ * @param object $node
+ *   Drupal node entity being updated.
+ */
+function _c4m_user_notifications_dispatch_content_update($node) {
+  _c4m_user_notifications_notify_subscribe_content($node);
 }
