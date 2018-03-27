@@ -224,18 +224,17 @@ function c4m_og_menu() {
     'title' => 'Statistics',
   ];
 
+  $items['admin/statistics/results'] = [
+    'page callback' => '_c4m_og_statistics_results',
+    'access callback' => 'c4m_features_og_members_is_power_user',
+    'title' => 'Data export',
+  ];
+
   $items['node/%node/merge'] = [
     'page callback' => 'drupal_get_form',
     'page arguments' => ['c4m_og_merge_groups_form', 1],
     'access arguments' => ['merge group content'],
     'title' => 'Merge content',
-  ];
-
-  $items['group/%/%/admin/statistics'] = [
-    'page callback' => 'drupal_get_form',
-    'page arguments' => ['c4m_og_export_statistics_form', 1, 2],
-    'access callback' => 'c4m_features_og_members_is_power_user',
-    'title' => 'Statistics',
   ];
 
   return $items;
@@ -966,16 +965,14 @@ function c4m_og_export_statistics_form($form, $form_state) {
     '#default_value' => $default_end_date,
   ];
 
-  $form['export_content_form_submit'] = [
+  $form['content'] = [
     '#type' => 'submit',
     '#value' => t('Content Export'),
-    '#submit' => ['_c4m_og_export_statistics_form_submit_content'],
   ];
 
-  $form['export_members_form_submit'] = [
+  $form['members'] = [
     '#type' => 'submit',
     '#value' => t('Members Export'),
-    '#submit' => ['_c4m_og_export_statistics_form_submit_members'],
   ];
 
   return $form;
@@ -992,18 +989,167 @@ function c4m_og_export_statistics_form_validate($form, &$form_state) {
 }
 
 /**
+ * Submit handler for c4m_og_export_statistics_form form.
+ */
+function c4m_og_export_statistics_form_submit($form, &$form_state) {
+  $values = $form_state['values'];
+  $group = og_context();
+
+  $start_date = new DateTime($values['start_date']);
+  $end_date = new DateTime($values['end_date']);
+  $end_date->add(DateInterval::createFromDateString('1 day'));
+  $type_of_content = $form_state['values']['op'] === $form_state['values']['content'] ? 'content' : 'members';
+
+  $operations[] = [
+    '_c4m_og_export_statistics_form_batch',
+    [$type_of_content, $group['gid'], $start_date, $end_date],
+  ];
+
+  $batch = [
+    'title' => t('Exporting data'),
+    'operations' => $operations,
+  ];
+
+  $options = [
+    'purl' => ['enabled' => TRUE],
+  ];
+  $path = 'admin/statistics/results';
+  $form_state['redirect'] = url($path, $options);
+
+  batch_set($batch);
+}
+
+/**
  * Submit handler.
  *
  * Export content from group.
  */
-function _c4m_og_export_statistics_form_submit_content($form, &$form_state) {
-  $values = $form_state['values'];
-  $start_time = strtotime($values['start_date']);
-  $end_time = strtotime("+1day", strtotime($values['end_date']));
-  $group = c4m_og_current_group();
+function _c4m_og_export_statistics_form_batch($type_of_content, $gid, $start_date, $end_date, array &$context) {
+  $limit = 10;
 
+  // Init the batch.
+  if (empty($context['sandbox'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['total'] = $start_date->diff($end_date)->days;
+  }
+
+  // Set the start and end date for the current batch operation.
+  $current_start_date = clone $start_date;
+  $current_end_date = clone $start_date;
+  $current_start_date->add(DateInterval::createFromDateString($context['sandbox']['progress'] . ' days'));
+  $current_end_date->add(DateInterval::createFromDateString(($context['sandbox']['progress'] + $limit) . ' days'));
+  if ($current_end_date > $end_date) {
+    $current_end_date = $end_date;
+  }
+
+  // TRUE if the file was not created yet.
+  $first_run = !isset($context['sandbox']['fid']);
+
+  if ($type_of_content === 'members') {
+    $content = _c4m_og_export_statistics_form_submit_members($gid, $current_start_date, $current_end_date, $first_run);
+  }
+  else {
+    $content = _c4m_og_export_statistics_form_submit_content($gid, $current_start_date, $current_end_date, $first_run);
+  }
+
+  if ($content) {
+    if ($first_run) {
+      $dir = 'private://c4m_og/exports/';
+
+      // Make sure the directory exists first.
+      if (!file_prepare_directory($dir, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
+        drupal_set_message(t('Could not create directory for the export file.'), 'error');
+      }
+      $group = node_load($gid);
+      $path = $dir . $group->purl . '-' . $type_of_content . '-' . $start_date->format('Ymd') . '-' . $end_date->format('Ymd') . '.csv';
+
+      // Save the file into the DB.
+      $file = file_save_data('', $path, FILE_EXISTS_REPLACE);
+
+      // Make sure the file is marked as temporary.
+      // There is no FILE_STATUS_TEMPORARY constant.
+      $file->status = 0;
+      file_save($file);
+
+      $context['sandbox']['fid'] = $file->fid;
+    }
+    else {
+      $file = file_load($context['sandbox']['fid']);
+    }
+
+    if (file_put_contents($file->uri, $content, FILE_APPEND) === FALSE) {
+      drupal_set_message(t('Could not update the export file.'), 'error');
+    }
+  }
+
+  $context['sandbox']['progress'] += $limit;
+  if ($context['sandbox']['progress'] < $context['sandbox']['total']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['total'];
+  }
+  else {
+    $context['finished'] = 1;
+    if (isset($context['sandbox']['fid'])) {
+      // Load the file from the filesystem to save its size.
+      $file = file_load($context['sandbox']['fid']);
+      $file = file_uri_to_object($file->uri);
+      file_save($file);
+      $_SESSION['c4m_og_statistics_fid'] = $context['sandbox']['fid'];
+    }
+    else {
+      $_SESSION['c4m_og_statistics_fid'] = '';
+    }
+  }
+}
+
+/**
+ * Callback for admin/statistics/results page.
+ */
+function _c4m_og_statistics_results() {
+  $token_prefix = 'c4m_og_statistics::';
+  if (isset($_SESSION['c4m_og_statistics_fid'])) {
+    $options = [
+      'purl' => ['enabled' => TRUE],
+      'query' => [
+        'fid' => $_SESSION['c4m_og_statistics_fid'],
+        'token' => drupal_get_token($token_prefix . $_SESSION['c4m_og_statistics_fid']),
+      ],
+    ];
+    $path = 'admin/statistics/results';
+    unset($_SESSION['c4m_og_statistics_fid']);
+    drupal_goto($path, $options);
+  }
+
+  if (empty($_GET['fid'])) {
+    $output = t('<p>No data found for the selected interval.</p>');
+  }
+  elseif (empty($_GET['token']) || !drupal_valid_token($_GET['token'], $token_prefix . $_GET['fid']) || !($file = file_load($_GET['fid']))) {
+    $output = t('<p>Export data is not available.</p>');
+  }
+  else {
+    drupal_add_html_head([
+      '#tag' => 'meta',
+      '#attributes' => ['http-equiv' => 'Refresh', 'content' => '3;url=' . file_create_url($file->uri)],
+    ], 'c4m_og_statistics_download');
+
+    $output = t('<p>Your export has been created. Download the file <a href="@link">here</a> (will automatically download in 3 seconds.)</p>', ['@link' => $file->uri]);
+  }
+
+  $options = [
+    'purl' => ['enabled' => TRUE],
+  ];
+  $return_url = 'admin/statistics';
+  $output .= '<p>' . l(t('Return to previous page'), $return_url, $options) . '</p>';
+  return $output;
+}
+
+/**
+ * Submit handler.
+ *
+ * Export content from group.
+ */
+function _c4m_og_export_statistics_form_submit_content($gid, $start_date, $end_date, $first_run) {
   $query = db_select('og_membership', 'ogm');
-  $query->join('node', 'n', 'n.nid = ogm.etid');
+  $query->join('node', 'n', "n.nid = ogm.etid AND ogm.entity_type = 'node'");
   $query->join('users', 'u', 'u.uid = n.uid');
   $query->leftJoin('node_counter', 'nc', 'nc.nid = n.nid');
   $query->leftJoin('comment', 'c', 'c.nid = n.nid');
@@ -1019,25 +1165,21 @@ function _c4m_og_export_statistics_form_submit_content($form, &$form_state) {
   $query->addExpression('COUNT(c.cid)', 'comments');
   $query->addExpression('COUNT(fd.uid)', 'downloads');
   $query->addExpression('COUNT(se.entity_id)', 'shares');
-  $query->condition('ogm.entity_type', 'node');
-  $query->condition('ogm.gid', $group->nid);
-  $query->condition('n.created', $start_time, '>=');
-  $query->condition('n.created', $end_time, '<=');
+  $query->condition('ogm.gid', $gid);
+  $query->condition('n.created', $start_date->getTimestamp(), '>=');
+  $query->condition('n.created', $end_date->getTimestamp(), '<=');
 
   $content = $query->execute()->fetchAll();
 
-  if (empty($content)) {
-    drupal_set_message("There was no content added/updated between " . $values['start_date'] . " and " . $values['start_date'] . ".");
-    return;
+  if (!$content) {
+    return '';
   }
 
-  $filename = $group->purl . '-content-' . date('Ymd', $start_time) . '-' . date('Ymd', $end_time) . '.csv';
-  ob_clean();
-  header('Content-Type: text/csv');
-  header('Content-Disposition: attachment;filename=' . $filename);
-  header('Cache-Control: max-age=0');
+  $output = '';
+  if ($first_run) {
+    $output .= "Title|Type|Author|Views|Recommendations|Comments|Downloads|Shares\n";
+  }
 
-  $output = "Title|Type|Author|Views|Recommendations|Comments|Downloads|Shares\n";
   foreach ($content as $item) {
     $output .= '"' . (!empty($item->title) ? str_replace("|", "", $item->title) : '');
     $output .= '"|"' . (!empty($item->type) ? str_replace("|", "", $item->type) : '');
@@ -1049,8 +1191,8 @@ function _c4m_og_export_statistics_form_submit_content($form, &$form_state) {
     $output .= '|' . (!empty($item->shares) ? $item->shares : 0);
     $output .= "\n";
   }
-  print $output;
-  exit;
+
+  return $output;
 }
 
 /**
@@ -1058,25 +1200,20 @@ function _c4m_og_export_statistics_form_submit_content($form, &$form_state) {
  *
  * Export members from group.
  */
-function _c4m_og_export_statistics_form_submit_members($form, &$form_state) {
-  $values = $form_state['values'];
-  $start_time = strtotime($values['start_date']);
-  $end_time = strtotime("+1day", strtotime($values['end_date']));
-  $group = c4m_og_current_group();
-
+function _c4m_og_export_statistics_form_submit_members($gid, $start_date, $end_date, $first_run) {
   $query = db_select('og_membership', 'ogm');
-  $query->join('users', 'u', 'u.uid = ogm.etid');
+  $query->join('users', 'u', "u.uid = ogm.etid AND ogm.entity_type = 'user'");
   $query->leftJoin('field_data_c4m_first_name', 'fn', 'fn.entity_id = ogm.etid');
   $query->leftJoin('field_data_c4m_last_name', 'ln', 'ln.entity_id = ogm.etid');
   $query->leftJoin('field_data_c4m_organisation_type', 'ot', 'ot.entity_id = u.uid');
   $query->leftJoin('field_data_c4m_organisation', 'oname', 'oname.entity_id = u.uid');
   $query->leftJoin('field_data_c4m_country', 'country', 'country.entity_id = ogm.etid');
-  $query->leftJoin('og_membership', 'ogmc', 'ogmc.gid = ' . $group->nid . ' AND ogmc.entity_type = \'node\'');
+  $query->leftJoin('og_membership', 'ogmc', 'ogmc.gid = ' . $gid . ' AND ogmc.entity_type = \'node\'');
   $query->leftJoin('node', 'n', 'n.nid = ogmc.etid AND n.uid = ogm.etid');
   $query->leftJoin('comment', 'c', 'c.uid = ogm.etid AND c.nid = ogmc.etid');
-  $query->leftJoin('c4m_og_invite_visitors', 'inv', 'inv.inv_uid = ogm.etid AND inv.inv_group_id = ' . $group->nid);
+  $query->leftJoin('c4m_og_invite_visitors', 'inv', 'inv.inv_uid = ogm.etid AND inv.inv_group_id = ' . $gid);
   $query->leftJoin('node_revision', 'nr', 'nr.uid = ogm.etid AND nr.nid = ogmc.etid');
-  $query->leftJoin('og_users_roles', 'ur', 'ur.uid = ogm.etid AND ur.gid = ' . $group->nid);
+  $query->leftJoin('og_users_roles', 'ur', 'ur.uid = ogm.etid AND ur.gid = ' . $gid);
   $query->leftJoin('og_role', 'r', 'r.rid = ur.rid');
   $query->fields('u', ['login']);
   $query->fields('ogm', ['created', 'state', 'etid']);
@@ -1092,17 +1229,16 @@ function _c4m_og_export_statistics_form_submit_members($form, &$form_state) {
   $query->addExpression('MAX(nr.timestamp)', 'node_action');
   $query->fields('r', ['name']);
   $query->groupBy('ogm.etid');
-  $query->condition('ogm.entity_type', 'user');
-  $query->condition('ogm.gid', $group->nid);
-  $query->condition('ogm.created', $start_time, '>=');
-  $query->condition('ogm.created', $end_time, '<=');
+  $query->condition('ogm.gid', $gid);
+  $query->condition('ogm.created', $start_date->getTimestamp(), '>=');
+  $query->condition('ogm.created', $end_date->getTimestamp(), '<=');
 
   $members = $query->execute()->fetchAll();
 
   if (empty($members)) {
-    drupal_set_message("No membership activity between " . $values['start_date'] . " and " . $values['start_date'] . ".");
-    return;
+    return '';
   }
+
   $group_users = [];
   foreach ($members as $item) {
     if (!empty($item->etid)) {
@@ -1110,12 +1246,6 @@ function _c4m_og_export_statistics_form_submit_members($form, &$form_state) {
       $group_users[$item->etid] .= (!empty($item->c4m_last_name_value) ? $item->c4m_last_name_value : '');
     }
   }
-
-  $filename = $group->purl . '-members-' . date('Ymd', $start_time) . '-' . date('Ymd', $end_time) . '.csv';
-  ob_clean();
-  header('Content-Type: text/csv');
-  header('Content-Disposition: attachment;filename=' . $filename);
-  header('Cache-Control: max-age=0');
 
   $output = "First name|Last name|Total content posted|Total comments posted|Invited by|Group Member since|Membership status|Member role|Last login on c4d|Last activity in group|Organisation name|Organisation type|Country\n";
   foreach ($members as $item) {
@@ -1143,8 +1273,7 @@ function _c4m_og_export_statistics_form_submit_members($form, &$form_state) {
     $output .= '"|"' . (!empty($item->c4m_country_value) ? str_replace("|", "", $item->c4m_country_value) : '') . '"';
     $output .= "\n";
   }
-  print $output;
-  exit;
+  return $output;
 }
 
 /**
