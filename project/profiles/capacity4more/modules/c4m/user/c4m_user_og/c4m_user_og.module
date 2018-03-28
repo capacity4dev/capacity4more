@@ -946,18 +946,14 @@ function c4m_user_og_unified_workflow_access($group) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function c4m_user_og_form_user_register_form_alter(
-  &$form,
-  &$form_state,
-  $form_id
-) {
-  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
+function c4m_user_og_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+  if (empty($_SESSION['c4m_unified_workflow_gid_join'])) {
     return;
   }
 
-  $wrapper = entity_metadata_wrapper('node', $gid);
+  $wrapper = entity_metadata_wrapper('node', $_SESSION['c4m_og_invite_visitors_gid_join']);
 
-  list($join_phrase, $button_label) = _c4m_og_registration_form_labels_by_group($gid);
+  list($join_phrase, $button_label) = _c4m_og_registration_form_labels_by_group($wrapper->getIdentifier());
 
   $variables = [
     'join_phrase' => $join_phrase,
@@ -974,7 +970,7 @@ function c4m_user_og_form_user_register_form_alter(
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_user_og_form_user_login_alter(&$form, &$form_state, $form_id) {
-  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
+  if (empty($_SESSION['c4m_unified_workflow_gid_join'])) {
     return;
   }
 
@@ -991,11 +987,11 @@ function c4m_user_og_form_user_login_alter(&$form, &$form_state, $form_id) {
  * Setting a message to the user and redirect back to the group.
  */
 function c4m_user_og_unified_workflow_register_submit($form, &$form_state) {
-  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
+  if (empty($_SESSION['c4m_unified_workflow_gid_join'])) {
     return;
   }
 
-  $group = node_load($gid);
+  $group = node_load($_SESSION['c4m_unified_workflow_gid_join']);
   // Removing the original message of the user_register_form.
   drupal_get_messages('status');
   $message = t('Hey @name, thank you for submitting your details. Please activate your account by clicking the link sent to your e-mail to join the @group_title group.', [
@@ -1004,10 +1000,10 @@ function c4m_user_og_unified_workflow_register_submit($form, &$form_state) {
   ]);
 
   drupal_set_message($message);
-  $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
+  $form_state['redirect'] = drupal_get_path_alias('node/' . $group->nid);
 
   // Store the group ID + user ID in the database after registration completes.
-  c4m_user_og_store_unified_workflow($form_state['user']->uid, $gid);
+  c4m_user_og_store_unified_workflow($form_state['user']->uid, $group->nid);
 
   // drupal_goto has a fallback to the 'destination' so we must remove it.
   unset($_GET['destination']);
@@ -1023,16 +1019,16 @@ function c4m_user_og_unified_workflow_register_submit($form, &$form_state) {
  * Setting a message to the user and redirect back to the group.
  */
 function c4m_user_og_unified_workflow_login_submit($form, &$form_state) {
-  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
+  if (empty($_SESSION['c4m_unified_workflow_gid_join'])) {
     return;
   }
 
-  $group = node_load($gid);
+  $group = node_load($_SESSION['c4m_unified_workflow_gid_join']);
 
   // Associate the user to the group after login.
   c4m_user_og_group_unified_workflow($group);
 
-  $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
+  $form_state['redirect'] = drupal_get_path_alias('node/' . $group->nid);
 
   // drupal_goto has a fallback to the 'destination' so we must remove it.
   unset($_GET['destination']);
@@ -1083,11 +1079,14 @@ function c4m_user_og_mail_alter(&$message) {
   }
 
   $user = user_load_by_mail($message['to']);
-  if (!isset($_SESSION['c4m_unified_workflow_gid_join']) || !$gid = $_SESSION['c4m_unified_workflow_gid_join']) {
+  if (empty($_SESSION['c4m_unified_workflow_gid_join'])) {
     if (!$results = c4m_user_og_fetch_unified_workflow_entries($user->uid)) {
       return;
     }
     $gid = reset($results)->gid;
+  }
+  else {
+    $gid = $_SESSION['c4m_unified_workflow_gid_join'];
   }
 
   $group = node_load($gid);
