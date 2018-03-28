@@ -21,9 +21,9 @@ function c4m_user_og_unified_workflow($group) {
   // Different flow for logged in users.
   c4m_user_og_unified_workflow_logged_in_users($group);
 
-  // Set group to join in session variable and redirect to /user/register.
+  // Set group to join in session variable and redirect to user/register.
   $_SESSION['c4m_unified_workflow_gid_join'] = $group->nid;
-  drupal_goto('/user/register');
+  drupal_goto('user/register');
 }
 
 /**
