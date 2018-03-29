@@ -82,6 +82,7 @@ function capacity4more_setup_set_variables(&$install_state) {
 
     // Enable counting views of the entity.
     'statistics_count_content_views' => TRUE,
+    'statistics_count_content_views_ajax' => TRUE,
 
     // Set the homepage intro video.
     'c4m_features_homepage_intro_video_url' => 'http://youtu.be/O2AfmjzwAFY',

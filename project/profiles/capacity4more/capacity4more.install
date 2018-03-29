@@ -620,3 +620,10 @@ function capacity4more_update_7012() {
   module_disable(['c4m_domain']);
   drupal_uninstall_modules(['c4m_domain']);
 }
+
+/**
+ * Set statistics_count_content_views_ajax variable to TRUE.
+ */
+function capacity4more_update_7013() {
+  variable_set('statistics_count_content_views_ajax', TRUE);
+}
