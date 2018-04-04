@@ -44,7 +44,7 @@ done
 echo
 
 # Review custom theme(s).
-PATTERNS=".sass-cache,css,fonts,images,modernizr.js,bootstrap,node_modules,*.min.js,*.concat.js,cookie_config.js"
+PATTERNS="css,fonts,images,gulpfile.js,modernizr.js,bootstrap,node_modules,*.min.js,*.concat.js,cookie_config.js"
 
 echo
 echo "${LBLUE}> Sniffing capacity4more Themes${RESTORE}"
