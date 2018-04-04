@@ -41,7 +41,7 @@ function _c4m_content_group_block_header_name_banner_group() {
   $title = $wrapper->title->value();
   $variables['title'] = $title;
 
-  $variables['group_type'] = c4m_og_get_group_type_name($group);
+  $variables['group_type'] = c4m_og_get_group_type_from_node($group);
 
   $status = isset($wrapper->c4m_og_status) ?
     $wrapper->c4m_og_status->value() :

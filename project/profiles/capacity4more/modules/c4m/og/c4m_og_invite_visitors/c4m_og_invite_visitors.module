@@ -561,13 +561,14 @@ function c4m_og_invite_visitors_form_user_register_form_alter(&$form, &$form_sta
     return;
   }
 
-  $wrapper = entity_metadata_wrapper('node', $_SESSION['c4m_og_invite_visitors_gid_join']);
+  $group = node_load($_SESSION['c4m_og_invite_visitors_gid_join']);
 
-  list($join_phrase, $button_label) = _c4m_og_registration_form_labels_by_group($wrapper->getIdentifier());
+  list($join_phrase, $button_label) = _c4m_og_registration_form_labels_by_group($group->nid);
 
   $variables = [
     'join_phrase' => $join_phrase,
-    'group_title' => $wrapper->label(),
+    'group_title' => $group->title,
+    'group_type' => c4m_og_get_group_type_from_node($group, TRUE),
     'login_link' => l(t('Log in.'), 'user/login'),
   ];
   drupal_set_title(theme('c4m_unified_workflow_register', $variables), PASS_THROUGH);
