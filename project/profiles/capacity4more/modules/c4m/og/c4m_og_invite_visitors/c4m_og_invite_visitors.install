@@ -78,6 +78,6 @@ function c4m_og_invite_visitors_schema() {
 /**
  * Add index for inv_uid column.
  */
-function c4m_og_invite_visitors_7001() {
+function c4m_og_invite_visitors_update_7001() {
   db_add_index('c4m_og_invite_visitors', 'inv_uid', ['inv_uid']);
 }
