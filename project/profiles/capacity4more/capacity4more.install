@@ -527,7 +527,8 @@ media/ajax/*
 media/browser*
 node/*/edit
 node/add/*
-overlay-file/*');
+overlay-file/*
+book/*/print');
   variable_set('lazyloader_placeholder', '');
 }
 
@@ -611,4 +612,11 @@ function capacity4more_update_7010() {
  */
 function capacity4more_update_7011() {
   module_enable(['masquerade']);
+}
+
+/**
+ * Adjust Lazyloader settings. Add book/*\/print path.
+ */
+function capacity4more_update_7012() {
+  _capacity4more_add_lazyloader_settings();
 }
