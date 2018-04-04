@@ -273,6 +273,7 @@ function _c4m_user_profile_settings_form_interests(array &$form, array $digest_o
 
   $button_interest = l('<i class="fa fa-plus"></i> ' . t('Subscribe to topics'), url('user/' . $account->uid . '/edit'), [
     'html' => TRUE,
+    'absolute' => TRUE,
     'attributes' => [
       'class' => [
         'btn',
@@ -283,6 +284,7 @@ function _c4m_user_profile_settings_form_interests(array &$form, array $digest_o
   ]);
   $button_geography = l('<i class="fa fa-plus"></i> ' . t('Subscribe to regions & countries'), url('user/' . $account->uid . '/edit'), [
     'html' => TRUE,
+    'absolute' => TRUE,
     'attributes' => [
       'class' => [
         'btn',
