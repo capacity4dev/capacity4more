@@ -20,3 +20,6 @@ projects[media_youtube][version] = "3.0"
 
 projects[exif_orientation][subdir] = "contrib"
 projects[exif_orientation]version] = "1.1"
+
+projects[stage_file_proxy][subdir] = "contrib"
+projects[stage_file_proxy]version] = "1.7"
