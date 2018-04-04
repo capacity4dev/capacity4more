@@ -632,6 +632,6 @@ function capacity4more_update_7013() {
 /**
  * Set statistics_count_content_views_ajax variable to TRUE.
  */
-function capacity4more_update_7013() {
+function capacity4more_update_7014() {
   variable_set('statistics_count_content_views_ajax', TRUE);
 }
