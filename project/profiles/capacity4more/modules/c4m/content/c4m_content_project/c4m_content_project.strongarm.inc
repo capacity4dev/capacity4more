@@ -63,6 +63,311 @@ function c4m_content_project_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'display_cache_comment_publication_clears_host_entity_cache_node_project';
+  $strongarm->value = array(
+    'default' => 1,
+    'teaser' => 0,
+    'token' => 0,
+    'block_list' => 0,
+    'group_dashboard' => 0,
+  );
+  $export['display_cache_comment_publication_clears_host_entity_cache_node_project'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'display_cache_node_project_block_list';
+  $strongarm->value = array(
+    'default' => array(
+      'use' => '1',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_media' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_project_stage' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+  );
+  $export['display_cache_node_project_block_list'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'display_cache_node_project_default';
+  $strongarm->value = array(
+    'default' => array(
+      'use' => '1',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_body' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_media' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_banner' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_date_end' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_source_of_funding' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_cris_decision_number' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_cris_contract_number' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_vocab_geo' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_related_group' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_related_projects_unlimited' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_money' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'group_group' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_vocab_topic' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_left_column' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_right_column' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_partners' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_project_tag_line' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_project_stakeholders' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_project_url' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_project_geodata' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_project_stage' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_project_type' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'field_message_to_site_admin' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+  );
+  $export['display_cache_node_project_default'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'display_cache_node_project_group_dashboard';
+  $strongarm->value = array(
+    'default' => array(
+      'use' => '0',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_date_end' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_project_url' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_source_of_funding' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_money' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_project_stakeholders' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_cris_contract_number' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_cris_decision_number' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_vocab_topic' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_vocab_geo' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+  );
+  $export['display_cache_node_project_group_dashboard'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'display_cache_node_project_teaser';
+  $strongarm->value = array(
+    'default' => array(
+      'use' => '0',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_media' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_body' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_project_stage' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+  );
+  $export['display_cache_node_project_teaser'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'display_cache_node_project_token';
+  $strongarm->value = array(
+    'default' => array(
+      'use' => '1',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+  );
+  $export['display_cache_node_project_token'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_node__project';
   $strongarm->value = array(
     'view_modes' => array(

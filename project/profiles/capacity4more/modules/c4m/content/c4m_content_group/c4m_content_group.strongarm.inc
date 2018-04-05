@@ -63,6 +63,224 @@ function c4m_content_group_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'display_cache_comment_publication_clears_host_entity_cache_node_group';
+  $strongarm->value = array(
+    'default' => 1,
+    'teaser' => 0,
+    'print' => 0,
+    'token' => 0,
+    'block_list' => 0,
+    'group_dashboard' => 0,
+  );
+  $export['display_cache_comment_publication_clears_host_entity_cache_node_group'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'display_cache_node_group_block_list';
+  $strongarm->value = array(
+    'default' => array(
+      'use' => '0',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_media' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_og_status' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+  );
+  $export['display_cache_node_group_block_list'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'display_cache_node_group_default';
+  $strongarm->value = array(
+    'default' => array(
+      'use' => '1',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'group_group' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_media' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_body' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_vocab_geo' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_related_group' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'pluggable_node_access' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'group_access' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'field_membership_open_request' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'field_message_to_site_admin' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_banner' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_og_status' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_vocab_topic' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_group_welcome_message' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+  );
+  $export['display_cache_node_group_default'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'display_cache_node_group_group_dashboard';
+  $strongarm->value = array(
+    'default' => array(
+      'use' => '0',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_body' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_vocab_topic' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_vocab_geo' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+  );
+  $export['display_cache_node_group_group_dashboard'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'display_cache_node_group_print';
+  $strongarm->value = array(
+    'default' => array(
+      'use' => '1',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+  );
+  $export['display_cache_node_group_print'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'display_cache_node_group_teaser';
+  $strongarm->value = array(
+    'default' => array(
+      'use' => '0',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_media' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_og_status' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+  );
+  $export['display_cache_node_group_teaser'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'display_cache_node_group_token';
+  $strongarm->value = array(
+    'default' => array(
+      'use' => '1',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+  );
+  $export['display_cache_node_group_token'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_node__group';
   $strongarm->value = array(
     'view_modes' => array(
