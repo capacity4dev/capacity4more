@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_share.features.field_base.inc
