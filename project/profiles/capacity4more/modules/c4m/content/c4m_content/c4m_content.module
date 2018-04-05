@@ -1564,3 +1564,56 @@ function c4m_content_batch_update_aliases(array &$sandbox, $url_prefix, $type) {
     '@max' => $sandbox['max'],
   ]);
 }
+
+/**
+ * Implements hook_flag_flag().
+ */
+function c4m_content_flag_flag($flag, $entity_id, $account, $flagging) {
+  c4m_content_clear_display_cache_on_recommendation($flag, $entity_id, $account, $flagging);
+}
+
+/**
+ * Implements hook_flag_unflag().
+ */
+function c4m_content_flag_unflag($flag, $entity_id, $account, $flagging) {
+  c4m_content_clear_display_cache_on_recommendation($flag, $entity_id, $account, $flagging);
+}
+
+/**
+ * Clears a node display cache when it is (un)recommended.
+ */
+function c4m_content_clear_display_cache_on_recommendation($flag, $entity_id, $account, $flagging) {
+  if ($flagging->entity_type !== 'node') {
+    return;
+  }
+  if ($flagging->flag_name !== 'c4m_og_content_recommend') {
+    return;
+  }
+  $node = node_load($flagging->entity_id);
+  c4m_content_clear_display_cache($node);
+}
+
+/**
+ * Clears a node cache.
+ *
+ * @param object $node
+ *   The node.
+ *
+ * @see display_cache_clear_comment_host_entity_cache()
+ */
+function c4m_content_clear_display_cache($node) {
+  $should_clear_host_entity_cache_globally = variable_get('display_cache_comment_publication_clears_host_entity_cache_' . $node->type, FALSE);
+
+  $view_modes_to_clear = display_cache_get_comment_publication_clears_host_entity_cache_settings('node', $node->type);
+
+  if ($should_clear_host_entity_cache_globally) {
+    display_cache_flush_cache('node', $node);
+  }
+  elseif (!empty($view_modes_to_clear) && array_sum($view_modes_to_clear) > 0) {
+    foreach ($view_modes_to_clear as $view_mode => $clear) {
+      if ($clear) {
+        display_cache_flush_cache('node', $node, $view_mode);
+      }
+    }
+  }
+}
