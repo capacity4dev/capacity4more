@@ -10,6 +10,7 @@ projects[display_cache][subdir] = "contrib"
 projects[display_cache][version] = "1.3"
 projects[display_cache][patch][] = "https://www.drupal.org/files/issues/display_cache-alter-entity-settings-2534466-1.patch"
 projects[display_cache][patch][] = "https://www.drupal.org/files/issues/display_cache-replace-node_page_view-2489098-2.patch"
+projects[display_cache][patch][] = "https://www.drupal.org/files/issues/undefined_index_in-2715995-3.patch"
 
 projects[chained_fast][subdir] = "contrib"
 projects[chained_fast][version] = "1.0-beta1"
