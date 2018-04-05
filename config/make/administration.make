@@ -83,6 +83,7 @@ projects[variable][version] = "2.5"
 
 projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.15"
+projects[ds][patch][] = "https://www.drupal.org/files/issues/2018-04-05/ds-additional-settings-2958822-3.patch"
 
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.9"
