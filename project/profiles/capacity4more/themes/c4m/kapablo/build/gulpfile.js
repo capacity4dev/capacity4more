@@ -11,7 +11,6 @@
 var del = require('del');
 var gulp = require('gulp');
 var autoprefixer = require('gulp-autoprefixer');
-var cache = require('gulp-cache');
 var concat = require('gulp-concat');
 var eslint = require('gulp-eslint');
 var gulpif = require('gulp-if');
@@ -72,14 +71,12 @@ gulp.task('clean', function() {
  */
 gulp.task('imagemin', function() {
   gulp.src('src/images/**/*.{png,jpg,gif,svg}')
-    .pipe(cache(
-      imagemin({
-        optimizationLevel: 3,
-        svgoPlugins: [{removeViewBox: false}],
-        progressive: true,
-        interlaced: true
-      })
-    ))
+    .pipe(imagemin({
+      optimizationLevel: 3,
+      svgoPlugins: [{removeViewBox: false}],
+      progressive: true,
+      interlaced: true
+    }))
     .pipe(gulp.dest(config.dist + '/images'));
 });
 
