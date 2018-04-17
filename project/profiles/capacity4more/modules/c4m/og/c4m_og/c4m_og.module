@@ -3667,17 +3667,34 @@ function c4m_og_merge_groups_form($form, $form_state, $group) {
     $values = $form_state['storage']['original_form'];
 
     $group = node_load($values['target_group']);
+
     // $values['content_types'] contains news => news or news => 0 if news
     // content was selected or not.
-    $content_types = array_flip($values['content_types']);
-    unset($content_types[0]);
-    $description = t('You are about to merge %current_group into %group. The following content types will be merged: @content_types.', [
-      '%current_group' => $current_group->title,
-      '%group' => $group->title,
-      '@content_types' => implode(', ', $content_types),
-    ]);
+    $selected_content_types = array_flip($values['content_types']);
+    // All unselected items will go into index key 0 (override each time), so we
+    // unset this index.
+    unset($selected_content_types[0]);
+    // Human readable labels.
+    $selected_labels = c4m_og_get_content_type_labels($selected_content_types);
+
+    $description = '<p>' . t('You are about to merge !current_group into !group.',
+        [
+          '!current_group' => '<strong>' . $current_group->title . '</strong>',
+          '!group' => '<strong>' . $group->title . '</strong>',
+        ]
+      ) . '</p>';
+    $description .= '<p>' . t('The following content types will be merged: !content_types',
+        [
+          '!content_types' => theme_item_list([
+            'items' => $selected_labels,
+            'title' => '',
+            'type' => 'ul',
+            'attributes' => [],
+          ]),
+        ]
+      ) . '</p>';
     if ($values['users']) {
-      $description .= ' ' . t('Users will be merged too.');
+      $description .= '<p>' . t('Users will be merged too.') . '</p>';
     }
 
     return confirm_form([], $question, $path, $description);
@@ -3687,7 +3704,7 @@ function c4m_og_merge_groups_form($form, $form_state, $group) {
   if (!empty($content_types)) {
     $options = c4m_og_get_content_type_labels($content_types);
     $form['content_types'] = [
-      '#title' => t('Select the different content types to merge to the target @group_type. Note that all other  (unselected) content will be deleted permanently.', ['@group_type' => $node->type]),
+      '#title' => t('Select the different content types to merge to the target @group_type. Note that all other (unselected) content will be deleted permanently.', ['@group_type' => $node->type]),
       '#type' => 'checkboxes',
       '#options' => $options,
       '#default_value' => $content_types,
