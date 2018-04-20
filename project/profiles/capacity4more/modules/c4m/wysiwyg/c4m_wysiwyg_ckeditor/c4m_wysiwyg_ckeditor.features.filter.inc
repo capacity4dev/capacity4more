@@ -181,11 +181,6 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
           'filter_url_length' => 72,
         ),
       ),
-      'c4m_moodle_link_filter' => array(
-        'weight' => -48,
-        'status' => 1,
-        'settings' => array(),
-      ),
       'iframeremove' => array(
         'weight' => -47,
         'status' => 1,
@@ -305,11 +300,6 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
         'settings' => array(
           'filter_url_length' => 72,
         ),
-      ),
-      'c4m_moodle_link_filter' => array(
-        'weight' => -49,
-        'status' => 1,
-        'settings' => array(),
       ),
       'iframeremove' => array(
         'weight' => -48,

@@ -42,7 +42,6 @@ dependencies[] = features
 dependencies[] = field_group
 dependencies[] = file_download_count
 dependencies[] = flag
-;dependencies[] = inline_entity_form
 dependencies[] = jquery_update
 dependencies[] = lazyloader
 dependencies[] = libraries
@@ -65,7 +64,6 @@ dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = paragraphs
 dependencies[] = path_breadcrumbs
-dependencies[] = path_redirect_import
 dependencies[] = pathauto
 dependencies[] = pluggable_node_access
 dependencies[] = redirect
@@ -192,7 +190,6 @@ dependencies[] = c4m_search_og
 
 ; Utilities
 dependencies[] = c4m_analytics
-dependencies[] = c4m_moodle
 
 ; Message
 dependencies[] = c4m_mail

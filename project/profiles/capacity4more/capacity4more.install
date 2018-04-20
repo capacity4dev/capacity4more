@@ -635,3 +635,32 @@ function capacity4more_update_7013() {
 function capacity4more_update_7014() {
   variable_set('statistics_count_content_views_ajax', TRUE);
 }
+
+/**
+ * Disable and uninstall unneeded modules.
+ */
+function capacity4more_update_7015() {
+  $modules = [
+    'c4m_moodle',
+    'moodle_sso',
+    'path_redirect_import',
+    'context_block_disable',
+    'context_local_task',
+    'context_no_title',
+    'eu_cookie_compliance',
+    'inline_entity_form',
+    'media_flickr',
+    'media_vimeo',
+    'media_youtube',
+    'mefibs',
+    'memcache',
+    'piwik',
+    'weight',
+  ];
+  foreach ($modules as $module) {
+    if (module_exists($module)) {
+      module_disable([$module]);
+    }
+  }
+  drupal_uninstall_modules($modules);
+}
