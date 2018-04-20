@@ -77,7 +77,7 @@ projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.14"
+projects[ds][version] = "2.15"
 
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.9"
