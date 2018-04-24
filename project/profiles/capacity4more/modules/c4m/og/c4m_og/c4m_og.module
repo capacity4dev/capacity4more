@@ -4213,3 +4213,10 @@ function c4m_og_permission() {
 
   return $perms;
 }
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function c4m_og_query_c4m_active_group_member_alter(QueryAlterableInterface $query) {
+  $query->join('users', 'u', 'etid = u.uid AND u.status = ' . C4M_USER_STATUS_ACTIVE);
+}
