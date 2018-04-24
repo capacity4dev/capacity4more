@@ -1,8 +1,8 @@
 diff --git a/og_ui/includes/views/handlers/og_ui_handler_area_og_membership_overview.inc b/og_ui/includes/views/handlers/og_ui_handler_area_og_membership_overview.inc
-index ef3b25d..85d2ff9 100644
+index ef3b25d7..08d7c424 100644
 --- a/og_ui/includes/views/handlers/og_ui_handler_area_og_membership_overview.inc
 +++ b/og_ui/includes/views/handlers/og_ui_handler_area_og_membership_overview.inc
-@@ -115,10 +115,34 @@ class og_ui_handler_area_og_membership_overview extends views_handler_area {
+@@ -115,10 +115,36 @@ class og_ui_handler_area_og_membership_overview extends views_handler_area {
      if ($this->options['total_members']) {
        // Total members.
        $query = clone $base_query;
@@ -10,7 +10,9 @@ index ef3b25d..85d2ff9 100644
 -        ->propertyCondition('entity_type', 'user', '=')
 -        ->execute();
 -      $items[] = array('data' => t('Total members: @count', array('@count' => $count)));
-+      $query->propertyCondition('entity_type', 'user', '=');
++      $query->propertyCondition('entity_type', 'user', '=')
++        ->propertyCondition('state', OG_STATE_ACTIVE, '=')
++        ->addTag('c4m_active_group_member');
 +
 +      $invited_count = FALSE;
 +      $invited_memberships_ids = c4m_og_get_invited_memberships_ids();
@@ -39,5 +41,5 @@ index ef3b25d..85d2ff9 100644
 +        $items[] = array('data' => t('Total members: @count', array('@count' => $count)));
 +      }
      }
- 
+
     if ($this->options['total_content']) {
