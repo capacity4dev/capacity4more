@@ -667,3 +667,22 @@ function c4m_user_profile_get_flag_flaggings($flag, $user) {
 
   return $flags[$flag->name][$user->uid];
 }
+
+/**
+ * Callback for the user-organisations page.
+ */
+function _c4m_user_profile_organisations($text) {
+  $results = [];
+
+  if (strlen($text) >= 3) {
+    $query = db_select('field_data_c4m_organisation', 'o')
+      ->distinct()
+      ->condition('c4m_organisation_value', db_like($text) . '%', 'LIKE')
+      ->fields('o', ['c4m_organisation_value'])
+      ->orderBy('c4m_organisation_value', 'ASC')
+      ->range(0, 10);
+    $results = $query->execute()->fetchCol();
+  }
+
+  drupal_json_output($results);
+}

@@ -267,6 +267,13 @@ function c4m_user_profile_menu() {
     'file' => 'c4m_user_profile.pages.inc',
   ];
 
+  $items['user-organisations'] = [
+    'page callback' => '_c4m_user_profile_organisations',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'file' => 'c4m_user_profile.pages.inc',
+  ];
+
   return $items;
 }
 
@@ -469,6 +476,9 @@ function c4m_user_profile_alter_user_form(array &$form, array &$form_state, $is_
 
     $form['mail']['#suffix'] = $suffix . $form['mail']['#suffix'];
   }
+
+  // Add autocomplete functionality to the Organisation field.
+  $form['c4m_organisation'][LANGUAGE_NONE][0]['value']['#autocomplete_path'] = 'user-organisations';
 
   // Adjust validators.
   // Remove default one and replace it with a custom one.

@@ -34,7 +34,11 @@
   }
 
   @media (min-width: $screen-sm-min) {
-    .form-control {
+    .form-text,
+    .input-group {
+      max-width: 550px;
+    }
+    .form-select {
       width: auto;
     }
   }
