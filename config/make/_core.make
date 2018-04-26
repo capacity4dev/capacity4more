@@ -1,7 +1,7 @@
 core = 7.x
 api = 2
 
-projects[drupal][version] = "7.58"
+projects[drupal][version] = "7.59"
 
 ; Patch to make it possible to run tests on modules located in a custom profile.
 ; See https://drupal.org/node/911354#comment-7341092.
