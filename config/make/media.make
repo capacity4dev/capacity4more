@@ -5,6 +5,7 @@ api = 2
 
 projects[media][subdir] = "contrib"
 projects[media][version] = "2.0-rc3"
+projects[media][patch][] = "https://www.drupal.org/files/issues/2018-04-25/media--sa-contrib-2018-020.patch"
 
 projects[media_flickr][subdir] = "contrib"
 projects[media_flickr][version] = "2.x-dev"
