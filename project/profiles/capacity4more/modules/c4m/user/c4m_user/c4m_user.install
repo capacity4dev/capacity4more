@@ -24,3 +24,26 @@ function c4m_user_force_revoke_anonymous_user_text_format_permissions() {
   $role = user_role_load_by_name('anonymous user');
   user_role_revoke_permissions($role->rid, array($permissions));
 }
+
+/**
+ * Implements hook_update_N().
+ *
+ * Enables the ecas (EU Login) module.
+ */
+function c4m_user_update_7001() {
+  module_enable(['ecas']);
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Configure the EU Login fields.
+ */
+function c4m_user_update_7002() {
+  variable_set('ecas_profile_core_firstname_field', 'c4m_first_name');
+  variable_set('ecas_profile_core_lastname_field', 'c4m_last_name');
+  variable_set('ecas_profile_core_ecas_creator_field', 'c4m_organisation');
+  variable_set('ecas_update_mail_address', 1);
+  variable_set('ecas_profile_core_enabled', 1);
+  variable_set('ecas_use_shared_fpfis', 0);
+}

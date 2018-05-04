@@ -1,0 +1,9 @@
+name = ecas_group_sync
+description = handle mapping between LDAP data and drupal settings
+core = 7.x
+package = Features
+dependencies[] = ecas
+dependencies[] = ecas_extra
+dependencies[] = i18n
+dependencies[] = i18n_string
+files[] = tests/ecas_group_sync.test
