@@ -19,6 +19,7 @@ dependencies[] = currency
 dependencies[] = current_search
 dependencies[] = draggableviews
 dependencies[] = ds
+dependencies[] = ecas
 dependencies[] = elysia_cron
 dependencies[] = email_confirm
 dependencies[] = entity
