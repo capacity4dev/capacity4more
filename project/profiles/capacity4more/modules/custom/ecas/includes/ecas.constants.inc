@@ -26,6 +26,9 @@ else {
   }
 }
 
+define("FPFIS_ECAS_URL", "webgate.ec.europa.eu");
+define("FPFIS_ECAS_PORT", 443);
+
 // Defines default values for various parameters.
 define('ECAS_DEFAULT_ASSURANCE_LEVEL', 'LOW');
 define('ECAS_DEFAULT_DOMAIN', '');
