@@ -271,7 +271,7 @@ function _c4m_user_profile_settings_form_interests(array &$form, array $digest_o
     '#markup' => t('By indicating thematic of geographic interests, you are automatically subscribed to a weekly notification bringing together the latest highlighted items.'),
   ];
 
-  $button_interest = l('<i class="fa fa-plus"></i> ' . t('Subscribe to topics'), url('user/' . $account->uid . '/edit'), [
+  $button_interest = l('<i class="fa fa-plus"></i> ' . t('Subscribe to topics'), 'user/' . $account->uid . '/edit', [
     'html' => TRUE,
     'absolute' => TRUE,
     'attributes' => [
@@ -282,7 +282,7 @@ function _c4m_user_profile_settings_form_interests(array &$form, array $digest_o
     ],
     'fragment' => 'edit-c4m-vocab-topic',
   ]);
-  $button_geography = l('<i class="fa fa-plus"></i> ' . t('Subscribe to regions & countries'), url('user/' . $account->uid . '/edit'), [
+  $button_geography = l('<i class="fa fa-plus"></i> ' . t('Subscribe to regions & countries'), 'user/' . $account->uid . '/edit', [
     'html' => TRUE,
     'absolute' => TRUE,
     'attributes' => [
@@ -496,7 +496,7 @@ function _c4m_user_profile_settings_form_nodes(array &$form, array $digest_optio
       '#attributes' => ['class' => ['fa', $info['icon']]],
     ];
 
-    $node_link = l($node->title, url('node/' . $node->nid));
+    $node_link = l($node->title, 'node/' . $node->nid);
 
     $form['subscribe_c4m_follow_node']['flags'][$flagging_id] = [
       '#type' => 'select',
@@ -551,7 +551,7 @@ function _c4m_user_profile_settings_form_comments(array &$form, array $digest_op
       '#attributes' => ['class' => ['fa', $info['icon']]],
     ];
 
-    $node_link = l($node->title, url('node/' . $node->nid));
+    $node_link = l($node->title, 'node/' . $node->nid);
 
     $form['subscribe_c4m_follow_comment']['flags'][$flagging_id] = [
       '#type' => 'select',
