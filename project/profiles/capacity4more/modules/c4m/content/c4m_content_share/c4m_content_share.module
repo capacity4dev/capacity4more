@@ -404,11 +404,11 @@ function c4m_content_share_node_access_records_alter(&$grants, $node) {
  * Implements hook_node_grants().
  */
 function c4m_content_share_node_grants($account, $op) {
-  static $results;
+  $cache_key = __FUNCTION__ . '::' . $account->uid . '::' . $op;
   switch ($op) {
     case 'view':
-      if (isset($results[$account->uid][$op])) {
-        return $results[$account->uid][$op];
+      if ($cache = cache_get($cache_key)) {
+        return $cache->data;
       }
       $grants = [];
       $realm = C4M_CONTENT_SHARE_ACCESS_REALM;
@@ -446,8 +446,8 @@ function c4m_content_share_node_grants($account, $op) {
         }
       }
 
-      $results[$account->uid][$op] = $grants;
-      return $results[$account->uid][$op];
+      cache_set($cache_key, $grants);
+      return $grants;
   }
 }
 

@@ -174,15 +174,15 @@ function c4m_content_group_og_user_access_alter(&$perm, $context) {
  * Set user permissions based on his OG role.
  */
 function c4m_content_group_node_grants($account = NULL, $op = 'view') {
-  static $results;
+  $cache_key = __FUNCTION__ . '::' . $account->uid . '::' . $op;
   $grants = [];
   if (empty($account)) {
     global $user;
     $account = user_load($user->uid);
   }
 
-  if (isset($results[$account->uid][$op])) {
-    return $results[$account->uid][$op];
+  if ($cache = cache_get($cache_key)) {
+    return $cache->data;
   }
 
   $nodes = og_get_entity_groups();
@@ -200,8 +200,8 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
     );
 
     $grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_anon'] = $op == 'view' ? $anonymous_grant_ids : array();
-    $results[$account->uid][$op] = $grants;
-    return $results[$account->uid][$op];
+    cache_set($cache_key, $grants);
+    return $grants;
   }
 
   if (user_access('administer site configuration', $account)) {
@@ -218,8 +218,8 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
       C4M_CONTENT_GROUP_STATUS_UPDATE_ARCHIVED,
       C4M_CONTENT_GROUP_STATUS_UPDATE_DELETED,
     );
-    $results[$account->uid][$op] = $grants;
-    return $results[$account->uid][$op];
+    cache_set($cache_key, $grants);
+    return $grants;
   }
 
   // Go through all user's group he is owner, admin or member of.
@@ -267,8 +267,8 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
     }
   }
 
-  $results[$account->uid][$op] = $grants;
-  return $results[$account->uid][$op];
+  cache_set($cache_key, $grants);
+  return $grants;
 }
 
 /**

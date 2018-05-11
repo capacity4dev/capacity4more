@@ -1830,11 +1830,11 @@ function c4m_og_user_has_permission_in($uid, $perm, array &$gids) {
  * Implements hook_node_grants().
  */
 function c4m_og_node_grants($account, $op) {
-  static $results;
+  $cache_key = __FUNCTION__ . '::' . $account->uid . '::' . $op;
   switch ($op) {
     case 'view':
-      if (isset($results[$account][$op])) {
-        return $results[$account][$op];
+      if ($cache = cache_get($cache_key)) {
+        return $cache->data;
       }
       $grants = [];
       // Only grant group members and users with the appropriate role within
@@ -1850,8 +1850,8 @@ function c4m_og_node_grants($account, $op) {
             $grants[$realm][] = $gid;
           }
         }
-        $results[$account][$op] = $grants;
-        return $results[$account][$op];
+        cache_set($cache_key, $grants);
+        return $grants;
       }
       break;
   }
