@@ -1832,6 +1832,7 @@ function c4m_og_user_has_permission_in($uid, $perm, array &$gids) {
 function c4m_og_node_grants($account, $op) {
   switch ($op) {
     case 'view':
+      $grants = [];
       // Only grant group members and users with the appropriate role within
       // the group the right to view unpublished nodes.
       if ($groups = og_get_entity_groups('user', $account)) {
@@ -1845,7 +1846,7 @@ function c4m_og_node_grants($account, $op) {
             $grants[$realm][] = $gid;
           }
         }
-        return !empty($grants) ? $grants : [];
+        return $grants;
       }
       break;
   }
