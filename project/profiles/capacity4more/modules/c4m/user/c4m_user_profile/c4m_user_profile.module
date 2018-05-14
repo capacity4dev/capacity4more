@@ -343,6 +343,19 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
     drupal_set_title(t('Registration'));
   }
 
+  $form['eu_login_intro'] = [
+    '#type' => 'markup',
+    '#markup' =>
+    '<p>' .
+    t('Complete the form below to register with Capacity4dev.') .
+    '<br/>' .
+    t('EU staff must authenticate via EU Login') .
+    ' - ' .
+    t('<a href="/ecas">sign in</a> with EU Login - <a href="/about-eu-login">click here</a> to find more.') .
+    '</p>',
+    '#weight' => -30,
+  ];
+
   // Add checkbox for contact options.
   // @see contact_form_user_profile_form_alter().
   $form['contact'] = [
