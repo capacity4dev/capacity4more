@@ -346,13 +346,13 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
   $form['eu_login_intro'] = [
     '#type' => 'markup',
     '#markup' =>
-    '<p>' .
-    t('Complete the form below to register with Capacity4dev.') .
-    '<br/>' .
-    t('EU staff must authenticate via EU Login') .
-    ' - ' .
-    t('<a href="/ecas">sign in</a> with EU Login - <a href="/about-eu-login">click here</a> to find more.') .
-    '</p>',
+      '<p>' .
+      t('Complete the form below to register with Capacity4dev.') .
+      '<br/>' .
+      t('EU staff must authenticate via EU Login') .
+      ' - ' .
+      t('<a href="/ecas">sign in</a> with EU Login - <a href="/about-eu-login">click here</a> to find more.') .
+      '</p>',
     '#weight' => -30,
   ];
 
@@ -386,37 +386,48 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
   $form['legal']['#type'] = 'markup';
   $form['legal']['#markup'] = '<p>' . $form['legal']['#title'] . '</p>';
 
-  $form['subscribe_to_mailinglist'] = [
-    '#type' => 'checkbox',
-    '#title' => t('Send me the monthly capacity4dev newsletter (see !samples)', [
-      '!samples' => l(t('samples'), 'newsletters', ['attributes' => ['target' => '_blank']]),
-    ]),
-    '#weight' => 50,
-    '#description' => t('Capacity4dev.eu uses a third-party service for newsletter delivery and administration. All your data is safe and subject to European Data protection and privacy legislation. Read the !privacy_statement_link of the newsletter platform for more information.', [
-      '!privacy_statement_link' => l(t('Privacy Statement'), 'https://www.campaignmonitor.com/policies', [
-        'attributes' => [
-          'absolute' => TRUE,
-          'target' => '_blank',
-        ],
-      ]),
-    ]),
-  ];
   $form['#submit'][] = 'c4m_user_profile_form_user_register_form_submit';
 
-  // If user is administrator.
-  if (user_access('administer users')) {
-    // Hide status fields - SA-created user is always active.
-    $form['account']['status']['#access'] = FALSE;
-    // Alter 'notify user' checkbox title.
-    $form['account']['notify']['#title'] = t('Send password reset link');
+  // Hide some fields from the registration form.
+  _c4m_user_profile_alter_registration_form_user($form);
 
-    // When SA creates a user from 'admin/people/create' path, hide roles field,
-    // as there's a Drupal bug when SA creates administrators.
-    // See: https://issuetracker.amplexor.com/jira/browse/CFM-159.
-    // SA can edit user to assign him administrator role though.
-    if (drupal_get_path_alias() == 'admin/people/create') {
-      $form['account']['roles']['#access'] = FALSE;
-    }
+  if (user_access('administer users')) {
+    // Hide/rework some additional fields for admins.
+    _c4m_user_profile_alter_registration_form_admin($form);
+  }
+}
+
+/**
+ * Hide non-obligatory fields on the registration form for regular users.
+ *
+ * @param array $form
+ *   Drupal form array.
+ */
+function _c4m_user_profile_alter_registration_form_user(array &$form) {
+  $form['c4m_job_title']['#access'] = FALSE;
+
+  // Hide the public profile group (about me, topics of expertise, geo...).
+  field_group_hide_field_groups($form, ['group_public_profile']);
+}
+
+/**
+ * Hide/disable/rename some fields for administrators on the registration form.
+ *
+ * @param array $form
+ *   Drupal form array.
+ */
+function _c4m_user_profile_alter_registration_form_admin(array &$form) {
+  // Hide status fields - SA-created user is always active.
+  $form['account']['status']['#access'] = FALSE;
+  // Alter 'notify user' checkbox title.
+  $form['account']['notify']['#title'] = t('Send password reset link');
+
+  // When SA creates a user from 'admin/people/create' path, hide roles field,
+  // as there's a Drupal bug when SA creates administrators.
+  // See: https://issuetracker.amplexor.com/jira/browse/CFM-159.
+  // SA can edit user to assign him administrator role though.
+  if (drupal_get_path_alias() == 'admin/people/create') {
+    $form['account']['roles']['#access'] = FALSE;
   }
 }
 
@@ -439,7 +450,7 @@ function c4m_user_profile_alter_user_form(array &$form, array &$form_state, $is_
 
   // Move the email input first.
   $form['mail'] = $form['account']['mail'];
-  $form['mail']['#weight'] = -100;
+  $form['mail']['#weight'] = -25;
   unset($form['account']['mail']);
 
   $form['mail']['#ajax'] = [
@@ -633,17 +644,6 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
   if (user_access('administer users')) {
     _user_mail_notify('status_activated', $form['#user']);
   }
-
-  // Process subscription to mailing list.
-  if (!empty($form_state['values']['subscribe_to_mailinglist'])) {
-    $email = $form_state['values']['mail'];
-    if (c4m_user_profile_subscribe_to_mailing_list($email, $name)) {
-      drupal_set_message(t("Successfully subscribed to the newsletter."));
-    }
-    else {
-      drupal_set_message(t("We couldn't subscribe you to the mailing list. Please try again later."));
-    }
-  }
 }
 
 /**
@@ -681,39 +681,6 @@ function c4m_user_profile_form_campaignmonitor_admin_settings_general_submit($fo
   if (isset($form_state['values'])) {
     variable_set('campaignmonitor_list_title', $form_state['values']['campaignmonitor_list_title']);
   }
-}
-
-/**
- * Subscribe email address to mailing list.
- *
- * @param string $email_address
- *   Email address.
- * @param string $name
- *   User's name.
- *
- * @return bool
- *   TRUE if the subscribe process succeeded.
- */
-function c4m_user_profile_subscribe_to_mailing_list($email_address, $name) {
-  if (!$list_title = variable_get('campaignmonitor_list_title')) {
-    return FALSE;
-  }
-
-  // Get connected to the API and get lists.
-  $cm = CampaignMonitor::getConnector();
-  $lists_info = $cm->getLists();
-  $list_id = 0;
-  foreach ($lists_info as $list_id => $list) {
-    if ($list['name'] == $list_title) {
-      break;
-    }
-  }
-
-  if (!$list_id || $cm->isSubscribed($list_id, $email_address)) {
-    return FALSE;
-  }
-
-  return $cm->subscribe($list_id, $email_address, $name);
 }
 
 /**
