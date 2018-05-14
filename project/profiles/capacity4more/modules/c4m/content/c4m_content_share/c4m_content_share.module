@@ -13,6 +13,13 @@ include_once 'c4m_content_share.features.inc';
 define('C4M_CONTENT_SHARE_ACCESS_REALM', 'c4m_content_share_access');
 
 /**
+ * The time (3H) in seconds after which the node grants cache becomes temporary.
+ *
+ * They are cleared at the next system_cron run.
+ */
+define('C4M_CONTENT_SHARE_GRANTS_EXPIRATION', 10800);
+
+/**
  * Implements hook_menu().
  */
 function c4m_content_share_menu() {
@@ -264,6 +271,17 @@ function c4m_content_share_node_delete($node) {
 }
 
 /**
+ * Implements hook_node_insert().
+ *
+ * Clears the node grants cache.
+ */
+function c4m_content_share_node_insert($node) {
+  if ($node->type === 'share') {
+    cache_clear_all(NULL, 'cache', 'c4m_content_share_node_grants');
+  }
+}
+
+/**
  * Get all the shares for a node (if any).
  *
  * @param object $node
@@ -404,9 +422,13 @@ function c4m_content_share_node_access_records_alter(&$grants, $node) {
  * Implements hook_node_grants().
  */
 function c4m_content_share_node_grants($account, $op) {
+  $cache_key = __FUNCTION__ . '::' . $account->uid . '::' . $op;
   switch ($op) {
     case 'view':
-      $grants = array();
+      if ($cache = cache_get($cache_key)) {
+        return $cache->data;
+      }
+      $grants = [];
       $realm = C4M_CONTENT_SHARE_ACCESS_REALM;
 
       // Retrieve all shares on the platform.
@@ -442,6 +464,7 @@ function c4m_content_share_node_grants($account, $op) {
         }
       }
 
+      cache_set($cache_key, $grants, 'cache', REQUEST_TIME + C4M_CONTENT_SHARE_GRANTS_EXPIRATION);
       return $grants;
   }
 }
