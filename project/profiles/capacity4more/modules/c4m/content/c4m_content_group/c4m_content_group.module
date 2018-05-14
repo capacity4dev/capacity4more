@@ -174,15 +174,10 @@ function c4m_content_group_og_user_access_alter(&$perm, $context) {
  * Set user permissions based on his OG role.
  */
 function c4m_content_group_node_grants($account = NULL, $op = 'view') {
-  $cache_key = __FUNCTION__ . '::' . $account->uid . '::' . $op;
   $grants = [];
   if (empty($account)) {
     global $user;
     $account = user_load($user->uid);
-  }
-
-  if ($cache = cache_get($cache_key)) {
-    return $cache->data;
   }
 
   $nodes = og_get_entity_groups();
@@ -200,7 +195,6 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
     );
 
     $grants[C4M_CONTENT_GROUP_ACCESS_REALM . '_anon'] = $op == 'view' ? $anonymous_grant_ids : array();
-    cache_set($cache_key, $grants);
     return $grants;
   }
 
@@ -218,7 +212,6 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
       C4M_CONTENT_GROUP_STATUS_UPDATE_ARCHIVED,
       C4M_CONTENT_GROUP_STATUS_UPDATE_DELETED,
     );
-    cache_set($cache_key, $grants);
     return $grants;
   }
 
@@ -267,7 +260,6 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
     }
   }
 
-  cache_set($cache_key, $grants);
   return $grants;
 }
 
