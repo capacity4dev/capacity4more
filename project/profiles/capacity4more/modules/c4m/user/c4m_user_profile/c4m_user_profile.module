@@ -346,16 +346,16 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
   $form['eu_login_intro'] = [
     '#type' => 'markup',
     '#markup' =>
-      '<p>' .
-      t('Complete the form below to register with Capacity4dev.') .
-      '<br/>' .
-      t('EU staff must authenticate via EU Login') .
-      ' - ' .
-      t('<a href="@eulogin_url">sign in</a> with EU Login - <a href="@about_eulogin">click here</a> to find more.', [
-        '@eulogin_url' => url('ecas', ['absolute' => TRUE]),
-        '@about_eulogin' => url('about-eu-login', ['absolute' => TRUE]),
-      ]) .
-      '</p>',
+    '<p>' .
+    t('Complete the form below to register with Capacity4dev.') .
+    '<br/>' .
+    t('EU staff must authenticate via EU Login') .
+    ' - ' .
+    t('<a href="@eulogin_url">sign in</a> with EU Login - <a href="@about_eulogin">click here</a> to find more.', [
+      '@eulogin_url' => url('ecas', ['absolute' => TRUE]),
+      '@about_eulogin' => url('about-eu-login', ['absolute' => TRUE]),
+    ]) .
+    '</p>',
     '#weight' => -30,
   ];
 

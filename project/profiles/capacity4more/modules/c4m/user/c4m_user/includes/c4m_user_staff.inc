@@ -63,6 +63,7 @@ class C4mStaffUser {
    * Check if a user has a valid EC staff mail domain.
    *
    * @return bool
+   *   Whether the user belongs to a pre-defined staff domain.
    */
   public function isValidStaff() {
     return $this->staffEmail;
@@ -72,8 +73,10 @@ class C4mStaffUser {
    * Retrieve the domain the user was recognized in.
    *
    * @return string
+   *   Domain (part after the @) of the mail address.
    */
   public function getDomain() {
     return $this->domain;
   }
+
 }

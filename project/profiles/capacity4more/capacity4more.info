@@ -24,6 +24,7 @@ dependencies[] = rdf
 ; Contrib modules -------------------------------------------------------------
 dependencies[] = admin_menu_toolbar
 dependencies[] = admin_views
+dependencies[] = auto_username
 dependencies[] = better_formats
 dependencies[] = blockreference
 dependencies[] = context

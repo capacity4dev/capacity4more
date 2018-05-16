@@ -1586,11 +1586,9 @@ You can select maximum 3 topics and an unlimited number of subtopics.',
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('1 - User is validated in LDAP / 2 user is in a whitelist.');
   t('About You');
   t('Country');
   t('First Name');
-  t('Is LDAP User');
   t('Is Organisation User');
   t('Is deleted');
   t('Is deleted anonymous');
