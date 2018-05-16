@@ -351,7 +351,10 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
       '<br/>' .
       t('EU staff must authenticate via EU Login') .
       ' - ' .
-      t('<a href="/ecas">sign in</a> with EU Login - <a href="/about-eu-login">click here</a> to find more.') .
+      t('<a href="@eulogin_url">sign in</a> with EU Login - <a href="@about_eulogin">click here</a> to find more.', [
+        '@eulogin_url' => url('ecas', ['absolute' => TRUE]),
+        '@about_eulogin' => url('about-eu-login', ['absolute' => TRUE]),
+      ]) .
       '</p>',
     '#weight' => -30,
   ];
@@ -489,6 +492,11 @@ function c4m_user_profile_alter_user_form(array &$form, array &$form_state, $is_
       foreach ($validation_messages as $validation_message) {
         $type = $validation_message['type'] === C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE ? 'info' : 'danger';
         $messages[] = '<div class="text-' . $type . '">' . $validation_message['message'] . '</div>';
+
+        // Drupal_add_js not working in AJAX context.
+        if (!empty($validation_message['js'])) {
+          $messages[] = '<script type="text/javascript">' . $validation_message['js'] . '</script>';
+        }
       }
       $suffix = '<div id="user-form-mail-validation-message">' . implode("", $messages) . '</div>';
     }
@@ -800,6 +808,28 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
       '#weight' => -6,
     ];
     return;
+  }
+
+  $staff_user = new C4mStaffUser($data['mail']);
+
+  if ($staff_user->isValidStaff()) {
+    $ecas_url = url('ecas', ['absolute' => TRUE]);
+    if (user_is_anonymous()) {
+      $data['validation_messages'][] = [
+        'message' => t('EU staff must authenticate via EU Login - Please <a href="@eulogin_url">click here</a> if you are not automatically redirected within a few seconds.', ['@eulogin_url' => $ecas_url]),
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
+        'js' => 'window.setTimeout(function(){ window.location.href = "' . $ecas_url . '";}, 5000);',
+        '#weight' => -5,
+      ];
+      return;
+    }
+    else {
+      $data['validation_messages'][] = [
+        'message' => t('EU staff must authenticate via EU Login from now on - If you change your email address now, you will need to login with EU Login in the future.'),
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE,
+        '#weight' => -5,
+      ];
+    }
   }
 
   $country = '';
