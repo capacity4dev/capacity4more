@@ -2341,7 +2341,11 @@ function c4m_og_handle_group_status_change($node) {
  */
 function _c4m_og_handle_pending_members_when_going_private($node) {
   $access = c4m_og_get_access_type($node);
-  if ($access['type'] != 'private') {
+  if ($access['type'] !== 'private') {
+    return;
+  }
+
+  if ($node->group_access[LANGUAGE_NONE][0]['value'] == $node->original->group_access[LANGUAGE_NONE][0]['value']) {
     return;
   }
 
