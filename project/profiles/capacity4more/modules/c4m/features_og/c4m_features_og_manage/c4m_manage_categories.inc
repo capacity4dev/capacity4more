@@ -654,7 +654,7 @@ function theme_c4m_features_og_manage_categories_overview_form(array $variables)
     ),
     '#value' => t('Edit @type @title', array('@type' => ucfirst($type), '@title' => $vocabulary->name)),
   );
-  $output = '<div class="category-edit-title">' . theme_html_tag($title) . l(t('Return to overview'), url('manage' . $overview_path, array('absolute' => TRUE))) . '</div>';
+  $output = '<div class="category-edit-title">' . theme_html_tag($title) . l(t('Return to overview'), 'manage' . $overview_path, ['absolute' => TRUE]) . '</div>';
   // Static page description.
   $output .= '<div class="category-edit-description">';
   $output .= t('
@@ -671,7 +671,7 @@ function theme_c4m_features_og_manage_categories_overview_form(array $variables)
     // Set header for the table.
     $header = array(
       array(
-        'data' => t('Name') . l(t('Order items alphabetically'), url('manage/categories/' . $reset_path . '/term-order', array('absolute' => TRUE))),
+        'data' => t('Name') . l(t('Order items alphabetically'), 'manage/categories/' . $reset_path . '/term-order', ['absolute' => TRUE]),
         'class' => array('category-name-column'),
       ),
       t('Operations'),
@@ -711,9 +711,9 @@ function theme_c4m_features_og_manage_categories_overview_form(array $variables)
         'absolute' => TRUE,
         'query' => drupal_get_destination(),
       );
-      $category_title = theme_html_tag($parent_element) . l(t('Edit'), url('manage/categories/type/' . $parent_id . '/edit', $options));
-      $category_title .= '|' . l(t('Change order'), url('manage/categories/types', array('absolute' => TRUE)));
-      $category_title .= '|' . l(t('Delete'), url('manage/categories/type/' . $parent_id . '/delete', $options));
+      $category_title = theme_html_tag($parent_element) . l(t('Edit'), 'manage/categories/type/' . $parent_id . '/edit', $options);
+      $category_title .= '|' . l(t('Change order'), 'manage/categories/types', ['absolute' => TRUE]);
+      $category_title .= '|' . l(t('Delete'), 'manage/categories/type/' . $parent_id . '/delete', $options);
 
       $category_title_element['element'] = array(
         '#tag' => 'div',
