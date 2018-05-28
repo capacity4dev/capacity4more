@@ -387,8 +387,6 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
   // Remove wrapper of the legal accept.
   $form['legal'] = $form['legal']['legal_accept'];
 
-  $form['#submit'][] = 'c4m_user_profile_form_user_register_form_submit';
-
   // Hide some fields from the registration form.
   _c4m_user_profile_alter_registration_form_user($form);
 
@@ -396,6 +394,9 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
     // Hide/rework some additional fields for admins.
     _c4m_user_profile_alter_registration_form_admin($form);
   }
+
+  // Add custom submit handler.
+  $form['#submit'][] = 'c4m_user_profile_form_user_register_form_submit';
 }
 
 /**
@@ -443,6 +444,7 @@ function _c4m_user_profile_alter_registration_form_admin(array &$form) {
  *   Indicate if the form is registration or edit form.
  */
 function c4m_user_profile_alter_user_form(array &$form, array &$form_state, $is_registration) {
+
   $form['#prefix'] = '<div id="user-register-form-wrapper">';
   $form['#suffix'] = '</div>';
 
@@ -453,6 +455,9 @@ function c4m_user_profile_alter_user_form(array &$form, array &$form_state, $is_
   $form['mail'] = $form['account']['mail'];
   $form['mail']['#weight'] = -25;
   unset($form['account']['mail']);
+
+  // Disable the name field.
+  $form['account']['name']['#access'] = FALSE;
 
   $form['mail']['#ajax'] = [
     'callback' => 'c4m_user_profile_element_validate_mail_ajax',
@@ -538,6 +543,7 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
 
   // Custom title for edit form.
   drupal_set_title(t('Edit profile'));
+
   $account = $form['#user'];
   $account_wrapper = entity_metadata_wrapper('user', $account);
 
@@ -556,22 +562,12 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
 
   $form['mail']['#description'] = 'Please note you will have to provide your password and confirm your new address to change your e-mail address.';
 
-  // Hide Overlay, Email, Locale and Contact settings. They are moved to
-  // Settings page.
-  $form['overlay_control']['#access'] = FALSE;
-  $form['mimemail']['#access'] = FALSE;
-  $form['timezone']['#access'] = FALSE;
-  $form['contact']['#access'] = FALSE;
+  // Disable Overlay, Email, Locale and Contact settings.
+  // They are moved to Settings page.
+  _c4m_user_profile_alter_profile_form_disable_settings_fields($form);
 
   // Hide the spammer / deleted checkboxes.
-  $form['c4m_is_deleted']['#access'] = FALSE;
-  $form['c4m_is_deleted_by_uid']['#access'] = FALSE;
-  $form['c4m_is_deleted_anonymous']['#access'] = FALSE;
-  $form['c4m_is_spammer']['#access'] = FALSE;
-  // Hide status field.
-  $form['account']['status']['#access'] = FALSE;
-  // Remove Terms and conditions fieldset.
-  $form['legal']['#access'] = FALSE;
+  _c4m_user_profile_alter_profile_form_disable_extra_fields($form);
 
   // Hide OG related fields for non-admin users.
   if (!in_array('administrator', $user->roles)) {
@@ -593,6 +589,37 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
       '#markup' => l(t('Delete account'), 'user/' . $account->uid . '/leave'),
     ];
   }
+}
+
+/**
+ * Completely disable some user_profile form fields.
+ *
+ * @param array $form
+ *   Render array of the form.
+ */
+function _c4m_user_profile_alter_profile_form_disable_extra_fields(array &$form) {
+  $form['masquerade']['#access'] = FALSE;
+  $form['c4m_is_deleted']['#access'] = FALSE;
+  $form['c4m_is_deleted_by_uid']['#access'] = FALSE;
+  $form['c4m_is_deleted_anonymous']['#access'] = FALSE;
+  $form['c4m_is_spammer']['#access'] = FALSE;
+  // Hide status field.
+  $form['account']['status']['#access'] = FALSE;
+  // Remove Terms and conditions fieldset.
+  $form['legal']['#access'] = FALSE;
+}
+
+/**
+ * Disable fields on the user_profile form, that are moved to the settings page.
+ *
+ * @param array $form
+ *   Render array of the form.
+ */
+function _c4m_user_profile_alter_profile_form_disable_settings_fields(array &$form) {
+  $form['overlay_control']['#access'] = FALSE;
+  $form['mimemail']['#access'] = FALSE;
+  $form['timezone']['#access'] = FALSE;
+  $form['contact']['#access'] = FALSE;
 }
 
 /**
@@ -731,23 +758,6 @@ function c4m_user_profile_module_implements_alter(&$implementations, $hook) {
 function c4m_user_profile_account_form_validate($form, &$form_state) {
   if ($form['#user_category'] != 'account' && $form['#user_category'] != 'register') {
     return;
-  }
-
-  $account = $form['#user'];
-  // Validate new or changing username.
-  if (isset($form_state['values']['name'])) {
-    if ($error = user_validate_name($form_state['values']['name'])) {
-      form_set_error('name', $error);
-    }
-    elseif ((bool) db_select('users')
-      ->fields('users', ['uid'])
-      ->condition('uid', $account->uid, '<>')
-      ->condition('name', db_like($form_state['values']['name']), 'LIKE')
-      ->range(0, 1)
-      ->execute()
-      ->fetchField()) {
-      form_set_error('name', t('The name %name is already taken.', ['%name' => $form_state['values']['name']]));
-    }
   }
 
   // Make sure the signature isn't longer than the size of the database field.
@@ -907,14 +917,25 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
 
   $other_user = entity_metadata_wrapper('user', $other_user);
   if ($other_user->status->value()) {
-    $data['validation_messages'][] = [
-      'message' => t('This account is already in use. If this is you, please !login or !request_password.', [
-        '!login' => l(t('log in'), 'user/login'),
-        '!request_password' => l(t('request a new password'), 'user/password'),
-      ]),
-      'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
-      '#weight' => -5,
-    ];
+    if ($staff_user->isValidStaff()) {
+      $data['validation_messages'][] = [
+        'message' => t('This account is already in use. If this is you, please !login_ecas.', [
+          '!login_ecas' => l(t('log in with your EU login account'), 'ecas'),
+        ]),
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
+        '#weight' => -5,
+      ];
+    }
+    else {
+      $data['validation_messages'][] = [
+        'message' => t('This account is already in use. If this is you, please !login or !request_password.', [
+          '!login' => l(t('log in'), 'user/login'),
+          '!request_password' => l(t('request a new password'), 'user/password'),
+        ]),
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
+        '#weight' => -5,
+      ];
+    }
   }
   else {
     $error = FALSE;

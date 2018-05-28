@@ -3133,8 +3133,6 @@ class CAS_Client
         // CAS servers should only return data in utf-8
         $dom->encoding = "utf-8";
 
-        dd($text_response);
-
         // read the response of the CAS server into a DOMDocument object
         if ( !($dom->loadXML($text_response))) {
             // read failed
