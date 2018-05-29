@@ -59,6 +59,11 @@ function c4m_user_profile_block_info() {
     'cache' => DRUPAL_CACHE_PER_USER,
   ];
 
+  $blocks['ecas_login_notice'] = [
+    'info' => t('Display EU Login information'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  ];
+
   return $blocks;
 }
 
@@ -207,6 +212,16 @@ function c4m_user_profile_theme() {
     ],
     'path' => drupal_get_path('module', 'c4m_user_profile') . '/templates',
     'template' => 'my-profile-projects',
+  ];
+
+  $theme['c4m_user_profile_ecas_login_notice'] = [
+    'variables' => [
+      'eu_flag_img' => '',
+      'ecas_login' => '',
+      'ecas_about' => '',
+    ],
+    'path' => drupal_get_path('module', 'c4m_user_profile') . '/templates',
+    'template' => 'ecas-login-notice',
   ];
 
   return $theme;
