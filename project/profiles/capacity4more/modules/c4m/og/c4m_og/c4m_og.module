@@ -21,6 +21,11 @@ define('C4M_OG_OPEN_GROUP', 1);
 define('C4M_OG_PRIVATE_GROUP', 2);
 
 /**
+ * Batch related values.
+ */
+define('C4M_OG_BATCH_MERGE_LIMIT', 10);
+
+/**
  * Helper to get the current active group (based on og_context()).
  *
  * @return object|false
@@ -3942,6 +3947,7 @@ function c4m_og_merge_groups_form_submit($form, &$form_state) {
         ],
       ];
     }
+
     // Add merge content types operation to batch.
     $operations[] = [
       '_c4m_og_merge_content_batch',
@@ -3952,14 +3958,25 @@ function c4m_og_merge_groups_form_submit($form, &$form_state) {
       ],
     ];
   }
+
   // Add merge taxonomies operation to batch.
   $operations[] = [
     '_c4m_og_merge_taxonomies_batch',
     [
       $group['gid'],
       $values['target_group'],
+      'c4m_vocab_category',
     ],
   ];
+  $operations[] = [
+    '_c4m_og_merge_taxonomies_batch',
+    [
+      $group['gid'],
+      $values['target_group'],
+      'c4m_vocab_tag',
+    ],
+  ];
+
   // Add the delete group operations to batch.
   $operations[] = [
     '_c4m_og_merge_group_delete_batch',
@@ -3968,6 +3985,7 @@ function c4m_og_merge_groups_form_submit($form, &$form_state) {
       $values['target_group'],
     ],
   ];
+
   $_SESSION['http_request_count'] = 0;
   $batch = [
     'title' => t('Content is being merged'),
@@ -3984,22 +4002,37 @@ function _c4m_og_merge_users_batch($gid, $target_gid, &$context) {
   if (empty($gid) || empty($target_gid)) {
     return;
   }
-  // Get users from the source group which are not members of the target group.
-  $users_query = db_select('og_membership', 'ogm')
-    ->fields('ogm', ['etid'])
-    ->condition('entity_type', 'user')
-    ->condition('gid', $gid)
-    ->condition('state', OG_STATE_ACTIVE);
-  $user_ids = $users_query->execute()->fetchCol();
+
+  if (!isset($context['sandbox']['results'])) {
+    // Get users from the source group which are not members of the target
+    // group.
+    $users_query = db_select('og_membership', 'ogm')
+      ->fields('ogm', ['etid'])
+      ->condition('entity_type', 'user')
+      ->condition('gid', $gid)
+      ->condition('state', OG_STATE_ACTIVE);
+
+    $context['sandbox']['results'] = $users_query->execute()->fetchCol();
+    $context['sandbox']['count'] = count($context['sandbox']['results']);
+  }
+
+  $user_ids = array_splice($context['sandbox']['results'], 0, C4M_OG_BATCH_MERGE_LIMIT);
   $users = user_load_multiple($user_ids);
   if (!empty($users)) {
     foreach ($users as $user) {
       og_group('node', $target_gid, ['entity' => $user]);
     }
   }
-  $context['results'] = [
-    'target_gid' => $target_gid,
-  ];
+
+  // Check how many items we still have in the results.
+  if ($count = count($context['sandbox']['results'])) {
+    // Not finished.
+    $context['finished'] = ($context['sandbox']['count'] - $count) / $context['sandbox']['count'];
+  }
+  else {
+    // Finished.
+    $context['results']['target_gid'] = $target_gid;
+  }
 }
 
 /**
@@ -4009,15 +4042,21 @@ function _c4m_og_merge_wiki_pages_batch($gid, $target_gid, &$context) {
   if (empty($gid) || empty($target_gid)) {
     return;
   }
-  $content_query = db_select('og_membership', 'ogm');
-  $content_query->leftJoin('node', 'n', 'n.nid = ogm.etid');
-  $content_query->fields('ogm', ['etid']);
-  $content_query->condition('ogm.entity_type', 'node')
-    ->condition('ogm.gid', $gid)
-    ->condition('ogm.state', 1)
-    ->condition('n.type', 'wiki_page');
 
-  $n_ids = $content_query->execute()->fetchCol();
+  if (!isset($context['sandbox']['results'])) {
+    $content_query = db_select('og_membership', 'ogm');
+    $content_query->leftJoin('node', 'n', 'n.nid = ogm.etid');
+    $content_query->fields('ogm', ['etid']);
+    $content_query->condition('ogm.entity_type', 'node')
+      ->condition('ogm.gid', $gid)
+      ->condition('ogm.state', 1)
+      ->condition('n.type', 'wiki_page');
+
+    $context['sandbox']['results'] = $content_query->execute()->fetchCol();
+    $context['sandbox']['count'] = count($context['sandbox']['results']);
+  }
+
+  $n_ids = array_splice($context['sandbox']['results'], 0, C4M_OG_BATCH_MERGE_LIMIT);
   if (!empty($n_ids)) {
     $nodes = node_load_multiple($n_ids);
     if (!empty($nodes)) {
@@ -4038,9 +4077,15 @@ function _c4m_og_merge_wiki_pages_batch($gid, $target_gid, &$context) {
     }
   }
 
-  $context['results'] = [
-    'target_gid' => $target_gid,
-  ];
+  // Check how many items we still have in the results.
+  if ($count = count($context['sandbox']['results'])) {
+    // Not finished.
+    $context['finished'] = ($context['sandbox']['count'] - $count) / $context['sandbox']['count'];
+  }
+  else {
+    // Finished.
+    $context['results']['target_gid'] = $target_gid;
+  }
 }
 
 /**
@@ -4050,16 +4095,21 @@ function _c4m_og_merge_content_batch($gid, $target_gid, $content_types, &$contex
   if (empty($gid) || empty($content_types) || empty($target_gid)) {
     return;
   }
-  $content_query = db_select('og_membership', 'ogm');
-  $content_query->leftJoin('node', 'n', 'n.nid = ogm.etid');
-  $content_query->fields('ogm', ['etid']);
-  $content_query->condition('ogm.entity_type', 'node')
-    ->condition('ogm.gid', $gid)
-    ->condition('ogm.state', 1)
-    ->condition('n.type', $content_types, 'IN');
 
-  $n_ids = $content_query->execute()->fetchCol();
+  if (!isset($context['sandbox']['results'])) {
+    $content_query = db_select('og_membership', 'ogm');
+    $content_query->leftJoin('node', 'n', 'n.nid = ogm.etid');
+    $content_query->fields('ogm', ['etid']);
+    $content_query->condition('ogm.entity_type', 'node')
+      ->condition('ogm.gid', $gid)
+      ->condition('ogm.state', 1)
+      ->condition('n.type', $content_types, 'IN');
 
+    $context['sandbox']['results'] = $content_query->execute()->fetchCol();
+    $context['sandbox']['count'] = count($context['sandbox']['results']);
+  }
+
+  $n_ids = array_splice($context['sandbox']['results'], 0, C4M_OG_BATCH_MERGE_LIMIT);
   if (!empty($n_ids)) {
     if (empty($content_types['document'])) {
       $doc_agenda_query = db_select('field_data_c4m_document_agenda', 'da')
@@ -4093,50 +4143,59 @@ function _c4m_og_merge_content_batch($gid, $target_gid, $content_types, &$contex
       }
     }
   }
-  $context['results'] = [
-    'target_gid' => $target_gid,
-  ];
-}
 
-/**
- * Merge taxonomies into the target group.
- */
-function _c4m_og_merge_taxonomies_batch($gid, $target_gid, &$context) {
-  if (empty($gid) || empty($target_gid)) {
-    return;
+  // Check how many items we still have in the results.
+  if ($count = count($context['sandbox']['results'])) {
+    // Not finished.
+    $context['finished'] = ($context['sandbox']['count'] - $count) / $context['sandbox']['count'];
   }
-  $group = node_load($gid);
-  $target_group = node_load($target_gid);
-
-  _c4m_og_merge_taxonomies_by_vocabulary($group, $target_group, 'c4m_vocab_category');
-  _c4m_og_merge_taxonomies_by_vocabulary($group, $target_group, 'c4m_vocab_tag');
-
-  $context['results'] = [
-    'target_gid' => $target_gid,
-  ];
+  else {
+    // Finished.
+    $context['results']['target_gid'] = $target_gid;
+  }
 }
 
 /**
  * Merges groups' taxonomy terms by vocabulary.
  *
- * @param object $group
+ * @param object $gid
  *   Merged group.
- * @param object $target_group
+ * @param object $target_gid
  *   Target group.
  * @param string $vocabulary_name
  *   Vocabulary name.
  */
-function _c4m_og_merge_taxonomies_by_vocabulary($group, $target_group, $vocabulary_name) {
-  $vocabulary = c4m_og_vocab_load_group_vocabulary($group, $vocabulary_name);
-  $target_vocabulary = c4m_og_vocab_load_group_vocabulary($target_group, $vocabulary_name);
-  $terms = taxonomy_get_tree($vocabulary->vid);
-  if (!empty($terms)) {
-    foreach ($terms as $term) {
-      $term->vid = $target_vocabulary->vid;
-      taxonomy_term_save($term);
-    }
+function _c4m_og_merge_taxonomies_batch($gid, $target_gid, $vocabulary_name, &$context) {
+  if (empty($gid) || empty($target_gid)) {
+    return;
   }
-  taxonomy_vocabulary_delete($vocabulary->vid);
+
+  if (!isset($context['sandbox']['results'])) {
+    $context['sandbox']['group'] = node_load($gid);
+    $context['sandbox']['target_group'] = node_load($target_gid);
+
+    $context['sandbox']['vocabulary'] = c4m_og_vocab_load_group_vocabulary($context['sandbox']['group'], $vocabulary_name);
+    $context['sandbox']['target_vocabulary'] = c4m_og_vocab_load_group_vocabulary($context['sandbox']['target_group'], $vocabulary_name);
+    $context['sandbox']['results'] = taxonomy_get_tree($context['sandbox']['vocabulary']->vid);
+    $context['sandbox']['count'] = count($context['sandbox']['results']);
+  }
+
+  $terms = array_splice($context['sandbox']['results'], 0, C4M_OG_BATCH_MERGE_LIMIT);
+  foreach ($terms as $term) {
+    $term->vid = $context['sandbox']['target_vocabulary']->vid;
+    taxonomy_term_save($term);
+  }
+
+  // Check how many items we still have in the results.
+  if ($count = count($context['sandbox']['results'])) {
+    // Not finished.
+    $context['finished'] = ($context['sandbox']['count'] - $count) / $context['sandbox']['count'];
+  }
+  else {
+    // Finished.
+    taxonomy_vocabulary_delete($context['sandbox']['vocabulary']->vid);
+    $context['results']['target_gid'] = $target_gid;
+  }
 }
 
 /**
