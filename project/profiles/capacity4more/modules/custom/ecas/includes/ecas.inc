@@ -298,10 +298,7 @@ function ecas_sync_profile_core(&$user, array $user_info) {
     $edit[$field_ecasmail][LANGUAGE_NONE][0]['value'] = $user_info['cas:email'];
   }
   if (!empty($field_ecascreator) && isset($edit[$field_ecascreator])) {
-    if ($user_info['cas:domain'] == 'external') {
-      $edit[$field_ecascreator][LANGUAGE_NONE][0]['value'] = $user_info['cas:domain'];
-    }
-    else {
+    if ($user_info['cas:domain'] !== 'external') {
       $edit[$field_ecascreator][LANGUAGE_NONE][0]['value'] = $user_info['cas:domain'] . '/' . $user_info['cas:departmentNumber'];
     }
   }
@@ -398,11 +395,23 @@ function ecas_login_check() {
       // Try to log into Drupal.
       $account = user_load_by_name($ecas_name);
 
-      // If Account->mail !== Ecas->mail --- dan is het geen user die wij willen matchen op deze manier!
-      if ($account->mail !== $ecas_email) {
-        $account = NULL;
+      // If Drupal mail !== Ecas mail, there's a chance the username in Drupal is not the same user as in EU Login. Not taking any risk and rejecting this user as-is.
+      if (!empty($account) && $account->mail !== $ecas_email) {
+        // If an email is available, check if this user exists already in the database by email.
+        if (!empty($ecas_email)) {
+          $account = user_load_by_mail($ecas_email);
+        }
 
-        // We need to update username, otherwise we'll have duplicate entry issues!
+        // If no account was found by mail, we need to make the username unique so we can store it.
+        if (!$account) {
+          $ecas_name = _ecas_prepare_unique_user_name($ecas_name);
+        }
+      }
+
+      // If no drupal account was found with the username, see if there's one by email.
+      // No need to make the username unique, as we did not found an account earlier.
+      if (!$account && !empty($ecas_email)) {
+        $account = user_load_by_mail($ecas_email);
       }
 
       // Extra process to filter ECAS user.
@@ -429,6 +438,19 @@ function ecas_login_check() {
       // Also set an extra parameter for ecas_sync_user_info() -- this allows
       // other modules to detect a user creation.
       $ecas_sync_user_info_args['ecas_user_creation'] = TRUE;
+    }
+    elseif ($account) {
+      // We have an existing user, add it to the authmap table (if not already).
+      db_merge('authmap')
+        ->key([
+          'authname' => $account->name,
+        ])
+        ->fields([
+          'authname' => $account->name,
+          'uid' => $account->uid,
+          'module' => 'ecas',
+        ])
+        ->execute();
     }
 
     // Final check to make sure we have a good user.
@@ -490,6 +512,45 @@ function ecas_login_check() {
       $user = drupal_anonymous_user();
     }
   }
+}
+
+/**
+ * Generate a username that is unique within Drupal.
+ *
+ * @param string $ecas_name
+ *   Username as it is found via EU Login.
+ *
+ * @return string
+ *   The unique username.
+ */
+function _ecas_prepare_unique_user_name($ecas_name) {
+  $unique_ecas_name = '';
+  if ($ecas_name) {
+    /* filter characters (look at user_validate_name) */
+    preg_match_all("/[\x{80}-\x{F7} a-z0-9@_.'-]/i", $ecas_name, $f_result);
+    if (isset($f_result[0]) && count($f_result[0])) {
+      $unique_ecas_name = implode('', $f_result[0]);
+      /* remove multiple spaces and trim the name */
+      $unique_ecas_name = trim($unique_ecas_name);
+      $unique_ecas_name = preg_replace('/[ ]+/', ' ', $unique_ecas_name);
+      if ($unique_ecas_name) {
+        /* check length (reserve 3 characters for number in next step) */
+        $unique_ecas_name = substr($unique_ecas_name, 0, USERNAME_MAX_LENGTH - 3);
+        /* check if the name is unique */
+        $i = 0;
+        do {
+          $query = db_select('users', 'u');
+          $query->addExpression('count(*)', 'matches');
+          $query->condition('u.name', (++$i) == 1 ? $unique_ecas_name : $unique_ecas_name . $i);
+          $matches = $query->execute()->fetchField();
+        } while ($matches);
+        if ($i > 1) {
+          $unique_ecas_name .= $i;
+        }
+      }
+    }
+  }
+  return $unique_ecas_name;
 }
 
 /**
