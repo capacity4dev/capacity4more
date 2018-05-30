@@ -174,7 +174,7 @@ function c4m_content_group_og_user_access_alter(&$perm, $context) {
  * Set user permissions based on his OG role.
  */
 function c4m_content_group_node_grants($account = NULL, $op = 'view') {
-  $grants = array();
+  $grants = [];
   if (empty($account)) {
     global $user;
     $account = user_load($user->uid);
