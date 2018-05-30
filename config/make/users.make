@@ -3,6 +3,9 @@ api = 2
 
 ; Modules related to users.
 
+projects[auto_username][subdir] = "contrib"
+projects[auto_username][version] = "1.0-alpha2"
+
 projects[campaignmonitor][subdir] = "contrib"
 projects[campaignmonitor][version] = "1.1"
 
