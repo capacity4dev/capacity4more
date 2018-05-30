@@ -343,6 +343,22 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
     drupal_set_title(t('Registration'));
   }
 
+  $form['eu_login_intro'] = [
+    '#type' => 'markup',
+    '#markup' =>
+    '<p>' .
+    t('Complete the form below to register with Capacity4dev.') .
+    '<br/>' .
+    t('EU staff must authenticate via EU Login') .
+    ' - ' .
+    t('<a href="@eulogin_url">sign in</a> with EU Login - <a href="@about_eulogin">click here</a> to find more.', [
+      '@eulogin_url' => url('ecas', ['absolute' => TRUE]),
+      '@about_eulogin' => url('about-eu-login', ['absolute' => TRUE]),
+    ]) .
+    '</p>',
+    '#weight' => -30,
+  ];
+
   // Add checkbox for contact options.
   // @see contact_form_user_profile_form_alter().
   $form['contact'] = [
@@ -368,42 +384,52 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
     ]),
   ];
 
-  // Adjust legal information.
+  // Remove wrapper of the legal accept.
   $form['legal'] = $form['legal']['legal_accept'];
-  $form['legal']['#type'] = 'markup';
-  $form['legal']['#markup'] = '<p>' . $form['legal']['#title'] . '</p>';
 
-  $form['subscribe_to_mailinglist'] = [
-    '#type' => 'checkbox',
-    '#title' => t('Send me the monthly capacity4dev newsletter (see !samples)', [
-      '!samples' => l(t('samples'), 'newsletters', ['attributes' => ['target' => '_blank']]),
-    ]),
-    '#weight' => 50,
-    '#description' => t('Capacity4dev.eu uses a third-party service for newsletter delivery and administration. All your data is safe and subject to European Data protection and privacy legislation. Read the !privacy_statement_link of the newsletter platform for more information.', [
-      '!privacy_statement_link' => l(t('Privacy Statement'), 'https://www.campaignmonitor.com/policies', [
-        'attributes' => [
-          'absolute' => TRUE,
-          'target' => '_blank',
-        ],
-      ]),
-    ]),
-  ];
-  $form['#submit'][] = 'c4m_user_profile_form_user_register_form_submit';
+  // Hide some fields from the registration form.
+  _c4m_user_profile_alter_registration_form_user($form);
 
-  // If user is administrator.
   if (user_access('administer users')) {
-    // Hide status fields - SA-created user is always active.
-    $form['account']['status']['#access'] = FALSE;
-    // Alter 'notify user' checkbox title.
-    $form['account']['notify']['#title'] = t('Send password reset link');
+    // Hide/rework some additional fields for admins.
+    _c4m_user_profile_alter_registration_form_admin($form);
+  }
 
-    // When SA creates a user from 'admin/people/create' path, hide roles field,
-    // as there's a Drupal bug when SA creates administrators.
-    // See: https://issuetracker.amplexor.com/jira/browse/CFM-159.
-    // SA can edit user to assign him administrator role though.
-    if (drupal_get_path_alias() == 'admin/people/create') {
-      $form['account']['roles']['#access'] = FALSE;
-    }
+  // Add custom submit handler.
+  $form['#submit'][] = 'c4m_user_profile_form_user_register_form_submit';
+}
+
+/**
+ * Hide non-obligatory fields on the registration form for regular users.
+ *
+ * @param array $form
+ *   Drupal form array.
+ */
+function _c4m_user_profile_alter_registration_form_user(array &$form) {
+  $form['c4m_job_title']['#access'] = FALSE;
+
+  // Hide the public profile group (about me, topics of expertise, geo...).
+  field_group_hide_field_groups($form, ['group_public_profile']);
+}
+
+/**
+ * Hide/disable/rename some fields for administrators on the registration form.
+ *
+ * @param array $form
+ *   Drupal form array.
+ */
+function _c4m_user_profile_alter_registration_form_admin(array &$form) {
+  // Hide status fields - SA-created user is always active.
+  $form['account']['status']['#access'] = FALSE;
+  // Alter 'notify user' checkbox title.
+  $form['account']['notify']['#title'] = t('Send password reset link');
+
+  // When SA creates a user from 'admin/people/create' path, hide roles field,
+  // as there's a Drupal bug when SA creates administrators.
+  // See: https://issuetracker.amplexor.com/jira/browse/CFM-159.
+  // SA can edit user to assign him administrator role though.
+  if (drupal_get_path_alias() == 'admin/people/create') {
+    $form['account']['roles']['#access'] = FALSE;
   }
 }
 
@@ -418,6 +444,7 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
  *   Indicate if the form is registration or edit form.
  */
 function c4m_user_profile_alter_user_form(array &$form, array &$form_state, $is_registration) {
+
   $form['#prefix'] = '<div id="user-register-form-wrapper">';
   $form['#suffix'] = '</div>';
 
@@ -426,8 +453,11 @@ function c4m_user_profile_alter_user_form(array &$form, array &$form_state, $is_
 
   // Move the email input first.
   $form['mail'] = $form['account']['mail'];
-  $form['mail']['#weight'] = -100;
+  $form['mail']['#weight'] = -25;
   unset($form['account']['mail']);
+
+  // Disable the name field.
+  $form['account']['name']['#access'] = FALSE;
 
   $form['mail']['#ajax'] = [
     'callback' => 'c4m_user_profile_element_validate_mail_ajax',
@@ -467,6 +497,11 @@ function c4m_user_profile_alter_user_form(array &$form, array &$form_state, $is_
       foreach ($validation_messages as $validation_message) {
         $type = $validation_message['type'] === C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE ? 'info' : 'danger';
         $messages[] = '<div class="text-' . $type . '">' . $validation_message['message'] . '</div>';
+
+        // Drupal_add_js not working in AJAX context.
+        if (!empty($validation_message['js'])) {
+          $messages[] = '<script type="text/javascript">' . $validation_message['js'] . '</script>';
+        }
       }
       $suffix = '<div id="user-form-mail-validation-message">' . implode("", $messages) . '</div>';
     }
@@ -508,6 +543,7 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
 
   // Custom title for edit form.
   drupal_set_title(t('Edit profile'));
+
   $account = $form['#user'];
   $account_wrapper = entity_metadata_wrapper('user', $account);
 
@@ -526,22 +562,12 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
 
   $form['mail']['#description'] = 'Please note you will have to provide your password and confirm your new address to change your e-mail address.';
 
-  // Hide Overlay, Email, Locale and Contact settings. They are moved to
-  // Settings page.
-  $form['overlay_control']['#access'] = FALSE;
-  $form['mimemail']['#access'] = FALSE;
-  $form['timezone']['#access'] = FALSE;
-  $form['contact']['#access'] = FALSE;
+  // Disable Overlay, Email, Locale and Contact settings.
+  // They are moved to Settings page.
+  _c4m_user_profile_alter_profile_form_disable_settings_fields($form);
 
   // Hide the spammer / deleted checkboxes.
-  $form['c4m_is_deleted']['#access'] = FALSE;
-  $form['c4m_is_deleted_by_uid']['#access'] = FALSE;
-  $form['c4m_is_deleted_anonymous']['#access'] = FALSE;
-  $form['c4m_is_spammer']['#access'] = FALSE;
-  // Hide status field.
-  $form['account']['status']['#access'] = FALSE;
-  // Remove Terms and conditions fieldset.
-  $form['legal']['#access'] = FALSE;
+  _c4m_user_profile_alter_profile_form_disable_extra_fields($form);
 
   // Hide OG related fields for non-admin users.
   if (!in_array('administrator', $user->roles)) {
@@ -563,6 +589,37 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
       '#markup' => l(t('Delete account'), 'user/' . $account->uid . '/leave'),
     ];
   }
+}
+
+/**
+ * Completely disable some user_profile form fields.
+ *
+ * @param array $form
+ *   Render array of the form.
+ */
+function _c4m_user_profile_alter_profile_form_disable_extra_fields(array &$form) {
+  $form['masquerade']['#access'] = FALSE;
+  $form['c4m_is_deleted']['#access'] = FALSE;
+  $form['c4m_is_deleted_by_uid']['#access'] = FALSE;
+  $form['c4m_is_deleted_anonymous']['#access'] = FALSE;
+  $form['c4m_is_spammer']['#access'] = FALSE;
+  // Hide status field.
+  $form['account']['status']['#access'] = FALSE;
+  // Remove Terms and conditions fieldset.
+  $form['legal']['#access'] = FALSE;
+}
+
+/**
+ * Disable fields on the user_profile form, that are moved to the settings page.
+ *
+ * @param array $form
+ *   Render array of the form.
+ */
+function _c4m_user_profile_alter_profile_form_disable_settings_fields(array &$form) {
+  $form['overlay_control']['#access'] = FALSE;
+  $form['mimemail']['#access'] = FALSE;
+  $form['timezone']['#access'] = FALSE;
+  $form['contact']['#access'] = FALSE;
 }
 
 /**
@@ -620,17 +677,6 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
   if (user_access('administer users')) {
     _user_mail_notify('status_activated', $form['#user']);
   }
-
-  // Process subscription to mailing list.
-  if (!empty($form_state['values']['subscribe_to_mailinglist'])) {
-    $email = $form_state['values']['mail'];
-    if (c4m_user_profile_subscribe_to_mailing_list($email, $name)) {
-      drupal_set_message(t("Successfully subscribed to the newsletter."));
-    }
-    else {
-      drupal_set_message(t("We couldn't subscribe you to the mailing list. Please try again later."));
-    }
-  }
 }
 
 /**
@@ -668,39 +714,6 @@ function c4m_user_profile_form_campaignmonitor_admin_settings_general_submit($fo
   if (isset($form_state['values'])) {
     variable_set('campaignmonitor_list_title', $form_state['values']['campaignmonitor_list_title']);
   }
-}
-
-/**
- * Subscribe email address to mailing list.
- *
- * @param string $email_address
- *   Email address.
- * @param string $name
- *   User's name.
- *
- * @return bool
- *   TRUE if the subscribe process succeeded.
- */
-function c4m_user_profile_subscribe_to_mailing_list($email_address, $name) {
-  if (!$list_title = variable_get('campaignmonitor_list_title')) {
-    return FALSE;
-  }
-
-  // Get connected to the API and get lists.
-  $cm = CampaignMonitor::getConnector();
-  $lists_info = $cm->getLists();
-  $list_id = 0;
-  foreach ($lists_info as $list_id => $list) {
-    if ($list['name'] == $list_title) {
-      break;
-    }
-  }
-
-  if (!$list_id || $cm->isSubscribed($list_id, $email_address)) {
-    return FALSE;
-  }
-
-  return $cm->subscribe($list_id, $email_address, $name);
 }
 
 /**
@@ -745,23 +758,6 @@ function c4m_user_profile_module_implements_alter(&$implementations, $hook) {
 function c4m_user_profile_account_form_validate($form, &$form_state) {
   if ($form['#user_category'] != 'account' && $form['#user_category'] != 'register') {
     return;
-  }
-
-  $account = $form['#user'];
-  // Validate new or changing username.
-  if (isset($form_state['values']['name'])) {
-    if ($error = user_validate_name($form_state['values']['name'])) {
-      form_set_error('name', $error);
-    }
-    elseif ((bool) db_select('users')
-      ->fields('users', ['uid'])
-      ->condition('uid', $account->uid, '<>')
-      ->condition('name', db_like($form_state['values']['name']), 'LIKE')
-      ->range(0, 1)
-      ->execute()
-      ->fetchField()) {
-      form_set_error('name', t('The name %name is already taken.', ['%name' => $form_state['values']['name']]));
-    }
   }
 
   // Make sure the signature isn't longer than the size of the database field.
@@ -822,6 +818,28 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
       '#weight' => -6,
     ];
     return;
+  }
+
+  $staff_user = new C4mStaffUser($data['mail']);
+
+  if ($staff_user->isValidStaff()) {
+    $ecas_url = url('ecas', ['absolute' => TRUE]);
+    if (user_is_anonymous()) {
+      $data['validation_messages'][] = [
+        'message' => t('EU staff must authenticate via EU Login - Please <a href="@eulogin_url">click here</a> if you are not automatically redirected within a few seconds.', ['@eulogin_url' => $ecas_url]),
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
+        'js' => 'window.setTimeout(function(){ window.location.href = "' . $ecas_url . '";}, 5000);',
+        '#weight' => -5,
+      ];
+      return;
+    }
+    else {
+      $data['validation_messages'][] = [
+        'message' => t('EU staff must authenticate via EU Login from now on - If you change your email address now, you will need to login with EU Login in the future.'),
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE,
+        '#weight' => -5,
+      ];
+    }
   }
 
   $country = '';
@@ -899,14 +917,25 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
 
   $other_user = entity_metadata_wrapper('user', $other_user);
   if ($other_user->status->value()) {
-    $data['validation_messages'][] = [
-      'message' => t('This account is already in use. If this is you, please !login or !request_password.', [
-        '!login' => l(t('log in'), 'user/login'),
-        '!request_password' => l(t('request a new password'), 'user/password'),
-      ]),
-      'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
-      '#weight' => -5,
-    ];
+    if ($staff_user->isValidStaff()) {
+      $data['validation_messages'][] = [
+        'message' => t('This account is already in use. If this is you, please !login_ecas.', [
+          '!login_ecas' => l(t('log in with your EU login account'), 'ecas'),
+        ]),
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
+        '#weight' => -5,
+      ];
+    }
+    else {
+      $data['validation_messages'][] = [
+        'message' => t('This account is already in use. If this is you, please !login or !request_password.', [
+          '!login' => l(t('log in'), 'user/login'),
+          '!request_password' => l(t('request a new password'), 'user/password'),
+        ]),
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
+        '#weight' => -5,
+      ];
+    }
   }
   else {
     $error = FALSE;

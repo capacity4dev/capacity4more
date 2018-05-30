@@ -356,3 +356,4 @@ features[variable][] = site_403
 features[views_view][] = my_comments
 features[views_view][] = my_content
 files[] = includes/c4m_user_organisation.inc
+files[] = includes/c4m_user_staff.inc
