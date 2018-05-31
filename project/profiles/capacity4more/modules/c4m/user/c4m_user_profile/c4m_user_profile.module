@@ -1036,6 +1036,43 @@ function c4m_user_profile_form_user_login_alter(&$form, &$form_state, $form_id) 
 
   // Add our custom "user_login_validate" instead.
   array_unshift($form['#validate'], 'c4m_user_profile_user_login_validate');
+
+  $form['#validate'][] = 'c4m_user_profile_user_login_validate_ecas';
+}
+
+/**
+ * Wrapper around user module to check if user is known as ecas user.
+ *
+ * @param string $username
+ *   Drupal user name user tries to log in with.
+ *
+ * @return bool
+ *   TRUE if user is recognized in the db as ecas user.
+ */
+function c4m_user_profile_is_user_ecas($username) {
+  if (!module_exists('ecas')) {
+    return FALSE;
+  }
+
+  $maps = user_get_authmaps($username);
+  if (!array_key_exists('ecas', (array) $maps)) {
+    return FALSE;
+  }
+  return $maps['ecas'] === $username;
+}
+
+/**
+ * Check if a user has a valid staff domain mail address.
+ *
+ * @param string $mail
+ *   Email address to check for valid staff doma/in.
+ *
+ * @return bool
+ *   TRUE if the user's mail domain belongs to EC Staff.
+ */
+function c4m_user_profile_is_email_ecas_staff($mail) {
+  $staffUser = new C4mStaffUser($mail);
+  return $staffUser->isValidStaff();
 }
 
 /**
@@ -1047,7 +1084,8 @@ function c4m_user_profile_user_login_validate($form, &$form_state) {
   if (empty($form_state['values']['name'])) {
     return;
   }
-  $account = user_load_by_name($form_state['values']['name']);
+  $username = $form_state['values']['name'];
+  $account = user_load_by_name($username);
 
   // Username not found.
   if (!$account) {
@@ -1073,6 +1111,41 @@ function c4m_user_profile_user_login_validate($form, &$form_state) {
     $message = t('Sorry, unrecognized username or password. <a href="@password">Have you forgotten your password?</a>', ['@password' => url('user/password')]);
   }
   form_set_error('name', $message);
+}
+
+/**
+ * Validate user login form to see if username/email is linked to EU Login user.
+ */
+function c4m_user_profile_user_login_validate_ecas($form, &$form_state) {
+  if (empty($form_state['values']['name'])) {
+    return;
+  }
+  $username = $form_state['values']['name'];
+  if (c4m_user_profile_is_user_ecas($username)) {
+    // Clear errors.
+    form_clear_error();
+    // Clear error messages.
+    drupal_get_messages('error');
+
+    form_set_error('name', t("You're account is linked with an EU login account. Please login via !eu_login or !contact if you have no longer access to this account.", [
+      '!eu_login' => l(t('EU Login'), 'ecas'),
+      '!contact' => l(t('contact us'), 'contact'),
+    ]));
+    return;
+  }
+
+  if (c4m_user_profile_is_email_ecas_staff($username)) {
+    // Clear errors.
+    form_clear_error();
+    // Clear error messages.
+    drupal_get_messages('error');
+
+    form_set_error('name', t("You're account is recognized as an EC Staff domain. Please login via !eu_login or !contact if you have no longer access to this account.", [
+      '!eu_login' => l(t('EU Login'), 'ecas'),
+      '!contact' => l(t('contact us'), 'contact'),
+    ]));
+    return;
+  }
 }
 
 /**
