@@ -301,6 +301,9 @@ function ecas_sync_profile_core(&$user, array $user_info) {
     if ($user_info['cas:domain'] !== 'external') {
       $edit[$field_ecascreator][LANGUAGE_NONE][0]['value'] = $user_info['cas:domain'] . '/' . $user_info['cas:departmentNumber'];
     }
+    else {
+      $edit[$field_ecascreator][LANGUAGE_NONE][0]['value'] = $user_info['cas:domain'];
+    }
   }
 
   // Save changes.

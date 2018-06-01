@@ -562,6 +562,8 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
   $account = $form['#user'];
   $account_wrapper = entity_metadata_wrapper('user', $account);
 
+  $ecas_user = _is_ecas_user($account);
+
   // Disable fields if the user is an organisation user and the field has a
   // default value.
   if ($account_wrapper->c4m_is_organisation_user->value()) {
@@ -575,7 +577,12 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
 
   c4m_user_profile_alter_user_form($form, $form_state, FALSE);
 
-  $form['mail']['#description'] = 'Please note you will have to provide your password and confirm your new address to change your e-mail address.';
+  if (!$ecas_user) {
+    $form['mail']['#description'] = 'Please note you will have to provide your password and confirm your new address to change your e-mail address.';
+  }
+
+  // Disable ECAS provided fields.
+  _c4m_user_profile_alter_profile_form_disable_ecas_fields($form, $ecas_user);
 
   // Disable Overlay, Email, Locale and Contact settings.
   // They are moved to Settings page.
@@ -635,6 +642,22 @@ function _c4m_user_profile_alter_profile_form_disable_settings_fields(array &$fo
   $form['mimemail']['#access'] = FALSE;
   $form['timezone']['#access'] = FALSE;
   $form['contact']['#access'] = FALSE;
+}
+
+/**
+ * Disable fields on the user_profile form, that are moved to the settings page.
+ *
+ * @param array $form
+ *   Render array of the form.
+ */
+function _c4m_user_profile_alter_profile_form_disable_ecas_fields(array &$form, $ecas_user) {
+  if (!$ecas_user) {
+    return;
+  }
+
+  $form['c4m_first_name']['#disabled'] = TRUE;
+  $form['c4m_last_name']['#disabled'] = TRUE;
+  $form['c4m_organisation']['#disabled'] = TRUE;
 }
 
 /**
@@ -930,9 +953,9 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
     return;
   }
 
-  $other_user = entity_metadata_wrapper('user', $other_user);
-  if ($other_user->status->value()) {
-    if ($staff_user->isValidStaff()) {
+  $other_user_wrapper = entity_metadata_wrapper('user', $other_user);
+  if ($other_user_wrapper->status->value()) {
+    if ($staff_user->isValidStaff() || _is_ecas_user($other_user)) {
       $data['validation_messages'][] = [
         'message' => t('This account is already in use. If this is you, please !login_ecas.', [
           '!login_ecas' => l(t('log in with your EU login account'), 'ecas'),
@@ -955,17 +978,17 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
   else {
     $error = FALSE;
 
-    if (!$other_user->last_login->value() && !$other_user->last_access->value()) {
+    if (!$other_user_wrapper->last_login->value() && !$other_user_wrapper->last_access->value()) {
       $data['validation_messages'][] = [
         'message' => t('This email address is already in use. Please activate your account, or !resend_activation.', [
-          '!resend_activation' => l(t('re-send the activation mail'), 'user/' . $other_user->uid->value() . '/resend-activation-email'),
+          '!resend_activation' => l(t('re-send the activation mail'), 'user/' . $other_user_wrapper->uid->value() . '/resend-activation-email'),
         ]),
         'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
         '#weight' => -4,
       ];
       $error = TRUE;
     }
-    if ($other_user->c4m_is_spammer->value()) {
+    if ($other_user_wrapper->c4m_is_spammer->value()) {
       $data['validation_messages'][] = [
         'message' => t('This account has been blocked. !contact site administrator for more information.', [
           '!contact' => l(t('Contact'), 'contact'),
@@ -975,7 +998,7 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
       ];
       $error = TRUE;
     }
-    if ($other_user->c4m_is_deleted->value()) {
+    if ($other_user_wrapper->c4m_is_deleted->value()) {
       $data['validation_messages'][] = [
         'message' => t('There is a problem with your account, please !contact the site administrators.', [
           '!contact' => l(t('contact'), 'contact'),
