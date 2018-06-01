@@ -786,7 +786,7 @@ function ecas_create_user($ecas_name, $defaults = []) {
   // Register the user has ECAS authentication.
   db_insert('authmap')
     ->fields([
-      'authname' => $ecas_name,
+      'authname' => $account->name,
       'uid' => $account->uid,
       'module' => 'ecas',
     ])
