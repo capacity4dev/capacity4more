@@ -22,6 +22,6 @@ SCRIPT_CONFIG="$TRAVIS_BUILD_DIR/search_api_solr/solr-conf/5.x"
 CORE_NAME="$1"
 
 cd $TRAVIS_BUILD_DIR
-drush dl search_api_solr
+drush dl search_api_solr-7.x-1.12
 curl -sSL $SCRIPT_URL | SOLR_CORE="$CORE_NAME" SOLR_CONFS="$SCRIPT_CONFIG" bash
 rm -R $TRAVIS_BUILD_DIR/search_api_solr
