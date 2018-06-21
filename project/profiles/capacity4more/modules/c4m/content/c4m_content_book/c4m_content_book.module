@@ -36,6 +36,15 @@ function c4m_content_book_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['book/%node/print'] = [
+    'title callback' => 'node_page_title',
+    'title arguments' => [1],
+    'page callback' => 'c4m_content_book_print',
+    'page arguments' => [1],
+    'access callback' => 'node_access',
+    'access arguments' => ['view', 1],
+  ];
+
   return $items;
 }
 
@@ -359,4 +368,188 @@ function c4m_content_book_query_c4m_content_book_join_alter(
   QueryAlterableInterface $query
 ) {
   $query->join('book', 'book', 'book.bid = node.nid');
+}
+
+/**
+ * Page callback for help and guidance autocomplete.
+ *
+ * @param object $node
+ *   The node that needs to be exported.
+ *
+ * @return null|string
+ *   Returns content of the book pages.
+ */
+function c4m_content_book_print($node) {
+  if (empty($node->book)) {
+    return drupal_access_denied();
+  }
+
+  drupal_set_title($node->title);
+  $tree = book_menu_subtree_data($node->book);
+  $contents = book_export_traverse($tree, 'c4m_content_book_node_export');
+  $comments = '';
+  $cids = comment_get_thread($node, COMMENT_MODE_FLAT, 100);
+  $status = FALSE;
+  if (!empty($node->book['bid'])) {
+    $block = node_load($node->book['bid']);
+    $block_wrapper = entity_metadata_wrapper('node', $block);
+    if (!empty($block_wrapper->c4m_og_status->value())) {
+      $status = $block_wrapper->c4m_og_status->value();
+    }
+  }
+  if (!empty($cids)) {
+    $comments = comment_load_multiple($cids);
+    $comments = comment_view_multiple($comments, $node, $view_mode = 'full', $weight = 0, $langcode = NULL);
+  }
+
+  return theme(
+    'c4m_content_book_export_html',
+    [
+      'title' => $node->title,
+      'contents' => $contents,
+      'comments' => $comments,
+      'status' => $status,
+    ]
+  );
+}
+
+/**
+ * Function that returns the rendering of a book.
+ *
+ * @param object $node
+ *   The book node.
+ * @param string $children
+ *   The subpages of the node.
+ *
+ * @return string
+ *   Returns the renderd node.
+ */
+function c4m_content_book_node_export($node, $children = '') {
+
+  if (!empty($_GET['no_children'])) {
+    if ($_GET['no_children'] == 'true') {
+      $children = "";
+    }
+  }
+  $build = node_view($node, 'print');
+  $node->rendered = drupal_render($build);
+  $hierarchy_list = [];
+  $flatten = book_get_flat_menu($node->book);
+  $p = 1;
+  $ok = TRUE;
+  while (($p <= 9) && $ok) {
+    if (!empty($node->book['p' . $p])) {
+      $hierarchy_list[] = $flatten[$node->book['p' . $p]]['title'];
+    }
+    else {
+      $ok = FALSE;
+    }
+    $p++;
+  }
+  $hierarchy = implode(" > ", $hierarchy_list);
+  return theme(
+    'c4m_content_book_node_export_html',
+    [
+      'content' => $node->rendered,
+      'children' => $children,
+      'hierarchy' => $hierarchy,
+    ]
+  );
+
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_content_book_theme() {
+  $template_path = drupal_get_path('module', 'c4m_content_book') . '/templates';
+  return [
+    'c4m_content_book_export_html' => [
+      'variables' => [
+        'title' => NULL,
+        'contents' => NULL,
+        'comments' => NULL,
+        'status' => NULL,
+      ],
+      'template' => 'c4m-content-book-export-html',
+      'path' => $template_path,
+    ],
+    'c4m_content_book_node_export_html' => [
+      'variables' => [
+        'content' => NULL,
+        'children' => NULL,
+        'hierarchy' => NULL,
+      ],
+      'template' => 'c4m-content-book-node-export-html',
+      'path' => $template_path,
+    ],
+    'c4m_content_book_print_button' => [
+      'variables' => [
+        "book_url" => NULL,
+        "page_url" => NULL,
+        "page_subpages_url" => NULL,
+      ],
+      'template' => 'c4m-content-book-print-button',
+      'path' => $template_path,
+    ],
+  ];
+}
+
+/**
+ * Implements hook_ds_fields_info().
+ */
+function c4m_content_book_ds_fields_info($entity_type) {
+  // Create ds field that displays the book print buttons.
+  $fields = [
+    'c4m_dsfield_book_print_button' => [
+      'title' => t('Book - Print button'),
+      'field_type' => DS_FIELD_TYPE_FUNCTION,
+      'function' => '_c4m_content_book_dsfield_print_button',
+    ],
+  ];
+
+  return [$entity_type => $fields];
+}
+
+/**
+ * Returns the print button.
+ *
+ * @param array $field
+ *   Code field.
+ *
+ * @return string
+ *   Print button markup.
+ */
+function _c4m_content_book_dsfield_print_button(array $field) {
+  $nid = ($field['entity']->nid) ? $field['entity']->nid : 0;
+  $bid = ($field['entity']->book['bid']) ? $field['entity']->book['bid'] : 0;
+  $print_urls = [
+    'page_url' => l(
+      t('Print page'),
+      '/book/' . $nid . '/print',
+      [
+        'query' => ['no_children' => 'true'],
+        'absolute' => TRUE,
+        'attributes' => ['target' => '_blank'],
+      ]
+    ),
+    'page_subpages_url' => l(
+      t('Print page & sub-pages'),
+      '/book/' . $nid . '/print',
+      [
+        'absolute' => TRUE,
+        'attributes' => ['target' => '_blank'],
+      ]
+    ),
+    'book_url' => l(
+      t('Print all pages & sub-pages'),
+      '/book/' . $bid . '/print',
+      [
+        'absolute' => TRUE,
+        'attributes' => ['target' => '_blank'],
+      ]
+    ),
+  ];
+
+  return theme('c4m_content_book_print_button', $print_urls);
 }

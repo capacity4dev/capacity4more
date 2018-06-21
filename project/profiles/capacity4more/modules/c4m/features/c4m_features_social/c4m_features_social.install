@@ -42,6 +42,9 @@ function c4m_features_social_share_settings() {
     'c4m_print'  => array(
       'enabled' => TRUE,
     ),
+    'more' => array(
+      'enabled' => TRUE,
+    ),
   );
 
   variable_set('c4m_social_share', $settings);
@@ -57,4 +60,13 @@ function c4m_features_social_update_7001() {
   $settings['e-mail'] = $settings['email_link'];
   unset($settings['email_link']);
   variable_set('c4m_social_share', $settings);
+}
+
+/**
+ * Implements hook_update_7002().
+ *
+ * Adds more option to share buttons.
+ */
+function c4m_features_social_update_7002() {
+  c4m_features_social_share_settings();
 }

@@ -92,3 +92,43 @@ function theme_c4m_content_document_type_size(array $field) {
 
   return theme_html_tag($tags['type']) . ' | ' . theme_html_tag($tags['size']);
 }
+
+/**
+ * PDF preview DS field.
+ *
+ * @param array $field
+ *   The field info.
+ *
+ * @return string|null
+ *   The rendered version of the field.
+ */
+function c4m_content_document_ds_field_pdf_preview(array $field) {
+  if (empty($field['entity']->c4m_document)) {
+    return;
+  }
+
+  $object = $field['entity'];
+  $object_wrapper = entity_metadata_wrapper('node', $object);
+
+  $document = $object_wrapper->c4m_document->value();
+  if (empty($document['filemime']) || $document['filemime'] !== 'application/pdf') {
+    return;
+  }
+
+  $file_uri = file_entity_download_uri((object) $document);
+  $file_uri['options']['query']['skip_file_download_count'] = TRUE;
+  $file_url = url($file_uri['path'], $file_uri['options']);
+  $output = [
+    '#theme' => 'html_tag',
+    '#tag' => 'iframe',
+    '#attributes' => [
+      'id' => 'file-preview',
+      'src' => base_path() . 'profiles/capacity4more/libraries/pdf.js/web/viewer.html?file=' . drupal_encode_path($file_url),
+      'width' => '100%',
+      'height' => '600',
+    ],
+    '#value' => '',
+  ];
+
+  return drupal_render($output);
+}

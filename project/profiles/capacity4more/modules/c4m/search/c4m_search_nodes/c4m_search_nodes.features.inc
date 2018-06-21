@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_search_nodes.features.inc

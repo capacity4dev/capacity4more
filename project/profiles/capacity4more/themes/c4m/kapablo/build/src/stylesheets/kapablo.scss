@@ -16,6 +16,7 @@
 @import "components/captcha";
 @import "components/carousel";
 @import "components/comments";
+@import "components/consent";
 @import "components/circle";
 @import "components/documents";
 @import "components/events";
@@ -40,6 +41,7 @@
 @import "components/topics";
 @import "components/trigger";
 @import "components/users";
+@import "components/user_settings";
 @import "components/views";
 @import "components/vocab";
 @import "components/voices_and_views";
@@ -56,3 +58,4 @@
 @import "states/token";
 
 @import "base/print";
+@import "base/print_text";

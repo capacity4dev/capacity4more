@@ -8,36 +8,18 @@
 /**
  * Implements hook_node_insert().
  *
- * Flags inserted node, if content requires notification.
+ * Flags inserted node.
  */
 function c4m_user_subscribe_node_insert($node) {
-  if (!in_array($node->type, c4m_og_get_extended_content_notification_types())) {
-    // Inserted content does not require notification.
-    return;
-  }
-
-  $account = user_load($node->uid);
-
-  flag('flag', 'subscribe_c4m_follow_comment', $node->nid, $account);
-  flag('flag', 'subscribe_c4m_follow_node', $node->nid, $account);
+  flag('flag', 'subscribe_c4m_follow_node', $node->nid);
 }
 
 /**
  * Implements hook_node_update().
  *
- * Flags updated node, if content requires notification.
+ * Flags updated node.
  */
 function c4m_user_subscribe_node_update($node) {
-  if (!in_array($node->type, c4m_og_get_extended_content_notification_types())) {
-    // Inserted content does not require notification.
-    return;
-  }
-
-  // If user has not unsubscribed from that type of notifications.
-  if (!_c4m_user_subscribe_entity_notifications_disabled($node->nid, 'comment')) {
-    flag('flag', 'subscribe_c4m_follow_comment', $node->nid);
-  }
-
   flag('flag', 'subscribe_c4m_follow_node', $node->nid);
 }
 
@@ -48,51 +30,7 @@ function c4m_user_subscribe_node_update($node) {
  * content.
  */
 function c4m_user_subscribe_comment_insert($comment) {
-  $node = node_load($comment->nid);
-
-  if (!in_array($node->type, c4m_og_get_extended_content_notification_types())) {
-    // Inserted comment is on content that does not require notification.
-    return;
-  }
-
-  $account = user_load($comment->uid);
-
-  // Add 'follow comment' flag.
-  flag('flag', 'subscribe_c4m_follow_comment', $node->nid, $account);
-}
-
-/**
- * Helper function.
- *
- * Checks if user has disabled notifications for entity flagged by input flag.
- *
- * @param int $entity_id
- *   Entity ID.
- * @param string $flag_suffix
- *   Suffix of flag that is being checked.
- *   Possible values: "group, node, comment, term".
- *
- * @return bool
- *   Whether user has disabled notifications flagged by flag, for entity.
- */
-function _c4m_user_subscribe_entity_notifications_disabled($entity_id, $flag_suffix) {
-  global $user;
-
-  if (!in_array($flag_suffix, c4m_features_og_group_dashboard_get_notification_flags_suffixes())) {
-    // Unknown flag suffix.
-    return FALSE;
-  }
-
-  $wrapper = entity_metadata_wrapper('user', $user);
-  $field = "c4m_optout_{$flag_suffix}";
-  foreach ($wrapper->$field->value(array('identifier' => TRUE)) as $existing_id) {
-    if ($existing_id == $entity_id) {
-      // User unsubscribed from entity.
-      return TRUE;
-    }
-  }
-
-  return FALSE;
+  flag('flag', 'subscribe_c4m_follow_content', $comment->nid);
 }
 
 /**
@@ -102,7 +40,7 @@ function _c4m_user_subscribe_entity_notifications_disabled($entity_id, $flag_suf
  * the user membership is active.
  */
 function c4m_user_subscribe_og_membership_insert(OgMembership $membership) {
-  if ($membership->entity_type != 'user' || $membership->state != OG_STATE_ACTIVE) {
+  if ($membership->entity_type !== 'user' || $membership->state != OG_STATE_ACTIVE) {
     return;
   }
 
@@ -125,7 +63,7 @@ function c4m_user_subscribe_og_membership_update(OgMembership $membership) {
  * the group.
  */
 function c4m_user_subscribe_og_membership_delete(OgMembership $membership) {
-  if ($membership->entity_type != 'user') {
+  if ($membership->entity_type !== 'user') {
     return;
   }
 
@@ -145,4 +83,192 @@ function c4m_user_subscribe_to_group($membership, $event = 'flag') {
   $account = user_load($membership->etid);
   $flag = flag_get_flag('subscribe_c4m_follow_group');
   $flag->flag($event, $membership->gid, $account, TRUE);
+}
+
+/**
+ * Implements hook_user_insert().
+ */
+function c4m_user_subscribe_user_insert(&$edit, $account, $category) {
+  if (!empty($account->c4m_vocab_topic[LANGUAGE_NONE])) {
+    _c4m_user_subscribe_user_flag_terms($account->c4m_vocab_topic[LANGUAGE_NONE], $account);
+  }
+
+  if (!empty($account->c4m_vocab_geo[LANGUAGE_NONE])) {
+    _c4m_user_subscribe_user_flag_terms($account->c4m_vocab_geo[LANGUAGE_NONE], $account);
+  }
+}
+
+/**
+ * Implements hook_user_update().
+ */
+function c4m_user_subscribe_user_update(&$edit, $account, $category) {
+  $vocabs_of_interest = [
+    'c4m_vocab_topic',
+    'c4m_vocab_geo',
+  ];
+
+  foreach ($vocabs_of_interest as $vocab) {
+    if (!array_key_exists($vocab, $edit)) {
+      continue;
+    }
+
+    if (isset($account->original->{$vocab}[LANGUAGE_NONE]) && isset($account->{$vocab}[LANGUAGE_NONE])) {
+      if ($account->original->{$vocab}[LANGUAGE_NONE] === $account->{$vocab}[LANGUAGE_NONE]) {
+        continue;
+      }
+    }
+
+    // Subscribe the user to tags that were not selected before.
+    $new_terms = array_udiff(
+      (is_array($account->{$vocab}) && array_key_exists(LANGUAGE_NONE, $account->{$vocab})) ? $account->{$vocab}[LANGUAGE_NONE] : [],
+      (is_array($account->original->{$vocab}) && array_key_exists(LANGUAGE_NONE, $account->original->{$vocab})) ? $account->original->{$vocab}[LANGUAGE_NONE] : [],
+      '_c4m_user_subscribe_user_compare_terms_array'
+    );
+
+    if (!empty($new_terms)) {
+      _c4m_user_subscribe_user_flag_terms($new_terms, $account);
+    }
+
+    // Unsubscribe the user from tags he deselected.
+    $old_terms = array_udiff(
+      (is_array($account->original->{$vocab}) && array_key_exists(LANGUAGE_NONE, $account->original->{$vocab})) ? $account->original->{$vocab}[LANGUAGE_NONE] : [],
+      (is_array($account->{$vocab}) && array_key_exists(LANGUAGE_NONE, $account->{$vocab})) ? $account->{$vocab}[LANGUAGE_NONE] : [],
+      '_c4m_user_subscribe_user_compare_terms_array'
+    );
+
+    if (!empty($old_terms)) {
+      _c4m_user_subscribe_user_unflag_terms($old_terms, $account);
+    }
+  }
+}
+
+/**
+ * Helper function to group an input array by a specific key.
+ *
+ * @param array $data_array
+ *   Input array to group.
+ * @param string $uid_key
+ *   Key to group by.
+ * @param string $term_key
+ *   Key to assign values to keys.
+ *
+ * @return array
+ *   Multidimensional array grouped by $uid_key.
+ */
+function _c4m_user_subscribe_group_term_ids_by_uid(array $data_array, $uid_key, $term_key) {
+  $return = [];
+  foreach ($data_array as $v) {
+    $return[$v->{$uid_key}][]['tid'] = $v->{$term_key};
+  }
+  return $return;
+}
+
+/**
+ * Helper function to compare array of term id values.
+ *
+ * @param array $a
+ *   First array value.
+ * @param array $b
+ *   Second array value.
+ *
+ * @return mixed
+ *   Compare result.
+ */
+function _c4m_user_subscribe_user_compare_terms_array(array $a, array $b) {
+  return $a['tid'] - $b['tid'];
+}
+
+/**
+ * Helper function to subscribe users to term ids.
+ *
+ * @param array $terms
+ *   Array of tids.
+ * @param object $account
+ *   Drupal user entity object.
+ */
+function _c4m_user_subscribe_user_flag_terms(array $terms, $account) {
+  $flag = flag_get_flag('subscribe_c4m_follow_term');
+
+  foreach ($terms as $term) {
+    // Only to the deepest level!
+    if (!_c4m_user_subscribe_has_term_children($term['tid'], $terms)) {
+      $flag->flag('flag', $term['tid'], $account, TRUE);
+    }
+    else {
+      // We unsubscribe a user from a "parent" term if he selected children.
+      _c4m_user_subscribe_user_unflag_terms([0 => ['tid' => $term['tid']]], $account);
+    }
+  }
+}
+
+/**
+ * Load a term's (sub)tree and remove any selected children.
+ *
+ * @param int $term_tid
+ *   Array key in the terms array.
+ * @param array $terms
+ *   Reference to the terms array, so we can unset keys.
+ */
+function _c4m_user_subscribe_has_term_children($term_tid, array &$terms) {
+  $term = taxonomy_term_load($term_tid);
+  $subtree_terms = taxonomy_get_tree($term->vid, $term->tid, 1);
+
+  if (!empty($subtree_terms)) {
+    foreach ($subtree_terms as $subterm) {
+      // $terms does not have proper $key => $value structure so we have no
+      // other option that to iterate over it completely.
+      foreach ($terms as $key => $element) {
+        if ($subterm->tid == $element['tid']) {
+          return TRUE;
+        }
+      }
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Helper function to unsubscribe users to term ids.
+ *
+ * @param array $terms
+ *   Array of tids.
+ * @param object $account
+ *   Drupal user entity object.
+ */
+function _c4m_user_subscribe_user_unflag_terms(array $terms, $account) {
+  $flag = flag_get_flag('subscribe_c4m_follow_term');
+  foreach ($terms as $term) {
+    $flag->flag('unflag', $term['tid'], $account, TRUE);
+  }
+}
+
+/**
+ * Implements hook_c4m_content_actions_info().
+ */
+function c4m_user_subscribe_c4m_content_actions_info() {
+  return [
+    'action_follow' => [
+      'context' => ['group', 'global'],
+      'callback' => 'c4m_user_subscribe_action_follow',
+      'weight' => '3',
+    ],
+  ];
+}
+
+/**
+ * Callback to show the Follow content link.
+ *
+ * @param object $node
+ *   The node object.
+ *
+ * @return string
+ *   Rendered output of the follow link.
+ */
+function c4m_user_subscribe_action_follow($node = NULL) {
+  if (empty($node->nid)) {
+    return '';
+  }
+
+  $flag_link = flag_create_link('subscribe_c4m_follow_content', $node->nid);
+  return $flag_link;
 }

@@ -1,5 +1,4 @@
-#!/bin/sh
-set -e
+#!/bin/bash
 
 # ---------------------------------------------------------------------------- #
 #
@@ -7,12 +6,10 @@ set -e
 #
 # ---------------------------------------------------------------------------- #
 
-
 # No need for Solr if the profile is not installed.
-if [ $INSTALL_PROFILE -ne 1 ]; then
+if [ "$INSTALL_PROFILE" -ne 1 ]; then
  exit 0;
 fi
-
 
 # We use a script hosted on GitHub.
 SCRIPT_URL="https://raw.githubusercontent.com/soniCaH/travis-solr/update_versions_to_4x_5x/travis-solr.sh"

@@ -1,0 +1,15 @@
+#cookie-consent-banner {
+  //background: $base-accent;
+  bottom: 0;
+  //color: $color-white;
+  max-width: 100%;
+  position: fixed;
+  width: 100%;
+}
+
+.embeddedContent {
+  .no-cookie-consent {
+    padding: 6em 0;
+    border: 1px solid $color-gray-light;
+  }
+}

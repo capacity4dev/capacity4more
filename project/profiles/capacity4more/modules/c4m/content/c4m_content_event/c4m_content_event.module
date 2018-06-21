@@ -264,3 +264,23 @@ function c4m_content_event_form_event_node_form_alter(array &$form, array $form_
   c4m_content_create_group_content_access();
   c4m_og_add_content_author_options_to_power_users($form);
 }
+
+/**
+ * Implements hook_addtocal_extract_event_info_alter().
+ */
+function c4m_content_event_addtocal_extract_event_info_alter(
+  &$info,
+  $entity_type,
+  $entity
+) {
+  $entity_wrapper = entity_metadata_wrapper('node', $entity);
+  if (!empty($entity_wrapper->c4m_event_type)) {
+    $info['title'] = $info['title'] . ' - ' . $entity_wrapper->c4m_event_type->value();
+  }
+  if (!empty($info['location'])) {
+    str_replace("\r\n", "", $info['location']);
+  }
+  if (!empty($info['description'])) {
+    $info['description'] = strip_tags($info['description']);
+  }
+}

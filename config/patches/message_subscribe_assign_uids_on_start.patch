@@ -1,0 +1,15 @@
+diff --git a/message_subscribe.module b/message_subscribe.module
+index 0e9f058..22fd989 100755
+--- a/message_subscribe.module
++++ b/message_subscribe.module
+@@ -147,6 +147,10 @@ function message_subscribe_send_message($entity_type, $entity, Message $message,
+     return $message;
+   }
+ 
++  if ($message->type === 'c4m_notify_subscribe_content_of_interest') {
++    $message->field_taxonomy_term[LANGUAGE_NONE][0]['target_id'] = $id;
++  }
++
+   foreach ($uids as $uid => $values) {
+     $last_uid = $uid;
+     // Clone the message in case it will need to be saved, it won't

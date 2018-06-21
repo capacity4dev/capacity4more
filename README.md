@@ -8,8 +8,9 @@ knowledge.
 
 ## Requirements
 
-- Grunt and grunt-cli (`npm install -g grunt grunt-cli`)
 - Bower (`npm install -g bower`)
+- Grunt and grunt-cli (`npm install -g grunt grunt-cli`)
+- Gulp (`npm install -g gulp`)
 - Sass (`sudo gem install sass`)
 
 ## Installation

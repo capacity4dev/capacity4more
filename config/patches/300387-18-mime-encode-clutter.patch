@@ -1,0 +1,23 @@
+diff --git a/includes/unicode.inc b/includes/unicode.inc
+index f9684a8..4002618 100644
+--- a/includes/unicode.inc
++++ b/includes/unicode.inc
+@@ -388,17 +388,7 @@ function truncate_utf8($string, $max_length, $wordsafe = FALSE, $add_ellipsis =
+  */
+ function mime_header_encode($string) {
+   if (preg_match('/[^\x20-\x7E]/', $string)) {
+-    $chunk_size = 47; // floor((75 - strlen("=?UTF-8?B??=")) * 0.75);
+-    $len = strlen($string);
+-    $output = '';
+-    while ($len > 0) {
+-      $chunk = drupal_truncate_bytes($string, $chunk_size);
+-      $output .= ' =?UTF-8?B?' . base64_encode($chunk) . "?=\n";
+-      $c = strlen($chunk);
+-      $string = substr($string, $c);
+-      $len -= $c;
+-    }
+-    return trim($output);
++    $string = '=?UTF-8?B?'. base64_encode($string) ."?=";
+   }
+   return $string;
+ }

@@ -24,15 +24,26 @@
  *   - content_types : An array of enabled content types.
  */
 function hook_c4m_og_feature_info() {
-  return array(
-    'c4m_og' => array(
+  return [
+    'c4m_og' => [
       'name' => t('Organic Groups'),
       'description' => t('Organic Group features.'),
       'machine_name' => 'c4m_og',
       'weight' => 0,
       'default' => TRUE,
-      'group_types' => array('group', 'project'),
-      'content_types' => array('group', 'project'),
-    ),
-  );
+      'group_types' => ['group', 'project'],
+      'content_types' => ['group', 'project'],
+    ],
+  ];
+}
+
+/**
+ * Custom actions before deleting the merged group.
+ *
+ * @param int $group_id
+ *   Merged group.
+ * @param int $target_group_id
+ *   Target group.
+ */
+function hook_c4m_group_merge($group_id, $target_group_id) {
 }

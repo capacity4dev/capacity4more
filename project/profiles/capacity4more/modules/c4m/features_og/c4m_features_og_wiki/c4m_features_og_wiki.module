@@ -192,13 +192,15 @@ function c4m_features_og_wiki_block_view_alter(&$data, $block) {
   }
 
   // Replace wiki default item with the one that was generated.
-  foreach ($data['content'] as &$item) {
-    if (isset($item['#href']) && $item['#href'] == 'wiki') {
-      // Preserve the theme of default item.
-      $wiki['#theme'] = $item['#theme'];
-      $wiki['#title'] = $item['#title'];
-      $item = $wiki;
-      break;
+  if (!empty($data['content'])) {
+    foreach ($data['content'] as &$item) {
+      if (isset($item['#href']) && $item['#href'] == 'wiki') {
+        // Preserve the theme of default item.
+        $wiki['#theme'] = $item['#theme'];
+        $wiki['#title'] = $item['#title'];
+        $item = $wiki;
+        break;
+      }
     }
   }
 }

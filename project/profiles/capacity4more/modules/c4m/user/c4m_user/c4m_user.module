@@ -180,12 +180,12 @@ function c4m_user_ds_fields_info($entity_type) {
  * Helper function to render C4M user image based on a user entity.
  *
  * @param object $user
- *    The user object.
+ *   The user object.
  * @param string $style
- *    The image style name.
+ *   The image style name.
  *
  * @return string
- *    Rendered link with image inside.
+ *   Rendered link with image inside.
  */
 function c4m_user_image($user, $style = NULL) {
   $output = '';
@@ -206,12 +206,12 @@ function c4m_user_image($user, $style = NULL) {
  * Return the themed initials of a user's full name.
  *
  * @param string $initials
- *    The initials.
+ *   The initials.
  * @param string $link
- *    (optional) Link to use for the output. Defaults to empty string.
+ *   (optional) Link to use for the output. Defaults to empty string.
  *
  * @return string
- *    Rendered html.
+ *   Rendered html.
  */
 function c4m_user_get_themed_initials($initials, $link = '') {
   static $colors;
@@ -253,10 +253,10 @@ function c4m_user_get_themed_initials($initials, $link = '') {
  * Return the initials of a user's full name.
  *
  * @param object $account
- *    The user object.
+ *   The user object.
  *
  * @return string
- *    The initials (max 2).
+ *   The initials (max 2).
  */
 function c4m_user_get_user_initials($account) {
   $name = c4m_user_name($account);
@@ -267,10 +267,10 @@ function c4m_user_get_user_initials($account) {
  * Return the initials (max 2) of a full name.
  *
  * @param string $name
- *    The name.
+ *   The name.
  *
  * @return string
- *    The initials (max 2).
+ *   The initials (max 2).
  */
 function c4m_user_get_initials($name) {
   $words = preg_split("/[\s,_-]+/", $name);
@@ -289,10 +289,10 @@ function c4m_user_get_initials($name) {
  * Using the user entity to get the needed info.
  *
  * @param object $user
- *    The user object.
+ *   The user object.
  *
  * @return string
- *    The first and last name.
+ *   The first and last name.
  */
 function c4m_user_name($user) {
   $wrapper = entity_metadata_wrapper('user', $user);
@@ -316,7 +316,7 @@ function c4m_user_name($user) {
  * Get some background classes (random colors).
  *
  * @return array
- *    Array with colors.
+ *   Array with colors.
  */
 function _c4m_user_initials_colors() {
   return array(
@@ -444,7 +444,7 @@ function theme_c4m_user_views_bulk_operations_confirmation($variables) {
  *   The User ID.
  *
  * @return int
- *    Number of posts.
+ *   Number of posts.
  */
 function c4m_user_count_nodes($uid) {
   $query = db_select('node', 'n');
@@ -464,7 +464,7 @@ function c4m_user_count_nodes($uid) {
  *   Determine if to get only comments of published nodes.
  *
  * @return int
- *    Number of comments.
+ *   Number of comments.
  */
 function c4m_user_count_comments($uid, $node_published = TRUE) {
   $query = db_select('comment', 'c');
@@ -637,30 +637,6 @@ function _c4m_user_get_node_count($user) {
  * Implements hook_menu().
  */
 function c4m_user_menu() {
-  $items['admin/config/c4m/ldap'] = array(
-    'title' => 'Manage LDAP',
-    'description' => 'Manage LDAP service and integration.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_user_admin_ldap_configuration'),
-    'access arguments' => array('administer site configuration'),
-    'file' => 'c4m_user.admin.inc',
-  );
-
-  $items['admin/config/c4m/ldap/configuration'] = array(
-    'title' => 'Configuration',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-  );
-
-  $items['admin/config/c4m/ldap/test'] = array(
-    'title' => 'Test',
-    'description' => 'Test LDAP service and integration.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_user_admin_ldap_test'),
-    'access arguments' => array('administer site configuration'),
-    'file' => 'c4m_user.admin.inc',
-    'type' => MENU_LOCAL_TASK,
-  );
-
   $items['admin/config/c4m/organisation-validator'] = array(
     'title' => 'Test organisation mails',
     'description' => "Test email addresses vs organisations.",
@@ -1015,75 +991,13 @@ function c4m_user_page_alter(&$page) {
 }
 
 /**
- * Updates the user information based on LDAP and Organisation information.
- *
- * Callers might provide the email domain so that we don't have to query the db
- * to get the email domain either by domain or whitelist.
+ * Updates the user information based on Organisation information.
  *
  * @param object $account
  *   User account.
- * @param string|object $domain
- *   (optional) Email domain object. If NULL LDAP info should be removed.
- * @param string|object $whitelist_domain
- *   (optional) Email domain object. If NULL LDAP info should be removed.
  */
-function c4m_user_update_information(
-  $account,
-  $domain = '',
-  $whitelist_domain = ''
-) {
+function c4m_user_update_information($account) {
   $edit = array();
-
-  $domain_user = new C4mDomainUser($account->mail);
-  // Whitelist addresses should be found in domains list but may not be present
-  // in LDAP.
-  if (isset($domain) && ($domain || $domain = $domain_user->getEmailDomainByName(
-      ))
-  ) {
-    $ldap = new C4mLDAPUser();
-    if ($ldap->isUp()) {
-      $info = $ldap->getInfo($account->mail);
-      if ($info && !empty($info['valid'])) {
-        if ($info['country']) {
-          $edit['c4m_country'][LANGUAGE_NONE]['0']['value'] = $info['country'];
-        }
-        if ($info['dg']) {
-          $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $info['dg'];
-        }
-        if (_c4m_user_is_organisation_empty($edit) && $domain->organisation_name) {
-          $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $domain->organisation_name;
-        }
-        $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 1;
-        $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
-      }
-      elseif (isset($whitelist_domain) && ($whitelist_domain || $whitelist_domain = $domain_user->getEmailDomainByWhitelist(
-          ))
-      ) {
-        if ($whitelist_domain->organisation_name) {
-          $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $whitelist_domain->organisation_name;
-        }
-        $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 2;
-        $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
-      }
-      // User is LDAP user but not validated.
-      elseif ($info['valid'] === "0") {
-        $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 0;
-        $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 1;
-        $edit['c4m_organisation'][LANGUAGE_NONE] = array();
-        $edit['c4m_country'][LANGUAGE_NONE] = array();
-      }
-    }
-  }
-
-  // Check if the user used to be an ldap user.
-  $was_ldap = !empty($account->c4m_is_ldap_user[LANGUAGE_NONE]['0']['value']) || !empty($account->c4m_is_invalid_email[LANGUAGE_NONE]['0']['value']);
-  // If the user is no longer validated in LDAP but was previously, reset flags.
-  if ($was_ldap && empty($edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'])) {
-    $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 0;
-    $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
-    $edit['c4m_organisation'][LANGUAGE_NONE] = array();
-    $edit['c4m_country'][LANGUAGE_NONE] = array();
-  }
 
   $organisation_user = new C4mOrganisationUser($account->mail);
   if ($organisations = $organisation_user->getOrganisationsInfo()) {
@@ -1235,54 +1149,6 @@ function c4m_user_queue_process_user($item) {
 }
 
 /**
- * Implements hook_entity_type_presave().
- */
-function c4m_user_c4m_domain_presave($entity) {
-  // Construct the list of emails to be updated in $email_list.
-  if (isset($entity->original)) {
-    // When editing, the list contains the addresses new or deleted to / from
-    // the whitelist.
-    $new_emails = array_diff($entity->whitelist, $entity->original->whitelist);
-    $deleted_emails = array_diff(
-      $entity->original->whitelist,
-      $entity->whitelist
-    );
-  }
-  else {
-    $new_emails = $entity->whitelist;
-    $deleted_emails = array();
-  }
-
-  if ($new_emails) {
-    $query = new EntityFieldQuery();
-    $result = $query->entityCondition('entity_type', 'user')
-      ->propertyCondition('mail', $new_emails, 'IN')
-      ->execute();
-    if (!isset($result['user'])) {
-      return;
-    }
-    $accounts = array_keys($result['user']);
-    foreach ($accounts as $account_id) {
-      c4m_user_update_information(user_load($account_id), '', $entity);
-    }
-  }
-
-  if ($deleted_emails) {
-    $query = new EntityFieldQuery();
-    $result = $query->entityCondition('entity_type', 'user')
-      ->propertyCondition('mail', $deleted_emails, 'IN')
-      ->execute();
-    if (!isset($result['user'])) {
-      return;
-    }
-    $accounts = array_keys($result['user']);
-    foreach ($accounts as $account_id) {
-      c4m_user_update_information(user_load($account_id), '', NULL);
-    }
-  }
-}
-
-/**
  * Checks if a given user is set as spammer or not.
  *
  * @param object|int $user
@@ -1348,37 +1214,14 @@ function c4m_user_get_inactive_users() {
 function c4m_user_get_organisations($uid) {
   $account = user_load($uid);
 
-  $show_organisations = FALSE;
-
-  $domain_user = new C4mDomainUser($account->mail);
-  // Show domains only if the user is validated in LDAP, or is present in a
-  // whitelist or the domain is not a registered email domain.
-  if ($domain = $domain_user->getEmailDomainByName()) {
-    $ldap = new C4mLDAPUser();
-    if ($ldap->isUp()) {
-      $info = $ldap->getInfo($account->mail);
-      if ($info && !empty($info['valid'])) {
-        $show_organisations = TRUE;
-      }
-      elseif ($whitelist_domain = $domain_user->getEmailDomainByWhitelist()) {
-        $show_organisations = TRUE;
-      }
-    }
-  }
-  else {
-    $show_organisations = TRUE;
-  }
-
   $output = '';
-  if ($show_organisations) {
-    $organisation_user = new C4mOrganisationUser($account->mail);
-    if ($list = $organisation_user->getOrganisationsInfo()) {
-      $organisations = array();
-      foreach ($list as $organisation) {
-        $organisations[] = $organisation->title;
-      }
-      $output = implode(', ', $organisations);
+  $organisation_user = new C4mOrganisationUser($account->mail);
+  if ($list = $organisation_user->getOrganisationsInfo()) {
+    $organisations = array();
+    foreach ($list as $organisation) {
+      $organisations[] = $organisation->title;
     }
+    $output = implode(', ', $organisations);
   }
 
   return $output;

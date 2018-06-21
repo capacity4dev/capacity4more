@@ -43,11 +43,6 @@ function c4m_features_overview_topics_views_default_views() {
     'c4m_media' => 'c4m_media',
     'title' => 'title',
   );
-  /* Header: Global: Text area */
-  $handler->display->display_options['header']['area']['id'] = 'area';
-  $handler->display->display_options['header']['area']['table'] = 'views';
-  $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   /* Field: Content: Theme */
   $handler->display->display_options['fields']['c4m_vocab_theme']['id'] = 'c4m_vocab_theme';
   $handler->display->display_options['fields']['c4m_vocab_theme']['table'] = 'field_data_c4m_vocab_theme';

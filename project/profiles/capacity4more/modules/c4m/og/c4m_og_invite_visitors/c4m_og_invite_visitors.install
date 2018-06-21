@@ -9,65 +9,75 @@
  * Implements hook_schema().
  */
 function c4m_og_invite_visitors_schema() {
-  $schema['c4m_og_invite_visitors'] = array(
+  $schema['c4m_og_invite_visitors'] = [
     'description' => 'Stores visitor invitations to any group.',
-    'fields' => array(
-      'inv_id' => array(
+    'fields' => [
+      'inv_id' => [
         'description' => 'Sequential invitation ID.',
         'type' => 'serial',
         'unsigned' => TRUE,
         'not null' => TRUE,
-      ),
-      'inv_uid' => array(
+      ],
+      'inv_uid' => [
         'description' => 'ID of the new invited user (after registration)',
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => FALSE,
-      ),
-      'inv_inviter_id' => array(
+      ],
+      'inv_inviter_id' => [
         'description' => 'ID of the user who sent the invitation.',
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
-      ),
-      'inv_group_id' => array(
+      ],
+      'inv_group_id' => [
         'description' => 'ID of the group',
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
-      ),
-      'inv_email' => array(
+      ],
+      'inv_email' => [
         'description' => 'Email address of the invited visitor.',
         'type' => 'varchar',
         'length' => '255',
         'not null' => TRUE,
-      ),
-      'inv_created' => array(
+      ],
+      'inv_created' => [
         'description' => 'Date and time the invitation was sent.',
         'type' => 'int',
         'not null' => TRUE,
-      ),
-      'inv_updated' => array(
+      ],
+      'inv_updated' => [
         'description' => 'Date and time the invitation was processed.',
         'type' => 'int',
         'not null' => FALSE,
-      ),
-      'inv_token' => array(
+      ],
+      'inv_token' => [
         'description' => 'A hashed security token to validate the visitor\'s identity.',
         'type' => 'varchar',
         'length' => '255',
         'not null' => TRUE,
-      ),
-      'inv_expired' => array(
+      ],
+      'inv_expired' => [
         'description' => 'A boolean to indicate whether an invitation was processed.',
         'type' => 'int',
         'size' => 'tiny',
         'not null' => TRUE,
         'default' => 0,
-      ),
-    ),
-    'primary key' => array('inv_id'),
-  );
+      ],
+    ],
+    'primary key' => ['inv_id'],
+    'indexes' => [
+      'inv_uid' => ['inv_uid'],
+    ],
+  ];
 
   return $schema;
+}
+
+/**
+ * Add index for inv_uid column.
+ */
+function c4m_og_invite_visitors_update_7001() {
+  db_add_index('c4m_og_invite_visitors', 'inv_uid', ['inv_uid']);
 }

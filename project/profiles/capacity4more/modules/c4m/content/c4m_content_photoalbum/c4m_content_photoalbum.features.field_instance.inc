@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_photoalbum.features.field_instance.inc
@@ -747,7 +748,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 32,
       ),
       'highlight_list' => array(
         'label' => 'above',

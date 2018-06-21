@@ -29,7 +29,7 @@ ACCOUNT_MAIL="admin@capacity4more.dev"
 
 # Tika jar file location.
 TIKA_PATH="/home/travis/build/capacity4dev/capacity4more/tika/"
-TIKA_FILE="tika-app-1.12.jar"
+TIKA_FILE="tika-app-1.17.jar"
 
 # File path settings
 FILE_PATH_PUBLIC="sites/default/files"
@@ -56,7 +56,7 @@ COMPOSER_USE_GLOBAL=0
 # - global : use the globally installed drush command (outside druleton).
 #
 # If the variable is not set, phar will be used.
-DRUSH_VERSION="phar"
+DRUSH_VERSION="global"
 
 # drupal/coder is installed by default as a dependency for the bin/coder
 # command. The installation is not required on all environments.

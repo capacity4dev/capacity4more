@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_features_overview_groups.views_default.inc
@@ -91,6 +92,7 @@ function c4m_features_overview_groups_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Groups';
+  $handler->display->display_options['css_class'] = 'view-items-with-dashed-separator';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'views_access_callback';
   $handler->display->display_options['access']['views_access_callback'] = 'c4m_og_purl_global_content_access';
@@ -105,6 +107,8 @@ function c4m_features_overview_groups_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '5';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page'] = TRUE;
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options'] = '10, 20, 50';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'teaser';
@@ -123,7 +127,12 @@ function c4m_features_overview_groups_views_default_views() {
   $handler->display->display_options['header']['c4m_views_result']['table'] = 'views';
   $handler->display->display_options['header']['c4m_views_result']['field'] = 'c4m_views_result';
   $handler->display->display_options['header']['c4m_views_result']['ui_name'] = 'Number of items';
-  $handler->display->display_options['header']['c4m_views_result']['content'] = '@total in total, @start - @end shown';
+  $handler->display->display_options['header']['c4m_views_result']['content'] = '<span class="total-items">@total in total, @start - @end shown</span>';
+  /* Header: Items per page */
+  $handler->display->display_options['header']['c4m_views_items_per_page']['id'] = 'c4m_views_items_per_page';
+  $handler->display->display_options['header']['c4m_views_items_per_page']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_items_per_page']['field'] = 'c4m_views_items_per_page';
+  $handler->display->display_options['header']['c4m_views_items_per_page']['ui_name'] = 'Items per page';
   /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_c4m_search_nodes';

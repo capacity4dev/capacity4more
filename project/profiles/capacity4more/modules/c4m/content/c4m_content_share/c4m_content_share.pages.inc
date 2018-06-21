@@ -69,6 +69,13 @@ function c4m_content_share_form($form, &$form_state) {
     if (!empty($groups[$og_context['gid']])) {
       unset($groups[$og_context['gid']]);
     }
+    // Remove the current group from admin list.
+    if (!empty($groups['Group'][$og_context['gid']])) {
+      unset($groups['Group'][$og_context['gid']]);
+    }
+    if (!empty($groups['Project'][$og_context['gid']])) {
+      unset($groups['Project'][$og_context['gid']]);
+    }
   }
 
   // Remove groups already shared TO.
@@ -78,6 +85,13 @@ function c4m_content_share_form($form, &$form_state) {
   foreach ($groups_shared as $id_shared) {
     if (!empty($groups[$id_shared])) {
       unset($groups[$id_shared]);
+    }
+    // Remove groups in which content was already shared from admin list.
+    if (!empty($groups['Group'][$id_shared])) {
+      unset($groups['Group'][$id_shared]);
+    }
+    if (!empty($groups['Project'][$id_shared])) {
+      unset($groups['Project'][$id_shared]);
     }
   }
 
@@ -94,6 +108,14 @@ function c4m_content_share_form($form, &$form_state) {
 
   // Re-assign groups options list.
   $orig_form['og_group_ref'][LANGUAGE_NONE][0]['default']['#options'] = $groups;
+
+  // Change the autocomplete path.
+  $orig_form['og_group_ref'][LANGUAGE_NONE][0]['admin'][0]['target_id']['#autocomplete_path'] = url(
+    'c4m-autocomplete-share-groups/' . $node->nid,
+    [
+      'absolute' => TRUE,
+    ]
+  );
 
   // Create form element based on the original form['og_group_ref'].
   $form['og_group_ref'] = $orig_form['og_group_ref'];
@@ -181,6 +203,7 @@ function c4m_content_share_form_validate($form, &$form_state) {
  */
 function c4m_content_share_form_submit($form, &$form_state) {
   $values = $form_state['values'];
+  $inputs = $form_state['input'];
 
   $node = new stdClass();
   $node->title = $values['title'];
@@ -205,6 +228,16 @@ function c4m_content_share_form_submit($form, &$form_state) {
    */
 
   $node_wrapper = entity_metadata_wrapper('node', $node);
+
+  // Use the admin field if none was selected in the default reference field.
+  if ($values['og_group_ref'] == '_none') {
+    if (!empty($inputs['og_group_ref'][LANGUAGE_NONE][0]['admin'][0]['target_id'])) {
+      $admin_group_ref = $inputs['og_group_ref'][LANGUAGE_NONE][0]['admin'][0]['target_id'];
+      if (preg_match("/.+\((\d+)\)/", $admin_group_ref, $matches)) {
+        $values['og_group_ref'] = $matches[1];
+      }
+    }
+  }
 
   $node_wrapper->og_group_ref->set($values['og_group_ref']);
   $node_wrapper->c4m_source_entity->set($values['c4m_source_entity']);

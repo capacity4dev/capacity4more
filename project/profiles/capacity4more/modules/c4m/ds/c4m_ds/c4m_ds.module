@@ -314,6 +314,17 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
+  $fields['node']['c4m_ds_submitted_by_and_updated_on'] = array(
+    'title' => t('User name + last update date'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_ds.theme.node.inc',
+    'function' => 'theme_c4m_ds_submitted_by_and_updated_on',
+    'properties' => array(
+      'formatters' => $date_formatters,
+    ),
+  );
+
   $fields['node']['c4m_ds_creation_date'] = array(
     'title' => t('C4M creation date'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
@@ -325,12 +336,34 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
+  $fields['node']['c4m_ds_update_date'] = array(
+    'title' => t('C4M update date'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_ds.theme.node.inc',
+    'function' => 'theme_c4m_ds_update_date',
+    'properties' => array(
+      'formatters' => $date_formatters,
+    ),
+  );
+
   $fields['node']['c4m_ds_type_insert_action'] = array(
     'title' => t('Content type specific insert string'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
     'ui_limit' => array('*|*'),
     'file' => $path . '/includes/c4m_ds.theme.node.inc',
     'function' => 'theme_c4m_ds_type_insert_action',
+    'properties' => array(
+      'default' => 'Default',
+    ),
+  );
+
+  $fields['node']['c4m_ds_type_update_action'] = array(
+    'title' => t('Content type specific update string'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_ds.theme.node.inc',
+    'function' => 'theme_c4m_ds_type_update_action',
     'properties' => array(
       'default' => 'Default',
     ),
@@ -627,20 +660,9 @@ function c4m_ds_ds_fields_info($entity_type) {
     'ui_limit' => array('*|*'),
     'properties' => array(
       'formatters' => array(
-        'c4m_ds_formatter_link_and_size' => t(
-          'C4M download link with filesize'
-        ),
+        'c4m_link_and_size' => t('C4M download link with filesize'),
       ),
     ),
-  );
-
-  $fields['file']['c4m_ds_document_preview'] = array(
-    'title' => t('C4M document preview'),
-    'field_type' => DS_FIELD_TYPE_FUNCTION,
-    // Currently for document only.
-    'ui_limit' => array('document|*'),
-    'file' => $path . '/includes/c4m_ds.theme.file.inc',
-    'function' => 'theme_c4m_ds_document_preview',
   );
 
   $fields['user']['c4m_ds_article_notable_contribution'] = array(
@@ -745,18 +767,46 @@ function c4m_ds_field_formatter_info() {
     // Formatter to present download link of a file in particular format.
     'c4m_ds_formatter_link_and_size' => array(
       'label' => t('C4M Download link with filesize'),
-      'description' => t(
-        'Displays a link that will force the browser to
-        download the file.'
-      ),
+      'description' => t('Displays a link that will force the browser to download the file.'),
       'field types' => array('file', 'image'),
       'settings' => array(
-        'text' => t('Download [file:name]'),
+        'show_pdf_preview_link' => FALSE,
       ),
     ),
   );
 
   return $formatters;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function c4m_ds_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $summary = t('Show PDF preview link: @show_pdf_preview_link', ['@show_pdf_preview_link' => $settings['show_pdf_preview_link'] ? 'yes' : 'no']);
+
+  return $summary;
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function c4m_ds_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $element = [];
+
+  $element['show_pdf_preview_link'] = [
+    '#title' => t('Show PDF preview link'),
+    '#type' => 'checkbox',
+    '#default_value' => $settings['show_pdf_preview_link'],
+  ];
+
+  return $element;
+
 }
 
 /**
@@ -773,19 +823,27 @@ function c4m_ds_field_formatter_view(
   $items,
   $display
 ) {
-  $element = array();
+  $element = [];
 
-  if ($display['type'] == 'c4m_ds_formatter_link_and_size') {
+  if ($display['type'] === 'c4m_ds_formatter_link_and_size') {
     $settings = $display['settings'];
-    $element = array();
+    $element = [];
+
+    $pdf_preview_uri = FALSE;
+    if ($settings['show_pdf_preview_link']) {
+      $pdf_preview_uri = entity_uri('node', $entity);
+      c4m_og_purl_alter_uri_info_purl_auto($pdf_preview_uri);
+      $pdf_preview_uri['options']['fragment'] = 'file-preview';
+    }
+
     foreach ($items as $delta => $item) {
       $file = (object) $item;
       if (file_entity_access('download', $file)) {
-        $element[$delta] = array(
-          '#theme' => 'c4m_ds_formatter_link_and_size',
+        $element[$delta] = [
+          '#theme' => 'c4m_link_and_size',
           '#file' => $file,
-          '#text' => $settings['text'],
-        );
+          '#pdf_preview_uri' => $pdf_preview_uri,
+        ];
       }
     }
   }
@@ -801,10 +859,12 @@ function c4m_ds_theme() {
 
   return array(
     'c4m_ds_formatter_link_and_size' => array(
+      'variables' => array(),
+    ),
+    'c4m_link_and_size' => array(
       'variables' => array(
         'file' => NULL,
-        'icon_directory' => NULL,
-        'text' => NULL,
+        'pdf_preview_uri' => FALSE,
       ),
       'file' => 'includes/c4m_ds.theme.file.inc',
     ),
@@ -867,12 +927,12 @@ function c4m_ds_ds_pre_render_alter(&$layout_render_array, $context, &$vars) {
  * Format the string with the amount of posts and comments a user has posted.
  *
  * @param int $post_count
- *    The number of posts.
+ *   The number of posts.
  * @param int $comment_count
- *    The number of comments.
+ *   The number of comments.
  *
  * @return null|string
- *    Formatted string with number of posts and comments.
+ *   Formatted string with number of posts and comments.
  */
 function c4m_ds_user_activity_summary_helper($post_count = 0, $comment_count = 0) {
   $output = '';

@@ -3,9 +3,11 @@ api = 2
 
 ; Media
 
+projects[lazyloader][subdir] = "contrib"
+projects[lazyloader][version] = "1.4"
+
 projects[media][subdir] = "contrib"
-projects[media][version] = "2.0-rc3"
-projects[media][patch][] = "https://www.drupal.org/files/issues/2018-04-25/media--sa-contrib-2018-020.patch"
+projects[media][version] = "2.19"
 
 projects[media_flickr][subdir] = "contrib"
 projects[media_flickr][version] = "2.x-dev"
@@ -18,3 +20,6 @@ projects[media_youtube][version] = "3.0"
 
 projects[exif_orientation][subdir] = "contrib"
 projects[exif_orientation]version] = "1.1"
+
+projects[stage_file_proxy][subdir] = "contrib"
+projects[stage_file_proxy]version] = "1.7"

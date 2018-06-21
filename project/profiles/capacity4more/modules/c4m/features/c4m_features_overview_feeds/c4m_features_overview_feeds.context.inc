@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_features_overview_feeds.context.inc
@@ -26,6 +27,12 @@ function c4m_features_overview_feeds_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'current_search-c4m_current_search_nodes' => array(
+          'module' => 'current_search',
+          'delta' => 'c4m_current_search_nodes',
+          'region' => 'content',
+          'weight' => '-10',
+        ),
         'views--exp-c4m_overview_feeds-page' => array(
           'module' => 'views',
           'delta' => '-exp-c4m_overview_feeds-page',

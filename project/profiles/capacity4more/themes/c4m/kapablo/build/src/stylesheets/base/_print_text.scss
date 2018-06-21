@@ -1,0 +1,11 @@
+@media print {
+  body.text-only-print {
+    .embeddedContent,
+    iframe,
+    img,
+    i.group-icon,
+    .leaflet-container {
+      display: none;
+    }
+  }
+}

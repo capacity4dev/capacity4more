@@ -4,3 +4,4 @@ core = 7.x
 package = capacity4more - User
 dependencies[] = c4m_user
 dependencies[] = c4m_og
+dependencies[] = message_digest

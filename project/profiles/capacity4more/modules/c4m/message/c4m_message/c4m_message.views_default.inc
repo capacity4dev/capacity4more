@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_message.views_default.inc
@@ -25,11 +26,7 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['title'] = 'Global activity stream no-js fallback';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'none';
-  $handler->display->display_options['cache']['type'] = 'time';
-  $handler->display->display_options['cache']['results_lifespan'] = '300';
-  $handler->display->display_options['cache']['results_lifespan_custom'] = '0';
-  $handler->display->display_options['cache']['output_lifespan'] = '300';
-  $handler->display->display_options['cache']['output_lifespan_custom'] = '0';
+  $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['distinct'] = TRUE;
   $handler->display->display_options['query']['options']['query_tags'] = array(

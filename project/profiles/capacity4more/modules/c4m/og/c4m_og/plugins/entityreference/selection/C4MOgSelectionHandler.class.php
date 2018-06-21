@@ -146,7 +146,7 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
         $target_access = og_user_access($group_type, $group['gid'], "update any wiki_page content");
       }
 
-      if (!_c4m_features_og_members_is_power_user() && !$target_access) {
+      if (!c4m_features_og_members_is_power_user() && !$target_access) {
         // User is not group member and can't add content. Falsify the query.
         $query->propertyCondition($entity_info['entity keys']['id'], static::FALSE_ID, '=');
         return $query;

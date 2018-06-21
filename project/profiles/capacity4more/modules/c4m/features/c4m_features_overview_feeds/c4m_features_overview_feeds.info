@@ -3,6 +3,7 @@ description = Overview of all feeds.
 core = 7.x
 package = capacity4more - Features
 dependencies[] = context
+dependencies[] = current_search
 dependencies[] = entity
 dependencies[] = facetapi
 dependencies[] = views

@@ -16,33 +16,33 @@ function capacity4more_form_install_configure_form_alter(&$form, $form_state) {
 
   // Disable the update module by default.
   // It slows down accessing the administration back-end.
-  $form['update_notifications']['update_status_module']['#default_value'] = array(
+  $form['update_notifications']['update_status_module']['#default_value'] = [
     0 => 0,
     1 => 2,
-  );
+  ];
 }
 
 /**
  * Implements hook_install_tasks().
  */
 function capacity4more_install_tasks() {
-  $tasks = array();
+  $tasks = [];
 
-  $tasks['capacity4more_setup_set_variables'] = array(
+  $tasks['capacity4more_setup_set_variables'] = [
     'display_name' => st('Set variables'),
     'display' => FALSE,
-  );
+  ];
 
-  $tasks['capacity4more_setup_set_menu_purl'] = array(
+  $tasks['capacity4more_setup_set_menu_purl'] = [
     'display_name' => st('Set menu purl modifiers (main menu)'),
     'display' => FALSE,
-  );
+  ];
 
   // Run this as the last task!
-  $tasks['capacity4more_setup_rebuild_permissions'] = array(
+  $tasks['capacity4more_setup_rebuild_permissions'] = [
     'display_name' => st('Rebuild permissions'),
     'display' => FALSE,
-  );
+  ];
 
   return $tasks;
 }
@@ -62,7 +62,7 @@ function capacity4more_setup_rebuild_permissions() {
  * Task callback; Set variables.
  */
 function capacity4more_setup_set_variables(&$install_state) {
-  $variables = array(
+  $variables = [
     // Homepage.
     'weight_frontpage' => '0',
     'site_frontpage' => 'dashboard',
@@ -82,10 +82,11 @@ function capacity4more_setup_set_variables(&$install_state) {
 
     // Enable counting views of the entity.
     'statistics_count_content_views' => TRUE,
+    'statistics_count_content_views_ajax' => TRUE,
 
     // Set the homepage intro video.
     'c4m_features_homepage_intro_video_url' => 'http://youtu.be/O2AfmjzwAFY',
-  );
+  ];
 
   foreach ($variables as $key => $value) {
     variable_set($key, $value);
@@ -96,7 +97,7 @@ function capacity4more_setup_set_variables(&$install_state) {
  * Task callback; Setting purl modifiers for main menu.
  */
 function capacity4more_setup_set_menu_purl() {
-  $menus = array('main-menu', 'user-menu');
+  $menus = ['main-menu', 'user-menu'];
 
   foreach ($menus as $menu) {
     variable_set('purl_menu_behavior_' . $menu, 'disabled');

@@ -116,25 +116,4 @@ trait User {
     return $this->temporal_username;
   }
 
-  /**
-   * @Given /^Account with "([^"]*)" username should have an unsubscribe hash\.$/
-   */
-  public function accountWithUsernameIMayHaveAnUnsubscribeHash($name) {
-    $account = user_load_by_name($name);
-    $hash = c4m_user_profile_get_or_create_account_unsubscribe_hash($account);
-
-    if (!$hash) {
-      // Basically this should be a UNIT test, but since the structure doesn't
-      // exists and we're at the end of the phase the test was added under the
-      // Behat section.
-      // Since this test is not really using the session, we get a PHP fatal
-      // error when throwing an exception, hence we manipulate the session by
-      // invoking the `logout()` method.
-      // TODO: Move this to UNIT testing.
-      $this->logout();
-
-      throw new \Exception("$name has issues with creating an unsubscribe hush.");
-    }
-  }
-
 }

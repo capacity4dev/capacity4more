@@ -1,0 +1,41 @@
+diff --git a/includes/flag/flag_flag.inc b/includes/flag/flag_flag.inc
+index 2b96b9f..7c66995 100644
+--- a/includes/flag/flag_flag.inc
++++ b/includes/flag/flag_flag.inc
+@@ -129,7 +129,11 @@ class flag_flag {
+ 
+     // Populate the options with the defaults.
+     $options = (array) unserialize($row->options);
+-    $options += $flag->options();
++    
++    // Make sure flag->options is an array first.
++    if (is_array($options) && is_array($flag->options())) {
++      $options += $flag->options();
++    }
+ 
+     // Make the unserialized options accessible as normal properties.
+     foreach ($options as $option => $value) {
+@@ -200,7 +204,9 @@ class flag_flag {
+ 
+     // Merge in options from the current link type.
+     $link_type = $this->get_link_type();
+-    $options = array_merge($options, $link_type['options']);
++    if (is_array($options) && is_array($link_type['options'])) {
++      $options = array_merge($options, $link_type['options']);
++    }
+ 
+     // Allow other modules to change the flag options.
+     drupal_alter('flag_options', $options, $this);
+@@ -219,8 +225,10 @@ class flag_flag {
+    */
+   function construct() {
+     $options = $this->options();
+-    foreach ($options as $option => $value) {
+-      $this->$option = $value;
++    if (is_array($options)) {
++      foreach ($options as $option => $value) {
++        $this->$option = $value;
++      }
+     }
+   }
+ 

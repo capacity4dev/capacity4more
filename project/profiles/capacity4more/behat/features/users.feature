@@ -46,6 +46,7 @@ Feature: Testing user creation/manipulations.
       Then I should see "1 in total, 1 - 1 shown"
       And  I should see "Act only according to that maxim whereby you can at the same time will that it should become a universal law without contradiction"
       When I fill in "search" with "world"
+      And I check the box "edit-search-within-results"
       And  I press "edit-submit-my-comments"
       Then I should not see "1 in total, 1 - 1 shown"
       But  I click the "span.facetapi-deactivate" element
@@ -88,20 +89,3 @@ Feature: Testing user creation/manipulations.
     And  I fill in "pass[pass2]" with "1111"
     And  I press "Create new account"
     Then I should see the text "Created a new user account for behatuser"
-
-    @api
-    Scenario Outline: Verify that all users can have an unsubscribe hash.
-      Given Account with "<username>" username should have an unsubscribe hash.
-
-      Examples:
-      | username             |
-      | admin                |
-      | mariecurie           |
-      | isaacnewton          |
-      | badhairday           |
-      | galileo              |
-      | survivalofthefittest |
-      | turing               |
-      | president            |
-      | alfrednobel          |
-      | charlesbabbage       |

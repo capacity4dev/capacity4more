@@ -3,8 +3,16 @@ api = 2
 
 ; Search.
 
+projects[current_search_links][subdir] = "contrib"
+projects[current_search_links][version] = "1.x-dev"
+projects[current_search_links][download][type] = "git"
+projects[current_search_links][download][url] = "https://git.drupal.org/project/current_search_links.git"
+projects[current_search_links][download][revision] = "55c035d131f99a131f49de2decd3cc08640f33b0"
+projects[current_search_links][patch][] = "https://www.drupal.org/files/issues/current_search_links-theming-hooks-2929123-2.patch"
+
 projects[facetapi][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
+projects[facetapi][patch][] = "https://www.drupal.org/files/issues/facetapi-exportable-current-search-searcher-1469002-0.patch"
 
 projects[facetapi_bonus][subdir] = "contrib"
 projects[facetapi_bonus][version] = "1.2"
@@ -18,11 +26,11 @@ projects[search_api_attachments][subdir] = "contrib"
 projects[search_api_attachments][version] = "1.10"
 
 projects[search_api_solr][subdir] = "contrib"
-projects[search_api_solr][version] = "1.11"
-projects[search_api_solr][patch][] = "https://www.drupal.org/files/issues/2711685-support-solr6-7.patch"
+projects[search_api_solr][version] = "1.12"
+; projects[search_api_solr][patch][] = "https://www.drupal.org/files/issues/2711685-support-solr6-7.patch"
 
 projects[search_api_sorts][subdir] = "contrib"
-projects[search_api_sorts][version] = "1.x-dev"
+projects[search_api_sorts][version] = "1.7"
 
 projects[search_api_spellcheck][subdir] = "contrib"
 projects[search_api_spellcheck][version] = "1.0"

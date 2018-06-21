@@ -1,5 +1,4 @@
-#!/bin/sh
-set -e
+#!/bin/bash
 
 # ---------------------------------------------------------------------------- #
 #
@@ -7,9 +6,8 @@ set -e
 #
 # ---------------------------------------------------------------------------- #
 
-
 # No need for taskrunners if profile is not installed.
-if [ $INSTALL_PROFILE -ne 1 ]; then
+if [ "$INSTALL_PROFILE" -ne 1 ]; then
  exit 0;
 fi
 
@@ -19,10 +17,13 @@ gem install sass
 npm -v
 
 # Update npm.
-npm install -g npm@2
+npm install -g npm@latest
 
 # Install Grunt.
 npm install -g grunt-cli
+
+# Install Gulp.
+npm install -g gulp
 
 # Install Bower.
 npm install -g bower

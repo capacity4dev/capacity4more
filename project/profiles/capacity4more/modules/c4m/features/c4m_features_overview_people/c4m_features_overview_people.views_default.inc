@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_features_overview_people.views_default.inc
@@ -124,8 +125,13 @@ function c4m_features_overview_people_views_default_views() {
   $handler->display->display_options['query']['options']['entity_access'] = 0;
   $handler->display->display_options['query']['options']['parse_mode'] = 'direct';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '5';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page'] = TRUE;
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options'] = '10, 20, 50';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'teaser';
@@ -144,6 +150,11 @@ function c4m_features_overview_people_views_default_views() {
   $handler->display->display_options['header']['c4m_views_result']['table'] = 'views';
   $handler->display->display_options['header']['c4m_views_result']['field'] = 'c4m_views_result';
   $handler->display->display_options['header']['c4m_views_result']['content'] = '<span class="total-items">@total members</span>';
+  /* Header: Items per page */
+  $handler->display->display_options['header']['c4m_views_items_per_page']['id'] = 'c4m_views_items_per_page';
+  $handler->display->display_options['header']['c4m_views_items_per_page']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_items_per_page']['field'] = 'c4m_views_items_per_page';
+  $handler->display->display_options['header']['c4m_views_items_per_page']['ui_name'] = 'Items per page';
   /* Field: User: Rendered User */
   $handler->display->display_options['fields']['rendered_entity']['id'] = 'rendered_entity';
   $handler->display->display_options['fields']['rendered_entity']['table'] = 'views_entity_user';
@@ -201,12 +212,6 @@ function c4m_features_overview_people_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '5';
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['path'] = 'people';
   $handler->display->display_options['menu']['type'] = 'normal';
