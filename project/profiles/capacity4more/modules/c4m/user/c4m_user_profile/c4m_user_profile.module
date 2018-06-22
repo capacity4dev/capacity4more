@@ -59,6 +59,11 @@ function c4m_user_profile_block_info() {
     'cache' => DRUPAL_CACHE_PER_USER,
   ];
 
+  $blocks['ecas_login_notice'] = [
+    'info' => t('Display EU Login information'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  ];
+
   return $blocks;
 }
 
@@ -207,6 +212,16 @@ function c4m_user_profile_theme() {
     ],
     'path' => drupal_get_path('module', 'c4m_user_profile') . '/templates',
     'template' => 'my-profile-projects',
+  ];
+
+  $theme['c4m_user_profile_ecas_login_notice'] = [
+    'variables' => [
+      'eu_flag_img' => '',
+      'ecas_login' => '',
+      'ecas_about' => '',
+    ],
+    'path' => drupal_get_path('module', 'c4m_user_profile') . '/templates',
+    'template' => 'ecas-login-notice',
   ];
 
   return $theme;
@@ -547,6 +562,8 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
   $account = $form['#user'];
   $account_wrapper = entity_metadata_wrapper('user', $account);
 
+  $ecas_user = _is_ecas_user($account);
+
   // Disable fields if the user is an organisation user and the field has a
   // default value.
   if ($account_wrapper->c4m_is_organisation_user->value()) {
@@ -560,7 +577,12 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
 
   c4m_user_profile_alter_user_form($form, $form_state, FALSE);
 
-  $form['mail']['#description'] = 'Please note you will have to provide your password and confirm your new address to change your e-mail address.';
+  if (!$ecas_user) {
+    $form['mail']['#description'] = 'Please note you will have to provide your password and confirm your new address to change your e-mail address.';
+  }
+
+  // Disable ECAS provided fields.
+  _c4m_user_profile_alter_profile_form_disable_ecas_fields($form, $ecas_user);
 
   // Disable Overlay, Email, Locale and Contact settings.
   // They are moved to Settings page.
@@ -620,6 +642,22 @@ function _c4m_user_profile_alter_profile_form_disable_settings_fields(array &$fo
   $form['mimemail']['#access'] = FALSE;
   $form['timezone']['#access'] = FALSE;
   $form['contact']['#access'] = FALSE;
+}
+
+/**
+ * Disable fields on the user_profile form, that are moved to the settings page.
+ *
+ * @param array $form
+ *   Render array of the form.
+ */
+function _c4m_user_profile_alter_profile_form_disable_ecas_fields(array &$form, $ecas_user) {
+  if (!$ecas_user) {
+    return;
+  }
+
+  $form['c4m_first_name']['#disabled'] = TRUE;
+  $form['c4m_last_name']['#disabled'] = TRUE;
+  $form['c4m_organisation']['#disabled'] = TRUE;
 }
 
 /**
@@ -915,9 +953,9 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
     return;
   }
 
-  $other_user = entity_metadata_wrapper('user', $other_user);
-  if ($other_user->status->value()) {
-    if ($staff_user->isValidStaff()) {
+  $other_user_wrapper = entity_metadata_wrapper('user', $other_user);
+  if ($other_user_wrapper->status->value()) {
+    if ($staff_user->isValidStaff() || _is_ecas_user($other_user)) {
       $data['validation_messages'][] = [
         'message' => t('This account is already in use. If this is you, please !login_ecas.', [
           '!login_ecas' => l(t('log in with your EU login account'), 'ecas'),
@@ -940,17 +978,17 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
   else {
     $error = FALSE;
 
-    if (!$other_user->last_login->value() && !$other_user->last_access->value()) {
+    if (!$other_user_wrapper->last_login->value() && !$other_user_wrapper->last_access->value()) {
       $data['validation_messages'][] = [
         'message' => t('This email address is already in use. Please activate your account, or !resend_activation.', [
-          '!resend_activation' => l(t('re-send the activation mail'), 'user/' . $other_user->uid->value() . '/resend-activation-email'),
+          '!resend_activation' => l(t('re-send the activation mail'), 'user/' . $other_user_wrapper->uid->value() . '/resend-activation-email'),
         ]),
         'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
         '#weight' => -4,
       ];
       $error = TRUE;
     }
-    if ($other_user->c4m_is_spammer->value()) {
+    if ($other_user_wrapper->c4m_is_spammer->value()) {
       $data['validation_messages'][] = [
         'message' => t('This account has been blocked. !contact site administrator for more information.', [
           '!contact' => l(t('Contact'), 'contact'),
@@ -960,7 +998,7 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
       ];
       $error = TRUE;
     }
-    if ($other_user->c4m_is_deleted->value()) {
+    if ($other_user_wrapper->c4m_is_deleted->value()) {
       $data['validation_messages'][] = [
         'message' => t('There is a problem with your account, please !contact the site administrators.', [
           '!contact' => l(t('contact'), 'contact'),
@@ -1021,6 +1059,43 @@ function c4m_user_profile_form_user_login_alter(&$form, &$form_state, $form_id) 
 
   // Add our custom "user_login_validate" instead.
   array_unshift($form['#validate'], 'c4m_user_profile_user_login_validate');
+
+  $form['#validate'][] = 'c4m_user_profile_user_login_validate_ecas';
+}
+
+/**
+ * Wrapper around user module to check if user is known as ecas user.
+ *
+ * @param string $username
+ *   Drupal user name user tries to log in with.
+ *
+ * @return bool
+ *   TRUE if user is recognized in the db as ecas user.
+ */
+function c4m_user_profile_is_user_ecas($username) {
+  if (!module_exists('ecas')) {
+    return FALSE;
+  }
+
+  $maps = user_get_authmaps($username);
+  if (!array_key_exists('ecas', (array) $maps)) {
+    return FALSE;
+  }
+  return $maps['ecas'] === $username;
+}
+
+/**
+ * Check if a user has a valid staff domain mail address.
+ *
+ * @param string $mail
+ *   Email address to check for valid staff doma/in.
+ *
+ * @return bool
+ *   TRUE if the user's mail domain belongs to EC Staff.
+ */
+function c4m_user_profile_is_email_ecas_staff($mail) {
+  $staffUser = new C4mStaffUser($mail);
+  return $staffUser->isValidStaff();
 }
 
 /**
@@ -1032,7 +1107,8 @@ function c4m_user_profile_user_login_validate($form, &$form_state) {
   if (empty($form_state['values']['name'])) {
     return;
   }
-  $account = user_load_by_name($form_state['values']['name']);
+  $username = $form_state['values']['name'];
+  $account = user_load_by_name($username);
 
   // Username not found.
   if (!$account) {
@@ -1058,6 +1134,41 @@ function c4m_user_profile_user_login_validate($form, &$form_state) {
     $message = t('Sorry, unrecognized username or password. <a href="@password">Have you forgotten your password?</a>', ['@password' => url('user/password')]);
   }
   form_set_error('name', $message);
+}
+
+/**
+ * Validate user login form to see if username/email is linked to EU Login user.
+ */
+function c4m_user_profile_user_login_validate_ecas($form, &$form_state) {
+  if (empty($form_state['values']['name'])) {
+    return;
+  }
+  $username = $form_state['values']['name'];
+  if (c4m_user_profile_is_user_ecas($username)) {
+    // Clear errors.
+    form_clear_error();
+    // Clear error messages.
+    drupal_get_messages('error');
+
+    form_set_error('name', t("You're account is linked with an EU login account. Please login via !eu_login or !contact if you have no longer access to this account.", [
+      '!eu_login' => l(t('EU Login'), 'ecas'),
+      '!contact' => l(t('contact us'), 'contact'),
+    ]));
+    return;
+  }
+
+  if (c4m_user_profile_is_email_ecas_staff($username)) {
+    // Clear errors.
+    form_clear_error();
+    // Clear error messages.
+    drupal_get_messages('error');
+
+    form_set_error('name', t("You're account is recognized as an EC Staff domain. Please login via !eu_login or !contact if you have no longer access to this account.", [
+      '!eu_login' => l(t('EU Login'), 'ecas'),
+      '!contact' => l(t('contact us'), 'contact'),
+    ]));
+    return;
+  }
 }
 
 /**

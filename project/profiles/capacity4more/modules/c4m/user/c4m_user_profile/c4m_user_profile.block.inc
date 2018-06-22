@@ -515,3 +515,23 @@ function _c4m_user_profile_block_user_my_profile_projects() {
 
   return $block;
 }
+
+/**
+ * Block definition for the ecas_login_notice block.
+ *
+ * @return array
+ *   The rendered "EU Login info" block.
+ */
+function _c4m_user_profile_block_ecas_login_notice() {
+  $block = [];
+  $block['subject'] = '';
+
+  $variables = [
+    'eu_flag_img' => base_path() . drupal_get_path('module', 'c4m_user_profile') . '/includes/eu.jpg',
+    'ecas_login' => url('ecas', ['absolute' => TRUE]),
+    'ecas_about' => url('about-eu-login', ['absolute' => TRUE]),
+  ];
+  $block['content'] = theme('c4m_user_profile_ecas_login_notice', $variables);
+
+  return $block;
+}

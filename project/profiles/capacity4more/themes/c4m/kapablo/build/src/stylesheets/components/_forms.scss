@@ -316,3 +316,23 @@ body:not(.no-js) {
     padding-left: .5em;
   }
 }
+
+@media (min-width: $screen-tablet) {
+  .form--user-login {
+    float: left;
+    border-right: 1px dashed $color-gray-light;
+    margin-right: 2%;
+    padding-right: 2%;
+    width: 56%;
+  }
+
+  .ecas--user-login {
+    float: right;
+    text-align: center;
+    width: 40%;
+
+    img {
+      max-width: 128px;
+    }
+  }
+}

@@ -309,7 +309,7 @@ function c4m_user_profile_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'aun_update_on_edit';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['aun_update_on_edit'] = $strongarm;
 
   $strongarm = new stdClass();
