@@ -1056,8 +1056,9 @@ function c4m_og_user_is_banned($gid, $account = NULL) {
  */
 function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
   $cache = &drupal_static(__FUNCTION__);
-  if (!isset($cache)) {
-    $cache = db_select('og_role', 'r')
+  $key = $role_name . '::' . $group_bundle;
+  if (!isset($cache[$key])) {
+    $cache[$key] = db_select('og_role', 'r')
       ->fields('r')
       ->condition('name', $role_name)
       ->condition('group_bundle', $group_bundle)
@@ -1065,7 +1066,7 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
       ->fetchObject();
   }
 
-  return $cache;
+  return $cache[$key];
 }
 
 /**
@@ -1272,10 +1273,10 @@ function _c4m_og_alter_group_form(array &$form, array &$form_state, $title = '')
  * Function to check if a path is a purl path.
  *
  * @param string $value
- *    Group path.
+ *   Group path.
  *
  * @return bool
- *    TRUE or FALSE.
+ *   TRUE or FALSE.
  */
 function c4m_og_purl_exists($value) {
   return FALSE;
@@ -1285,7 +1286,7 @@ function c4m_og_purl_exists($value) {
  * Function to get roles per group bundle.
  *
  * @return array
- *    Array of roles per group bundle
+ *   Array of roles per group bundle
  */
 function c4m_og_get_group_bundles() {
   $roles = array();
@@ -1307,7 +1308,7 @@ function c4m_og_get_group_bundles() {
  *   The role ID.
  *
  * @return array
- *    Array of OG permissions
+ *   Array of OG permissions
  */
 function c4m_og_get_permissions_by_role($rid, $module = 'c4m_og') {
   $perms = array();
@@ -1328,12 +1329,12 @@ function c4m_og_get_permissions_by_role($rid, $module = 'c4m_og') {
  * Function to get OG roles by OG permission.
  *
  * @param string $permission
- *    The permission.
+ *   The permission.
  * @param string $module
- *    The module name.
+ *   The module name.
  *
  * @return array
- *    Array of role ids.
+ *   Array of role ids.
  */
 function c4m_og_get_roles_by_permission($permission, $module = 'c4m_og') {
   $roles = array();
@@ -1384,7 +1385,7 @@ function c4m_og_views_api() {
  *   If the $account argument is omitted, the current user is used.
  *
  * @return bool
- *    TRUE or FALSE whether access is granted or not.
+ *   TRUE or FALSE whether access is granted or not.
  */
 function c4m_og_access($feature = NULL, $account = NULL) {
   if (!og_context_is_init()) {
@@ -1437,11 +1438,11 @@ function c4m_og_og_permission() {
  * filter out the groups which do not contain the desired permission.
  *
  * @param string $uid
- *    User id needed to collect the user roles for this user.
+ *   User id needed to collect the user roles for this user.
  * @param string $perm
- *    The permission to check on.
+ *   The permission to check on.
  * @param array $gids
- *    The group ID's to fetch the permissions for.
+ *   The group ID's to fetch the permissions for.
  */
 function c4m_og_user_has_permission_in($uid, $perm, array &$gids) {
   foreach ($gids as $membership_id => $gid) {
@@ -1528,12 +1529,12 @@ function c4m_og_node_access_records_alter(&$grants, $node) {
  * Counts the number of members in a given group.
  *
  * @param object $group
- *    The group entity.
+ *   The group entity.
  * @param int $state
- *    The status of the membership, Defaults to active.
+ *   The status of the membership, Defaults to active.
  *
  * @return int
- *    The count of members in the group.
+ *   The count of members in the group.
  */
 function c4m_og_get_members_count($group, $state = OG_STATE_ACTIVE) {
   $query = new EntityFieldQuery();
@@ -1563,10 +1564,10 @@ function c4m_og_query_user_not_blocked_alter(QueryAlterableInterface $query) {
  * Counts the number of posts in a given group.
  *
  * @param object $group
- *    The group entity.
+ *   The group entity.
  *
  * @return int
- *    The count of posts in the group.
+ *   The count of posts in the group.
  */
 function c4m_og_get_posts_count($group) {
   $query = db_select('node', 'n');
@@ -1622,10 +1623,10 @@ function c4m_og_entity_property_info_alter(&$info) {
  * Getter callback for c4m_og_group_access_type property.
  *
  * @param object $item
- *    The group object.
+ *   The group object.
  *
  * @return string
- *    Type of group access.
+ *   Type of group access.
  */
 function _c4m_og_group_access_type_getter_callback($item) {
   // Get group type information.
@@ -1639,10 +1640,10 @@ function _c4m_og_group_access_type_getter_callback($item) {
  * Getter callback for c4m_og_group_type property.
  *
  * @param object $node
- *    A node object.
+ *   A node object.
  *
  * @return string
- *    Type of group the node belongs to (group/project).
+ *   Type of group the node belongs to (group/project).
  */
 function _c4m_og_group_type_getter_callback($node) {
   if (!$group = c4m_og_get_group_of_content($node)) {
@@ -1892,13 +1893,13 @@ function c4m_og_feature_uninstall($feature) {
  * approved member of.
  *
  * @param string $bundle
- *    (optional) The group node type.
+ *   (optional) The group node type.
  * @param object $account
- *    (optional) The user object to fetch group memberships for. Defaults to the
+ *   (optional) The user object to fetch group memberships for. Defaults to the
  *   acting user.
  *
  * @return array
- *    Returns array of group nodes IDs of specific node type.
+ *   Returns array of group nodes IDs of specific node type.
  */
 function c4m_og_get_user_group_ids_by_bundle($bundle = NULL, $account = NULL) {
   if (empty($account)) {
@@ -2511,6 +2512,7 @@ function c4m_og_view_node_access($node, $account) {
       if (c4m_og_user_can_access_restricted_group($node, $account, 'view')) {
         // Published state is allowed for restricted group.
         $allowed_states[C4M_USER_TYPE_NON_MEMBER][] = 'published';
+        $allowed_states[C4M_USER_TYPE_NON_MEMBER][] = 'archived';
       }
     }
 
@@ -2541,7 +2543,7 @@ function c4m_og_view_node_access($node, $account) {
       $allowed_wiki_page = $node->type == 'wiki_page' && $user_type == C4M_USER_TYPE_GM && c4m_content_wiki_page_is_editable_by_members($node);
 
       // Only power user or content author may view the node.
-      if (_c4m_features_og_members_is_power_user($group) || $node->uid == $account->uid || $allowed_wiki_page) {
+      if (c4m_features_og_members_is_power_user($group) || $node->uid == $account->uid || $allowed_wiki_page) {
         return NODE_ACCESS_ALLOW;
       }
       else {
@@ -2802,7 +2804,7 @@ function c4m_og_add_content_author_options_to_power_users(&$form) {
   }
 
   // Show authoring information tab to GAs and GO, when editing group content.
-  if (_c4m_features_og_members_is_power_user()) {
+  if (c4m_features_og_members_is_power_user()) {
     $form['author']['#access'] = TRUE;
     // Per https://issuetracker.amplexor.com/jira/browse/CFM-1248, there's
     // no need to present the 'Authored on' date field.
@@ -2874,14 +2876,14 @@ function c4m_og_human_to_machine_readable($title, $delimiter = '-') {
  * Counts the content of a member in a given group.
  *
  * @param int $group_id
- *    The group entity id.
+ *   The group entity id.
  * @param int $user_id
- *    The user entity id.
+ *   The user entity id.
  * @param int $state
- *    (optional) The node status. Defaults to published.
+ *   (optional) The node status. Defaults to published.
  *
  * @return int
- *    The count of nodes of an user in the group.
+ *   The count of nodes of an user in the group.
  */
 function c4m_og_get_content_count($group_id, $user_id, $state = NODE_PUBLISHED) {
   $query = db_select('node', 'n');

@@ -16,7 +16,7 @@ projects[adminimal_admin_menu][patch][] = https://www.drupal.org/files/issues/ad
 projects[adminimal_admin_menu][patch][] = https://www.drupal.org/files/issues/adminimal_admin_menu-js-error-2407007-3.patch
 
 projects[module_filter][subdir] = "contrib"
-projects[module_filter][version] = "2.0"
+projects[module_filter][version] = "2.1"
 
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta2"
@@ -47,7 +47,7 @@ projects[elysia_cron][subdir] = "contrib"
 projects[elysia_cron][version] = "2.4"
 
 projects[entityreference_prepopulate][subdir] = "contrib"
-projects[entityreference_prepopulate][version] = "1.6"
+projects[entityreference_prepopulate][version] = "1.7"
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-beta3"
@@ -92,6 +92,7 @@ projects[restful][download][url] = "https://github.com/Gizra/restful.git"
 projects[restful][download][branch] = 7.x-1.x
 projects[restful][subdir] = "contrib"
 projects[restful][type] = "module"
+projects[restful][patch][] = "../patches/restful-fix-rr.patch"
 
 projects[term_reference_tree][subdir] = "contrib"
 projects[term_reference_tree][version] = "1.10"

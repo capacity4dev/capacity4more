@@ -401,7 +401,7 @@ function theme_c4m_user_group_member_contact(array $field) {
     return NULL;
   }
 
-  if (_c4m_features_og_members_is_power_user($group)) {
+  if (c4m_features_og_members_is_power_user($group)) {
     // Site admin, group admin/owner have 'contact multiple' instead of link.
     return NULL;
   }

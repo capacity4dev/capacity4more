@@ -18,7 +18,7 @@ function c4m_user_contact_multiple_action_info() {
   }
 
   // If not Site Admin, Group Admin or Group Owner, don't declare action.
-  if (!_c4m_features_og_members_is_power_user($group)) {
+  if (!c4m_features_og_members_is_power_user($group)) {
     return array();
   }
 

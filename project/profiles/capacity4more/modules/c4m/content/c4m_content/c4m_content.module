@@ -75,7 +75,7 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
   };
 
   // Allow power users to create revisions.
-  $form['revision_information']['revision']['#access'] = _c4m_features_og_members_is_power_user();
+  $form['revision_information']['revision']['#access'] = c4m_features_og_members_is_power_user();
 
   // Hide Book tab for all content types.
   if (isset($form['book'])) {
@@ -851,7 +851,7 @@ function c4m_content_toggle_highlight_access($group, $node, $status) {
   }
 
   // Allow power users (SA, GO and GA) to highlight group content.
-  return _c4m_features_og_members_is_power_user($group);
+  return c4m_features_og_members_is_power_user($group);
 }
 
 /**
@@ -1417,7 +1417,7 @@ function c4m_content_toggle_group_notification($group, $ajax = 'nojs') {
  * @return array
  *   The IDs of the nodes.
  */
-function _c4m_content_get_all_node_ids_by_type($type) {
+function c4m_content_get_all_node_ids_by_type($type) {
   $cache = &drupal_static(__FUNCTION__ . $type);
   if (!isset($cache)) {
     $cache = db_select('node', 'n')
