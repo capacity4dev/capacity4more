@@ -217,6 +217,9 @@ function _c4m_og_purl_allowed_paths() {
     'overlay-file',
     'overlay-node',
     'flag/confirm/%/%/%',
+    // @see c4m_og_context_handler_ajax_request()
+    'file/ajax',
+    'system/ajax',
   );
 }
 

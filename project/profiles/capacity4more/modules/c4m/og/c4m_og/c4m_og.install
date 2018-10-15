@@ -53,3 +53,15 @@ function _c4m_og_install_og_variable_realm() {
 function _c4m_og_update_7000() {
   module_enable(array('session_api'));
 }
+
+/**
+ * Adjust og_context_negotiation_group_context variable.
+ */
+function c4m_og_update_7001() {
+  $enabled_providers = variable_get('og_context_negotiation_group_context');
+  foreach ($enabled_providers as &$enabled) {
+    $enabled = TRUE;
+  }
+  $enabled_providers['ajax-request'] = $enabled;
+  variable_set('og_context_negotiation_group_context', $enabled_providers);
+}
