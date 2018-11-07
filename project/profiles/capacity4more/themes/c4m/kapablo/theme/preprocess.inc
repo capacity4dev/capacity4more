@@ -8,7 +8,7 @@
 /**
  * Implements theme_preprocess_message().
  *
- *  Activity stream messages preprocess.
+ * Activity stream messages preprocess.
  */
 function kapablo_preprocess_message(&$variables) {
   if ($variables['view_mode'] != 'activity_group' && $variables['view_mode'] != 'activity_global') {
@@ -21,6 +21,30 @@ function kapablo_preprocess_message(&$variables) {
   $variables['theme_hook_suggestions'][] = "message__{$message->type}__activity_stream";
 
   $variables['content'] = $message->getText();
+
+  // Compute the destination. Either request_path() if the message is not
+  // loaded through REST services or the group front page or the site front
+  // page.
+  $destination = request_path();
+  if ($destination === 'api/activity_stream') {
+    $query_params = drupal_get_query_parameters();
+    if (!empty($query_params['group'])) {
+      $destination = url('node/' . $query_params['group']);
+    }
+    else {
+      $destination = url('<front>');
+    }
+  }
+
+  if (c4m_message_delete_message_access($message)) {
+    $link_options = [
+      'attributes' => ['class' => ['action-delete']],
+      'html' => TRUE,
+      'query' => ['destination' => $destination],
+    ];
+    $title = t('Delete activity');
+    $variables['content'] .= l('<i class="fa fa-window-close" title="' . $title . '"></i>', 'activity/' . $message->mid . '/delete', $link_options);
+  }
 
   // Getting the name of the icon image file from the message type.
   $icon_type = explode('__', $message->type);
@@ -124,6 +148,16 @@ function kapablo_preprocess_views_view(&$vars) {
  * @see page--og--project.tpl.php
  */
 function kapablo_preprocess_page(&$variables) {
+
+  drupal_add_js(
+    '//ec.europa.eu/wel/cookie-consent/consent.js',
+    [
+      'type' => 'external',
+      'scope' => 'header',
+      'group' => JS_THEME,
+      'weight' => 1000,
+    ]
+  );
   // Determine if the current context is a project.
   $context = og_context();
   if ($context) {

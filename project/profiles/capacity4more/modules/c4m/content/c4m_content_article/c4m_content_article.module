@@ -85,19 +85,11 @@ function c4m_content_article_node_update($node) {
  */
 function c4m_content_article_subscribe_contributors($node) {
   // Only for articles.
-  if ($node->type != 'article') {
+  if ($node->type !== 'article') {
     return;
   }
 
-  // Get the correct flag object to subscribe to the node.
-  $flag_name = 'subscribe_c4m_follow_node';
-
-  _c4m_content_article_subscribe_contributors_flag($node, $flag_name);
-
-  // Get the correct flag object to subscribe to the commenting on the node.
-  $flag_name = 'subscribe_c4m_follow_comment';
-
-  _c4m_content_article_subscribe_contributors_flag($node, $flag_name);
+  _c4m_content_article_subscribe_contributors_flag($node);
 }
 
 /**
@@ -105,15 +97,16 @@ function c4m_content_article_subscribe_contributors($node) {
  *
  * @param object $node
  *   Node entity object.
- * @param string $flag_name
- *   Machine name of the flag.
  */
-function _c4m_content_article_subscribe_contributors_flag($node, $flag_name) {
+function _c4m_content_article_subscribe_contributors_flag($node) {
+  $flag_name = 'subscribe_c4m_follow_node';
   $subscribe_c4m_follow_node_flag = flag_get_flag($flag_name);
 
   // Get all contributors of the current article.
-  $contributors_current = is_array(field_get_items('node', $node, 'c4m_related_user'))
-    ? field_get_items('node', $node, 'c4m_related_user') : array();
+  $contributors = field_get_items('node', $node, 'c4m_related_user');
+  if (!is_array($contributors)) {
+    $contributors = [];
+  }
 
   // Get all subscribed users in the database.
   $flagged_users = flag_get_entity_flags('node', $node->nid, $flag_name);
@@ -121,14 +114,14 @@ function _c4m_content_article_subscribe_contributors_flag($node, $flag_name) {
   foreach ($flagged_users as $flagged_user) {
     if ($user = user_load($flagged_user->uid)) {
       // If user is subscribed, but not present in contributors.
-      if (!array_search($flagged_user->uid, array_column($contributors_current, 'target_id'))) {
+      if (!array_search($flagged_user->uid, array_column($contributors, 'target_id'))) {
         // Unsubscribe.
         $subscribe_c4m_follow_node_flag->flag('unflag', $node->nid, $user);
       }
     }
   }
 
-  foreach ($contributors_current as $contributor) {
+  foreach ($contributors as $contributor) {
     if ($user = user_load($contributor['target_id'])) {
       // If user is contributor, but not subscribed.
       if (!$subscribe_c4m_follow_node_flag->is_flagged($node->nid, $user->uid)) {

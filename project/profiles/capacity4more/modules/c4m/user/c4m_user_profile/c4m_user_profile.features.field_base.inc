@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_user_profile.features.field_base.inc
@@ -410,21 +411,6 @@ function c4m_user_profile_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
-  // Exported field_base: 'c4m_is_ldap_user'.
-  $field_bases['c4m_is_ldap_user'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'c4m_is_ldap_user',
-    'indexes' => array(),
-    'locked' => 0,
-    'module' => 'number',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'number_integer',
-  );
-
   // Exported field_base: 'c4m_is_organisation_user'.
   $field_bases['c4m_is_organisation_user'] = array(
     'active' => 1,
@@ -517,194 +503,6 @@ function c4m_user_profile_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'c4m_optout_comment'.
-  $field_bases['c4m_optout_comment'] = array(
-    'active' => 1,
-    'cardinality' => -1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'c4m_optout_comment',
-    'indexes' => array(
-      'target_id' => array(
-        0 => 'target_id',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'entityreference',
-    'settings' => array(
-      'handler' => 'base',
-      'handler_settings' => array(
-        'behaviors' => array(
-          'views-select-list' => array(
-            'status' => 0,
-          ),
-        ),
-        'sort' => array(
-          'type' => 'none',
-        ),
-        'target_bundles' => array(
-          'discussion' => 'discussion',
-          'document' => 'document',
-          'event' => 'event',
-          'wiki_page' => 'wiki_page',
-        ),
-      ),
-      'target_type' => 'node',
-    ),
-    'translatable' => 0,
-    'type' => 'entityreference',
-  );
-
-  // Exported field_base: 'c4m_optout_group'.
-  $field_bases['c4m_optout_group'] = array(
-    'active' => 1,
-    'cardinality' => -1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'c4m_optout_group',
-    'indexes' => array(
-      'target_id' => array(
-        0 => 'target_id',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'entityreference',
-    'settings' => array(
-      'handler' => 'base',
-      'handler_settings' => array(
-        'behaviors' => array(
-          'views-select-list' => array(
-            'status' => 0,
-          ),
-        ),
-        'sort' => array(
-          'type' => 'none',
-        ),
-        'target_bundles' => array(
-          'group' => 'group',
-          'project' => 'project',
-        ),
-      ),
-      'target_type' => 'node',
-    ),
-    'translatable' => 0,
-    'type' => 'entityreference',
-  );
-
-  // Exported field_base: 'c4m_optout_node'.
-  $field_bases['c4m_optout_node'] = array(
-    'active' => 1,
-    'cardinality' => -1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'c4m_optout_node',
-    'indexes' => array(
-      'target_id' => array(
-        0 => 'target_id',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'entityreference',
-    'settings' => array(
-      'handler' => 'base',
-      'handler_settings' => array(
-        'behaviors' => array(
-          'views-select-list' => array(
-            'status' => 0,
-          ),
-        ),
-        'sort' => array(
-          'type' => 'none',
-        ),
-        'target_bundles' => array(
-          'discussion' => 'discussion',
-          'document' => 'document',
-          'event' => 'event',
-          'wiki_page' => 'wiki_page',
-        ),
-      ),
-      'target_type' => 'node',
-    ),
-    'translatable' => 0,
-    'type' => 'entityreference',
-  );
-
-  // Exported field_base: 'c4m_optout_taxonomy_term'.
-  $field_bases['c4m_optout_taxonomy_term'] = array(
-    'active' => 1,
-    'cardinality' => -1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'c4m_optout_taxonomy_term',
-    'indexes' => array(
-      'target_id' => array(
-        0 => 'target_id',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'entityreference',
-    'settings' => array(
-      'handler' => 'base',
-      'handler_settings' => array(
-        'behaviors' => array(
-          'views-select-list' => array(
-            'status' => 0,
-          ),
-        ),
-        'sort' => array(
-          'type' => 'none',
-        ),
-        'target_bundles' => array(
-          'c4m_vocab_category_9' => 'c4m_vocab_category_9',
-          'c4m_vocab_category_10' => 'c4m_vocab_category_10',
-          'c4m_vocab_category_11' => 'c4m_vocab_category_11',
-          'c4m_vocab_category_12' => 'c4m_vocab_category_12',
-          'c4m_vocab_category_13' => 'c4m_vocab_category_13',
-          'c4m_vocab_category_14' => 'c4m_vocab_category_14',
-          'c4m_vocab_category_15' => 'c4m_vocab_category_15',
-          'c4m_vocab_category_16' => 'c4m_vocab_category_16',
-          'c4m_vocab_category_17' => 'c4m_vocab_category_17',
-          'c4m_vocab_category_18' => 'c4m_vocab_category_18',
-          'c4m_vocab_category_19' => 'c4m_vocab_category_19',
-          'c4m_vocab_category_20' => 'c4m_vocab_category_20',
-          'c4m_vocab_category_21' => 'c4m_vocab_category_21',
-          'c4m_vocab_category_22' => 'c4m_vocab_category_22',
-          'c4m_vocab_category_23' => 'c4m_vocab_category_23',
-          'c4m_vocab_category_24' => 'c4m_vocab_category_24',
-          'c4m_vocab_category_25' => 'c4m_vocab_category_25',
-          'c4m_vocab_category_31' => 'c4m_vocab_category_31',
-          'c4m_vocab_date' => 'c4m_vocab_date',
-          'c4m_vocab_document_type' => 'c4m_vocab_document_type',
-          'c4m_vocab_geo' => 'c4m_vocab_geo',
-          'c4m_vocab_language' => 'c4m_vocab_language',
-          'c4m_vocab_tag_9' => 'c4m_vocab_tag_9',
-          'c4m_vocab_tag_10' => 'c4m_vocab_tag_10',
-          'c4m_vocab_tag_11' => 'c4m_vocab_tag_11',
-          'c4m_vocab_tag_12' => 'c4m_vocab_tag_12',
-          'c4m_vocab_tag_13' => 'c4m_vocab_tag_13',
-          'c4m_vocab_tag_14' => 'c4m_vocab_tag_14',
-          'c4m_vocab_tag_15' => 'c4m_vocab_tag_15',
-          'c4m_vocab_tag_16' => 'c4m_vocab_tag_16',
-          'c4m_vocab_tag_17' => 'c4m_vocab_tag_17',
-          'c4m_vocab_tag_18' => 'c4m_vocab_tag_18',
-          'c4m_vocab_tag_19' => 'c4m_vocab_tag_19',
-          'c4m_vocab_tag_20' => 'c4m_vocab_tag_20',
-          'c4m_vocab_tag_21' => 'c4m_vocab_tag_21',
-          'c4m_vocab_tag_22' => 'c4m_vocab_tag_22',
-          'c4m_vocab_tag_23' => 'c4m_vocab_tag_23',
-          'c4m_vocab_tag_24' => 'c4m_vocab_tag_24',
-          'c4m_vocab_tag_25' => 'c4m_vocab_tag_25',
-          'c4m_vocab_tag_31' => 'c4m_vocab_tag_31',
-          'c4m_vocab_theme' => 'c4m_vocab_theme',
-          'c4m_vocab_topic' => 'c4m_vocab_topic',
-        ),
-      ),
-      'target_type' => 'taxonomy_term',
-    ),
-    'translatable' => 0,
-    'type' => 'entityreference',
-  );
-
   // Exported field_base: 'c4m_organisation'.
   $field_bases['c4m_organisation'] = array(
     'active' => 1,
@@ -712,27 +510,6 @@ function c4m_user_profile_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_organisation',
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'text',
-    'settings' => array(
-      'max_length' => 255,
-    ),
-    'translatable' => 0,
-    'type' => 'text',
-  );
-
-  // Exported field_base: 'c4m_unsubscribe_hash'.
-  $field_bases['c4m_unsubscribe_hash'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'c4m_unsubscribe_hash',
     'indexes' => array(
       'format' => array(
         0 => 'format',

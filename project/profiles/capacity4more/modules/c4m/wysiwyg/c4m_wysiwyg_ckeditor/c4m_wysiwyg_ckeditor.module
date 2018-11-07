@@ -104,3 +104,129 @@ function c4m_wysiwyg_ckeditor_media_wysiwyg_format_form_prepare_alter(
       'c4m_wysiwyg_ckeditor'
     ) . '/c4m_wysiwyg_ckeditor.js';
 }
+
+/**
+ * Define all external domains that use cookies.
+ *
+ * @return array
+ *   A list with all domains that contain cookies.
+ */
+function _c4m_wysiwyg_ckeditor_ckeditor_iframes_with_cookies() {
+  return [
+    'youtube',
+    'archive',
+    'dailymotion',
+    'google',
+    'slideshare',
+    'vimeo',
+    'ustream',
+    'prezi',
+    'issuu',
+    'scribd',
+    'tubechop',
+    'twitter',
+    'twitframe',
+    'mapbox',
+    'soundcloud',
+    'audioboom',
+    'mixcloud',
+    'mindmeister',
+  ];
+}
+
+/**
+ * Implements hook_filter_info().
+ */
+function c4m_wysiwyg_ckeditor_filter_info() {
+  $filters['c4m_wysiwyg_ckeditor_iframe_cck'] = array(
+    'title' => t('Iframe Cookie Consent Filter'),
+    'description' => t('Checks iframes and adds the EU Cookie Consent kit to it if applicable'),
+    'process callback' => '_c4m_wysiwyg_ckeditor_iframe_cck_filter_process',
+    'tips callback' => '_c4m_wysiwyg_ckeditor_iframe_cck_filter_tips',
+  );
+
+  return $filters;
+}
+
+/**
+ * Returns tips for defined filter.
+ *
+ * @param string $filter
+ *   Filter for which the tips are added.
+ * @param string $format
+ *   Format of the filter.
+ * @param bool $long
+ *   Decide the type of the tips.
+ *
+ * @return string
+ *   Text that describes ckeditor filter.
+ */
+function _c4m_wysiwyg_ckeditor_iframe_cck_filter_tips(
+  $filter,
+  $format,
+  $long = FALSE
+) {
+  return t('Checks the source input for iframes of a specific service and adds 
+  the EU Cookie Consent kit to it if applicable.');
+}
+
+/**
+ * Prepares markup for external iframes.
+ */
+function _c4m_wysiwyg_ckeditor_iframe_cck_filter_process(
+  $text,
+  $filter,
+  $format,
+  $langcode,
+  $cache,
+  $cache_id
+) {
+  // Check if there is an iframe in the text.
+  if (!preg_match('/<\s*iframe /mis', $text)) {
+    return $text;
+  }
+  // Load the text into a dom object.
+  $dom = new DOMDocument();
+  $dom->loadHTML(mb_convert_encoding($text, 'HTML-ENTITIES', 'UTF-8'));
+
+  $services = _c4m_wysiwyg_ckeditor_ckeditor_iframes_with_cookies();
+  $services_replaced = [];
+
+  foreach ($dom->getElementsByTagName('iframe') as $iframe) {
+    if (!$iframe->hasAttribute('src')) {
+      break;
+    }
+    $src = $iframe->getAttribute('src');
+    $host = parse_url($src, PHP_URL_HOST);
+    // Get the domain name.
+    preg_match('/([^.]+)\.[^.]+$/', $host, $matches);
+    $service = $matches[1];
+    // Check if host exists in our list of cookies.
+    if (in_array($service, $services)) {
+      // Alter media source so it will be rendered after the cookie policy is
+      // accepted.
+      $iframe->setAttribute(
+        "src",
+        "//ec.europa.eu/cookie-consent/?name=" . $service . "&oriurl=" . $src
+      );
+
+      array_key_exists($service, $services_replaced) ?
+        $services_replaced[$service]++ : $services_replaced[$service] = 0;
+
+      $wrapper_div = $dom->createElement('div');
+      $wrapper_div->setAttribute('class', $service . '_frame');
+      $wrapper_div->setAttribute(
+        'id',
+        "validate-consent-" . $service . "-" . $services_replaced[$service]
+      );
+      $iframe->parentNode->replaceChild($wrapper_div, $iframe);
+      $wrapper_div->appendChild($iframe);
+    }
+  }
+
+  // Update DOM only if there was at least one service replaced.
+  if (count($services_replaced) > 0) {
+    return $dom->saveHTML();
+  }
+  return $text;
+}

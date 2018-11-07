@@ -410,10 +410,3 @@
 .og-context .header-actions--wrapper:nth-of-type(2) {
   display: none;
 }
-
-.view-header {
-  .node-create:after {
-    content: '\A';
-    white-space: pre;
-  }
-}

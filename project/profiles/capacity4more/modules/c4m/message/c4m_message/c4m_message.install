@@ -17,6 +17,15 @@ function c4m_message_schema() {
 }
 
 /**
+ * Implements hook_install().
+ */
+function c4m_message_install() {
+  c4m_message_update_7001();
+  c4m_message_update_7006();
+
+}
+
+/**
  * Implements hook_update_N().
  *
  * Install the database schema if the module was already enabled.
@@ -26,4 +35,87 @@ function c4m_message_update_7001() {
   if (!db_table_exists('cache_activity_stream')) {
     db_create_table('cache_activity_stream', $schema['cache_activity_stream']);
   }
+}
+
+/**
+ * Import all the simple notification message types as entities.
+ */
+function c4m_message_update_notify_messages() {
+  module_load_include('inc', 'c4m_message', 'includes/c4m_message_entity_import');
+
+  $messages = _c4m_message_get_messages_notifies();
+
+  foreach ($messages as $message) {
+    entity_import('message_type', $message)->save();
+  }
+}
+
+/**
+ * Import all the subscription notification message types as entities.
+ */
+function c4m_message_update_subscribe_notify_messages() {
+  module_load_include('inc', 'c4m_message', 'includes/c4m_message_entity_import');
+
+  $messages = _c4m_message_get_messages_subscribe_notifies();
+
+  foreach ($messages as $message) {
+    entity_import('message_type', $message)->save();
+  }
+}
+
+/**
+ * Import all the activity stream message types as entities.
+ */
+function c4m_message_update_activity_stream_messages() {
+  module_load_include('inc', 'c4m_message', 'includes/c4m_message_entity_import');
+
+  $messages = _c4m_message_get_messages_activity_streams();
+
+  foreach ($messages as $message) {
+    entity_import('message_type', $message)->save();
+  }
+}
+
+/**
+ * Import all the log message types as entities.
+ */
+function c4m_message_update_log_messages() {
+  module_load_include('inc', 'c4m_message', 'includes/c4m_message_entity_import');
+
+  $messages = _c4m_message_get_messages_logs();
+
+  foreach ($messages as $message) {
+    entity_import('message_type', $message)->save();
+  }
+}
+
+/**
+ * Delete all existing messages (features) and import new ones.
+ */
+function c4m_message_update_7006() {
+  // DB Delete.
+  db_query('DELETE FROM {message_type}');
+
+  // Import.
+  c4m_message_update_notify_messages();
+  c4m_message_update_subscribe_notify_messages();
+  c4m_message_update_activity_stream_messages();
+  c4m_message_update_log_messages();
+}
+
+/**
+ * Enable the message_digest module.
+ */
+function c4m_message_update_7007() {
+  module_enable(['c4m_message_digest']);
+}
+
+/**
+ * Import c4m_content_updated message type.
+ */
+function c4m_message_update_7008() {
+  module_load_include('inc', 'c4m_message', 'includes/c4m_message_entity_import');
+
+  $message = _c4m_message_get_messages_mt55();
+  entity_import('message_type', $message)->save();
 }

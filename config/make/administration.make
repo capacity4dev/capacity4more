@@ -45,21 +45,26 @@ projects[eu_cookie_compliance][version] = "1.25"
 
 projects[elysia_cron][subdir] = "contrib"
 projects[elysia_cron][version] = "2.4"
+projects[elysia_cron][patch][] = "https://www.drupal.org/files/issues/elysia_cron-exported-code-cs-2930214-7.x-2.4_0.patch"
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.7"
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.0-beta3"
+projects[file_entity][version] = "2.15"
 
 projects[file_download_count][subdir] = "contrib"
 projects[file_download_count][version] = "1.0-rc1"
+projects[file_download_count][patch][] = "../patches/file-download-count-skip-download-count.patch"
 
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.8"
 
 projects[mefibs][subdir] = "contrib"
 projects[mefibs][version] = "1.x-dev"
+
+projects[masquerade][subdir] = "contrib"
+projects[masquerade][version] = "1.0-rc7"
 
 projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "2.x-dev"
@@ -81,11 +86,15 @@ projects[ds][version] = "2.15"
 
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.9"
+projects[flag][patch][] = "../patches/flag-array-check-1925922.patch"
 
 projects[node_gallery][subdir] = "contrib"
 projects[node_gallery][version] = "1.1"
 projects[node_gallery][patch][] = https://www.drupal.org/files/issues/node_gallery-entity-delete-exception-2006772-1.patch
 projects[node_gallery][patch][] = "../patches/node-gallery-unpublished-frontend.patch"
+
+projects[queue_ui][subdir] = "contrib"
+projects[queue_ui][version] = "2.x-dev"
 
 projects[restful][download][type] = "git"
 projects[restful][download][url] = "https://github.com/Gizra/restful.git"

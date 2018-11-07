@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_book.ds.inc
@@ -58,14 +59,30 @@ function c4m_content_book_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
     'comments' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'book_navigation' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
+    ),
+    'c4m_dsfield_print_page_button' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'col-md-2 col-md-push-10',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
     ),
   );
   $export['node|book|full'] = $ds_fieldsetting;
@@ -158,12 +175,14 @@ function c4m_content_book_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'c4m_body',
-        1 => 'book_navigation',
-        2 => 'comments',
+        0 => 'c4m_dsfield_print_page_button',
+        1 => 'c4m_body',
+        2 => 'book_navigation',
+        3 => 'comments',
       ),
     ),
     'fields' => array(
+      'c4m_dsfield_print_page_button' => 'ds_content',
       'c4m_body' => 'ds_content',
       'book_navigation' => 'ds_content',
       'comments' => 'ds_content',

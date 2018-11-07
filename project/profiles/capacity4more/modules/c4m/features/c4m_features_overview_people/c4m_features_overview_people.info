@@ -6,6 +6,7 @@ dependencies[] = c4m_user
 dependencies[] = c4m_views
 dependencies[] = context
 dependencies[] = ctools
+dependencies[] = current_search
 dependencies[] = entity
 dependencies[] = entityreference
 dependencies[] = facetapi

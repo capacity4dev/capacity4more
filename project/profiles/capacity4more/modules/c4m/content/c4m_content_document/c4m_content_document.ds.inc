@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_document.ds.inc
@@ -246,7 +247,7 @@ function c4m_content_document_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '3',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -276,20 +277,26 @@ function c4m_content_document_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_creation_date' => array(
-      'weight' => '3',
+    'c4m_ds_update_date' => array(
+      'weight' => '4',
       'label' => 'inline',
       'format' => 'j F Y',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'lb' => ' | ',
+          'lb' => 'last update',
           'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'update-date-wrapper',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
         ),
       ),
     ),
     'c4m_ds_content_type_label' => array(
-      'weight' => '1',
+      'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -311,12 +318,12 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '4',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'downloads',
     ),
     'c4m_ds_content_status' => array(
-      'weight' => '2',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -349,6 +356,11 @@ function c4m_content_document_ds_field_settings_info() {
     ),
     'c4m_content_document_icon' => array(
       'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_content_document_ds_field_pdf_preview' => array(
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -723,18 +735,20 @@ function c4m_content_document_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_creation_date' => array(
-      'weight' => '4',
-      'label' => 'hidden',
+    'c4m_ds_update_date' => array(
+      'weight' => '6',
+      'label' => 'inline',
       'format' => 'j F Y',
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_reset',
+          'func' => 'theme_ds_field_expert',
+          'lb' => ' | ',
+          'lb-col' => TRUE,
         ),
       ),
     ),
-    'c4m_ds_type_insert_action' => array(
-      'weight' => '3',
+    'c4m_ds_type_update_action' => array(
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -744,17 +758,17 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '7',
+      'weight' => '9',
       'label' => 'hidden',
       'format' => 'downloads',
     ),
     'c4m_ds_node_highlight' => array(
-      'weight' => '8',
+      'weight' => '10',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'c4m_ds_node_promote' => array(
-      'weight' => '9',
+      'weight' => '11',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -1089,54 +1103,56 @@ function c4m_content_document_ds_layout_settings_info() {
   $ds_layout->layout = 'c4m_ds_8_4_fluid';
   $ds_layout->settings = array(
     'regions' => array(
-      'right' => array(
-        0 => 'c4m_vocab_topic',
-        1 => 'c4m_ds_entity_type_label',
-        2 => 'c4m_ds_node_highlight',
-        3 => 'c4m_user_picture',
-        6 => 'c4m_ds_node_promote',
-        7 => 'c4m_user_first_and_last_name',
-        8 => 'c4m_vocab_document_type',
-        9 => 'c4m_ds_creation_date',
-        10 => 'c4m_vocab_geo',
-        11 => 'c4m_ds_content_actions',
-        14 => 'c4m_vocab_date',
-        16 => 'c4m_vocab_language',
-        17 => 'og_vocabulary',
-        21 => 'group_node_meta',
-        22 => 'group_node_actions',
-        23 => 'group_node_details',
-        24 => 'c4m_ds_content_shared_to',
-      ),
       'left' => array(
-        4 => 'c4m_ds_content_type_label',
-        5 => 'c4m_ds_content_status',
-        12 => 'title',
-        13 => 'c4m_ds_content_footer_stats',
-        15 => 'c4m_body',
-        18 => 'c4m_content_document_icon',
-        19 => 'c4m_document',
-        20 => 'comments',
+        0 => 'c4m_ds_content_type_label',
+        3 => 'c4m_ds_content_status',
+        6 => 'title',
+        10 => 'c4m_ds_content_footer_stats',
+        13 => 'c4m_body',
+        17 => 'c4m_content_document_ds_field_pdf_preview',
+        19 => 'c4m_content_document_icon',
+        20 => 'c4m_document',
+        21 => 'comments',
+      ),
+      'right' => array(
+        1 => 'c4m_ds_entity_type_label',
+        2 => 'c4m_vocab_topic',
+        4 => 'c4m_ds_node_highlight',
+        5 => 'c4m_user_picture',
+        7 => 'c4m_ds_node_promote',
+        8 => 'c4m_user_first_and_last_name',
+        9 => 'c4m_vocab_document_type',
+        11 => 'c4m_vocab_geo',
+        12 => 'c4m_ds_content_actions',
+        14 => 'c4m_vocab_date',
+        15 => 'c4m_ds_update_date',
+        16 => 'c4m_vocab_language',
+        18 => 'og_vocabulary',
+        22 => 'group_node_meta',
+        23 => 'group_node_actions',
+        24 => 'group_node_details',
+        25 => 'c4m_ds_content_shared_to',
       ),
     ),
     'fields' => array(
-      'c4m_vocab_topic' => 'right',
+      'c4m_ds_content_type_label' => 'left',
       'c4m_ds_entity_type_label' => 'right',
+      'c4m_vocab_topic' => 'right',
+      'c4m_ds_content_status' => 'left',
       'c4m_ds_node_highlight' => 'right',
       'c4m_user_picture' => 'right',
-      'c4m_ds_content_type_label' => 'left',
-      'c4m_ds_content_status' => 'left',
+      'title' => 'left',
       'c4m_ds_node_promote' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'c4m_vocab_document_type' => 'right',
-      'c4m_ds_creation_date' => 'right',
+      'c4m_ds_content_footer_stats' => 'left',
       'c4m_vocab_geo' => 'right',
       'c4m_ds_content_actions' => 'right',
-      'title' => 'left',
-      'c4m_ds_content_footer_stats' => 'left',
-      'c4m_vocab_date' => 'right',
       'c4m_body' => 'left',
+      'c4m_vocab_date' => 'right',
+      'c4m_ds_update_date' => 'right',
       'c4m_vocab_language' => 'right',
+      'c4m_content_document_ds_field_pdf_preview' => 'left',
       'og_vocabulary' => 'right',
       'c4m_content_document_icon' => 'left',
       'c4m_document' => 'left',
@@ -1317,8 +1333,8 @@ function c4m_content_document_ds_layout_settings_info() {
       'right' => array(
         1 => 'title',
         2 => 'c4m_user_first_and_last_name',
-        3 => 'c4m_ds_type_insert_action',
-        4 => 'c4m_ds_creation_date',
+        3 => 'c4m_ds_type_update_action',
+        4 => 'c4m_ds_update_date',
         5 => 'c4m_body',
         6 => 'c4m_document',
         7 => 'c4m_ds_content_footer_stats',
@@ -1330,8 +1346,8 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_content_document_icon' => 'left',
       'title' => 'right',
       'c4m_user_first_and_last_name' => 'right',
-      'c4m_ds_type_insert_action' => 'right',
-      'c4m_ds_creation_date' => 'right',
+      'c4m_ds_type_update_action' => 'right',
+      'c4m_ds_update_date' => 'right',
       'c4m_body' => 'right',
       'c4m_document' => 'right',
       'c4m_ds_content_footer_stats' => 'right',

@@ -81,7 +81,3 @@ message_success "Custom robots.txt file copied to web folder."
 markup_h2 "Plupload examples folder"
 rm -Rf "$DIR_WEB/sites/all/libraries/plupload/examples"
 message_success "Removed plupload examples folder from web directory."
-
-markup_h2 "Deploy the LDAP wrapper"
-cp -a "$DIR_ROOT/config/install/assets/services" "$DIR_WEB"
-message_success "The services/ldap.php was copied to web folder."

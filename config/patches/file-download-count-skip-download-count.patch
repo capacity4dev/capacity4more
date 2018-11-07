@@ -1,0 +1,15 @@
+diff --git a/file_download_count.module b/file_download_count.module
+index ffad568..d2c9a7b 100644
+--- a/file_download_count.module
++++ b/file_download_count.module
+@@ -69,6 +69,10 @@ function file_download_count_track_file_download($file) {
+     return;
+   }
+ 
++  if (!empty($_GET['skip_file_download_count'])) {
++    return;
++  }
++
+   flood_register_event('file_download_count');
+ 
+   db_insert('file_download_count')

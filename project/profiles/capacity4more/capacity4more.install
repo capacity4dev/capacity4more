@@ -75,11 +75,11 @@ function capacity4more_install() {
   // Quick post debug, Disabled by default.
   variable_set('c4m_quick_post_debug', 0);
 
-  // EU Cookie Compliance.
-  _set_eu_cookie_compliance();
-
   // Set default mail messages.
   _capacity4more_install_set_default_mail_messages();
+
+  // Add lazyloader settings.
+  _capacity4more_add_lazyloader_settings();
 
   // Path aliases.
   variable_set('pathauto_update_action', '2');
@@ -332,7 +332,7 @@ function _capacity4more_install_save_theme($name, $status) {
  * Add an array of blocks to the given theme.
  *
  * @param array $blocks
- *    Array of blocks.
+ *   Array of blocks.
  */
 function _capacity4more_install_save_theme_blocks(array $blocks) {
   $query = db_insert('block')->fields(
@@ -513,43 +513,23 @@ function _capacity4more_install_set_default_mail_messages() {
 }
 
 /**
- * Set the default eu cookie compliance info.
+ * Add lazyloader settings.
  */
-function _set_eu_cookie_compliance() {
-  global $language;
-  $lang = ($language->language) ? $language->language : 'en';
-
-  $settings = array(
-    'popup_enabled' => TRUE,
-    'popup_clicking_confirmation' => FALSE,
-    'popup_agree_button_message' => 'OK, I agree',
-    'popup_disagree_button_message' => 'No, give me more info',
-    'popup_info' => array(
-      'value' => '<h2>We use cookies on this site to enhance your user experience</h2><p>By clicking any link on this page you are giving your consent for us to set cookies.</p>',
-      'format' => 'full_html',
-    ),
-    'popup_agreed_enabled' => TRUE,
-    'popup_hide_agreed' => TRUE,
-    'popup_find_more_button_message' => 'More info',
-    'popup_hide_button_message' => 'Hide',
-    'popup_agreed' => array(
-      'value' => '<h2>Thank you for accepting cookies</h2><p>You can now hide this message or find out more about cookies.</p>',
-      'format' => 'full_html',
-    ),
-    'popup_link' => 'privacy',
-    'popup_link_new_window' => FALSE,
-    'popup_position' => FALSE,
-    'popup_height' => '',
-    'popup_width' => '100%',
-    'popup_delay' => 1,
-    'popup_bg_hex' => '374E5A',
-    'popup_text_hex' => 'ffffff',
-    'domains_option' => 1,
-    'domains_list' => '',
-    'exclude_paths' => '',
-  );
-
-  variable_set('eu_cookie_compliance_' . $lang, $settings);
+function _capacity4more_add_lazyloader_settings() {
+  variable_set('lazyloader_distance', '200');
+  variable_set('lazyloader_enabled', 1);
+  variable_set('lazyloader_exclude_option', 'exclude');
+  variable_set('lazyloader_icon', '0');
+  variable_set('lazyloader_paths', 'admin/*
+api/*
+media/*/format-form
+media/ajax/*
+media/browser*
+node/*/edit
+node/add/*
+overlay-file/*
+book/*/print');
+  variable_set('lazyloader_placeholder', '');
 }
 
 /******************************************************************************
@@ -568,4 +548,119 @@ function capacity4more_update_7001() {
  */
 function capacity4more_update_7002() {
   variable_set('entity_rebuild_on_flush', FALSE);
+}
+
+/**
+ * Enable current_search_links module.
+ */
+function capacity4more_update_7003() {
+  module_enable(['current_search_links']);
+}
+
+/**
+ * Disable eu_cookie_compliance module.
+ */
+function capacity4more_update_7004() {
+  module_disable(['eu_cookie_compliance']);
+}
+
+/**
+ * Enable lazyloader module.
+ */
+function capacity4more_update_7005() {
+  module_enable(['lazyloader']);
+  _capacity4more_add_lazyloader_settings();
+}
+
+/**
+ * Adjust Lazyloader settings. Add api/*, mediabrowser and overlay-file/* paths.
+ */
+function capacity4more_update_7006() {
+  _capacity4more_add_lazyloader_settings();
+}
+
+/**
+ * Enable modules for calendar.
+ */
+function capacity4more_update_7007() {
+  module_enable(['addtocal', 'calendar']);
+}
+
+/**
+ * Enable modules for queue_ui.
+ */
+function capacity4more_update_7008() {
+  module_enable(['queue_ui']);
+}
+
+/**
+ * Adjust Lazyloader settings. Add media/ajax/* path.
+ */
+function capacity4more_update_7009() {
+  _capacity4more_add_lazyloader_settings();
+}
+
+/**
+ * Enable draggableviews module.
+ */
+function capacity4more_update_7010() {
+  module_enable(['draggableviews']);
+}
+
+/**
+ * Enable masquerade module.
+ */
+function capacity4more_update_7011() {
+  module_enable(['masquerade']);
+}
+
+/**
+ * Adjust Lazyloader settings. Add book/*\/print path.
+ */
+function capacity4more_update_7012() {
+  _capacity4more_add_lazyloader_settings();
+}
+
+/**
+ * Uninstall c4m_domain module.
+ */
+function capacity4more_update_7013() {
+  module_disable(['c4m_domain']);
+  drupal_uninstall_modules(['c4m_domain']);
+}
+
+/**
+ * Set statistics_count_content_views_ajax variable to TRUE.
+ */
+function capacity4more_update_7014() {
+  variable_set('statistics_count_content_views_ajax', TRUE);
+}
+
+/**
+ * Disable and uninstall unneeded modules.
+ */
+function capacity4more_update_7015() {
+  $modules = [
+    'c4m_moodle',
+    'moodle_sso',
+    'path_redirect_import',
+    'context_block_disable',
+    'context_local_task',
+    'context_no_title',
+    'eu_cookie_compliance',
+    'inline_entity_form',
+    'media_flickr',
+    'media_vimeo',
+    'media_youtube',
+    'mefibs',
+    'memcache',
+    'piwik',
+    'weight',
+  ];
+  foreach ($modules as $module) {
+    if (module_exists($module)) {
+      module_disable([$module]);
+    }
+  }
+  drupal_uninstall_modules($modules);
 }

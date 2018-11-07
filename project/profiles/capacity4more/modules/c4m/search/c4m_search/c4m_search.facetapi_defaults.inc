@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_search.facetapi_defaults.inc
@@ -1360,7 +1361,7 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet->enabled = TRUE;
   $facet->settings = array(
     'weight' => 0,
-    'widget' => 'c4m_search_links_content_type',
+    'widget' => 'facetapi_links',
     'filters' => array(
       'active_items' => array(
         'status' => 0,
@@ -1490,12 +1491,13 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet->enabled = FALSE;
   $facet->settings = array(
     'operator' => 'and',
-    'hard_limit' => '-1',
+    'hard_limit' => '50',
     'dependencies' => array(
       'facets' => array(),
       'force_deactivation' => TRUE,
       'regex' => FALSE,
       'roles' => array(),
+      'reverse_dependency' => FALSE,
     ),
     'facet_mincount' => '1',
     'facet_missing' => '0',
@@ -1979,27 +1981,27 @@ function c4m_search_facetapi_default_facet_settings() {
       'active' => 'active',
       'count' => 'count',
       'display' => 'display',
-      'natural' => 0,
       'indexed' => 0,
+      'natural' => 0,
     ),
     'sort_weight' => array(
       'active' => '-50',
       'count' => '-49',
       'display' => '-48',
-      'natural' => '0',
       'indexed' => '0',
+      'natural' => '0',
     ),
     'sort_order' => array(
       'active' => '3',
       'count' => '3',
       'display' => '4',
-      'natural' => '4',
       'indexed' => '4',
+      'natural' => '4',
     ),
     'empty_behavior' => 'none',
     'facet_more_text' => 'Show more',
     'facet_fewer_text' => 'Show fewer',
-    'soft_limit' => '10',
+    'soft_limit' => '20',
     'nofollow' => 1,
     'show_expanded' => 0,
     'empty_text' => array(

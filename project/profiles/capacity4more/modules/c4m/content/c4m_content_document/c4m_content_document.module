@@ -76,27 +76,38 @@ function c4m_content_document_ds_fields_info($entity_type) {
 
   $path = drupal_get_path('module', 'c4m_content_document');
 
-  $fields['node']['c4m_content_document_icon'] = array(
+  $fields['node']['c4m_content_document_icon'] = [
     'title' => t('Document icon'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit' => array('document|*'),
+    'ui_limit' => ['document|*'],
     'file' => $path . '/includes/c4m_content_document.theme.inc',
     'function' => 'theme_c4m_content_document_icon',
-    'properties' => array(
+    'properties' => [
       'default' => t('Default'),
-    ),
-  );
+    ],
+  ];
 
-  $fields['node']['c4m_content_document_type_size'] = array(
+  $fields['node']['c4m_content_document_type_size'] = [
     'title' => t('Document type and size'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit' => array('document|*'),
+    'ui_limit' => ['document|*'],
     'file' => $path . '/includes/c4m_content_document.theme.inc',
     'function' => 'theme_c4m_content_document_type_size',
-    'properties' => array(
+    'properties' => [
       'default' => t('Default'),
-    ),
-  );
+    ],
+  ];
+
+  $fields['node']['c4m_content_document_ds_field_pdf_preview'] = [
+    'title' => t('C4M PDF preview'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => ['document|full'],
+    'file' => $path . '/includes/c4m_content_document.theme.inc',
+    'function' => 'c4m_content_document_ds_field_pdf_preview',
+    'properties' => [
+      'default' => t('Default'),
+    ],
+  ];
 
   return $fields;
 }

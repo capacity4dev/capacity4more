@@ -11,25 +11,32 @@
  * Defines a path for the page/form used to invite visitors into a group.
  */
 function c4m_og_invite_visitors_menu() {
-  $items = array();
-  $items['group/%/%/admin/people/invite-visitors'] = array(
-    'title' => 'Invite group members',
+  $items = [];
+
+  $items['group/%/%/admin/people/overview'] = [
+    'title' => 'Manage memberships',
+    'weight' => 0,
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  ];
+
+  $items['group/%/%/admin/people/invite-visitors'] = [
+    'title' => 'Invite members',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('_c4m_og_invite_visitors_new_users_form', 2),
+    'page arguments' => ['_c4m_og_invite_visitors_new_users_form', 2],
     'type' => MENU_LOCAL_TASK,
     'weight' => 4,
     'access callback' => 'c4m_og_invite_visitors_user_access',
-    'access arguments' => array(2),
-  );
+    'access arguments' => [2],
+  ];
 
-  $items['user/registration/join-group/%node/%'] = array(
+  $items['user/registration/join-group/%node/%'] = [
     'title' => 'Join Capacity 4 More',
     'type' => MENU_CALLBACK,
     'page callback' => 'c4m_og_invite_visitors_process_acceptance',
-    'page arguments' => array(3, 4),
+    'page arguments' => [3, 4],
     'access callback' => 'c4m_og_invite_visitors_process_acceptance_access',
-    'access arguments' => array(3, 4),
-  );
+    'access arguments' => [3, 4],
+  ];
 
   return $items;
 }
@@ -92,11 +99,11 @@ function _c4m_og_invite_visitors_get_invitation_by_token($gid, $token) {
   $key = 'invitation-' . $token;
 
   if (!isset($result[$key])) {
-    $invite_db_fields = array(
+    $invite_db_fields = [
       'inv_id',
       'inv_email',
       'inv_expired',
-    );
+    ];
 
     $result[$key] = db_select('c4m_og_invite_visitors', 'inv')
       ->fields('inv', $invite_db_fields)
@@ -127,11 +134,11 @@ function _c4m_og_invite_visitors_get_invitation_by_email($gid, $email) {
   $key = 'invitation-' . $gid . ':' . $email;
 
   if (!isset($result[$key])) {
-    $invite_db_fields = array(
+    $invite_db_fields = [
       'inv_id',
       'inv_email',
       'inv_expired',
-    );
+    ];
 
     $result[$key] = db_select('c4m_og_invite_visitors', 'inv')
       ->fields('inv', $invite_db_fields)
@@ -167,7 +174,7 @@ function c4m_og_invite_visitors_process_acceptance($group, $token) {
 
       // The user is not a member. Add the user to the group.
       if (!og_is_member('node', $group->nid, 'user', $user)) {
-        og_group('node', $group, array('entity' => $user));
+        og_group('node', $group, ['entity' => $user]);
       }
     }
     // A different user is logged in. Display an error.
@@ -180,9 +187,9 @@ function c4m_og_invite_visitors_process_acceptance($group, $token) {
   }
 
   // The invited email is not registered. Redirect to the registration form.
-  // Set the group to join in a session variable and redirect to /user/register.
+  // Set the group to join in a session variable and redirect to user/register.
   $_SESSION['c4m_og_invite_visitors_gid_join'] = $group->nid;
-  drupal_goto('/user/register');
+  drupal_goto('user/register');
 }
 
 /**
@@ -192,13 +199,13 @@ function c4m_og_invite_visitors_process_acceptance($group, $token) {
  * the invite visitors form.
  */
 function c4m_og_invite_visitors_og_ui_get_group_admin($group_type, $gid) {
-  $items = array();
+  $items = [];
   if (og_user_access($group_type, $gid, 'invite visitors')) {
-    $items['c4m_og_invite_visitors'] = array(
-      'title' => t('Invite group members'),
+    $items['c4m_og_invite_visitors'] = [
+      'title' => t('Invite members'),
       'description' => t('Invite users or create new users and add them as group members.'),
       'href' => 'admin/people/invite-visitors',
-    );
+    ];
   }
 
   return $items;
@@ -227,12 +234,12 @@ function c4m_og_invite_visitors_user_access($gid) {
  * Adds a group permissions to invite visitors to a group.
  */
 function c4m_og_invite_visitors_og_permission() {
-  $items = array();
-  $items['invite visitors'] = array(
+  $items = [];
+  $items['invite visitors'] = [
     'title' => t('Invite visitors'),
     'description' => t('Users may invite visitors to the group.'),
-    'default role' => array(OG_ADMINISTRATOR_ROLE),
-  );
+    'default role' => [OG_ADMINISTRATOR_ROLE],
+  ];
 
   return $items;
 }
@@ -254,48 +261,48 @@ function c4m_og_invite_visitors_og_permission() {
  */
 function _c4m_og_invite_visitors_new_users_form($form, &$form_state, $gid) {
   $group = node_load($gid);
-  og_set_breadcrumb('node', $group->nid, array(l(t('Group'), "node/" . $group->nid . "/group")));
+  og_set_breadcrumb('node', $group->nid, [l(t('Group'), "node/" . $group->nid . "/group")]);
   $label = entity_label('node', $group);
 
-  $form['gid'] = array(
+  $form['gid'] = [
     '#type' => 'value',
     '#value' => $group->nid,
-  );
+  ];
   // str_replace result is the path to `Manage the group members`.
-  $form['manage_group_people'] = array(
+  $form['manage_group_people'] = [
     '#type' => 'link',
     '#href' => str_replace('/invite-visitors', '', $_GET['q']),
     '#title' => 'Manage all group memberships',
     '#access' => c4m_features_og_members_is_power_user(),
-  );
-  $form['c4m_og_invite_visitors'] = array(
+  ];
+  $form['c4m_og_invite_visitors'] = [
     '#type' => 'fieldset',
-    '#title' => t('Invite new users to %group', array('%group' => $label)),
-  );
-  $form['c4m_og_invite_visitors']['invitee'] = array(
+    '#title' => t('Invite new users to %group', ['%group' => $label]),
+  ];
+  $form['c4m_og_invite_visitors']['invitee'] = [
     '#type' => 'textarea',
     '#title' => t('User email(s)'),
     '#description' => t("Use commas or new lines to split email addresses. The new users will be created and invited as members of this group. A one time login link will be sent to the invitees\' email."),
     '#required' => TRUE,
-  );
-  $form['c4m_og_invite_visitors']['personal_subject'] = array(
+  ];
+  $form['c4m_og_invite_visitors']['personal_subject'] = [
     '#type' => 'textfield',
     '#title' => t('Subject'),
     '#description' => t('Add a personal subject to the invitation email.'),
-  );
-  $form['c4m_og_invite_visitors']['personal_message'] = array(
+  ];
+  $form['c4m_og_invite_visitors']['personal_message'] = [
     '#type' => 'textarea',
     '#title' => t('Add a message (optional)'),
     '#description' => t('Add a personal message to the invitation email.'),
-  );
+  ];
 
-  $form['actions'] = array(
+  $form['actions'] = [
     '#type' => 'actions',
-    'submit' => array(
+    'submit' => [
       '#type' => 'submit',
       '#value' => t('Invite user(s)'),
-    ),
-  );
+    ],
+  ];
 
   return $form;
 }
@@ -310,11 +317,11 @@ function _c4m_og_invite_visitors_new_users_form_validate($form, &$form_state) {
   // Split the list of email addresses by comma, newline or white space.
   $invitee_emails = preg_split('/\s*[,\n]\s*/', $form_state['values']['invitee']);
   $gid = $form_state['values']['gid'];
-  $form_state['invitees'] = array();
+  $form_state['invitees'] = [];
 
   foreach (array_filter($invitee_emails) as $invitee_email) {
     if (!valid_email_address($invitee_email)) {
-      form_set_error('invitee', t('Invalid email @email.', array('@email' => $invitee_email)));
+      form_set_error('invitee', t('Invalid email @email.', ['@email' => $invitee_email]));
       continue;
     }
     $result = _c4m_og_invite_visitors_determine_user_action($invitee_email, $gid);
@@ -323,7 +330,7 @@ function _c4m_og_invite_visitors_new_users_form_validate($form, &$form_state) {
       $result = _c4m_og_invite_visitors_get_invitation_by_email($gid, $invitee_email);
       if ($result) {
         // Already invited.
-        form_set_error('invitee', t('@email has already been invited.', array('@email' => $invitee_email)));
+        form_set_error('invitee', t('@email has already been invited.', ['@email' => $invitee_email]));
       }
       else {
         // Not already invited.
@@ -351,10 +358,10 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
   global $user;
   $gid = $form_state['values']['gid'];
   $invitees = $form_state['invitees'];
-  $form_fields = array(
+  $form_fields = [
     'subject' => $form_state['values']['personal_subject'],
     'body' => $form_state['values']['personal_message'],
-  );
+  ];
 
   foreach ($invitees as $invitee => $uid) {
     if (!$uid) {
@@ -364,7 +371,7 @@ function _c4m_og_invite_visitors_new_users_form_submit($form, &$form_state) {
       // Invoke the invite_user functionality.
       $field_name = key(og_get_group_audience_fields());
       c4m_og_invite_users_invite($gid, $field_name, $uid, $form_fields['body'], $form_fields['subject']);
-      drupal_set_message(t('An email notification was sent to %address.', array('%address' => $invitee)));
+      drupal_set_message(t('An email notification was sent to %address.', ['%address' => $invitee]));
     }
   }
 }
@@ -399,13 +406,13 @@ function _c4m_og_invite_visitors_determine_user_action($invitee_email, $gid) {
     // Member is blocked, display a link to the manage people page.
     if ($og_membership->state == OG_STATE_BLOCKED) {
       $link = l(t('Manage the group members.'), 'group/node/' . $og_membership->gid . '/admin/people');
-      drupal_set_message(t('%user is a blocked member of this group. !people-page-link', array(
+      drupal_set_message(t('%user is a blocked member of this group. !people-page-link', [
         '%user' => $invitee_email,
         '!people-page-link' => $link,
-      )), 'error');
+      ]), 'error');
     }
     else {
-      drupal_set_message(t('%user is already a member of this group.', array('%user' => $invitee_email)), 'warning');
+      drupal_set_message(t('%user is already a member of this group.', ['%user' => $invitee_email]), 'warning');
     }
 
     return -1;
@@ -413,10 +420,10 @@ function _c4m_og_invite_visitors_determine_user_action($invitee_email, $gid) {
 
   // Do not invite a user who is marked as a spammer.
   if ($wrapper->c4m_is_spammer->value()) {
-    $message = t('We encountered a problem inviting %address. Please <a href="@contact-page">contact the site administrator</a>.', array(
+    $message = t('We encountered a problem inviting %address. Please <a href="@contact-page">contact the site administrator</a>.', [
       '%address' => $wrapper->mail->value(),
-      '@contact-page' => url('contact', array('purl' => array('disabled' => TRUE))),
-    ));
+      '@contact-page' => url('contact', ['purl' => ['disabled' => TRUE]]),
+    ]);
     drupal_set_message($message, 'error');
 
     return -1;
@@ -444,19 +451,19 @@ function _c4m_og_invite_visitors_action_invite_visitors($inviter_uid, $gid, $inv
 
   // An error saving the invitation to the DB.
   if (!$invitation) {
-    drupal_set_message(t('An error occurred inviting %address to the group.', array('%address' => $invitee_email)), 'error');
+    drupal_set_message(t('An error occurred inviting %address to the group.', ['%address' => $invitee_email]), 'error');
     return;
   }
 
   $from = c4m_message_get_from_field_default_pattern();
 
   // Send the invitation email.
-  drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, array(
+  drupal_mail('c4m_og_invite_visitors', 'invite_group_member', $invitee_email, NULL, [
     'form_fields' => $form_fields,
     'invitation' => $invitation,
-  ), $from);
+  ], $from);
 
-  drupal_set_message(t('An email notification was sent to %address.', array('%address' => $invitee_email)));
+  drupal_set_message(t('An email notification was sent to %address.', ['%address' => $invitee_email]));
 }
 
 /**
@@ -467,11 +474,11 @@ function _c4m_og_invite_visitors_action_invite_visitors($inviter_uid, $gid, $inv
  * the email identification $key.
  */
 function c4m_og_invite_visitors_mail($key, &$message, $params) {
-  $variables = array(
+  $variables = [
     'message' => $message,
     'form_fields' => $params['form_fields'],
     'invitation' => $params['invitation'],
-  );
+  ];
   $message['subject'] .= _c4m_og_invite_visitors_get_email_template($key . '_subject', $variables);
   $message['body'][] = _c4m_og_invite_visitors_get_email_template($key . '_body', $variables);
 }
@@ -492,18 +499,17 @@ function c4m_og_invite_visitors_mail($key, &$message, $params) {
  * @return string|null
  *   An email string or NULL.
  */
-function _c4m_og_invite_visitors_get_email_template($key, array $variables = array(), $replace = TRUE) {
+function _c4m_og_invite_visitors_get_email_template($key, array $variables = [], $replace = TRUE) {
   // Load the template from variable.
   $text = variable_get($key, FALSE);
 
   // Replace the tokens in the template with the correct data.
   if ($replace) {
-    return token_replace($text, $variables, array(
+    return token_replace($text, $variables, [
       'callback' => 'c4m_og_invite_visitors_mail_tokens',
       'sanitize' => FALSE,
       'clear' => TRUE,
-    )
-    );
+    ]);
   }
 
   return $text;
@@ -532,7 +538,7 @@ function c4m_og_invite_visitors_mail_tokens(array &$replacements, array $data, a
   global $user, $base_url;
 
   $group = c4m_og_current_group();
-  $url_options = array('absolute' => TRUE);
+  $url_options = ['absolute' => TRUE];
 
   $replacements['[user:full_name]'] = c4m_user_name($user);
   $replacements['[user:public-profile-url]'] = $base_url . '/users/' . c4m_og_human_to_machine_readable($replacements['[user:full_name]']);
@@ -555,15 +561,16 @@ function c4m_og_invite_visitors_form_user_register_form_alter(&$form, &$form_sta
     return;
   }
 
-  $wrapper = entity_metadata_wrapper('node', $_SESSION['c4m_og_invite_visitors_gid_join']);
+  $group = node_load($_SESSION['c4m_og_invite_visitors_gid_join']);
 
-  list($join_phrase, $button_label) = _c4m_og_registration_form_labels_by_group($_SESSION['c4m_og_invite_visitors_gid_join']);
+  list($join_phrase, $button_label) = _c4m_og_registration_form_labels_by_group($group->nid);
 
-  $variables = array(
+  $variables = [
     'join_phrase' => $join_phrase,
-    'group_title' => $wrapper->label(),
+    'group_title' => $group->title,
+    'group_type' => c4m_og_get_group_type_from_node($group, TRUE),
     'login_link' => l(t('Log in.'), 'user/login'),
-  );
+  ];
   drupal_set_title(theme('c4m_unified_workflow_register', $variables), PASS_THROUGH);
 
   $form['#submit'][] = 'c4m_og_invite_visitors_register_submit';
@@ -576,13 +583,21 @@ function c4m_og_invite_visitors_form_user_register_form_alter(&$form, &$form_sta
  * Setting a message to the user and redirect back to the group.
  */
 function c4m_og_invite_visitors_register_submit($form, &$form_state) {
-  if (!isset($_SESSION['c4m_og_invite_visitors_gid_join']) || !$gid = $_SESSION['c4m_og_invite_visitors_gid_join']) {
+  if (empty($_SESSION['c4m_og_invite_visitors_gid_join'])) {
     return;
   }
 
+  $gid = $_SESSION['c4m_og_invite_visitors_gid_join'];
+
   // Void the invitation token in the database after registration completes and
   // add the new user ID.
-  c4m_og_invite_visitors_void_invitation($form_state['user']->uid, $form_state['user']->mail, $gid);
+  $account = $form_state['user'];
+  c4m_og_invite_visitors_void_invitation($account->uid, $account->mail, $gid);
+  $edit['data'] = [
+    'join_group' => $gid,
+  ];
+  user_save($account, $edit);
+  unset($_SESSION['c4m_og_invite_visitors_gid_join']);
 
   // drupal_goto has a fallback to the 'destination' so we must remove it.
   unset($_GET['destination']);
@@ -604,11 +619,11 @@ function c4m_og_invite_visitors_register_submit($form, &$form_state) {
 function c4m_og_invite_visitors_void_invitation($uid, $email, $gid) {
   try {
     $num_updated = db_update('c4m_og_invite_visitors')
-      ->fields(array(
+      ->fields([
         'inv_uid' => $uid,
         'inv_updated' => REQUEST_TIME,
         'inv_expired' => 1,
-      ))
+      ])
       ->condition('inv_email', $email, '=')
       ->condition('inv_group_id', $gid, '=')
       ->execute();
@@ -639,32 +654,27 @@ function c4m_og_invite_visitors_user_update(&$edit, $account, $category) {
     return;
   }
 
-  if (!isset($_SESSION['c4m_og_invite_visitors_gid_join']) || !$gid = $_SESSION['c4m_og_invite_visitors_gid_join']) {
+  if (empty($account->data['join_group'])) {
     return;
   }
 
-  $account = user_load($account->uid);
-
-  $group = node_load($gid);
+  $group = node_load($account->data['join_group']);
   // Removing the original message of the user_register_form.
   drupal_get_messages('status');
-  $message = t('Welcome to group @group_title.', array('@group_title' => $group->title));
+  $message = t('Welcome to group @group_title.', ['@group_title' => $group->title]);
 
   drupal_set_message($message);
-  $form_state['redirect'] = drupal_get_path_alias('node/' . $gid);
+  $form_state['redirect'] = drupal_get_path_alias('node/' . $group->nid);
 
   // Add the user to the group.
-  og_group('node', $group, array('entity' => $account));
+  og_group('node', $group, ['entity' => $account]);
 
   // Add the administrator role for users joining a project.
   $bundle = 'project';
   if ($group->type === $bundle) {
     $role = c4m_og_user_role_load_by_name('administrator member', $bundle);
-    og_role_grant('node', $gid, $account->uid, $role->rid);
+    og_role_grant('node', $group->nid, $account->uid, $role->rid);
   }
-
-  // User is registered, the session variable should be destroyed.
-  unset($_SESSION['c4m_og_invite_visitors_gid_join']);
 }
 
 /**
@@ -686,15 +696,13 @@ function c4m_og_invite_visitors_store_invitation($inviter_id, $group_id, $email)
   $token = drupal_hash_base64($email . drupal_random_key() . REQUEST_TIME);
 
   try {
-    $invId = db_insert('c4m_og_invite_visitors')
-      ->fields(array(
-        'inv_inviter_id' => $inviter_id,
-        'inv_group_id' => $group_id,
-        'inv_email' => $email,
-        'inv_created' => REQUEST_TIME,
-        'inv_token' => $token,
-      ))
-      ->execute();
+    $invId = db_insert('c4m_og_invite_visitors')->fields([
+      'inv_inviter_id' => $inviter_id,
+      'inv_group_id' => $group_id,
+      'inv_email' => $email,
+      'inv_created' => REQUEST_TIME,
+      'inv_token' => $token,
+    ])->execute();
   }
   catch (PDOException $e) {
     watchdog('c4m_og_invite_visitors', $e->getMessage(), NULL, WATCHDOG_ERROR);
@@ -702,10 +710,10 @@ function c4m_og_invite_visitors_store_invitation($inviter_id, $group_id, $email)
     return FALSE;
   }
 
-  return array(
+  return [
     'token' => $token,
     'invId' => $invId,
-  );
+  ];
 }
 
 /**

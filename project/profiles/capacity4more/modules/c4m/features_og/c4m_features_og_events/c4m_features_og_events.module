@@ -5,7 +5,7 @@
  * Code for the Group Events feature.
  */
 
-define('C4M_FEATURES_OG_EVENTS_SORT_BY_START_DATE', "Sort by Start Date");
+define('C4M_FEATURES_OG_EVENTS_SORT_BY_START_DATE', "Start Date");
 
 include_once 'c4m_features_og_events.features.inc';
 
@@ -44,7 +44,7 @@ function c4m_features_og_events_ctools_plugin_directory($module, $plugin) {
  * block per view, so we need to alter some stuff. Here the default sort.
  */
 function c4m_features_og_events_search_api_sorts_default_sort_alter(&$default_sort, $search_sorts, $keys) {
-  // Change default sort into 'Sort by Start Date' for events overviews.
+  // Change default sort into 'Start Date' for events overviews.
   if (FALSE === strpos(current_path(), 'calendar', 0)) {
     return;
   }
@@ -253,4 +253,83 @@ function _c4m_features_og_events_count_via_views($type) {
   );
 
   return _c4m_helper_entity_total_count_via_views('c4m_overview_og_events', $mapped_views[$type]);
+}
+
+/**
+ * Implements hook_preprocess_views_view().
+ */
+function c4m_features_og_events_preprocess_views_view(&$vars) {
+  $view = $vars['view'];
+  $url_options = _c4m_features_og_events_get_group_url_options();
+  $week_path = 'calendar/week';
+  $month_path = 'calendar/month';
+
+  if ($vars['name'] == 'c4m_overview_og_events_landing') {
+    if ($vars['display_id'] == 'page') {
+      $vars['month_view_url'] = l(t('Switch to calendar view'), $month_path, $url_options);
+    }
+  }
+
+  if ($view->name != 'c4m_events_calendar') {
+    return;
+  }
+  $calendar_displays = [
+    'og_month',
+    'og_week',
+  ];
+  if (!in_array($view->current_display, $calendar_displays)) {
+    return;
+  }
+  if ($view->current_display == 'og_month') {
+    if (!empty($view->args[0]) && !empty($view->args[1])) {
+      $date = explode("-", $view->args[1]);
+      if (!empty($date[0]) && !empty($date[1])) {
+        $year = $date[0];
+        $current_month = date("m");
+        if ($current_month != $date[1]) {
+          $calendar_date = date_create($view->args[1] . '-01');
+          $year_start_date = date_create($year . '-01-01');
+          $diff = date_diff($calendar_date, $year_start_date);
+          $weeks = floor($diff->days / 7) + 1;
+          $week_path .= "/" . $view->args[0] . "/" . $year . "-W" . $weeks;
+        }
+      }
+    }
+  }
+  else {
+    if (!empty($view->args[0]) && !empty(!empty($view->args[1]))) {
+      $date = explode("-", $view->args[1]);
+      if (!empty($date[0]) && !empty($date[1])) {
+        $year = $date[0];
+        $week = str_replace("W", '', $date[1]);
+        $year_start_date = date_create($year . "-01-01");
+        $calendar_date = date_add($year_start_date, date_interval_create_from_date_string($week . " weeks"));
+        $month = $calendar_date->format('m');
+        $month_path .= "/" . $view->args[0] . "/" . $year . "-" . $month;
+      }
+    }
+  }
+
+  $vars['week_view_url'] = l(t('Week'), $week_path, $url_options);
+  $vars['month_view_url'] = l(t('Month'), $month_path, $url_options);
+  $vars['list_view_url'] = l(t('Switch to list view'), 'calendar', $url_options);
+}
+
+/**
+ * Returns url options for creating group links.
+ *
+ * @return array
+ *   The url options.
+ */
+function _c4m_features_og_events_get_group_url_options() {
+  if ($group = og_context()) {
+    return [
+      'absolute' => TRUE,
+      'purl' => [
+        'provider' => 'og_purl|node',
+        'id' => $group['gid'],
+      ],
+    ];
+  }
+  return [];
 }

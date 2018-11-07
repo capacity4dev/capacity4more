@@ -58,15 +58,21 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
 
     $this->setGroupFieldConditions($query, $group_type);
 
-    $account = user_load($user->uid);
-    if (user_access('administer site configuration', $account)) {
-      // Site administrator can choose also groups he is not member of.
+    if (empty($this->field['settings']['handler_settings']['skip_status_check'])) {
+      // Adding condition that verifying that group state allows adding content
+      // member can add content to groups at draft or published state.
+      $allowed_states = ['published'];
       $query->fieldCondition(
         'c4m_og_status',
         'value',
-        array('published'),
+        $allowed_states,
         'IN'
       );
+    }
+
+    $account = user_load($user->uid);
+    if (user_access('administer site configuration', $account)) {
+      // Site administrator can choose also groups he is not member of.
       return $query;
     }
 
@@ -127,16 +133,6 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
         return $query;
       }
     }
-
-    // Adding condition that verifying that group state allows adding content
-    // member can add content to groups at draft or published state.
-    $allowed_states = array('published');
-    $query->fieldCondition(
-      'c4m_og_status',
-      'value',
-      $allowed_states,
-      'IN'
-    );
 
     // No additional modifications to query. If creating content from a form,
     // permissions will be rechecked at form access.

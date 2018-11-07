@@ -1,0 +1,249 @@
+<?php
+
+/**
+ * @file
+ * Install and update hooks for the c4m_message_digest module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_message_digest_install() {
+  c4m_message_digest_update_7001();
+  c4m_message_digest_update_7002();
+  c4m_message_digest_update_7003();
+
+  // Convert unsubscribes.
+  c4m_message_digest_update_7008();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function c4m_message_digest_uninstall() {
+  if (db_field_exists('flagging', 'preference')) {
+    db_drop_field('flagging', 'preference');
+  }
+  if (db_table_exists('message_digest_preferences')) {
+    db_drop_table('message_digest_preferences');
+  }
+}
+
+/**
+ * Implements hook_schema_alter().
+ */
+function c4m_message_digest_schema_alter(&$schema) {
+  if (isset($schema['flagging'])) {
+    $schema['flagging']['fields']['preference'] = [
+      'type' => 'varchar',
+      'not null' => TRUE,
+      'default' => C4M_MESSAGE_DIGEST_FREQUENCY_DEFAULT,
+      'description' => 'The machine name of the digest preference.',
+      'length' => 128,
+    ];
+  }
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function c4m_message_digest_update_7001() {
+  variable_set('message_subscribe_default_notifiers', []);
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function c4m_message_digest_update_7002() {
+  c4m_message_digest_update_subscribe_notify_messages();
+}
+
+/**
+ * Add preference field.
+ */
+function c4m_message_digest_update_7003() {
+  if (!db_field_exists('flagging', 'preference')) {
+    $field = [
+      'type' => 'varchar',
+      'not null' => TRUE,
+      'default' => C4M_MESSAGE_DIGEST_FREQUENCY_DEFAULT,
+      'description' => 'The machine name of the digest preference.',
+      'length' => 128,
+    ];
+    db_add_field('flagging', 'preference', $field);
+  }
+  if (db_table_exists('message_digest_preferences')) {
+    db_drop_table('message_digest_preferences');
+  }
+}
+
+/**
+ * Convert optout fields to "never" intervals for comments.
+ */
+function c4m_message_digest_update_7004() {
+  $flag_name = 'subscribe_c4m_follow_comment';
+  $field_name = 'c4m_optout_comment';
+  $db_table = 'field_data_' . $field_name;
+  $entity_type = 'node';
+
+  // Maybe the update hook was already executed.
+  if (field_info_field($field_name)) {
+    _c4m_message_digest_convert_unsubscribes($db_table, $flag_name, $field_name, $entity_type);
+
+    field_delete_field($field_name);
+    field_purge_batch(1);
+  }
+}
+
+/**
+ * Convert optout fields to "never" intervals for group 'follows'.
+ */
+function c4m_message_digest_update_7005() {
+  $flag_name = 'subscribe_c4m_follow_group';
+  $field_name = 'c4m_optout_group';
+  $db_table = 'field_data_' . $field_name;
+  $entity_type = 'node';
+
+  // Maybe the update hook was already executed.
+  if (field_info_field($field_name)) {
+    _c4m_message_digest_convert_unsubscribes($db_table, $flag_name, $field_name, $entity_type);
+
+    field_delete_field($field_name);
+    field_purge_batch(1);
+  }
+}
+
+/**
+ * Convert optout fields to "never" intervals for node 'follows'.
+ */
+function c4m_message_digest_update_7006() {
+  $flag_name = 'subscribe_c4m_follow_node';
+  $field_name = 'c4m_optout_node';
+  $db_table = 'field_data_' . $field_name;
+  $entity_type = 'node';
+
+  // Maybe the update hook was already executed.
+  if (field_info_field($field_name)) {
+    _c4m_message_digest_convert_unsubscribes($db_table, $flag_name, $field_name, $entity_type);
+
+    field_delete_field($field_name);
+    field_purge_batch(1);
+  }
+}
+
+/**
+ * Convert optout fields to "never" intervals for taxonomy terms.
+ */
+function c4m_message_digest_update_7007() {
+  $flag_name = 'subscribe_c4m_follow_term';
+  $field_name = 'c4m_optout_taxonomy_term';
+  $db_table = 'field_data_' . $field_name;
+  $entity_type = 'taxonomy_term';
+
+  // Maybe the update hook was already executed.
+  if (field_info_field($field_name)) {
+    _c4m_message_digest_convert_unsubscribes($db_table, $flag_name, $field_name, $entity_type);
+
+    field_delete_field($field_name);
+    field_purge_batch(1);
+  }
+}
+
+/**
+ * Convert unsubscribes.
+ */
+function c4m_message_digest_update_7008() {
+  c4m_message_digest_update_7004();
+  c4m_message_digest_update_7005();
+  c4m_message_digest_update_7006();
+  c4m_message_digest_update_7007();
+}
+
+/**
+ * Iterate over all optout results and convert them to preferences.
+ *
+ * @param string $db_table
+ *   Database table we convert unsubscribes from.
+ * @param string $flag_name
+ *   Machine name of the flag in the database.
+ * @param string $db_prefix
+ *   Field name in the database schema.
+ * @param string $entity_type
+ *   Type of entity to convert flaggings for.
+ */
+function _c4m_message_digest_convert_unsubscribes($db_table, $flag_name, $db_prefix, $entity_type) {
+  if (!db_table_exists($db_table)) {
+    return;
+  }
+
+  $flag = flag_get_flag($flag_name);
+
+  $results = db_select($db_table, 'o')->fields('o', [
+    'entity_id',
+    $db_prefix . '_target_id',
+  ])->execute();
+
+  foreach ($results as $result) {
+    $flaggings = _c4m_message_digest_get_flaggings($flag, $entity_type, $db_prefix, $result);
+    foreach ($flaggings as $flagging) {
+      $flagging->preference = C4M_MESSAGE_DIGEST_FREQUENCY_NEVER;
+      c4m_message_digest_set_preference($flagging);
+    }
+  }
+}
+
+/**
+ * Retrieve flaggings for a specific field name in the flagging table.
+ *
+ * @param object $flag
+ *   Flag entity object.
+ * @param string $entity_type
+ *   Entity type for the flagging.
+ * @param string $db_prefix
+ *   Field name in the database schema.
+ * @param object $result
+ *   Database result of the optout database table.
+ *
+ * @return \DatabaseStatementInterface|null
+ *   DB Result with existing flaggings or NULL if none.
+ */
+function _c4m_message_digest_get_flaggings($flag, $entity_type, $db_prefix, $result) {
+  $select = db_select('flagging', 'mdp');
+  $select->fields('mdp')
+    ->condition('fid', $flag->fid)
+    ->condition('entity_type', $entity_type)
+    ->condition('entity_id', $result->{$db_prefix . '_target_id'})
+    ->condition('uid', $result->entity_id);
+
+  $flaggings = $select->execute();
+  return $flaggings;
+}
+
+/**
+ * Re-import all the subscription notification message types as entities.
+ */
+function c4m_message_digest_update_subscribe_notify_messages() {
+  module_load_include('inc', 'c4m_message', 'includes/c4m_message_entity_import');
+
+  features_revert_module('c4m_message');
+
+  $messages = _c4m_message_get_messages_subscribe_notifies();
+
+  foreach ($messages as $message) {
+    $entity = entity_import('message_type', $message);
+
+    $existing_entity = message_type_load($entity->name);
+
+    if (!$entity || !$existing_entity) {
+      continue;
+    }
+
+    $existing_entity->message_text = $entity->message_text;
+    $existing_entity->message_footer = $entity->message_footer;
+    $existing_entity->message_header = $entity->message_header;
+
+    $existing_entity->save();
+  }
+
+  features_revert_module('c4m_message');
+}

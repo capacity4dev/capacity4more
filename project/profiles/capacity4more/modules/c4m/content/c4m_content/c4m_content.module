@@ -15,23 +15,23 @@
  *   The rendered message as an HTML element.
  */
 function _c4m_content_get_draft_message_rendered($type) {
-  $params = array('@type' => str_replace('_', ' ', $type));
+  $params = ['@type' => str_replace('_', ' ', $type)];
 
-  $tag['element'] = array(
-    '#tag'       => 'span',
-    '#attributes' => array(
-      'class' => array('control-label'),
-    ),
+  $tag['element'] = [
+    '#tag' => 'span',
+    '#attributes' => [
+      'class' => ['control-label'],
+    ],
     '#value' => t("By pressing 'Save', you will save this @type as a draft - please press 'Publish' to create and publish this @type.", $params),
-  );
+  ];
 
-  $tag['element'] = array(
-    '#tag'       => 'div',
-    '#attributes' => array(
-      'class' => array('has-error'),
-    ),
+  $tag['element'] = [
+    '#tag' => 'div',
+    '#attributes' => [
+      'class' => ['has-error'],
+    ],
     '#value' => theme_html_tag($tag),
-  );
+  ];
 
   return theme_html_tag($tag);
 }
@@ -58,34 +58,37 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
 
     // Adding the message to the user about the draft entity.
     if (isset($form_state['node']->status) && $form_state['node']->status == NODE_NOT_PUBLISHED) {
-      $form['draft-content-message'] = array(
+      $form['draft-content-message'] = [
         '#markup' => _c4m_content_get_draft_message_rendered($form['type']['#value']),
         '#weight' => 99,
-      );
+      ];
     }
 
-    $form['send-notification'] = array(
+    $form['send_notification'] = [
       '#type' => 'checkbox',
       '#title' => t('Send Notification'),
       // Default to true only on new content.
       '#default_value' => empty($form_state['node']->nid),
-      '#limit_validation_errors' => array(),
-      '#weight' => 100,
-    );
+      '#limit_validation_errors' => [],
+      '#weight' => 101,
+    ];
   };
 
-  // Allow power users to create revisions.
-  $form['revision_information']['revision']['#access'] = c4m_features_og_members_is_power_user();
+  $form['post_activity'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Post Activity'),
+    // Default to true only on new content.
+    '#default_value' => empty($form_state['node']->nid),
+    '#access' => _c4m_content_post_activity_access($form_state),
+    '#weight' => 100,
+  ];
 
   // Hide Book tab for all content types.
   if (isset($form['book'])) {
     // Check if outline is allowed.
     // - User has to have the right administration permission.
     // - Access to outline has to be enabled (admin/config/c4m/book).
-    if (!variable_get('open_book_outline', FALSE) || !user_access(
-        'administer book outlines'
-      )
-    ) {
+    if (!variable_get('open_book_outline', FALSE) || !user_access('administer book outlines')) {
       $form['book']['#access'] = FALSE;
     }
     else {
@@ -102,10 +105,8 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
     return;
   }
 
-  // Disable form validation when SA deletes a node.
-  if (!empty($form['actions']['delete']) && c4m_user_is_site_admin()) {
-    $form['actions']['delete']['#limit_validation_errors'] = array();
-  }
+  // Disable form validation when a user deletes a node.
+  $form['actions']['delete']['#limit_validation_errors'] = [];
 
   // Use destination parameter when set.
   $params = drupal_get_query_parameters();
@@ -121,26 +122,51 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
       $destination_on_cancel = c4m_content_construct_path_to_content_page($node->type);
     }
 
-    $form_state['destination_on_cancel'] = array(
+    $form_state['destination_on_cancel'] = [
       '#type' => 'hidden',
       '#value' => $destination_on_cancel,
-    );
+    ];
   }
 
-  $form['actions']['cancel'] = array(
+  // Put actions after "Send Notification" and "Post Activity" checkboxes.
+  $form['actions']['#weight'] = 200;
+  $form['actions']['cancel'] = [
     '#type' => 'submit',
     '#value' => t('Cancel'),
-    '#submit' => array('c4m_content_cancel_button_callback'),
-    '#limit_validation_errors' => array(),
+    '#submit' => ['c4m_content_cancel_button_callback'],
+    '#limit_validation_errors' => [],
     '#weight' => 14,
-  );
+  ];
 
   $is_unpublish = $form['actions']['draft']['#value'] == t('Unpublish');
-  $is_og_group = in_array($form['type']['#value'], array('group', 'project'));
+  $is_og_group = in_array($form['type']['#value'], ['group', 'project']);
   // Removes Unpublish button from forms.
   if ($is_unpublish && $is_og_group) {
     $form['actions']['draft']['#access'] = FALSE;
   }
+}
+
+/**
+ * Access callback for the "Post Activity" checkbox.
+ *
+ * @param array $form_state
+ *   The $form_state array.
+ *
+ * @return bool
+ *   TRUE if the checkbox should be displayed.
+ */
+function _c4m_content_post_activity_access(array $form_state) {
+  $op = empty($form_state['node']->nid) ? 'insert' : 'update';
+  $content_types = c4m_message_get_valid_node_types($op);
+  if (in_array($form_state['node']->type, $content_types) && c4m_features_og_members_is_power_user()) {
+    return TRUE;
+  }
+
+  if ($form_state['node']->type === 'article' && c4m_user_is_site_admin()) {
+    return TRUE;
+  }
+
+  return FALSE;
 }
 
 /**
@@ -161,10 +187,10 @@ function c4m_content_construct_path_to_content_page($content_type) {
   if (!in_array($content_type, $group_content_types)) {
     // Cancel path for 'group'/'project' types should point to
     // their view.
-    $types_path = array(
+    $types_path = [
       'group' => 'groups',
       'project' => 'projects',
-    );
+    ];
 
     if (in_array($content_type, array_keys($types_path))) {
       return $types_path[$content_type];
@@ -176,7 +202,7 @@ function c4m_content_construct_path_to_content_page($content_type) {
   }
 
   // Handling types that are content of a group.
-  $types_path = array(
+  $types_path = [
     'wiki_page' => 'wiki',
     'document' => 'documents',
     'discussion' => 'discussions',
@@ -185,7 +211,7 @@ function c4m_content_construct_path_to_content_page($content_type) {
     'event' => 'calendar',
     'news' => 'news',
     'share' => '',
-  );
+  ];
 
   // Cancel path should point to types view, under purl.
   return c4m_og_current_group_purl() . '/' . $types_path[$content_type];
@@ -194,20 +220,23 @@ function c4m_content_construct_path_to_content_page($content_type) {
 /**
  * Implements hook_node_submit().
  *
- * If 'Send Notification' checkbox exists, add a parameter with value  to the
+ * If 'Send Notification' checkbox exists, add a parameter with value to the
  * node in order to determine if we should send the notification on the
+ * hook_node_update / insert.
+ *
+ * If 'Post Activity' checkbox is present in the form but it's not checked, set
+ * _skip_message parameter so the activity will not be posted on
  * hook_node_update / insert.
  */
 function c4m_content_node_submit(&$node, $form, $form_state) {
-  if (!in_array($node->type, c4m_og_get_group_content_notification_types())) {
-    return;
+  if (isset($form_state['values']['send_notification'])) {
+    $node->c4m_send_notification = $form_state['values']['send_notification'];
   }
 
-  if (!isset($form_state['values']['send-notification'])) {
-    return;
+  $skip_message = _c4m_content_post_activity_access($form_state) && empty($form_state['values']['post_activity']);
+  if ($skip_message) {
+    $node->_skip_message = TRUE;
   }
-
-  $node->c4m_send_notification = $form_state['values']['send-notification'];
 }
 
 /**
@@ -239,10 +268,10 @@ function c4m_content_cancel_button_callback($form, $form_state) {
  * Implements hook_block_info().
  */
 function c4m_content_block_info() {
-  $blocks['global_statistics_summary'] = array(
+  $blocks['global_statistics_summary'] = [
     'info' => t('Global website statistics'),
     'cache' => DRUPAL_CACHE_GLOBAL,
-  );
+  ];
   return $blocks;
 }
 
@@ -250,14 +279,14 @@ function c4m_content_block_info() {
  * Implements hook_block_view().
  */
 function c4m_content_block_view($delta = '') {
-  $block = array();
+  $block = [];
 
   switch ($delta) {
     case 'global_statistics_summary':
-      $stats_summary = array(
+      $stats_summary = [
         '#theme' => 'c4m_website_statistics_summary',
         '#data' => c4m_content_get_global_statistics(),
-      );
+      ];
       $block['content'] = render($stats_summary);
       break;
   }
@@ -303,7 +332,7 @@ function c4m_content_statistics_info($context) {
 
   return (isset($data[$context]))
     ? $data[$context]
-    : array();
+    : [];
 }
 
 /**
@@ -330,7 +359,7 @@ function c4m_content_get_topic_statistics() {
   $node = menu_get_object('node');
 
   if (!$node || $node->type != 'topic') {
-    return array();
+    return [];
   }
 
   $topic_wrapper = entity_metadata_wrapper('node', $node);
@@ -366,7 +395,7 @@ function c4m_content_get_current_group_statistics() {
  */
 function c4m_content_get_group_statistics($og_context = NULL) {
   if (!$og_context) {
-    return array();
+    return [];
   }
 
   $group = node_load($og_context['gid']);
@@ -402,7 +431,7 @@ function c4m_content_get_group_statistics($og_context = NULL) {
  *   The collected data.
  */
 function _c4m_content_statistics_collect_data(array $list) {
-  $data = array();
+  $data = [];
 
   foreach ($list as $key => $info) {
     $type = isset($info['aggregate']['type'])
@@ -425,7 +454,7 @@ function _c4m_content_statistics_collect_data(array $list) {
       ? $info['skip_access_check']
       : NULL;
 
-    $arguments = array(
+    $arguments = [
       'entity_type' => $info['entity_type'],
       'bundles' => $info['bundles'],
       'state' => $info['state'],
@@ -433,7 +462,7 @@ function _c4m_content_statistics_collect_data(array $list) {
       'topic' => $topic,
       'c4m_status' => $status,
       'skip_access_check' => $skip_access_check,
-    );
+    ];
     $count = c4m_helper_entity_get_number_of_entities($arguments);
 
     $link = isset($info['link'])
@@ -449,15 +478,15 @@ function _c4m_content_statistics_collect_data(array $list) {
     }
 
     if (!isset($data[$type])) {
-      $data[$type] = array(
-        'title' => array(
+      $data[$type] = [
+        'title' => [
           'singular' => $info['singular'],
           'plural' => $info['plural'],
-        ),
+        ],
         'count' => 0,
         'attributes' => $info['attributes'],
         'link' => $link,
-      );
+      ];
     }
 
     $data[$type]['count'] += $count;
@@ -470,23 +499,24 @@ function _c4m_content_statistics_collect_data(array $list) {
  * Implements hook_theme().
  */
 function c4m_content_theme() {
-  $theme['c4m_website_statistics_summary'] = array(
-    'variables' => array(
-      'data' => array(),
-    ),
+  $theme['c4m_website_statistics_summary'] = [
+    'variables' => [
+      'data' => [],
+      'more_link' => [],
+    ],
     'file' => 'c4m_content.theme.inc',
     'path' => drupal_get_path('module', 'c4m_content') . '/includes',
-  );
+  ];
 
-  $theme['c4m_taxonomy_tree'] = array(
+  $theme['c4m_taxonomy_tree'] = [
     'template' => 'c4m_taxonomy_tree',
     'path' => drupal_get_path('module', 'c4m_content') . '/templates',
-    'variables' => array(
+    'variables' => [
       'root' => '',
       'local_tree' => '',
       'class' => '',
-    ),
-  );
+    ],
+  ];
 
   return $theme;
 }
@@ -495,9 +525,9 @@ function c4m_content_theme() {
  * Helper to determine the current context.
  *
  * @return string
- *    Returns one of the following contexts:
- *    - group: we are in a group
- *    - global: we are outside a group
+ *   Returns one of the following contexts:
+ *   - group: we are in a group
+ *   - global: we are outside a group
  */
 function c4m_content_current_context() {
   $gid = c4m_og_current_group_id();
@@ -538,33 +568,33 @@ function c4m_content_get_og_image_markup($group) {
     if (!empty($file)) {
       $file['style_name'] = 'banner';
       $file['path'] = $file['uri'];
-      $file['attributes'] = array('class' => 'group-banner');
+      $file['attributes'] = ['class' => 'group-banner'];
       // If current page is the Group Management page,
       // Add an edit link to the banner.
       if ($menu_item['path'] == 'manage') {
-        $edit_link['element'] = array(
+        $edit_link['element'] = [
           '#tag' => 'span',
-          '#attributes' => array(
-            'class' => array('edit-link'),
-          ),
+          '#attributes' => [
+            'class' => ['edit-link'],
+          ],
           '#value' => t('Edit'),
-        );
-        $options = array(
+        ];
+        $options = [
           'html' => TRUE,
-          'attributes' => array(
-            'class' => array(
+          'attributes' => [
+            'class' => [
               'edit-banner',
-            ),
-          ),
-        );
+            ],
+          ],
+        ];
         $markup .= l(
           theme_html_tag($edit_link) . theme_image_style($file),
           url(
             'node/' . $group->nid . '/edit',
-            array(
+            [
               'absolute' => TRUE,
               'fragment' => 'edit-image-banner',
-            )
+            ]
           ),
           $options
         );
@@ -582,12 +612,12 @@ function c4m_content_get_og_image_markup($group) {
  * Implements hook_field_formatter_info().
  */
 function c4m_content_field_formatter_info() {
-  return array(
-    'c4m_formatter_ec_money' => array(
+  return [
+    'c4m_formatter_ec_money' => [
       'label' => t('EC money'),
-      'field types' => array('money'),
-    ),
-  );
+      'field types' => ['money'],
+    ],
+  ];
 }
 
 /**
@@ -602,7 +632,7 @@ function c4m_content_field_formatter_view(
   $items,
   $display
 ) {
-  $element = $used = array();
+  $element = $used = [];
 
   switch ($display['type']) {
     case 'c4m_formatter_ec_money':
@@ -655,7 +685,7 @@ function c4m_content_field_formatter_view(
           }
         }
 
-        $element[$delta] = array('#markup' => $output);
+        $element[$delta] = ['#markup' => $output];
       }
 
       break;
@@ -702,28 +732,25 @@ function c4m_content_form_node_delete_confirm_alter(array &$form, array &$form_s
     // Handle sentence plural when multiple comments.
     $text = $comments > 1 ? t('comments') : t('comment');
 
-    $replacements = array(
+    $replacements = [
       '@comment_count' => $comments,
       '@comment_text' => $text,
-    );
+    ];
 
-    $form['message'] = array(
+    $form['message'] = [
       '#type' => 'markup',
-      '#markup' => '<p>' . t(
-          'This content has @comment_count @comment_text - by deleting this post, you will also delete the @comment_text. If you would rather preserve this content, please select the check box below to remove your name and editorial rights; the author will become anonymous, and all content will be preserved.',
-          $replacements
-      ) . '</p>',
+      '#markup' => '<p>' . t('This content has @comment_count @comment_text - by deleting this post, you will also delete the @comment_text. If you would rather preserve this content, please select the check box below to remove your name and editorial rights; the author will become anonymous, and all content will be preserved.', $replacements) . '</p>',
       '#weight' => -10,
-    );
+    ];
 
-    $form['anonymize'] = array(
+    $form['anonymize'] = [
       '#type' => 'checkbox',
       '#title' => t('Update the author to anonymous'),
-    );
+    ];
   }
 
   // We override the default submit.
-  $form['#submit'] = array('c4m_content_custom_node_delete_confirm');
+  $form['#submit'] = ['c4m_content_custom_node_delete_confirm'];
 }
 
 /**
@@ -761,7 +788,7 @@ function c4m_content_custom_node_delete_confirm($form, &$form_state) {
  *   The node types that can be highlighted.
  */
 function c4m_content_highlightable_node_types() {
-  return array(
+  return [
     'group',
     'project',
     'discussion',
@@ -771,7 +798,7 @@ function c4m_content_highlightable_node_types() {
     'photo',
     'photoalbum',
     'news',
-  );
+  ];
 }
 
 /**
@@ -781,12 +808,12 @@ function c4m_content_highlightable_node_types() {
  *   The node types that can be promoted.
  */
 function c4m_content_promotable_node_types() {
-  return array(
+  return [
     'discussion',
     'document',
     'event',
     'wiki_page',
-  );
+  ];
 }
 
 /**
@@ -869,10 +896,12 @@ function c4m_content_toggle_highlight_access($group, $node, $status) {
 function c4m_content_toggle_highlight($group, $node, $status, $ajax = 'nojs') {
   $wrapper = entity_metadata_wrapper('node', $node);
 
-  // Add parameter to node that will signal to cancel  notification that is
+  // Add parameter to node that will signal to cancel notification that is
   // triggered, as a result of node update, because we should not send
-  // a notification for highlight.
-  $node->c4m_send_notification = FALSE;
+  // a notification for de-highlighting.
+  if ($status) {
+    $node->c4m_send_notification = FALSE;
+  }
 
   // Setting the new value.
   // When generating the link, we create it with the current status. So, when
@@ -895,7 +924,7 @@ function c4m_content_toggle_highlight($group, $node, $status, $ajax = 'nojs') {
     );
 
     $commands[] = ajax_command_replace('#highlight-content' . $node->nid, $link);
-    $page = array('#type' => 'ajax', '#commands' => $commands);
+    $page = ['#type' => 'ajax', '#commands' => $commands];
     ajax_deliver($page);
   }
 }
@@ -916,22 +945,22 @@ function c4m_content_toggle_highlight($group, $node, $status, $ajax = 'nojs') {
 function c4m_content_create_highlight_link($gid, $nid, $highlight) {
   $url = 'group/' . $gid . '/promote_content/' . $nid . '/' . $highlight . '/nojs';
 
-  $options = array(
-    'attributes' => array(
+  $options = [
+    'attributes' => [
       'title' => t('Highlight'),
-      'class' => array('use-ajax', 'highlight-link'),
+      'class' => ['use-ajax', 'highlight-link'],
       'id' => 'highlight-content' . $nid,
-    ),
-    'purl' => array('disabled' => TRUE),
+    ],
+    'purl' => ['disabled' => TRUE],
     'html' => TRUE,
-  );
+  ];
 
   // Determine if the the star type should be full or not,
   // by the highlight property.
-  $star_class = array(
+  $star_class = [
     NODE_NOT_PROMOTED => 'fa-star-o',
     NODE_PROMOTED => 'fa-star',
-  );
+  ];
   $star = '<i class="fa ' . $star_class[$highlight] . '" aria-hidden="true"></i>';
 
   if ($gid === $nid) {
@@ -959,16 +988,16 @@ function c4m_content_create_highlight_link($gid, $nid, $highlight) {
  */
 function c4m_content_taxonomy_build_tree(
   array $items,
-  array $link_term_to_facet = array()
+  array $link_term_to_facet = []
 ) {
   // Each item at $trees is an array, representing two level tree.
   // First node is tree root (level 1), and all others, if exist,
   // are children (level 2).
-  $trees = array();
+  $trees = [];
 
   // Stores positions of trees to be shifted right, as they present
   // second and third level, at 3 level taxonomy hierarchy.
-  $shift_right_trees = array();
+  $shift_right_trees = [];
 
   while (!empty($items)) {
     // Extract first root item from $items array - level 1.
@@ -983,7 +1012,7 @@ function c4m_content_taxonomy_build_tree(
     $childless_children = $children;
 
     // Handling 3-rd level (grand children), if exist.
-    $sub_trees = array();
+    $sub_trees = [];
     foreach ($children as $child) {
       // For every 2-nd level item (child), fetch it's children from $items.
       $grand_children = _c4m_content_taxonomy_extract_child_items(
@@ -998,13 +1027,13 @@ function c4m_content_taxonomy_build_tree(
 
         // Add array item that represents 2 level tree, where first level item
         // is a child, and 2-nd level items are grand children.
-        $sub_trees[] = array_merge(array($child), $grand_children);
+        $sub_trees[] = array_merge([$child], $grand_children);
       }
     }
 
     // Add array item for 1-st & 2-nd level tree.
-    $root = empty($childless_children) ? array($root) : array_merge(
-      array($root),
+    $root = empty($childless_children) ? [$root] : array_merge(
+      [$root],
       $childless_children
     );
     $trees[] = $root;
@@ -1023,20 +1052,20 @@ function c4m_content_taxonomy_build_tree(
   // Refactor is we WANT to break outside the silos.
   if (!$context = og_context()) {
     $path = 'search';
-    $options = array(
+    $options = [
       'absolute' => TRUE,
-      'purl' => array('disabled' => TRUE),
-    );
+      'purl' => ['disabled' => TRUE],
+    ];
   }
   else {
     $path = 'searchgroup';
-    $options = array(
+    $options = [
       'absolute' => TRUE,
-      'purl' => array(
+      'purl' => [
         'provider' => 'og_purl|node',
         'id' => $context['gid'],
-      ),
-    );
+      ],
+    ];
   }
 
   $tree = '';
@@ -1045,7 +1074,7 @@ function c4m_content_taxonomy_build_tree(
 
   // Loop through all the taxonomy items and add them to the tree.
   foreach ($trees as $taxonomy_tree) {
-    $local_tree = array();
+    $local_tree = [];
     foreach ($taxonomy_tree as $taxonomy) {
       // If the link term was not provided, or it isn't the proper
       // one for the current vocabulary, create a default link to
@@ -1054,9 +1083,9 @@ function c4m_content_taxonomy_build_tree(
         $link = l($taxonomy->name, "/taxonomy/term/" . $taxonomy->tid);
       }
       else {
-        $options['query'] = array(
+        $options['query'] = [
           'f[0]' => $link_term_to_facet['vocabulary_name'] . ':' . $taxonomy->tid,
-        );
+        ];
 
         $link = l($taxonomy->name, $path, $options);
       }
@@ -1070,11 +1099,11 @@ function c4m_content_taxonomy_build_tree(
     $root = array_shift($local_tree);
 
     // Use the taxonomy tree theme to style the local tree.
-    $variables = array(
+    $variables = [
       'root' => $root,
       // Join the local_tree array to a string.
       'local_tree' => implode(', ', $local_tree),
-    );
+    ];
 
     // Assign a dedicated class for trees that needs to be shifted right.
     if (array_search($tree_index, $shift_right_trees) !== FALSE) {
@@ -1085,10 +1114,10 @@ function c4m_content_taxonomy_build_tree(
     $tree_index++;
   }
 
-  $tag['element'] = array(
+  $tag['element'] = [
     '#tag' => 'div',
     '#value' => $tree,
-  );
+  ];
 
   return theme_html_tag($tag);
 }
@@ -1109,8 +1138,8 @@ function c4m_content_taxonomy_build_tree(
  *   All child items of input item with ID $parent_id.
  */
 function _c4m_content_taxonomy_extract_child_items(array &$items, $parent_id) {
-  $result = array();
-  $remaining = array();
+  $result = [];
+  $remaining = [];
 
   foreach ($items as $item) {
     // Get the parent of $item.
@@ -1211,7 +1240,7 @@ function c4m_content_create_group_content_access() {
     }
   }
 
-  $allowed_states = array('draft', 'published');
+  $allowed_states = ['draft', 'published'];
   // Deny access, if group state is not allowed.
   if (!in_array($group_state, $allowed_states)) {
     c4m_content_deny_access();
@@ -1219,10 +1248,10 @@ function c4m_content_create_group_content_access() {
   else {
     $user_type = _c4m_features_og_members_get_user_type($group);
 
-    $allowed_user_types = array(
+    $allowed_user_types = [
       C4M_USER_TYPE_GA,
       C4M_USER_TYPE_GO,
-    );
+    ];
 
     // If content is not wiki page, allow it's creation by group member.
     $bundle = explode('/', $item['path']);
@@ -1253,8 +1282,8 @@ function c4m_content_deny_access() {
  * @param object $group
  *   Group, for which link is created.
  *
- * @return Html
- *    Html block representing the link.
+ * @return string
+ *   HTML block representing the link.
  */
 function c4m_content_create_toggle_group_notification_link($account, $group) {
   $user_subscribed = _c4m_content_group_is_subscribed_to_group_notifications($account, $group);
@@ -1262,32 +1291,32 @@ function c4m_content_create_toggle_group_notification_link($account, $group) {
   $link_text = $user_subscribed ? t('disable') : t('enable');
   $icon_class = $user_subscribed ? 'fa fa-bell-o' : 'fa fa-bell-slash-o';
 
-  $options = array(
-    'attributes' => array(
+  $options = [
+    'attributes' => [
       'class' => 'use-ajax',
-    ),
-    'purl' => array('enabled' => TRUE),
+    ],
+    'purl' => ['enabled' => TRUE],
     'html' => TRUE,
-  );
+  ];
 
   $link = l($link_text, 'group/' . $group->nid . '/notification/nojs', $options);
 
-  $tag['element'] = array(
+  $tag['element'] = [
     '#tag' => 'i',
     '#value' => '',
-    '#attributes' => array(
+    '#attributes' => [
       'class' => $icon_class,
-    ),
-  );
+    ],
+  ];
   $icon_html = theme_html_tag($tag);
 
-  $tag['element'] = array(
+  $tag['element'] = [
     '#tag' => 'span',
     '#value' => $icon_html . $message_text . '  (' . $link . ')',
-    '#attributes' => array(
+    '#attributes' => [
       'id' => 'toggle-group-notifications',
-    ),
-  );
+    ],
+  ];
 
   return theme_html_tag($tag);
 }
@@ -1295,7 +1324,7 @@ function c4m_content_create_toggle_group_notification_link($account, $group) {
 /**
  * Themes toggle group notifications link.
  *
- * @return \Html|void
+ * @return string
  *   Rendered html for field.
  */
 function c4m_content_theme_toggle_group_notification_link() {
@@ -1324,13 +1353,13 @@ function c4m_content_theme_toggle_group_notification_link() {
  * Adds a menu item for AJAX call that enables / disables group notifications.
  */
 function c4m_content_menu_alter(&$items) {
-  $items['group/%node/notification/%'] = array(
+  $items['group/%node/notification/%'] = [
     'title' => 'Manage notifications',
     'page callback' => 'c4m_content_toggle_group_notification',
-    'page arguments' => array(1, 3),
+    'page arguments' => [1, 3],
     'access callback' => 'c4m_content_toggle_group_notification_access',
-    'access arguments' => array(1),
-  );
+    'access arguments' => [1],
+  ];
 
   $items['node/add']['access callback'] = 'c4m_content_add_access';
 
@@ -1404,7 +1433,7 @@ function c4m_content_toggle_group_notification($group, $ajax = 'nojs') {
 
   // Use AJAX commands to replace link on the page.
   $commands[] = ajax_command_replace('#toggle-group-notifications', $link);
-  $page = array('#type' => 'ajax', '#commands' => $commands);
+  $page = ['#type' => 'ajax', '#commands' => $commands];
   ajax_deliver($page);
 }
 
@@ -1421,7 +1450,7 @@ function c4m_content_get_all_node_ids_by_type($type) {
   $cache = &drupal_static(__FUNCTION__ . $type);
   if (!isset($cache)) {
     $cache = db_select('node', 'n')
-      ->fields('n', array('nid'))
+      ->fields('n', ['nid'])
       ->condition('type', $type)
       ->execute()
       ->fetchAllKeyed(0, 0);
@@ -1447,4 +1476,91 @@ function c4m_content_node_access_records($node) {
   }
 
   return c4m_content_group_node_access_records($group);
+}
+
+/**
+ * Implements hook_ds_fields_info().
+ */
+function c4m_content_ds_fields_info($entity_type) {
+  $fields = [
+    'c4m_dsfield_print_page_button' => [
+      'title' => t('C4M - Print page button'),
+      'field_type' => DS_FIELD_TYPE_FUNCTION,
+      'function' => '_c4m_content_dsfield_print_button',
+    ],
+  ];
+
+  return [$entity_type => $fields];
+}
+
+/**
+ * Defines ds field for page print.
+ *
+ * @param array $field
+ *   Field settings.
+ *
+ * @return string
+ *   Output of the ds field.
+ */
+function _c4m_content_dsfield_print_button(array $field) {
+  $output = [
+    '#theme' => 'c4m_helper_entity_actions_print',
+  ];
+  return render($output);
+}
+
+/**
+ * Helper function to update url aliases.
+ *
+ * @param array $sandbox
+ *   Persistent sandbox array with batch progress and status.
+ * @param string $url_prefix
+ *   URL prefix.
+ * @param string $type
+ *   Node type.
+ *
+ * @return string
+ *   Message.
+ */
+function c4m_content_batch_update_aliases(array &$sandbox, $url_prefix, $type) {
+  $query = db_select('url_alias', 'ua')
+    ->fields('ua', ['source'])
+    ->condition('alias', $url_prefix . '%', 'LIKE');
+  if (!isset($sandbox['progress'])) {
+    $sandbox['progress'] = 0;
+    $sandbox['max'] = $query->execute()->rowCount();
+    $sandbox['messages'] = [];
+  }
+
+  $limit = 100;
+  $results = $query->range(0, $limit)
+    ->orderBy('pid')
+    ->execute()
+    ->fetchCol();
+
+  foreach ($results as &$alias) {
+    $alias = str_replace('node/', '', $alias);
+  }
+
+  $nodes = node_load_multiple($results);
+  foreach ($nodes as $node) {
+    if ($node->type === $type) {
+      $node->path['pathauto'] = TRUE;
+      pathauto_node_update_alias($node, 'update');
+    }
+    $sandbox['progress']++;
+  }
+
+  // Safety check in case that some urls got updated since the batch was
+  // started.
+  if (count($results) < $limit) {
+    $sandbox['progress'] = $sandbox['max'];
+  }
+
+  $sandbox['#finished'] = ($sandbox['progress'] >= $sandbox['max']) ? TRUE : ($sandbox['progress'] / $sandbox['max']);
+
+  return t('Modified aliases to @progress from @max.', [
+    '@progress' => $sandbox['progress'],
+    '@max' => $sandbox['max'],
+  ]);
 }

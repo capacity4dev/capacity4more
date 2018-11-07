@@ -906,16 +906,6 @@ Last access : [access]';
   $handler->display->display_options['fields']['name']['alter']['path'] = 'user/[uid]';
   $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['name']['link_to_user'] = FALSE;
-  /* Field: User: Is LDAP User */
-  $handler->display->display_options['fields']['c4m_is_ldap_user']['id'] = 'c4m_is_ldap_user';
-  $handler->display->display_options['fields']['c4m_is_ldap_user']['table'] = 'field_data_c4m_is_ldap_user';
-  $handler->display->display_options['fields']['c4m_is_ldap_user']['field'] = 'c4m_is_ldap_user';
-  $handler->display->display_options['fields']['c4m_is_ldap_user']['label'] = 'LDAP Validated';
-  $handler->display->display_options['fields']['c4m_is_ldap_user']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['c4m_is_ldap_user']['settings'] = array(
-    'thousand_separator' => '',
-    'prefix_suffix' => 0,
-  );
   /* Field: User: Active */
   $handler->display->display_options['fields']['status']['id'] = 'status';
   $handler->display->display_options['fields']['status']['table'] = 'users';

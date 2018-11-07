@@ -8,648 +8,151 @@
 /**
  * Include handlers.
  */
-module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications_handlers');
-
-/**
- * Check if the current membership has access to the triggering system.
- *
- * An og_membership should get access to the triggering system if it is not
- * within a migration process and its entity_type is "user".
- *
- * @param object $og_membership
- *   The og_membership object.
- *
- * @return bool
- *   TRUE if the the membership is valid for access.
- */
-function c4m_user_notifications_og_membership_trigger_access($og_membership) {
-  // Don't send notifications, if activated from CLI (dummy content migration).
-  if (drupal_is_cli()) {
-    return FALSE;
-  }
-
-  // If the membership type is not 'user'.
-  if (!isset($og_membership->entity_type) || $og_membership->entity_type != 'user') {
-    return FALSE;
-  }
-
-  return TRUE;
-}
+module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.helper');
+module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.logger');
 
 /**
  * Implements hook_og_membership_insert().
- *
- * Triggers email notification on new membership request for moderated groups,
- * and 'new member joined' notification to user, and group owner and admins, for
- * open group.
  */
 function c4m_user_notifications_og_membership_insert($og_membership) {
-  if (!c4m_user_notifications_og_membership_trigger_access($og_membership)) {
-    return;
-  }
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
 
-  $wrapper = entity_metadata_wrapper('node', $og_membership->gid);
-  $group = $wrapper->value();
-  if (!isset($wrapper->field_membership_open_request) || $og_membership->etid == $group->uid) {
-    // Return early, if group membership type is not set, or if added membership
-    // is for group owner (happens only when group is created).
-    return;
-  }
-
-  $moderated = $wrapper->field_membership_open_request->value();
-
-  if ($moderated == C4M_OG_MODERATED_GROUP && $og_membership->state == OG_STATE_PENDING) {
-
-    // Moderated group with state Pending. Check if it's invitation or
-    // membership request. If not invitation, og_membership entity
-    // og_membership_invitation field is not set.
-    if (isset($og_membership->og_membership_invitation)) {
-      // It's invitation to join moderated group.
-      // og_invite module added membership request, and sent a message to user
-      // for approval. No need to notify group admins on this.
-      return;
-    }
-
-    c4m_user_notifications_moderated_group_new_membership_request($og_membership);
-    c4m_user_notifications_notify_user_membership_pending($og_membership);
-  }
-  elseif ($moderated == C4M_OG_OPEN_GROUP && $og_membership->state == OG_STATE_ACTIVE) {
-    // Open group with state Active - new member added.
-    // Membership acceptance notification to user, for open and moderated
-    // group is the same (template MT13).
-    c4m_user_notifications_open_group_notify_admins_membership_accepted($og_membership);
-    c4m_user_notifications_notify_user_membership_accepted($og_membership);
-  }
+  _c4m_user_notifications_og_membership_insert($og_membership);
 }
 
 /**
  * Implements hook_og_membership_update().
- *
- * Triggers email notification for membership update.
- *
- * Notified states:
- *   Pending -> Accepted
- *   Pending -> Rejected
  */
 function c4m_user_notifications_og_membership_update($og_membership) {
-  if (!c4m_user_notifications_og_membership_trigger_access($og_membership)) {
-    return;
-  }
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
 
-  if (empty($og_membership->original)) {
-    // Must have original state, as we're performing update.
-    return;
-  }
-
-  if ($og_membership->original->state != OG_STATE_PENDING) {
-    // State change has to be initiated when state is Pending.
-    return;
-  }
-
-  // Loading group/project to resolve it's membership type - moderated/open.
-  $wrapper = entity_metadata_wrapper('node', $og_membership->gid);
-  if (!isset($wrapper->field_membership_open_request)) {
-    return;
-  }
-
-  $moderated = $wrapper->field_membership_open_request->value();
-
-  if ($og_membership->state == OG_STATE_ACTIVE) {
-
-    // Membership acceptance notification to user, for open and moderated
-    // group is the same (template MT13).
-    c4m_user_notifications_notify_user_membership_accepted($og_membership);
-
-    // When user is invited, and approves the request through link
-    // at mail, there's no need to notify admins about new member.
-    $invited_member = in_array($og_membership->etid, c4m_og_get_invited_memberships_ids());
-    if ($invited_member) {
-      return;
-    }
-
-    // Notify admins about new user.
-    if ($moderated == C4M_OG_MODERATED_GROUP) {
-      c4m_user_notifications_moderated_group_notify_admins_membership_accepted($og_membership);
-    }
-    elseif ($moderated == C4M_OG_OPEN_GROUP) {
-      c4m_user_notifications_open_group_notify_admins_membership_accepted($og_membership);
-    }
-  }
-}
-
-/**
- * Implements hook_entity_delete().
- *
- * Triggers email notification on membership cancellation request.
- */
-function c4m_user_notifications_og_membership_delete($og_membership) {
-  if (!c4m_user_notifications_og_membership_trigger_access($og_membership)) {
-    return;
-  }
-
-  // Loading group/project to resolve it's membership type - moderated/open.
-  $wrapper = entity_metadata_wrapper('node', $og_membership->gid);
-  if (!isset($wrapper->field_membership_open_request)) {
-    return;
-  }
-
-  if ($wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
-    // If not moderated group, return early.
-    return;
-  }
-
-  // Loading current user.
-  global $user;
-
-  if ($user->uid == $og_membership->etid) {
-    // If current user is the one that's being removed.
-    c4m_user_notifications_notify_admins_membership_canceled($og_membership);
-  }
-  else {
-    // Membership was canceled by someone else -> group / site admin.
-    c4m_user_notifications_notify_user_membership_canceled($og_membership);
-  }
-}
-
-/**
- * Implements hook_node_insert().
- *
- * Triggers email notification for new node (group/project), for status
- * 'published'.
- */
-function c4m_user_notifications_node_insert($node) {
-  // Don't send notifications, if activated from CLI (dummy content migration).
-  if (drupal_is_cli()) {
-    return;
-  }
-
-  // Node belongs to Anonymous user => no notification required.
-  if ($node->uid == 0) {
-    return;
-  }
-
-  if ($node->status != NODE_PUBLISHED) {
-    // Return early, if node is not published.
-    return;
-  }
-
-  // The current node was explicitly set to not send a notification.
-  if (!empty($node->_skip_message)) {
-    return;
-  }
-
-  _c4m_user_notifications_process_general_triggers_insert($node);
-  _c4m_user_notifications_process_og_alter($node, 'insert');
-  _c4m_user_notifications_process_og_content_alter($node, 'insert');
-}
-
-/**
- * Implements hook_node_update().
- *
- * Triggers email notification for node (group/project) status update.
- */
-function c4m_user_notifications_node_update($node) {
-  // Don't send notifications, if activated from CLI (dummy content migration).
-  if (drupal_is_cli()) {
-    return;
-  }
-
-  // Node belongs to Anonymous user => no notification required.
-  if ($node->uid == 0) {
-    return;
-  }
-
-  if ($node->status != NODE_PUBLISHED) {
-    // Return early, if node is not published.
-    return;
-  }
-
-  _c4m_user_notifications_process_general_triggers_update($node);
-  _c4m_user_notifications_process_og_alter($node, 'update');
-  _c4m_user_notifications_process_og_content_alter($node, 'update');
-}
-
-/**
- * Implements hook_node_delete().
- *
- * Triggers email notification for node (group/project) delete.
- */
-function c4m_user_notifications_node_delete($node) {
-  // Don't send notifications, if activated from CLI (dummy content migration).
-  if (drupal_is_cli()) {
-    return;
-  }
-
-  if (!og_is_group('node', $node)) {
-    return;
-  }
-
-  $wrapper = entity_metadata_wrapper('node', $node);
-  $group_former_status = $wrapper->c4m_og_status->value();
-
-  c4m_user_notifications_group_hard_deleted($node, $group_former_status);
-}
-
-/**
- * Implements hook_comment_insert().
- *
- * Triggers email notifications for comment insert.
- */
-function c4m_user_notifications_comment_insert($comment) {
-  // Don't send notifications, if activated from CLI (dummy content migration).
-  if (drupal_is_cli()) {
-    return;
-  }
-
-  $node = node_load($comment->nid);
-
-  if ($node->status != NODE_PUBLISHED) {
-    // Do not notify, if content is not published.
-    return;
-  }
-
-  $comment_notification_types = c4m_og_get_extended_content_notification_types();
-  if (!$node->type || !in_array($node->type, $comment_notification_types)) {
-    // Node, comment is associated with, does not require notification.
-    return;
-  }
-
-  $wrapper = entity_metadata_wrapper('node', $node);
-  if (!empty($wrapper->{OG_AUDIENCE_FIELD}) && $wrapper->{OG_AUDIENCE_FIELD}->c4m_og_status->value() != 'published') {
-    // Do not notify if it's group content, and it's group state
-    // is not published.
-    return;
-  }
-
-  c4m_user_notifications_notify_user_commented($comment);
-  c4m_user_notifications_notify_comment_on_content($comment);
-}
-
-/**
- * Implements hook_user_delete().
- *
- * Triggers email notification for node (group/project) delete.
- */
-function c4m_user_notifications_user_delete($account) {
-  // Don't send notifications, if activated from CLI (dummy content migration).
-  if (drupal_is_cli()) {
-    return;
-  }
-
-  c4m_user_notifications_notify_admins_user_deleted($account);
+  _c4m_user_notifications_dispatch_og_membership_update($og_membership);
 }
 
 /**
  * Implements hook_og_role_grant().
- *
- * Triggers email notification when user is promoted to administrator.
  */
 function c4m_user_notifications_og_role_grant($entity_type, $gid, $uid, $rid) {
-  // Don't send notifications, if activated from CLI (dummy content migration).
-  if (drupal_is_cli()) {
-    return;
-  }
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
 
-  $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
-
-  // Administrator role is not granted.
-  if ($group_admin_role->rid != $rid) {
-    return;
-  }
-
-  c4m_user_notifications_notify_user_admin_granted($gid, $uid);
-  c4m_user_notifications_notify_admins_admin_granted($gid, $uid);
+  _c4m_user_notifications_og_role_grant($gid, $uid, $rid);
 }
 
 /**
  * Implements hook_og_role_revoke().
- *
- * Triggers email notification when user is revoked administrator role.
  */
 function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
-  // Don't send notifications, if activated from CLI (dummy content migration).
-  if (drupal_is_cli()) {
-    return;
-  }
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
 
-  $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
-
-  // Administrator role is not revoked.
-  if ($group_admin_role->rid != $rid) {
-    return;
-  }
-
-  // Admin is now group owner.
-  $path = explode('/', current_path());
-
-  // Match '<purl>/group/node/<nid>/admin/owner' path.
-  $transfer_path = array('group', 'node', 'admin', 'owner');
-
-  if (count(array_intersect($path, $transfer_path)) == count($transfer_path)) {
-    return;
-  }
-
-  c4m_user_notifications_notify_user_admin_demoted($gid, $uid);
-  c4m_user_notifications_notify_admins_admin_demoted($gid, $uid);
+  _c4m_user_notifications_og_role_revoke($gid, $uid, $rid);
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
- *
- * Triggers email notification when user is invited to group by admin.
+ * Implements hook_node_insert().
  */
-function c4m_user_notifications_form_og_ui_add_users_alter(array &$form, array &$form_state) {
-  // Apply only to SAs.
-  $site_admin_role = user_role_load_by_name('administrator');
-  if (!user_has_role($site_admin_role->rid)) {
-    return;
-  }
+function c4m_user_notifications_node_insert($node) {
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
 
-  // Remove request message and invitation option when adding a user to a group.
-  $form['membership_fields'] = FALSE;
-
-  // Add a checkbox for sending a welcome message.
-  $form['og_user']['notification'] = array(
-    '#type' => 'checkbox',
-    '#title' => 'Send a welcome email to the new user.',
-    '#default_value' => 1,
-    '#disabled' => 0,
-    '#description' => NULL,
-  );
-
-  // Add custom submit handler to process the notification.
-  $form['#submit'][] = 'c4m_user_notifications_notify_user_invited_by_admin';
+  _c4m_user_notifications_node_insert($node);
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
- *
- * Triggers email notification when group administrator rejects membership
- * request.
+ * Implements hook_node_update().
  */
-function c4m_user_notifications_form_c4m_og_reject_membership_request_alter(array &$form, array &$form_state) {
-  $form['#submit'][] = 'c4m_user_notifications_moderated_group_notify_user_membership_rejected';
-  $form['#submit'][] = 'c4m_og_route_to_group_people';
+function c4m_user_notifications_node_update($node) {
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
+
+  _c4m_user_notifications_node_update($node);
+}
+
+/**
+ * Implements hook_comment_insert().
+ */
+function c4m_user_notifications_comment_insert($comment) {
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
+
+  _c4m_user_notifications_comment_insert($comment);
 }
 
 /**
  * Implements hook_flag_flag().
- *
- * Triggers email notification when recommendation flag is set.
  */
 function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging) {
-  // Don't send notifications, if activated from CLI (dummy content migration).
-  if (drupal_is_cli()) {
+  if ($flag->entity_type !== 'node') {
     return;
   }
 
-  if (user_is_anonymous()) {
-    // If anonymous user, return early - no notifications.
-    return;
-  }
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.dispatch');
 
-  if ($flag->name != 'c4m_og_content_recommend') {
-    // If not recommendation flag, return early.
-    return;
-  }
-
-  $node = node_load($entity_id);
-  $notification_types = c4m_og_get_extended_content_notification_types();
-
-  if (!in_array($node->type, $notification_types)) {
-    // If recommended content does not required notification, return early.
-    return;
-  }
-
-  c4m_user_notifications_content_recommended($entity_id);
+  _c4m_user_notifications_flag_flag($flag, $entity_id);
 }
 
 /**
- * Implements hook_cron().
- *
- * Activation reminder for inactive users.
+ * Implements hook_form_FORM_ID_alter().
  */
-function c4m_user_notifications_cron() {
-  c4m_user_notifications_notify_inactive_users();
+function c4m_user_notifications_form_og_ui_add_users_alter(array &$form, array &$form_state) {
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.form_alters');
+
+  _c4m_user_notifications_form_og_ui_add_users_alter($form, $form_state);
 }
 
 /**
- * Helper function.
- *
- * Triggers email notifications when organic group is inserted:
- *   Notifies group requester that the group is waiting for review by admin.
+ * Implements hook_form_FORM_ID_alter().
  */
-function _c4m_user_notifications_process_general_triggers_insert($node) {
-  if (!og_is_group('node', $node)) {
-    // Return early, if node type is not group/project.
-    return;
-  }
+function c4m_user_notifications_form_c4m_og_reject_membership_request_alter(array &$form, array &$form_state) {
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications.form_alters');
 
-  c4m_user_notifications_notify_new_group_pending($node);
-  c4m_user_notifications_notify_admins_group_requested($node);
+  _c4m_user_notifications_form_c4m_og_reject_membership_request_alter($form, $form_state);
 }
 
 /**
- * Helper function.
- *
- * Triggers different email notifications when organic group is updated:
- *   Status - group status changes (published/draft/etc...).
- *   Access - group access changes.
- *   Owner - group owner changes.
+ * Implements hook_message_subscribe_get_subscribers().
  */
-function _c4m_user_notifications_process_general_triggers_update($node) {
-  if (!og_is_group('node', $node)) {
-    // Return early, if node type is not group/project.
-    return;
-  }
-
-  if (empty($node->original)) {
-    // On node update, there must be $node->original.
-    return;
-  }
-
-  $wrapper = entity_metadata_wrapper('node', $node);
-  $wrapper_original = entity_metadata_wrapper('node', $node->original);
-
-  if (!isset($wrapper->c4m_og_status) || !isset($wrapper_original->c4m_og_status)) {
-    return;
-  }
-
-  $status = $wrapper->c4m_og_status->value();
-  $group_former_status = $wrapper_original->c4m_og_status->value();
-  if ($status != $group_former_status) {
-    // If group status has changed.
-    switch ($status) {
-      // 'draft' -> 'published' => Published.
-      case 'published':
-        if ($group_former_status == 'draft') {
-          c4m_user_notifications_group_status_set_published($node);
-        }
-        elseif ($group_former_status == 'archived') {
-          c4m_user_notifications_group_status_set_republished($node, $group_former_status);
-        }
-        break;
-
-      // 'published' -> 'draft' => Unpublished.
-      // 'pending' -> 'draft' => Group approved notification, when abort
-      // property is not set.
-      case 'draft':
-        if ($group_former_status == 'published') {
-          c4m_user_notifications_group_status_set_unpublished($node, $group_former_status);
-        }
-        elseif ($group_former_status == 'pending' && empty($node->abort_group_approved_notification)) {
-          c4m_user_notifications_notify_user_group_approved($node->nid);
-        }
-        break;
-
-      case 'archived':
-        c4m_user_notifications_group_status_set_archived($node, $group_former_status);
-        break;
-
-      // Soft delete.
-      case 'deleted':
-        c4m_user_notifications_group_status_set_softdeleted($node, $group_former_status);
-        break;
-    }
-  }
-
-  if (!isset($wrapper->group_access) || !isset($wrapper_original->group_access)) {
-    return;
-  }
-
-  $group_access = c4m_og_get_access_type($wrapper->value());
-  $group_former_access = c4m_og_get_access_type($wrapper_original->value());
-  $membership_open = $wrapper->field_membership_open_request->value();
-  if ($group_access['type'] != $group_former_access['type']) {
-    // If group access has changed.
-    $permissions = _c4m_user_notifications_build_group_permissions($group_access, $membership_open);
-    c4m_user_notifications_group_permissions_changed($node, $permissions);
-  }
-  else {
-    // Check if 'membership open' state was changed - part of group access
-    // as well.
-    $prev_membership_open = $wrapper_original->field_membership_open_request->value();
-
-    if ($membership_open != $prev_membership_open) {
-      $permissions = _c4m_user_notifications_build_group_permissions($group_access, $membership_open);
-      c4m_user_notifications_group_permissions_changed($node, $permissions);
-    }
-  }
-
-  $group_owner = $node->uid;
-  $prev_group_owner = $node->original->uid;
-  if ($group_owner != $prev_group_owner) {
-    c4m_user_notifications_notify_prev_owner_owner_update($node);
-    c4m_user_notifications_notify_new_owner_owner_update($node);
-    c4m_user_notifications_notify_admins_owner_update($node);
-  }
+function c4m_user_notifications_message_subscribe_get_subscribers($message, $subscribe_options, $context) {
+  return _c4m_user_notifications_message_subscribe_get_subscribers($message, $context);
 }
 
 /**
- * Resolves the permissions of group.
- *
- * @param array $access
- *   Group access.
- * @param bool $membership_open
- *   Is membership open (if not -> moderated).
- *
- * @return string
- *   Returns permissions.
+ * Implements hook_cron_queue_info_alter().
  */
-function _c4m_user_notifications_build_group_permissions(array $access, $membership_open) {
-  if ($access['type'] == 'private') {
-    return 'PRIVATE';
-  }
-  else {
-    $membership_type = $membership_open ? 'OPEN' : 'MODERATED';
-    return strtoupper($access['type']) . ', ' . $membership_type;
-  }
+function c4m_user_notifications_cron_queue_info_alter(&$queues) {
+  $queues['message_subscribe']['time'] = 90;
 }
 
 /**
- * Helper function.
- *
- * Triggers email notification when organic group node is updated.
+ * Implements hook_cron_queue_info().
  */
-function _c4m_user_notifications_process_og_alter($node, $mode) {
-  $allowed_og_types = c4m_og_get_group_content_notification_types();
-  if (!in_array($node->type, $allowed_og_types)) {
-    return;
-  }
+function c4m_user_notifications_cron_queue_info() {
+  $queues = [];
+  $queues['c4m_user_notifications'] = [
+    'worker callback' => 'c4m_user_notifications_queue_dispatch_message',
+    'time' => 45,
+  ];
 
-  $wrapper = entity_metadata_wrapper('node', $node);
-  if (!isset($wrapper->c4m_og_status)) {
-    return;
-  }
-
-  $status = $wrapper->c4m_og_status->value();
-
-  if ($status == 'published') {
-    switch ($mode) {
-      case 'insert':
-        c4m_user_notifications_new_node_published($node);
-        break;
-
-      case 'update':
-        c4m_user_notifications_existing_node_updated($node);
-        break;
-    }
-  }
+  return $queues;
 }
 
 /**
- * Helper function.
+ * Gets parameters, retrieves recipients and creates the subscribe message.
  *
- * Triggers different email notifications when organic group content is updated.
- * Per subscribe_c4m_follow_group flag.
+ * @param array $data
+ *   Data array containing all the message parameters.
+ *
+ * @throws \Exception
  */
-function _c4m_user_notifications_process_og_content_alter($node, $mode) {
-  $allowed_og_content_types = c4m_og_get_group_content_notification_types();
+function c4m_user_notifications_queue_dispatch_message(array $data) {
+  // Initialize variables we are about to overwrite via the extract.
+  $entity_type = '';
+  $entity = NULL;
+  $message = NULL;
+  $notify_options = [];
+  $subscribe_options = [];
+  $context = [];
 
-  if ($node->type == 'share' && !empty($node->source_bundle) && in_array($node->source_bundle, $allowed_og_content_types)) {
-    // If shared node requires notification => content type is
-    // wiki_page / event / document / discussion.
-    $target_gid = $node->notification_data['target_gid'];
-    $source_node = node_load($node->notification_data['source_nid']);
+  extract($data, EXTR_OVERWRITE);
 
-    c4m_user_notifications_group_content_shared($source_node, $target_gid);
+  // Time intensive functionality, this is the reason we do this via a queue.
+  $subscribe_options['uids'] = message_subscribe_get_subscribers($entity_type, $entity, $message, $subscribe_options, $context);
 
-    // No need to continue, as notification on shared content was issued.
-    return;
-  }
-
-  if (!in_array($node->type, $allowed_og_content_types)) {
-    // OG content type does not require notification.
-    return;
-  }
-
-  if (isset($node->c4m_send_notification) && !$node->c4m_send_notification) {
-    // 'Send Notification' checkbox on content form was set, but not checked.
-    return;
-  }
-
-  // Load current node wrapper.
-  $wrapper = entity_metadata_wrapper('node', $node);
-  if (!isset($wrapper->{OG_AUDIENCE_FIELD}->c4m_og_status)) {
-    return;
-  }
-
-  // If node's group is published.
-  if ($wrapper->{OG_AUDIENCE_FIELD}->c4m_og_status->value() == 'published') {
-    switch ($mode) {
-      case 'insert':
-        c4m_user_notifications_new_group_content_published($node);
-        break;
-
-      case 'update':
-        if ($node->original->status != NODE_PUBLISHED) {
-          // Node is being published for first time.
-          c4m_user_notifications_new_group_content_published($node);
-        }
-        else {
-          c4m_user_notifications_existing_group_content_updated($node);
-        }
-        break;
-    }
-  }
+  message_subscribe_send_message($entity_type, $entity, $message, $notify_options, $subscribe_options, $context);
 }

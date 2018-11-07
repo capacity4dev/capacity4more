@@ -36,6 +36,26 @@
   }
 }
 
+// Book print page.
+.book-print {
+  .book-print--children .book-print--item {
+    border-top: 1px solid $gray;
+  }
+  .group-indications {
+    position: absolute;
+    right: 0;
+    top: -20px;
+  }
+  .book-print--navigation {
+    color: $brand-primary;
+    margin-top: 50px;
+  }
+}
+
+#printThisBookPage {
+  float: right;
+}
+
 @media (max-width: $screen-sm-min) {
   .c4m-sidebar-book-navigation {
     padding-top: 5vh;

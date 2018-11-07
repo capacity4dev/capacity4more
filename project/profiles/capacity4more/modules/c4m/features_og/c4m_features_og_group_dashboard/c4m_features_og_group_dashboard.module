@@ -118,23 +118,23 @@ function c4m_unflag_nodes_action(&$object, $context = array()) {
  * Implements hook_c4m_content_actions_info().
  */
 function c4m_features_og_group_dashboard_c4m_content_actions_info() {
-  return array(
-    'action_recommend' => array(
-      'context'   => array('group', 'global'),
-      'callback'  => 'c4m_features_og_group_dashboard_action_recommend',
-      'weight'    => '3',
-    ),
-  );
+  return [
+    'action_recommend' => [
+      'context' => ['group', 'global'],
+      'callback' => 'c4m_features_og_group_dashboard_action_recommend',
+      'weight' => '3',
+    ],
+  ];
 }
 
 /**
  * Callback to show the recomendation link.
  *
  * @param object $node
- *    The node object.
+ *   The node object.
  *
  * @return string
- *    Rendered output of the promote link.
+ *   Rendered output of the promote link.
  */
 function c4m_features_og_group_dashboard_action_recommend($node) {
   if (empty($node->nid)) {

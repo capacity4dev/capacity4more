@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_features_overview_people.context.inc
@@ -36,6 +37,12 @@ function c4m_features_overview_people_context_default_contexts() {
           'module' => 'c4m_views',
           'delta' => 'views_page_title',
           'region' => 'content_above',
+          'weight' => '-10',
+        ),
+        'current_search-c4m_current_search_users' => array(
+          'module' => 'current_search',
+          'delta' => 'c4m_current_search_users',
+          'region' => 'content',
           'weight' => '-10',
         ),
         'c4m_user-c4m_block_contact_members' => array(

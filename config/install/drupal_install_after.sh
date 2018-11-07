@@ -140,23 +140,13 @@ if [ "$CAMPAIGNMONITOR_CLIENT_ID" != "" ] && [ "$CAMPAIGNMONITOR_API_KEY" != "" 
   echo
 fi
 
-if [ "$LDAP_URL" != "" ] && [ "$LDAP_API" != "" ]; then
-  # Set LDAP configuration.
-  markup_h1 "Set LDAP configuration"
-  php -r "print json_encode(array('client_id' => '$LDAP_URL', 'api_key' => '$LDAP_API'));"
-  drupal_drush vset c4m_ldap_url "$LDAP_URL"
-  drupal_drush vset c4m_ldap_apikey "$LDAP_API"
-  echo
-fi
-
-if [ "$PIWIK_SITE_ID" != "" ] && [ "$PIWIK_URL_HTTP" != "" ]; then
+if [ "$PIWIK_SITE_ID" != "" ] && [ "$PIWIK_SITE_PATH" != "" ] && [ "$PIWIK_SITE_INSTANCE" != "" ]; then
   # Set Piwik Web Analytics related variables.
   markup_h1 "Set Piwik Web Analytics related variables"
-  php -r "print json_encode(array('piwik_site_id' => '$PIWIK_SITE_ID', 'piwik_url_http' => '$PIWIK_URL_HTTP', 'piwik_url_https' => '$PIWIK_URL_HTTPS'));"
-  drupal_drush vset piwik_site_id "$PIWIK_SITE_ID"
-  drupal_drush vset piwik_url_http "$PIWIK_URL_HTTP"
-  if [ "$PIWIK_URL_HTTPS" != "" ]; then
-    drupal_drush vset piwik_url_https "$PIWIK_URL_HTTPS"
-  fi
+  php -r "print json_encode(array('piwik_site_id' => '$PIWIK_SITE_ID', 'piwik_site_path' => '$PIWIK_SITE_PATH', 'piwik_site_instance' => '$PIWIK_SITE_INSTANCE'));"
+  drupal_drush vset nexteuropa_piwik_site_id "$PIWIK_SITE_ID"
+  drupal_drush vset nexteuropa_piwik_site_path "$PIWIK_SITE_PATH"
+  drupal_drush vset nexteuropa_piwik_site_instance "$PIWIK_SITE_INSTANCE"
+
   echo
 fi

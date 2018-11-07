@@ -66,16 +66,14 @@ function theme_c4m_content_wiki_page_navigation(array $field) {
  *   The rendered version of the field.
  */
 function theme_c4m_content_wiki_page_collapse(array $field) {
-  $element['collapse_button'] = array(
+  $element['collapse_button'] = [
     '#type' => 'button',
-    '#value' => '<i class="fa fa-chevron-circle-left"></i> Hide sidebar',
-    '#attributes' => array(
-      'class' => array(
-        'btn btn-default',
-      ),
+    '#value' => 'Hide sidebar',
+    '#icon' => '<i class="fa fa-chevron-circle-left"></i>',
+    '#attributes' => [
       'id' => 'collapse-sidebar',
-    ),
-  );
+    ],
+  ];
 
   // Return the rendered output.
   $markup = drupal_render($element);
