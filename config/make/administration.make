@@ -41,7 +41,7 @@ projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1"
 
 projects[eu_cookie_compliance][subdir] = "contrib"
-projects[eu_cookie_compliance][version] = "1.18"
+projects[eu_cookie_compliance][version] = "1.25"
 
 projects[elysia_cron][subdir] = "contrib"
 projects[elysia_cron][version] = "2.4"
@@ -104,7 +104,7 @@ projects[restful][type] = "module"
 projects[restful][patch][] = "../patches/restful-fix-rr.patch"
 
 projects[term_reference_tree][subdir] = "contrib"
-projects[term_reference_tree][version] = "1.10"
+projects[term_reference_tree][version] = "1.11"
 
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.1"
