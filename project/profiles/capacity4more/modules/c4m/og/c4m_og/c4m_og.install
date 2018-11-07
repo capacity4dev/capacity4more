@@ -69,7 +69,7 @@ function c4m_og_update_7001() {
 /**
  * Adjust og settings.
  */
-function c4m_og_update_7001() {
+function c4m_og_update_7002() {
   variable_set('og_use_queue', 1);
   variable_set('og_orphans_delete', 1);
 }
