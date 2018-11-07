@@ -1,0 +1,14 @@
+diff --git a/js/eu_cookie_compliance.js b/js/eu_cookie_compliance.js
+index 79c65b3..b26723e 100755
+--- a/js/eu_cookie_compliance.js
++++ b/js/eu_cookie_compliance.js
+@@ -426,6 +426,9 @@
+   Drupal.behaviors.eu_cookie_compliance_popup_block_cookies = {
+     attach: function (context, settings) {
+       $(document).ready(function() {
++	      if (!settings.eu_cookie_compliance) {
++          return;
++        }
+         if ((settings.eu_cookie_compliance.method === 'opt_in' && (Drupal.eu_cookie_compliance.getCurrentStatus() === null || !Drupal.eu_cookie_compliance.hasAgreed()))
+           || (settings.eu_cookie_compliance.method === 'opt_out' && !Drupal.eu_cookie_compliance.hasAgreed() && Drupal.eu_cookie_compliance.getCurrentStatus() !== null)
+         ) {
