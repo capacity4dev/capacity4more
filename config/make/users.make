@@ -10,7 +10,7 @@ projects[email_confirm][subdir] = "contrib"
 projects[email_confirm][version] = "1.3"
 
 projects[legal][subdir] = "contrib"
-projects[legal][version] = "1.6"
+projects[legal][version] = "1.10"
 
 projects[nocurrent_pass][subdir] = "contrib"
 projects[nocurrent_pass][version] = "1.1"

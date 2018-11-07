@@ -17,15 +17,15 @@ function c4m_og_install() {
  * Helper to set the contexts order.
  */
 function _c4m_og_install_context() {
-  $config = array(
-    'og_context_access_callback' => array(),
-    'og_purl' => array(),
-    'url'     => array(),
-    'node'    => array(),
-  );
+  $config = [
+    'og_context_access_callback' => [],
+    'og_purl' => [],
+    'url' => [],
+    'node' => [],
+  ];
   variable_set('og_context_negotiation_group_context', $config);
 
-  $weights = array(
+  $weights = [
     'og_context_access_callback' => '-10',
     'og_purl' => '-9',
     'url' => '-8',
@@ -33,7 +33,7 @@ function _c4m_og_install_context() {
     'comment' => '-6',
     'user-view' => '-5',
     'user-edit' => '-4',
-  );
+  ];
   variable_set('og_context_providers_weight_group_context', $weights);
 }
 
@@ -42,7 +42,7 @@ function _c4m_og_install_context() {
  */
 function _c4m_og_install_og_variable_realm() {
   // Enable OG realm variable for group features.
-  $og_realm = variable_get('variable_realm_list_og', array());
+  $og_realm = variable_get('variable_realm_list_og', []);
   $og_realm[] = 'c4m_og_features_[group_type]';
   variable_set('variable_realm_list_og', $og_realm);
 }
@@ -51,7 +51,19 @@ function _c4m_og_install_og_variable_realm() {
  * Enable session api module.
  */
 function _c4m_og_update_7000() {
-  module_enable(array('session_api'));
+  module_enable(['session_api']);
+}
+
+/**
+ * Adjust og_context_negotiation_group_context variable.
+ */
+function c4m_og_update_7001() {
+  $enabled_providers = variable_get('og_context_negotiation_group_context');
+  foreach ($enabled_providers as &$enabled) {
+    $enabled = TRUE;
+  }
+  $enabled_providers['ajax-request'] = $enabled;
+  variable_set('og_context_negotiation_group_context', $enabled_providers);
 }
 
 /**

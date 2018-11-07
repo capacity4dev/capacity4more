@@ -220,6 +220,9 @@ function _c4m_og_purl_path_is_add_group_content($path, $gid) {
 /**
  * Path prefixes, which we allow to be accessed under OG context.
  *
+ * @todo Maybe it's best to implement this with a static cache and a custom hook
+ *   to allow other modules to add new paths.
+ *
  * @return array
  *   The allowed list.
  */
@@ -244,6 +247,10 @@ function _c4m_og_purl_allowed_paths() {
     'quick-post',
     'searchgroup',
     'wiki',
+    'flag/confirm/%/%/%',
+    // @see c4m_og_context_handler_ajax_request()
+    'file/ajax',
+    'system/ajax',
   ];
 }
 

@@ -7,7 +7,7 @@ projects[draggableviews][subdir] = "contrib"
 projects[draggableviews][version] = "2.1"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.14"
+projects[views][version] = "3.20"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"

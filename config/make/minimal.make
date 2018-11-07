@@ -8,7 +8,7 @@ projects[ctools][version] = "1.12"
 projects[ctools][patch][] = "https://www.drupal.org/files/issues/2067997-reload-plugins-class-7.patch"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.8"
+projects[entity][version] = "1.9"
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.5"
