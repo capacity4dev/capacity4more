@@ -3755,61 +3755,6 @@ function c4m_og_get_membership_totals($gid, $uid, $entity_type) {
 }
 
 /**
- * Implements hook_og_context_negotiation_info().
- *
- * Add OG context provider for ajax requests.
- */
-function c4m_og_og_context_negotiation_info() {
-  $providers['ajax-request'] = [
-    'name' => t('URL (Ajax request)'),
-    'description' => t('Determines context during Ajax requests by checking the group that was passed in via the URL by the page that made the Ajax request.'),
-    'callback' => 'c4m_og_context_handler_ajax_request',
-  ];
-  return $providers;
-}
-
-/**
- * Context handler for ajax requests.
- *
- * This will give OG context to particular requests. We have to make sure we
- * allow OG context for those requests.
- *
- * @return null|array
- *   The OG context if available.
- *
- * @see _c4m_og_purl_allowed_paths()
- * @see https://www.drupal.org/project/og_vocab/issues/2008026
- * @see https://drupal.org/node/1635750#comment-6628310
- */
-function c4m_og_context_handler_ajax_request() {
-  $item = menu_get_item();
-  if ($item['path'] != 'system/ajax' && $item['path'] != 'file/ajax') {
-    return;
-  }
-  list($form, $form_state) = ajax_get_form();
-  if (!$form) {
-    return;
-  }
-  $entity_type = $form['#entity_type'];
-  if (empty($form_state[$entity_type])) {
-    return;
-  }
-  $entity = $form_state[$entity_type];
-  list($id) = entity_extract_ids($entity_type, $entity);
-  if (!$id) {
-    return;
-  }
-  // Check if the entity is itself a group.
-  if ($group = og_is_group($entity_type, $id)) {
-    $contexts[$entity_type][] = $id;
-  }
-  elseif ($gids = og_get_entity_groups($entity_type, $entity)) {
-    $contexts = $gids;
-  }
-  return $contexts;
-}
-
-/**
  * Implements hook_entity_delete().
  *
  * Delete related vocabularies.

@@ -114,7 +114,16 @@ function c4m_og_vocab_field_formatter_info_alter(&$info) {
  * Code taken from og_vocab, altered to display only the vocabularies of the
  * group we are currently in.
  */
-function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+function c4m_og_vocab_field_widget_form(
+  &$form,
+  &$form_state,
+  $field,
+  $instance,
+  $langcode,
+  $items,
+  $delta,
+  $element
+) {
   $entity_type = $instance['entity_type'];
   $entity = isset($element['#entity']) ? $element['#entity'] : NULL;
   $field_name = $field['field_name'];
