@@ -42,6 +42,7 @@ projects[context_og][version] = "2.1"
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.25"
+projects[eu_cookie_compliance][patch][] = "https://www.drupal.org/files/issues/2018-11-14/eu_cookie_compliance-7.x-1.25-js-error-3007865-7.patch"
 
 projects[elysia_cron][subdir] = "contrib"
 projects[elysia_cron][version] = "2.4"
