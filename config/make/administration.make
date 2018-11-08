@@ -42,6 +42,7 @@ projects[context_og][version] = "2.1"
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.25"
+projects[eu_cookie_compliance][patch][] = "../patches/eu_cookie_compliance-JS-error-3007865-4.patch"
 
 projects[elysia_cron][subdir] = "contrib"
 projects[elysia_cron][version] = "2.4"
