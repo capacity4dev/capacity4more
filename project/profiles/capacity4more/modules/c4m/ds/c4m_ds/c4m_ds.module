@@ -830,7 +830,7 @@ function c4m_ds_field_formatter_view(
     $element = [];
 
     $pdf_preview_uri = FALSE;
-    if ($settings['show_pdf_preview_link']) {
+    if (!empty($settings['show_pdf_preview_link'])) {
       $pdf_preview_uri = entity_uri('node', $entity);
       c4m_og_purl_alter_uri_info_purl_auto($pdf_preview_uri);
       $pdf_preview_uri['options']['fragment'] = 'file-preview';
