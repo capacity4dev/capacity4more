@@ -186,7 +186,7 @@ class C4mDemoContentCreateUsers extends Migration {
    */
   public function complete($entity, $row) {
     if (function_exists('legal_save_accept')) {
-      legal_save_accept(1, 1, 'en', $entity->uid);
+      legal_save_accept(1, 1, 'en', 1, $entity->uid);
     }
 
     if (!$row->role) {

@@ -152,9 +152,9 @@ function c4m_user_profile_facet_items_alter(&$build, &$settings) {
  * Display full country name instead of country code.
  *
  * @param array $build
- *    The facets.
+ *   The facets.
  * @param object $settings
- *    Facet settings.
+ *   Facet settings.
  */
 function _c4m_user_profile_facet_country_alter(array &$build, $settings) {
   $field = field_info_field($settings->facet);
@@ -661,6 +661,7 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
     $conditions['version'],
     $conditions['revision'],
     $conditions['language'],
+    $conditions['tc_id'],
     $form['#user']->uid
   );
 
