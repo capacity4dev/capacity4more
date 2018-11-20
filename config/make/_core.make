@@ -9,6 +9,7 @@ projects[drupal][patch][] = "https://drupal.org/files/911354-drupal-profile-85.p
 projects[drupal][patch][] = "https://www.drupal.org/files/issues/book_unpublished_patch_760102-10.patch"
 projects[drupal][patch][] = "https://www.drupal.org/files/issues/cannot_create_references_tofrom_string_offsets_nor_overloaded_objects-2313517-32.patch"
 projects[drupal][patch][] = "../patches/machine-name-validate-custom-message.patch"
+projects[drupal][patch][] = "../patches/drupal-filter-save-html.patch"
 
 projects[drupal][patch][] = "https://www.drupal.org/files/issues/drupal-drupal_tempnam-985384-11.patch"
 

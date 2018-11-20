@@ -1,0 +1,13 @@
+diff --git a/modules/filter/filter.module b/modules/filter/filter.module
+index e9fd01d388..862f51b6cc 100644
+--- a/modules/filter/filter.module
++++ b/modules/filter/filter.module
+@@ -1137,7 +1137,7 @@ function filter_dom_serialize($dom_document) {
+     }
+ 
+     foreach ($body_node->childNodes as $child_node) {
+-      $body_content .= $dom_document->saveXML($child_node);
++      $body_content .= $dom_document->saveHTML($child_node);
+     }
+     return preg_replace('|<([^> ]*)/>|i', '<$1 />', $body_content);
+   }

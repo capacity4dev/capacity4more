@@ -20,6 +20,8 @@ libraries[ckeditor][destination] = "libraries"
 projects[iframeremove][subdir] = "contrib"
 projects[iframeremove][version] = "1.4"
 projects[iframeremove][patch][] = "../patches/suppress-invalid-dom-messages.patch"
+projects[iframeremove][patch][] = "https://www.drupal.org/files/issues/iframeremove-fix-caching-2476555-1.patch"
+projects[iframeremove][patch][] = "https://www.drupal.org/files/issues/2018-11-20/iframeremove-urls-hosts-3015099-1.patch"
 
 projects[pathologic][subdir] = "contrib"
 projects[pathologic][version] = "3.1"
