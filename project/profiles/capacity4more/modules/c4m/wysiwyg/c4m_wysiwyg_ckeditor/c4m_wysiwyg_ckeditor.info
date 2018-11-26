@@ -26,5 +26,6 @@ features[variable][] = file_entity_alt
 features[variable][] = file_entity_default_allowed_extensions
 features[variable][] = file_entity_max_filesize
 features[variable][] = file_entity_title
+features[variable][] = media_ckeditor_fully_rendered_files
 features[variable][] = pathologic_local_paths
 features[variable][] = pathologic_protocol_style

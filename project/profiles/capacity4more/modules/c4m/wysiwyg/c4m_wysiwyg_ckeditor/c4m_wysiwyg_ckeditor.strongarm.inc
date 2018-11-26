@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_wysiwyg_ckeditor.strongarm.inc
@@ -37,6 +38,13 @@ function c4m_wysiwyg_ckeditor_strongarm() {
   $strongarm->name = 'file_entity_title';
   $strongarm->value = '[file:field_file_image_title_text]';
   $export['file_entity_title'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'media_ckeditor_fully_rendered_files';
+  $strongarm->value = 1;
+  $export['media_ckeditor_fully_rendered_files'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
