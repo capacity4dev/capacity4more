@@ -27,6 +27,28 @@ function c4m_features_og_media_c4m_og_feature_info() {
 }
 
 /**
+ * Implements hook_action_info().
+ */
+function c4m_features_og_media_filter_info() {
+  $filters['youtube_nocookie'] = array(
+    'title' => t('Make sure related YouTube videos are played from the youtube-nocookie.com'),
+    'process callback' => 'c4m_features_og_media_youtube_nocookie',
+  );
+  return $filters;
+}
+
+/**
+ * Implements callback_filter_process().
+ *
+ * Add "rel=0" parameter for YouTube videos.
+ */
+function c4m_features_og_media_youtube_nocookie($text) {
+  $result = preg_replace('#data-oembed="https://www\.youtube\.com#', 'data-oembed="https://www.youtube-nocookie.com', $text);
+  $result = preg_replace('#src="(https?:)?//www\.youtube\.com/embed#', 'src="$1//www.youtube-nocookie.com/embed', $result);
+  return $result;
+}
+
+/**
  * Implements custom hook_search_api_sorts_alter().
  *
  * See Class c4m_views_handler_area_search_api_sorts.
