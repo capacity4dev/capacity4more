@@ -257,11 +257,6 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
         'status' => 1,
         'settings' => array(),
       ),
-      'youtube_prevent_rel' => array(
-        'weight' => -45,
-        'status' => 1,
-        'settings' => array(),
-      ),
       'filter_htmlcorrector' => array(
         'weight' => -44,
         'status' => 1,
@@ -376,11 +371,6 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
       ),
       'media_filter' => array(
         'weight' => -47,
-        'status' => 1,
-        'settings' => array(),
-      ),
-      'youtube_prevent_rel' => array(
-        'weight' => -44,
         'status' => 1,
         'settings' => array(),
       ),
