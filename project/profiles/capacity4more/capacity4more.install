@@ -569,3 +569,10 @@ function capacity4more_update_7001() {
 function capacity4more_update_7002() {
   variable_set('entity_rebuild_on_flush', FALSE);
 }
+
+/**
+ * Enable media_ckeditor module.
+ */
+function capacity4more_update_7003() {
+  module_enable(['media_ckeditor']);
+}

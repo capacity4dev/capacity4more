@@ -10,6 +10,7 @@ dependencies[] = features
 dependencies[] = filter
 dependencies[] = iframeremove
 dependencies[] = media_wysiwyg
+dependencies[] = media_ckeditor
 dependencies[] = pathologic
 dependencies[] = strongarm
 dependencies[] = wysiwyg_filter
