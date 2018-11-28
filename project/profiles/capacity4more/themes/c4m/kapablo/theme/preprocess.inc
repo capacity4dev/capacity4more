@@ -183,9 +183,6 @@ function kapablo_preprocess_page(&$variables) {
     unset($variables['page']['content_top']['c4m_content_group_header_name_banner_group']);
     unset($variables['page']['content_top']['og_menu_og_single_menu_block']);
   }
-
-  // Add DG COMM satisfaction survey.
-  drupal_add_js('https://ec.europa.eu/wel/surveys/wr_survey01/wr_survey.js', ['scope' => 'footer']);
 }
 
 /**
@@ -554,7 +551,7 @@ function kapablo_preprocess_image(&$variables) {
 }
 
 /**
- * Overrides template_process_html().
+ * Implements template_preprocess_html().
  */
 function kapablo_preprocess_html(&$variables) {
   // Render off_canvas into top level variables.
