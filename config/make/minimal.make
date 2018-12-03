@@ -14,7 +14,7 @@ projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.5"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "3.0-alpha3"
+projects[jquery_update][version] = "3.0-alpha5"
 
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.3"
