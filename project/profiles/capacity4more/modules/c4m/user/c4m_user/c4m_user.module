@@ -762,43 +762,42 @@ function c4m_user_contact_form_access($account) {
  * Create 'Contact User' form.
  */
 function c4m_user_contact_form($form, &$form_state, $account) {
-  global $user;
   $form_state['addressee_user'] = $account;
 
-  $form['c4m_contact_user_from'] = array(
+  $form['c4m_contact_user_from'] = [
     '#type' => 'textfield',
     '#title' => t('From'),
     '#description' => t('From address.'),
     '#size' => 30,
     '#default_value' => c4m_message_get_from_field_default_pattern(),
     '#disabled' => TRUE,
-  );
+  ];
 
-  $form['c4m_contact_user_subject'] = array(
+  $form['c4m_contact_user_subject'] = [
     '#type' => 'textfield',
     '#title' => t('Subject'),
     '#description' => t('Enter mail subject.'),
     '#size' => 10,
-  );
+  ];
 
-  $form['c4m_contact_user_body'] = array(
+  $form['c4m_contact_user_body'] = [
     '#title' => t('Body'),
     '#description' => t('Enter mail body.'),
     '#type' => 'text_format',
     '#format' => 'filtered_html',
-  );
+  ];
 
-  $form['c4m_contact_user_self_copy'] = array(
+  $form['c4m_contact_user_self_copy'] = [
     '#type' => 'checkbox',
     '#title' => t('Send me a copy'),
     '#default_value' => FALSE,
-  );
+  ];
 
-  $form['c4m_contact_user_submit'] = array(
+  $form['c4m_contact_user_submit'] = [
     '#type' => 'submit',
     '#value' => t('Send'),
     '#weight' => 100,
-  );
+  ];
 
   return $form;
 }
