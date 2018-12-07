@@ -702,33 +702,6 @@ function c4m_features_og_members_views_post_execute(&$view) {
 }
 
 /**
- * Implements hook_views_pre_build().
- *
- * Adjust filtering for c4m_overview_og_members.
- */
-function c4m_features_og_members_views_pre_build(&$view) {
-  if ($view->name != 'c4m_overview_og_members') {
-    // Not Members group overview.
-    return;
-  }
-
-  $group = c4m_og_current_group();
-  $filters_list = [
-    'c4m_og_membership_type',
-    'c4m_og_membership_type_1',
-    'c4m_og_membership_type_2',
-    'c4m_og_membership_type_3',
-  ];
-  foreach ($filters_list as $filter) {
-    $view->filter[$filter]->value = str_replace('[group]', $group->nid, $view->filter[$filter]->value);
-  }
-
-  if (!c4m_features_og_members_is_power_user($group)) {
-    unset($view->filter['c4m_og_membership_type_3']);
-  }
-}
-
-/**
  * Retrieves group members IDs, ordered by their total contributions.
  *
  * @param int $gid

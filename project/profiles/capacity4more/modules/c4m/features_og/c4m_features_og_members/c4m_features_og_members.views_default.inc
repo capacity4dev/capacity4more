@@ -82,10 +82,16 @@ function c4m_features_og_members_views_default_views() {
       'label' => '',
     ),
   );
-  $handler->display->display_options['filter_groups']['groups'] = array(
-    1 => 'AND',
-    2 => 'OR',
-  );
+  /* Contextual filter: Indexed User: OG membership type */
+  $handler->display->display_options['arguments']['c4m_og_membership_type']['id'] = 'c4m_og_membership_type';
+  $handler->display->display_options['arguments']['c4m_og_membership_type']['table'] = 'search_api_index_c4m_search_users';
+  $handler->display->display_options['arguments']['c4m_og_membership_type']['field'] = 'c4m_og_membership_type';
+  $handler->display->display_options['arguments']['c4m_og_membership_type']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['c4m_og_membership_type']['default_argument_type'] = 'c4m_features_og_members_default_membership_types';
+  $handler->display->display_options['arguments']['c4m_og_membership_type']['default_argument_skip_url'] = TRUE;
+  $handler->display->display_options['arguments']['c4m_og_membership_type']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['c4m_og_membership_type']['break_phrase'] = 1;
+  $handler->display->display_options['arguments']['c4m_og_membership_type']['not'] = 0;
   /* Filter criterion: Search form */
   $handler->display->display_options['filters']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
   $handler->display->display_options['filters']['search_api_views_fulltext']['table'] = 'search_api_index_c4m_search_users';
@@ -126,30 +132,6 @@ function c4m_features_og_members_views_default_views() {
     1 => '1',
   );
   $handler->display->display_options['filters']['status']['group'] = 1;
-  /* Filter criterion: Indexed User: OG membership type */
-  $handler->display->display_options['filters']['c4m_og_membership_type']['id'] = 'c4m_og_membership_type';
-  $handler->display->display_options['filters']['c4m_og_membership_type']['table'] = 'search_api_index_c4m_search_users';
-  $handler->display->display_options['filters']['c4m_og_membership_type']['field'] = 'c4m_og_membership_type';
-  $handler->display->display_options['filters']['c4m_og_membership_type']['value'] = '[group]_owner';
-  $handler->display->display_options['filters']['c4m_og_membership_type']['group'] = 2;
-  /* Filter criterion: Indexed User: OG membership type */
-  $handler->display->display_options['filters']['c4m_og_membership_type_1']['id'] = 'c4m_og_membership_type_1';
-  $handler->display->display_options['filters']['c4m_og_membership_type_1']['table'] = 'search_api_index_c4m_search_users';
-  $handler->display->display_options['filters']['c4m_og_membership_type_1']['field'] = 'c4m_og_membership_type';
-  $handler->display->display_options['filters']['c4m_og_membership_type_1']['value'] = '[group]_member';
-  $handler->display->display_options['filters']['c4m_og_membership_type_1']['group'] = 2;
-  /* Filter criterion: Indexed User: OG membership type */
-  $handler->display->display_options['filters']['c4m_og_membership_type_2']['id'] = 'c4m_og_membership_type_2';
-  $handler->display->display_options['filters']['c4m_og_membership_type_2']['table'] = 'search_api_index_c4m_search_users';
-  $handler->display->display_options['filters']['c4m_og_membership_type_2']['field'] = 'c4m_og_membership_type';
-  $handler->display->display_options['filters']['c4m_og_membership_type_2']['value'] = '[group]_administrator';
-  $handler->display->display_options['filters']['c4m_og_membership_type_2']['group'] = 2;
-  /* Filter criterion: Indexed User: OG membership type */
-  $handler->display->display_options['filters']['c4m_og_membership_type_3']['id'] = 'c4m_og_membership_type_3';
-  $handler->display->display_options['filters']['c4m_og_membership_type_3']['table'] = 'search_api_index_c4m_search_users';
-  $handler->display->display_options['filters']['c4m_og_membership_type_3']['field'] = 'c4m_og_membership_type';
-  $handler->display->display_options['filters']['c4m_og_membership_type_3']['value'] = '[group]_pending';
-  $handler->display->display_options['filters']['c4m_og_membership_type_3']['group'] = 2;
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
