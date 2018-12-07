@@ -702,11 +702,11 @@ function c4m_features_og_members_views_post_execute(&$view) {
 }
 
 /**
- * Implements hook_views_pre_view().
+ * Implements hook_views_pre_build().
  *
  * Adjust filtering for c4m_overview_og_members.
  */
-function c4m_features_og_members_views_pre_view(&$view) {
+function c4m_features_og_members_views_pre_build(&$view) {
   if ($view->name != 'c4m_overview_og_members') {
     // Not Members group overview.
     return;
@@ -720,11 +720,11 @@ function c4m_features_og_members_views_pre_view(&$view) {
     'c4m_og_membership_type_3',
   ];
   foreach ($filters_list as $filter) {
-    $view->display_handler->default_display->options['filters'][$filter]['value'] = str_replace('[group]', $group->nid, $view->display_handler->default_display->options['filters'][$filter]['value']);
+    $view->filter[$filter]->value = str_replace('[group]', $group->nid, $view->filter[$filter]->value);
   }
 
   if (!c4m_features_og_members_is_power_user($group)) {
-    unset($view->display_handler->default_display->options['filters']['c4m_og_membership_type_3']);
+    unset($view->filter['c4m_og_membership_type_3']);
   }
 }
 
