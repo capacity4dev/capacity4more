@@ -63,7 +63,6 @@ function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
-
 /**
  * Implements hook_form_FORM_ID_alter().
  */
@@ -398,21 +397,27 @@ function ecas_login_check() {
       // Try to log into Drupal.
       $account = user_load_by_name($ecas_name);
 
-      // If Drupal mail !== Ecas mail, there's a chance the username in Drupal is not the same user as in EU Login. Not taking any risk and rejecting this user as-is.
+      // If Drupal mail !== Ecas mail, there's a chance the username in Drupal
+      // is not the same user as in EU Login. Not taking any risk and rejecting
+      // this user as-is.
       if (!empty($account) && $account->mail !== $ecas_email) {
-        // If an email is available, check if this user exists already in the database by email.
+        // If an email is available, check if this user exists already in the
+        // database by email.
         if (!empty($ecas_email)) {
           $account = user_load_by_mail($ecas_email);
         }
 
-        // If no account was found by mail, we need to make the username unique so we can store it.
+        // If no account was found by mail, we need to make the username unique
+        // so we can store it.
         if (!$account) {
           $ecas_name = _ecas_prepare_unique_user_name($ecas_name);
         }
       }
 
-      // If no drupal account was found with the username, see if there's one by email.
-      // No need to make the username unique, as we did not found an account earlier.
+      // If no drupal account was found with the username, see if there's one
+      // by email.
+      // No need to make the username unique, as we did not found an account
+      // earlier.
       if (!$account && !empty($ecas_email)) {
         $account = user_load_by_mail($ecas_email);
       }
@@ -771,7 +776,7 @@ function _ecas_init_phpcas_client() {
  * @return false|\stdClass
  *   The user object, or FALSE if the user could not be created.
  */
-function ecas_create_user($ecas_name, $defaults = []) {
+function ecas_create_user($ecas_name, array $defaults = []) {
   $user_default = array_merge([
     'name' => $ecas_name,
     'pass' => user_password(),
@@ -820,7 +825,7 @@ function ecas_create_user($ecas_name, $defaults = []) {
  *
  * @see phpCAS::getAttributes()
  */
-function ecas_get_user_department($user_info) {
+function ecas_get_user_department(array $user_info) {
   if (!empty($user_info['cas:departmentNumber'])) {
     $department = ['full_name' => $user_info['cas:departmentNumber']];
     $organizations = explode('.', $user_info['cas:departmentNumber']);
