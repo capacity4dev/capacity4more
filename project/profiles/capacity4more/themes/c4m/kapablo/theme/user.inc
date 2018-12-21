@@ -10,10 +10,10 @@
  */
 function kapablo_legal_accept_label($variables) {
   if ($variables['link']) {
-    $text = t('By submitting this form you also accept the "<a href="@terms" target="_blank">terms and conditions</a>" of the site', array('@terms' => url('conditions')));
+    $text = t('Check this to indicate that you have read and agreed to the "<a href="@terms" target="_blank">terms and conditions</a>" of this site', array('@terms' => url('conditions')));
   }
   else {
-    $text = t('By submitting this form you also accept the "terms and conditions" of the site');
+    $text = t('Check this to indicate that you have read and agreed to the "terms and conditions" of this site');
   }
   return $text;
 }
