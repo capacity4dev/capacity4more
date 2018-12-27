@@ -65,9 +65,18 @@ function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
+ * This needs to run last as other modules might replace the first validate
+ * callback. They don't really check who they are replacing and that's a
+ * problem.
  */
 function ecas_form_user_pass_alter(&$form, &$form_state, $form_id) {
   array_unshift($form['#validate'], '_ecas_user_pass_validate');
+
+  // Add reset password form message.
+  $form['#prefix'] = t('<p>Only members that authentificate via Capacity4dev can recover their password. Members signing in with EU login must recover their password via <a href="@ecas_url">EU Login</a> directly.</p>', [
+    '@ecas_url' => ECAS_DEFAULT_CHANGE_PASSWORD_URL,
+  ]);
 }
 
 /**
@@ -89,7 +98,9 @@ function _ecas_user_pass_validate($form, &$form_state) {
     if (_ecas_is_ecas_user($account)) {
       $ecas_ch_pw_url = variable_get('ecas_change_password_url', ECAS_DEFAULT_CHANGE_PASSWORD_URL);
       $ecas_ch_pw_link = l($ecas_ch_pw_url, $ecas_ch_pw_url);
-      $message = t('This user appears to be an EU Login user -- you can not recover his password using this form. Please visit %s instead');
+      $message = t('<p>Only members that authentificate via Capacity4dev can recover their password. Members signing in with EU login must recover their password via <a href="@ecas_url">EU Login</a> directly.</p>', [
+        '@ecas_url' => ECAS_DEFAULT_CHANGE_PASSWORD_URL,
+      ]);
       $displayed_message = sprintf($message, $ecas_ch_pw_link);
       form_set_error('name', $displayed_message);
       return;
@@ -857,4 +868,21 @@ function ecas_user_logout($account) {
   if (_ecas_is_ecas_user($account)) {
     _ecas_user_ecas_logout();
   }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * Move our form_alter implementation to the end of the list.
+ */
+function ecas_module_implements_alter(&$implementations, $hook) {
+  if (!isset($implementations['ecas']) || $hook != 'form_alter') {
+    return;
+  }
+  // module_implements() iterates through $implementations with a foreach loop
+  // which PHP iterates in the order that the items were added, so to move an
+  // item to the end of the array, we remove it and then add it.
+  $group = $implementations['ecas'];
+  unset($implementations['ecas']);
+  $implementations['ecas'] = $group;
 }
