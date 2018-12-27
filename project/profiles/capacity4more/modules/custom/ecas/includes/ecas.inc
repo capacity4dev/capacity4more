@@ -837,3 +837,14 @@ function ecas_get_user_department($user_info) {
 
   return [];
 }
+
+/**
+ * Implements hook_user_logout().
+ *
+ */
+function ecas_user_logout($account) {
+    // If the given user is an ECAS user, totally logout.
+    if (_is_ecas_user($account)) {
+        ecas_logout(TRUE);
+    }
+}
