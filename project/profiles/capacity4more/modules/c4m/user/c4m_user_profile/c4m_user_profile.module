@@ -562,7 +562,7 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
   $account = $form['#user'];
   $account_wrapper = entity_metadata_wrapper('user', $account);
 
-  $ecas_user = _is_ecas_user($account);
+  $ecas_user = _ecas_is_ecas_user($account);
 
   // Disable fields if the user is an organisation user and the field has a
   // default value.
@@ -955,7 +955,7 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
 
   $other_user_wrapper = entity_metadata_wrapper('user', $other_user);
   if ($other_user_wrapper->status->value()) {
-    if ($staff_user->isValidStaff() || _is_ecas_user($other_user)) {
+    if ($staff_user->isValidStaff() || _ecas_is_ecas_user($other_user)) {
       $data['validation_messages'][] = [
         'message' => t('This account is already in use. If this is you, please !login_ecas.', [
           '!login_ecas' => l(t('log in with your EU login account'), 'ecas'),
