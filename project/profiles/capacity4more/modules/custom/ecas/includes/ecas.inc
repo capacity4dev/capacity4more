@@ -14,7 +14,7 @@
  * @return bool
  *   TRUE if the given user is an ECAS user, FALSE otherwise.
  */
-function _is_ecas_user($user) {
+function _ecas_is_ecas_user($user) {
   if ($authmap_res = db_query('SELECT module FROM {authmap} WHERE uid = :uid', ['uid' => $user->uid])) {
     if ($first_record = $authmap_res->fetchAssoc()) {
       if ($first_record['module'] == 'ecas') {
@@ -31,7 +31,7 @@ function _is_ecas_user($user) {
 function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
   $user = user_load($form['#user']->uid);
   // Load the user related to the profile.
-  if (_is_ecas_user($user)) {
+  if (_ecas_is_ecas_user($user)) {
     // Remove the "Current password".
     $form['account']['current_pass']['#access'] = FALSE;
 
@@ -86,7 +86,7 @@ function _ecas_user_pass_validate($form, &$form_state) {
     $account = user_load_by_name($name);
   }
   if ($account) {
-    if (_is_ecas_user($account)) {
+    if (_ecas_is_ecas_user($account)) {
       $ecas_ch_pw_url = variable_get('ecas_change_password_url', ECAS_DEFAULT_CHANGE_PASSWORD_URL);
       $ecas_ch_pw_link = l($ecas_ch_pw_url, $ecas_ch_pw_url);
       $message = t('This user appears to be an EU Login user -- you can not recover his password using this form. Please visit %s instead');
@@ -230,17 +230,22 @@ function ecas_logout($full_logout = TRUE) {
     setcookie($http_cookie_name, 'deleted', time() - 86400, $base_path, '.' . $_SERVER['HTTP_HOST'], FALSE, TRUE);
   }
 
-  if ($full_logout) {
-    _ecas_init_phpcas_client();
-    $params = [
-      'url' => url('<front>', ['absolute' => TRUE]),
-    ];
-    drupal_alter('ecas_full_logout_parameters', $params);
-    phpCAS::logout($params);
-  }
+  _ecas_user_ecas_logout();
 
   // Go to the constructed logout destination.
   drupal_goto();
+}
+
+/**
+ * Logs out from ECAS.
+ */
+function _ecas_user_ecas_logout() {
+  _ecas_init_phpcas_client();
+  $params = [
+    'url' => url('<front>', ['absolute' => TRUE]),
+  ];
+  drupal_alter('ecas_full_logout_parameters', $params);
+  phpCAS::logout($params);
 }
 
 /**
@@ -841,4 +846,15 @@ function ecas_get_user_department(array $user_info) {
   }
 
   return [];
+}
+
+/**
+ * Implements hook_user_logout().
+ *
+ * If the given user is an ECAS user, totally logout.
+ */
+function ecas_user_logout($account) {
+  if (_ecas_is_ecas_user($account)) {
+    _ecas_user_ecas_logout();
+  }
 }
