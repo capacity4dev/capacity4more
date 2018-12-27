@@ -68,6 +68,13 @@ function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
  */
 function ecas_form_user_pass_alter(&$form, &$form_state, $form_id) {
   array_unshift($form['#validate'], '_ecas_user_pass_validate');
+
+  // Add reset password form message.
+  $form['#prefix'] = t('<p>Only members that authentificate via Capacity4dev can recover their password.
+     Members signing in with EU login must recover their password via <a href="@ecas_url">EU Login</a> directly.</p>',
+     array(
+      '@ecas_url' => ECAS_DEFAULT_CHANGE_PASSWORD_URL,
+  ));
 }
 
 /**
@@ -89,7 +96,7 @@ function _ecas_user_pass_validate($form, &$form_state) {
     if (_ecas_is_ecas_user($account)) {
       $ecas_ch_pw_url = variable_get('ecas_change_password_url', ECAS_DEFAULT_CHANGE_PASSWORD_URL);
       $ecas_ch_pw_link = l($ecas_ch_pw_url, $ecas_ch_pw_url);
-      $message = t('This user appears to be an EU Login user -- you can not recover his password using this form. Please visit %s instead');
+      $message = t('This user appears to be an EU Login user, you can not recover his password using this form. Please visit %s instead.');
       $displayed_message = sprintf($message, $ecas_ch_pw_link);
       form_set_error('name', $displayed_message);
       return;
@@ -846,6 +853,21 @@ function ecas_get_user_department(array $user_info) {
   }
 
   return [];
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function ecas_module_implements_alter(&$implementations, $hook) {
+  if (isset($implementations['ecas']) && $hook == 'form_alter') {
+    // Move ecas_form_user_pass_alter() to the end of the list.
+    // module_implements() iterates through $implementations with a foreach loop
+    // which PHP iterates in the order that the items were added, so to move an
+    // item to the end of the array, we remove it and then add it.
+    $group = $implementations['ecas'];
+    unset($implementations['ecas']);
+    $implementations['ecas'] = $group;
+  }
 }
 
 /**
