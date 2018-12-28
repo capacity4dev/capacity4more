@@ -5,6 +5,7 @@ api = 2
 
 projects[auto_username][subdir] = "contrib"
 projects[auto_username][version] = "1.0-alpha2"
+projects[auto_username][patch][] = https://www.drupal.org/files/issues/username_set_to_random_string-2658254-4.patch
 
 projects[campaignmonitor][subdir] = "contrib"
 projects[campaignmonitor][version] = "1.1"
