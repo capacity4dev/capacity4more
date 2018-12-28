@@ -15,7 +15,7 @@ function c4m_user_profile_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'aun_case';
-  $strongarm->value = '0';
+  $strongarm->value = '1';
   $export['aun_case'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -43,7 +43,7 @@ function c4m_user_profile_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'aun_pattern';
-  $strongarm->value = '[user:c4m-last-name]-[user:c4m_first_name]';
+  $strongarm->value = '[user:c4m_first_name].[user:c4m-last-name]';
   $export['aun_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
