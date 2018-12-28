@@ -349,7 +349,11 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
   if (variable_get('ecas_update_mail_address', TRUE)) {
     $picture = $user->picture;
     // Fix : save file object replaced by fid by user_save function.
-    user_save($user, ['mail' => $user_info['cas:email']]);
+    // Make sure to set 'email_confirmed' flag so that email_confirm module
+    // doesn't pick up on this email changes and requests the email
+    // confirmation.
+    user_save($user, ['mail' => $user_info['cas:email'], 'email_confirmed' => TRUE]);
+
     $user->mail = $user_info['cas:email'];
     $user->picture = $picture;
   }
@@ -451,6 +455,7 @@ function ecas_login_check() {
     if (!$account && !empty($ecas_name)) {
 
       $account = ecas_create_user($ecas_name);
+      $is_new_account = TRUE;
 
       if ($account && $account->uid > 0) {
         $_SESSION['ecas_goto'] = sprintf('user/%d/edit', $account->uid);
@@ -485,6 +490,13 @@ function ecas_login_check() {
       // Update her information.
       if (!empty($user_info)) {
         ecas_sync_user_info($account, $user_info, $ecas_sync_user_info_args);
+
+        // Actions for new users after syncing data. Otherwise the first name,
+        // last name and email are not available.
+        if (!empty($is_new_account)) {
+          // Send welcome email.
+          _user_mail_notify('status_activated', $account);
+        }
       }
       else {
         $args = [':username' => $account->name];
@@ -805,7 +817,7 @@ function ecas_create_user($ecas_name, array $defaults = []) {
   ], $defaults);
 
   // Now save the user.
-  $account = user_save(drupal_anonymous_user(), $user_default);
+  $account = user_save(NULL, $user_default);
 
   // Register the user has ECAS authentication.
   db_insert('authmap')
