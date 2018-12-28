@@ -3,6 +3,7 @@ description = This module provides functionality for the user.
 core = 7.x
 package = capacity4more - User
 dependencies[] = better_formats
+dependencies[] = auto_username
 dependencies[] = block
 dependencies[] = book
 dependencies[] = c4m_admin
