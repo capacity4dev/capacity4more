@@ -23,3 +23,4 @@ files[] = include/views_handler_field_user_link_reactivate.inc
 files[] = include/views_handler_field_user_link_resend_activation_email.inc
 files[] = include/views_handler_field_user_metrics.inc
 files[] = include/views_handler_field_c4m_user_admin.inc
+files[] = include/views_handler_field_user_eu_login.inc

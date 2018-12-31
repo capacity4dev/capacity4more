@@ -52,6 +52,14 @@ function c4m_user_admin_views_data() {
     ],
   ];
 
+  $data['users']['eu_login'] = [
+    'field' => [
+      'title' => t('Eu Login validated'),
+      'help' => t('Show if user used EU Login.'),
+      'handler' => 'views_handler_field_user_eu_login',
+    ],
+  ];
+
   return $data;
 }
 
