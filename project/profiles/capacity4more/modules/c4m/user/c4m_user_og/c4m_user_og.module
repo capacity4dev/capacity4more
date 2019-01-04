@@ -955,8 +955,17 @@ function c4m_user_og_form_user_login_alter(&$form, &$form_state, $form_id) {
   $wrapper = entity_metadata_wrapper('node', $_SESSION['c4m_og_invite_visitors_gid_join']);
   drupal_set_title(theme('c4m_unified_workflow_login', ['group_title' => $wrapper->label()]), PASS_THROUGH);
 
+  $group = entity_metadata_wrapper('node', $_SESSION['c4m_unified_workflow_gid_join']);
+
+  if ($group->getBundle() == 'group') {
+    $btn_text = t('Join group');
+  }
+  else {
+    $btn_text = t('Join project');
+  }
+
   $form['#submit'][] = 'c4m_user_og_unified_workflow_login_submit';
-  $form['actions']['submit']['#value'] = t('Login to join');
+  $form['actions']['submit']['#value'] = $btn_text;
 }
 
 /**

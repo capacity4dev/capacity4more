@@ -510,6 +510,14 @@ function ecas_login_check() {
       }
       else {
         $user = $account;
+
+        // Associate the user to the group after login.
+        if (!empty($_SESSION['c4m_unified_workflow_gid_join'])) {
+          $group = node_load($_SESSION['c4m_unified_workflow_gid_join']);
+
+          c4m_user_og_group_unified_workflow($group);
+        }
+
         user_login_finalize();
 
         // Optionally set a non-secure cookie meaning "the user has logged in

@@ -3499,7 +3499,7 @@ function _c4m_og_registration_form_labels_by_group($gid) {
   }
   else {
     $join_phrase = t('join the');
-    $button_label = t('Register to join');
+    $button_label = t('Request membership');
   }
 
   return [$join_phrase, $button_label];
