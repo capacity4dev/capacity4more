@@ -13,8 +13,9 @@ include_once 'c4m_features_theme.features.inc';
 function c4m_features_theme_bootstrap_colorize_text_alter(&$texts) {
   // This matches the exact string: "My Unique Button Text".
   $texts['matches'][t('Log in')] = 'primary';
-  $texts['matches'][t('Login to join')] = 'primary';
   $texts['matches'][t('Register to join')] = 'success';
+  $texts['matches'][t('Join group')] = 'primary';
+  $texts['matches'][t('Join project')] = 'primary';
   $texts['matches'][t('Request membership for group')] = 'success';
 }
 

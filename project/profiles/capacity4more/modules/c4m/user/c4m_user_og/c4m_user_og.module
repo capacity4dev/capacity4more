@@ -952,11 +952,12 @@ function c4m_user_og_form_user_login_alter(&$form, &$form_state, $form_id) {
     return;
   }
 
-  $wrapper = entity_metadata_wrapper('node', $_SESSION['c4m_og_invite_visitors_gid_join']);
-  drupal_set_title(theme('c4m_unified_workflow_login', ['group_title' => $wrapper->label()]), PASS_THROUGH);
+  $group = entity_metadata_wrapper('node', $_SESSION['c4m_unified_workflow_gid_join']);
+  drupal_set_title(theme('c4m_unified_workflow_login', ['group_title' => $group->label()]), PASS_THROUGH);
 
+  $btn_text = t('Join @bundle', ['@bundle' => $group->getBundle()]);
   $form['#submit'][] = 'c4m_user_og_unified_workflow_login_submit';
-  $form['actions']['submit']['#value'] = t('Login to join');
+  $form['actions']['submit']['#value'] = $btn_text;
 }
 
 /**
