@@ -172,6 +172,9 @@ function c4m_message_digest_update_7008() {
  *   Type of entity to convert flaggings for.
  */
 function _c4m_message_digest_convert_unsubscribes($db_table, $flag_name, $db_prefix, $entity_type) {
+  // @todo This should be removed. It's here just to avoid tranforming
+  // subscriptions on the next deploy.
+  return;
   if (!db_table_exists($db_table)) {
     return;
   }
