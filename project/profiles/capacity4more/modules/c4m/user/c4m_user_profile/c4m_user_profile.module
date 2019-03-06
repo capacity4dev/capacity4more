@@ -471,8 +471,12 @@ function c4m_user_profile_alter_user_form(array &$form, array &$form_state, $is_
   $form['mail']['#weight'] = -25;
   unset($form['account']['mail']);
 
+  // Show username field.
+  $form['account']['name']['#type'] = 'textfield';
+  $form['account']['name']['#access'] = TRUE;
+
   // Disable the name field.
-  $form['account']['name']['#access'] = FALSE;
+  $form['account']['name']['#disabled'] = TRUE;
 
   $form['mail']['#ajax'] = [
     'callback' => 'c4m_user_profile_element_validate_mail_ajax',
