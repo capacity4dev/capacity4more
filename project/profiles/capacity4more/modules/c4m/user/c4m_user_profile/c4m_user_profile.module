@@ -658,6 +658,9 @@ function _c4m_user_profile_alter_profile_form_disable_ecas_fields(array &$form, 
   $form['c4m_first_name']['#disabled'] = TRUE;
   $form['c4m_last_name']['#disabled'] = TRUE;
   $form['c4m_organisation']['#disabled'] = TRUE;
+  if (!c4m_user_is_site_admin()) {
+    $form['mail']['#disabled'] = TRUE;
+  }
 }
 
 /**
