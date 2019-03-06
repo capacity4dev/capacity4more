@@ -29,16 +29,16 @@ function _ecas_is_ecas_user($user) {
  * Implements hook_form_FORM_ID_alter().
  */
 function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
-  $user = user_load($form['#user']->uid);
-  // Load the user related to the profile.
-  if (_ecas_is_ecas_user($user)) {
+  $current_email_address = isset($form_state['values']['mail']) ? $form_state['values']['mail'] : $form['mail']['#default_value'];
+  $is_ecas_user = c4m_user_profile_is_email_ecas_staff($current_email_address);
+  if ($is_ecas_user) {
     // Remove the "Current password".
     $form['account']['current_pass']['#access'] = FALSE;
 
     // Remove the "Password" and "Confirm password"  fields from the
     // 'user/%/edit' page.
     $form['account']['pass']['#access'] = FALSE;
-    if (!empty($user->mail)) {
+    if (!empty($current_email_address)) {
       $form['account']['mail']['#disabled'] = TRUE;
     }
 

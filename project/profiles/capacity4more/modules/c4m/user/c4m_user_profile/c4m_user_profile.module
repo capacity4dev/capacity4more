@@ -488,6 +488,12 @@ function c4m_user_profile_alter_user_form(array &$form, array &$form_state, $is_
   // Add wrappers for AJAX replacement.
   $form['mail']['#prefix'] = '<div id="edit-mail-wrapper">';
   $form['mail']['#suffix'] = '</div>';
+  $form['account']['#prefix'] = '<div id="edit-account-wrapper">';
+  $form['account']['#suffix'] = '</div>';
+  $form['c4m_first_name']['#prefix'] = '<div id="edit-c4m-first-name-wrapper">';
+  $form['c4m_first_name']['#suffix'] = '</div>';
+  $form['c4m_last_name']['#prefix'] = '<div id="edit-c4m-last-name-wrapper">';
+  $form['c4m_last_name']['#suffix'] = '</div>';
   $form['c4m_country']['#prefix'] = '<div id="edit-c4m-country-wrapper">';
   $form['c4m_country']['#suffix'] = '</div>';
   $form['c4m_organisation']['#prefix'] = '<div id="edit-c4m-organisation-wrapper">';
@@ -566,7 +572,10 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
   $account = $form['#user'];
   $account_wrapper = entity_metadata_wrapper('user', $account);
 
-  $ecas_user = _ecas_is_ecas_user($account);
+  // Current email address is either the submitted value or the default value if
+  // none submitted.
+  $current_email_address = isset($form_state['values']['mail']) ? $form_state['values']['mail'] : $form['account']['mail']['#default_value'];
+  $is_ecas_user = c4m_user_profile_is_email_ecas_staff($current_email_address);
 
   // Disable fields if the user is an organisation user and the field has a
   // default value.
@@ -581,12 +590,12 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
 
   c4m_user_profile_alter_user_form($form, $form_state, FALSE);
 
-  if (!$ecas_user) {
+  if (!$is_ecas_user) {
     $form['mail']['#description'] = 'Please note you will have to provide your password and confirm your new address to change your e-mail address.';
   }
 
   // Disable ECAS provided fields.
-  _c4m_user_profile_alter_profile_form_disable_ecas_fields($form, $ecas_user);
+  _c4m_user_profile_alter_profile_form_disable_ecas_fields($form, $is_ecas_user);
 
   // Disable Overlay, Email, Locale and Contact settings.
   // They are moved to Settings page.
@@ -675,6 +684,9 @@ function c4m_user_profile_element_validate_mail_ajax($form, $form_state) {
     '#type' => 'ajax',
     '#commands' => [
       ajax_command_replace('#edit-mail-wrapper', render($form['mail'])),
+      ajax_command_replace('#edit-c4m-last-name-wrapper', render($form['c4m_last_name'])),
+      ajax_command_replace('#edit-c4m-first-name-wrapper', render($form['c4m_first_name'])),
+      ajax_command_replace('#edit-account-wrapper', render($form['account'])),
       ajax_command_replace('#edit-c4m-country-wrapper', render($form['c4m_country'])),
       ajax_command_replace('#edit-c4m-organisation-wrapper', render($form['c4m_organisation'])),
       ajax_command_replace('#edit-c4m-organisation-type-wrapper', render($form['c4m_organisation_type'])),
@@ -879,11 +891,15 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
       return;
     }
     else {
-      $data['validation_messages'][] = [
-        'message' => t('EU staff must authenticate via EU Login from now on - If you change your email address now, you will need to login with EU Login in the future.'),
-        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE,
-        '#weight' => -5,
-      ];
+      // Throw an error if the email has changed and the old one wasn't an ECAS
+      // email and the user is not SA.
+      if ($data['form']['mail']['#default_value'] !== $data['mail'] && !c4m_user_profile_is_email_ecas_staff($data['form']['mail']['#default_value']) && !c4m_user_is_site_admin()) {
+        $data['validation_messages'][] = [
+          'message' => t('EU staff must authenticate via EU Login from now on - If you change your email address now, you will need to login with EU Login in the future.'),
+          'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE,
+          '#weight' => -5,
+        ];
+      }
     }
   }
 
@@ -1455,5 +1471,38 @@ function c4m_user_profile_user_cancel($edit, $account, $method) {
       setcookie($name, '', -1);
       setcookie($name, '', -1, '/');
     }
+  }
+}
+
+/**
+ * Implements hook_user_update().
+ *
+ * Remove / add {authmap} ECAS entries if the email has changed and the old one
+ * is an ECAS email and the new one is not, or vice-versa.
+ */
+function c4m_user_profile_user_update(&$edit, $account, $category) {
+  if ($account->mail === $account->original->mail) {
+    return;
+  }
+  $is_original_email_ecas = c4m_user_profile_is_email_ecas_staff($account->original->mail);
+  $is_new_email_ecas = c4m_user_profile_is_email_ecas_staff($account->mail);
+  if ($is_original_email_ecas == $is_new_email_ecas) {
+    return;
+  }
+  if ($is_original_email_ecas) {
+    db_delete('authmap')
+      ->condition('uid', $account->uid)
+      ->condition('module', 'ecas')
+      ->execute();
+  }
+  else {
+    db_merge('authmap')
+      ->key(['authname' => $account->name])
+      ->fields([
+        'authname' => $account->name,
+        'uid' => $account->uid,
+        'module' => 'ecas',
+      ])
+      ->execute();
   }
 }
