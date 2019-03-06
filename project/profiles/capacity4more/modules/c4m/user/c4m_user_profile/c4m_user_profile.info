@@ -129,6 +129,7 @@ features[variable][] = aun_replace_whitespace
 features[variable][] = aun_separator
 features[variable][] = aun_transliterate
 features[variable][] = aun_update_on_edit
+features[variable][] = contact_default_status
 features[variable][] = legal_display
 features[variable][] = pathauto_user_pattern
 features[variable][] = user_register
