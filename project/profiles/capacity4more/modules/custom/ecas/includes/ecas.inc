@@ -882,10 +882,11 @@ function ecas_get_user_department(array $user_info) {
 /**
  * Implements hook_user_logout().
  *
- * If the given user is an ECAS user, totally logout.
+ * If the given user is an ECAS user, totally logout. Check if it's only about
+ * an internal Drupal logout.
  */
 function ecas_user_logout($account) {
-  if (_ecas_is_ecas_user($account)) {
+  if (_ecas_is_ecas_user($account) && empty($account->internal_logout)) {
     _ecas_user_ecas_logout();
   }
 }

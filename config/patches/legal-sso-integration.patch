@@ -1,0 +1,14 @@
+diff --git a/legal.module b/legal.module
+index eb6dcdf..7a6c742 100644
+--- a/legal.module
++++ b/legal.module
+@@ -490,6 +490,9 @@ function legal_user_login(&$edit, $account) {
+ 
+   $uid = $user->uid;
+ 
++  // This is an internal Drupal logout. We should not log out the user if he's
++  // coming from a SSO service.
++  $user->internal_logout = TRUE;
+   // Log the user out and regenerate the Drupal session.
+   module_invoke_all('user_logout', $user);
+   drupal_session_regenerate();
