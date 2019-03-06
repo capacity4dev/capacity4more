@@ -1208,6 +1208,11 @@ function c4m_user_profile_init() {
   if ($user->uid && $plugin = context_get_plugin('condition', 'c4m_user')) {
     $plugin->execute($user);
   }
+
+  // If user is not logged in, redirect user page to user/login.
+  if (current_path() == 'user' && user_is_anonymous()) {
+    drupal_goto('user/login');
+  }
 }
 
 /**
