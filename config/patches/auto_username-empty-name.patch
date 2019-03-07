@@ -1,0 +1,22 @@
+diff --git a/auto_username.module b/auto_username.module
+index db6ba0b..350881f 100644
+--- a/auto_username.module
++++ b/auto_username.module
+@@ -61,7 +61,7 @@ function auto_username_user_presave(&$edit, $account, $category) {
+     $new_name = auto_username_generate_username($edit, $account);
+ 
+     // No point updating anything if the generated name was just the same.
+-    if ($account->name == $new_name) {
++    if (empty($new_name) || $account->name == $new_name) {
+       return;
+     }
+ 
+@@ -163,7 +163,7 @@ function auto_username_generate_username(&$edit, &$account) {
+   // If no new name was found, then either the hook hasn't been implemented, or
+   // the aun_pattern hasn't been set yet. Therefore leave the username as it is.
+   if (empty($new_name)) {
+-    return $account->name;
++    return $new_name;
+   }
+ 
+   // lets check if our name is used somewhere else, and append _1 if it is  eg:(chris_123). We do this regardless of
