@@ -475,8 +475,10 @@ function c4m_user_profile_alter_user_form(array &$form, array &$form_state, $is_
   $form['account']['name']['#type'] = 'textfield';
   $form['account']['name']['#access'] = TRUE;
 
-  // Disable the name field.
-  $form['account']['name']['#disabled'] = TRUE;
+  // Disable the name field for non SA.
+  if (!c4m_user_is_site_admin()) {
+    $form['account']['name']['#disabled'] = TRUE;
+  }
 
   $form['mail']['#ajax'] = [
     'callback' => 'c4m_user_profile_element_validate_mail_ajax',
