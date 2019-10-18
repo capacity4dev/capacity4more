@@ -17,6 +17,7 @@ projects[dragndrop_upload][version] = "1.x-dev"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.6"
+projects[field_group][patch][] = "https://www.drupal.org/files/issues/2018-04-05/field_group-additional-settings-2512066-15.patch"
 
 projects[geocoder][subdir] = "contrib"
 projects[geocoder][version] = "1.3"

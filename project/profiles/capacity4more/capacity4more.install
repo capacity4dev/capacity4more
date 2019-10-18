@@ -664,3 +664,10 @@ function capacity4more_update_7015() {
   }
   drupal_uninstall_modules($modules);
 }
+
+/**
+ * Enable display_cache module.
+ */
+function capacity4more_update_7016() {
+  module_enable(['display_cache']);
+}

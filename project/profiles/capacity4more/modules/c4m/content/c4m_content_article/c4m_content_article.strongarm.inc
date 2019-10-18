@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * c4m_content_article.strongarm.inc
@@ -58,6 +59,95 @@ function c4m_content_article_strongarm() {
   $strongarm->name = 'comment_subject_field_article';
   $strongarm->value = 0;
   $export['comment_subject_field_article'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'display_cache_comment_publication_clears_host_entity_cache_node_article';
+  $strongarm->value = array(
+    'activity_global' => 1,
+    'teaser' => 1,
+    'default' => 1,
+    'full' => 0,
+    'block_list' => 1,
+  );
+  $export['display_cache_comment_publication_clears_host_entity_cache_node_article'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'display_cache_node_article_default';
+  $strongarm->value = array(
+    'default' => array(
+      'use' => '1',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+    'c4m_body' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '1',
+      'granularity' => '1',
+    ),
+  );
+  $export['display_cache_node_article_default'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'display_cache_node_article_full';
+  $strongarm->value = array(
+    'default' => array(
+      'use' => '0',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_vocab_topic' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_vocab_geo' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_related_group' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_related_articles' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_body' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_related_user' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+    'c4m_link_multiple' => array(
+      'override' => '2',
+      'page_granularity' => '0',
+      'user_granularity' => '0',
+      'granularity' => '0',
+    ),
+  );
+  $export['display_cache_node_article_full'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
